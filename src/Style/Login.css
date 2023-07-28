@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 800px) {
+    .RegisterLeftStyle {
+        display: none;
+    }
+}
+
+.RegisterLeftRight {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background-image: url("../Asset/Img/LoginBg.jpg"); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.Form_style {
+    padding: 20px;
+    width: 30%;
+    background-color: #ffff;
+    border-radius: 1px;
+    border: 1.5px solid #9861ce;
+    border-radius: 3px;
+}
+
+@media screen and (max-width:980px) {
+    .Form_style {
+        width: 50%;
+
+    }
+}
+
+@media screen and (max-width:574px) {
+    .Form_style {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .Form_style {
+        width: 90%;
+    }
+}
+
+.GInput {
+    width: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c1c4c5;
+}
+
+.GInput:hover {
+    border-bottom: 1px solid #1899e4;
+}
+
+.CButton {
+    padding: 7.5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: large;
+    border: none;
+    background-color: #bb91e4;
+    color: #ffff;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.CButton:hover {
+    background-color: #9861ce;
+}
+
+/* AlertStyle CSS */
+.alertStyle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}

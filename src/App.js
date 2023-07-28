@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Login from "./user/Login";
+import Alert from "./components/common/Alert";
 
-function App() {
+const App = () => {
+  const [alert, setAlert] = useState(null);
+  const showAlert = (massage, type) => {
+    setAlert({
+      msg: massage,
+      type: type,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 3000);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Alert alert={alert} />
+      <Login showAlert={showAlert} />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,4 +1,22 @@
 .homeBanner{
-    border: 2px solid red;
-    height: 60vh;
+    background-color: #9861cee1;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bookBtn{
+    background-color: #05b305;
+    border-radius: 3px;
+    padding: 10px;
+    border: none;
+    color: #fff;
+    margin-top: 10px;
+}
+
+.bookBtn:hover{
+    background-color: #047104;
+
 }

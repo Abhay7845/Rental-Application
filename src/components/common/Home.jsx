@@ -6,7 +6,11 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="homeBanner"></div>
+      <div className="homeBanner">
+        <h3>Rental Apllication and Help</h3>
+        <h3>To Book</h3>
+        <button className="bookBtn">BOOK NOW</button>
+      </div>
     </div>
   );
 };

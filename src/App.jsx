@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Login from "./user/Login";
 import Alert from "./components/common/Alert";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -15,10 +16,15 @@ const App = () => {
   };
 
   return (
-    <div>
+    <BrowserRouter>
       <Alert alert={alert} />
-      <Login showAlert={showAlert} />
-    </div>
+      <Routes>
+        <Route>
+          <Route index element={<Login showAlert={showAlert} />} />
+          <Route path="/login" element={<Login showAlert={showAlert} />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

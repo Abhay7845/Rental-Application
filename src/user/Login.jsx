@@ -5,14 +5,18 @@ import { LoginInitialValue, LoginSchema } from "../Schema/LoginSchema";
 import image from "../Asset/Img/Tanishq_Logo1.png";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import ShowError from "../Schema/ShowEroor";
+import { useNavigate } from "react-router-dom";
 
-export default function Login(props) {
+const Login = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const onLogin = (payload) => {
     console.log("payload==>", payload);
     setLoading(false);
+    navigate("/home");
   };
 
   const togglePassword = () => {
@@ -93,4 +97,5 @@ export default function Login(props) {
       </div>
     </div>
   );
-}
+};
+export default Login;

@@ -1,0 +1,16 @@
+.brandName{
+    height: 40px;
+    width: 70px;
+    cursor: pointer;
+}
+
+.navbarLink{
+    color: #ffff;
+}
+.lououtBtn{
+    color: #ffff;
+    cursor: pointer;
+}
+.lououtBtn:hover{
+    color: #c6c2c2;
+}

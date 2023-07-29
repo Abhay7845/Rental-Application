@@ -4,19 +4,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 50px;
   padding-bottom: 30px;
 }
 
-.textH4Style {
-  color: #0c0b0c;
+.heading {
   font-weight: bold;
- color: #ffff;
+  color: #ffff;
+  text-align: center;
 }
 .searchField {
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: center;
+  margin-top: 2%;
 }
 
 .searchStyle {
@@ -43,6 +43,6 @@
   color: #ffff;
   cursor: pointer;
 }
-.searchButton:hover{
+.searchButton:hover {
   background-color: #0bb50b;
 }

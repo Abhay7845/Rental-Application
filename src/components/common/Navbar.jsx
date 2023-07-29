@@ -19,22 +19,23 @@ const Navbar = () => {
         <ul className="navbar-nav me-auto d-flex flex-row">
           <li className="nav-item navbarLink">
             <Link className="nav-link navbarLink" to="/home">
-              HOME
+              Home
             </Link>
           </li>
-          <li className="nav-item mx-3">
+          <li className="nav-item mx-2">
             <Link className="nav-link navbarLink" to="/">
-              ABOUT
+              About
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link navbarLink" to="/">
-              PRODUCT
+              Products
             </Link>
           </li>
         </ul>
         <div className="d-flex">
-          <BiLogIn className="lououtBtn" size={30} onClick={Logout} />
+          <b className="navbarLink mx-2">Name</b>
+          <BiLogIn className="lououtBtn" onClick={Logout} />
         </div>
       </div>
     </nav>

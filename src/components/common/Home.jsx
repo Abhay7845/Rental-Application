@@ -28,6 +28,27 @@ const Home = () => {
           </span>
         </div>
       </div>
+      <div className="mx-2 mt-5">
+        <h4 className="text-center mb-3">Table Details</h4>
+        <table class="table table-bordered table-hover border-dark">
+          <thead className="table-dark border-light">
+            <tr>
+              <th>#</th>
+              <th>First</th>
+              <th>Last</th>
+              <th>Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

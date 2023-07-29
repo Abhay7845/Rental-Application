@@ -1,22 +1,48 @@
-.homeBanner{
-    background-color: #9861cee1;
-    height: 50vh;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.HomeTextStyle {
+  background-color: #9861ceaa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 30px;
 }
 
-.bookBtn{
-    background-color: #05b305;
-    border-radius: 3px;
-    padding: 10px;
-    border: none;
-    color: #fff;
-    margin-top: 10px;
+.textH4Style {
+  color: #0c0b0c;
+  font-weight: bold;
+ color: #ffff;
+}
+.searchField {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.bookBtn:hover{
-    background-color: #047104;
+.searchStyle {
+  outline: none;
+  border: 1px solid #069906;
+  width: 50%;
+  text-align: center;
+  padding: 9px;
+}
 
+@media screen and (max-width: 820px) {
+  .searchStyle {
+    width: 90%;
+  }
+}
+
+.searchStyle:hover {
+  border: 1px solid #0dec0d;
+}
+
+.searchButton {
+  background-color: #069906;
+  padding: 10px;
+  color: #ffff;
+  cursor: pointer;
+}
+.searchButton:hover{
+  background-color: #0bb50b;
 }

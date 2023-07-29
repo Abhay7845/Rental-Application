@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Style/Login.css";
 import { Field, Form, Formik } from "formik";
 import { LoginInitialValue, LoginSchema } from "../Schema/LoginSchema";
@@ -12,9 +12,9 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
+  const authToken = "cbsadfciqouqasdckadscadschevf";
   const onLogin = (payload) => {
-    console.log("payload==>", payload);
+    localStorage.setItem("token", authToken);
     setLoading(false);
     navigate("/home");
   };
@@ -22,6 +22,11 @@ const Login = (props) => {
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   return (
     <div>
       <div className="col RegisterLeftRight">

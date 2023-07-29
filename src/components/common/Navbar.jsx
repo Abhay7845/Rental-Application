@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../Style/Navbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const path = useLocation().pathname;
   const Logout = () => {
     localStorage.clear();
     navigate("/login");
   };
+
+  useEffect(() => {}, [path]);
+
   return (
     <nav className="navbar sticky-top" style={{ backgroundColor: "#9861ce" }}>
       <div className="container-fluid">
@@ -18,7 +22,12 @@ const Navbar = () => {
         </div>
         <ul className="navbar-nav me-auto d-flex flex-row">
           <li className="nav-item navbarLink">
-            <Link className="nav-link navbarLink" to="/home">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/home" ? "active" : ""
+              }`}
+              to="/home"
+            >
               Home
             </Link>
           </li>

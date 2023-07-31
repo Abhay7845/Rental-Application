@@ -23,7 +23,7 @@ const RentalIssue = () => {
     <div>
       <Navbar />
       <div className="container">
-        <h4 className="text-center my-4">RENTAL ISSUE</h4>
+        <h6 className="TableHeading">Rental Issue</h6>
         <div className="row g-3">
           <div className="col-md-4">
             <label className="form-label">Booking Ref No</label>
@@ -274,7 +274,7 @@ const RentalIssue = () => {
           Print Delivery Inspection Acknowledgement
         </h6>
         <div className="row g-3">
-          <div className="col-md-6 d-flex justify-content-between">
+          <div className="col-md-3 d-flex justify-content-between">
             <label className="form-label">Booking Ref No</label>
             <div>
               <input
@@ -295,19 +295,37 @@ const RentalIssue = () => {
               <label className="form-check-label mx-2">NO</label>
             </div>
           </div>
-          <div className="col-md-6 d-flex justify-content-between">
-            <div className="row">
+          <div className="col-md-9 d-flex justify-content-between">
+            <div className="row w-100 g-2">
               <label>Loan Document Reference</label>
-              <div className="col-md-7">
+              <div className="col-md-4">
                 <input type="file" className="form-control" />
               </div>
-              <div className="col-md-5">
+              <div className="col-md-2">
                 {image && (
                   <img src={image} alt="Preview" height="80px" width="100%" />
                 )}
               </div>
             </div>
           </div>
+        </div>
+        <h6 className="TableHeading">
+          Signed Acknowledgement of Product Received after Inspection
+        </h6>
+        <div className="row g-3">
+          <div className="col-md-3">
+            <input type="file" className="form-control" />
+          </div>
+          <div className="col-md-2">
+            {image && (
+              <img src={image} alt="Preview" height="80px" width="100%" />
+            )}
+          </div>
+        </div>
+        <div className="d-flex justify-content-end mb-4">
+          <button type="button" className="CButton">
+            Print
+          </button>
         </div>
       </div>
     </div>

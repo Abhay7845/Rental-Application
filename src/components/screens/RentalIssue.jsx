@@ -1,21 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../common/Navbar";
-import axios from "axios";
 import "../../Style/RentalIssue.css";
+import { DataList } from "../../Data/DataList";
 
 const RentalIssue = () => {
-  const [tableDetails, setTableDetails] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res)
-      .then((response) => {
-        setTableDetails(response.data);
-      })
-      .catch((error) => console.log("error=>", error));
-  }, []);
-
   const [image, setImage] = useState(null);
 
   const handleImageChange = (event) => {
@@ -123,39 +111,109 @@ const RentalIssue = () => {
             </div>
           </div>
         </div>
-        {tableDetails.length > 0 && (
-          <div className="table-responsive my-3">
-            <h4 className="text-center mb-3">Table Details</h4>
-            <table className="table table-bordered table-hover border-dark">
-              <thead className="table-dark border-light">
-                <tr>
-                  <th>Item Code</th>
-                  <th>Lot No.</th>
-                  <th>Package_Days</th>
-                  <th>Product_Value</th>
-                  <th>Rental_Amount</th>
-                  <th>Deposit_Amount</th>
-                  <th>Actual_Weight </th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableDetails.map((item, i) => {
-                  return (
-                    <tr key={i}>
-                      <td className="text-center border-dark">
-                        IKFDSVAKFVKNRESC
-                      </td>
-                      <td>{item.name}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.email}</td>
-                      <td>{item.website}</td>
-                      <td>{item.address.city}</td>
-                      <td>{item.address.city}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+        {DataList.length > 0 && (
+          <div>
+            <div className="table-responsive">
+              <h4 className="text-center my-3">Table Details</h4>
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light">
+                  <tr>
+                    <th>Item Code</th>
+                    <th>Lot No.</th>
+                    <th>Package_Days</th>
+                    <th>Product_Value</th>
+                    <th>Rental_Amount</th>
+                    <th>Deposit_Amount</th>
+                    <th>Actual_Weight </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {DataList.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td className="text-center border-dark">
+                          IKFDSVAKFVKNRESC
+                        </td>
+                        <td>{item.name}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.email}</td>
+                        <td>{item.website}</td>
+                        <td>{item.address.city}</td>
+                        <td>{item.address.city}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <ul className="d-flex flex-row justify-content-end">
+              <li>Total Product Value = 455,</li>
+              <li className="mx-5">Total Rental Amount =123,</li>
+              <li>Total Deposit Amount =987</li>
+            </ul>
+          </div>
+        )}
+        {DataList.length > 0 && (
+          <div>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light">
+                  <tr>
+                    <th>Type</th>
+                    <th>Ref No.</th>
+                    <th>Amount</th>
+                    <th>Upload</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {DataList.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>
+                          <select className="w-100">
+                            <option>Slect Type</option>
+                            <option>Creadit Note</option>
+                            <option>Creadit Card</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            className="w-100"
+                            placeholder="Ref Number"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            className="w-100"
+                            placeholder="Amount"
+                          />
+                        </td>
+                        <td className="d-flex justify-content-center">
+                          <input
+                            type="file"
+                            onChange={handleImageChange}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </td>
+                        <td>
+                          {image && (
+                            <img
+                              src={image}
+                              alt="Preview"
+                              height="80px"
+                              width="100%"
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

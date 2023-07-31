@@ -77,30 +77,25 @@ const RentalIssue = () => {
               placeholder="Delivery Address"
             />
           </div>
-          <div className="d-flex justify-content-end">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={GetDetails}
-            >
-              Next
+          <div className="d-flex justify-content-end mb-4">
+            <button type="button" className="CButton" onClick={GetDetails}>
+              NEXT
             </button>
           </div>
         </div>
         {tableDetails.length > 0 && (
-          <div className="table-responsive">
+          <div className="table-responsive my-3">
             <h4 className="text-center mb-3">Table Details</h4>
             <table className="table table-bordered table-hover border-dark">
               <thead className="table-dark border-light">
                 <tr>
-                  <th>Select</th>
-                  <th>Booking Ref ID</th>
-                  <th>Booking Date</th>
-                  <th>Phone Number</th>
-                  <th>Customer Name</th>
-                  <th>Rental Date</th>
-                  <th>Package</th>
-                  <th>Status</th>
+                  <th>Item Code</th>
+                  <th>Lot No.</th>
+                  <th>Package_Days</th>
+                  <th>Product_Value</th>
+                  <th>Rental_Amount</th>
+                  <th>Deposit_Amount</th>
+                  <th>Actual_Weight </th>
                 </tr>
               </thead>
               <tbody>
@@ -108,17 +103,12 @@ const RentalIssue = () => {
                   return (
                     <tr key={i}>
                       <td className="text-center border-dark">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          value=""
-                        />
+                        IKFDSVAKFVKNRESC
                       </td>
                       <td>{item.name}</td>
                       <td>{item.phone}</td>
                       <td>{item.email}</td>
                       <td>{item.website}</td>
-                      <td>{item.address.city}</td>
                       <td>{item.address.city}</td>
                       <td>{item.address.city}</td>
                     </tr>

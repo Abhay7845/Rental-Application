@@ -6,6 +6,7 @@ import Home from "./components/common/Home";
 import PrivateScreens from "./components/common/PrivateScreens";
 import NewBooking from "./components/screens/NewBooking";
 import RentalIssue from "./components/screens/RentalIssue";
+import "./App.css";
 
 const App = () => {
   const [alert, setAlert] = useState(null);

@@ -83,7 +83,7 @@ const Login = (props) => {
                 <ShowError name="password" />
               </div>
 
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end mt-3">
                 <button type="submit" className="CButton">
                   {loading ? (
                     <span

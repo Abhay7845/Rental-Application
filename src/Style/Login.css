@@ -26,7 +26,7 @@
     width: 30%;
     background-color: #ffff;
     border-radius: 1px;
-    border: 1.5px solid #9861ce;
+    border: 1.5px solid #008080;
     border-radius: 3px;
 }
 
@@ -64,21 +64,7 @@
     border-bottom: 1px solid #1899e4;
 }
 
-.CButton {
-    padding: 7.5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: large;
-    border: none;
-    background-color: #bb91e4;
-    color: #ffff;
-    border-radius: 3px;
-    font-size: 14px;
-}
 
-.CButton:hover {
-    background-color: #9861ce;
-}
 
 /* AlertStyle CSS */
 .alertStyle {

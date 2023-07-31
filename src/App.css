@@ -1,38 +1,31 @@
-.App {
-  text-align: center;
+.CButton {
+  padding: 7.5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: large;
+  border: none;
+  background-color: #008080;
+  color: #ffff;
+  border-radius: 3px;
+  font-size: 14px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.CButton:hover {
+  background-color: #025a5a;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.CancelButton {
+  padding: 7.5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: large;
+  border: none;
+  background-color: #be3838;
+  color: #ffff;
+  border-radius: 3px;
+  font-size: 14px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.CancelButton:hover {
+  background-color: #ba1818;
 }

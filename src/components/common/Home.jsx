@@ -91,11 +91,11 @@ const Home = () => {
           </table>
 
           <div className="d-flex justify-content-end mb-5">
-            <button type="button" class="btn btn-primary mx-2">
-              Rental Return
+            <button type="button" className="CButton mx-2">
+              RENTAL RETURN
             </button>
-            <button type="button" class="btn btn-danger">
-              Cancellation
+            <button type="button" className="CancelButton">
+              CANCELATION
             </button>
           </div>
         </div>

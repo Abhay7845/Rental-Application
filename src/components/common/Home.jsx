@@ -1,24 +1,15 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import "../../Style/Home.css";
-import axios from "axios";
+import { DataList } from "../../Data/DataList";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
-  const [tableDetails, setTableDetails] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const GetDetails = () => {
-    setLoading(true);
-    console.log("phoneRefrence==>", phoneRefrence);
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res)
-      .then((response) => {
-        setTableDetails(response.data);
-      })
-      .catch((error) => console.log("error=>", error));
     setLoading(false);
+    console.log("phoneRefrence==>", phoneRefrence);
   };
 
   return (
@@ -50,56 +41,57 @@ const Home = () => {
           </span>
         </div>
       </div>
-      {tableDetails.length > 0 && (
-        <div className="table-responsive mx-2 mt-5">
-          <h4 className="text-center mb-3">Table Details</h4>
-          <table className="table table-bordered table-hover border-dark">
-            <thead className="table-dark border-light">
-              <tr>
-                <th>Select</th>
-                <th>Booking Ref ID</th>
-                <th>Booking Date</th>
-                <th>Phone Number</th>
-                <th>Customer Name</th>
-                <th>Rental Date</th>
-                <th>Package</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableDetails.map((item, i) => {
-                return (
-                  <tr key={i}>
-                    <td className="text-center border-dark">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value=""
-                      />
-                    </td>
-                    <td>{item.name}</td>
-                    <td>{item.phone}</td>
-                    <td>{item.email}</td>
-                    <td>{item.website}</td>
-                    <td>{item.address.city}</td>
-                    <td>{item.address.city}</td>
-                    <td>{item.address.city}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          <div className="d-flex justify-content-end mb-5">
-            <button type="button" className="CButton mx-2">
-              RENTAL RETURN
-            </button>
-            <button type="button" className="CancelButton">
-              CANCELATION
-            </button>
+      {DataList.length > 0 && (
+        <div>
+          <h4 className="text-center my-3">Table Details</h4>
+          <div className="table-responsive mx-2">
+            <table className="table table-bordered table-hover border-dark">
+              <thead className="table-dark border-light">
+                <tr>
+                  <th>Select</th>
+                  <th>Booking Ref ID</th>
+                  <th>Booking Date</th>
+                  <th>Phone Number</th>
+                  <th>Customer Name</th>
+                  <th>Rental Date</th>
+                  <th>Package</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {DataList.map((item, i) => {
+                  return (
+                    <tr key={i}>
+                      <td className="text-center border-dark">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          value=""
+                        />
+                      </td>
+                      <td>{item.name}</td>
+                      <td>{item.phone}</td>
+                      <td>{item.email}</td>
+                      <td>{item.website}</td>
+                      <td>{item.address.city}</td>
+                      <td>{item.address.city}</td>
+                      <td>{item.address.city}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
+      <div className="d-flex justify-content-end mx-2 mt-2">
+        <button type="button" className="CButton mx-2">
+          RENTAL RETURN
+        </button>
+        <button type="button" className="CancelButton">
+          CANCELATION
+        </button>
+      </div>
     </div>
   );
 };

@@ -93,6 +93,97 @@ const Cancellation = () => {
               </div>
             </div>
           )}
+          <div className="col-12">
+            <h6 className="bookingHeading mb-0">Amount Paid Reference</h6>
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Booking Type</label>
+            <select className="form-control">
+              <option>Select Type</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">2</option>
+            </select>
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Refrence Number</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Refrence Number"
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Amount</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Amount"
+              value={123}
+              disabled
+            />
+          </div>
+          <div className="col-12">
+            <h6 className="bookingHeading mb-0">Deposit</h6>
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Deposit Type</label>
+            <select className="form-control">
+              <option>Select Type</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">2</option>
+            </select>
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Refrence Number</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Refrence Number"
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Amount</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Amount"
+              value={234}
+              disabled
+            />
+          </div>
+          {DataList.length > 0 && (
+            <div className="col-12 mb-4">
+              <h6 className="bookingHeading">Total Overview</h6>
+              <div className="table-responsive">
+                <table className="table table-bordered table-hover border-dark">
+                  <thead className="table-dark border-light">
+                    <tr>
+                      <th>Total_Booking_Paid</th>
+                      <th>Total_Deposit_Paid</th>
+                      <th>Total_Cancellation_Charge</th>
+                      <th>Discount</th>
+                      <th>Total_Net_Refund</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {DataList.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td>1234</td>
+                          <td>34634</td>
+                          <td>12345</td>
+                          <td>123</td>
+                          <td>12543</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -56,21 +56,33 @@ const Home = () => {
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">
               <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Website</th>
-                <th>Address</th>
+                <th>Select</th>
+                <th>Booking Ref ID</th>
+                <th>Booking Date</th>
+                <th>Phone Number</th>
+                <th>Customer Name</th>
+                <th>Rental Date</th>
+                <th>Package</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {tableDetails.map((item, i) => {
                 return (
                   <tr key={i}>
+                    <td className="text-center border-dark">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value=""
+                      />
+                    </td>
                     <td>{item.name}</td>
                     <td>{item.phone}</td>
                     <td>{item.email}</td>
                     <td>{item.website}</td>
+                    <td>{item.address.city}</td>
+                    <td>{item.address.city}</td>
                     <td>{item.address.city}</td>
                   </tr>
                 );

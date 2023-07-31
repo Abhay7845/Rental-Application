@@ -281,7 +281,7 @@ const RentalIssue = () => {
                 className="form-check-input"
                 type="radio"
                 name="gridRadios"
-                value="option2"
+                checked
               />
               <label className="form-check-label mx-2">YES</label>
             </div>
@@ -290,7 +290,7 @@ const RentalIssue = () => {
                 className="form-check-input"
                 type="radio"
                 name="gridRadios"
-                value="option2"
+                checked
               />
               <label className="form-check-label mx-2">NO</label>
             </div>

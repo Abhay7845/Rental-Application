@@ -42,8 +42,13 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link navbarLink" to="/">
-              Products
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/rental/issue" ? "active" : ""
+              }`}
+              to="/rental/issue"
+            >
+              Rental Issue
             </Link>
           </li>
         </ul>

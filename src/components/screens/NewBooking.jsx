@@ -23,7 +23,7 @@ const NewBooking = () => {
       <Navbar />
       <div className="container mt-4">
         <h6 className="bookingHeading">Booking Details</h6>
-        <div className="row g-3">
+        <div className="row g-3 mx-0">
           <div className="col-md-4">
             <label className="form-label">Reference ID</label>
             <input
@@ -228,8 +228,132 @@ const NewBooking = () => {
               </div>
             </div>
           )}
+          {DataList.length > 0 && (
+            <div className="col-12">
+              <h6 className="bookingHeading">Deposit Amount Payment Details</h6>
+              <div className="table-responsive">
+                <table className="table table-bordered table-hover border-dark">
+                  <thead className="table-dark border-light">
+                    <tr>
+                      <th>Type</th>
+                      <th>Ref Number</th>
+                      <th>Amount</th>
+                      <th>Upload</th>
+                      <th>View</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {DataList.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td>
+                            <select className="w-100">
+                              <option>Slect Type</option>
+                              <option>Creadit Note</option>
+                              <option>Creadit Card</option>
+                            </select>
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              className="w-100"
+                              placeholder="Ref Number"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              className="w-100"
+                              placeholder="Amount"
+                            />
+                          </td>
+                          <td className="d-flex justify-content-center">
+                            <input
+                              type="file"
+                              onChange={handleImageChange}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </td>
+                          <td>
+                            {image && (
+                              <img
+                                src={image}
+                                alt="Preview"
+                                height="80px"
+                                width="100%"
+                              />
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    <tr>
+                      <td colSpan="2" className="text-end">
+                        Total Deposit Amount Paid
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          value={6}
+                          className="w-100"
+                          disabled
+                        />
+                      </td>
+                      <td colSpan="2" />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+          <div className="col-md-4">
+            <label className="form-label w-100 text-center">
+              Terms & Conditions Agree
+            </label>
+            <div className="d-flex justify-content-evenly">
+              <div>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gridRadios"
+                  defaultChecked
+                />
+                <label className="form-check-label mx-1">YES</label>
+              </div>
+              <div>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="gridRadios"
+                  defaultChecked
+                />
+                <label className="form-check-label mx-1">NO</label>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">RSO Name</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="RSO Name"
+            />
+          </div>
+          <div className="col-md-5 d-flex justify-content-between">
+            <div className="row w-100 g-2 mx-0">
+              <label>Loan Document Reference</label>
+              <div className="col-md-7">
+                <input type="file" className="form-control" />
+              </div>
+              <div className="col-md-5">
+                {image && (
+                  <img src={image} alt="Preview" height="80px" width="100%" />
+                )}
+              </div>
+            </div>
+          </div>
           <div className="d-flex justify-content-end mb-4">
-            <button type="button" className="CButton">
+            <button type="button" className="CButton mx-2">
               NEXT
             </button>
           </div>

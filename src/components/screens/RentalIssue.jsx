@@ -23,7 +23,7 @@ const RentalIssue = () => {
     <div>
       <Navbar />
       <div className="container mt-4">
-        <h6 className="bookingHeading">Rental Issue</h6>
+        <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3 mb-4">
           <div className="col-md-4">
             <label className="form-label">Booking Ref No</label>
@@ -164,7 +164,7 @@ const RentalIssue = () => {
                   <thead className="table-dark border-light">
                     <tr>
                       <th>Type</th>
-                      <th>Ref No.</th>
+                      <th>Ref Number</th>
                       <th>Amount</th>
                       <th>Upload</th>
                       <th>View</th>

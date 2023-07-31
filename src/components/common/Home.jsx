@@ -49,11 +49,11 @@ const Home = () => {
               <thead className="table-dark border-light">
                 <tr>
                   <th>Select</th>
-                  <th>Booking Ref ID</th>
-                  <th>Booking Date</th>
-                  <th>Phone Number</th>
-                  <th>Customer Name</th>
-                  <th>Rental Date</th>
+                  <th>Booking_Ref_ID</th>
+                  <th>Booking_Date</th>
+                  <th>Phone_Number</th>
+                  <th>Customer_Name</th>
+                  <th>Rental_Date</th>
                   <th>Package</th>
                   <th>Status</th>
                 </tr>

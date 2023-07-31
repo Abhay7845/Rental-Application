@@ -5,6 +5,11 @@
   border-radius: 3px;
 }
 
-.HideTdBorder{
-  border-left: 1px solid white;
+.TableHeading{
+ background-color: #008080;
+ color: #ffff;
+ margin-top: 3%;
+ margin-bottom: 1.5%;
+ padding: 5px;
+
 }

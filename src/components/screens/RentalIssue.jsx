@@ -83,7 +83,6 @@ const RentalIssue = () => {
             <div
               className="modal fade"
               id="exampleModal"
-              tabindex="-1"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
             >
@@ -113,8 +112,8 @@ const RentalIssue = () => {
         </div>
         {DataList.length > 0 && (
           <div>
+            <h6 className="TableHeading">Item Details</h6>
             <div className="table-responsive">
-              <h4 className="text-center my-3">Table Details</h4>
               <table className="table table-bordered table-hover border-dark">
                 <thead className="table-dark border-light">
                   <tr>
@@ -143,9 +142,10 @@ const RentalIssue = () => {
                       </tr>
                     );
                   })}
-                  <tr className="text-center">
-                    <td colspan="3" />
-                    <th>Total</th>
+                  <tr>
+                    <th colSpan="4" className="text-end">
+                      TOTAL
+                    </th>
                     <th>234</th>
                     <th>124</th>
                     <th>678</th>
@@ -157,6 +157,7 @@ const RentalIssue = () => {
         )}
         {DataList.length > 0 && (
           <div>
+            <h6 className="TableHeading">Deposit Amount Payment Details</h6>
             <div className="table-responsive">
               <table className="table table-bordered table-hover border-dark">
                 <thead className="table-dark border-light">
@@ -213,11 +214,65 @@ const RentalIssue = () => {
                       </tr>
                     );
                   })}
+                  <tr>
+                    <td colSpan="2" className="text-end">
+                      Total Deposit Amount Paid
+                    </td>
+                    <td>
+                      <input type="text" value={6} className="w-100" disabled />
+                    </td>
+                    <td colSpan="2" />
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
         )}
+        {DataList.length > 0 && (
+          <div>
+            <h6 className="TableHeading">Delivery Inspection Product Images</h6>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light text-center">
+                  <tr>
+                    <th>Item Code</th>
+                    <th>Upload</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {DataList.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>ASFVFGHYHEY</td>
+                        <td className="text-center">
+                          <input
+                            type="file"
+                            onChange={handleImageChange}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </td>
+                        <td>
+                          {image && (
+                            <img
+                              src={image}
+                              alt="Preview"
+                              height="80px"
+                              width="100%"
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+        <h6 className="TableHeading">
+          Print Delivery Inspection Acknowledgement
+        </h6>
       </div>
     </div>
   );

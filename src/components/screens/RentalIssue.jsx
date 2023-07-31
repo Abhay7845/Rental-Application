@@ -273,6 +273,42 @@ const RentalIssue = () => {
         <h6 className="TableHeading">
           Print Delivery Inspection Acknowledgement
         </h6>
+        <div className="row g-3">
+          <div className="col-md-6 d-flex justify-content-between">
+            <label className="form-label">Booking Ref No</label>
+            <div>
+              <input
+                className="form-check-input"
+                type="radio"
+                name="gridRadios"
+                value="option2"
+              />
+              <label className="form-check-label mx-2">YES</label>
+            </div>
+            <div>
+              <input
+                className="form-check-input"
+                type="radio"
+                name="gridRadios"
+                value="option2"
+              />
+              <label className="form-check-label mx-2">NO</label>
+            </div>
+          </div>
+          <div className="col-md-6 d-flex justify-content-between">
+            <div className="row">
+              <label>Loan Document Reference</label>
+              <div className="col-md-7">
+                <input type="file" className="form-control" />
+              </div>
+              <div className="col-md-5">
+                {image && (
+                  <img src={image} alt="Preview" height="80px" width="100%" />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

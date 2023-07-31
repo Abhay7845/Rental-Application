@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import axios from "axios";
+import "../../Style/RentalIssue.css";
 
 const RentalIssue = () => {
   const [tableDetails, setTableDetails] = useState([]);
 
-  const GetDetails = () => {
+  useEffect(() => {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then((res) => res)
@@ -13,7 +14,23 @@ const RentalIssue = () => {
         setTableDetails(response.data);
       })
       .catch((error) => console.log("error=>", error));
+  }, []);
+
+  const [image, setImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
+
   return (
     <div>
       <Navbar />
@@ -59,28 +76,51 @@ const RentalIssue = () => {
           </div>
           <div className="col-md-3">
             <label className="form-label">Upload ID</label>
-            <input type="file" className="form-control" />
+            <input
+              type="file"
+              className="form-control"
+              onChange={handleImageChange}
+            />
           </div>
           <div className="col-md-2">
-            <img
-              src="https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-driver-license-id-icon-png-image_4957432.png"
-              alt="id_image"
-              height="100px"
-              width="100%"
-            />
-          </div>
-          <div className="col-md-12">
-            <label className="form-label">Delivery Address</label>
-            <textarea
-              type="text"
-              className="form-control"
-              placeholder="Delivery Address"
-            />
-          </div>
-          <div className="d-flex justify-content-end mb-4">
-            <button type="button" className="CButton" onClick={GetDetails}>
-              NEXT
-            </button>
+            {image && (
+              <img
+                src={image}
+                alt="Preview"
+                className="fullScreenImage"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              />
+            )}
+            <div
+              className="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-xl">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    />
+                  </div>
+                  <div className="modal-body">
+                    {image && (
+                      <img
+                        src={image}
+                        alt="Preview"
+                        className="fullScreenImage"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         {tableDetails.length > 0 && (

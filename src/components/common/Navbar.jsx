@@ -41,7 +41,7 @@ const Navbar = () => {
               New Booking
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
                 path === "/rental/issue" ? "active" : ""
@@ -49,6 +49,16 @@ const Navbar = () => {
               to="/rental/issue"
             >
               Rental Issue
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/cancellation" ? "active" : ""
+              }`}
+              to="/cancellation"
+            >
+              Cancellation
             </Link>
           </li>
         </ul>

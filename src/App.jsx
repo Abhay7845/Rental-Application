@@ -7,6 +7,7 @@ import PrivateScreens from "./components/common/PrivateScreens";
 import NewBooking from "./components/screens/NewBooking";
 import RentalIssue from "./components/screens/RentalIssue";
 import "./App.css";
+import Cancellation from "./components/screens/Cancellation";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -36,6 +37,10 @@ const App = () => {
             <Route
               path="/rental/issue"
               element={<RentalIssue showAlert={showAlert} />}
+            />
+            <Route
+              path="/cancellation"
+              element={<Cancellation showAlert={showAlert} />}
             />
           </Route>
         </Route>

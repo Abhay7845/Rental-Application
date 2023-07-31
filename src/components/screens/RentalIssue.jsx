@@ -121,10 +121,10 @@ const RentalIssue = () => {
                     <th>Item Code</th>
                     <th>Lot No.</th>
                     <th>Package_Days</th>
+                    <th>Actual_Weight </th>
                     <th>Product_Value</th>
                     <th>Rental_Amount</th>
                     <th>Deposit_Amount</th>
-                    <th>Actual_Weight </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -143,14 +143,16 @@ const RentalIssue = () => {
                       </tr>
                     );
                   })}
+                  <tr className="text-center">
+                    <td colspan="3" />
+                    <th>Total</th>
+                    <th>234</th>
+                    <th>124</th>
+                    <th>678</th>
+                  </tr>
                 </tbody>
               </table>
             </div>
-            <ul className="d-flex flex-row justify-content-end">
-              <li>Total Product Value = 455,</li>
-              <li className="mx-5">Total Rental Amount =123,</li>
-              <li>Total Deposit Amount =987</li>
-            </ul>
           </div>
         )}
         {DataList.length > 0 && (

@@ -36,7 +36,7 @@ const NewBooking = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-4">
+      <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3 mx-0">
           <div className="col-md-4">

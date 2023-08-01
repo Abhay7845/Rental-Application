@@ -86,13 +86,13 @@ const Home = () => {
       )}
       <div className="d-flex justify-content-end mx-2 mt-2">
         <button type="button" className="CancelButton">
-          CANCELATION
+          CANCEL
         </button>
         <button type="button" className="CButton mx-2">
-          RECIEVE RENTAL
+          RECEIVE
         </button>
         <button type="button" className="CButton">
-          RENTAL RETURN
+          RETURN
         </button>
       </div>
     </div>

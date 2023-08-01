@@ -44,13 +44,18 @@ const NewBooking = () => {
             <label className="form-label">Booking Date</label>
             <input type="date" className="form-control" />
           </div>
-          <div className="col-md-12">
+          <div className="col-md-11">
             <label className="form-label">Search By Phone or PAN</label>
             <input
               type="type"
               className="form-control"
               placeholder="Search By Phone or PAN"
             />
+          </div>
+          <div className="col-md-1 mb-0">
+            <button type="button" className="CButton">
+              Search
+            </button>
           </div>
           <h6 className="bookingHeading mx-2">Customer Details</h6>
           <div className="col-md-4">

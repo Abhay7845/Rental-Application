@@ -4,17 +4,32 @@ import { DataList } from "../../Data/DataList";
 
 const NewBooking = () => {
   const [image, setImage] = useState(null);
+  const [id, setId] = useState(0);
+
+  // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
   const [addItemDetails, setAddItemDetails] = useState([]);
-
+  // DEPOSITE ADD ROWS
   const [depositRowCont, setDepositRowCont] = useState(0);
   const [addDipositRows, setAddDipositRows] = useState([]);
-  console.log("depositRowCont==>", depositRowCont);
+
+  // ITEMS DETAILS SET INPUT VALUE
+  const [itemDetailsItemCode, setItemDetailsItemCode] = useState("");
+  const [itemDetailsLotNumber, setItemDetailsLotNumber] = useState("");
+  const [itemDetailsPackageDays, setItemDetailsPackageDays] = useState("");
+  const [itemDetailsActualWeight, setItemDetailsActualWeight] = useState("");
+  const [itemDetailsProductValue, setItemDetailsProductValue] = useState("");
+  const [itemDetailsRentalAmount, setItemDetailsRentalAmount] = useState("");
+  const [itemDetailsDepositAmount, setItemDetailsDepositAmount] = useState("");
+  const [itemDetailsWeight, setItemDetailsWeight] = useState("");
+
+  // const [itemDetailsTableCout, setItemDetailsTableCout] = useState(0);
+  const [itemDetailsTableRow, setItemDetailsTableRow] = useState([]);
+  console.log("itemDetailsTableRow==>", itemDetailsTableRow);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
     reader.onloadend = () => {
       setImage(reader.result);
     };
@@ -24,13 +39,33 @@ const NewBooking = () => {
     }
   };
 
+  // ITEMS DETAILS ADD REOWS
   const AddRowTableItemDetails = () => {
     setItemRowCont(itemRowCont + 1);
     setAddItemDetails([...addItemDetails, itemRowCont + 1]);
   };
+  // DEPOSITE ADD ROWS
   const AddRowTableDepositAmount = () => {
     setDepositRowCont(depositRowCont + 1);
     setAddDipositRows([...addDipositRows, itemRowCont + 1]);
+  };
+
+  // SAVE ITEM DETAILS
+  const SaveItemsDetails = () => {
+    setId(id + 1);
+    const ItemDetailTable = {
+      id: id,
+      itemCode: itemDetailsItemCode,
+      lotNumber: itemDetailsLotNumber,
+      packageDays: itemDetailsPackageDays,
+      actualWetight: itemDetailsActualWeight,
+      productValue: itemDetailsProductValue,
+      rentalAmount: itemDetailsRentalAmount,
+      depositAmont: itemDetailsDepositAmount,
+      weight: itemDetailsWeight,
+    };
+    setItemDetailsTableRow([...itemDetailsTableRow, ItemDetailTable]);
+    setAddItemDetails([]);
   };
 
   return (
@@ -71,7 +106,9 @@ const NewBooking = () => {
               Search
             </button>
           </div>
-          <h6 className="bookingHeading mx-2">Customer Details</h6>
+          <div className="col-12">
+            <h6 className="bookingHeading">Customer Details</h6>
+          </div>
           <div className="col-md-4">
             <label className="form-label">Customer Name</label>
             <input
@@ -92,7 +129,9 @@ const NewBooking = () => {
             <label className="form-label">Email</label>
             <input type="email" className="form-control" placeholder="Email" />
           </div>
-          <h6 className="bookingHeading mx-2">Customer Address</h6>
+          <div className="col-12">
+            <h6 className="bookingHeading">Customer Address</h6>
+          </div>
           <div className="col-md-6">
             <label className="form-label">Address Line-1</label>
             <textarea
@@ -125,7 +164,9 @@ const NewBooking = () => {
               placeholder="Pin Code"
             />
           </div>
-          <h6 className="bookingHeading mx-2">Required Documents</h6>
+          <div className="col-12">
+            <h6 className="bookingHeading">Customer Address</h6>
+          </div>
           <div className="col-md-6">
             <label className="form-label">Addeess ID Proof Type</label>
             <select className="form-control">
@@ -228,40 +269,76 @@ const NewBooking = () => {
                         return (
                           <tr key={i}>
                             <th>
-                              <input type="text" placeholder="Item Code" />
+                              <input
+                                type="text"
+                                placeholder="Item Code"
+                                onChange={(e) =>
+                                  setItemDetailsItemCode(e.target.value)
+                                }
+                              />
                             </th>
                             <th>
-                              <input type="text" placeholder="Lot Number" />
+                              <input
+                                type="text"
+                                placeholder="Lot Number"
+                                onChange={(e) =>
+                                  setItemDetailsLotNumber(e.target.value)
+                                }
+                              />
                             </th>
                             <th>
-                              <input type="number" placeholder="Package Days" />
+                              <input
+                                type="number"
+                                placeholder="Package Days"
+                                onChange={(e) =>
+                                  setItemDetailsPackageDays(e.target.value)
+                                }
+                              />
                             </th>
                             <th>
                               <input
                                 type="number"
                                 placeholder="Actual Weight"
+                                onChange={(e) =>
+                                  setItemDetailsActualWeight(e.target.value)
+                                }
                               />
                             </th>
                             <th>
                               <input
                                 type="number"
                                 placeholder="Product Value"
+                                onChange={(e) =>
+                                  setItemDetailsProductValue(e.target.value)
+                                }
                               />
                             </th>
                             <th>
                               <input
                                 type="number"
                                 placeholder="Rental Amount"
+                                onChange={(e) =>
+                                  setItemDetailsRentalAmount(e.target.value)
+                                }
                               />
                             </th>
                             <th>
                               <input
                                 type="number"
                                 placeholder="Deposit Amount"
+                                onChange={(e) =>
+                                  setItemDetailsDepositAmount(e.target.value)
+                                }
                               />
                             </th>
                             <th>
-                              <input type="number" placeholder="Weight" />
+                              <input
+                                type="number"
+                                placeholder="Weight"
+                                onChange={(e) =>
+                                  setItemDetailsWeight(e.target.value)
+                                }
+                              />
                             </th>
                           </tr>
                         );
@@ -272,13 +349,23 @@ const NewBooking = () => {
             </div>
           </div>
           <div className="d-flex justify-content-end">
-            <button
-              type="submit"
-              className="CButton"
-              onClick={AddRowTableItemDetails}
-            >
-              Add Row
-            </button>
+            {addItemDetails.length > 0 ? (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={SaveItemsDetails}
+              >
+                Save Row
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={AddRowTableItemDetails}
+              >
+                Add Row
+              </button>
+            )}
           </div>
           <div className="col-12">
             <h6 className="bookingHeading">Deposit Amount Payment Details</h6>

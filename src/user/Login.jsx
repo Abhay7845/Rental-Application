@@ -55,7 +55,7 @@ const Login = (props) => {
                 <b>
                   Password <span className="text-danger"> *</span>
                 </b>
-                <div className="d-flex ">
+                <div className="d-flex">
                   <Field
                     type={passwordShown ? "text" : "password"}
                     placeholder="Password"
@@ -81,8 +81,18 @@ const Login = (props) => {
                   </span>
                 </div>
                 <ShowError name="password" />
+                <div className="my-1">
+                  <b>
+                    RSO Name <span className="text-danger"> *</span>
+                  </b>
+                  <Field
+                    placeholder="RSO Name"
+                    name="rsoName"
+                    className="GInput"
+                  />
+                  <ShowError name="rsoName" />
+                </div>
               </div>
-
               <div className="d-flex justify-content-end mt-3">
                 <button type="submit" className="CButton">
                   {loading ? (

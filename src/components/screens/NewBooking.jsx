@@ -374,14 +374,6 @@ const NewBooking = () => {
               <label className="form-check-label mx-1">NO</label>
             </div>
           </div>
-          <div className="col-md-12">
-            <label className="form-label">RSO Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="RSO Name"
-            />
-          </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton mx-2">
               NEXT

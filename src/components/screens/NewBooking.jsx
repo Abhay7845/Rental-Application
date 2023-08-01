@@ -4,8 +4,12 @@ import { DataList } from "../../Data/DataList";
 
 const NewBooking = () => {
   const [image, setImage] = useState(null);
-  const [count, setCount] = useState(0);
-  const [addrows, setAddrows] = useState([]);
+  const [itemRowCont, setItemRowCont] = useState(0);
+  const [addItemDetails, setAddItemDetails] = useState([]);
+
+  const [depositRowCont, setDepositRowCont] = useState(0);
+  const [addDipositRows, setAddDipositRows] = useState([]);
+  console.log("depositRowCont==>", depositRowCont);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -20,9 +24,13 @@ const NewBooking = () => {
     }
   };
 
-  const AddRowTbale = () => {
-    setCount(count + 1);
-    setAddrows([...addrows, count + 1]);
+  const AddRowTableItemDetails = () => {
+    setItemRowCont(itemRowCont + 1);
+    setAddItemDetails([...addItemDetails, itemRowCont + 1]);
+  };
+  const AddRowTableDepositAmount = () => {
+    setDepositRowCont(depositRowCont + 1);
+    setAddDipositRows([...addDipositRows, itemRowCont + 1]);
   };
 
   return (
@@ -215,8 +223,8 @@ const NewBooking = () => {
                         <input type="number" placeholder="Weight" />
                       </th>
                     </tr>
-                    {addrows.length > 0 &&
-                      addrows.map((i) => {
+                    {addItemDetails.length > 0 &&
+                      addItemDetails.map((i) => {
                         return (
                           <tr key={i}>
                             <th>
@@ -264,37 +272,35 @@ const NewBooking = () => {
             </div>
           </div>
           <div className="d-flex justify-content-end">
-            {addrows.length > 0 ? (
-              <button type="submit" className="CButton" onClick={AddRowTbale}>
-                Save Row
-              </button>
-            ) : (
-              <button type="submit" className="CButton" onClick={AddRowTbale}>
-                Add Row
-              </button>
-            )}
+            <button
+              type="submit"
+              className="CButton"
+              onClick={AddRowTableItemDetails}
+            >
+              Add Row
+            </button>
           </div>
-          {DataList.length > 0 && (
-            <div className="col-12">
-              <h6 className="bookingHeading">Deposit Amount Payment Details</h6>
-              <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
-                  <thead className="table-dark border-light">
-                    <tr>
-                      <th>Type</th>
-                      <th>Ref Number</th>
-                      <th>Amount</th>
-                      <th>Upload</th>
-                      <th>View</th>
-                    </tr>
-                  </thead>
+          <div className="col-12">
+            <h6 className="bookingHeading">Deposit Amount Payment Details</h6>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light">
+                  <tr>
+                    <th>Type</th>
+                    <th>Ref Number</th>
+                    <th>Amount</th>
+                    <th>Upload</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                {DataList.length > 0 && (
                   <tbody>
                     {DataList.map((item, i) => {
                       return (
                         <tr key={i}>
                           <td>
                             <select className="w-100">
-                              <option>Slect Type</option>
+                              <option>Select Type</option>
                               <option>Creadit Note</option>
                               <option>Creadit Card</option>
                             </select>
@@ -347,11 +353,51 @@ const NewBooking = () => {
                       </td>
                       <td colSpan="2" />
                     </tr>
+                    {addDipositRows.length > 0 &&
+                      addDipositRows.map((i) => {
+                        return (
+                          <tr key={i}>
+                            <th>
+                              <select className="w-100">
+                                <option>Select Type</option>
+                                <option>Creadit Note</option>
+                                <option>Creadit Card</option>
+                              </select>
+                            </th>
+                            <th>
+                              <input type="text" placeholder="Lot Number" />
+                            </th>
+                            <th>
+                              <input type="type" placeholder="Refrece Number" />
+                            </th>
+                            <th>
+                              <input type="number" placeholder="Amount" />
+                            </th>
+                            <th>
+                              <img
+                                src="https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png"
+                                alt="view_Product"
+                                width="100%"
+                                height="30px"
+                              />
+                            </th>
+                          </tr>
+                        );
+                      })}
                   </tbody>
-                </table>
-              </div>
+                )}
+              </table>
             </div>
-          )}
+          </div>
+          <div className="d-flex justify-content-end">
+            <button
+              type="submit"
+              className="CButton"
+              onClick={AddRowTableDepositAmount}
+            >
+              Add Row
+            </button>
+          </div>
           <div className="col-12 d-flex">
             <label className="form-label">Terms & Conditions Agree</label>
             <div className="mx-3">

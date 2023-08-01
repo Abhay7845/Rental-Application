@@ -4,6 +4,8 @@ import { DataList } from "../../Data/DataList";
 
 const NewBooking = () => {
   const [image, setImage] = useState(null);
+  const [count, setCount] = useState(0);
+  const [addrows, setAddrows] = useState([]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -18,6 +20,12 @@ const NewBooking = () => {
     }
   };
 
+  const AddRowTbale = () => {
+    setCount(count + 1);
+    setAddrows([...addrows, count + 1]);
+  };
+
+  console.log("addrows==>", addrows);
   return (
     <div>
       <Navbar />
@@ -44,14 +52,14 @@ const NewBooking = () => {
             <label className="form-label">Booking Date</label>
             <input type="date" className="form-control" />
           </div>
-          <div className="col-md-11">
+          <div className="col-8">
             <input
               type="type"
               className="form-control"
               placeholder="Search By Phone or PAN"
             />
           </div>
-          <div className="col-md-1 mb-0">
+          <div className="col-1">
             <button type="button" className="CButton">
               Search
             </button>
@@ -196,11 +204,12 @@ const NewBooking = () => {
                     <tr>
                       <th>Item Code</th>
                       <th>Lot No.</th>
+                      <th>Rental_Date</th>
                       <th>Package_Days</th>
-                      <th>Actual_Weight </th>
                       <th>Product_Value</th>
                       <th>Rental_Amount</th>
                       <th>Deposit_Amount</th>
+                      <th>Actual_Weight </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -211,6 +220,7 @@ const NewBooking = () => {
                             IKFDSVAKFVKNRESC
                           </td>
                           <td>{item.name}</td>
+                          <td>DATE</td>
                           <td>{item.phone}</td>
                           <td>{item.email}</td>
                           <td>{item.website}</td>
@@ -226,12 +236,70 @@ const NewBooking = () => {
                       <th>234</th>
                       <th>124</th>
                       <th>678</th>
+                      <th>
+                        <input
+                          type="number"
+                          placeholder="Weight"
+                          className="w-100"
+                        />
+                      </th>
                     </tr>
+                    {addrows.length > 0 &&
+                      addrows.map((i) => {
+                        return (
+                          <tr key={i}>
+                            <th>
+                              <input type="text" placeholder="Item Code" />
+                            </th>
+                            <th>
+                              <input type="text" placeholder="Lot Number" />
+                            </th>
+                            <th>
+                              <input type="number" placeholder="Package Days" />
+                            </th>
+                            <th>
+                              <input
+                                type="number"
+                                placeholder="Actual Weight"
+                              />
+                            </th>
+                            <th>
+                              <input
+                                type="number"
+                                placeholder="Product Value"
+                              />
+                            </th>
+                            <th>
+                              <input
+                                type="number"
+                                placeholder="Rental Amount"
+                              />
+                            </th>
+                            <th>
+                              <input
+                                type="number"
+                                placeholder="Deposit Amount"
+                              />
+                            </th>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
             </div>
           )}
+          <div className="d-flex justify-content-end">
+            {addrows.length > 0 ? (
+              <button type="submit" className="CButton" onClick={AddRowTbale}>
+                Save Row
+              </button>
+            ) : (
+              <button type="submit" className="CButton" onClick={AddRowTbale}>
+                Add Row
+              </button>
+            )}
+          </div>
           {DataList.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Deposit Amount Payment Details</h6>

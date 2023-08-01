@@ -22,8 +22,8 @@ const NewBooking = () => {
   const [itemDetailsProductValue, setItemDetailsProductValue] = useState("");
   const [itemDetailsRentalAmount, setItemDetailsRentalAmount] = useState("");
   const [itemDetailsDepositAmount, setItemDetailsDepositAmount] = useState("");
-  const [itemDetailsWeight, setItemDetailsWeight] = useState("");
 
+  // ITEM DETAILS TABLE
   const [itemDetailsTableRow, setItemDetailsTableRow] = useState([]);
 
   const handleImageChange = (event) => {
@@ -62,7 +62,6 @@ const NewBooking = () => {
       productValue: itemDetailsProductValue,
       rentalAmount: itemDetailsRentalAmount,
       depositAmont: itemDetailsDepositAmount,
-      weight: itemDetailsWeight,
     };
     setItemDetailsTableRow([...itemDetailsTableRow, ItemDetailTable]);
     setAddItemDetails([]);
@@ -248,7 +247,7 @@ const NewBooking = () => {
                         <td>{item.productValue}</td>
                         <td>{item.rentalAmount}</td>
                         <td>{item.depositAmont}</td>
-                        <td>{item.weight}</td>
+                        <td>{item.actualWetight}</td>
                       </tr>
                     );
                   })}
@@ -305,15 +304,6 @@ const NewBooking = () => {
                       <th>
                         <input
                           type="number"
-                          placeholder="Actual Weight"
-                          onChange={(e) =>
-                            setItemDetailsActualWeight(e.target.value)
-                          }
-                        />
-                      </th>
-                      <th>
-                        <input
-                          type="number"
                           placeholder="Product Value"
                           onChange={(e) =>
                             setItemDetailsProductValue(e.target.value)
@@ -341,8 +331,10 @@ const NewBooking = () => {
                       <th>
                         <input
                           type="number"
-                          placeholder="Weight"
-                          onChange={(e) => setItemDetailsWeight(e.target.value)}
+                          placeholder="Actual Weight"
+                          onChange={(e) =>
+                            setItemDetailsActualWeight(e.target.value)
+                          }
                         />
                       </th>
                     </tr>

@@ -51,20 +51,24 @@ const NewBooking = () => {
 
   // SAVE ITEM DETAILS
   const SaveItemsDetails = () => {
-    setId(id + 1);
-    const ItemDetailTable = {
-      id: id,
-      itemCode: itemDetailsItemCode,
-      lotNumber: itemDetailsLotNumber,
-      rentalDate: itemDetailsRentalDate,
-      packageDays: itemDetailsPackageDays,
-      actualWetight: itemDetailsActualWeight,
-      productValue: itemDetailsProductValue,
-      rentalAmount: itemDetailsRentalAmount,
-      depositAmont: itemDetailsDepositAmount,
-    };
-    setItemDetailsTableRow([...itemDetailsTableRow, ItemDetailTable]);
-    setAddItemDetails([]);
+    if (!itemDetailsItemCode) {
+      alert("Please Enter All Details");
+    } else {
+      setId(id + 1);
+      const ItemDetailTable = {
+        id: id,
+        itemCode: itemDetailsItemCode,
+        lotNumber: itemDetailsLotNumber,
+        rentalDate: itemDetailsRentalDate,
+        packageDays: itemDetailsPackageDays,
+        actualWetight: itemDetailsActualWeight,
+        productValue: itemDetailsProductValue,
+        rentalAmount: itemDetailsRentalAmount,
+        depositAmont: itemDetailsDepositAmount,
+      };
+      setItemDetailsTableRow([...itemDetailsTableRow, ItemDetailTable]);
+      setAddItemDetails([]);
+    }
   };
 
   return (

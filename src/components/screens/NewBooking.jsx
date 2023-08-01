@@ -25,7 +25,6 @@ const NewBooking = () => {
     setAddrows([...addrows, count + 1]);
   };
 
-  console.log("addrows==>", addrows);
   return (
     <div>
       <Navbar />
@@ -134,30 +133,6 @@ const NewBooking = () => {
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Upload PAN</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={handleImageChange}
-            />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Address Proof ID No.</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={handleImageChange}
-            />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Customer Previous Trasaction</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={handleImageChange}
-            />
           </div>
           <div className="col-md-4 d-flex justify-content-center">
             {image && (
@@ -378,51 +353,34 @@ const NewBooking = () => {
               </div>
             </div>
           )}
-          <div className="col-md-4">
-            <label className="form-label w-100 text-center">
-              Terms & Conditions Agree
-            </label>
-            <div className="d-flex justify-content-evenly">
-              <div>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="gridRadios"
-                  defaultChecked
-                />
-                <label className="form-check-label mx-1">YES</label>
-              </div>
-              <div>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="gridRadios"
-                  defaultChecked
-                />
-                <label className="form-check-label mx-1">NO</label>
-              </div>
+          <div className="col-12 d-flex">
+            <label className="form-label">Terms & Conditions Agree</label>
+            <div className="mx-3">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="gridRadios"
+                defaultChecked
+              />
+              <label className="form-check-label mx-1">YES</label>
+            </div>
+            <div>
+              <input
+                className="form-check-input"
+                type="radio"
+                name="gridRadios"
+                defaultChecked
+              />
+              <label className="form-check-label mx-1">NO</label>
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-12">
             <label className="form-label">RSO Name</label>
             <input
               type="text"
               className="form-control"
               placeholder="RSO Name"
             />
-          </div>
-          <div className="col-md-5 d-flex justify-content-between">
-            <div className="row w-100 g-2 mx-0">
-              <label>Loan Document Reference</label>
-              <div className="col-md-7">
-                <input type="file" className="form-control" />
-              </div>
-              <div className="col-md-5">
-                {image && (
-                  <img src={image} alt="Preview" height="80px" width="100%" />
-                )}
-              </div>
-            </div>
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton mx-2">

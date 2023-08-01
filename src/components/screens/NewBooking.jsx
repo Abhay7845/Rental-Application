@@ -45,7 +45,6 @@ const NewBooking = () => {
             <input type="date" className="form-control" />
           </div>
           <div className="col-md-11">
-            <label className="form-label">Search By Phone or PAN</label>
             <input
               type="type"
               className="form-control"
@@ -79,22 +78,6 @@ const NewBooking = () => {
             <input type="email" className="form-control" placeholder="Email" />
           </div>
           <h6 className="bookingHeading mx-2">Customer Address</h6>
-          <div className="col-md-4">
-            <label className="form-label">State</label>
-            <input type="text" className="form-control" placeholder="State" />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">City</label>
-            <input type="text" className="form-control" placeholder="City" />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Pin Code</label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Pin Code"
-            />
-          </div>
           <div className="col-md-6">
             <label className="form-label">Address Line-1</label>
             <textarea
@@ -109,6 +92,22 @@ const NewBooking = () => {
               type="text"
               className="form-control"
               placeholder="Address Line-2"
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">State</label>
+            <input type="text" className="form-control" placeholder="State" />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">City</label>
+            <input type="text" className="form-control" placeholder="City" />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Pin Code</label>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Pin Code"
             />
           </div>
           <h6 className="bookingHeading mx-2">Required Documents</h6>

@@ -16,6 +16,7 @@ const NewBooking = () => {
   // ITEMS DETAILS SET INPUT VALUE
   const [itemDetailsItemCode, setItemDetailsItemCode] = useState("");
   const [itemDetailsLotNumber, setItemDetailsLotNumber] = useState("");
+  const [itemDetailsRentalDate, setItemDetailsRentalDate] = useState("");
   const [itemDetailsPackageDays, setItemDetailsPackageDays] = useState("");
   const [itemDetailsActualWeight, setItemDetailsActualWeight] = useState("");
   const [itemDetailsProductValue, setItemDetailsProductValue] = useState("");
@@ -23,9 +24,7 @@ const NewBooking = () => {
   const [itemDetailsDepositAmount, setItemDetailsDepositAmount] = useState("");
   const [itemDetailsWeight, setItemDetailsWeight] = useState("");
 
-  // const [itemDetailsTableCout, setItemDetailsTableCout] = useState(0);
   const [itemDetailsTableRow, setItemDetailsTableRow] = useState([]);
-  console.log("itemDetailsTableRow==>", itemDetailsTableRow);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -57,6 +56,7 @@ const NewBooking = () => {
       id: id,
       itemCode: itemDetailsItemCode,
       lotNumber: itemDetailsLotNumber,
+      rentalDate: itemDetailsRentalDate,
       packageDays: itemDetailsPackageDays,
       actualWetight: itemDetailsActualWeight,
       productValue: itemDetailsProductValue,
@@ -72,7 +72,9 @@ const NewBooking = () => {
     <div>
       <Navbar />
       <div className="mt-4 mx-2">
-        <h6 className="bookingHeading">Booking Details</h6>
+        <div className="col-12">
+          <h6 className="bookingHeading mx-2">Booking Details</h6>
+        </div>
         <div className="row g-3 mx-0">
           <div className="col-md-4">
             <label className="form-label">Reference ID</label>
@@ -235,24 +237,22 @@ const NewBooking = () => {
                     <th>Actual_Weight </th>
                   </tr>
                 </thead>
-                {DataList.length > 0 && (
-                  <tbody>
-                    {DataList.map((item, i) => {
-                      return (
-                        <tr key={i}>
-                          <td className="text-center border-dark">
-                            IKFDSVAKFVKNRESC
-                          </td>
-                          <td>{item.name}</td>
-                          <td>DATE</td>
-                          <td>{item.phone}</td>
-                          <td>{item.email}</td>
-                          <td>{item.website}</td>
-                          <td>{item.address.city}</td>
-                          <td>{item.address.city}</td>
-                        </tr>
-                      );
-                    })}
+                <tbody>
+                  {itemDetailsTableRow.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>{item.itemCode}</td>
+                        <td>{item.lotNumber}</td>
+                        <td>{item.rentalDate}</td>
+                        <td>{item.packageDays}</td>
+                        <td>{item.productValue}</td>
+                        <td>{item.rentalAmount}</td>
+                        <td>{item.depositAmont}</td>
+                        <td>{item.weight}</td>
+                      </tr>
+                    );
+                  })}
+                  {itemDetailsTableRow.length > 0 && (
                     <tr>
                       <th colSpan="4" className="text-end">
                         TOTAL
@@ -264,87 +264,90 @@ const NewBooking = () => {
                         <input type="number" placeholder="Weight" />
                       </th>
                     </tr>
-                    {addItemDetails.length > 0 &&
-                      addItemDetails.map((i) => {
-                        return (
-                          <tr key={i}>
-                            <th>
-                              <input
-                                type="text"
-                                placeholder="Item Code"
-                                onChange={(e) =>
-                                  setItemDetailsItemCode(e.target.value)
-                                }
-                              />
-                            </th>
-                            <th>
-                              <input
-                                type="text"
-                                placeholder="Lot Number"
-                                onChange={(e) =>
-                                  setItemDetailsLotNumber(e.target.value)
-                                }
-                              />
-                            </th>
-                            <th>
-                              <input
-                                type="number"
-                                placeholder="Package Days"
-                                onChange={(e) =>
-                                  setItemDetailsPackageDays(e.target.value)
-                                }
-                              />
-                            </th>
-                            <th>
-                              <input
-                                type="number"
-                                placeholder="Actual Weight"
-                                onChange={(e) =>
-                                  setItemDetailsActualWeight(e.target.value)
-                                }
-                              />
-                            </th>
-                            <th>
-                              <input
-                                type="number"
-                                placeholder="Product Value"
-                                onChange={(e) =>
-                                  setItemDetailsProductValue(e.target.value)
-                                }
-                              />
-                            </th>
-                            <th>
-                              <input
-                                type="number"
-                                placeholder="Rental Amount"
-                                onChange={(e) =>
-                                  setItemDetailsRentalAmount(e.target.value)
-                                }
-                              />
-                            </th>
-                            <th>
-                              <input
-                                type="number"
-                                placeholder="Deposit Amount"
-                                onChange={(e) =>
-                                  setItemDetailsDepositAmount(e.target.value)
-                                }
-                              />
-                            </th>
-                            <th>
-                              <input
-                                type="number"
-                                placeholder="Weight"
-                                onChange={(e) =>
-                                  setItemDetailsWeight(e.target.value)
-                                }
-                              />
-                            </th>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                )}
+                  )}
+                  {addItemDetails.length > 0 && (
+                    <tr>
+                      <th>
+                        <input
+                          type="text"
+                          placeholder="Item Code"
+                          onChange={(e) =>
+                            setItemDetailsItemCode(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="text"
+                          placeholder="Lot Number"
+                          onChange={(e) =>
+                            setItemDetailsLotNumber(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="date"
+                          onChange={(e) =>
+                            setItemDetailsRentalDate(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="number"
+                          placeholder="Package Days"
+                          onChange={(e) =>
+                            setItemDetailsPackageDays(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="number"
+                          placeholder="Actual Weight"
+                          onChange={(e) =>
+                            setItemDetailsActualWeight(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="number"
+                          placeholder="Product Value"
+                          onChange={(e) =>
+                            setItemDetailsProductValue(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="number"
+                          placeholder="Rental Amount"
+                          onChange={(e) =>
+                            setItemDetailsRentalAmount(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="number"
+                          placeholder="Deposit Amount"
+                          onChange={(e) =>
+                            setItemDetailsDepositAmount(e.target.value)
+                          }
+                        />
+                      </th>
+                      <th>
+                        <input
+                          type="number"
+                          placeholder="Weight"
+                          onChange={(e) => setItemDetailsWeight(e.target.value)}
+                        />
+                      </th>
+                    </tr>
+                  )}
+                </tbody>
               </table>
             </div>
           </div>

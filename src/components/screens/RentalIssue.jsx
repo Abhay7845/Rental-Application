@@ -176,7 +176,7 @@ const RentalIssue = () => {
                         <tr key={i}>
                           <td>
                             <select className="w-100">
-                              <option>Slect Type</option>
+                              <option>Select Type</option>
                               <option>Creadit Note</option>
                               <option>Creadit Card</option>
                             </select>

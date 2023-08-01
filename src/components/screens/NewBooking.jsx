@@ -170,23 +170,23 @@ const NewBooking = () => {
               <label className="form-check-label mx-2">NO</label>
             </div>
           </div>
-          {DataList.length > 0 && (
-            <div className="col-12">
-              <h6 className="bookingHeading">Item Details</h6>
-              <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
-                  <thead className="table-dark border-light">
-                    <tr>
-                      <th>Item Code</th>
-                      <th>Lot No.</th>
-                      <th>Rental_Date</th>
-                      <th>Package_Days</th>
-                      <th>Product_Value</th>
-                      <th>Rental_Amount</th>
-                      <th>Deposit_Amount</th>
-                      <th>Actual_Weight </th>
-                    </tr>
-                  </thead>
+          <div className="col-12">
+            <h6 className="bookingHeading">Item Details</h6>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light">
+                  <tr>
+                    <th>Item Code</th>
+                    <th>Lot No.</th>
+                    <th>Rental_Date</th>
+                    <th>Package_Days</th>
+                    <th>Product_Value</th>
+                    <th>Rental_Amount</th>
+                    <th>Deposit_Amount</th>
+                    <th>Actual_Weight </th>
+                  </tr>
+                </thead>
+                {DataList.length > 0 && (
                   <tbody>
                     {DataList.map((item, i) => {
                       return (
@@ -212,11 +212,7 @@ const NewBooking = () => {
                       <th>124</th>
                       <th>678</th>
                       <th>
-                        <input
-                          type="number"
-                          placeholder="Weight"
-                          className="w-100"
-                        />
+                        <input type="number" placeholder="Weight" />
                       </th>
                     </tr>
                     {addrows.length > 0 &&
@@ -256,14 +252,17 @@ const NewBooking = () => {
                                 placeholder="Deposit Amount"
                               />
                             </th>
+                            <th>
+                              <input type="number" placeholder="Weight" />
+                            </th>
                           </tr>
                         );
                       })}
                   </tbody>
-                </table>
-              </div>
+                )}
+              </table>
             </div>
-          )}
+          </div>
           <div className="d-flex justify-content-end">
             {addrows.length > 0 ? (
               <button type="submit" className="CButton" onClick={AddRowTbale}>

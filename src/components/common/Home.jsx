@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import "../../Style/Home.css";
-import { DataList } from "../../Data/DataList";
+import axios from "axios";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
+  const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const GetDetails = () => {
-    setLoading(false);
-    console.log("phoneRefrence==>", phoneRefrence);
+    if (phoneRefrence) {
+      setLoading(true);
+      axios
+        .get("https://jsonplaceholder.typicode.com/users")
+        .then((res) => res)
+        .then((response) => setProductData(response.data))
+        .catch((error) => console.log("error=>", error));
+      setLoading(false);
+    } else {
+      alert("Please Enter Phone or Refrence Number");
+    }
   };
 
   return (
@@ -41,7 +51,7 @@ const Home = () => {
           </span>
         </div>
       </div>
-      {DataList.length > 0 && (
+      {productData.length > 0 && (
         <div>
           <h4 className="text-center my-3">Table Details</h4>
           <div className="table-responsive mx-2">
@@ -59,7 +69,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                {DataList.map((item, i) => {
+                {productData.map((item, i) => {
                   return (
                     <tr key={i}>
                       <td className="text-center border-dark">
@@ -82,19 +92,19 @@ const Home = () => {
               </tbody>
             </table>
           </div>
+          <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
+            <button type="button" className="CancelButton">
+              CANCEL
+            </button>
+            <button type="button" className="CButton mx-2">
+              ISSUE
+            </button>
+            <button type="button" className="CButton">
+              RETURN
+            </button>
+          </div>
         </div>
       )}
-      <div className="d-flex justify-content-end mx-2 mt-2">
-        <button type="button" className="CancelButton">
-          CANCEL
-        </button>
-        <button type="button" className="CButton mx-2">
-          RECEIVE
-        </button>
-        <button type="button" className="CButton">
-          RETURN
-        </button>
-      </div>
     </div>
   );
 };

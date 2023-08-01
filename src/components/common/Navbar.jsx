@@ -51,6 +51,16 @@ const Navbar = () => {
               Rental Issue
             </Link>
           </li>
+          <li className="nav-item mx-2">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/rental/return" ? "active" : ""
+              }`}
+              to="/rental/return"
+            >
+              Rental Return
+            </Link>
+          </li>
           <li className="nav-item">
             <Link
               className={`nav-link navbarLink  ${

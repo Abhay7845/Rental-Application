@@ -85,8 +85,11 @@ const Home = () => {
         </div>
       )}
       <div className="d-flex justify-content-end mx-2 mt-2">
-        <button type="button" className="CancelButton mx-2">
+        <button type="button" className="CancelButton">
           CANCELATION
+        </button>
+        <button type="button" className="CButton mx-2">
+          RECIEVE RENTAL
         </button>
         <button type="button" className="CButton">
           RENTAL RETURN

@@ -224,25 +224,25 @@ const NewBooking = () => {
           <div className="col-md-4 d-flex justify-content-center">
             <h5>Image will come from DB</h5>
           </div>
-          <div className="col-md-4 d-flex justify-content-between">
+          <div className="col-12 d-flex">
             <label className="form-label">With in Catchment?</label>
-            <div>
+            <div className="mx-3">
               <input
                 className="form-check-input"
                 type="radio"
-                name="gridRadios"
+                name="catchment"
                 defaultChecked
               />
-              <label className="form-check-label mx-2">YES</label>
+              <label className="form-check-label mx-1">YES</label>
             </div>
             <div>
               <input
                 className="form-check-input"
                 type="radio"
-                name="gridRadios"
+                name="catchment"
                 defaultChecked
               />
-              <label className="form-check-label mx-2">NO</label>
+              <label className="form-check-label mx-1">NO</label>
             </div>
           </div>
           <div className="col-12">
@@ -405,7 +405,6 @@ const NewBooking = () => {
                 </thead>
                 <tbody>
                   {depositAmountTableRow.map((item, i) => {
-                    console.log("item==>", item);
                     return (
                       <tr key={i}>
                         <td>{item.depositType}</td>
@@ -502,7 +501,7 @@ const NewBooking = () => {
               <input
                 className="form-check-input"
                 type="radio"
-                name="gridRadios"
+                name="t&c"
                 defaultChecked
               />
               <label className="form-check-label mx-1">YES</label>
@@ -511,7 +510,7 @@ const NewBooking = () => {
               <input
                 className="form-check-input"
                 type="radio"
-                name="gridRadios"
+                name="t&c"
                 defaultChecked
               />
               <label className="form-check-label mx-1">NO</label>

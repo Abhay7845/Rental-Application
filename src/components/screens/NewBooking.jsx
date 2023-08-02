@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
-import { DataList } from "../../Data/DataList";
-import { BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
 
 const NewBooking = () => {
-  const [image, setImage] = useState(null);
-  const [id, setId] = useState(0);
+  const [itemDetailsId, setItemDetailsId] = useState(0);
 
   // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
   const [addItemDetails, setAddItemDetails] = useState([]);
-  // DEPOSITE ADD ROWS
-  const [depositRowCont, setDepositRowCont] = useState(0);
-  const [addDipositRows, setAddDipositRows] = useState([]);
+
   // ITEMS DETAILS SET INPUT VALUE
   const [itemDetailsItemCode, setItemDetailsItemCode] = useState("");
   const [itemDetailsLotNumber, setItemDetailsLotNumber] = useState("");
@@ -25,18 +21,18 @@ const NewBooking = () => {
 
   // ITEM DETAILS TABLE
   const [itemDetailsTableRow, setItemDetailsTableRow] = useState([]);
+  // DEPOSITE ADD ROWS
+  const [depositTableId, setDepositTableId] = useState(0);
+  const [depositRowCont, setDepositRowCont] = useState(0);
+  const [addDipositRows, setAddDipositRows] = useState([]);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
+  // DEPOSIT AMOUNT DETAILS INPUT VALUE
+  const [depositType, setDepositType] = useState("");
+  const [depositRefNmbr, setDepositRefNmbr] = useState("");
+  const [depositAmont, setDepositAmont] = useState("");
+  const [depositFile, setDepositFile] = useState(null);
+  // DEPOSIT AMOUNT DETAILS TABLE
+  const [depositAmountTableRow, setDepositAmountTableRow] = useState([]);
 
   // ITEMS DETAILS ADD REOWS
   const AddRowTableItemDetails = () => {
@@ -54,9 +50,9 @@ const NewBooking = () => {
     if (!itemDetailsItemCode) {
       alert("Please Enter All Details");
     } else {
-      setId(id + 1);
+      setItemDetailsId(itemDetailsId + 1);
       const ItemDetailTable = {
-        id: id,
+        id: itemDetailsId,
         itemCode: itemDetailsItemCode,
         lotNumber: itemDetailsLotNumber,
         rentalDate: itemDetailsRentalDate,
@@ -68,6 +64,36 @@ const NewBooking = () => {
       };
       setItemDetailsTableRow([...itemDetailsTableRow, ItemDetailTable]);
       setAddItemDetails([]);
+    }
+  };
+
+  // DEPOSI AMOUNT FUNCTIONS
+
+  const UploadDepositeFile = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setDepositFile(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const SaveRowTableDepositAmount = () => {
+    setDepositTableId(depositTableId + 1);
+    if (!depositType) {
+      alert("Please Enter All Details");
+    } else {
+      const DepositeAmountTable = {
+        id: depositTableId,
+        depositType: depositType,
+        refNumber: depositRefNmbr,
+        depositAmount: depositAmont,
+        depositFile: depositFile,
+      };
+      setDepositAmountTableRow([...depositAmountTableRow, DepositeAmountTable]);
+      setAddDipositRows([]);
     }
   };
 
@@ -189,18 +215,33 @@ const NewBooking = () => {
             </select>
           </div>
           <div className="col-md-4 d-flex justify-content-center">
-            {image && (
-              <img src={image} alt="Preview" height="100px" width="200px" />
+            {depositFile && (
+              <img
+                src={depositFile}
+                alt="Preview"
+                height="100px"
+                width="200px"
+              />
             )}
           </div>
           <div className="col-md-4 d-flex justify-content-center">
-            {image && (
-              <img src={image} alt="Preview" height="100px" width="200px" />
+            {depositFile && (
+              <img
+                src={depositFile}
+                alt="Preview"
+                height="100px"
+                width="200px"
+              />
             )}
           </div>
           <div className="col-md-4 d-flex justify-content-center">
-            {image && (
-              <img src={image} alt="Preview" height="100px" width="200px" />
+            {depositFile && (
+              <img
+                src={depositFile}
+                alt="Preview"
+                height="100px"
+                width="200px"
+              />
             )}
           </div>
           <div className="col-md-4 d-flex justify-content-between">
@@ -379,56 +420,24 @@ const NewBooking = () => {
                     <th>Type</th>
                     <th>Ref Number</th>
                     <th>Amount</th>
-                    <th>Upload</th>
                     <th>View</th>
                   </tr>
                 </thead>
-                {DataList.length > 0 && (
-                  <tbody>
-                    {DataList.map((item, i) => {
-                      return (
-                        <tr key={i}>
-                          <td>
-                            <select className="w-100">
-                              <option>Select Type</option>
-                              <option>Creadit Note</option>
-                              <option>Creadit Card</option>
-                            </select>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              className="w-100"
-                              placeholder="Ref Number"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              className="w-100"
-                              placeholder="Amount"
-                            />
-                          </td>
-                          <td className="d-flex justify-content-center">
-                            <input
-                              type="file"
-                              onChange={handleImageChange}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </td>
-                          <td>
-                            {image && (
-                              <img
-                                src={image}
-                                alt="Preview"
-                                height="80px"
-                                width="100%"
-                              />
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                <tbody>
+                  {depositAmountTableRow.map((item, i) => {
+                    console.log("item==>", item);
+                    return (
+                      <tr key={i}>
+                        <td>{item.depositType}</td>
+                        <td>{item.refNumber}</td>
+                        <td>{item.depositAmount}</td>
+                        <td className="text-center">
+                          <BsFillEyeFill />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {depositAmountTableRow.length > 0 && (
                     <tr>
                       <td colSpan="2" className="text-end">
                         Total Deposit Amount Paid
@@ -443,50 +452,65 @@ const NewBooking = () => {
                       </td>
                       <td colSpan="2" />
                     </tr>
-                    {addDipositRows.length > 0 &&
-                      addDipositRows.map((i) => {
-                        return (
-                          <tr key={i}>
-                            <th>
-                              <select className="w-100">
-                                <option>Select Type</option>
-                                <option>Creadit Note</option>
-                                <option>Creadit Card</option>
-                              </select>
-                            </th>
-                            <th>
-                              <input type="text" placeholder="Lot Number" />
-                            </th>
-                            <th>
-                              <input type="type" placeholder="Refrece Number" />
-                            </th>
-                            <th>
-                              <input type="number" placeholder="Amount" />
-                            </th>
-                            <th>
-                              <img
-                                src="https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png"
-                                alt="view_Product"
-                                width="100%"
-                                height="30px"
-                              />
-                            </th>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                )}
+                  )}
+                  {addDipositRows.length > 0 &&
+                    addDipositRows.map((i) => {
+                      return (
+                        <tr key={i}>
+                          <th>
+                            <select
+                              className="w-100"
+                              onChange={(e) => setDepositType(e.target.value)}
+                            >
+                              <option>Select Type</option>
+                              <option value="Creadit1">Creadit1</option>
+                              <option value="Creadit2">Creadit2</option>
+                            </select>
+                          </th>
+                          <th>
+                            <input
+                              type="text"
+                              placeholder="Ref Number"
+                              onChange={(e) =>
+                                setDepositRefNmbr(e.target.value)
+                              }
+                            />
+                          </th>
+                          <th>
+                            <input
+                              type="number"
+                              placeholder="Amount"
+                              onChange={(e) => setDepositAmont(e.target.value)}
+                            />
+                          </th>
+                          <th>
+                            <input type="file" onChange={UploadDepositeFile} />
+                          </th>
+                        </tr>
+                      );
+                    })}
+                </tbody>
               </table>
             </div>
           </div>
           <div className="d-flex justify-content-end">
-            <button
-              type="submit"
-              className="CButton"
-              onClick={AddRowTableDepositAmount}
-            >
-              Add Row
-            </button>
+            {addDipositRows.length > 0 ? (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={SaveRowTableDepositAmount}
+              >
+                Save Row
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={AddRowTableDepositAmount}
+              >
+                Add Row
+              </button>
+            )}
           </div>
           <div className="col-12 d-flex">
             <label className="form-label">Terms & Conditions Agree</label>

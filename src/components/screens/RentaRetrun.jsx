@@ -90,7 +90,18 @@ const RentalIssue = () => {
             />
           </div>
           <div className="col-md-4">
-            <label className="form-label">Upload ID</label>
+            <div className="d-flex justify-content-between">
+              <label className="form-label">Upload ID</label>
+              <span className="mx-2">
+                {deliveryProductFile && (
+                  <BsFillEyeFill
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    style={{ cursor: "pointer" }}
+                  />
+                )}
+              </span>
+            </div>
             <input
               type="file"
               className="form-control"
@@ -98,13 +109,6 @@ const RentalIssue = () => {
             />
           </div>
           <div className="col-12 d-flex justify-content-end mt-1">
-            {deliveryProductFile && (
-              <BsFillEyeFill
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                style={{ cursor: "pointer" }}
-              />
-            )}
             <div
               className="modal fade"
               id="exampleModal"

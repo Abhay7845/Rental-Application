@@ -372,11 +372,11 @@ const NewBooking = () => {
               </table>
             </div>
           </div>
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end mt-0">
             {addItemDetails.length > 0 ? (
               <button
                 type="submit"
-                className="CButton"
+                className="CButton mt-3"
                 onClick={SaveItemsDetails}
               >
                 Save Row
@@ -477,7 +477,7 @@ const NewBooking = () => {
               </table>
             </div>
           </div>
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end mt-0">
             {addDipositRows.length > 0 ? (
               <button
                 type="submit"

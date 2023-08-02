@@ -127,7 +127,9 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-4 text-center">
-            {addressProof && <img src={panFile} alt="panfile" height="100px" />}
+            {addressProof && (
+              <img src={addressProof} alt="addressProof" height="100px" />
+            )}
           </div>
           <div className="col-md-12">
             <label className="form-label">RSO Name</label>

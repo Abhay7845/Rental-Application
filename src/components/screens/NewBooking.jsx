@@ -98,9 +98,16 @@ const NewBooking = () => {
     }
   };
 
-  const DeleteRowsItemDetail = (id) => {
+  const DeleteRowsItemDetails = (id) => {
     const updatedData = itemDetailsTableRow.filter((rowId) => rowId.id !== id);
     setItemDetailsTableRow(updatedData);
+  };
+
+  const DeleteRowDepositAmount = (id) => {
+    const updatedData = depositAmountTableRow.filter(
+      (rowId) => rowId.id !== id
+    );
+    setDepositAmountTableRow(updatedData);
   };
 
   return (
@@ -281,7 +288,7 @@ const NewBooking = () => {
                           {item.actualWetight}
                           <BsFillTrashFill
                             className="DeleteRow"
-                            onClick={() => DeleteRowsItemDetail(item.id)}
+                            onClick={() => DeleteRowsItemDetails(item.id)}
                           />
                         </td>
                       </tr>
@@ -419,8 +426,12 @@ const NewBooking = () => {
                         <td>{item.depositType}</td>
                         <td>{item.refNumber}</td>
                         <td>{item.depositAmount}</td>
-                        <td className="text-center">
+                        <td className="d-flex justify-content-between">
                           <BsFillEyeFill />
+                          <BsFillTrashFill
+                            className="DeleteRow"
+                            onClick={() => DeleteRowDepositAmount(item.id)}
+                          />
                         </td>
                       </tr>
                     );
@@ -445,11 +456,7 @@ const NewBooking = () => {
                     addDipositRows.map((i) => {
                       return (
                         <tr key={i}>
-                          <th className="d-flex">
-                            <BsFillTrashFill
-                              className="DeleteRow"
-                              onClick={() => setAddDipositRows([])}
-                            />
+                          <th>
                             <select
                               className="w-100"
                               onChange={(e) => setDepositType(e.target.value)}
@@ -475,8 +482,12 @@ const NewBooking = () => {
                               onChange={(e) => setDepositAmont(e.target.value)}
                             />
                           </th>
-                          <th>
+                          <th className="d-flex justify-content-between">
                             <input type="file" onChange={UploadDepositeFile} />
+                            <BsFillTrashFill
+                              className="DeleteRow"
+                              onClick={() => setAddDipositRows([])}
+                            />
                           </th>
                         </tr>
                       );

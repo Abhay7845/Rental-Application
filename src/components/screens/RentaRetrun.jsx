@@ -4,7 +4,7 @@ import "../../Style/RentalIssue.css";
 import { DataList } from "../../Data/DataList";
 import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
 
-const RentalIssue = () => {
+const RentalRetrun = () => {
   // DELIVERY INSPECTION ADD ROWS
   const [deliveryRowCont, setDeliveryRowCont] = useState(0);
   const [addDeliveryItems, setAddDeliveryItems] = useState([]);
@@ -407,4 +407,4 @@ const RentalIssue = () => {
   );
 };
 
-export default RentalIssue;
+export default RentalRetrun;

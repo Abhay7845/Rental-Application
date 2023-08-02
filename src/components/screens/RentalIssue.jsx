@@ -46,6 +46,11 @@ const RentalIssue = () => {
     }
   };
 
+  const DeleteRow = (id) => {
+    const updatedData = addDeliveryProducts.filter((rowId) => rowId.id !== id);
+    setAddDeliveryProducts(updatedData);
+  };
+
   return (
     <div>
       <Navbar />
@@ -108,6 +113,37 @@ const RentalIssue = () => {
               onChange={UploadDeliveryProductImg}
             />
           </div>
+          <div className="col-12 d-flex justify-content-end mt-1">
+            <div
+              className="modal fade"
+              id="exampleModal"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-xl">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    />
+                  </div>
+                  <div className="modal-body">
+                    {deliveryProductFile && (
+                      <img
+                        src={deliveryProductFile}
+                        alt="Preview"
+                        className="fullScreenImage"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {DataList.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
@@ -128,7 +164,9 @@ const RentalIssue = () => {
                     {DataList.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td>IKFDSVAKFVKNRESC</td>
+                          <td className="text-center border-dark">
+                            IKFDSVAKFVKNRESC
+                          </td>
                           <td>{item.name}</td>
                           <td>{item.phone}</td>
                           <td>{item.email}</td>
@@ -246,8 +284,12 @@ const RentalIssue = () => {
                       return (
                         <tr key={i}>
                           <td>{item.itemCode}</td>
-                          <td className="text-center">
+                          <td className="d-flex justify-content-between">
                             <BsFillEyeFill />
+                            <BsFillTrashFill
+                              className="DeleteRow"
+                              onClick={() => DeleteRow(item.id)}
+                            />
                           </td>
                         </tr>
                       );
@@ -358,36 +400,6 @@ const RentalIssue = () => {
             <button type="button" className="CButton">
               Save
             </button>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 d-flex justify-content-end mt-1">
-        <div
-          className="modal fade"
-          id="exampleModal"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">
-                {deliveryProductFile && (
-                  <img
-                    src={deliveryProductFile}
-                    alt="Preview"
-                    className="fullScreenImage"
-                  />
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </div>

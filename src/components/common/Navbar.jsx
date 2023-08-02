@@ -41,6 +41,14 @@ const Navbar = () => {
               New Booking
             </Link>
           </li>
+          <Link
+            className={`nav-link navbarLink  ${
+              path === "/new/customer" ? "active" : ""
+            }`}
+            to="/new/customer"
+          >
+            New Customer
+          </Link>
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${

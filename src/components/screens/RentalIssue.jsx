@@ -2,20 +2,47 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
 import { DataList } from "../../Data/DataList";
+import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
 
 const RentalIssue = () => {
-  const [image, setImage] = useState(null);
+  // DELIVERY INSPECTION ADD ROWS
+  const [deliveryRowCont, setDeliveryRowCont] = useState(0);
+  const [addDeliveryItems, setAddDeliveryItems] = useState([]);
+  const [deliveryProductId, setDeliveryProductId] = useState(0);
+  const [addDeliveryProducts, setAddDeliveryProducts] = useState([]);
 
-  const handleImageChange = (event) => {
+  // DELIVERY INSPECTION PRODUCTS INPUT VALUES
+  const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
+  const [deliveryProductFile, setDeliveryProductImg] = useState(null);
+
+  const AddDeliveryRowsInputs = () => {
+    setDeliveryRowCont(deliveryRowCont + 1);
+    setAddDeliveryItems([...addDeliveryItems, deliveryRowCont + 1]);
+  };
+
+  const UploadDeliveryProductImg = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
     reader.onloadend = () => {
-      setImage(reader.result);
+      setDeliveryProductImg(reader.result);
     };
-
     if (file) {
       reader.readAsDataURL(file);
+    }
+  };
+
+  const SaveItemsDetails = () => {
+    if (!deliveryProductItemCode) {
+      alert("Please Enter All Details");
+    } else {
+      setDeliveryProductId(deliveryProductId + 1);
+      const deliveryProductsTable = {
+        id: deliveryRowCont,
+        itemCode: deliveryProductItemCode,
+        delieryProductFile: deliveryProductFile,
+      };
+      setAddDeliveryProducts([...addDeliveryProducts, deliveryProductsTable]);
+      setAddDeliveryItems([]);
     }
   };
 
@@ -67,13 +94,13 @@ const RentalIssue = () => {
             <input
               type="file"
               className="form-control"
-              onChange={handleImageChange}
+              onChange={UploadDeliveryProductImg}
             />
           </div>
           <div className="col-md-2">
-            {image && (
+            {deliveryProductFile && (
               <img
-                src={image}
+                src={deliveryProductFile}
                 alt="Preview"
                 className="fullScreenImage"
                 data-bs-toggle="modal"
@@ -97,9 +124,9 @@ const RentalIssue = () => {
                     />
                   </div>
                   <div className="modal-body">
-                    {image && (
+                    {deliveryProductFile && (
                       <img
-                        src={image}
+                        src={deliveryProductFile}
                         alt="Preview"
                         className="fullScreenImage"
                       />
@@ -198,14 +225,14 @@ const RentalIssue = () => {
                           <td className="d-flex justify-content-center">
                             <input
                               type="file"
-                              onChange={handleImageChange}
+                              onChange={UploadDeliveryProductImg}
                               style={{ cursor: "pointer" }}
                             />
                           </td>
                           <td>
-                            {image && (
+                            {deliveryProductFile && (
                               <img
-                                src={image}
+                                src={deliveryProductFile}
                                 alt="Preview"
                                 height="80px"
                                 width="100%"
@@ -236,45 +263,72 @@ const RentalIssue = () => {
           )}
           {DataList.length > 0 && (
             <div className="col-12">
-              <h6 className="bookingHeading">
-                Delivery Inspection Product Images
-              </h6>
+              <h6 className="bookingHeading">Delivery Inspection Product</h6>
               <div className="table-responsive">
                 <table className="table table-bordered table-hover border-dark">
                   <thead className="table-dark border-light text-center">
                     <tr>
                       <th>Item Code</th>
-                      <th>Upload</th>
                       <th>View</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {DataList.map((item, i) => {
+                    {addDeliveryProducts.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td>ASFVFGHYHEY</td>
+                          <td>{item.itemCode}</td>
                           <td className="text-center">
-                            <input
-                              type="file"
-                              onChange={handleImageChange}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </td>
-                          <td>
-                            {image && (
-                              <img
-                                src={image}
-                                alt="Preview"
-                                height="80px"
-                                width="100%"
-                              />
-                            )}
+                            <BsFillEyeFill />
                           </td>
                         </tr>
                       );
                     })}
+
+                    {addDeliveryItems.length > 0 && (
+                      <tr>
+                        <td className="d-flex">
+                          <BsFillTrashFill
+                            className="DeleteRow"
+                            onClick={() => setAddDeliveryItems([])}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Item Code"
+                            className="w-100"
+                            onChange={(e) =>
+                              setDeliveryProductItemCode(e.target.value)
+                            }
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="file"
+                            onChange={UploadDeliveryProductImg}
+                          />
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
+                <div className="d-flex justify-content-end mt-0">
+                  {addDeliveryItems.length > 0 ? (
+                    <button
+                      type="submit"
+                      className="CButton"
+                      onClick={SaveItemsDetails}
+                    >
+                      Save Row
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="CButton"
+                      onClick={AddDeliveryRowsInputs}
+                    >
+                      Add Row
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -311,8 +365,13 @@ const RentalIssue = () => {
                 <input type="file" className="form-control" />
               </div>
               <div className="col-md-2">
-                {image && (
-                  <img src={image} alt="Preview" height="80px" width="100%" />
+                {deliveryProductFile && (
+                  <img
+                    src={deliveryProductFile}
+                    alt="Preview"
+                    height="80px"
+                    width="100%"
+                  />
                 )}
               </div>
             </div>
@@ -326,8 +385,13 @@ const RentalIssue = () => {
             <input type="file" className="form-control" />
           </div>
           <div className="col-md-2 mt-0">
-            {image && (
-              <img src={image} alt="Preview" height="80px" width="100%" />
+            {deliveryProductFile && (
+              <img
+                src={deliveryProductFile}
+                alt="Preview"
+                height="80px"
+                width="100%"
+              />
             )}
           </div>
           <div className="d-flex justify-content-end mb-4">

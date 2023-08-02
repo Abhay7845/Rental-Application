@@ -337,45 +337,34 @@ const RentalIssue = () => {
               Print Delivery Inspection Acknowledgement
             </h6>
           </div>
-          <div className="col-md-3 d-flex justify-content-between mt-0">
-            <label className="form-label">Booking Ref No</label>
-            <div>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="gridRadios"
-                defaultChecked
-              />
-              <label className="form-check-label mx-2">YES</label>
-            </div>
-            <div>
-              <input
-                className="form-check-input"
-                type="radio"
-                name="gridRadios"
-                defaultChecked
-              />
-              <label className="form-check-label mx-2">NO</label>
-            </div>
-          </div>
-          <div className="col-md-9 d-flex justify-content-between mt-0">
-            <div className="row w-100 g-2">
-              <label>Loan Document Reference</label>
-              <div className="col-md-4">
-                <input type="file" className="form-control" />
+          <div className="row d-flex">
+            <div className="col-md-4 d-flex">
+              <label className="form-label">Booking Ref No.</label>
+              <div className="mx-3">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="t&c"
+                  defaultChecked
+                />
+                <label className="form-check-label mx-1">YES</label>
               </div>
-              <div className="col-md-2">
-                {deliveryProductFile && (
-                  <img
-                    src={deliveryProductFile}
-                    alt="Preview"
-                    height="80px"
-                    width="100%"
-                  />
-                )}
+              <div>
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="t&c"
+                  defaultChecked
+                />
+                <label className="form-check-label mx-1">NO</label>
               </div>
             </div>
+            <div className="col-md-8 d-flex justify-content-between">
+              <label className="form-label col-md-2 mt-2">Loan Documents</label>
+              <input type="file" className="form-control" />
+            </div>
           </div>
+
           <div className="col-12">
             <h6 className="bookingHeading">
               Signed Acknowledgement of Product Received after Inspection

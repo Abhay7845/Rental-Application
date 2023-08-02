@@ -286,11 +286,7 @@ const RentalIssue = () => {
 
                     {addDeliveryItems.length > 0 && (
                       <tr>
-                        <td className="d-flex">
-                          <BsFillTrashFill
-                            className="DeleteRow"
-                            onClick={() => setAddDeliveryItems([])}
-                          />
+                        <td>
                           <input
                             type="text"
                             placeholder="Item Code"
@@ -300,10 +296,14 @@ const RentalIssue = () => {
                             }
                           />
                         </td>
-                        <td>
+                        <td className="d-flex justify-content-between">
                           <input
                             type="file"
                             onChange={UploadDeliveryProductImg}
+                          />
+                          <BsFillTrashFill
+                            className="DeleteRow"
+                            onClick={() => setAddDeliveryItems([])}
                           />
                         </td>
                       </tr>

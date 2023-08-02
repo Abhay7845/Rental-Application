@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { DataList } from "../../Data/DataList";
+import { BsFillTrashFill } from "react-icons/bs";
 
 const NewBooking = () => {
   const [image, setImage] = useState(null);
@@ -12,7 +13,6 @@ const NewBooking = () => {
   // DEPOSITE ADD ROWS
   const [depositRowCont, setDepositRowCont] = useState(0);
   const [addDipositRows, setAddDipositRows] = useState([]);
-
   // ITEMS DETAILS SET INPUT VALUE
   const [itemDetailsItemCode, setItemDetailsItemCode] = useState("");
   const [itemDetailsLotNumber, setItemDetailsLotNumber] = useState("");
@@ -264,13 +264,14 @@ const NewBooking = () => {
                       <th>124</th>
                       <th>678</th>
                       <th>
-                        <input type="number" placeholder="Weight" />
+                        <th colSpan="1" />
                       </th>
                     </tr>
                   )}
                   {addItemDetails.length > 0 && (
                     <tr>
-                      <th>
+                      <td className="d-flex">
+                        <BsFillTrashFill className="DeleteRow" />
                         <input
                           type="text"
                           placeholder="Item Code"
@@ -278,8 +279,8 @@ const NewBooking = () => {
                             setItemDetailsItemCode(e.target.value)
                           }
                         />
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         <input
                           type="text"
                           placeholder="Lot Number"
@@ -287,16 +288,16 @@ const NewBooking = () => {
                             setItemDetailsLotNumber(e.target.value)
                           }
                         />
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         <input
                           type="date"
                           onChange={(e) =>
                             setItemDetailsRentalDate(e.target.value)
                           }
                         />
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         <input
                           type="number"
                           placeholder="Package Days"
@@ -304,8 +305,8 @@ const NewBooking = () => {
                             setItemDetailsPackageDays(e.target.value)
                           }
                         />
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         <input
                           type="number"
                           placeholder="Product Value"
@@ -313,8 +314,8 @@ const NewBooking = () => {
                             setItemDetailsProductValue(e.target.value)
                           }
                         />
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         <input
                           type="number"
                           placeholder="Rental Amount"
@@ -322,8 +323,8 @@ const NewBooking = () => {
                             setItemDetailsRentalAmount(e.target.value)
                           }
                         />
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         <input
                           type="number"
                           placeholder="Deposit Amount"
@@ -331,8 +332,8 @@ const NewBooking = () => {
                             setItemDetailsDepositAmount(e.target.value)
                           }
                         />
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         <input
                           type="number"
                           placeholder="Actual Weight"
@@ -340,7 +341,7 @@ const NewBooking = () => {
                             setItemDetailsActualWeight(e.target.value)
                           }
                         />
-                      </th>
+                      </td>
                     </tr>
                   )}
                 </tbody>

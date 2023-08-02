@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 
 const NewCustomer = () => {
+  const [panFile, setPanFile] = useState(null);
+  const [addressProof, setAddressProof] = useState(null);
+
+  const UploadPanFile = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPanFile(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const UploadAddressProof = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAddressProof(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -77,10 +101,14 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Upload PAN</label>
-            <input type="file" className="form-control" />
+            <input
+              type="file"
+              className="form-control"
+              onChange={UploadPanFile}
+            />
           </div>
           <div className="col-md-4 text-center">
-            <label className="form-label">PAN VIEW</label>
+            {panFile && <img src={panFile} alt="panfile" height="100px" />}
           </div>
           <div className="col-md-4">
             <label className="form-label">Address Proof ID Type</label>
@@ -92,10 +120,14 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Upload Address Proof</label>
-            <input type="file" className="form-control" />
+            <input
+              type="file"
+              className="form-control"
+              onChange={UploadAddressProof}
+            />
           </div>
           <div className="col-md-4 text-center">
-            <label className="form-label">Upload Address View</label>
+            {addressProof && <img src={panFile} alt="panfile" height="100px" />}
           </div>
           <div className="col-md-12">
             <label className="form-label">RSO Name</label>

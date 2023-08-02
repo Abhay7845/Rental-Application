@@ -6,7 +6,7 @@ const Cancellation = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-4">
+      <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3">
           <div className="col-md-4">

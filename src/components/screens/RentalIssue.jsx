@@ -360,7 +360,7 @@ const RentalIssue = () => {
               </div>
             </div>
             <div className="col-md-8 d-flex justify-content-between">
-              <label className="form-label col-md-2 mt-2">Loan Documents</label>
+              <label className="form-label col-md-2">Loan Documents</label>
               <input type="file" className="form-control" />
             </div>
           </div>

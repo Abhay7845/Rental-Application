@@ -99,8 +99,10 @@ const NewBooking = () => {
   };
 
   const DeleteRowsItemDetail = (id) => {
-    console.log("id==>", id);
+    const updatedData = itemDetailsTableRow.filter((rowId) => rowId.id !== id);
+    setItemDetailsTableRow(updatedData);
   };
+
   return (
     <div>
       <Navbar />

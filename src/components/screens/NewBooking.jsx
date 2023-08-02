@@ -275,8 +275,8 @@ const NewBooking = () => {
                         <td>{item.productValue}</td>
                         <td>{item.rentalAmount}</td>
                         <td>{item.depositAmont}</td>
-                        <td className="d-flex justify-content-between border">
-                          {item.actualWetight} Avg
+                        <td className="d-flex justify-content-between">
+                          {item.actualWetight}
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => DeleteRowsItemDetail(item.id)}
@@ -286,16 +286,14 @@ const NewBooking = () => {
                     );
                   })}
                   {itemDetailsTableRow.length > 0 && (
-                    <tr>
+                    <tr className="text-bold">
                       <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
                       <th>234</th>
                       <th>124</th>
                       <th>678</th>
-                      <th>
-                        <th colSpan="1" />
-                      </th>
+                      <th colSpan="1" />
                     </tr>
                   )}
                   {addItemDetails.length > 0 && (

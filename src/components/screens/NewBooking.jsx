@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
+// <img src={imageUrl} alt="Preview" height="100px" width="200px" />
 
 const NewBooking = () => {
   const [itemDetailsId, setItemDetailsId] = useState(0);
@@ -215,34 +216,13 @@ const NewBooking = () => {
             </select>
           </div>
           <div className="col-md-4 d-flex justify-content-center">
-            {depositFile && (
-              <img
-                src={depositFile}
-                alt="Preview"
-                height="100px"
-                width="200px"
-              />
-            )}
+            <h5>Image will come from DB</h5>
           </div>
           <div className="col-md-4 d-flex justify-content-center">
-            {depositFile && (
-              <img
-                src={depositFile}
-                alt="Preview"
-                height="100px"
-                width="200px"
-              />
-            )}
+            <h5>Image will come from DB</h5>
           </div>
           <div className="col-md-4 d-flex justify-content-center">
-            {depositFile && (
-              <img
-                src={depositFile}
-                alt="Preview"
-                height="100px"
-                width="200px"
-              />
-            )}
+            <h5>Image will come from DB</h5>
           </div>
           <div className="col-md-4 d-flex justify-content-between">
             <label className="form-label">With in Catchment?</label>

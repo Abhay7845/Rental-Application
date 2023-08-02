@@ -79,6 +79,16 @@ const Navbar = () => {
               Cancellation
             </Link>
           </li>
+          <li className="nav-item mx-2">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/products/details" ? "active" : ""
+              }`}
+              to="/products/details"
+            >
+              Products
+            </Link>
+          </li>
         </ul>
         <div className="d-flex">
           <b className="navbarLink mx-2">Name</b>

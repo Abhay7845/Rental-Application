@@ -10,6 +10,7 @@ import "./App.css";
 import Cancellation from "./components/screens/Cancellation";
 import RentalRetrun from "./components/screens/RentaRetrun";
 import NewCustomer from "./components/screens/NewCustomer";
+import ShowProductsDetails from "./components/screens/ShowProductsDetails";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -51,6 +52,10 @@ const App = () => {
             <Route
               path="/cancellation"
               element={<Cancellation showAlert={showAlert} />}
+            />
+            <Route
+              path="/products/details"
+              element={<ShowProductsDetails showAlert={showAlert} />}
             />
           </Route>
         </Route>

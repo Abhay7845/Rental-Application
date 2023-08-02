@@ -128,9 +128,7 @@ const RentalIssue = () => {
                     {DataList.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td className="text-center border-dark">
-                            IKFDSVAKFVKNRESC
-                          </td>
+                          <td>IKFDSVAKFVKNRESC</td>
                           <td>{item.name}</td>
                           <td>{item.phone}</td>
                           <td>{item.email}</td>

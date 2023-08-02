@@ -457,7 +457,11 @@ const NewBooking = () => {
                     addDipositRows.map((i) => {
                       return (
                         <tr key={i}>
-                          <th>
+                          <th className="d-flex">
+                            <BsFillTrashFill
+                              className="DeleteRow"
+                              onClick={() => setAddDipositRows([])}
+                            />
                             <select
                               className="w-100"
                               onChange={(e) => setDepositType(e.target.value)}

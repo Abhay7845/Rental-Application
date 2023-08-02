@@ -7,6 +7,9 @@ const ShowProductsDetails = () => {
     <div>
       <Navbar />
       <div className="mt-4 mx-2">
+        <div className="d-flex justify-content-end my-2">
+          <button className="CButton">Check Availability</button>
+        </div>
         <div className="table-responsive">
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">
@@ -32,6 +35,7 @@ const ShowProductsDetails = () => {
                     <td>{item.website}</td>
                     <td>{item.address.city}</td>
                     <td>{item.address.city}</td>
+                    <td>{item.website}</td>
                   </tr>
                 );
               })}

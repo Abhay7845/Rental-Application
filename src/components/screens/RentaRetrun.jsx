@@ -46,6 +46,11 @@ const RentalIssue = () => {
     }
   };
 
+  const DeleteRow = (id) => {
+    const updatedData = addDeliveryProducts.filter((rowId) => rowId.id !== id);
+    setAddDeliveryProducts(updatedData);
+  };
+
   return (
     <div>
       <Navbar />
@@ -279,8 +284,12 @@ const RentalIssue = () => {
                       return (
                         <tr key={i}>
                           <td>{item.itemCode}</td>
-                          <td className="text-center">
+                          <td className="d-flex justify-content-between">
                             <BsFillEyeFill />
+                            <BsFillTrashFill
+                              className="DeleteRow"
+                              onClick={() => DeleteRow(item.id)}
+                            />
                           </td>
                         </tr>
                       );

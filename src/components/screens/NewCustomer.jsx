@@ -41,16 +41,32 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-4">
-            <label className="form-label">Address Line 1</label>
+            <label className="form-label">Phone Number</label>
             <input
+              type="type"
+              className="form-control"
+              placeholder="Phone Number"
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Email ID</label>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Email ID"
+            />
+          </div>
+          <div className="col-md-6">
+            <label className="form-label">Address Line 1</label>
+            <textarea
               type="type"
               className="form-control"
               placeholder="Address Line 1"
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <label className="form-label">Address Line 2</label>
-            <input
+            <textarea
               type="type"
               className="form-control"
               placeholder="Address Line 2"
@@ -70,22 +86,6 @@ const NewCustomer = () => {
               type="type"
               className="form-control"
               placeholder="Pin Code"
-            />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Phone Number</label>
-            <input
-              type="type"
-              className="form-control"
-              placeholder="Phone Number"
-            />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Email ID</label>
-            <input
-              type="type"
-              className="form-control"
-              placeholder="Email ID"
             />
           </div>
           <div className="col-12">

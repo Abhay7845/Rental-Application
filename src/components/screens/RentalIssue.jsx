@@ -362,7 +362,9 @@ const RentalIssue = () => {
               <input type="file" className="form-control" />
             </div>
           </div>
-
+          <div className="d-flex justify-content-end">
+            <button className="CButton">Print</button>
+          </div>
           <div className="col-12">
             <h6 className="bookingHeading">
               Signed Acknowledgement of Product Received after Inspection
@@ -383,7 +385,7 @@ const RentalIssue = () => {
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
-              Print
+              Save
             </button>
           </div>
         </div>

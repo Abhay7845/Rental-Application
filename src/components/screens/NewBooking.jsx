@@ -271,7 +271,10 @@ const NewBooking = () => {
                   {addItemDetails.length > 0 && (
                     <tr>
                       <td className="d-flex">
-                        <BsFillTrashFill className="DeleteRow" />
+                        <BsFillTrashFill
+                          className="DeleteRow"
+                          onClick={() => setAddItemDetails([])}
+                        />
                         <input
                           type="text"
                           placeholder="Item Code"

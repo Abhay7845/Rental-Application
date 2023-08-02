@@ -98,6 +98,9 @@ const NewBooking = () => {
     }
   };
 
+  const DeleteRowsItemDetail = (id) => {
+    console.log("id==>", id);
+  };
   return (
     <div>
       <Navbar />
@@ -272,7 +275,13 @@ const NewBooking = () => {
                         <td>{item.productValue}</td>
                         <td>{item.rentalAmount}</td>
                         <td>{item.depositAmont}</td>
-                        <td>{item.actualWetight}</td>
+                        <td className="d-flex justify-content-between border">
+                          {item.actualWetight} Avg
+                          <BsFillTrashFill
+                            className="DeleteRow"
+                            onClick={() => DeleteRowsItemDetail(item.id)}
+                          />
+                        </td>
                       </tr>
                     );
                   })}

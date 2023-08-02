@@ -81,15 +81,15 @@ const RentalIssue = () => {
               <option value="3">2</option>
             </select>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-4">
             <label className="form-label">Customer ID No</label>
             <input
               type="text"
               className="form-control"
-              placeholder="Customer ID No"
+              placeholder="Customer ID No."
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-4">
             <label className="form-label">Upload ID</label>
             <input
               type="file"
@@ -97,14 +97,12 @@ const RentalIssue = () => {
               onChange={UploadDeliveryProductImg}
             />
           </div>
-          <div className="col-md-2">
+          <div className="col-12 d-flex justify-content-end mt-1">
             {deliveryProductFile && (
-              <img
-                src={deliveryProductFile}
-                alt="Preview"
-                className="fullScreenImage"
+              <BsFillEyeFill
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
+                style={{ cursor: "pointer" }}
               />
             )}
             <div

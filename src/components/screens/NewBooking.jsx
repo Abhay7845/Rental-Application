@@ -115,40 +115,24 @@ const NewBooking = () => {
           <h6 className="bookingHeading mx-2">Booking Details</h6>
         </div>
         <div className="row g-3 mx-0">
-          <div className="col-md-4">
-            <label className="form-label">Reference ID</label>
-            <input
-              type="type"
-              className="form-control"
-              placeholder="Reference ID"
-            />
+          <div className="col-md-3">
+            <b>BOOKING DATE :</b>
+            <b className="mx-2">08/03/2023</b>
           </div>
-          <div className="col-md-4">
-            <label className="form-label">Store Code</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Store Code"
-            />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Booking Date</label>
-            <input type="date" className="form-control" />
-          </div>
-          <div className="col-8">
+          <div className="col-md-8">
             <input
               type="type"
               className="form-control"
               placeholder="Search By Phone or PAN"
             />
           </div>
-          <div className="col-1">
+          <div className="col-md-1 d-flex justify-content-end">
             <button type="button" className="CButton">
               Search
             </button>
           </div>
           <div className="col-12">
-            <h6 className="bookingHeading">Customer Details</h6>
+            <h6 className="bookingHeading mb-0">Customer Details</h6>
           </div>
           <div className="col-md-4">
             <label className="form-label">Customer Name</label>
@@ -171,7 +155,7 @@ const NewBooking = () => {
             <input type="email" className="form-control" placeholder="Email" />
           </div>
           <div className="col-12">
-            <h6 className="bookingHeading">Customer Address</h6>
+            <h6 className="bookingHeading mb-0">Customer Address</h6>
           </div>
           <div className="col-md-6">
             <label className="form-label">Address Line-1</label>

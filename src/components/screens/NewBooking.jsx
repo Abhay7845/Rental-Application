@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
+import { packageDays } from "../../Data/DataList";
 // <img src={imageUrl} alt="Preview" height="100px" width="200px" />
 
 const NewBooking = () => {
@@ -12,13 +13,13 @@ const NewBooking = () => {
   const [addItemDetails, setAddItemDetails] = useState([]);
 
   // ITEMS DETAILS SET INPUT VALUE
-  const [itemDetailsItemCode, setItemDetailsItemCode] = useState("");
-  const [itemDetailsLotNumber, setItemDetailsLotNumber] = useState("");
-  const [itemDetailsRentalDate, setItemDetailsRentalDate] = useState("");
-  const [itemDetailsPackageDays, setItemDetailsPackageDays] = useState("");
-  const [itemDetailsProductValue, setItemDetailsProductValue] = useState("");
-  const [itemDetailsRentalAmount, setItemDetailsRentalAmount] = useState("");
-  const [itemDetailsDepositAmount, setItemDetailsDepositAmount] = useState("");
+  const [itemCode, setItemCode] = useState("");
+  const [lotNumber, setLotNumber] = useState("");
+  const [CFANCode, setCFANCode] = useState("");
+  const [grossWeight, setGrossWeight] = useState("");
+  const [productValue, setProductValue] = useState("");
+  const [rentalAmount, setRentalAmount] = useState("");
+  const [depositAmount, setDepositAmount] = useState("");
 
   // ITEM DETAILS TABLE
   const [itemDetailsTableRow, setItemDetailsTableRow] = useState([]);
@@ -48,19 +49,19 @@ const NewBooking = () => {
 
   // SAVE ITEM DETAILS
   const SaveItemsDetails = () => {
-    if (!itemDetailsItemCode) {
+    if (!productValue) {
       alert("Please Enter All Details");
     } else {
       setItemDetailsId(itemDetailsId + 1);
       const ItemDetailTable = {
         id: itemDetailsId,
-        itemCode: itemDetailsItemCode,
-        lotNumber: itemDetailsLotNumber,
-        rentalDate: itemDetailsRentalDate,
-        packageDays: itemDetailsPackageDays,
-        productValue: itemDetailsProductValue,
-        rentalAmount: itemDetailsRentalAmount,
-        depositAmont: itemDetailsDepositAmount,
+        itemCode: itemCode,
+        lotNumber: lotNumber,
+        CFANCode: CFANCode,
+        grossWeight: grossWeight,
+        productValue: productValue,
+        rentalAmount: rentalAmount,
+        depositAmont: depositAmount,
       };
       setItemDetailsTableRow([...itemDetailsTableRow, ItemDetailTable]);
       setAddItemDetails([]);
@@ -107,8 +108,10 @@ const NewBooking = () => {
     );
     setDepositAmountTableRow(updatedData);
   };
-  const toDayDate = new Date();
-  const bookingDate = moment(toDayDate).format("l");
+  const currentDate = new Date();
+  const bookingDate = moment(currentDate).format("l");
+  console.log("getDaysInMonth==>", packageDays);
+
   return (
     <div>
       <Navbar />
@@ -239,6 +242,23 @@ const NewBooking = () => {
               <label className="form-check-label mx-1">NO</label>
             </div>
           </div>
+          <div className="col-md-6">
+            <label className="form-label">Rent Start Date</label>
+            <input type="date" className="form-control" />
+          </div>
+          <div className="col-md-6">
+            <label className="form-label">Package Days</label>
+            <select className="form-control">
+              <option>Select Days</option>
+              {packageDays.map((days, i) => {
+                return (
+                  <option key={i} value={days}>
+                    {days}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
             <div className="table-responsive">
@@ -260,13 +280,12 @@ const NewBooking = () => {
                       <tr key={i}>
                         <td>{item.itemCode}</td>
                         <td>{item.lotNumber}</td>
-                        <td>{item.rentalDate}</td>
-                        <td>{item.packageDays}</td>
+                        <td>{item.CFANCode}</td>
+                        <td>{item.grossWeight}</td>
                         <td>{item.productValue}</td>
                         <td>{item.rentalAmount}</td>
-                        <td>{item.depositAmont}</td>
                         <td className="d-flex justify-content-between">
-                          {item.actualWetight}
+                          {item.depositAmont}
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => DeleteRowsItemDetails(item.id)}
@@ -283,7 +302,6 @@ const NewBooking = () => {
                       <th>234</th>
                       <th>124</th>
                       <th>678</th>
-                      <th colSpan="1" />
                     </tr>
                   )}
                   {addItemDetails.length > 0 && (
@@ -296,62 +314,54 @@ const NewBooking = () => {
                         <input
                           type="text"
                           placeholder="Item Code"
-                          onChange={(e) =>
-                            setItemDetailsItemCode(e.target.value)
-                          }
+                          onChange={(e) => setItemCode(e.target.value)}
                         />
                       </td>
                       <td>
                         <input
                           type="text"
                           placeholder="Lot Number"
-                          onChange={(e) =>
-                            setItemDetailsLotNumber(e.target.value)
-                          }
+                          disabled
+                          onChange={(e) => setLotNumber(e.target.value)}
                         />
                       </td>
                       <td>
                         <input
-                          type="date"
-                          onChange={(e) =>
-                            setItemDetailsRentalDate(e.target.value)
-                          }
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          placeholder="Package Days"
-                          onChange={(e) =>
-                            setItemDetailsPackageDays(e.target.value)
-                          }
+                          type="text"
+                          disabled
+                          placeholder="CFA Code"
+                          onChange={(e) => setCFANCode(e.target.value)}
                         />
                       </td>
                       <td>
                         <input
                           type="number"
+                          placeholder="Gross Weight"
+                          onChange={(e) => setGrossWeight(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          disabled
                           placeholder="Product Value"
-                          onChange={(e) =>
-                            setItemDetailsProductValue(e.target.value)
-                          }
+                          onChange={(e) => setProductValue(e.target.value)}
                         />
                       </td>
                       <td>
                         <input
                           type="number"
+                          disabled
                           placeholder="Rental Amount"
-                          onChange={(e) =>
-                            setItemDetailsRentalAmount(e.target.value)
-                          }
+                          onChange={(e) => setRentalAmount(e.target.value)}
                         />
                       </td>
                       <td>
                         <input
                           type="number"
+                          disabled
                           placeholder="Deposit Amount"
-                          onChange={(e) =>
-                            setItemDetailsDepositAmount(e.target.value)
-                          }
+                          onChange={(e) => setDepositAmount(e.target.value)}
                         />
                       </td>
                     </tr>

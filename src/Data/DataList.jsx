@@ -19,3 +19,7 @@ export const DataList = [
     },
   },
 ];
+export const packageDays = [];
+for (let i = 1; i <= 31; i++) {
+  packageDays.push(i);
+}

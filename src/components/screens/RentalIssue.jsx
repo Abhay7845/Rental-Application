@@ -296,14 +296,11 @@ const RentalIssue = () => {
                             />
                           </td>
                           <td>
-                            {deliveryProductFile && (
-                              <img
-                                src={deliveryProductFile}
-                                alt="Preview"
-                                height="80px"
-                                width="100%"
-                              />
-                            )}
+                            <img
+                              src={deliveryProductFile}
+                              alt="Preview"
+                              className="imageStyle"
+                            />
                           </td>
                         </tr>
                       );
@@ -336,6 +333,7 @@ const RentalIssue = () => {
                     <tr>
                       <th>Item Code</th>
                       <th>View</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -343,8 +341,14 @@ const RentalIssue = () => {
                       return (
                         <tr key={i}>
                           <td>{item.itemCode}</td>
-                          <td className="d-flex justify-content-between">
-                            <BsFillEyeFill />
+                          <td>
+                            <img
+                              src={deliveryProductFile}
+                              alt="Preview"
+                              className="imageStyle"
+                            />
+                          </td>
+                          <td className="text-center">
                             <BsFillTrashFill
                               className="DeleteRow"
                               onClick={() => DeleteRow(item.id)}

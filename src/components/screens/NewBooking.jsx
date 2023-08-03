@@ -15,7 +15,6 @@ const NewBooking = () => {
   const [itemDetailsLotNumber, setItemDetailsLotNumber] = useState("");
   const [itemDetailsRentalDate, setItemDetailsRentalDate] = useState("");
   const [itemDetailsPackageDays, setItemDetailsPackageDays] = useState("");
-  const [itemDetailsActualWeight, setItemDetailsActualWeight] = useState("");
   const [itemDetailsProductValue, setItemDetailsProductValue] = useState("");
   const [itemDetailsRentalAmount, setItemDetailsRentalAmount] = useState("");
   const [itemDetailsDepositAmount, setItemDetailsDepositAmount] = useState("");
@@ -58,7 +57,6 @@ const NewBooking = () => {
         lotNumber: itemDetailsLotNumber,
         rentalDate: itemDetailsRentalDate,
         packageDays: itemDetailsPackageDays,
-        actualWetight: itemDetailsActualWeight,
         productValue: itemDetailsProductValue,
         rentalAmount: itemDetailsRentalAmount,
         depositAmont: itemDetailsDepositAmount,
@@ -269,7 +267,6 @@ const NewBooking = () => {
                     <th>Product_Value</th>
                     <th>Rental_Amount</th>
                     <th>Deposit_Amount</th>
-                    <th>Actual_Weight </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -369,15 +366,6 @@ const NewBooking = () => {
                           placeholder="Deposit Amount"
                           onChange={(e) =>
                             setItemDetailsDepositAmount(e.target.value)
-                          }
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          placeholder="Actual Weight"
-                          onChange={(e) =>
-                            setItemDetailsActualWeight(e.target.value)
                           }
                         />
                       </td>

@@ -27,6 +27,8 @@ const Login = (props) => {
     localStorage.clear();
   }, []);
 
+  const Year = new Date().getFullYear();
+  console.log("Year-=>", Year);
   return (
     <div>
       <div className="col RegisterLeftRight">

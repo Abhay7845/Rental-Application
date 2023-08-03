@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
+import moment from "moment";
 // <img src={imageUrl} alt="Preview" height="100px" width="200px" />
 
 const NewBooking = () => {
@@ -106,7 +107,8 @@ const NewBooking = () => {
     );
     setDepositAmountTableRow(updatedData);
   };
-
+  const toDayDate = new Date();
+  const bookingDate = moment(toDayDate).format("L");
   return (
     <div>
       <Navbar />
@@ -117,7 +119,7 @@ const NewBooking = () => {
         <div className="row g-3 mx-0">
           <div className="col-md-3">
             <b>BOOKING DATE :</b>
-            <b className="mx-2">08/03/2023</b>
+            <b className="mx-2">{bookingDate}</b>
           </div>
           <div className="col-md-8">
             <input

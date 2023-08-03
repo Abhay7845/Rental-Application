@@ -108,7 +108,7 @@ const NewBooking = () => {
     setDepositAmountTableRow(updatedData);
   };
   const toDayDate = new Date();
-  const bookingDate = moment(toDayDate).format("L");
+  const bookingDate = moment(toDayDate).format("l");
   return (
     <div>
       <Navbar />
@@ -118,8 +118,7 @@ const NewBooking = () => {
         </div>
         <div className="row g-3 mx-0">
           <div className="col-md-3">
-            <b>BOOKING DATE :</b>
-            <b className="mx-2">{bookingDate}</b>
+            <b>BOOKING DATE : {bookingDate}</b>
           </div>
           <div className="col-md-8">
             <input

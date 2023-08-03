@@ -7,19 +7,20 @@ const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log("loading==>", loading);
 
   const GetDetails = () => {
+    setLoading(true);
     if (phoneRefrence) {
-      setLoading(true);
       axios
         .get("https://jsonplaceholder.typicode.com/users")
         .then((res) => res)
         .then((response) => setProductData(response.data))
         .catch((error) => console.log("error=>", error));
-      setLoading(false);
     } else {
       alert("Please Enter Phone or Refrence Number");
     }
+    setLoading(false);
   };
 
   return (
@@ -40,11 +41,7 @@ const Home = () => {
           />
           <span className="searchButton" onClick={GetDetails}>
             {loading ? (
-              <span
-                className="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              />
+              <span className="spinner-border spinner-border-sm" />
             ) : (
               <span className="sr-only">Search</span>
             )}

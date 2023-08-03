@@ -69,7 +69,6 @@ const NewBooking = () => {
   };
 
   // DEPOSI AMOUNT FUNCTIONS
-
   const UploadDepositeFile = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -414,7 +413,7 @@ const NewBooking = () => {
                 <thead className="table-dark border-light">
                   <tr>
                     <th>Type</th>
-                    <th>Ref Number</th>
+                    <th>Reference Number</th>
                     <th>Amount</th>
                     <th>View</th>
                   </tr>

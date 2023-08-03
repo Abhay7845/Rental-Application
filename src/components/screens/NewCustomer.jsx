@@ -110,7 +110,7 @@ const NewCustomer = () => {
           <div className="col-md-4 text-center">
             {panFile && <img src={panFile} alt="panfile" height="100px" />}
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Address Proof ID Type</label>
             <select className="form-control">
               <option>Select</option>
@@ -118,15 +118,23 @@ const NewCustomer = () => {
               <option>2</option>
             </select>
           </div>
-          <div className="col-md-4">
-            <label className="form-label">Upload Address Proof</label>
+          <div className="col-md-3">
+            <label className="form-label">Address Proof ID No.</label>
+            <input
+              type="number"
+              placeholder="Address Proof ID Number"
+              className="form-control"
+            />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Upload Address Proof ID</label>
             <input
               type="file"
               className="form-control"
               onChange={UploadAddressProof}
             />
           </div>
-          <div className="col-md-4 text-center">
+          <div className="col-md-3 text-center">
             {addressProof && (
               <img src={addressProof} alt="addressProof" height="100px" />
             )}

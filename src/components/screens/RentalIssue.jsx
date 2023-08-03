@@ -154,10 +154,10 @@ const RentalIssue = () => {
                       <th>Item Code</th>
                       <th>Lot No.</th>
                       <th>Package_Days</th>
-                      <th>Actual_Weight </th>
                       <th>Product_Value</th>
                       <th>Rental_Amount</th>
                       <th>Deposit_Amount</th>
+                      <th>Actual_Weight </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -172,7 +172,13 @@ const RentalIssue = () => {
                           <td>{item.email}</td>
                           <td>{item.website}</td>
                           <td>{item.address.city}</td>
-                          <td>{item.address.city}</td>
+                          <td>
+                            <input
+                              type="number"
+                              placeholder="Actual Weight"
+                              className="w-100"
+                            />
+                          </td>
                         </tr>
                       );
                     })}

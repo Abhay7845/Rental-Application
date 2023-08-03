@@ -58,10 +58,10 @@ const Home = () => {
                   <th>Select</th>
                   <th>Booking_Ref_ID</th>
                   <th>Booking_Date</th>
-                  <th>Phone_Number</th>
                   <th>Customer_Name</th>
+                  <th>Phone_Number</th>
                   <th>Rental_Date</th>
-                  <th>Package</th>
+                  <th>Package_Days</th>
                   <th>Status</th>
                 </tr>
               </thead>

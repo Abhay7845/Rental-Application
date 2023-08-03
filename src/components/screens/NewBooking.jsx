@@ -247,8 +247,8 @@ const NewBooking = () => {
                   <tr>
                     <th>Item Code</th>
                     <th>Lot No.</th>
-                    <th>Rental_Date</th>
-                    <th>Package_Days</th>
+                    <th>CFA Code</th>
+                    <th>Gross Weight</th>
                     <th>Product_Value</th>
                     <th>Rental_Amount</th>
                     <th>Deposit_Amount</th>

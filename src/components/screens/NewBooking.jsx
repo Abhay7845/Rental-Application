@@ -49,7 +49,7 @@ const NewBooking = () => {
 
   // SAVE ITEM DETAILS
   const SaveItemsDetails = () => {
-    if (!productValue) {
+    if (!itemCode) {
       alert("Please Enter All Details");
     } else {
       setItemDetailsId(itemDetailsId + 1);
@@ -110,7 +110,6 @@ const NewBooking = () => {
   };
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("l");
-  console.log("getDaysInMonth==>", packageDays);
 
   return (
     <div>

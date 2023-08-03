@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
-import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
 import { packageDays } from "../../Data/DataList";
 // <img src={imageUrl} alt="Preview" height="100px" width="200px" />
@@ -32,9 +32,10 @@ const NewBooking = () => {
   const [depositType, setDepositType] = useState("");
   const [depositRefNmbr, setDepositRefNmbr] = useState("");
   const [depositAmont, setDepositAmont] = useState("");
-  const [depositFile, setDepositFile] = useState(null);
+  const [depositFile, setDepositFile] = useState("");
   // DEPOSIT AMOUNT DETAILS TABLE
   const [depositAmountTableRow, setDepositAmountTableRow] = useState([]);
+  console.log("depositAmountTableRow==>", depositAmountTableRow);
 
   // ITEMS DETAILS ADD REOWS
   const AddRowTableItemDetails = () => {
@@ -271,6 +272,7 @@ const NewBooking = () => {
                     <th>Product_Value</th>
                     <th>Rental_Amount</th>
                     <th>Deposit_Amount</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -283,8 +285,8 @@ const NewBooking = () => {
                         <td>{item.grossWeight}</td>
                         <td>{item.productValue}</td>
                         <td>{item.rentalAmount}</td>
-                        <td className="d-flex justify-content-between">
-                          {item.depositAmont}
+                        <td>{item.depositAmont}</td>
+                        <td className="text-center">
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => DeleteRowsItemDetails(item.id)}
@@ -301,15 +303,12 @@ const NewBooking = () => {
                       <th>234</th>
                       <th>124</th>
                       <th>678</th>
+                      <th colSpan="1" />
                     </tr>
                   )}
                   {addItemDetails.length > 0 && (
                     <tr>
-                      <td className="d-flex">
-                        <BsFillTrashFill
-                          className="DeleteRow"
-                          onClick={() => setAddItemDetails([])}
-                        />
+                      <td>
                         <input
                           type="text"
                           placeholder="Item Code"
@@ -335,6 +334,7 @@ const NewBooking = () => {
                       <td>
                         <input
                           type="number"
+                          disabled
                           placeholder="Gross Weight"
                           onChange={(e) => setGrossWeight(e.target.value)}
                         />
@@ -363,6 +363,12 @@ const NewBooking = () => {
                           onChange={(e) => setDepositAmount(e.target.value)}
                         />
                       </td>
+                      <td className="text-center">
+                        <BsFillTrashFill
+                          className="DeleteRow"
+                          onClick={() => setAddItemDetails([])}
+                        />
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -389,7 +395,7 @@ const NewBooking = () => {
             )}
           </div>
           <div className="col-12">
-            <h6 className="bookingHeading">Deposit Amount Payment Details</h6>
+            <h6 className="bookingHeading">Booking Amount Payment Details</h6>
             <div className="table-responsive">
               <table className="table table-bordered table-hover border-dark">
                 <thead className="table-dark border-light">
@@ -398,6 +404,7 @@ const NewBooking = () => {
                     <th>Reference Number</th>
                     <th>Amount</th>
                     <th>View</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -407,8 +414,14 @@ const NewBooking = () => {
                         <td>{item.depositType}</td>
                         <td>{item.refNumber}</td>
                         <td>{item.depositAmount}</td>
-                        <td className="d-flex justify-content-between">
-                          <BsFillEyeFill />
+                        <td className="text-center">
+                          <img
+                            src={item.depositFile}
+                            alt="depositFile"
+                            className="imageStyle"
+                          />
+                        </td>
+                        <td className="text-center">
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => DeleteRowDepositAmount(item.id)}
@@ -451,6 +464,7 @@ const NewBooking = () => {
                             <input
                               type="text"
                               placeholder="Ref Number"
+                              className="w-100"
                               onChange={(e) =>
                                 setDepositRefNmbr(e.target.value)
                               }
@@ -460,11 +474,14 @@ const NewBooking = () => {
                             <input
                               type="number"
                               placeholder="Amount"
+                              className="w-100"
                               onChange={(e) => setDepositAmont(e.target.value)}
                             />
                           </th>
-                          <th className="d-flex justify-content-between">
+                          <th>
                             <input type="file" onChange={UploadDepositeFile} />
+                          </th>
+                          <th className="text-center">
                             <BsFillTrashFill
                               className="DeleteRow"
                               onClick={() => setAddDipositRows([])}

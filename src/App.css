@@ -30,15 +30,25 @@
   background-color: #ba1818;
 }
 
-.DeleteRow{
+.DeleteRow {
   color: #d30e0e;
-  font-size: 20px;
+  font-size: 15px;
   margin-top: 3px;
   margin-right: 4px;
-  opacity: 0;
   cursor: pointer;
 }
 
-tr:hover .DeleteRow {
-  opacity: 1;
+
+
+.imageStyle {
+  width: 20px;
+  height: 20px;
+}
+.imageStyle:hover {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  cursor: pointer;
+  left: 50%;
+  right: 50%;
 }

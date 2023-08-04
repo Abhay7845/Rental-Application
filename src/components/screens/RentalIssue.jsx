@@ -291,6 +291,7 @@ const RentalIssue = () => {
                     <th>Amount</th>
                     <th>Upload</th>
                     <th>View</th>
+                    <td>Delete</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -364,6 +365,12 @@ const RentalIssue = () => {
                           src={deliveryProductFile}
                           alt="Preview"
                           className="imageStyle"
+                        />
+                      </td>
+                      <td className="text-center">
+                        <BsFillTrashFill
+                          className="DeleteRow"
+                          onClick={() => setAddDepositItems([])}
                         />
                       </td>
                     </tr>

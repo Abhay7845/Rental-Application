@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 
 const NewCustomer = () => {
+  // PHONE NUMBER OTP VALIDATION
   const [panFile, setPanFile] = useState(null);
   const [addressProof, setAddressProof] = useState(null);
   const [secPhoneCount, setSecPhoneCount] = useState(60);
@@ -9,6 +10,13 @@ const NewCustomer = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
+
+  // EMAIL ADDRESS  OTP VALIDATION
+  const [secEmailCount, setSecEmailCount] = useState(60);
+  const [emailOtp, setEmailOtp] = useState("");
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [enterEmailOtp, setEnterEmailOtp] = useState("");
+  const [emailId, setEmailId] = useState("");
 
   const UploadPanFile = (event) => {
     const file = event.target.files[0];
@@ -55,24 +63,64 @@ const NewCustomer = () => {
       alert("Invalid OTP");
     }
   };
-
+  // INTERVAL FOR PHONE OTP
   useEffect(() => {
-    const intervel = setInterval(() => {
+    const intervelPhone = setInterval(() => {
       if (secPhoneCount === 0) {
-        clearInterval(intervel);
+        clearInterval(intervelPhone);
       } else {
         setSecPhoneCount(secPhoneCount - 1);
       }
     }, 1000);
     return () => {
-      clearInterval(intervel);
+      clearInterval(intervelPhone);
     };
   }, [secPhoneCount]);
+
+  // INTERVAL FOR EMAIL OTP
+  useEffect(() => {
+    const intervelPhone = setInterval(() => {
+      if (secEmailCount === 0) {
+        clearInterval(intervelPhone);
+      } else {
+        setSecEmailCount(secEmailCount - 1);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(intervelPhone);
+    };
+  }, [secEmailCount]);
+
+  // EMAIL OTP VERIFICATION FUNCTION
+  const GetEmailOtp = () => {
+    if (!emailId) {
+      alert("Please Enter Email Id");
+    } else {
+      const min = 100000;
+      const max = 999999;
+      const OtpPhone = Math.floor(Math.random() * (max - min + 1)) + min;
+      setEmailOtp(OtpPhone);
+      setSecEmailCount(60);
+    }
+  };
+
+  const VerifyEmailOTP = () => {
+    if (emailOtp === parseInt(enterEmailOtp)) {
+      alert("Phone Number Verify Successfully");
+      setEmailVerified(true);
+    } else {
+      alert("Invalid OTP");
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <div className="mt-4 mx-2">
-        {phoneOtp && <b>OTP -{phoneOtp}</b>}
+        <div className="d-flex justify-content-between">
+          {phoneOtp && <b>Phone OTP -{phoneOtp}</b>}
+          {emailOtp && <b>Email OTP -{emailOtp}</b>}
+        </div>
         <h6 className="bookingHeading">New Customer Details</h6>
         <div className="row g-3">
           <div className="col-md-4">
@@ -98,7 +146,7 @@ const NewCustomer = () => {
               <input
                 type="number"
                 className="form-control"
-                placeholder="Enter OTP"
+                placeholder="Phone OTP"
                 onChange={(e) => setEnterPhoneOtp(e.target.value)}
               />
             </div>
@@ -111,7 +159,7 @@ const NewCustomer = () => {
             <div className="col-md-3">
               {!phoneOtp ? (
                 <button className="CButton" onClick={GetPhoneOtp}>
-                  GET OTP
+                  SEND OTP
                 </button>
               ) : (
                 <div className="d-flex justify-content-between">
@@ -136,13 +184,60 @@ const NewCustomer = () => {
               )}
             </div>
           )}
+
           <div className="col-md-4">
             <input
               type="email"
               className="form-control"
-              placeholder="Email ID"
+              placeholder="Enter Email ID"
+              value={emailId}
+              onChange={(e) => setEmailId(e.target.value)}
+              disabled={emailOtp ? true : false}
             />
           </div>
+          {emailOtp && !emailVerified && (
+            <div className="col-md-2">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Email OTP"
+                onChange={(e) => setEnterEmailOtp(e.target.value)}
+              />
+            </div>
+          )}
+          {emailVerified ? (
+            <div className="col-md-3" style={{ marginTop: "1.6%" }}>
+              <b className="phoneVeryfiedStyle">Email is Veryfied</b>
+            </div>
+          ) : (
+            <div className="col-md-3">
+              {!emailOtp ? (
+                <button className="CButton" onClick={GetEmailOtp}>
+                  SEND OTP
+                </button>
+              ) : (
+                <div className="d-flex justify-content-between">
+                  <button className="CButton" onClick={VerifyEmailOTP}>
+                    Verify OTP
+                  </button>
+                  <button
+                    className={`${
+                      secEmailCount > 0 ? "SendOtpBtn" : "CButton"
+                    }`}
+                    disabled={secEmailCount > 0 ? true : false}
+                    onClick={GetEmailOtp}
+                  >
+                    RE-SEND mail
+                  </button>
+                </div>
+              )}
+              {emailOtp && secEmailCount > 0 && (
+                <span className="d-flex justify-content-end mt-0">
+                  Resend OTP After Secconds : {secEmailCount}
+                </span>
+              )}
+            </div>
+          )}
           <div className="col-md-6">
             <textarea
               type="type"

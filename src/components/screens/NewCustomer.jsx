@@ -227,7 +227,7 @@ const NewCustomer = () => {
                     disabled={secEmailCount > 0 ? true : false}
                     onClick={GetEmailOtp}
                   >
-                    RE-SEND mail
+                    RE-SEND
                   </button>
                 </div>
               )}
@@ -253,17 +253,12 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-4">
-            <input
-              type="type"
-              className="form-control"
-              placeholder="Enter State"
-            />
+            <input type="text" className="form-control" placeholder="State" />
           </div>
           <div className="col-md-4">
-            <input type="type" className="form-control" placeholder="City" />
+            <input type="text" className="form-control" placeholder="City" />
           </div>
           <div className="col-md-4">
-            <label className="form-label">Pin Code</label>
             <input
               type="type"
               className="form-control"

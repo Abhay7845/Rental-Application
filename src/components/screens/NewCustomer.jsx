@@ -155,8 +155,8 @@ const NewCustomer = () => {
             </div>
           )}
           {phoneVerified ? (
-            <div className="col-md-3" style={{ marginTop: "1.6%" }}>
-              <b className="phoneVeryfiedStyle">Phone is Veryfied</b>
+            <div className="col-md-3">
+              <p className="phoneVeryfiedStyle">Phone is Verified</p>
             </div>
           ) : (
             <div className="col-md-3">
@@ -209,8 +209,8 @@ const NewCustomer = () => {
             </div>
           )}
           {emailVerified ? (
-            <div className="col-md-3" style={{ marginTop: "1.6%" }}>
-              <b className="phoneVeryfiedStyle">Email is Veryfied</b>
+            <div className="col-md-3">
+              <p className="phoneVeryfiedStyle">Email is Verified</p>
             </div>
           ) : (
             <div className="col-md-3">

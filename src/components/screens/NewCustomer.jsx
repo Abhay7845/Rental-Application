@@ -57,7 +57,7 @@ const NewCustomer = () => {
   };
   const VerifyPhoneOTP = () => {
     if (phoneOtp === parseInt(enterPhoneOtp)) {
-      alert("Phone Number Verify Successfully");
+      alert("Phone Number Verified Successfully");
       setPhoneVerified(true);
     } else {
       alert("Invalid OTP");
@@ -106,7 +106,7 @@ const NewCustomer = () => {
 
   const VerifyEmailOTP = () => {
     if (emailOtp === parseInt(enterEmailOtp)) {
-      alert("Phone Number Verify Successfully");
+      alert("Email Verified Successfully");
       setEmailVerified(true);
     } else {
       alert("Invalid OTP");

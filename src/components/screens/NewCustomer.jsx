@@ -103,31 +103,39 @@ const NewCustomer = () => {
               />
             </div>
           )}
-          <div className="col-md-3">
-            {!phoneOtp ? (
-              <button className="CButton" onClick={GetPhoneOtp}>
-                GET OTP
-              </button>
-            ) : (
-              <div className="d-flex justify-content-between">
-                <button className="CButton" onClick={VerifyPhoneOTP}>
-                  Verify OTP
+          {phoneVerified ? (
+            <div className="col-md-3" style={{ marginTop: "1.6%" }}>
+              <b className="phoneVeryfiedStyle">Phone is Veryfied</b>
+            </div>
+          ) : (
+            <div className="col-md-3">
+              {!phoneOtp ? (
+                <button className="CButton" onClick={GetPhoneOtp}>
+                  GET OTP
                 </button>
-                <button
-                  className={`${secPhoneCount > 0 ? "SendOtpBtn" : "CButton"}`}
-                  disabled={secPhoneCount > 0 ? true : false}
-                  onClick={GetPhoneOtp}
-                >
-                  RE-SEND
-                </button>
-              </div>
-            )}
-            {phoneOtp && secPhoneCount > 0 && (
-              <span className="d-flex justify-content-end mt-0">
-                Resend OTP After Secconds : {secPhoneCount}
-              </span>
-            )}
-          </div>
+              ) : (
+                <div className="d-flex justify-content-between">
+                  <button className="CButton" onClick={VerifyPhoneOTP}>
+                    Verify OTP
+                  </button>
+                  <button
+                    className={`${
+                      secPhoneCount > 0 ? "SendOtpBtn" : "CButton"
+                    }`}
+                    disabled={secPhoneCount > 0 ? true : false}
+                    onClick={GetPhoneOtp}
+                  >
+                    RE-SEND
+                  </button>
+                </div>
+              )}
+              {phoneOtp && secPhoneCount > 0 && (
+                <span className="d-flex justify-content-end mt-0">
+                  Resend OTP After Secconds : {secPhoneCount}
+                </span>
+              )}
+            </div>
+          )}
           <div className="col-md-4">
             <input
               type="email"

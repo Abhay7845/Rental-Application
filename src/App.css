@@ -64,3 +64,11 @@ cursor: not-allowed;
   left: 50%;
   right: 50%;
 }
+
+.phoneVeryfiedStyle{
+  background-color: #0e990e;
+  padding: 8px;
+  text-align: center;
+  color: #ffff;
+  border-radius: 2px;
+}

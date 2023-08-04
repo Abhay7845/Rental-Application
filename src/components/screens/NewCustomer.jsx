@@ -122,12 +122,12 @@ const NewCustomer = () => {
                 </button>
               </div>
             )}
+            {phoneOtp && secPhoneCount > 0 && (
+              <span className="d-flex justify-content-end mt-0">
+                Resend OTP After Secconds : {secPhoneCount}
+              </span>
+            )}
           </div>
-          {phoneOtp && secPhoneCount > 0 && (
-            <span className="d-flex justify-content-end mt-0">
-              Resend OTP After Secconds : {secPhoneCount}
-            </span>
-          )}
           <div className="col-md-4">
             <input
               type="email"

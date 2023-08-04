@@ -23,3 +23,5 @@ export const packageDays = [];
 for (let i = 1; i <= 31; i++) {
   packageDays.push(i);
 }
+
+export const EmailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/g;

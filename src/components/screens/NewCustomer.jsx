@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
+import { EmailRegex } from "../../Data/DataList";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
@@ -95,6 +96,8 @@ const NewCustomer = () => {
   const GetEmailOtp = () => {
     if (!emailId) {
       alert("Please Enter Email Id");
+    } else if (!emailId.match(EmailRegex)) {
+      alert("Please Enter Valid Email Id");
     } else {
       const min = 100000;
       const max = 999999;

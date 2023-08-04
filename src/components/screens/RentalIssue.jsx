@@ -14,8 +14,6 @@ const RentalIssue = () => {
   // INPUT VALUES
   const [depositType, setDepositType] = useState("");
 
-  console.log("addDepositeProducts==>", addDepositeProducts);
-
   // DELIVERY INSPECTION ADD ROWS
   const [deliveryRowCont, setDeliveryRowCont] = useState(0);
   const [addDeliveryItems, setAddDeliveryItems] = useState([]);
@@ -312,7 +310,22 @@ const RentalIssue = () => {
                       </tr>
                     );
                   })}
-
+                  {addDepositeProducts.length > 0 && (
+                    <tr>
+                      <td colSpan="2" className="text-end">
+                        Total Deposit Amount Paid
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          value={6}
+                          className="w-100"
+                          disabled
+                        />
+                      </td>
+                      <td colSpan="2" />
+                    </tr>
+                  )}
                   {addDepositItems.length > 0 && (
                     <tr>
                       <td>
@@ -355,15 +368,6 @@ const RentalIssue = () => {
                       </td>
                     </tr>
                   )}
-                  <tr>
-                    <td colSpan="2" className="text-end">
-                      Total Deposit Amount Paid
-                    </td>
-                    <td>
-                      <input type="text" value={6} className="w-100" disabled />
-                    </td>
-                    <td colSpan="2" />
-                  </tr>
                 </tbody>
               </table>
             </div>

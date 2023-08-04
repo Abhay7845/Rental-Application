@@ -10,6 +10,7 @@ const RentalIssue = () => {
   const [addDepositItems, setAddDepositItems] = useState([]);
   const [depositProductId, setDepositProductId] = useState(0);
   const [addDepositeProducts, setAddDepositeProducts] = useState([]);
+  const [depositProductImg, setDepositProductImg] = useState(null);
 
   // INPUT VALUES
   const [depositType, setDepositType] = useState("");
@@ -34,6 +35,17 @@ const RentalIssue = () => {
     setAddDeliveryItems([...addDeliveryItems, deliveryRowCont + 1]);
   };
 
+  const UploadDepositProductImg = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setDepositProductImg(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const UploadDeliveryProductImg = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -51,11 +63,11 @@ const RentalIssue = () => {
     } else {
       setDepositProductId(depositProductId + 1);
       const depositProductsTable = {
-        id: deliveryRowCont,
+        id: depositProductId,
         depositType: depositType,
         refNumbr: "1234",
         depositAmount: "1234",
-        DepositFile: "/////safsrghb",
+        depositFile: depositProductImg,
       };
       setAddDepositeProducts([...addDepositeProducts, depositProductsTable]);
       setAddDepositItems([]);
@@ -77,7 +89,13 @@ const RentalIssue = () => {
     }
   };
 
-  const DeleteRow = (id) => {
+  const DeleteRowDeposit = (id) => {
+    console.log("deleted", id);
+    console.log("addDepositeProducts==>", addDepositeProducts);
+    const updatedData = addDepositeProducts.filter((rowId) => rowId.id !== id);
+    setAddDepositeProducts(updatedData);
+  };
+  const DeleteRowDelivery = (id) => {
     const updatedData = addDeliveryProducts.filter((rowId) => rowId.id !== id);
     setAddDeliveryProducts(updatedData);
   };
@@ -289,7 +307,6 @@ const RentalIssue = () => {
                     <th>Type</th>
                     <th>Ref Number</th>
                     <th>Amount</th>
-                    <th>Upload</th>
                     <th>View</th>
                     <td>Delete</td>
                   </tr>
@@ -303,9 +320,15 @@ const RentalIssue = () => {
                         <td>{item.depositAmount}</td>
                         <td>
                           <img
-                            src={item.DepositFile}
+                            src={item.depositFile}
                             alt="depositAmont"
                             className="imageStyle"
+                          />
+                        </td>
+                        <td className="text-center">
+                          <BsFillTrashFill
+                            className="DeleteRow"
+                            onClick={() => DeleteRowDeposit(item.id)}
                           />
                         </td>
                       </tr>
@@ -356,15 +379,8 @@ const RentalIssue = () => {
                       <td className="d-flex justify-content-center">
                         <input
                           type="file"
-                          onChange={UploadDeliveryProductImg}
+                          onChange={UploadDepositProductImg}
                           style={{ cursor: "pointer" }}
-                        />
-                      </td>
-                      <td>
-                        <img
-                          src={deliveryProductFile}
-                          alt="Preview"
-                          className="imageStyle"
                         />
                       </td>
                       <td className="text-center">
@@ -400,90 +416,88 @@ const RentalIssue = () => {
             )}
           </div>
 
-          {DataList.length > 0 && (
-            <div className="col-12">
-              <h6 className="bookingHeading">Delivery Inspection Product</h6>
-              <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
-                  <thead className="table-dark border-light text-center">
-                    <tr>
-                      <th>Item Code</th>
-                      <th>View</th>
-                      <th>Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {addDeliveryProducts.map((item, i) => {
-                      return (
-                        <tr key={i}>
-                          <td>{item.itemCode}</td>
-                          <td>
-                            <img
-                              src={deliveryProductFile}
-                              alt="Preview"
-                              className="imageStyle"
-                            />
-                          </td>
-                          <td className="text-center">
-                            <BsFillTrashFill
-                              className="DeleteRow"
-                              onClick={() => DeleteRow(item.id)}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-
-                    {addDeliveryItems.length > 0 && (
-                      <tr>
+          <div className="col-12">
+            <h6 className="bookingHeading">Delivery Inspection Product</h6>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light text-center">
+                  <tr>
+                    <th>Item Code</th>
+                    <th>View</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {addDeliveryProducts.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>{item.itemCode}</td>
                         <td>
-                          <input
-                            type="text"
-                            placeholder="Item Code"
-                            className="w-100"
-                            onChange={(e) =>
-                              setDeliveryProductItemCode(e.target.value)
-                            }
-                          />
-                        </td>
-                        <td className="d-flex justify-content-between">
-                          <input
-                            type="file"
-                            onChange={UploadDeliveryProductImg}
+                          <img
+                            src={deliveryProductFile}
+                            alt="Preview"
+                            className="imageStyle"
                           />
                         </td>
                         <td className="text-center">
                           <BsFillTrashFill
                             className="DeleteRow"
-                            onClick={() => setAddDeliveryItems([])}
+                            onClick={() => DeleteRowDelivery(item.id)}
                           />
                         </td>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
-                <div className="d-flex justify-content-end mt-0">
-                  {addDeliveryItems.length > 0 ? (
-                    <button
-                      type="submit"
-                      className="CButton"
-                      onClick={SaveItemsDetails}
-                    >
-                      Save Row
-                    </button>
-                  ) : (
-                    <button
-                      type="submit"
-                      className="CButton"
-                      onClick={AddDeliveryRowsInputs}
-                    >
-                      Add Row
-                    </button>
+                    );
+                  })}
+
+                  {addDeliveryItems.length > 0 && (
+                    <tr>
+                      <td>
+                        <input
+                          type="text"
+                          placeholder="Item Code"
+                          className="w-100"
+                          onChange={(e) =>
+                            setDeliveryProductItemCode(e.target.value)
+                          }
+                        />
+                      </td>
+                      <td className="d-flex justify-content-between">
+                        <input
+                          type="file"
+                          onChange={UploadDeliveryProductImg}
+                        />
+                      </td>
+                      <td className="text-center">
+                        <BsFillTrashFill
+                          className="DeleteRow"
+                          onClick={() => setAddDeliveryItems([])}
+                        />
+                      </td>
+                    </tr>
                   )}
-                </div>
+                </tbody>
+              </table>
+              <div className="d-flex justify-content-end mt-0">
+                {addDeliveryItems.length > 0 ? (
+                  <button
+                    type="submit"
+                    className="CButton"
+                    onClick={SaveItemsDetails}
+                  >
+                    Save Row
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="CButton"
+                    onClick={AddDeliveryRowsInputs}
+                  >
+                    Add Row
+                  </button>
+                )}
               </div>
             </div>
-          )}
+          </div>
           <div className="col-12">
             <h6 className="bookingHeading">
               Print Delivery Inspection Acknowledgement

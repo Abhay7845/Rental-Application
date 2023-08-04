@@ -13,6 +13,18 @@
 .CButton:hover {
   background-color: #025a5a;
 }
+.SendOtpBtn{
+  padding: 7.5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: large;
+    border: none;
+    background-color: #a5e7e7;
+    color: #ffff;
+    border-radius: 3px;
+    font-size: 14px;
+cursor: not-allowed;
+  }
 
 .CancelButton {
   padding: 7.5px;

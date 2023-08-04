@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 
 const NewCustomer = () => {
   const [panFile, setPanFile] = useState(null);
   const [addressProof, setAddressProof] = useState(null);
+  const [secCount, setSecCount] = useState(60);
+  const [otp, setOtp] = useState("");
+  // console.log("secCount==>", secCount);
 
   const UploadPanFile = (event) => {
     const file = event.target.files[0];
@@ -26,30 +29,83 @@ const NewCustomer = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const GetOtp = () => {
+    const min = 100000;
+    const max = 999999;
+    const Otp = Math.floor(Math.random() * (max - min + 1)) + min;
+    setOtp(Otp);
+    setSecCount(60);
+  };
+
+  useEffect(() => {
+    const intervel = setInterval(() => {
+      if (secCount === 0) {
+        clearInterval(intervel);
+      } else {
+        setSecCount(secCount - 1);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(intervel);
+    };
+  }, [secCount]);
   return (
     <div>
       <Navbar />
       <div className="mt-4 mx-2">
+        {otp && <b>OTP -{otp}</b>}
         <h6 className="bookingHeading">New Customer Details</h6>
         <div className="row g-3">
           <div className="col-md-4">
-            <label className="form-label">Customer Name</label>
             <input
               type="type"
               className="form-control"
               placeholder="Customer Name"
             />
           </div>
-          <div className="col-md-4">
-            <label className="form-label">Phone Number</label>
+          <div className="col-md-3">
             <input
               type="type"
               className="form-control"
               placeholder="Phone Number"
             />
           </div>
+          {otp && (
+            <div className="col-md-2">
+              <input
+                type="type"
+                className="form-control"
+                placeholder="Enter OTP"
+              />
+            </div>
+          )}
+          <div className="col-md-3">
+            {!otp ? (
+              <button className="CButton" onClick={GetOtp}>
+                GET OTP
+              </button>
+            ) : (
+              <div className="d-flex justify-content-between">
+                <button className="CButton" onClick={GetOtp}>
+                  Verify OTP
+                </button>
+                <button
+                  className={`${secCount > 0 ? "SendOtpBtn" : "CButton"}`}
+                  disabled={secCount > 0 ? true : false}
+                  onClick={GetOtp}
+                >
+                  RE-SEND
+                </button>
+              </div>
+            )}
+          </div>
+          {secCount > 0 && (
+            <span className="d-flex justify-content-end">
+              Please Resend OTP After Secconds : {secCount}
+            </span>
+          )}
           <div className="col-md-4">
-            <label className="form-label">Email ID</label>
             <input
               type="email"
               className="form-control"
@@ -57,7 +113,6 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-6">
-            <label className="form-label">Address Line 1</label>
             <textarea
               type="type"
               className="form-control"
@@ -65,7 +120,6 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-6">
-            <label className="form-label">Address Line 2</label>
             <textarea
               type="type"
               className="form-control"
@@ -73,11 +127,13 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-4">
-            <label className="form-label">State</label>
-            <input type="type" className="form-control" placeholder="State" />
+            <input
+              type="type"
+              className="form-control"
+              placeholder="Enter State"
+            />
           </div>
           <div className="col-md-4">
-            <label className="form-label">City</label>
             <input type="type" className="form-control" placeholder="City" />
           </div>
           <div className="col-md-4">

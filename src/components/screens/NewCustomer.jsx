@@ -4,9 +4,11 @@ import Navbar from "../common/Navbar";
 const NewCustomer = () => {
   const [panFile, setPanFile] = useState(null);
   const [addressProof, setAddressProof] = useState(null);
-  const [secCount, setSecCount] = useState(60);
-  const [otp, setOtp] = useState("");
-  // console.log("secCount==>", secCount);
+  const [secPhoneCount, setSecPhoneCount] = useState(60);
+  const [phoneOtp, setPhoneOtp] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
+  const [phoneVerified, setPhoneVerified] = useState(false);
 
   const UploadPanFile = (event) => {
     const file = event.target.files[0];
@@ -30,31 +32,47 @@ const NewCustomer = () => {
     }
   };
 
-  const GetOtp = () => {
-    const min = 100000;
-    const max = 999999;
-    const Otp = Math.floor(Math.random() * (max - min + 1)) + min;
-    setOtp(Otp);
-    setSecCount(60);
+  const GetPhoneOtp = () => {
+    if (!phoneNumber) {
+      alert("Please Enter Phone Number");
+    } else if (phoneNumber.length > 10) {
+      alert("Please Enter Valid Number");
+    } else if (phoneNumber.length < 9) {
+      alert("Please Enter Valid Number");
+    } else {
+      const min = 100000;
+      const max = 999999;
+      const OtpPhone = Math.floor(Math.random() * (max - min + 1)) + min;
+      setPhoneOtp(OtpPhone);
+      setSecPhoneCount(60);
+    }
+  };
+  const VerifyPhoneOTP = () => {
+    if (phoneOtp === parseInt(enterPhoneOtp)) {
+      alert("Phone Number Verify Successfully");
+      setPhoneVerified(true);
+    } else {
+      alert("Invalid OTP");
+    }
   };
 
   useEffect(() => {
     const intervel = setInterval(() => {
-      if (secCount === 0) {
+      if (secPhoneCount === 0) {
         clearInterval(intervel);
       } else {
-        setSecCount(secCount - 1);
+        setSecPhoneCount(secPhoneCount - 1);
       }
     }, 1000);
     return () => {
       clearInterval(intervel);
     };
-  }, [secCount]);
+  }, [secPhoneCount]);
   return (
     <div>
       <Navbar />
       <div className="mt-4 mx-2">
-        {otp && <b>OTP -{otp}</b>}
+        {phoneOtp && <b>OTP -{phoneOtp}</b>}
         <h6 className="bookingHeading">New Customer Details</h6>
         <div className="row g-3">
           <div className="col-md-4">
@@ -66,43 +84,48 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-3">
             <input
-              type="type"
+              type="number"
               className="form-control"
               placeholder="Phone Number"
+              value={phoneNumber}
+              maxLength={10}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              disabled={phoneOtp ? true : false}
             />
           </div>
-          {otp && (
+          {phoneOtp && (
             <div className="col-md-2">
               <input
-                type="type"
+                type="number"
                 className="form-control"
                 placeholder="Enter OTP"
+                onChange={(e) => setEnterPhoneOtp(e.target.value)}
               />
             </div>
           )}
           <div className="col-md-3">
-            {!otp ? (
-              <button className="CButton" onClick={GetOtp}>
+            {!phoneOtp ? (
+              <button className="CButton" onClick={GetPhoneOtp}>
                 GET OTP
               </button>
             ) : (
               <div className="d-flex justify-content-between">
-                <button className="CButton" onClick={GetOtp}>
+                <button className="CButton" onClick={VerifyPhoneOTP}>
                   Verify OTP
                 </button>
                 <button
-                  className={`${secCount > 0 ? "SendOtpBtn" : "CButton"}`}
-                  disabled={secCount > 0 ? true : false}
-                  onClick={GetOtp}
+                  className={`${secPhoneCount > 0 ? "SendOtpBtn" : "CButton"}`}
+                  disabled={secPhoneCount > 0 ? true : false}
+                  onClick={GetPhoneOtp}
                 >
                   RE-SEND
                 </button>
               </div>
             )}
           </div>
-          {secCount > 0 && (
-            <span className="d-flex justify-content-end">
-              Please Resend OTP After Secconds : {secCount}
+          {phoneOtp && secPhoneCount > 0 && (
+            <span className="d-flex justify-content-end mt-0">
+              Resend OTP After Secconds : {secPhoneCount}
             </span>
           )}
           <div className="col-md-4">

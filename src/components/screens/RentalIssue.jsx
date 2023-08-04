@@ -11,7 +11,6 @@ const RentalIssue = () => {
   const [depositProductId, setDepositProductId] = useState(0);
   const [addDepositeProducts, setAddDepositeProducts] = useState([]);
   const [depositProductImg, setDepositProductImg] = useState(null);
-
   // INPUT VALUES
   const [depositType, setDepositType] = useState("");
 
@@ -90,8 +89,6 @@ const RentalIssue = () => {
   };
 
   const DeleteRowDeposit = (id) => {
-    console.log("deleted", id);
-    console.log("addDepositeProducts==>", addDepositeProducts);
     const updatedData = addDepositeProducts.filter((rowId) => rowId.id !== id);
     setAddDepositeProducts(updatedData);
   };

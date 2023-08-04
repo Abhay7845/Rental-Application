@@ -93,7 +93,7 @@ const NewCustomer = () => {
               disabled={phoneOtp ? true : false}
             />
           </div>
-          {phoneOtp && (
+          {phoneOtp && !phoneVerified && (
             <div className="col-md-2">
               <input
                 type="number"

@@ -6,6 +6,17 @@ import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
 
 const RentalIssue = () => {
   // DELIVERY INSPECTION ADD ROWS
+  const [depositRowCont, setDepositRowCont] = useState(0);
+  const [addDepositItems, setAddDepositItems] = useState([]);
+  const [depositProductId, setDepositProductId] = useState(0);
+  const [addDepositeProducts, setAddDepositeProducts] = useState([]);
+
+  // INPUT VALUES
+  const [depositType, setDepositType] = useState("");
+
+  console.log("addDepositeProducts==>", addDepositeProducts);
+
+  // DELIVERY INSPECTION ADD ROWS
   const [deliveryRowCont, setDeliveryRowCont] = useState(0);
   const [addDeliveryItems, setAddDeliveryItems] = useState([]);
   const [deliveryProductId, setDeliveryProductId] = useState(0);
@@ -14,6 +25,11 @@ const RentalIssue = () => {
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
   const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
   const [deliveryProductFile, setDeliveryProductImg] = useState(null);
+
+  const AddDepositRowsInputs = () => {
+    setDepositRowCont(depositRowCont + 1);
+    setAddDepositItems([...addDepositItems, depositRowCont + 1]);
+  };
 
   const AddDeliveryRowsInputs = () => {
     setDeliveryRowCont(deliveryRowCont + 1);
@@ -28,6 +44,23 @@ const RentalIssue = () => {
     };
     if (file) {
       reader.readAsDataURL(file);
+    }
+  };
+
+  const SaveDepositItemsDetails = () => {
+    if (!depositType) {
+      alert("Please Enter All Details");
+    } else {
+      setDepositProductId(depositProductId + 1);
+      const depositProductsTable = {
+        id: deliveryRowCont,
+        depositType: depositType,
+        refNumbr: "1234",
+        depositAmount: "1234",
+        DepositFile: "/////safsrghb",
+      };
+      setAddDepositeProducts([...addDepositeProducts, depositProductsTable]);
+      setAddDepositItems([]);
     }
   };
 
@@ -131,7 +164,7 @@ const RentalIssue = () => {
           </div>
           <div className="col-md-12">
             <b>Same Customer Pickup</b>
-            <input class="form-check-input mx-3" type="checkbox" />
+            <input className="form-check-input mx-3" type="checkbox" />
           </div>
           <div className="col-md-3">
             <label className="form-label">Customer Name</label>
@@ -249,81 +282,113 @@ const RentalIssue = () => {
             </div>
           )}
 
-          {DataList.length > 0 && (
-            <div className="col-12">
-              <h6 className="bookingHeading">Deposit Amount Payment Details</h6>
-              <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
-                  <thead className="table-dark border-light">
+          <div className="col-12">
+            <h6 className="bookingHeading">Deposit Amount Payment Details</h6>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light">
+                  <tr>
+                    <th>Type</th>
+                    <th>Ref Number</th>
+                    <th>Amount</th>
+                    <th>Upload</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {addDepositeProducts.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>{item.depositType}</td>
+                        <td>{item.refNumbr}</td>
+                        <td>{item.depositAmount}</td>
+                        <td>
+                          <img
+                            src={item.DepositFile}
+                            alt="depositAmont"
+                            className="imageStyle"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+
+                  {addDepositItems.length > 0 && (
                     <tr>
-                      <th>Type</th>
-                      <th>Ref Number</th>
-                      <th>Amount</th>
-                      <th>Upload</th>
-                      <th>View</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {DataList.map((item, i) => {
-                      return (
-                        <tr key={i}>
-                          <td>
-                            <select className="w-100">
-                              <option>Select Type</option>
-                              <option>Creadit Note</option>
-                              <option>Creadit Card</option>
-                            </select>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              className="w-100"
-                              placeholder="Ref Number"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              className="w-100"
-                              placeholder="Amount"
-                            />
-                          </td>
-                          <td className="d-flex justify-content-center">
-                            <input
-                              type="file"
-                              onChange={UploadDeliveryProductImg}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </td>
-                          <td>
-                            <img
-                              src={deliveryProductFile}
-                              alt="Preview"
-                              className="imageStyle"
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                    <tr>
-                      <td colSpan="2" className="text-end">
-                        Total Deposit Amount Paid
+                      <td>
+                        <select
+                          className="w-100"
+                          onChange={(e) => setDepositType(e.target.value)}
+                        >
+                          <option>Select Type</option>
+                          <option value="creadit1">Creadit1</option>
+                          <option value="creadit2">Creadit2</option>
+                        </select>
                       </td>
                       <td>
                         <input
                           type="text"
-                          value={6}
                           className="w-100"
-                          disabled
+                          placeholder="Ref Number"
                         />
                       </td>
-                      <td colSpan="2" />
+                      <td>
+                        <input
+                          type="text"
+                          className="w-100"
+                          placeholder="Amount"
+                        />
+                      </td>
+                      <td className="d-flex justify-content-center">
+                        <input
+                          type="file"
+                          onChange={UploadDeliveryProductImg}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </td>
+                      <td>
+                        <img
+                          src={deliveryProductFile}
+                          alt="Preview"
+                          className="imageStyle"
+                        />
+                      </td>
                     </tr>
-                  </tbody>
-                </table>
-              </div>
+                  )}
+                  <tr>
+                    <td colSpan="2" className="text-end">
+                      Total Deposit Amount Paid
+                    </td>
+                    <td>
+                      <input type="text" value={6} className="w-100" disabled />
+                    </td>
+                    <td colSpan="2" />
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          )}
+          </div>
+
+          <div className="d-flex justify-content-end mt-0">
+            {addDepositItems.length > 0 ? (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={SaveDepositItemsDetails}
+              >
+                Save Row
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={AddDepositRowsInputs}
+              >
+                Add Row
+              </button>
+            )}
+          </div>
+
           {DataList.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Delivery Inspection Product</h6>
@@ -375,6 +440,8 @@ const RentalIssue = () => {
                             type="file"
                             onChange={UploadDeliveryProductImg}
                           />
+                        </td>
+                        <td className="text-center">
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => setAddDeliveryItems([])}

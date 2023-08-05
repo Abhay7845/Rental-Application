@@ -19,6 +19,9 @@ const NewCustomer = () => {
   const [enterEmailOtp, setEnterEmailOtp] = useState("");
   const [emailId, setEmailId] = useState("");
 
+  // ADRESS PROOF VERIFICATION
+  const [addressProofType, setAddressProofType] = useState("");
+
   const UploadPanFile = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -292,33 +295,42 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-3">
             <label className="form-label">Address Proof ID Type</label>
-            <select className="form-control">
-              <option>Select</option>
-              <option>1</option>
-              <option>2</option>
+            <select
+              className="form-control"
+              onChange={(e) => setAddressProofType(e.target.value)}
+            >
+              <option>Select Type</option>
+              <option value="adhhar">Aadhar Card</option>
+              <option value="drvLincence">Driver Lincence</option>
             </select>
           </div>
-          <div className="col-md-3">
-            <label className="form-label">Address Proof ID No.</label>
-            <input
-              type="number"
-              placeholder="Address Proof ID Number"
-              className="form-control"
-            />
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">Upload Address Proof ID</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={UploadAddressProof}
-            />
-          </div>
+
+          {addressProofType && (
+            <div className="col-md-3">
+              <label className="form-label">Address Proof ID No.</label>
+              <input
+                type="number"
+                placeholder="Address Proof ID Number"
+                className="form-control"
+              />
+            </div>
+          )}
+          {addressProofType && (
+            <div className="col-md-3">
+              <label className="form-label">Upload Address Proof ID</label>
+              <input
+                type="file"
+                className="form-control"
+                onChange={UploadAddressProof}
+              />
+            </div>
+          )}
           <div className="col-md-3 text-center">
             {addressProof && (
               <img src={addressProof} alt="addressProof" height="100px" />
             )}
           </div>
+
           <div className="col-md-12">
             <label className="form-label">RSO Name</label>
             <input

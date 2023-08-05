@@ -368,17 +368,15 @@ const NewBooking = () => {
                           onChange={(e) => setRentalAmount(e.target.value)}
                         />
                       </td>
-                      <td>
+                      <td className="d-flex">
                         <input
                           type="number"
                           disabled
                           placeholder="Deposit Amount"
                           onChange={(e) => setDepositAmount(e.target.value)}
                         />
-                      </td>
-                      <td className="text-center">
                         <BsFillTrashFill
-                          className="DeleteRow"
+                          className="DeleteRow mx-1 mt-2"
                           onClick={() => setAddItemDetails([])}
                         />
                       </td>
@@ -420,7 +418,6 @@ const NewBooking = () => {
                     <th>Reference_No.</th>
                     <th>Amount</th>
                     <th>View</th>
-                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -430,14 +427,12 @@ const NewBooking = () => {
                         <td>{item.depositType}</td>
                         <td>{item.refNumber}</td>
                         <td>{item.depositAmount}</td>
-                        <td className="text-center">
+                        <td className="d-flex justify-content-between">
                           <img
                             src={item.depositFile}
                             alt="depositFile"
                             className="imageStyle"
                           />
-                        </td>
-                        <td className="text-center">
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => DeleteRowDepositAmount(item.id)}
@@ -494,12 +489,10 @@ const NewBooking = () => {
                               onChange={(e) => setDepositAmont(e.target.value)}
                             />
                           </th>
-                          <th>
+                          <th className="d-flex justify-content-between">
                             <input type="file" onChange={UploadDepositeFile} />
-                          </th>
-                          <th className="text-center">
                             <BsFillTrashFill
-                              className="DeleteRow"
+                              className="DeleteRow mt-2"
                               onClick={() => setAddDipositRows([])}
                             />
                           </th>

@@ -20,6 +20,7 @@ const NewCustomer = () => {
   const [emailId, setEmailId] = useState("");
 
   // ADRESS PROOF VERIFICATION
+  const [panNumber, setPanNumber] = useState("");
   const [addressProofType, setAddressProofType] = useState("");
 
   const UploadPanFile = (event) => {
@@ -281,6 +282,8 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="xxxxx-xxxx-x"
               maxLength={10}
+              value={panNumber.toUpperCase()}
+              onChange={(e) => setPanNumber(e.target.value)}
             />
           </div>
           <div className="col-md-4">
@@ -294,7 +297,7 @@ const NewCustomer = () => {
           <div className="col-md-4 text-center">
             {panFile && <img src={panFile} alt="panfile" height="100px" />}
           </div>
-          <div className="col-md-3">
+          <div className="col-md-4">
             <label className="form-label">Address Proof ID Type</label>
             <select
               className="form-control"
@@ -307,7 +310,7 @@ const NewCustomer = () => {
           </div>
 
           {addressProofType && (
-            <div className="col-md-3">
+            <div className="col-md-2">
               <label className="form-label">ID Number</label>
               <input
                 type={addressProofType === "adhaar" ? "number" : "text"}

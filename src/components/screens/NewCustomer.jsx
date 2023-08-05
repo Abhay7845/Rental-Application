@@ -364,7 +364,7 @@ const NewCustomer = () => {
               className="form-control"
               onChange={(e) => setAddressProofType(e.target.value)}
             >
-              <option>Select Type</option>
+              <option value="">Select Type</option>
               <option value="adhaar">Aadhar Card</option>
               <option value="drvLincence">Driver Lincence</option>
             </select>
@@ -403,7 +403,7 @@ const NewCustomer = () => {
             )}
           </div>
 
-          <div className="col-md-12">
+          <div className="col-md-4">
             <label className="form-label">RSO Name</label>
             <input
               type="text"

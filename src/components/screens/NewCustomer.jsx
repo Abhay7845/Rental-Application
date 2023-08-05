@@ -19,6 +19,14 @@ const NewCustomer = () => {
   const [enterEmailOtp, setEnterEmailOtp] = useState("");
   const [emailId, setEmailId] = useState("");
 
+  // CUSTOMER DETAILS INPUTS VALUES
+  const [customerName, setCustomerName] = useState("");
+  const [addresLine1, setAddresLine1] = useState("");
+  const [addresLine2, setAddresLine2] = useState("");
+  const [stateName, setStateName] = useState("");
+  const [cityName, setCityName] = useState("");
+  const [pinCode, setPinCode] = useState("");
+  const [rsoName, setRsoName] = useState("");
   // ADRESS PROOF VERIFICATION
   const [panNumber, setPanNumber] = useState("");
   const [addressProofType, setAddressProofType] = useState("");
@@ -120,6 +128,9 @@ const NewCustomer = () => {
     }
   };
 
+  const SaveCustomerDetails = () => {
+    console.log("SaveCustomerDetails");
+  };
   return (
     <div>
       <Navbar />
@@ -135,6 +146,7 @@ const NewCustomer = () => {
               type="type"
               className="form-control"
               placeholder="Customer Name"
+              onChange={(e) => setCustomerName(e.target.value)}
             />
           </div>
           <div className="col-md-3">
@@ -250,6 +262,7 @@ const NewCustomer = () => {
               type="type"
               className="form-control"
               placeholder="Address Line 1"
+              onChange={(e) => setAddresLine1(e.target.value)}
             />
           </div>
           <div className="col-md-6">
@@ -257,19 +270,31 @@ const NewCustomer = () => {
               type="type"
               className="form-control"
               placeholder="Address Line 2"
+              onChange={(e) => setAddresLine2(e.target.value)}
             />
           </div>
           <div className="col-md-4">
-            <input type="text" className="form-control" placeholder="State" />
-          </div>
-          <div className="col-md-4">
-            <input type="text" className="form-control" placeholder="City" />
+            <input
+              type="text"
+              className="form-control"
+              placeholder="State"
+              onChange={(e) => setStateName(e.target.value)}
+            />
           </div>
           <div className="col-md-4">
             <input
-              type="type"
+              type="text"
+              className="form-control"
+              placeholder="City"
+              onChange={(e) => setCityName(e.target.value)}
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="number"
               className="form-control"
               placeholder="Pin Code"
+              onChange={(e) => setPinCode(e.target.value)}
             />
           </div>
           <div className="col-12">
@@ -343,13 +368,16 @@ const NewCustomer = () => {
           <div className="col-md-12">
             <label className="form-label">RSO Name</label>
             <input
-              type="type"
+              type="text"
               className="form-control"
               placeholder="RSO Name"
+              onChange={(e) => setRsoName(e.target.value)}
             />
           </div>
           <div className="col-12 d-flex justify-content-end mb-4">
-            <button className="CButton">Save</button>
+            <button className="CButton" onClick={SaveCustomerDetails}>
+              Save
+            </button>
           </div>
         </div>
       </div>

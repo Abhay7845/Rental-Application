@@ -536,6 +536,14 @@ const NewBooking = () => {
               <label className="form-check-label mx-1">NO</label>
             </div>
           </div>
+          <div className="col-12 mb-0">
+            <h6 className="bookingHeading d-flex justify-content-between">
+              Print Booking Acknowledgement & Upload
+              <span className="printButtonStyle" onClick={PrintAcknowledgement}>
+                Print
+              </span>
+            </h6>
+          </div>
           <div className="col-md-6">
             <input type="file" className="form-control" />
           </div>
@@ -545,18 +553,6 @@ const NewBooking = () => {
               className="form-control"
               placeholder="Cashier Name"
             />
-          </div>
-          <div className="col-md-12">
-            <h6 className="bookingHeading">Print Booking Acknowledgement</h6>
-          </div>
-          <div className="d-flex justify-content-end mb-4">
-            <button
-              type="button"
-              className="CButton mx-2"
-              onClick={PrintAcknowledgement}
-            >
-              Print
-            </button>
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton mx-2">

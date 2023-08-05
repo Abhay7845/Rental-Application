@@ -76,3 +76,13 @@ tr:hover .DeleteRow {
   border-radius: 2px;
   cursor: not-allowed;
 }
+
+.printButtonStyle{
+  font-style: italic;
+  margin-right: 6px;
+}
+
+.printButtonStyle:hover{
+  color: #ffff00;
+  cursor: pointer;
+}

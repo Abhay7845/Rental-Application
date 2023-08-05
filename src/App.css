@@ -48,8 +48,12 @@ cursor: not-allowed;
   margin-top: 3px;
   margin-right: 4px;
   cursor: pointer;
+  opacity: -1;
 }
 
+tr:hover .DeleteRow {
+  opacity: 1;
+}
 
 
 .imageStyle {

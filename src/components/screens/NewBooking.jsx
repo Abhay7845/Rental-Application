@@ -119,7 +119,7 @@ const NewBooking = () => {
     const doc = new jsPDF({
       orientation: "landscape",
     });
-    doc.text("Items Details", 10, 10);
+    doc.text("Items Details", 15, 10);
     doc.autoTable({ html: "#item-details-table" });
     doc.autoTable({ html: "#booking-payment-details" });
     doc.save("BookingDetails.pdf");
@@ -287,7 +287,6 @@ const NewBooking = () => {
                     <th>Product_Value</th>
                     <th>Rental_Amount</th>
                     <th>Deposit_Amount</th>
-                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -300,8 +299,8 @@ const NewBooking = () => {
                         <td>{item.grossWeight}</td>
                         <td>{item.productValue}</td>
                         <td>{item.rentalAmount}</td>
-                        <td>{item.depositAmont}</td>
-                        <td className="text-center">
+                        <td className="d-flex justify-content-between">
+                          {item.depositAmont} 12
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => DeleteRowsItemDetails(item.id)}
@@ -318,7 +317,6 @@ const NewBooking = () => {
                       <th>234</th>
                       <th>124</th>
                       <th>678</th>
-                      <th colSpan="1" />
                     </tr>
                   )}
                   {addItemDetails.length > 0 && (

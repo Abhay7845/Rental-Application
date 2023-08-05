@@ -35,7 +35,6 @@ const NewBooking = () => {
   const [depositFile, setDepositFile] = useState("");
   // DEPOSIT AMOUNT DETAILS TABLE
   const [depositAmountTableRow, setDepositAmountTableRow] = useState([]);
-  console.log("depositAmountTableRow==>", depositAmountTableRow);
 
   // ITEMS DETAILS ADD REOWS
   const AddRowTableItemDetails = () => {

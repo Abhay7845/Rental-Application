@@ -196,7 +196,7 @@ const NewCustomer = () => {
             <input
               type="email"
               className="form-control"
-              placeholder="Enter Email ID"
+              placeholder="Email ID"
               value={emailId}
               onChange={(e) => setEmailId(e.target.value)}
               disabled={emailOtp ? true : false}

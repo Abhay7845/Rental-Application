@@ -3,6 +3,8 @@ import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
 import { packageDays } from "../../Data/DataList";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 // <img src={imageUrl} alt="Preview" height="100px" width="200px" />
 
 const NewBooking = () => {
@@ -111,6 +113,17 @@ const NewBooking = () => {
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("l");
 
+  // PRINT PrintAcknowledgement FUNCTION
+
+  const PrintAcknowledgement = async () => {
+    const doc = new jsPDF({
+      orientation: "landscape",
+    });
+    doc.text("Items Details", 10, 10);
+    doc.autoTable({ html: "#item-details-table" });
+    doc.autoTable({ html: "#booking-payment-details" });
+    doc.save("BookingDetails.pdf");
+  };
   return (
     <div>
       <Navbar />
@@ -261,7 +274,10 @@ const NewBooking = () => {
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
             <div className="table-responsive">
-              <table className="table table-bordered table-hover border-dark">
+              <table
+                id="item-details-table"
+                className="table table-bordered table-hover border-dark"
+              >
                 <thead className="table-dark border-light">
                   <tr>
                     <th>Item Code</th>
@@ -396,7 +412,10 @@ const NewBooking = () => {
           <div className="col-12">
             <h6 className="bookingHeading">Booking Amount Payment Details</h6>
             <div className="table-responsive">
-              <table className="table table-bordered table-hover border-dark">
+              <table
+                id="booking-payment-details"
+                className="table table-bordered table-hover border-dark"
+              >
                 <thead className="table-dark border-light">
                   <tr>
                     <th>Type</th>
@@ -547,7 +566,11 @@ const NewBooking = () => {
             <h6 className="bookingHeading">Print Booking Acknowledgement</h6>
           </div>
           <div className="d-flex justify-content-end mb-4">
-            <button type="button" className="CButton mx-2">
+            <button
+              type="button"
+              className="CButton mx-2"
+              onClick={PrintAcknowledgement}
+            >
               Print
             </button>
           </div>

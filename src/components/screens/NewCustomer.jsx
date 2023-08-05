@@ -163,6 +163,8 @@ const NewCustomer = () => {
       }
     } else if (!addressIDNumber.match(driverRegex)) {
       alert("Invalid Driving Licence Number");
+    } else {
+      alert("Go For Registration");
     }
   };
   return (

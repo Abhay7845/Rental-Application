@@ -417,7 +417,7 @@ const NewBooking = () => {
                     <th>Type</th>
                     <th>Reference_No.</th>
                     <th>Amount</th>
-                    <th>View</th>
+                    <th>Product_Image</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -447,7 +447,7 @@ const NewBooking = () => {
                         Total Deposit Amount Paid
                       </th>
                       <th>12</th>
-                      <th colSpan="2" />
+                      <th colSpan="1" />
                     </tr>
                   )}
                   {addDipositRows.length > 0 &&

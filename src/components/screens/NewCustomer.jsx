@@ -152,7 +152,7 @@ const NewCustomer = () => {
       !addressFile ||
       !rsoName
     ) {
-      alert("Please Fill All Details");
+      alert("Please Fill All Form Details");
     } else if (phoneVerified === false || emailVerified === false) {
       alert("Please Complete OTP Verification Phone & Email");
     } else if (!panNumber.match(panRegex)) {

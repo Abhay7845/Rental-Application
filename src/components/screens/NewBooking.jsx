@@ -443,18 +443,11 @@ const NewBooking = () => {
                   })}
                   {depositAmountTableRow.length > 0 && (
                     <tr>
-                      <td colSpan="2" className="text-end">
+                      <th colSpan="2" className="text-end">
                         Total Deposit Amount Paid
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          value={6}
-                          className="w-100"
-                          disabled
-                        />
-                      </td>
-                      <td colSpan="2" />
+                      </th>
+                      <th>12</th>
+                      <th colSpan="2" />
                     </tr>
                   )}
                   {addDipositRows.length > 0 &&

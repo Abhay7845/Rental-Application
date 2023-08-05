@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 import "../../Style/Home.css";
 import axios from "axios";
+import { BsFillXCircleFill, BsFillCheckCircleFill } from "react-icons/bs";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
@@ -92,7 +93,10 @@ const Home = () => {
                       <td>{item.website}</td>
                       <td>{item.address.city}</td>
                       <td>{item.address.city}</td>
-                      <td>{item.address.city}</td>
+                      <td className="text-center">
+                        <BsFillXCircleFill color="red" className="mx-1" />
+                        <BsFillCheckCircleFill color="green" className="mx-1" />
+                      </td>
                     </tr>
                   );
                 })}

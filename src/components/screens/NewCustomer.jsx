@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import { EmailRegex } from "../../Data/DataList";
+import {
+  EmailRegex,
+  adharRegex,
+  driverRegex,
+  panRegex,
+} from "../../Data/DataList";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
   const [panFile, setPanFile] = useState(null);
-  const [addressProof, setAddressProof] = useState(null);
+  const [addressFile, setAddressFile] = useState(null);
   const [secPhoneCount, setSecPhoneCount] = useState(60);
   const [phoneOtp, setPhoneOtp] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -26,6 +31,8 @@ const NewCustomer = () => {
   const [stateName, setStateName] = useState("");
   const [cityName, setCityName] = useState("");
   const [pinCode, setPinCode] = useState("");
+  const [addressIDNumber, setAddressIDNumber] = useState("");
+
   const [rsoName, setRsoName] = useState("");
   // ADRESS PROOF VERIFICATION
   const [panNumber, setPanNumber] = useState("");
@@ -46,7 +53,7 @@ const NewCustomer = () => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setAddressProof(reader.result);
+      setAddressFile(reader.result);
     };
     if (file) {
       reader.readAsDataURL(file);
@@ -129,7 +136,34 @@ const NewCustomer = () => {
   };
 
   const SaveCustomerDetails = () => {
-    console.log("SaveCustomerDetails");
+    if (
+      !customerName ||
+      !phoneNumber ||
+      !emailId ||
+      !addresLine1 ||
+      !addresLine2 ||
+      !stateName ||
+      !cityName ||
+      !pinCode ||
+      !panNumber ||
+      !panFile ||
+      !addressProofType ||
+      !addressIDNumber ||
+      !addressFile ||
+      !rsoName
+    ) {
+      alert("Please Fill All Details");
+    } else if (phoneVerified === false || emailVerified === false) {
+      alert("Please Complete OTP Verification Phone & Email");
+    } else if (!panNumber.match(panRegex)) {
+      alert("Invalid PAN Number");
+    } else if (addressProofType === "adhaar") {
+      if (!addressIDNumber.match(adharRegex) || addressIDNumber.length > 12) {
+        alert("Invalid Adhar Number");
+      }
+    } else if (!addressIDNumber.match(driverRegex)) {
+      alert("Invalid Driving Licence Number");
+    }
   };
   return (
     <div>
@@ -345,7 +379,9 @@ const NewCustomer = () => {
                     : "xxxx-xxxx-xxxx-xxx"
                 }
                 className="form-control"
+                value={addressIDNumber.toLocaleUpperCase()}
                 maxLength={addressProofType === "adhaar" ? 12 : 15}
+                onChange={(e) => setAddressIDNumber(e.target.value)}
               />
             </div>
           )}
@@ -360,8 +396,8 @@ const NewCustomer = () => {
             </div>
           )}
           <div className="col-md-3 text-center">
-            {addressProof && (
-              <img src={addressProof} alt="addressProof" height="100px" />
+            {addressFile && (
+              <img src={addressFile} alt="addressFile" height="100px" />
             )}
           </div>
 

@@ -25,3 +25,6 @@ for (let i = 1; i <= 31; i++) {
 }
 
 export const EmailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/g;
+export const adharRegex =
+  /([0-9]{4}[0-9]{4}[0-9]{4}$)|([0-9]{4}\s[0-9]{4}\s[0-9]{4}$)|([0-9]{4}-[0-9]{4}-[0-9]{4}$)/g;
+export const panRegex = /[A-Z]{5}[0-9]{4}[A-Z]{1}/g;

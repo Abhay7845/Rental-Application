@@ -279,7 +279,8 @@ const NewCustomer = () => {
             <input
               type="type"
               className="form-control"
-              placeholder="PAN Number"
+              placeholder="xxxxx-xxxx-x"
+              maxLength={10}
             />
           </div>
           <div className="col-md-4">
@@ -309,13 +310,14 @@ const NewCustomer = () => {
             <div className="col-md-3">
               <label className="form-label">ID Number</label>
               <input
-                type="text"
+                type={addressProofType === "adhaar" ? "number" : "text"}
                 placeholder={
                   addressProofType === "adhaar"
                     ? "xxxx-xxxx-xxxx"
                     : "xxxx-xxxx-xxxx-xxx"
                 }
                 className="form-control"
+                maxLength={addressProofType === "adhaar" ? 12 : 15}
               />
             </div>
           )}

@@ -237,7 +237,7 @@ const NewBooking = () => {
             <label className="form-label">With in Catchment?</label>
             <div className="mx-3">
               <input
-                className="form-check-input"
+                className="form-check-input border-dark"
                 type="radio"
                 name="catchment"
                 defaultChecked
@@ -246,7 +246,7 @@ const NewBooking = () => {
             </div>
             <div>
               <input
-                className="form-check-input"
+                className="form-check-input border-dark"
                 type="radio"
                 name="catchment"
                 defaultChecked
@@ -519,7 +519,7 @@ const NewBooking = () => {
             <label className="form-label">Terms & Conditions Agree</label>
             <div className="mx-3">
               <input
-                className="form-check-input"
+                className="form-check-input border-dark"
                 type="radio"
                 name="t&c"
                 defaultChecked
@@ -528,7 +528,7 @@ const NewBooking = () => {
             </div>
             <div>
               <input
-                className="form-check-input"
+                className="form-check-input border-dark"
                 type="radio"
                 name="t&c"
                 defaultChecked

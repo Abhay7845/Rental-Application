@@ -177,7 +177,10 @@ const RentalReturn = () => {
           </div>
           <div className="col-md-12">
             <b>Same Customer Pickup</b>
-            <input className="form-check-input mx-3" type="checkbox" />
+            <input
+              className="form-check-input mx-3 border-dark"
+              type="checkbox"
+            />
           </div>
           <div className="col-md-3">
             <label className="form-label">Customer Name</label>
@@ -505,7 +508,7 @@ const RentalReturn = () => {
               <label className="form-label">Booking Ref No.</label>
               <div className="mx-3">
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-dark"
                   type="radio"
                   name="t&c"
                   defaultChecked
@@ -514,7 +517,7 @@ const RentalReturn = () => {
               </div>
               <div>
                 <input
-                  className="form-check-input"
+                  className="form-check-input border-dark"
                   type="radio"
                   name="t&c"
                   defaultChecked

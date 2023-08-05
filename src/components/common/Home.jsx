@@ -81,7 +81,7 @@ const Home = () => {
                     <tr key={i}>
                       <td className="text-center border-dark">
                         <input
-                          className="form-check-input"
+                          className="form-check-input border-dark"
                           type="radio"
                           name="select"
                           onClick={() => OnSelectRow(item)}

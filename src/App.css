@@ -13,19 +13,31 @@
 .CButton:hover {
   background-color: #025a5a;
 }
-.SendOtpBtn{
+.CDisabled {
   padding: 7.5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: large;
-    border: none;
-    background-color: #a5e7e7;
-    color: #ffff;
-    border-radius: 3px;
-    font-size: 14px;
-cursor: not-allowed;
-  }
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: large;
+  border: none;
+  background-color: #5ea8a8;
+  color: #ffff;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: not-allowed;
+}
 
+.CnDisabled {
+  padding: 7.5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: large;
+  border: none;
+  background-color: #be3838a5;
+  color: #ffff;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: not-allowed;
+}
 .CancelButton {
   padding: 7.5px;
   padding-left: 20px;
@@ -54,7 +66,6 @@ tr:hover .DeleteRow {
   opacity: 1;
 }
 
-
 .imageStyle {
   width: 20px;
   height: 20px;
@@ -68,7 +79,7 @@ tr:hover .DeleteRow {
   right: 50%;
 }
 
-.phoneVeryfiedStyle{
+.phoneVeryfiedStyle {
   background-color: #057805bf;
   padding: 6px;
   text-align: center;
@@ -77,12 +88,12 @@ tr:hover .DeleteRow {
   cursor: not-allowed;
 }
 
-.printButtonStyle{
+.printButtonStyle {
   font-style: italic;
   margin-right: 6px;
 }
 
-.printButtonStyle:hover{
+.printButtonStyle:hover {
   color: #ffff00;
   cursor: pointer;
 }

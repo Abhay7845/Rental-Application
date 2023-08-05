@@ -7,7 +7,8 @@ const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log("loading==>", loading);
+  const [btn, setBtn] = useState(false);
+  const [selecttedProduct, setSelecttedProduct] = useState({});
 
   const GetDetails = () => {
     setLoading(true);
@@ -21,6 +22,14 @@ const Home = () => {
       alert("Please Enter Phone or Refrence Number");
     }
     setLoading(false);
+  };
+
+  const OnSelectRow = (data) => {
+    setBtn(true);
+    setSelecttedProduct(data);
+  };
+  const RetunProducts = () => {
+    console.log("selecttedProduct", selecttedProduct);
   };
 
   return (
@@ -73,7 +82,8 @@ const Home = () => {
                         <input
                           className="form-check-input"
                           type="radio"
-                          value=""
+                          name="select"
+                          onClick={() => OnSelectRow(item)}
                         />
                       </td>
                       <td>{item.name}</td>
@@ -90,14 +100,27 @@ const Home = () => {
             </table>
           </div>
           <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
-            <button type="button" className="CancelButton">
-              Cancellation
+            <button
+              type="button"
+              className={`${btn ? "CancelButton" : "CnDisabled"}`}
+              disabled={btn ? false : true}
+            >
+              Cancel
             </button>
-            <button type="button" className="CButton mx-2">
+            <button
+              type="button"
+              className={`${btn ? "CButton mx-2" : "CDisabled mx-2"}`}
+              disabled={btn ? false : true}
+            >
               Rental Issue
             </button>
-            <button type="button" className="CButton">
-              Rental Rental
+            <button
+              type="button"
+              className={`${btn ? "CButton" : "CDisabled"}`}
+              disabled={btn ? false : true}
+              onClick={RetunProducts}
+            >
+              Rental Rerutn
             </button>
           </div>
         </div>

@@ -300,17 +300,21 @@ const NewCustomer = () => {
               onChange={(e) => setAddressProofType(e.target.value)}
             >
               <option>Select Type</option>
-              <option value="adhhar">Aadhar Card</option>
+              <option value="adhaar">Aadhar Card</option>
               <option value="drvLincence">Driver Lincence</option>
             </select>
           </div>
 
           {addressProofType && (
             <div className="col-md-3">
-              <label className="form-label">Address Proof ID No.</label>
+              <label className="form-label">ID Number</label>
               <input
-                type="number"
-                placeholder="Address Proof ID Number"
+                type="text"
+                placeholder={
+                  addressProofType === "adhaar"
+                    ? "xxxx-xxxx-xxxx"
+                    : "xxxx-xxxx-xxxx-xxx"
+                }
                 className="form-control"
               />
             </div>

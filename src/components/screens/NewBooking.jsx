@@ -267,7 +267,7 @@ const NewBooking = () => {
                     <th>Item Code</th>
                     <th>Lot No.</th>
                     <th>CFA Code</th>
-                    <th>Gross Weight</th>
+                    <th>Gross_Weight</th>
                     <th>Product_Value</th>
                     <th>Rental_Amount</th>
                     <th>Deposit_Amount</th>
@@ -400,7 +400,7 @@ const NewBooking = () => {
                 <thead className="table-dark border-light">
                   <tr>
                     <th>Type</th>
-                    <th>Reference Number</th>
+                    <th>Reference_No.</th>
                     <th>Amount</th>
                     <th>View</th>
                     <th>Delete</th>

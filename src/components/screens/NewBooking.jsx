@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
-import { packageDays } from "../../Data/DataList";
+import { packageDays, phonePan } from "../../Data/DataList";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-// <img src={imageUrl} alt="Preview" height="100px" width="200px" />
+import axios from "axios";
+import { HOST_URL } from "../../API/HostURL";
 
 const NewBooking = () => {
+  const [phonePanValue, setPhonePanValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [existedUserData, setExistedUserData] = useState({});
+  console.log("existedUserData==>", existedUserData);
+  console.log("loading==>", loading);
+
   const [itemDetailsId, setItemDetailsId] = useState(0);
 
   // ITEMS DETAILS ADD ROWS
@@ -47,6 +54,32 @@ const NewBooking = () => {
   const AddRowTableDepositAmount = () => {
     setDepositRowCont(depositRowCont + 1);
     setAddDipositRows([...addDipositRows, itemRowCont + 1]);
+  };
+
+  // SEARCH ALLREDY EXISTING USER
+  const paramType = !phonePanValue
+    ? ""
+    : phonePanValue[0].match(phonePan)
+    ? "pancard"
+    : "mobileNo";
+
+  const FetchUserDetails = () => {
+    setLoading(true);
+    axios
+      .get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setExistedUserData(response.data.value);
+        } else if (response.data.code === "1001") {
+          alert("Data Not Found");
+        }
+        setLoading(false);
+      })
+      .then((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
   };
 
   // SAVE ITEM DETAILS
@@ -140,10 +173,20 @@ const NewBooking = () => {
               type="type"
               className="form-control"
               placeholder="Search By Phone or PAN"
+              value={phonePanValue.toUpperCase()}
+              maxLength={10}
+              onChange={(e) => setPhonePanValue(e.target.value)}
             />
           </div>
           <div className="col-md-1 d-flex justify-content-end">
-            <button type="button" className="CButton">
+            <button
+              type="button"
+              className={`${
+                phonePanValue.length < 10 ? "CDisabled" : "CButton"
+              }`}
+              disabled={phonePanValue.length < 10 ? true : false}
+              onClick={FetchUserDetails}
+            >
               Search
             </button>
           </div>
@@ -156,6 +199,10 @@ const NewBooking = () => {
               type="text"
               className="form-control"
               placeholder="Customer Name"
+              value={
+                existedUserData.customerName ? existedUserData.customerName : ""
+              }
+              disabled={existedUserData.customerName ? true : false}
             />
           </div>
           <div className="col-md-4">
@@ -164,11 +211,19 @@ const NewBooking = () => {
               type="number"
               className="form-control"
               placeholder="Phone Number"
+              value={existedUserData.mobileNo ? existedUserData.mobileNo : ""}
+              disabled={existedUserData.mobileNo ? true : false}
             />
           </div>
           <div className="col-md-4">
             <label className="form-label">Email</label>
-            <input type="email" className="form-control" placeholder="Email" />
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Email"
+              value={existedUserData.emailId ? existedUserData.emailId : ""}
+              disabled={existedUserData.emailId ? true : false}
+            />
           </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Address</h6>
@@ -179,6 +234,12 @@ const NewBooking = () => {
               type="text"
               className="form-control"
               placeholder="Address Line-1"
+              value={
+                existedUserData.customerAddress1
+                  ? existedUserData.customerAddress1
+                  : ""
+              }
+              disabled={existedUserData.customerAddress1 ? true : false}
             />
           </div>
           <div className="col-md-6">
@@ -187,6 +248,12 @@ const NewBooking = () => {
               type="text"
               className="form-control"
               placeholder="Address Line-2"
+              value={
+                existedUserData.customerAddress2
+                  ? existedUserData.customerAddress2
+                  : ""
+              }
+              disabled={existedUserData.customerAddress2 ? true : false}
             />
           </div>
           <div className="col-md-4">

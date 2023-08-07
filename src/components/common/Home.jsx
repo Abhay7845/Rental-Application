@@ -19,14 +19,20 @@ const Home = () => {
     ? "pancard"
     : "mobileNo";
 
+  console.log("paramType==>", paramType);
+
   const GetDetails = () => {
     setLoading(true);
     axios
       .get(`${HOST_URL}/rental/customer/details/${paramType}/${phoneRefrence}`)
       .then((res) => res)
       .then((response) => {
+        console.log("respo==>", response.data);
         if ((response.data.code = "1000")) {
           setProductData(response.data.value);
+        }
+        if ((response.data.code = "1001")) {
+          alert("Data Not Found");
         }
         setLoading(false);
       })
@@ -144,7 +150,7 @@ const Home = () => {
               disabled={btn ? false : true}
               onClick={RetunProducts}
             >
-              Rental Rerutn
+              Rental Return
             </button>
           </div>
         </div>

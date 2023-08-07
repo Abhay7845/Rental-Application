@@ -6,6 +6,8 @@ import image from "../Asset/Img/Tanishq_Logo1.png";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import ShowError from "../Schema/ShowEroor";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { HOST_URL } from "../API/HostURL";
 
 const Login = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -14,9 +16,21 @@ const Login = (props) => {
   const navigate = useNavigate();
   const authToken = "cbsadfciqouqasdckadscadschevf";
   const onLogin = (payload) => {
-    localStorage.setItem("token", authToken);
-    setLoading(false);
-    navigate("/home");
+    setLoading(true);
+    axios
+      .post(`${HOST_URL}/rental/login/portal`, payload)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          localStorage.setItem("token", authToken);
+          navigate("/home");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
   };
 
   const togglePassword = () => {

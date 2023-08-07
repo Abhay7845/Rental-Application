@@ -182,7 +182,7 @@ const NewCustomer = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            alert("User has been Registred");
+            alert("Your Account has been Created Successfully");
           }
           setLoading(false);
         })

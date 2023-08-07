@@ -262,7 +262,15 @@ const NewBooking = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">City</label>
-            <input type="text" className="form-control" placeholder="City" />
+            <input
+              type="text"
+              className="form-control"
+              placeholder="City"
+              value={
+                existedUserData.customerCity ? existedUserData.customerCity : ""
+              }
+              disabled={existedUserData.customerCity ? true : false}
+            />
           </div>
           <div className="col-md-4">
             <label className="form-label">Pin Code</label>
@@ -270,12 +278,18 @@ const NewBooking = () => {
               type="number"
               className="form-control"
               placeholder="Pin Code"
+              value={
+                existedUserData.customerCityPincode
+                  ? existedUserData.customerCityPincode
+                  : ""
+              }
+              disabled={existedUserData.customerCityPincode ? true : false}
             />
           </div>
           <div className="col-12">
             <h6 className="bookingHeading">Customer Address</h6>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <label className="form-label">Addeess ID Proof Type</label>
             <select className="form-control">
               <option>Select Type</option>
@@ -283,13 +297,19 @@ const NewBooking = () => {
               <option value="2">2</option>
             </select>
           </div>
-          <div className="col-md-6">
-            <label className="form-label">Customer Type</label>
-            <select className="form-control">
-              <option>Select Type</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
+          <div className="col-md-4">
+            <label className="form-label">ID Number</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="ID Number"
+              value={
+                existedUserData.addressProofIdNo
+                  ? existedUserData.addressProofIdNo
+                  : ""
+              }
+              disabled={existedUserData.addressProofIdNo ? true : false}
+            />
           </div>
           <div className="col-md-4 d-flex justify-content-center">
             <h5>Image will come from DB</h5>

@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import "../../Style/Home.css";
 import axios from "axios";
 import { BsFillXCircleFill, BsFillCheckCircleFill } from "react-icons/bs";
-import { phonePan } from "../../Data/DataList";
+import { DataList, phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 
 const Home = () => {
@@ -78,7 +78,7 @@ const Home = () => {
           </button>
         </div>
       </div>
-      {productData.length > 0 && (
+      {productData.custId && (
         <div>
           <h4 className="text-center my-3">Table Details</h4>
           <div className="table-responsive mx-2">
@@ -96,7 +96,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                {productData.map((item, i) => {
+                {DataList.map((item, i) => {
                   return (
                     <tr key={i}>
                       <td className="text-center border-dark">

@@ -360,8 +360,13 @@ const NewBooking = () => {
               onChange={(e) => setCustonerIdNo(e.target.value)}
             />
           </div>
-          <div className="col-md-4 d-flex justify-content-center border">
-            <h5>Image will come from DB</h5>
+          <div className="col-md-4 d-flex justify-content-center">
+            <img
+              src={existedUserData.panCardNoFileName}
+              alt="PAN.png"
+              width="170"
+              height="95"
+            />
           </div>
           <div className="col-12 d-flex">
             <label className="form-label">With in Catchment?</label>

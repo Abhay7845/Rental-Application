@@ -9,13 +9,24 @@ import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 
-const NewBooking = () => {
+const NewBooking = (props) => {
+  const { showAlert } = props;
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
   console.log("existedUserData==>", existedUserData);
+  console.log("props==>", props);
 
   const [itemDetailsId, setItemDetailsId] = useState(0);
+
+  // NEW BOOKING USER INOPUTS VALUES
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerAddress1, setCustomerAddress1] = useState("");
+  const [customerAddress2, setCustomerAddress2] = useState("");
+  const [customerCity, setCustomerCity] = useState("");
+  const [customerPinCode, setCustomerPinCode] = useState("");
 
   // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
@@ -72,7 +83,8 @@ const NewBooking = () => {
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
         } else if (response.data.code === "1001") {
-          alert("Data Not Found");
+          showAlert(response.data.value, "danger");
+          setExistedUserData({});
         }
         setLoading(false);
       })
@@ -201,9 +213,12 @@ const NewBooking = () => {
               className="form-control"
               placeholder="Customer Name"
               value={
-                existedUserData.customerName ? existedUserData.customerName : ""
+                existedUserData.customerName
+                  ? existedUserData.customerName
+                  : customerName
               }
               disabled={existedUserData.customerName ? true : false}
+              onChange={(e) => setCustomerName(e.target.value)}
             />
           </div>
           <div className="col-md-4">
@@ -212,8 +227,13 @@ const NewBooking = () => {
               type="number"
               className="form-control"
               placeholder="Phone Number"
-              value={existedUserData.mobileNo ? existedUserData.mobileNo : ""}
+              value={
+                existedUserData.mobileNo
+                  ? existedUserData.mobileNo
+                  : customerPhone
+              }
               disabled={existedUserData.mobileNo ? true : false}
+              onChange={(e) => setCustomerPhone(e.target.value)}
             />
           </div>
           <div className="col-md-4">
@@ -222,8 +242,13 @@ const NewBooking = () => {
               type="email"
               className="form-control"
               placeholder="Email"
-              value={existedUserData.emailId ? existedUserData.emailId : ""}
+              value={
+                existedUserData.emailId
+                  ? existedUserData.emailId
+                  : customerEmail
+              }
               disabled={existedUserData.emailId ? true : false}
+              onChange={(e) => setCustomerEmail(e.target.value)}
             />
           </div>
           <div className="col-12">
@@ -238,9 +263,10 @@ const NewBooking = () => {
               value={
                 existedUserData.customerAddress1
                   ? existedUserData.customerAddress1
-                  : ""
+                  : customerAddress1
               }
               disabled={existedUserData.customerAddress1 ? true : false}
+              onChange={(e) => setCustomerAddress1(e.target.value)}
             />
           </div>
           <div className="col-md-6">
@@ -252,14 +278,11 @@ const NewBooking = () => {
               value={
                 existedUserData.customerAddress2
                   ? existedUserData.customerAddress2
-                  : ""
+                  : customerAddress2
               }
               disabled={existedUserData.customerAddress2 ? true : false}
+              onChange={(e) => setCustomerAddress2(e.target.value)}
             />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">State</label>
-            <input type="text" className="form-control" placeholder="State" />
           </div>
           <div className="col-md-4">
             <label className="form-label">City</label>
@@ -268,9 +291,12 @@ const NewBooking = () => {
               className="form-control"
               placeholder="City"
               value={
-                existedUserData.customerCity ? existedUserData.customerCity : ""
+                existedUserData.customerCity
+                  ? existedUserData.customerCity
+                  : customerCity
               }
               disabled={existedUserData.customerCity ? true : false}
+              onChange={(e) => setCustomerCity(e.target.value)}
             />
           </div>
           <div className="col-md-4">
@@ -282,9 +308,10 @@ const NewBooking = () => {
               value={
                 existedUserData.customerCityPincode
                   ? existedUserData.customerCityPincode
-                  : ""
+                  : customerPinCode
               }
               disabled={existedUserData.customerCityPincode ? true : false}
+              onChange={(e) => setCustomerPinCode(e.target.value)}
             />
           </div>
           <div className="col-12">

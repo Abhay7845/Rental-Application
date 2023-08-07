@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import { EmailRegex, addressType, panRegex } from "../../Data/DataList";
+import { EmailRegex, addressTypeOption, panRegex } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -379,7 +379,7 @@ const NewCustomer = () => {
               onChange={(e) => setAddressProofType(e.target.value)}
             >
               <option value="">Select Type</option>
-              {addressType.map((item, i) => {
+              {addressTypeOption.map((item, i) => {
                 return (
                   <option key={i} value={item.value}>
                     {item.name}

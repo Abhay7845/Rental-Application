@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
-import { addressType, packageDays, phonePan } from "../../Data/DataList";
+import { addressTypeOption, packageDays, phonePan } from "../../Data/DataList";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
@@ -25,6 +25,7 @@ const NewBooking = () => {
   const [customerAddress2, setCustomerAddress2] = useState("");
   const [customerCity, setCustomerCity] = useState("");
   const [customerPinCode, setCustomerPinCode] = useState("");
+  const [addressType, setAddressType] = useState("");
   const [custonerIdNo, setCustonerIdNo] = useState("");
 
   // ITEMS DETAILS ADD ROWS
@@ -319,9 +320,18 @@ const NewBooking = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Addeess ID Proof Type</label>
-            <select className="form-control" value="aadhar">
+            <select
+              className="form-control"
+              value={
+                existedUserData.addressProofIdType
+                  ? existedUserData.addressProofIdType
+                  : addressType
+              }
+              disabled={existedUserData.addressProofIdType ? true : false}
+              onChange={(e) => setAddressType(e.target.value)}
+            >
               <option value="">Select Type</option>
-              {addressType.map((item, i) => {
+              {addressTypeOption.map((item, i) => {
                 return (
                   <option key={i} value={item.value}>
                     {item.name}

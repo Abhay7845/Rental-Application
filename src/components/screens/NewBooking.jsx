@@ -9,8 +9,7 @@ import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 
-const NewBooking = (props) => {
-  const { showAlert } = props;
+const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
@@ -26,6 +25,7 @@ const NewBooking = (props) => {
   const [customerAddress2, setCustomerAddress2] = useState("");
   const [customerCity, setCustomerCity] = useState("");
   const [customerPinCode, setCustomerPinCode] = useState("");
+  const [custonerIdNo, setCustonerIdNo] = useState("");
 
   // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
@@ -334,9 +334,10 @@ const NewBooking = (props) => {
               value={
                 existedUserData.addressProofIdNo
                   ? existedUserData.addressProofIdNo
-                  : ""
+                  : custonerIdNo
               }
               disabled={existedUserData.addressProofIdNo ? true : false}
+              onChange={(e) => setCustonerIdNo(e.target.value)}
             />
           </div>
           <div className="col-md-4 d-flex justify-content-center border">

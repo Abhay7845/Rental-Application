@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
-import { addressTypeOption, packageDays, phonePan } from "../../Data/DataList";
+import {
+  addressTypeOption,
+  packageDayOption,
+  phonePan,
+} from "../../Data/DataList";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
@@ -27,6 +31,7 @@ const NewBooking = () => {
   const [customerPinCode, setCustomerPinCode] = useState("");
   const [addressType, setAddressType] = useState("");
   const [custonerIdNo, setCustonerIdNo] = useState("");
+  const [packageDays, setPackageDays] = useState("");
 
   // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
@@ -385,9 +390,13 @@ const NewBooking = () => {
           </div>
           <div className="col-md-6">
             <label className="form-label">Package Days</label>
-            <select className="form-control">
+            <select
+              className="form-control"
+              value={packageDays}
+              onChange={(e) => setPackageDays(e.target.value)}
+            >
               <option>Select Days</option>
-              {packageDays.map((days, i) => {
+              {packageDayOption.map((days, i) => {
                 return (
                   <option key={i} value={days}>
                     {days}

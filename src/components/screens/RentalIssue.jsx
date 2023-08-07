@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
-import { DataList, packageDays } from "../../Data/DataList";
+import { DataList, packageDayOption } from "../../Data/DataList";
 import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
 
 const RentalIssue = () => {
@@ -233,7 +233,7 @@ const RentalIssue = () => {
             <label className="form-label">Package Days</label>
             <select type="date" className="form-control">
               <option>Select Days</option>
-              {packageDays.map((days, i) => {
+              {packageDayOption.map((days, i) => {
                 return (
                   <option key={i} value={days}>
                     {days}

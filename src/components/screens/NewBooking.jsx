@@ -160,7 +160,6 @@ const NewBooking = () => {
   return (
     <div>
       {loading === true && <Loader />}
-      <Loader />
       <Navbar />
       <div className="mt-4 mx-2">
         <div className="col-12">

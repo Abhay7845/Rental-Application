@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import {
-  EmailRegex,
-  adharRegex,
-  driverRegex,
-  panRegex,
-} from "../../Data/DataList";
+import { EmailRegex, panRegex } from "../../Data/DataList";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
@@ -36,6 +31,7 @@ const NewCustomer = () => {
   // ADRESS PROOF VERIFICATION
   const [panNumber, setPanNumber] = useState("");
   const [addressProofType, setAddressProofType] = useState("");
+  const PANNumber = panNumber.toUpperCase();
 
   const UploadPanFile = (event) => {
     const file = event.target.files[0];
@@ -152,15 +148,9 @@ const NewCustomer = () => {
     ) {
       alert("Please Fill All Form Details");
     } else if (phoneVerified === false || emailVerified === false) {
-      alert("Please Complete OTP Verification Phone & Email");
-    } else if (!panNumber.match(panRegex)) {
+      alert("Please Complete OTP Verification With Phone & Email");
+    } else if (!PANNumber.match(panRegex)) {
       alert("Invalid PAN Number");
-    } else if (addressProofType === "adhaar") {
-      if (!addressIDNumber.match(adharRegex) || addressIDNumber.length > 12) {
-        alert("Invalid Adhar Number");
-      }
-    } else if (!addressIDNumber.match(driverRegex)) {
-      alert("Invalid Driving Licence Number");
     } else {
       alert("Go For Registration");
     }
@@ -329,7 +319,7 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="xxxxx-xxxx-x"
               maxLength={10}
-              value={panNumber.toUpperCase()}
+              value={PANNumber}
               onChange={(e) => setPanNumber(e.target.value)}
             />
           </div>

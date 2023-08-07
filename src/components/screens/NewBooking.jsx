@@ -15,7 +15,6 @@ const NewBooking = (props) => {
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
   console.log("existedUserData==>", existedUserData);
-  console.log("props==>", props);
 
   const [itemDetailsId, setItemDetailsId] = useState(0);
 
@@ -255,6 +254,36 @@ const NewBooking = (props) => {
             <h6 className="bookingHeading mb-0">Customer Address</h6>
           </div>
           <div className="col-md-6">
+            <label className="form-label">City</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="City"
+              value={
+                existedUserData.customerCity
+                  ? existedUserData.customerCity
+                  : customerCity
+              }
+              disabled={existedUserData.customerCity ? true : false}
+              onChange={(e) => setCustomerCity(e.target.value)}
+            />
+          </div>
+          <div className="col-md-6">
+            <label className="form-label">Pin Code</label>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Pin Code"
+              value={
+                existedUserData.customerCityPincode
+                  ? existedUserData.customerCityPincode
+                  : customerPinCode
+              }
+              disabled={existedUserData.customerCityPincode ? true : false}
+              onChange={(e) => setCustomerPinCode(e.target.value)}
+            />
+          </div>
+          <div className="col-md-6">
             <label className="form-label">Address Line-1</label>
             <textarea
               type="text"
@@ -284,36 +313,7 @@ const NewBooking = (props) => {
               onChange={(e) => setCustomerAddress2(e.target.value)}
             />
           </div>
-          <div className="col-md-4">
-            <label className="form-label">City</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="City"
-              value={
-                existedUserData.customerCity
-                  ? existedUserData.customerCity
-                  : customerCity
-              }
-              disabled={existedUserData.customerCity ? true : false}
-              onChange={(e) => setCustomerCity(e.target.value)}
-            />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Pin Code</label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Pin Code"
-              value={
-                existedUserData.customerCityPincode
-                  ? existedUserData.customerCityPincode
-                  : customerPinCode
-              }
-              disabled={existedUserData.customerCityPincode ? true : false}
-              onChange={(e) => setCustomerPinCode(e.target.value)}
-            />
-          </div>
+
           <div className="col-12">
             <h6 className="bookingHeading">Customer Address</h6>
           </div>
@@ -339,13 +339,7 @@ const NewBooking = (props) => {
               disabled={existedUserData.addressProofIdNo ? true : false}
             />
           </div>
-          <div className="col-md-4 d-flex justify-content-center">
-            <h5>Image will come from DB</h5>
-          </div>
-          <div className="col-md-4 d-flex justify-content-center">
-            <h5>Image will come from DB</h5>
-          </div>
-          <div className="col-md-4 d-flex justify-content-center">
+          <div className="col-md-4 d-flex justify-content-center border">
             <h5>Image will come from DB</h5>
           </div>
           <div className="col-12 d-flex">

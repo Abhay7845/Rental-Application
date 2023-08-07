@@ -82,8 +82,8 @@ const NewBooking = (props) => {
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
         } else if (response.data.code === "1001") {
-          showAlert(response.data.value, "danger");
           setExistedUserData({});
+          alert("Data Not Found");
         }
         setLoading(false);
       })

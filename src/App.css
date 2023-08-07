@@ -97,3 +97,12 @@ tr:hover .DeleteRow {
   color: #ffff00;
   cursor: pointer;
 }
+
+/* AlertStyle CSS */
+.alertStyle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}

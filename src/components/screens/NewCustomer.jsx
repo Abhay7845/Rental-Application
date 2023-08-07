@@ -28,7 +28,6 @@ const NewCustomer = () => {
   const [customerName, setCustomerName] = useState("");
   const [addresLine1, setAddresLine1] = useState("");
   const [addresLine2, setAddresLine2] = useState("");
-  const [stateName, setStateName] = useState("");
   const [cityName, setCityName] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [addressIDNumber, setAddressIDNumber] = useState("");
@@ -142,7 +141,6 @@ const NewCustomer = () => {
       !emailId ||
       !addresLine1 ||
       !addresLine2 ||
-      !stateName ||
       !cityName ||
       !pinCode ||
       !panNumber ||
@@ -305,15 +303,7 @@ const NewCustomer = () => {
               onChange={(e) => setAddresLine2(e.target.value)}
             />
           </div>
-          <div className="col-md-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="State"
-              onChange={(e) => setStateName(e.target.value)}
-            />
-          </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <input
               type="text"
               className="form-control"
@@ -321,7 +311,7 @@ const NewCustomer = () => {
               onChange={(e) => setCityName(e.target.value)}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <input
               type="number"
               className="form-control"

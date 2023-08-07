@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import { EmailRegex, panRegex } from "../../Data/DataList";
+import axios from "axios";
+import { HOST_URL } from "../../API/HostURL";
+import Loader from "../common/Loader";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
+  const [loading, setLoading] = useState(false);
   const [panFile, setPanFile] = useState(null);
   const [addressFile, setAddressFile] = useState(null);
   const [secPhoneCount, setSecPhoneCount] = useState(60);
@@ -152,11 +156,45 @@ const NewCustomer = () => {
     } else if (!PANNumber.match(panRegex)) {
       alert("Invalid PAN Number");
     } else {
-      alert("Go For Registration");
+      setLoading(true);
+      const NewCustomer = {
+        customerName: customerName,
+        customerAddress1: addresLine2,
+        customerAddress2: addresLine1,
+        customerCity: cityName,
+        customerCityPincode: pinCode,
+        mobileNo: phoneNumber,
+        emailId: emailId,
+        panCardNo: panNumber,
+        panCardNoFileName: panFile,
+        addressProofIdType: addressProofType,
+        addressProofIdNo: addressIDNumber,
+        addressProofFileName: addressFile,
+        createDate: new Date(),
+        updateDate: new Date(),
+        status: "created",
+        rsoName: rsoName,
+      };
+      console.log("NewCustomer==>", NewCustomer);
+      axios
+        .post(`${HOST_URL}/rental/add/new/customer`, NewCustomer)
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data.code === "1000") {
+            alert("User has been Registred");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
     }
   };
   return (
     <div>
+      {loading === true && <Loader />}
       <Navbar />
       <div className="mt-4 mx-2">
         <div className="d-flex justify-content-between">

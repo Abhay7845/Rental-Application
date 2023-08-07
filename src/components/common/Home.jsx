@@ -3,26 +3,37 @@ import Navbar from "./Navbar";
 import "../../Style/Home.css";
 import axios from "axios";
 import { BsFillXCircleFill, BsFillCheckCircleFill } from "react-icons/bs";
+import { phonePan } from "../../Data/DataList";
+import { HOST_URL } from "../../API/HostURL";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
-  const [productData, setProductData] = useState([]);
+  const [productData, setProductData] = useState({});
   const [loading, setLoading] = useState(false);
   const [btn, setBtn] = useState(false);
   const [selecttedProduct, setSelecttedProduct] = useState({});
 
+  const paramType = !phoneRefrence
+    ? ""
+    : phoneRefrence[0].match(phonePan)
+    ? "pancard"
+    : "mobileNo";
+
   const GetDetails = () => {
     setLoading(true);
-    if (phoneRefrence) {
-      axios
-        .get("https://jsonplaceholder.typicode.com/users")
-        .then((res) => res)
-        .then((response) => setProductData(response.data))
-        .catch((error) => console.log("error=>", error));
-    } else {
-      alert("Please Enter Phone or Refrence Number");
-    }
-    setLoading(false);
+    axios
+      .get(`${HOST_URL}/rental/customer/details/${paramType}/${phoneRefrence}`)
+      .then((res) => res)
+      .then((response) => {
+        if ((response.data.code = "1000")) {
+          setProductData(response.data.value);
+        }
+        setLoading(false);
+      })
+      .then((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
   };
 
   const OnSelectRow = (data) => {
@@ -32,6 +43,7 @@ const Home = () => {
   const RetunProducts = () => {
     console.log("selecttedProduct", selecttedProduct);
   };
+  console.log("productData==>", productData);
 
   return (
     <div>
@@ -47,15 +59,23 @@ const Home = () => {
             type="text"
             className="searchStyle"
             placeholder="Search by Phone or Refrence No."
+            value={phoneRefrence.toUpperCase()}
+            maxLength={10}
             onChange={(e) => setPhoneRefrence(e.target.value)}
           />
-          <span className="searchButton" onClick={GetDetails}>
+          <button
+            className={`${
+              phoneRefrence.length < 10 ? "DisableSearch" : "searchButton"
+            }`}
+            onClick={GetDetails}
+            disabled={phoneRefrence.length < 10 ? true : false}
+          >
             {loading ? (
               <span className="spinner-border spinner-border-sm" />
             ) : (
               <span className="sr-only">Search</span>
             )}
-          </span>
+          </button>
         </div>
       </div>
       {productData.length > 0 && (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import { EmailRegex, panRegex } from "../../Data/DataList";
+import { EmailRegex, addressType, panRegex } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -379,8 +379,13 @@ const NewCustomer = () => {
               onChange={(e) => setAddressProofType(e.target.value)}
             >
               <option value="">Select Type</option>
-              <option value="adhaar">Aadhar Card</option>
-              <option value="drvLincence">Driver Lincence</option>
+              {addressType.map((item, i) => {
+                return (
+                  <option key={i} value={item.value}>
+                    {item.name}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
@@ -388,15 +393,15 @@ const NewCustomer = () => {
             <div className="col-md-2">
               <label className="form-label">ID Number</label>
               <input
-                type={addressProofType === "adhaar" ? "number" : "text"}
+                type={addressProofType === "aadhar" ? "number" : "text"}
                 placeholder={
-                  addressProofType === "adhaar"
+                  addressProofType === "aadhar"
                     ? "xxxx-xxxx-xxxx"
                     : "xxxx-xxxx-xxxx-xxx"
                 }
                 className="form-control"
                 value={addressIDNumber.toLocaleUpperCase()}
-                maxLength={addressProofType === "adhaar" ? 12 : 15}
+                maxLength={addressProofType === "aadhar" ? 12 : 15}
                 onChange={(e) => setAddressIDNumber(e.target.value)}
               />
             </div>

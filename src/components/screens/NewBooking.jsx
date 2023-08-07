@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
-import { packageDays, phonePan } from "../../Data/DataList";
+import { addressType, packageDays, phonePan } from "../../Data/DataList";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
@@ -319,10 +319,15 @@ const NewBooking = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Addeess ID Proof Type</label>
-            <select className="form-control">
-              <option>Select Type</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
+            <select className="form-control" value="aadhar">
+              <option value="">Select Type</option>
+              {addressType.map((item, i) => {
+                return (
+                  <option key={i} value={item.value}>
+                    {item.name}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="col-md-4">

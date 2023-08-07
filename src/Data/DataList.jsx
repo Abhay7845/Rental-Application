@@ -30,3 +30,8 @@ export const adharRegex =
 export const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/g;
 export const driverRegex = /^[A-Z](?:\d[- ]*){14}$/g;
 export const phonePan = /^[A-Z]{1,10}$/;
+
+export const addressType = [
+  { value: "aadhar", name: "Aadhar Card" },
+  { value: "drvLincence", name: "Driver Lincence" },
+];

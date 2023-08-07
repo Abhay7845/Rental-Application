@@ -7,13 +7,13 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
+import Loader from "../common/Loader";
 
 const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
   console.log("existedUserData==>", existedUserData);
-  console.log("loading==>", loading);
 
   const [itemDetailsId, setItemDetailsId] = useState(0);
 
@@ -159,6 +159,8 @@ const NewBooking = () => {
   };
   return (
     <div>
+      {loading === true && <Loader />}
+      <Loader />
       <Navbar />
       <div className="mt-4 mx-2">
         <div className="col-12">

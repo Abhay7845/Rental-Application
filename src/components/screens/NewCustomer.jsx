@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import { EmailRegex, addressTypeOption, panRegex } from "../../Data/DataList";
 import axios from "axios";
-import { HOST_URL } from "../../API/HostURL";
+import { HOST_URL, Phoneulr1, Phoneulr2 } from "../../API/HostURL";
 import Loader from "../common/Loader";
 
 const NewCustomer = () => {
@@ -70,17 +70,31 @@ const NewCustomer = () => {
       const min = 100000;
       const max = 999999;
       const OtpPhone = Math.floor(Math.random() * (max - min + 1)) + min;
+      setLoading(true);
+      axios
+        .get(
+          `${Phoneulr1}${phoneNumber}&message=Kindly+share+this+OTP+-+${OtpPhone}${Phoneulr2}`
+        )
+        .then((res) => res)
+        .then((response) => response)
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
       setPhoneOtp(OtpPhone);
       setSecPhoneCount(60);
+      setLoading(false);
     }
   };
   const VerifyPhoneOTP = () => {
+    setLoading(true);
     if (phoneOtp === parseInt(enterPhoneOtp)) {
       alert("Phone Number Verified Successfully");
       setPhoneVerified(true);
     } else {
       alert("Invalid OTP");
     }
+    setLoading(false);
   };
   // INTERVAL FOR PHONE OTP
   useEffect(() => {
@@ -119,19 +133,32 @@ const NewCustomer = () => {
     } else {
       const min = 100000;
       const max = 999999;
-      const OtpPhone = Math.floor(Math.random() * (max - min + 1)) + min;
-      setEmailOtp(OtpPhone);
+      const OtpEmail = Math.floor(Math.random() * (max - min + 1)) + min;
+      setLoading(true);
+      axios
+        .get("")
+        .then((res) => res)
+        .then((response) => response)
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+      setEmailOtp(OtpEmail);
       setSecEmailCount(60);
+      setLoading(false);
     }
   };
 
   const VerifyEmailOTP = () => {
+    setLoading(true);
+
     if (emailOtp === parseInt(enterEmailOtp)) {
       alert("Email Verified Successfully");
       setEmailVerified(true);
     } else {
       alert("Invalid OTP");
     }
+    setLoading(false);
   };
 
   const SaveCustomerDetails = () => {
@@ -198,7 +225,6 @@ const NewCustomer = () => {
       <Navbar />
       <div className="mt-4 mx-2">
         <div className="d-flex justify-content-between">
-          {phoneOtp && <b>Phone OTP -{phoneOtp}</b>}
           {emailOtp && <b>Email OTP -{emailOtp}</b>}
         </div>
         <h6 className="bookingHeading">New Customer Details</h6>

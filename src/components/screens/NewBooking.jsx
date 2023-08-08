@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
@@ -28,6 +28,7 @@ const NewBooking = () => {
   const [customerAddress1, setCustomerAddress1] = useState("");
   const [customerAddress2, setCustomerAddress2] = useState("");
   const [customerCity, setCustomerCity] = useState("");
+  const [customerType, setCustomerType] = useState("");
   const [customerPinCode, setCustomerPinCode] = useState("");
   const [addressType, setAddressType] = useState("");
   const [custonerIdNo, setCustonerIdNo] = useState("");
@@ -161,7 +162,32 @@ const NewBooking = () => {
     setDepositAmountTableRow(updatedData);
   };
   const currentDate = new Date();
-  const bookingDate = moment(currentDate).format("l");
+  const bookingDate = moment(currentDate).format("YYYY-MM-DD");
+
+  // UPDATE CUSTOMER TYPE
+  useEffect(() => {
+    if (existedUserData.custId && customerType) {
+      setLoading(true);
+      axios
+        .get(
+          `${HOST_URL}/update/customer/type/${existedUserData.custId}/${bookingDate}/${customerType}`
+        )
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            console.log("respons==>", response.data);
+          }
+          if (response.data.code === "1004") {
+            console.log(response.data.value);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error=>", error);
+          setLoading(false);
+        });
+    }
+  }, [customerType, bookingDate, existedUserData.custId]);
 
   // PRINT PrintAcknowledgement FUNCTION
 
@@ -190,7 +216,7 @@ const NewBooking = () => {
             <input
               type="type"
               className="form-control"
-              placeholder="Search By Phone or PAN"
+              placeholder="Search Customer By Phone or PAN"
               value={phonePanValue.toUpperCase()}
               maxLength={10}
               onChange={(e) => setPhonePanValue(e.target.value)}
@@ -211,7 +237,7 @@ const NewBooking = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Details</h6>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Customer Name</label>
             <input
               type="text"
@@ -226,7 +252,7 @@ const NewBooking = () => {
               onChange={(e) => setCustomerName(e.target.value)}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Phone Number</label>
             <input
               type="number"
@@ -241,7 +267,7 @@ const NewBooking = () => {
               onChange={(e) => setCustomerPhone(e.target.value)}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Email</label>
             <input
               type="email"
@@ -255,6 +281,19 @@ const NewBooking = () => {
               disabled={existedUserData.emailId ? true : false}
               onChange={(e) => setCustomerEmail(e.target.value)}
             />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Customer Type</label>
+            <select
+              className="form-control"
+              onChange={(e) => setCustomerType(e.target.value)}
+              disabled={!existedUserData.custId ? true : false}
+            >
+              <option value="">Select Type</option>
+              <option value="purple">Purple</option>
+              <option value="nonPurple">Non Purple</option>
+              <option value="newCustomer">New Customer</option>
+            </select>
           </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Address</h6>
@@ -274,25 +313,12 @@ const NewBooking = () => {
               onChange={(e) => setCustomerCity(e.target.value)}
             />
           </div>
-          <div className="col-md-6">
-            <label className="form-label">Pin Code</label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Pin Code"
-              value={
-                existedUserData.customerCityPincode
-                  ? existedUserData.customerCityPincode
-                  : customerPinCode
-              }
-              disabled={existedUserData.customerCityPincode ? true : false}
-              onChange={(e) => setCustomerPinCode(e.target.value)}
-            />
-          </div>
+
           <div className="col-md-6">
             <label className="form-label">Address Line-1</label>
             <textarea
               type="text"
+              rows={1}
               className="form-control"
               placeholder="Address Line-1"
               value={
@@ -308,6 +334,7 @@ const NewBooking = () => {
             <label className="form-label">Address Line-2</label>
             <textarea
               type="text"
+              rows={1}
               className="form-control"
               placeholder="Address Line-2"
               value={
@@ -317,6 +344,21 @@ const NewBooking = () => {
               }
               disabled={existedUserData.customerAddress2 ? true : false}
               onChange={(e) => setCustomerAddress2(e.target.value)}
+            />
+          </div>
+          <div className="col-md-6">
+            <label className="form-label">Pin Code</label>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Pin Code"
+              value={
+                existedUserData.customerCityPincode
+                  ? existedUserData.customerCityPincode
+                  : customerPinCode
+              }
+              disabled={existedUserData.customerCityPincode ? true : false}
+              onChange={(e) => setCustomerPinCode(e.target.value)}
             />
           </div>
 

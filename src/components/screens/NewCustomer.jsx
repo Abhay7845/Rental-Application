@@ -83,6 +83,7 @@ const NewCustomer = () => {
         });
       setPhoneOtp(OtpPhone);
       setSecPhoneCount(60);
+      alert("OTP has been your mobile Number");
       setLoading(false);
     }
   };
@@ -145,6 +146,7 @@ const NewCustomer = () => {
         });
       setEmailOtp(OtpEmail);
       setSecEmailCount(60);
+      alert("OTP has been your Email");
       setLoading(false);
     }
   };

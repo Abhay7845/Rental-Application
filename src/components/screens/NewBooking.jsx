@@ -33,6 +33,8 @@ const NewBooking = () => {
   const [addressType, setAddressType] = useState("");
   const [custonerIdNo, setCustonerIdNo] = useState("");
   const [packageDays, setPackageDays] = useState("");
+  const [termCondition, setTermCondition] = useState("NO");
+  console.log("termCondition==>", termCondition);
 
   // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
@@ -704,6 +706,7 @@ const NewBooking = () => {
                 type="radio"
                 name="t&c"
                 defaultChecked
+                onClick={() => setTermCondition("YES")}
               />
               <label className="form-check-label mx-1">YES</label>
             </div>
@@ -713,6 +716,7 @@ const NewBooking = () => {
                 type="radio"
                 name="t&c"
                 defaultChecked
+                onClick={() => setTermCondition("NO")}
               />
               <label className="form-check-label mx-1">NO</label>
             </div>

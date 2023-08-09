@@ -17,9 +17,8 @@ const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
-  console.log("existedUserData==>", existedUserData);
-
   const [itemDetailsId, setItemDetailsId] = useState(0);
+  console.log("existedUserData==>", existedUserData);
 
   // NEW BOOKING USER INOPUTS VALUES
   const [customerName, setCustomerName] = useState("");
@@ -195,20 +194,23 @@ const NewBooking = () => {
 
   // WITHIN IN CATCHMENT OR NOT API CALIING
   useEffect(() => {
-    axios
-      .get(
-        `https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental/rental/new/booking/catchments/MAMTHA/56009`
-      )
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          setWithinCatchment(response.data.value[0]);
-        }
-      })
-      .catch((error) => {
-        console.log("error=>", error);
-      });
-  }, []);
+    if (existedUserData.customerCityPincode) {
+      axios
+        .get(
+          `${HOST_URL}/rental/new/booking/catchments/MAMTHA/${existedUserData.customerCityPincode}`
+        )
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data.value);
+          if (response.data.code === "1000") {
+            setWithinCatchment(response.data.value[0]);
+          }
+        })
+        .catch((error) => {
+          console.log("error=>", error);
+        });
+    }
+  }, [existedUserData.customerCityPincode]);
 
   // PRINT PrintAcknowledgement FUNCTION
 

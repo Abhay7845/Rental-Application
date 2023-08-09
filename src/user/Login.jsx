@@ -41,6 +41,9 @@ const Login = (props) => {
     localStorage.clear();
   }, []);
 
+  // Booking Ref ID format
+  // MAMTHA-R-2023-1234
+
   const Year = new Date().getFullYear();
   console.log("Year-=>", Year);
 

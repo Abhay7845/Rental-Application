@@ -34,7 +34,9 @@ const NewBooking = () => {
   const [custonerIdNo, setCustonerIdNo] = useState("");
   const [packageDays, setPackageDays] = useState("");
   const [termCondition, setTermCondition] = useState("NO");
+  const [withinCatchment, setWithinCatchment] = useState("");
   console.log("termCondition==>", termCondition);
+  console.log("withinCatchment==>", withinCatchment);
 
   // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
@@ -190,6 +192,23 @@ const NewBooking = () => {
         });
     }
   }, [customerType, bookingDate, existedUserData.custId]);
+
+  // WITHIN IN CATCHMENT OR NOT API CALIING
+  useEffect(() => {
+    axios
+      .get(
+        `https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental/rental/new/booking/catchments/MAMTHA/56009`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setWithinCatchment(response.data.value[0]);
+        }
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+      });
+  }, []);
 
   // PRINT PrintAcknowledgement FUNCTION
 
@@ -420,6 +439,7 @@ const NewBooking = () => {
                 type="radio"
                 name="catchment"
                 defaultChecked
+                onClick={() => setWithinCatchment("YES")}
               />
               <label className="form-check-label mx-1">YES</label>
             </div>
@@ -429,6 +449,7 @@ const NewBooking = () => {
                 type="radio"
                 name="catchment"
                 defaultChecked
+                onClick={() => setWithinCatchment("NO")}
               />
               <label className="form-check-label mx-1">NO</label>
             </div>

@@ -8,7 +8,7 @@ const TestImage = () => {
     const file = event.target.files[0];
     console.log("file==>", file);
     const formData = new FormData();
-    formData.append(file.name, file);
+    formData.append("ImgName", file, file.neme);
     axios
       .post("https://jewbridge.titanjew.in/NPD/API/IMAGEFETCH", formData, {
         headers: {

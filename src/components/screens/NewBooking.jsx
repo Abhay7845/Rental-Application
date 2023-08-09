@@ -18,6 +18,7 @@ const NewBooking = () => {
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
   const [itemDetailsId, setItemDetailsId] = useState(0);
+  let [secuanceNo, setSecuanceNo] = useState(1);
   console.log("existedUserData==>", existedUserData);
 
   // NEW BOOKING USER INOPUTS VALUES
@@ -223,6 +224,15 @@ const NewBooking = () => {
     doc.autoTable({ html: "#booking-payment-details" });
     doc.save("BookingDetails.pdf");
   };
+
+  // BOOKING YUOR PRODUCTS
+  const BookYorProduct = () => {
+    setSecuanceNo(secuanceNo + 1);
+    const booingYear = currentDate.getFullYear();
+    secuanceNo = (secuanceNo % 10000).toString().padStart(4, "0");
+    console.log("secuanceNo==>", `MAMTHA-R-${booingYear}-${secuanceNo}`);
+  };
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -763,8 +773,12 @@ const NewBooking = () => {
             />
           </div>
           <div className="d-flex justify-content-end mb-4">
-            <button type="button" className="CButton mx-2">
-              NEXT
+            <button
+              type="button"
+              className="CButton mx-2"
+              onClick={BookYorProduct}
+            >
+              BOOK
             </button>
           </div>
         </div>

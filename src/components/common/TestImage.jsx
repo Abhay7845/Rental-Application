@@ -16,9 +16,8 @@ const TestImage = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) =>
-        res.then((response) => console.log("response==>", response))
-      )
+      .then((res) => res)
+      .then((response) => console.log("response==>", response))
       .catch((error) => console.log("error==>", error));
   };
   return (

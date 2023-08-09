@@ -89,6 +89,16 @@ const Navbar = () => {
               Products
             </Link>
           </li>
+          <li className="nav-item mx-2">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/test/image" ? "active" : ""
+              }`}
+              to="/test/image"
+            >
+              Test Image
+            </Link>
+          </li>
         </ul>
         <div className="d-flex">
           <b className="navbarLink mx-2">Name</b>

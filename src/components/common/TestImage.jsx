@@ -6,6 +6,7 @@ const TestImage = () => {
   //   const [imageUrl, setImageUrl] = useState("");
   const UploadFile = (event) => {
     const file = event.target.files[0];
+    console.log("file==>", file);
     const formData = new FormData();
     formData.append(file.name, file);
     axios

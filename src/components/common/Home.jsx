@@ -8,7 +8,7 @@ import { HOST_URL } from "../../API/HostURL";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
-  const [productData, setProductData] = useState({});
+  const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [btn, setBtn] = useState(false);
   const [selecttedProduct, setSelecttedProduct] = useState({});
@@ -16,7 +16,7 @@ const Home = () => {
   const paramType = !phoneRefrence
     ? ""
     : phoneRefrence[0].match(phonePan)
-    ? "pancard"
+    ? "refrenceNo"
     : "mobileNo";
 
   console.log("paramType==>", paramType);
@@ -24,14 +24,15 @@ const Home = () => {
   const GetDetails = () => {
     setLoading(true);
     axios
-      .get(`${HOST_URL}/rental/customer/details/${paramType}/${phoneRefrence}`)
+      .get(
+        `${HOST_URL}/get/booking/details/MAMTHA/${paramType}/${phoneRefrence}`
+      )
       .then((res) => res)
       .then((response) => {
         console.log("respo==>", response.data);
-        if ((response.data.code = "1000")) {
+        if (response.data.code === "1000") {
           setProductData(response.data.value);
-        }
-        if ((response.data.code = "1001")) {
+        } else if (response.data.code === "1001") {
           alert("Data Not Found");
         }
         setLoading(false);
@@ -66,7 +67,7 @@ const Home = () => {
             className="searchStyle"
             placeholder="Search by Phone or Refrence No."
             value={phoneRefrence.toUpperCase()}
-            maxLength={10}
+            maxLength={14}
             onChange={(e) => setPhoneRefrence(e.target.value)}
           />
           <button
@@ -84,7 +85,7 @@ const Home = () => {
           </button>
         </div>
       </div>
-      {productData.custId && (
+      {productData.length > 0 && (
         <div>
           <h4 className="text-center my-3">Table Details</h4>
           <div className="table-responsive mx-2">

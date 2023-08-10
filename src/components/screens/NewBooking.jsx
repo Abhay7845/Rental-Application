@@ -389,11 +389,7 @@ const NewBooking = () => {
               onChange={(e) => setCustomerPinCode(e.target.value)}
             />
           </div>
-
-          <div className="col-12">
-            <h6 className="bookingHeading">Customer Address</h6>
-          </div>
-          <div className="col-md-4">
+          <div className="col-md-6">
             <label className="form-label">ID Number</label>
             <input
               type="text"
@@ -408,7 +404,7 @@ const NewBooking = () => {
               onChange={(e) => setCustonerIdNo(e.target.value)}
             />
           </div>
-          <div className="col-md-4 d-flex justify-content-center">
+          <div className="col-md-6 d-flex justify-content-center border">
             <img
               src={existedUserData.panCardNoFileName}
               alt="PAN.png"

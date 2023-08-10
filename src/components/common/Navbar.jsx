@@ -5,6 +5,7 @@ import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 
 const Navbar = () => {
+  const UserName = localStorage.getItem("storCode");
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const Logout = () => {
@@ -101,7 +102,7 @@ const Navbar = () => {
           </li>
         </ul>
         <div className="d-flex">
-          <b className="navbarLink mx-2">Name</b>
+          <b className="navbarLink mx-2 mt-0">{UserName.toUpperCase()}</b>
           <BiLogIn className="lououtBtn" onClick={Logout} />
         </div>
       </div>

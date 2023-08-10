@@ -26,9 +26,7 @@ const TestImage = () => {
   return (
     <div>
       <Navbar />
-      <div>
-        <input type="file" onChange={UploadFile} />
-      </div>
+      <input type="file" onChange={UploadFile} />
     </div>
   );
 };

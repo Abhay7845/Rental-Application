@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import { DataList, packageDayOption } from "../../Data/DataList";
 
 const ProductsDetails = () => {
+  const [rentalDate, setRentalDate] = useState("");
+  const [packageDays, setPackageDays] = useState("");
+  console.log("rentalDate==>", rentalDate);
   return (
     <div>
       <Navbar />
       <div className="row g-3 mx-0 mt-3">
         <div className="col-md-5">
           <label className="form-label">Rent Start Date</label>
-          <input type="date" className="form-control" />
+          <input
+            type="date"
+            className="form-control"
+            value={rentalDate}
+            onChange={(e) => setRentalDate(e.target.value)}
+          />
         </div>
         <div className="col-md-5">
           <label className="form-label">Package Days</label>
           <select
             className="form-control"
-            // value={packageDays}
-            // onChange={(e) => setPackageDays(e.target.value)}
+            value={packageDays}
+            onChange={(e) => setPackageDays(e.target.value)}
           >
             <option>Select Days</option>
             {packageDayOption.map((days, i) => {

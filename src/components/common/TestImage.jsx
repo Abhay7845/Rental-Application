@@ -53,7 +53,7 @@ const TestImage = () => {
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <button onClick={startCamera}>Start Camera</button>
       <button onClick={captureImage}>Capture Image</button>
-      <img src={imageUrl} alt="sdksak" />
+      {imageUrl && <img src={imageUrl} alt="sdksak" />}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
+import CalendarMeeting from "../CalendarMeeting";
 
 const TestImage = () => {
   const [imageUrl, setImageUrl] = useState("");
@@ -38,6 +39,13 @@ const TestImage = () => {
     }
   };
 
+  const [events, setEvents] = useState([]);
+
+  // Function to add a new meeting event
+  const addMeeting = (newMeeting) => {
+    setEvents([...events, newMeeting]);
+  };
+
   const captureImage = () => {
     const context = canvas.getContext("2d");
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -52,8 +60,14 @@ const TestImage = () => {
       <video ref={videoRef} autoPlay muted />
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <button onClick={startCamera}>Start Camera</button>
-      <button onClick={captureImage}>Capture Image</button>
+      <button onClick={captureImage} className="mx-2">
+        Capture Image
+      </button>
       {imageUrl && <img src={imageUrl} alt="sdksak" />}
+      <div>
+        <h1>Meeting Calendar</h1>
+        <CalendarMeeting events={events} />
+      </div>
     </div>
   );
 };

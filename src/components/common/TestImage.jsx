@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 
 const TestImage = () => {
-  //   const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const UploadFile = (event) => {
     const file = event.target.files[0];
     console.log("file==>", file);
@@ -23,10 +23,37 @@ const TestImage = () => {
       .then((response) => console.log("response==>", response))
       .catch((error) => console.log("error==>", error));
   };
+
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const canvas = canvasRef.current;
+  const video = videoRef.current;
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      videoRef.current.srcObject = stream;
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+    }
+  };
+
+  const captureImage = () => {
+    const context = canvas.getContext("2d");
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataURL = canvas.toDataURL("image/png");
+    setImageUrl(dataURL);
+  };
+
   return (
     <div>
       <Navbar />
-      <input type="file" onChange={UploadFile} />
+      <input type="file" onChange={UploadFile} capture="image" />
+      <video ref={videoRef} autoPlay muted />
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+      <button onClick={startCamera}>Start Camera</button>
+      <button onClick={captureImage}>Capture Image</button>
+      <img src={imageUrl} alt="sdksak" />
     </div>
   );
 };

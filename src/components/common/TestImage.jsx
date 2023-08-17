@@ -1,8 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
-import { ProductsDetails } from "../../Data/DataList";
-import Calendar from "react-calendar";
 
 const TestImage = () => {
   const UploadFile = (event) => {
@@ -29,7 +27,6 @@ const TestImage = () => {
     <div>
       <Navbar />
       <input type="file" onChange={UploadFile} capture="image" />
-      <Calendar value={ProductsDetails.map((date) => date.bookDate)} />
     </div>
   );
 };

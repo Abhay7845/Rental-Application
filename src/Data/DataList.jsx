@@ -62,3 +62,9 @@ export const ProductsDetails = [
     coolOfEndDate: "2023-08-27",
   },
 ];
+
+export const ImageHeaders = {
+  "Content-Type": "multipart/form-data",
+  UserToken: "xFeToMkUuejH0aq1IzZYmw==",
+  ApiKey: "636A4E75-2B3D-4B83-8DD6-F36046290E0F",
+};

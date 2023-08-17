@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import { EmailRegex, addressTypeOption, panRegex } from "../../Data/DataList";
+import {
+  EmailRegex,
+  ImageHeaders,
+  addressTypeOption,
+  panRegex,
+} from "../../Data/DataList";
 import axios from "axios";
-import { HOST_URL, Phoneulr1, Phoneulr2 } from "../../API/HostURL";
+import {
+  HOST_URL,
+  Phoneulr1,
+  Phoneulr2,
+  UploadImgUrl,
+} from "../../API/HostURL";
 import Loader from "../common/Loader";
 
 const NewCustomer = () => {
@@ -45,6 +55,22 @@ const NewCustomer = () => {
     };
     if (file) {
       reader.readAsDataURL(file);
+    }
+    try {
+      const formData = new FormData();
+      formData.append("ImgName", file.name);
+      formData.append("files", file);
+      axios
+        .post(`${UploadImgUrl}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => console.log("error==>", error));
+    } catch (error) {
+      console.log("error==>", error);
     }
   };
 

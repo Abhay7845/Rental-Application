@@ -1,5 +1,6 @@
 export const HOST_URL =
   "https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental";
+export const UploadImgUrl = "https://jewbridge.titanjew.in/NPD/API/IMAGEFETCH";
 
 // OTP  VERIFICATION URL
 export const Phoneulr1 =

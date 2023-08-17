@@ -60,7 +60,7 @@ const TestImage = () => {
         <img
           src={`data:image/jpeg;base64,${imageUrl}`}
           alt="imageUrl"
-          className="imageStyle"
+          height="100"
         />
       )}
     </div>

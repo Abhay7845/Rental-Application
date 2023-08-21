@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
+import { UploadImg } from "../../API/HostURL";
 
 const TestImage = () => {
   const [imageName, setImageName] = useState("");
@@ -12,7 +13,7 @@ const TestImage = () => {
     formData.append("ImgName", file.name);
     formData.append("files", file);
     axios
-      .post("https://jewbridge.titanjew.in/NPD/API/IMAGEFETCH", formData, {
+      .post(`${UploadImg}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           UserToken: "xFeToMkUuejH0aq1IzZYmw==",
@@ -31,16 +32,13 @@ const TestImage = () => {
   useEffect(() => {
     if (imageName) {
       axios
-        .get(
-          `https://jewbridge.titanjew.in/NPD/API/IMAGEFETCH/?ImageName=${imageName}`,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              UserToken: "xFeToMkUuejH0aq1IzZYmw==",
-              ApiKey: "636A4E75-2B3D-4B83-8DD6-F36046290E0F",
-            },
-          }
-        )
+        .get(`${UploadImg}/?ImageName=${imageName}`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            UserToken: "xFeToMkUuejH0aq1IzZYmw==",
+            ApiKey: "636A4E75-2B3D-4B83-8DD6-F36046290E0F",
+          },
+        })
         .then((res) => res)
         .then((response) => {
           console.log("response==>", response);

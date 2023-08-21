@@ -7,12 +7,7 @@ import {
   panRegex,
 } from "../../Data/DataList";
 import axios from "axios";
-import {
-  HOST_URL,
-  Phoneulr1,
-  Phoneulr2,
-  UploadImgUrl,
-} from "../../API/HostURL";
+import { HOST_URL, Phoneulr1, Phoneulr2, UploadImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
 
 const NewCustomer = () => {
@@ -61,7 +56,7 @@ const NewCustomer = () => {
       formData.append("ImgName", file.name);
       formData.append("files", file);
       axios
-        .post(`${UploadImgUrl}`, formData, {
+        .post(`${UploadImg}`, formData, {
           headers: ImageHeaders,
         })
         .then((res) => res)

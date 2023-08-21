@@ -1,6 +1,5 @@
 export const HOST_URL =
   "https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental";
-export const UploadImgUrl = "https://jewbridge.titanjew.in/NPD/API/IMAGEFETCH";
 
 // OTP  VERIFICATION URL
 export const Phoneulr1 =
@@ -8,3 +7,5 @@ export const Phoneulr1 =
 
 export const Phoneulr2 =
   "+for+Tanishq+Merchandising+to+approve+the+OTP+request+-+Tanishq&response=Y";
+
+export const UploadImg = "https://jewbridge.titanjew.in/NPD/API/IMAGEFETCH";

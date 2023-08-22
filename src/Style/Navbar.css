@@ -32,3 +32,20 @@
     font-size: 15px;
   }
 }
+
+
+.notification {
+  color: white;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -5px;
+  right: -3px;
+  border-radius: 50%;
+  background: #0000ff;
+}

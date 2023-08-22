@@ -3,6 +3,7 @@ import "../../Style/Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
+import { BsCartFill } from "react-icons/bs";
 
 const Navbar = () => {
   const UserName = localStorage.getItem("storCode");
@@ -24,9 +25,7 @@ const Navbar = () => {
         <ul className="navbar-nav me-auto d-flex flex-row">
           <li className="nav-item navbarLink">
             <Link
-              className={`nav-link navbarLink  ${
-                path === "/home" ? "active" : ""
-              }`}
+              className={`nav-link navbarLink  ${path === "/home" && "active"}`}
               to="/home"
             >
               Home
@@ -35,7 +34,7 @@ const Navbar = () => {
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/booking" ? "active" : ""
+                path === "/booking" && "active"
               }`}
               to="/booking"
             >
@@ -44,7 +43,7 @@ const Navbar = () => {
           </li>
           <Link
             className={`nav-link navbarLink  ${
-              path === "/new/customer" ? "active" : ""
+              path === "/new/customer" && "active"
             }`}
             to="/new/customer"
           >
@@ -53,7 +52,7 @@ const Navbar = () => {
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/rental/issue" ? "active" : ""
+                path === "/rental/issue" && "active"
               }`}
               to="/rental/issue"
             >
@@ -63,7 +62,7 @@ const Navbar = () => {
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/rental/return" ? "active" : ""
+                path === "/rental/return" && "active"
               }`}
               to="/rental/return"
             >
@@ -73,7 +72,7 @@ const Navbar = () => {
           <li className="nav-item">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/cancellation" ? "active" : ""
+                path === "/cancellation" && "active"
               }`}
               to="/cancellation"
             >
@@ -83,7 +82,7 @@ const Navbar = () => {
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/products/details" ? "active" : ""
+                path === "/products/details" && "active"
               }`}
               to="/products/details"
             >
@@ -93,11 +92,22 @@ const Navbar = () => {
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/test/image" ? "active" : ""
+                path === "/test/image" && "active"
               }`}
               to="/test/image"
             >
               Test Image
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link to="/products/added/cart" className="notification">
+              <BsCartFill
+                size={20}
+                className={`mx-2 mt-2 ${
+                  path === "/products/added/cart" && "text-dark"
+                }`}
+              />
+              <span className="badge">6</span>
             </Link>
           </li>
         </ul>

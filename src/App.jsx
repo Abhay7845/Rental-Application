@@ -13,6 +13,7 @@ import RentalRetrun from "./components/screens/RentaRetrun";
 import NewCustomer from "./components/screens/NewCustomer";
 import TestImage from "./components/common/TestImage";
 import ProductsDetails from "./components/screens/ProductsDetails";
+import AddedCartData from "./components/common/AddedCartData";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -58,6 +59,10 @@ const App = () => {
             <Route
               path="/products/details"
               element={<ProductsDetails showAlert={showAlert} />}
+            />
+            <Route
+              path="/products/added/cart"
+              element={<AddedCartData showAlert={showAlert} />}
             />
             <Route
               path="/test/image"

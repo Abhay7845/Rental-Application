@@ -9,7 +9,7 @@ const TestImage = () => {
   const UploadFile = (event) => {
     const file = event.target.files[0];
     let fileName = file.name;
-    fileName = "xxxx.jpg";
+    fileName = "abcd.jpg";
     const formData = new FormData();
     formData.append("ImgName", fileName);
     formData.append("files", file);
@@ -34,7 +34,7 @@ const TestImage = () => {
   useEffect(() => {
     axios
       .get(
-        `https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=${imageName}`,
+        `https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=abcd.jpg`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

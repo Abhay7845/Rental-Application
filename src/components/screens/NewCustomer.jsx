@@ -69,7 +69,7 @@ const NewCustomer = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data) {
-            alert("PAN Oploaded Successfully");
+            alert("PAN Uploaded Successfully");
           }
           setLoading(false);
         })

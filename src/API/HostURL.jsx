@@ -8,4 +8,4 @@ export const Phoneulr1 =
 export const Phoneulr2 =
   "+for+Tanishq+Merchandising+to+approve+the+OTP+request+-+Tanishq&response=Y";
 
-export const UploadImg = "https://jewbridge.titanjew.in/NPD/API/IMAGEFETCH";
+export const UploadImg = "https://jewbridge.titanjew.in/NPD/api/Docfetch/";

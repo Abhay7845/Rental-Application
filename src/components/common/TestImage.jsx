@@ -8,9 +8,10 @@ const TestImage = () => {
   const [imageUrl, setImageUrl] = useState("");
   const UploadFile = (event) => {
     const file = event.target.files[0];
-    console.log("file==>", file);
+    let fileName = file.name;
+    fileName = "xxxx.jpg";
     const formData = new FormData();
-    formData.append("ImgName", file.name);
+    formData.append("ImgName", fileName);
     formData.append("files", file);
     axios
       .post(`${UploadImg}`, formData, {
@@ -22,32 +23,34 @@ const TestImage = () => {
       })
       .then((res) => res)
       .then((response) => {
+        console.log("responseUpload==>", response.data);
         if (response.data) {
-          setImageName(file.name);
+          setImageName(fileName);
         }
       })
       .catch((error) => console.log("error==>", error));
   };
 
   useEffect(() => {
-    if (imageName) {
-      axios
-        .get(`${UploadImg}/?ImageName=${imageName}`, {
+    axios
+      .get(
+        `https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=${imageName}`,
+        {
           headers: {
             "Content-Type": "multipart/form-data",
             UserToken: "xFeToMkUuejH0aq1IzZYmw==",
             ApiKey: "636A4E75-2B3D-4B83-8DD6-F36046290E0F",
           },
-        })
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response);
-          if (response.data) {
-            setImageUrl(response.data);
-          }
-        })
-        .catch((error) => console.log("error=>", error));
-    }
+        }
+      )
+      .then((res) => res)
+      .then((response) => {
+        console.log("responseFetch==>", response.data);
+        if (response.data) {
+          setImageUrl(response.data);
+        }
+      })
+      .catch((error) => console.log("error=>", error));
   }, [imageName]);
 
   return (
@@ -57,6 +60,7 @@ const TestImage = () => {
       {imageUrl && (
         <img
           src={`data:image/jpeg;base64,${imageUrl}`}
+          // src={imageUrl}
           alt="imageUrl"
           height="100"
         />

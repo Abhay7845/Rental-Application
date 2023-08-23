@@ -44,9 +44,10 @@ const NewCustomer = () => {
 
   // UPLOAD PAN FILE NAME
   const last4Phoneno = phoneNumber.substring(6, 10);
-  const PanCarFileName = `${PANNumber}${customerName}${last4Phoneno}`;
+  const userName = customerName.replaceAll(" ", "");
+  const PanCarFileName = `${PANNumber}${userName}${last4Phoneno}`;
   // UPLOAD ADDRESS FILE NAME
-  const AddressFileName = `${addressIDNumber}${customerName}${last4Phoneno}`;
+  const AddressFileName = `${addressIDNumber}${userName}${last4Phoneno}`;
 
   const UploadPanFile = (event) => {
     setLoading(true);

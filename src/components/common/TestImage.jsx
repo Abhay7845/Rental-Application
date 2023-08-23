@@ -34,7 +34,7 @@ const TestImage = () => {
   useEffect(() => {
     axios
       .get(
-        `https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=202064629055ashish5240.jpg`,
+        `https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=XXXXX1234XAbhay Kumar7177.jpg`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

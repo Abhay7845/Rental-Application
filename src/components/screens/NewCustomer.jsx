@@ -43,6 +43,7 @@ const NewCustomer = () => {
   const PANNumber = panNumber.toUpperCase();
 
   const UploadPanFile = (event) => {
+    setLoading(true);
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -52,8 +53,10 @@ const NewCustomer = () => {
       reader.readAsDataURL(file);
     }
     try {
+      let fileName = file.name;
+      fileName = "xyz.jpg";
       const formData = new FormData();
-      formData.append("ImgName", file.name);
+      formData.append("ImgName", fileName);
       formData.append("files", file);
       axios
         .post(`${UploadImg}`, formData, {
@@ -61,15 +64,22 @@ const NewCustomer = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log(response.data);
+          if (response.data) {
+            alert("Document Upadated Successfully");
+          }
+          setLoading(false);
         })
-        .catch((error) => console.log("error==>", error));
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
     } catch (error) {
       console.log("error==>", error);
     }
   };
 
   const UploadAddressProof = (event) => {
+    setLoading(true);
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -77,6 +87,30 @@ const NewCustomer = () => {
     };
     if (file) {
       reader.readAsDataURL(file);
+    }
+    try {
+      let fileName = file.name;
+      fileName = "xyz.jpg";
+      const formData = new FormData();
+      formData.append("ImgName", fileName);
+      formData.append("files", file);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          if (response.data) {
+            alert("Document Upadated Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.log("error==>", error);
     }
   };
 

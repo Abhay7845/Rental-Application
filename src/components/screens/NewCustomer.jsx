@@ -42,6 +42,12 @@ const NewCustomer = () => {
   const [addressProofType, setAddressProofType] = useState("");
   const PANNumber = panNumber.toUpperCase();
 
+  // UPLOAD PAN FILE NAME
+  const last4Phoneno = phoneNumber.substring(6, 10);
+  const PanCarFileName = `${PANNumber}${customerName}${last4Phoneno}`;
+  // UPLOAD ADDRESS FILE NAME
+  const AddressFileName = `${addressIDNumber}${customerName}${last4Phoneno}`;
+
   const UploadPanFile = (event) => {
     setLoading(true);
     const file = event.target.files[0];
@@ -53,10 +59,8 @@ const NewCustomer = () => {
       reader.readAsDataURL(file);
     }
     try {
-      let fileName = file.name;
-      fileName = "xyz.jpg";
       const formData = new FormData();
-      formData.append("ImgName", fileName);
+      formData.append("ImgName", `${PanCarFileName}.jpg`);
       formData.append("files", file);
       axios
         .post(`${UploadImg}`, formData, {
@@ -65,7 +69,7 @@ const NewCustomer = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data) {
-            alert("Document Upadated Successfully");
+            alert("PAN Oploaded Successfully");
           }
           setLoading(false);
         })
@@ -89,10 +93,8 @@ const NewCustomer = () => {
       reader.readAsDataURL(file);
     }
     try {
-      let fileName = file.name;
-      fileName = "xyz.jpg";
       const formData = new FormData();
-      formData.append("ImgName", fileName);
+      formData.append("ImgName", `${AddressFileName}.jpg`);
       formData.append("files", file);
       axios
         .post(`${UploadImg}`, formData, {
@@ -101,7 +103,7 @@ const NewCustomer = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data) {
-            alert("Document Upadated Successfully");
+            alert("Address Proof Uploaded Successfully");
           }
           setLoading(false);
         })

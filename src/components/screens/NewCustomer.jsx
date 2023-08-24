@@ -135,8 +135,9 @@ const NewCustomer = () => {
         )
         .then((res) => res)
         .then((response) => {
+          console.log("response==>", response);
           if (response) {
-            alert("OTP has been your mobile Number");
+            alert("OTP has been sent your mobile Number");
             setPhoneOtp(OtpPhone);
             setSecPhoneCount(60);
           }
@@ -145,6 +146,7 @@ const NewCustomer = () => {
         .catch((error) => {
           console.log("error==>", error);
           setLoading(false);
+          setPhoneOtp(OtpPhone);
         });
     }
   };

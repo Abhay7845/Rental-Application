@@ -148,7 +148,7 @@ const NewCustomer = () => {
   const VerifyPhoneOTP = () => {
     setLoading(true);
     if (phoneOtp === parseInt(enterPhoneOtp)) {
-      alert("Phone Number Verified Successfully");
+      alert("Your Phone OTP Verified Successfully");
       setPhoneVerified(true);
     } else {
       alert("Invalid OTP");
@@ -190,30 +190,33 @@ const NewCustomer = () => {
     } else if (!emailId.match(EmailRegex)) {
       alert("Please Enter Valid Email Id");
     } else {
-      const min = 100000;
-      const max = 999999;
-      const OtpEmail = Math.floor(Math.random() * (max - min + 1)) + min;
       setLoading(true);
+      const EmailInput = {
+        fromMailId: "iteanzdurgesh@titan.co.in",
+        toMailId: emailId,
+      };
       axios
-        .get("")
+        .post(`${HOST_URL}/insert/auto/mailer/content`, EmailInput)
         .then((res) => res)
-        .then((response) => response)
+        .then((response) => {
+          if ((response.data.code = "1000")) {
+            setEmailOtp(response.data.otp);
+            alert("OTP has been sent on your Email");
+          }
+          setSecEmailCount(60);
+          setLoading(false);
+        })
         .catch((error) => {
           console.log("error==>", error);
           setLoading(false);
         });
-      setEmailOtp(OtpEmail);
-      setSecEmailCount(60);
-      alert("OTP has been your Email");
-      setLoading(false);
     }
   };
 
   const VerifyEmailOTP = () => {
     setLoading(true);
-
     if (emailOtp === parseInt(enterEmailOtp)) {
-      alert("Email Verified Successfully");
+      alert("Your Email OTP Verified Successfully");
       setEmailVerified(true);
     } else {
       alert("Invalid OTP");
@@ -284,9 +287,6 @@ const NewCustomer = () => {
       {loading === true && <Loader />}
       <Navbar />
       <div className="mt-4 mx-2">
-        <div className="d-flex justify-content-between">
-          {emailOtp && <b>Email OTP -{emailOtp}</b>}
-        </div>
         <h6 className="bookingHeading">New Customer Details</h6>
         <div className="row g-3">
           <div className="col-md-4">

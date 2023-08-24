@@ -134,15 +134,18 @@ const NewCustomer = () => {
           `${Phoneulr1}${phoneNumber}&message=Kindly+share+this+OTP+-+${OtpPhone}${Phoneulr2}`
         )
         .then((res) => res)
-        .then((response) => response)
+        .then((response) => {
+          if (response) {
+            alert("OTP has been your mobile Number");
+            setPhoneOtp(OtpPhone);
+            setSecPhoneCount(60);
+          }
+          setLoading(false);
+        })
         .catch((error) => {
           console.log("error==>", error);
           setLoading(false);
         });
-      setPhoneOtp(OtpPhone);
-      setSecPhoneCount(60);
-      alert("OTP has been your mobile Number");
-      setLoading(false);
     }
   };
   const VerifyPhoneOTP = () => {

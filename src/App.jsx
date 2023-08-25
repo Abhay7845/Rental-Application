@@ -14,6 +14,10 @@ import NewCustomer from "./components/screens/NewCustomer";
 import TestImage from "./components/common/TestImage";
 import ProductsDetails from "./components/screens/ProductsDetails";
 import AddedCartData from "./components/common/AddedCartData";
+import SummaryReports from "./components/Admin/SummaryReports";
+import ItemBooking from "./components/Admin/ItemBooking";
+import BookingVerification from "./components/Admin/BookingVerification";
+import DiscountApproval from "./components/Admin/DiscountApproval";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -67,6 +71,23 @@ const App = () => {
             <Route
               path="/test/image"
               element={<TestImage showAlert={showAlert} />}
+            />
+            {/* ADMIN COMPONENTS */}
+            <Route
+              path="/admin/summary/reports"
+              element={<SummaryReports showAlert={showAlert} />}
+            />
+            <Route
+              path="/admin/item/booking"
+              element={<ItemBooking showAlert={showAlert} />}
+            />
+            <Route
+              path="/admin/booking/verification"
+              element={<BookingVerification showAlert={showAlert} />}
+            />
+            <Route
+              path="/admin/discount/approval"
+              element={<DiscountApproval showAlert={showAlert} />}
             />
           </Route>
         </Route>

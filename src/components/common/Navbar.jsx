@@ -38,7 +38,7 @@ const Navbar = () => {
               }`}
               to="/booking"
             >
-              New Booking
+              N_Booking
             </Link>
           </li>
           <Link
@@ -47,7 +47,7 @@ const Navbar = () => {
             }`}
             to="/new/customer"
           >
-            New Customer
+            Customer
           </Link>
           <li className="nav-item mx-2">
             <Link
@@ -56,7 +56,7 @@ const Navbar = () => {
               }`}
               to="/rental/issue"
             >
-              Rental Issue
+              Issue
             </Link>
           </li>
           <li className="nav-item mx-2">
@@ -66,7 +66,7 @@ const Navbar = () => {
               }`}
               to="/rental/return"
             >
-              Rental Return
+              Return
             </Link>
           </li>
           <li className="nav-item">
@@ -76,7 +76,7 @@ const Navbar = () => {
               }`}
               to="/cancellation"
             >
-              Cancellation
+              Cancel
             </Link>
           </li>
           <li className="nav-item mx-2">
@@ -92,11 +92,21 @@ const Navbar = () => {
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/test/image" && "active"
+                path === "/admin/summary/reports" && "active"
               }`}
-              to="/test/image"
+              to="/admin/summary/reports"
             >
-              Test Image
+              Reports
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/admin/item/booking" && "active"
+              }`}
+              to="/admin/item/booking"
+            >
+              Item Booking
             </Link>
           </li>
           <li className="nav-item mx-2">
@@ -108,6 +118,36 @@ const Navbar = () => {
                 }`}
               />
               <span className="badge">6</span>
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/admin/booking/verification" && "active"
+              }`}
+              to="/admin/booking/verification"
+            >
+              Booking_V
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/admin/discount/approval" && "active"
+              }`}
+              to="/admin/discount/approval"
+            >
+              Discount_A
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link
+              className={`nav-link navbarLink  ${
+                path === "/test/image" && "active"
+              }`}
+              to="/test/image"
+            >
+              Test
             </Link>
           </li>
         </ul>

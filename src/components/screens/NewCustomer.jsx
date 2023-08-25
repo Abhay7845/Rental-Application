@@ -43,11 +43,11 @@ const NewCustomer = () => {
   const PANNumber = panNumber.toUpperCase();
 
   // UPLOAD PAN FILE NAME
+  const miliSecond = new Date().getUTCMilliseconds();
   const last4Phoneno = phoneNumber.substring(6, 10);
-  const userName = customerName.replaceAll(" ", "");
-  const PanCarFileName = `${PANNumber}${userName}${last4Phoneno}`;
+  const PanCarFileName = `${PANNumber}${miliSecond}${last4Phoneno}`;
   // UPLOAD ADDRESS FILE NAME
-  const AddressFileName = `${addressIDNumber}${userName}${last4Phoneno}`;
+  const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}`;
 
   const UploadPanFile = (event) => {
     setLoading(true);

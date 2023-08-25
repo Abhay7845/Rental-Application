@@ -103,9 +103,9 @@ const NewBooking = () => {
       });
   };
   useEffect(() => {
-    if (existedUserData.panCardNoFileName) {
+    if (existedUserData.addressProofFileName) {
       axios
-        .get(`${FetchImg}=${existedUserData.panCardNoFileName}`, {
+        .get(`${FetchImg}=${existedUserData.addressProofFileName}`, {
           headers: ImageHeaders,
         })
         .then((res) => res)
@@ -117,7 +117,7 @@ const NewBooking = () => {
         })
         .catch((error) => console.log("error=>", error));
     }
-  }, [existedUserData.panCardNoFileName]);
+  }, [existedUserData.addressProofFileName]);
 
   // SAVE ITEM DETAILS
   const SaveItemsDetails = () => {

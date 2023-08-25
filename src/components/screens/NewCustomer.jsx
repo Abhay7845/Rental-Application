@@ -50,7 +50,7 @@ const NewCustomer = () => {
   const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}`;
 
   const UploadPanFile = (event) => {
-    if (panNumber.length > 9) {
+    if (PANNumber.match(panRegex)) {
       setLoading(true);
       const file = event.target.files[0];
       const reader = new FileReader();
@@ -80,7 +80,7 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else {
-      alert("Please Enter First PAN Number");
+      alert("Please Enter Valid PAN Number");
       document.getElementById("panProof").value = "";
     }
   };
@@ -241,7 +241,6 @@ const NewCustomer = () => {
       !addresLine2 ||
       !cityName ||
       !pinCode ||
-      !panNumber ||
       !panFile ||
       !addressProofType ||
       !addressIDNumber ||
@@ -251,8 +250,6 @@ const NewCustomer = () => {
       alert("Please Fill All Form Details");
     } else if (phoneVerified === false || emailVerified === false) {
       alert("Please Complete OTP Verification With Phone & Email");
-    } else if (!PANNumber.match(panRegex)) {
-      alert("Invalid PAN Number");
     } else {
       setLoading(true);
       const NewCustomer = {

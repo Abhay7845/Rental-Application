@@ -50,16 +50,16 @@ const NewCustomer = () => {
   const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}`;
 
   const UploadPanFile = (event) => {
-    setLoading(true);
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPanFile(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-    try {
+    if (panNumber.length > 9) {
+      setLoading(true);
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPanFile(reader.result);
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
       const formData = new FormData();
       formData.append("ImgName", `${PanCarFileName}.jpg`);
       formData.append("files", file);
@@ -69,8 +69,9 @@ const NewCustomer = () => {
         })
         .then((res) => res)
         .then((response) => {
+          console.log("response==>", response.data);
           if (response.data) {
-            alert("PAN Uploaded Successfully");
+            alert("Your PAN Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -78,8 +79,9 @@ const NewCustomer = () => {
           console.log("error==>", error);
           setLoading(false);
         });
-    } catch (error) {
-      console.log("error==>", error);
+    } else {
+      alert("Please Enter First PAN Number");
+      document.getElementById("panProof").value = "";
     }
   };
 
@@ -458,6 +460,7 @@ const NewCustomer = () => {
               type="file"
               className="form-control"
               onChange={UploadPanFile}
+              id="panProof"
             />
           </div>
           <div className="col-md-4 text-center">

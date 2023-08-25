@@ -86,16 +86,16 @@ const NewCustomer = () => {
   };
 
   const UploadAddressProof = (event) => {
-    setLoading(true);
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setAddressFile(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-    try {
+    if (addressIDNumber.length > 11) {
+      setLoading(true);
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAddressFile(reader.result);
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
       const formData = new FormData();
       formData.append("ImgName", `${AddressFileName}.jpg`);
       formData.append("files", file);
@@ -114,8 +114,9 @@ const NewCustomer = () => {
           console.log("error==>", error);
           setLoading(false);
         });
-    } catch (error) {
-      console.log("error==>", error);
+    } else {
+      alert("Please Enter First ID Number");
+      document.getElementById("addressProof").value = "";
     }
   };
 
@@ -507,6 +508,7 @@ const NewCustomer = () => {
                 type="file"
                 className="form-control"
                 onChange={UploadAddressProof}
+                id="addressProof"
               />
             </div>
           )}

@@ -9,3 +9,5 @@ export const Phoneulr2 =
   "+for+Tanishq+Merchandising+to+approve+the+OTP+request+-+Tanishq&response=Y";
 
 export const UploadImg = "https://jewbridge.titanjew.in/NPD/api/Docfetch/";
+export const FetchImg =
+  "https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=";

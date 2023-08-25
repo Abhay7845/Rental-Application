@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
-import { packageDayOption, phonePan } from "../../Data/DataList";
+import { ImageHeaders, packageDayOption, phonePan } from "../../Data/DataList";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
+import { FetchImg } from "../../API/HostURL";
 
 const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
@@ -45,6 +46,9 @@ const NewBooking = () => {
   const [productValue, setProductValue] = useState("");
   const [rentalAmount, setRentalAmount] = useState("");
   const [depositAmount, setDepositAmount] = useState("");
+
+  // FETCH CUSOMER UPLPAD IMAGE
+  const [panImageUrl, setPanImgUrl] = useState("");
 
   // ITEM DETAILS TABLE
   const [itemDetailsTableRow, setItemDetailsTableRow] = useState([]);
@@ -98,6 +102,22 @@ const NewBooking = () => {
         setLoading(false);
       });
   };
+  useEffect(() => {
+    if (existedUserData.panCardNoFileName) {
+      axios
+        .get(`${FetchImg}=${existedUserData.panCardNoFileName}`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("responseFetch==>", response.data);
+          if (response.data) {
+            setPanImgUrl(response.data);
+          }
+        })
+        .catch((error) => console.log("error=>", error));
+    }
+  }, [existedUserData.panCardNoFileName]);
 
   // SAVE ITEM DETAILS
   const SaveItemsDetails = () => {
@@ -404,14 +424,16 @@ const NewBooking = () => {
               onChange={(e) => setCustonerIdNo(e.target.value)}
             />
           </div>
-          <div className="col-md-6 d-flex justify-content-center border">
-            <img
-              src={existedUserData.panCardNoFileName}
-              alt="PAN.png"
-              width="170"
-              height="95"
-            />
-          </div>
+          {panImageUrl && (
+            <div className="col-md-6 d-flex justify-content-center">
+              <img
+                src={`data:image/jpeg;base64,${panImageUrl}`}
+                alt=""
+                width="170"
+                height="95"
+              />
+            </div>
+          )}
           <div className="col-12 d-flex">
             <label className="form-label">With in Catchment?</label>
             <div className="mx-3">

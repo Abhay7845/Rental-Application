@@ -90,26 +90,6 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item mx-2">
-            <Link
-              className={`nav-link navbarLink  ${
-                path === "/admin/summary/reports" && "active"
-              }`}
-              to="/admin/summary/reports"
-            >
-              Reports
-            </Link>
-          </li>
-          <li className="nav-item mx-2">
-            <Link
-              className={`nav-link navbarLink  ${
-                path === "/admin/item/booking" && "active"
-              }`}
-              to="/admin/item/booking"
-            >
-              Item Booking
-            </Link>
-          </li>
-          <li className="nav-item mx-2">
             <Link to="/products/added/cart" className="notification">
               <BsCartFill
                 size={20}
@@ -123,21 +103,11 @@ const Navbar = () => {
           <li className="nav-item mx-2">
             <Link
               className={`nav-link navbarLink  ${
-                path === "/admin/booking/verification" && "active"
+                path === "/admin/update/master/price" && "active"
               }`}
-              to="/admin/booking/verification"
+              to="/admin/update/master/price"
             >
-              Booking_V
-            </Link>
-          </li>
-          <li className="nav-item mx-2">
-            <Link
-              className={`nav-link navbarLink  ${
-                path === "/admin/discount/approval" && "active"
-              }`}
-              to="/admin/discount/approval"
-            >
-              Discount_A
+              ADMIN
             </Link>
           </li>
           <li className="nav-item mx-2">

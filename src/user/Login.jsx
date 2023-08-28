@@ -27,7 +27,7 @@ const Login = (props) => {
             navigate("/home");
           } else if (response.data.value.role === "Admin") {
             localStorage.setItem("rsoRole", response.data.value.role);
-            navigate("/admin/summary/reports");
+            navigate("/admin/update/master/price");
           } else if (response.data.value.role === "Cashier") {
             localStorage.setItem("rsoRole", response.data.value.role);
             navigate("/cashier/payment");

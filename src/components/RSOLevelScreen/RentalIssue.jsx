@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
-import { DataList, packageDayOption } from "../../Data/DataList";
+import { DataList } from "../../Data/DataList";
 import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
 
 const RentalIssue = () => {
@@ -225,24 +225,6 @@ const RentalIssue = () => {
               onChange={UploadDeliveryProductImg}
             />
           </div>
-          <div className="col-md-6">
-            <label className="form-label">Rental Start Date</label>
-            <input type="date" className="form-control" />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Package Days</label>
-            <select type="date" className="form-control">
-              <option>Select Days</option>
-              {packageDayOption.map((days, i) => {
-                return (
-                  <option key={i} value={days}>
-                    {days}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
           {DataList.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>

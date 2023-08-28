@@ -450,7 +450,7 @@ const NewCustomer = () => {
               maxLength={10}
               value={PANNumber}
               onChange={(e) => setPanNumber(e.target.value)}
-              disabled={panFile ? true : false}
+              // disabled={panFile ? true : false}
             />
           </div>
           <div className="col-md-4">
@@ -496,7 +496,7 @@ const NewCustomer = () => {
                 value={addressIDNumber.toLocaleUpperCase()}
                 maxLength={addressProofType === "aadhar" ? 12 : 15}
                 onChange={(e) => setAddressIDNumber(e.target.value)}
-                disabled={addressFile ? true : false}
+                // disabled={addressFile ? true : false}
               />
             </div>
           )}

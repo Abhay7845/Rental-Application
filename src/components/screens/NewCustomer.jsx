@@ -126,6 +126,42 @@ const NewCustomer = () => {
     }
   };
 
+  const UploadBankCheque = (event) => {
+    if (customerAccountNumber.length > 10) {
+      setLoading(true);
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append("ImgName", `${customerAccountNumber}.jpg`);
+      formData.append("files", file);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setBankDetailFileName(reader.result);
+            };
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+            alert("Your Cheque Book Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    } else {
+      alert("Please Enter Bank Details");
+      document.getElementById("chequeBook").value = "";
+    }
+  };
+
   const GetPhoneOtp = () => {
     if (!phoneNumber) {
       alert("Please Enter Phone Number");
@@ -568,12 +604,18 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-4">
-            <label className="form-label">Upload Cancelled Cheque</label>
+            <label className="form-label">Upload Cancelled Cheque Book</label>
             <input
               type="file"
               className="form-control"
-              onChange={(e) => setBankDetailFileName(e.target.value)}
+              onChange={UploadBankCheque}
+              id="chequeBook"
             />
+          </div>
+          <div className="col-md-4 text-center">
+            {bankDetailFileName && (
+              <img src={bankDetailFileName} alt="..." height="100px" />
+            )}
           </div>
           <div className="col-12 d-flex justify-content-end mb-4">
             <button className="CButton" onClick={SaveCustomerDetails}>

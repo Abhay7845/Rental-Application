@@ -15,9 +15,9 @@ import TestImage from "./components/common/TestImage";
 import ProductsDetails from "./components/screens/ProductsDetails";
 import AddedCartData from "./components/common/AddedCartData";
 import SummaryReports from "./components/Admin/SummaryReports";
-import ItemBooking from "./components/Admin/ItemBooking";
 import BookingVerification from "./components/Admin/BookingVerification";
-import DiscountApproval from "./components/Admin/DiscountApproval";
+import DiscountValidation from "./components/Admin/DiscountValidation";
+import UpdateMasterPrice from "./components/Admin/UpdateMasterPrice";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -74,20 +74,20 @@ const App = () => {
             />
             {/* ADMIN COMPONENTS */}
             <Route
+              path="/admin/update/master/price"
+              element={<UpdateMasterPrice showAlert={showAlert} />}
+            />
+            <Route
               path="/admin/summary/reports"
               element={<SummaryReports showAlert={showAlert} />}
             />
             <Route
-              path="/admin/item/booking"
-              element={<ItemBooking showAlert={showAlert} />}
+              path="/admin/discount/validation"
+              element={<DiscountValidation showAlert={showAlert} />}
             />
             <Route
               path="/admin/booking/verification"
               element={<BookingVerification showAlert={showAlert} />}
-            />
-            <Route
-              path="/admin/discount/approval"
-              element={<DiscountApproval showAlert={showAlert} />}
             />
           </Route>
         </Route>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Login from "./user/Login";
 import Alert from "./components/common/Alert";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./components/common/Home";
+import Home from "./components/RSO/RsoHome";
 import PrivateScreens from "./components/common/PrivateScreens";
 import NewBooking from "./components/RSO/NewBooking";
 import RentalIssue from "./components/RSO/RentalIssue";

@@ -10,6 +10,7 @@ import axios from "axios";
 import { HOST_URL } from "../API/HostURL";
 
 const Login = (props) => {
+  const { showAlert } = props;
   const [passwordShown, setPasswordShown] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -32,11 +33,14 @@ const Login = (props) => {
             localStorage.setItem("rsoRole", response.data.value.role);
             navigate("/cashier/payment");
           }
+        } else if (response.data.code === "1001") {
+          showAlert("Please Enter Valid Username and Password", "danger");
         }
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
+        showAlert("Please Enter Valid Username and Password", "danger");
+        console.log("");
         setLoading(false);
       });
   };

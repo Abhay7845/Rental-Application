@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../common/Navbar";
 import "../../Style/Home.css";
 import axios from "axios";
 import { BsFillXCircleFill, BsFillCheckCircleFill } from "react-icons/bs";

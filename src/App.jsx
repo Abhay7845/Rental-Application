@@ -4,20 +4,21 @@ import Alert from "./components/common/Alert";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/common/Home";
 import PrivateScreens from "./components/common/PrivateScreens";
-import NewBooking from "./components/RSOLevelScreen/NewBooking";
-import RentalIssue from "./components/RSOLevelScreen/RentalIssue";
+import NewBooking from "./components/RSO/NewBooking";
+import RentalIssue from "./components/RSO/RentalIssue";
 import "./App.css";
 import "react-calendar/dist/Calendar.css";
-import Cancellation from "./components/RSOLevelScreen/Cancellation";
-import RentalRetrun from "./components/RSOLevelScreen/RentaRetrun";
-import NewCustomer from "./components/RSOLevelScreen/NewCustomer";
+import Cancellation from "./components/RSO/Cancellation";
+import RentalRetrun from "./components/RSO/RentaRetrun";
+import NewCustomer from "./components/RSO/NewCustomer";
 import TestImage from "./components/common/TestImage";
-import ProductsDetails from "./components/RSOLevelScreen/ProductsDetails";
+import ProductsDetails from "./components/RSO/ProductsDetails";
 import AddedCartData from "./components/common/AddedCartData";
 import SummaryReports from "./components/Admin/SummaryReports";
 import BookingVerification from "./components/Admin/BookingVerification";
 import DiscountValidation from "./components/Admin/DiscountValidation";
 import UpdateMasterPrice from "./components/Admin/UpdateMasterPrice";
+import CashierPaymentDetails from "./components/Cashier/CashierPaymentDetails";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -88,6 +89,11 @@ const App = () => {
             <Route
               path="/admin/booking/verification"
               element={<BookingVerification showAlert={showAlert} />}
+            />
+            {/* CASHIER COMPONENTS */}
+            <Route
+              path="/cashier/payment"
+              element={<CashierPaymentDetails showAlert={showAlert} />}
             />
           </Route>
         </Route>

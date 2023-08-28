@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="navbar-brand">
           <img src={brandName} alt="brandName" className="brandName" />
         </div>
-        {UserName.toUpperCase() !== "ADMIN" ? (
+        {UserName.toUpperCase() === "RSO" && (
           <ul className="navbar-nav me-auto d-flex flex-row">
             <li className="nav-item navbarLink">
               <Link
@@ -114,8 +114,6 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-        ) : (
-          ""
         )}
         <div className="d-flex">
           <b className="navbarLink mx-2 mt-0">{UserName.toUpperCase()}</b>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../Common/Navbar";
+import Navbar from "../common/Navbar";
 import {
   EmailRegex,
   ImageHeaders,
@@ -8,7 +8,7 @@ import {
 } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL, Phoneulr1, Phoneulr2, UploadImg } from "../../API/HostURL";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION

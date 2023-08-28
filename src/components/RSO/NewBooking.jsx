@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../Common/Navbar";
+import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
 import { ImageHeaders, packageDayOption, phonePan } from "../../Data/DataList";
@@ -7,7 +7,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
-import Loader from "../Common/Loader";
+import Loader from "../common/Loader";
 import { FetchImg } from "../../API/HostURL";
 
 const NewBooking = () => {

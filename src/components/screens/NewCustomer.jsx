@@ -21,6 +21,12 @@ const NewCustomer = () => {
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
 
+  // CUSTOMER BANK DETAIL FIELDS
+  const [customerBankName, setCustomerBankName] = useState("");
+  const [customerAccountNumber, setCustomerAccountNumber] = useState("");
+  const [bankIfsc, setBankIfsc] = useState("");
+  const [bankDetailFileName, setBankDetailFileName] = useState("");
+
   // EMAIL ADDRESS  OTP VALIDATION
   const [secEmailCount, setSecEmailCount] = useState(60);
   const [emailOtp, setEmailOtp] = useState("");
@@ -269,6 +275,10 @@ const NewCustomer = () => {
         updateDate: new Date(),
         status: "created",
         rsoName: rsoName,
+        customerBankName: customerBankName,
+        customerAccountNumber: customerAccountNumber,
+        bankIfsc: bankIfsc,
+        bankDetailFileName: bankDetailFileName,
       };
       console.log("NewCustomer==>", NewCustomer);
       axios
@@ -516,7 +526,6 @@ const NewCustomer = () => {
               <img src={addressFile} alt="addressFile" height="100px" />
             )}
           </div>
-
           <div className="col-md-4">
             <label className="form-label">RSO Name</label>
             <input
@@ -524,6 +533,46 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="RSO Name"
               onChange={(e) => setRsoName(e.target.value)}
+            />
+          </div>
+          <div className="col-12">
+            <h6 className="bookingHeading mb-0">
+              Customer Bank Details (OPTIONAL)
+            </h6>
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Bank Name</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Bank Name"
+              onChange={(e) => setCustomerBankName(e.target.value)}
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Account Number</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Account Number"
+              onChange={(e) => setCustomerAccountNumber(e.target.value)}
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">IFSC CODE</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="IFSC CODE"
+              onChange={(e) => setBankIfsc(e.target.value)}
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Upload Cancelled Cheque</label>
+            <input
+              type="file"
+              className="form-control"
+              onChange={(e) => setBankDetailFileName(e.target.value)}
             />
           </div>
           <div className="col-12 d-flex justify-content-end mb-4">

@@ -434,29 +434,7 @@ const NewBooking = () => {
               />
             </div>
           )}
-          <div className="col-12 d-flex">
-            <label className="form-label">With in Catchment?</label>
-            <div className="mx-3">
-              <input
-                className="form-check-input border-dark"
-                type="radio"
-                name="catchment"
-                defaultChecked
-                onClick={() => setWithinCatchment("YES")}
-              />
-              <label className="form-check-label mx-1">YES</label>
-            </div>
-            <div>
-              <input
-                className="form-check-input border-dark"
-                type="radio"
-                name="catchment"
-                defaultChecked
-                onClick={() => setWithinCatchment("NO")}
-              />
-              <label className="form-check-label mx-1">NO</label>
-            </div>
-          </div>
+
           <div className="col-md-6">
             <label className="form-label">Rent Start Date</label>
             <input type="date" className="form-control" />

@@ -2,11 +2,15 @@ import React from "react";
 import Navbar from "../common/Navbar";
 import { DataList } from "../../Data/DataList";
 import AdminSideBar from "../common/AdminSideBar";
+import AdminToggelSideBar from "../common/AdminToggelSideBar";
 
 const SummaryReports = () => {
   return (
     <div>
       <Navbar />
+      <div className="DropdownForAdmin">
+        <AdminToggelSideBar />
+      </div>
       <AdminSideBar />
       <div className="main">
         <div className="row mx-0 mt-3">

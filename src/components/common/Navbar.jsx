@@ -17,7 +17,7 @@ const Navbar = () => {
   useEffect(() => {}, [path]);
 
   return (
-    <nav className="navbar sticky-top" style={{ backgroundColor: "#008080" }}>
+    <nav className="navbar" style={{ backgroundColor: "#008080" }}>
       <div className="container-fluid">
         <div className="navbar-brand">
           <img src={brandName} alt="brandName" className="brandName" />

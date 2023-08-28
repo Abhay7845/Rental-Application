@@ -7,6 +7,7 @@ import axios from "axios";
 import ShowError from "../../Schema/ShowEroor";
 import { FileInitialValue, masterSchema } from "../../Schema/LoginSchema";
 import Loader from "../common/Loader";
+import AdminToggelSideBar from "../common/AdminToggelSideBar";
 
 const UpdateMasterPrice = () => {
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,9 @@ const UpdateMasterPrice = () => {
     <div>
       {loading === true && <Loader />}
       <Navbar />
+      <div className="DropdownForAdmin">
+        <AdminToggelSideBar />
+      </div>
       <AdminSideBar />
       <div className="main">
         <h5 className="text-center mt-2">UPDATE MASTER PRICE</h5>

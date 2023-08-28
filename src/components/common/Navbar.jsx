@@ -106,16 +106,6 @@ const Navbar = () => {
             <li className="nav-item mx-2">
               <Link
                 className={`nav-link navbarLink  ${
-                  path === "/admin/update/master/price" && "active"
-                }`}
-                to="/admin/update/master/price"
-              >
-                ADMIN
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link
-                className={`nav-link navbarLink  ${
                   path === "/test/image" && "active"
                 }`}
                 to="/test/image"

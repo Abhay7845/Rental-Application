@@ -14,23 +14,19 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const authToken = "cbsadfciqouqasdckadscadschevf";
   const onLogin = (payload) => {
-    const { userName } = payload;
-    localStorage.setItem("storCode", userName);
     setLoading(true);
     axios
       .post(`${HOST_URL}/rental/login/portal`, payload)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          localStorage.setItem("token", authToken);
-          navigate("/home");
-          if (response.data.role.toUpperCash() === "RSO") {
-            localStorage.setItem("userName", response.data.role);
+          if (response.data.value.role === "RSO") {
+            localStorage.setItem("rsoRole", response.data.value.role);
             navigate("/home");
-          } else if (response.data.role.toUpperCash() === "ADMIN") {
-            localStorage.setItem("userName", response.data.role);
+          } else if (response.data.value.role === "ADMIN") {
+            localStorage.setItem("rsoRole", response.data.value.role);
             navigate("/admin/summary/reports");
           }
         }

@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 const PrivateScreens = () => {
   return (
     <div>
-      {localStorage.getItem("token") ? <Outlet /> : <Navigate to="/login" />}
+      {localStorage.getItem("rsoRole") ? <Outlet /> : <Navigate to="/login" />}
     </div>
   );
 };

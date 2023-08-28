@@ -42,7 +42,7 @@ const UpdateMasterPrice = () => {
       </div>
       <AdminSideBar />
       <div className="main">
-        <h5 className="text-center mt-2">UPDATE MASTER PRICE</h5>
+        <h5 className="text-center mt-2">UPDATE ITEM PRICE MASTER</h5>
         <Formik
           initialValues={FileInitialValue}
           validationSchema={masterSchema}

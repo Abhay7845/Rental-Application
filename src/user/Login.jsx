@@ -25,7 +25,7 @@ const Login = (props) => {
           if (response.data.value.role === "RSO") {
             localStorage.setItem("rsoRole", response.data.value.role);
             navigate("/home");
-          } else if (response.data.value.role === "ADMIN") {
+          } else if (response.data.value.role === "Admin") {
             localStorage.setItem("rsoRole", response.data.value.role);
             navigate("/admin/summary/reports");
           }

@@ -8,7 +8,7 @@ const AdminSideBar = () => {
       <div className="AdminSidebarStyle">
         <ul className="mt-4">
           <Link to="/admin/update/master/price" className="NavigationStyle">
-            UPDATE MASTER PRICE
+            UPDATE ITEM PRICE MASTER
           </Link>
           <hr style={{ color: "#ffff" }} />
           <Link to="/admin/summary/reports" className="NavigationStyle">

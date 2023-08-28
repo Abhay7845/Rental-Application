@@ -26,6 +26,13 @@ const Login = (props) => {
         if (response.data.code === "1000") {
           localStorage.setItem("token", authToken);
           navigate("/home");
+          if (response.data.role.toUpperCash() === "RSO") {
+            localStorage.setItem("userName", response.data.role);
+            navigate("/home");
+          } else if (response.data.role.toUpperCash() === "ADMIN") {
+            localStorage.setItem("userName", response.data.role);
+            navigate("/admin/summary/reports");
+          }
         }
         setLoading(false);
       })

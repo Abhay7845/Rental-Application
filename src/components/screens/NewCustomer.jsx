@@ -310,7 +310,7 @@ const NewCustomer = () => {
               value={phoneNumber}
               maxLength={10}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              disabled={phoneOtp ? true : false}
+              disabled={phoneVerified ? true : false}
             />
           </div>
           {phoneOtp && !phoneVerified && (
@@ -362,7 +362,7 @@ const NewCustomer = () => {
               placeholder="Email ID"
               value={emailId}
               onChange={(e) => setEmailId(e.target.value)}
-              disabled={emailOtp ? true : false}
+              disabled={emailVerified ? true : false}
             />
           </div>
           {emailOtp && !emailVerified && (

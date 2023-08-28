@@ -12,3 +12,10 @@ export const LoginSchema = yup.object({
   password: yup.string().required("Password is required"),
   // rsoName: yup.string().required("RSO Name Is required"),
 });
+
+export const FileInitialValue = {
+  masterFile: "",
+};
+export const masterSchema = yup.object({
+  masterFile: yup.string().required("File is required"),
+});

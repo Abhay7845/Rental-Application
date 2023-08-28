@@ -53,6 +53,20 @@
 .CancelButton:hover {
   background-color: #ba1818;
 }
+/* SELECT DATE */
+.DateSelect {
+  width: 100%;
+  outline: none;
+  border: 1px solid #c1c4c5;
+  background: transparent;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.DateSelect:hover {
+  border: 1px solid #1899e4;
+  cursor: pointer;
+}
 
 .DeleteRow {
   color: #d30e0e;

@@ -53,13 +53,6 @@ const NewCustomer = () => {
     if (PANNumber.match(panRegex)) {
       setLoading(true);
       const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPanFile(reader.result);
-      };
-      if (file) {
-        reader.readAsDataURL(file);
-      }
       const formData = new FormData();
       formData.append("ImgName", `${PanCarFileName}.jpg`);
       formData.append("files", file);
@@ -71,6 +64,13 @@ const NewCustomer = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setPanFile(reader.result);
+            };
+            if (file) {
+              reader.readAsDataURL(file);
+            }
             alert("Your PAN Uploaded Successfully");
           }
           setLoading(false);
@@ -89,13 +89,6 @@ const NewCustomer = () => {
     if (addressIDNumber.length > 11) {
       setLoading(true);
       const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAddressFile(reader.result);
-      };
-      if (file) {
-        reader.readAsDataURL(file);
-      }
       const formData = new FormData();
       formData.append("ImgName", `${AddressFileName}.jpg`);
       formData.append("files", file);
@@ -106,6 +99,13 @@ const NewCustomer = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setAddressFile(reader.result);
+            };
+            if (file) {
+              reader.readAsDataURL(file);
+            }
             alert("Address Proof Uploaded Successfully");
           }
           setLoading(false);
@@ -450,6 +450,7 @@ const NewCustomer = () => {
               maxLength={10}
               value={PANNumber}
               onChange={(e) => setPanNumber(e.target.value)}
+              disabled={panFile ? true : false}
             />
           </div>
           <div className="col-md-4">
@@ -495,6 +496,7 @@ const NewCustomer = () => {
                 value={addressIDNumber.toLocaleUpperCase()}
                 maxLength={addressProofType === "aadhar" ? 12 : 15}
                 onChange={(e) => setAddressIDNumber(e.target.value)}
+                disabled={addressFile ? true : false}
               />
             </div>
           )}

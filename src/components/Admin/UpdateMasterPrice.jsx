@@ -10,6 +10,7 @@ import Loader from "../common/Loader";
 
 const UpdateMasterPrice = () => {
   const [loading, setLoading] = useState(false);
+
   const UploadMasterFile = (payload) => {
     setLoading(true);
     const { masterFile } = payload;
@@ -17,7 +18,7 @@ const UpdateMasterPrice = () => {
     formData.append("masterFile", masterFile);
     axios({
       method: "post",
-      url: `${HOST_URL}/INDENTADMIN/express/insert/sku/master`,
+      url: `${HOST_URL}/rate/master/update/rentalPrice`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",

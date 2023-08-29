@@ -309,7 +309,7 @@ const NewCustomer = () => {
         addressProofFileName: AddressFileName,
         createDate: new Date(),
         updateDate: new Date(),
-        status: "created",
+        status: "active",
         rsoName: rsoName,
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,

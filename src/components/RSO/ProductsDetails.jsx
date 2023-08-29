@@ -12,7 +12,6 @@ const ProductsDetails = () => {
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
-
   const storeCode = localStorage.getItem("rsoRole");
 
   const GetProductDetails = () => {

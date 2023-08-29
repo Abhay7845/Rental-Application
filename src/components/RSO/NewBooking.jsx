@@ -30,9 +30,7 @@ const NewBooking = () => {
   const [custonerIdNo, setCustonerIdNo] = useState("");
   const [packageDays, setPackageDays] = useState("");
   const [termCondition, setTermCondition] = useState("NO");
-  const [withinCatchment, setWithinCatchment] = useState("");
   console.log("termCondition==>", termCondition);
-  console.log("withinCatchment==>", withinCatchment);
 
   // ITEMS DETAILS ADD ROWS
   const [itemRowCont, setItemRowCont] = useState(0);
@@ -130,7 +128,6 @@ const NewBooking = () => {
 
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
-  console.log("bookingDate==>", bookingDate);
 
   // UPDATE CUSTOMER TYPE
   useEffect(() => {
@@ -157,28 +154,7 @@ const NewBooking = () => {
     }
   }, [customerType, bookingDate, existedUserData.custId]);
 
-  // WITHIN IN CATCHMENT OR NOT API CALIING
-  useEffect(() => {
-    if (existedUserData.customerCityPincode) {
-      axios
-        .get(
-          `${HOST_URL}/rental/new/booking/catchments/MAMTHA/${existedUserData.customerCityPincode}`
-        )
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response.data.value);
-          if (response.data.code === "1000") {
-            setWithinCatchment(response.data.value[0]);
-          }
-        })
-        .catch((error) => {
-          console.log("error=>", error);
-        });
-    }
-  }, [existedUserData.customerCityPincode]);
-
   // PRINT PrintAcknowledgement FUNCTION
-
   const PrintAcknowledgement = async () => {
     const doc = new jsPDF({
       orientation: "landscape",

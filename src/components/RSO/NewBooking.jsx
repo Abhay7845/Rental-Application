@@ -130,6 +130,7 @@ const NewBooking = () => {
 
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
+  console.log("bookingDate==>", bookingDate);
 
   // UPDATE CUSTOMER TYPE
   useEffect(() => {
@@ -142,7 +143,7 @@ const NewBooking = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
-            console.log("respons==>", response.data);
+            alert(`Customer Type Updated to ${customerType}`);
           }
           if (response.data.code === "1004") {
             console.log(response.data.value);
@@ -286,9 +287,9 @@ const NewBooking = () => {
               disabled={!existedUserData.custId ? true : false}
             >
               <option value="">Select Type</option>
-              <option value="purple">Purple</option>
-              <option value="nonPurple">Non Purple</option>
-              <option value="newCustomer">New Customer</option>
+              <option value="Purple">Purple</option>
+              <option value="Non-Purple">Non Purple</option>
+              <option value="New Customer">New Customer</option>
             </select>
           </div>
           <div className="col-12">

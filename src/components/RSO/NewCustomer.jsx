@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import { HOST_URL, Phoneulr1, Phoneulr2, UploadImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
+import moment from "moment";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
@@ -26,6 +27,7 @@ const NewCustomer = () => {
   const [customerAccountNumber, setCustomerAccountNumber] = useState("");
   const [bankIfsc, setBankIfsc] = useState("");
   const [bankDetailFileName, setBankDetailFileName] = useState("");
+  const BanckIfcseCode = bankIfsc.toUpperCase();
 
   // EMAIL ADDRESS  OTP VALIDATION
   const [secEmailCount, setSecEmailCount] = useState(60);
@@ -54,6 +56,9 @@ const NewCustomer = () => {
   const PanCarFileName = `${PANNumber}${miliSecond}${last4Phoneno}`;
   // UPLOAD ADDRESS FILE NAME
   const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}`;
+
+  const currentDate = new Date();
+  const RegDate = moment(currentDate).format("YYYY-MM-DD");
 
   const UploadPanFile = (event) => {
     if (PANNumber.match(panRegex)) {
@@ -307,14 +312,14 @@ const NewCustomer = () => {
         addressProofIdType: addressProofType,
         addressProofIdNo: addressIDNumber,
         addressProofFileName: AddressFileName,
-        createDate: new Date(),
-        updateDate: new Date(),
+        createDate: RegDate,
+        updateDate: RegDate,
         status: "active",
         rsoName: rsoName,
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
-        bankIfsc: bankIfsc,
-        bankDetailFileName: bankDetailFileName,
+        bankIfsc: BanckIfcseCode,
+        bankDetailFileName: customerAccountNumber,
       };
       console.log("NewCustomer==>", NewCustomer);
       axios
@@ -601,6 +606,7 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="IFSC CODE"
               onChange={(e) => setBankIfsc(e.target.value)}
+              value={BanckIfcseCode}
             />
           </div>
           <div className="col-md-4">

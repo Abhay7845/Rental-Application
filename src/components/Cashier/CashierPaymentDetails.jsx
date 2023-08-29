@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import axios from "axios";
 import { BsFillTrashFill } from "react-icons/bs";
+import { DataList } from "../../Data/DataList";
 
 const CashierPaymentDetails = () => {
   const [paymentDetails, setPaymentDetails] = useState([]);
@@ -30,6 +31,7 @@ const CashierPaymentDetails = () => {
     setSinglePaymentData(singleData);
   };
   console.log("singlePaymentData==>", singlePaymentData);
+  console.log("paymentDetails==>", paymentDetails);
 
   const SaveRowTableDepositAmount = () => {
     setDepositTableId(depositTableId + 1);
@@ -98,7 +100,7 @@ const CashierPaymentDetails = () => {
               Search
             </button>
           </div>
-          {paymentDetails.length > 0 && (
+          {DataList.length > 0 && (
             <div className="col-12 table-responsive mx-0">
               <table className="table table-bordered table-hover border-dark">
                 <thead className="table-dark border-light">
@@ -112,7 +114,7 @@ const CashierPaymentDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {paymentDetails.map((item, i) => {
+                  {DataList.map((item, i) => {
                     return (
                       <tr key={i}>
                         <td className="text-center">
@@ -136,121 +138,128 @@ const CashierPaymentDetails = () => {
             </div>
           )}
 
-          <div className="col-12">
-            <h6 className="bookingHeading">Booking Amount Payment Details</h6>
-            <div className="table-responsive">
-              <table
-                id="booking-payment-details"
-                className="table table-bordered table-hover border-dark"
-              >
-                <thead className="table-dark border-light">
-                  <tr>
-                    <th>Payment For</th>
-                    <th>Payment Type</th>
-                    <th>Payment_Ref_No.</th>
-                    <th>Amount</th>
-                    <th>Amount Doc</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {depositAmountTableRow.map((item, i) => {
-                    return (
-                      <tr key={i}>
-                        <td>{item.depositType}</td>
-                        <td>{item.refNumber}</td>
-                        <td>{item.refNumber}</td>
-                        <td>{item.depositAmount}</td>
-                        <td className="d-flex justify-content-between">
-                          <img
-                            src={item.depositFile}
-                            alt="depositFile"
-                            className="imageStyle"
-                          />
-                          <BsFillTrashFill
-                            className="DeleteRow"
-                            onClick={() => DeleteRowDepositAmount(item.id)}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  {depositAmountTableRow.length > 0 && (
+          {singlePaymentData.id && (
+            <div className="col-12">
+              <h6 className="bookingHeading">Booking Amount Payment Details</h6>
+              <div className="table-responsive">
+                <table
+                  id="booking-payment-details"
+                  className="table table-bordered table-hover border-dark"
+                >
+                  <thead className="table-dark border-light">
                     <tr>
-                      <th colSpan="3" className="text-end">
-                        Total Deposit Amount Paid
-                      </th>
-                      <th>12</th>
-                      <th colSpan="1" />
+                      <th>Payment For</th>
+                      <th>Payment Type</th>
+                      <th>Payment_Ref_No.</th>
+                      <th>Amount</th>
+                      <th>Amount Doc</th>
                     </tr>
-                  )}
-                  {addDipositRows.length > 0 &&
-                    addDipositRows.map((i) => {
+                  </thead>
+                  <tbody>
+                    {depositAmountTableRow.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td>
-                            <input type="number" placeholder="Payment For" />
-                          </td>
-                          <th>
-                            <select
-                              className="w-100"
-                              onChange={(e) => setDepositType(e.target.value)}
-                            >
-                              <option>Select Type</option>
-                              <option value="Creadit1">Creadit1</option>
-                              <option value="Creadit2">Creadit2</option>
-                            </select>
-                          </th>
-                          <th>
-                            <input
-                              type="text"
-                              placeholder="Ref Number"
-                              className="w-100"
-                              onChange={(e) =>
-                                setDepositRefNmbr(e.target.value)
-                              }
+                          <td>{item.depositType}</td>
+                          <td>{item.refNumber}</td>
+                          <td>{item.refNumber}</td>
+                          <td>{item.depositAmount}</td>
+                          <td className="d-flex justify-content-between">
+                            <img
+                              src={item.depositFile}
+                              alt="depositFile"
+                              className="imageStyle"
                             />
-                          </th>
-                          <th>
-                            <input
-                              type="number"
-                              placeholder="Amount"
-                              className="w-100"
-                              onChange={(e) => setDepositAmont(e.target.value)}
-                            />
-                          </th>
-                          <th className="d-flex justify-content-between">
-                            <input type="file" onChange={UploadDepositeFile} />
                             <BsFillTrashFill
-                              className="DeleteRow mt-2"
-                              onClick={() => setAddDipositRows([])}
+                              className="DeleteRow"
+                              onClick={() => DeleteRowDepositAmount(item.id)}
                             />
-                          </th>
+                          </td>
                         </tr>
                       );
                     })}
-                </tbody>
-              </table>
+                    {depositAmountTableRow.length > 0 && (
+                      <tr>
+                        <th colSpan="3" className="text-end">
+                          Total Deposit Amount Paid
+                        </th>
+                        <th>12</th>
+                        <th colSpan="1" />
+                      </tr>
+                    )}
+                    {addDipositRows.length > 0 &&
+                      addDipositRows.map((i) => {
+                        return (
+                          <tr key={i}>
+                            <td>
+                              <input type="number" placeholder="Payment For" />
+                            </td>
+                            <th>
+                              <select
+                                className="w-100"
+                                onChange={(e) => setDepositType(e.target.value)}
+                              >
+                                <option>Select Type</option>
+                                <option value="Creadit1">Creadit1</option>
+                                <option value="Creadit2">Creadit2</option>
+                              </select>
+                            </th>
+                            <th>
+                              <input
+                                type="text"
+                                placeholder="Ref Number"
+                                className="w-100"
+                                onChange={(e) =>
+                                  setDepositRefNmbr(e.target.value)
+                                }
+                              />
+                            </th>
+                            <th>
+                              <input
+                                type="number"
+                                placeholder="Amount"
+                                className="w-100"
+                                onChange={(e) =>
+                                  setDepositAmont(e.target.value)
+                                }
+                              />
+                            </th>
+                            <th className="d-flex justify-content-between">
+                              <input
+                                type="file"
+                                onChange={UploadDepositeFile}
+                              />
+                              <BsFillTrashFill
+                                className="DeleteRow mt-2"
+                                onClick={() => setAddDipositRows([])}
+                              />
+                            </th>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+              <div className="d-flex justify-content-end mt-0">
+                {addDipositRows.length > 0 ? (
+                  <button
+                    type="submit"
+                    className="CButton"
+                    onClick={SaveRowTableDepositAmount}
+                  >
+                    Save Row
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="CButton"
+                    onClick={AddRowTableDepositAmount}
+                  >
+                    Add Row
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="d-flex justify-content-end mt-0">
-            {addDipositRows.length > 0 ? (
-              <button
-                type="submit"
-                className="CButton"
-                onClick={SaveRowTableDepositAmount}
-              >
-                Save Row
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="CButton"
-                onClick={AddRowTableDepositAmount}
-              >
-                Add Row
-              </button>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>

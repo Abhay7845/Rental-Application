@@ -43,20 +43,16 @@ const NewCustomer = () => {
   const [cityName, setCityName] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [addressIDNumber, setAddressIDNumber] = useState("");
-
   const [rsoName, setRsoName] = useState("");
   // ADRESS PROOF VERIFICATION
   const [panNumber, setPanNumber] = useState("");
   const [addressProofType, setAddressProofType] = useState("");
+  // UPLOAD FILE NAME STATE
+  const [PanCardFileName, setPanCardFileName] = useState("");
+  const [AddressFileName, setAddressFileName] = useState("");
   const PANNumber = panNumber.toUpperCase();
-
-  // UPLOAD PAN FILE NAME
   const miliSecond = new Date().getUTCMilliseconds();
   const last4Phoneno = phoneNumber.substring(6, 10);
-  const PanCarFileName = `${PANNumber}${miliSecond}${last4Phoneno}`;
-  // UPLOAD ADDRESS FILE NAME
-  const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}`;
-
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
 
@@ -65,7 +61,10 @@ const NewCustomer = () => {
       setLoading(true);
       const file = event.target.files[0];
       const formData = new FormData();
-      formData.append("ImgName", `${PanCarFileName}.jpg`);
+      const fileExtention = file.name.split(".")[1];
+      const PanCardFileName = `${PANNumber}${miliSecond}${last4Phoneno}.${fileExtention}`;
+      setPanCardFileName(PanCardFileName);
+      formData.append("ImgName", PanCardFileName);
       formData.append("files", file);
       axios
         .post(`${UploadImg}`, formData, {
@@ -101,7 +100,10 @@ const NewCustomer = () => {
       setLoading(true);
       const file = event.target.files[0];
       const formData = new FormData();
-      formData.append("ImgName", `${AddressFileName}.jpg`);
+      const fileExtention = file.name.split(".");
+      const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}.${fileExtention[1]}`;
+      setAddressFileName(AddressFileName);
+      formData.append("ImgName", AddressFileName);
       formData.append("files", file);
       axios
         .post(`${UploadImg}`, formData, {
@@ -308,12 +310,12 @@ const NewCustomer = () => {
         mobileNo: phoneNumber,
         emailId: emailId,
         panCardNo: panNumber,
-        panCardNoFileName: PanCarFileName,
+        panCardNoFileName: PanCardFileName,
         addressProofIdType: addressProofType,
         addressProofIdNo: addressIDNumber,
         addressProofFileName: AddressFileName,
         createDate: RegDate,
-        updateDate: RegDate,
+        updateDate: null,
         status: "active",
         rsoName: rsoName,
         customerBankName: customerBankName,

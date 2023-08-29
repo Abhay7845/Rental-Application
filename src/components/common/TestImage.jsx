@@ -8,10 +8,10 @@ const TestImage = () => {
   const [imageUrl, setImageUrl] = useState("");
   const UploadFile = (event) => {
     const file = event.target.files[0];
-    let fileName = file.name;
-    fileName = "abcd.jpg";
+    const fileExtention = file.name.split(".");
+    console.log("fileExtention==>", fileExtention[1]);
     const formData = new FormData();
-    formData.append("ImgName", fileName);
+    formData.append("ImgName", `NNNNN1234N432345.${fileExtention[1]}`);
     formData.append("files", file);
     axios
       .post(`${UploadImg}`, formData, {
@@ -25,7 +25,7 @@ const TestImage = () => {
       .then((response) => {
         console.log("responseUpload==>", response.data);
         if (response.data) {
-          setImageName(fileName);
+          setImageName("NNNNN1234N432345");
         }
       })
       .catch((error) => console.log("error==>", error));
@@ -34,7 +34,7 @@ const TestImage = () => {
   useEffect(() => {
     axios
       .get(
-        `https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=XXXXX1234XAbhay Kumar7177.jpg`,
+        `https://jewbridge.titanjew.in/NPD/api/Docfetch/DownloadImage/?ImageName=NNNNN1234N432345.png`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

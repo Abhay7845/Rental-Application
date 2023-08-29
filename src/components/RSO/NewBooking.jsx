@@ -83,15 +83,16 @@ const NewBooking = () => {
         setLoading(false);
       });
   };
+
+  // FETCH DOCUMENTS IMAGE
   useEffect(() => {
     if (existedUserData.addressProofFileName) {
       axios
-        .get(`${FetchImg}=${existedUserData.addressProofFileName}`, {
+        .get(`${FetchImg}${existedUserData.addressProofFileName}`, {
           headers: ImageHeaders,
         })
         .then((res) => res)
         .then((response) => {
-          console.log("responseFetch==>", response.data);
           if (response.data) {
             setPanImgUrl(response.data);
           }

@@ -11,6 +11,8 @@ const ProductsDetails = () => {
   const [itemCode, setItemCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({});
+  const [addtoCartProducts, setAddtoCartProducts] = useState([]);
+
   const storeCode = localStorage.getItem("rsoRole");
 
   const GetProductDetails = () => {
@@ -66,6 +68,13 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
+
+  const AddToWishList = () => {
+    setAddtoCartProducts([...addtoCartProducts, productDetails]);
+    setProductDetails({});
+  };
+  console.log("addtoCartProducts==>", addtoCartProducts);
+
   return (
     <div>
       <Navbar />
@@ -114,21 +123,22 @@ const ProductsDetails = () => {
             </button>
           </div>
         </div>
-        {productDetails.pdtID && (
-          <div className="col-12 table-responsive">
-            <table className="table table-bordered table-hover border-dark">
-              <thead className="table-dark border-light">
-                <tr>
-                  <th>PdtID</th>
-                  <th>HUID</th>
-                  <th>Item Code</th>
-                  <th>Lot No.</th>
-                  <th>CFA</th>
-                  <th>Gross Wt</th>
-                  <th>Net Wt</th>
-                  <th>Product Value</th>
-                </tr>
-              </thead>
+
+        <div className="col-12 table-responsive">
+          <table className="table table-bordered table-hover border-dark">
+            <thead className="table-dark border-light">
+              <tr>
+                <th>PdtID</th>
+                <th>HUID</th>
+                <th>Item Code</th>
+                <th>Lot No.</th>
+                <th>CFA</th>
+                <th>Gross Wt</th>
+                <th>Net Wt</th>
+                <th>Product Value</th>
+              </tr>
+            </thead>
+            {productDetails.pdtID && (
               <tbody>
                 <tr>
                   <td>{productDetails.pdtID}</td>
@@ -141,7 +151,58 @@ const ProductsDetails = () => {
                   <td>{productDetails.productValue}</td>
                 </tr>
               </tbody>
-            </table>
+            )}
+          </table>
+        </div>
+        <div className="d-flex justify-content-end">
+          <button
+            className={productDetails.pdtID ? "CButton" : "CDisabled"}
+            disabled={productDetails.pdtID ? false : true}
+            onClick={AddToWishList}
+          >
+            WishList
+          </button>
+        </div>
+        {addtoCartProducts.length && (
+          <div className="col-12">
+            <h6 className="bookingHeading">WishListed Data</h6>
+            <div className="col-12 table-responsive">
+              <table className="table table-bordered table-hover border-dark">
+                <thead className="table-dark border-light">
+                  <tr>
+                    <th>PdtID</th>
+                    <th>HUID</th>
+                    <th>Item Code</th>
+                    <th>Lot No.</th>
+                    <th>CFA</th>
+                    <th>Gross Wt</th>
+                    <th>Net Wt</th>
+                    <th>Product Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {addtoCartProducts.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>{item.pdtID}</td>
+                        <td>{item.huID}</td>
+                        <td>{item.itemCode}</td>
+                        <td>{item.lotNo}</td>
+                        <td>{item.cfa}</td>
+                        <td>{item.grossWt}</td>
+                        <td>{item.netWt}</td>
+                        <td>{item.productValue}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+        {addtoCartProducts.length && (
+          <div className="d-flex justify-content-end">
+            <button className="CButton">Add to Cart</button>
           </div>
         )}
       </div>

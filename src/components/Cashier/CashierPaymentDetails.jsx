@@ -145,10 +145,11 @@ const CashierPaymentDetails = () => {
               >
                 <thead className="table-dark border-light">
                   <tr>
-                    <th>Type</th>
-                    <th>Reference_No.</th>
+                    <th>Payment For</th>
+                    <th>Payment Type</th>
+                    <th>Payment_Ref_No.</th>
                     <th>Amount</th>
-                    <th>Product_Image</th>
+                    <th>Amount Doc</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -156,6 +157,7 @@ const CashierPaymentDetails = () => {
                     return (
                       <tr key={i}>
                         <td>{item.depositType}</td>
+                        <td>{item.refNumber}</td>
                         <td>{item.refNumber}</td>
                         <td>{item.depositAmount}</td>
                         <td className="d-flex justify-content-between">
@@ -174,7 +176,7 @@ const CashierPaymentDetails = () => {
                   })}
                   {depositAmountTableRow.length > 0 && (
                     <tr>
-                      <th colSpan="2" className="text-end">
+                      <th colSpan="3" className="text-end">
                         Total Deposit Amount Paid
                       </th>
                       <th>12</th>
@@ -185,6 +187,9 @@ const CashierPaymentDetails = () => {
                     addDipositRows.map((i) => {
                       return (
                         <tr key={i}>
+                          <td>
+                            <input type="number" placeholder="Payment For" />
+                          </td>
                           <th>
                             <select
                               className="w-100"

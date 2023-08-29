@@ -4,6 +4,7 @@ import { packageDayOption } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
+import { BsFillTrashFill } from "react-icons/bs";
 
 const ProductsDetails = () => {
   const [rentalDate, setRentalDate] = useState("");
@@ -74,6 +75,12 @@ const ProductsDetails = () => {
   };
   console.log("addtoCartProducts==>", addtoCartProducts);
 
+  const DeleteWishListRow = (pdtID) => {
+    const updatedData = addtoCartProducts.filter(
+      (rowId) => rowId.pdtID !== pdtID
+    );
+    setAddtoCartProducts(updatedData);
+  };
   return (
     <div>
       <Navbar />
@@ -147,7 +154,13 @@ const ProductsDetails = () => {
                   <td>{productDetails.cfa}</td>
                   <td>{productDetails.grossWt}</td>
                   <td>{productDetails.netWt}</td>
-                  <td>{productDetails.productValue}</td>
+                  <td className="d-flex justify-content-between">
+                    {productDetails.productValue}
+                    <BsFillTrashFill
+                      className="DeleteRow"
+                      onClick={() => setProductDetails({})}
+                    />
+                  </td>
                 </tr>
               </tbody>
             )}
@@ -190,7 +203,13 @@ const ProductsDetails = () => {
                         <td>{item.cfa}</td>
                         <td>{item.grossWt}</td>
                         <td>{item.netWt}</td>
-                        <td>{item.productValue}</td>
+                        <td className="d-flex justify-content-between">
+                          {item.productValue}
+                          <BsFillTrashFill
+                            className="DeleteRow"
+                            onClick={() => DeleteWishListRow(item.pdtID)}
+                          />
+                        </td>
                       </tr>
                     );
                   })}

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
-import { ImageHeaders, packageDayOption, phonePan } from "../../Data/DataList";
+import {
+  ImageHeaders,
+  constomerType,
+  packageDayOption,
+  phonePan,
+} from "../../Data/DataList";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
@@ -263,10 +268,13 @@ const NewBooking = () => {
               onChange={(e) => setCustomerType(e.target.value)}
               disabled={!existedUserData.custId ? true : false}
             >
-              <option value="">Select Type</option>
-              <option value="Purple">Purple</option>
-              <option value="Non-Purple">Non Purple</option>
-              <option value="New Customer">New Customer</option>
+              {constomerType.map((item, i) => {
+                return (
+                  <option key={i} value={item.value}>
+                    {item.label}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="col-12">

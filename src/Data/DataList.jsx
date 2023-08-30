@@ -68,3 +68,22 @@ export const ImageHeaders = {
   UserToken: "xFeToMkUuejH0aq1IzZYmw==",
   ApiKey: "636A4E75-2B3D-4B83-8DD6-F36046290E0F",
 };
+
+export const constomerType = [
+  {
+    value: "",
+    label: "Select Type",
+  },
+  {
+    value: "Purple",
+    label: "Purple",
+  },
+  {
+    value: "Non-Purple",
+    label: "Non-Purple",
+  },
+  {
+    value: "New Customer",
+    label: "New Customer",
+  },
+];

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
-import { packageDayOption } from "../../Data/DataList";
+import { constomerType, packageDayOption } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -111,10 +111,7 @@ const ProductsDetails = () => {
         <Formik
           initialValues={CheckAvaiblityInitialValue}
           validationSchema={CheckAvaiblitySchema}
-          onSubmit={(payload, { resetForm }) => {
-            CheckAvaiblity(payload);
-            // resetForm();
-          }}
+          onSubmit={(payload) => CheckAvaiblity(payload)}
         >
           <Form className="row g-2 mx-0">
             <div className="col-md-3">
@@ -146,7 +143,7 @@ const ProductsDetails = () => {
               </Field>
               <ShowError name="packageDays" />
             </div>
-            <div className="col-md-4">
+            <div className="col-md-3">
               <label className="form-label">Item Code</label>
               <Field
                 type="text"
@@ -156,8 +153,23 @@ const ProductsDetails = () => {
               />
               <ShowError name="itemCode" />
             </div>
-            <div className="col-md-2">
-              <label className="form-label">.</label>
+            <div className="col-md-3">
+              <label className="form-label">Customer Type</label>
+              <select
+                className="form-control"
+                // onChange={(e) => setCustomerType(e.target.value)}
+                // disabled={!existedUserData.custId ? true : false}
+              >
+                {constomerType.map((item, i) => {
+                  return (
+                    <option key={i} value={item.value}>
+                      {item.label}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className="col-md-12">
               <div className="d-flex justify-content-end">
                 <button type="sumit" className="CButton">
                   Check Availability

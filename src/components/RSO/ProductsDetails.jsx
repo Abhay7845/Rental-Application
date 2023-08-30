@@ -13,7 +13,7 @@ import {
 import ShowError from "../../Schema/ShowEroor";
 
 const ProductsDetails = () => {
-  const [itemCode, setItemCode] = useState("");
+  const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
@@ -22,7 +22,9 @@ const ProductsDetails = () => {
   const GetProductDetails = () => {
     setLoading(true);
     axios
-      .get(`${HOST_URL}/rental/product/view/details/${storeCode}/${itemCode}`)
+      .get(
+        `${HOST_URL}/rental/product/view/details/${storeCode}/${payload.itemCode}`
+      )
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
@@ -42,7 +44,7 @@ const ProductsDetails = () => {
 
   const CheckAvaiblity = (payload) => {
     const { itemCode, bookingDate, packageDays } = payload;
-    setItemCode(itemCode);
+    setPayload(payload);
     setLoading(true);
     const CheckAvaiblity = {
       bookedDate: "",
@@ -76,9 +78,26 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
+  console.log("productDetails==>", productDetails);
   const AddToWishList = () => {
-    setAddtoCartProducts([...addtoCartProducts, productDetails]);
-    setProductDetails({});
+    const AddTowishLsit = {
+      bookingId: productDetails.pdtId,
+      createdDate: "2023-08-30",
+      depositValue: 0,
+      itemPriceId: 0,
+      packageDays: parseInt(payload.packageDays),
+      pdtId: productDetails.pdtID,
+      productValue: productDetails.productValue,
+      rateId: 0,
+      rentValue: 0,
+      rentalStartDate: payload.bookingDate,
+      status: "Active",
+      tempBookingRefId: "ABHAY-2023-12345",
+      updatedDate: "2023-08-30",
+    };
+    console.log("AddTowishLsit==>", AddTowishLsit);
+    setAddtoCartProducts([...addtoCartProducts, AddTowishLsit]);
+    // setProductDetails({});
   };
 
   const DeleteWishListRow = (pdtID) => {

@@ -16,18 +16,50 @@ const ProductsDetails = () => {
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({});
+  const [rateMasterData, setRateMasterData] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
   const storeCode = localStorage.getItem("storeCode");
-  const GetProductDetails = (itemCode) => {
+  console.log("rateMasterData==>", rateMasterData);
+  console.log("productDetails==>", productDetails);
+
+  const GetMasterRate = (masterData) => {
+    const getMasterData = {
+      customerType: masterData.customerType,
+      storeCode: storeCode,
+      packagePeriod: masterData.packageDays,
+      cfaCode: masterData.cfa,
+      locType: "sameCity",
+    };
+    console.log("getMasterData==>", getMasterData);
     axios
-      .get(`${HOST_URL}/rental/product/view/details/${storeCode}/${itemCode}`)
+      .post(`${HOST_URL}/get/rate/master`, getMasterData)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setRateMasterData(response.data.value);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
+  const GetProductDetails = (payload) => {
+    axios
+      .get(
+        `${HOST_URL}/rental/product/view/details/${storeCode}/${payload.itemCode}`
+      )
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
+          if (response.data.value) {
+            GetMasterRate({ ...payload, ...response.data.value });
+          }
         }
-        setLoading(false);
       })
       .catch((error) => {
         console.log("error==>", error);
@@ -57,7 +89,7 @@ const ProductsDetails = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           if (response.data.value === "Available") {
-            GetProductDetails(payload.itemCode);
+            GetProductDetails(payload);
           } else {
             alert("Product Not Available");
             setLoading(false);
@@ -69,6 +101,9 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
+
+  // const rentalRate = renratalRate * Pdtvalue;
+  // const depositeRate = depositRate * Pdtvalue;
 
   const AddToWishList = () => {
     console.log("productDetails==>", productDetails);
@@ -98,6 +133,20 @@ const ProductsDetails = () => {
     );
     setAddtoCartProducts(updatedData);
   };
+
+  const WishListedData = {
+    PdtID: productDetails.pdtID,
+    HUID: productDetails.huID,
+    ItemCode: productDetails.itemCode,
+    LotNo: productDetails.lotNo,
+    CFA: productDetails.cfa,
+    GrossWt: productDetails.grossWt,
+    NetWt: productDetails.netWt,
+    ProductValue: productDetails.productValue,
+    RentalRate: productDetails.productValue * rateMasterData.rentalRate,
+    DepositRate: productDetails.productValue * rateMasterData.depositRate,
+  };
+
   return (
     <div>
       <Navbar />
@@ -187,25 +236,23 @@ const ProductsDetails = () => {
                 <th>Gross Wt</th>
                 <th>Net Wt</th>
                 <th>Product Value</th>
+                <th>Rental Rate</th>
+                <th>Deposit Rate</th>
               </tr>
             </thead>
-            {productDetails.pdtID && (
+            {WishListedData.PdtID && (
               <tbody>
                 <tr>
-                  <td>{productDetails.pdtID}</td>
-                  <td>{productDetails.huID}</td>
-                  <td>{productDetails.itemCode}</td>
-                  <td>{productDetails.lotNo}</td>
-                  <td>{productDetails.cfa}</td>
-                  <td>{productDetails.grossWt}</td>
-                  <td>{productDetails.netWt}</td>
-                  <td className="d-flex justify-content-between">
-                    {productDetails.productValue}
-                    <BsFillTrashFill
-                      className="DeleteRow"
-                      onClick={() => setProductDetails({})}
-                    />
-                  </td>
+                  <td>{WishListedData.PdtID}</td>
+                  <td>{WishListedData.HUID}</td>
+                  <td>{WishListedData.ItemCode}</td>
+                  <td>{WishListedData.LotNo}</td>
+                  <td>{WishListedData.CFA}</td>
+                  <td>{WishListedData.GrossWt}</td>
+                  <td>{WishListedData.NetWt}</td>
+                  <td>{WishListedData.ProductValue}</td>
+                  <td>{WishListedData.RentalRate}</td>
+                  <td>{WishListedData.DepositRate}</td>
                 </tr>
               </tbody>
             )}

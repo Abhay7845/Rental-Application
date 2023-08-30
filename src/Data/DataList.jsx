@@ -75,15 +75,15 @@ export const constomerType = [
     label: "Select Type",
   },
   {
-    value: "Purple",
+    value: "PURPLE",
     label: "Purple",
   },
   {
-    value: "Non-Purple",
+    value: "NON-PURPLE",
     label: "Non-Purple",
   },
   {
-    value: "New Customer",
+    value: "NewRental_OnlyCustomer",
     label: "New Customer",
   },
 ];

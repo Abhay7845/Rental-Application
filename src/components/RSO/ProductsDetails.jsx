@@ -32,7 +32,7 @@ const ProductsDetails = () => {
           setProductDetails(response.data.value);
         }
         if (response.data.code === "1001") {
-          console.log("data not Found");
+          alert("Data Not Found");
         }
         setLoading(false);
       })
@@ -78,8 +78,8 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
-  console.log("productDetails==>", productDetails);
   const AddToWishList = () => {
+    console.log("productDetails==>", productDetails);
     const AddTowishLsit = {
       bookingId: productDetails.pdtId,
       createdDate: "2023-08-30",
@@ -87,7 +87,7 @@ const ProductsDetails = () => {
       itemPriceId: 0,
       packageDays: parseInt(payload.packageDays),
       pdtId: productDetails.pdtID,
-      productValue: productDetails.productValue,
+      productValue: parseInt(productDetails.productValue),
       rateId: 0,
       rentValue: 0,
       rentalStartDate: payload.bookingDate,

@@ -119,7 +119,6 @@ const ProductsDetails = () => {
   };
 
   const AddToWishList = () => {
-    console.log("productDetails==>", productDetails);
     setAddtoCartProducts([...addtoCartProducts, WishListedData]);
     setProductDetails({});
   };

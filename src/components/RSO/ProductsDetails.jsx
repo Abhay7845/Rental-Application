@@ -25,6 +25,7 @@ const ProductsDetails = () => {
       .get(`${HOST_URL}/rental/product/view/details/${storeCode}/${itemCode}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
         }
@@ -34,6 +35,7 @@ const ProductsDetails = () => {
         setLoading(false);
       })
       .catch((error) => {
+        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -57,6 +59,7 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           if (response.data.value === "Available") {
             GetProductDetails();
@@ -73,18 +76,9 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
-  console.log("addtoCartProducts==>", addtoCartProducts);
   const AddToWishList = () => {
-    const addedProduct = addtoCartProducts.map(
-      (item) => (item.itemCode = itemCode)
-    );
-    if (addedProduct.length > 0) {
-      alert("This itemCode Alredy in Your Wishlist");
-    } else {
-      setAddtoCartProducts([...addtoCartProducts, productDetails]);
-    }
-    console.log("addedProduct==>", addedProduct);
-    // setProductDetails({});
+    setAddtoCartProducts([...addtoCartProducts, productDetails]);
+    setProductDetails({});
   };
 
   const DeleteWishListRow = (pdtID) => {
@@ -103,7 +97,7 @@ const ProductsDetails = () => {
           validationSchema={CheckAvaiblitySchema}
           onSubmit={(payload, { resetForm }) => {
             CheckAvaiblity(payload);
-            // resetForm();
+            resetForm();
           }}
         >
           <Form className="row g-2 mx-0">

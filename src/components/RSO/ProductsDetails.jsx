@@ -176,18 +176,18 @@ const ProductsDetails = () => {
             )}
           </table>
         </div>
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end mt-0">
           <button
             className={productDetails.pdtID ? "CButton" : "CDisabled"}
             disabled={productDetails.pdtID ? false : true}
             onClick={AddToWishList}
           >
-            WishList
+            Add To WishList
           </button>
         </div>
         {addtoCartProducts.length && (
           <div className="col-12">
-            <h6 className="bookingHeading">WishListed Data</h6>
+            <h6 className="bookingHeading">Your WishListed Products</h6>
             <div className="col-12 table-responsive">
               <table className="table table-bordered table-hover border-dark">
                 <thead className="table-dark border-light">
@@ -229,8 +229,8 @@ const ProductsDetails = () => {
           </div>
         )}
         {addtoCartProducts.length && (
-          <div className="d-flex justify-content-end">
-            <button className="CButton">Add to Cart</button>
+          <div className="d-flex justify-content-end mt-0">
+            <button className="CButton">Add To Cart</button>
           </div>
         )}
       </div>

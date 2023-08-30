@@ -28,9 +28,6 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
         }
-        if (response.data.code === "1001") {
-          alert("Data Not Found");
-        }
         setLoading(false);
       })
       .catch((error) => {

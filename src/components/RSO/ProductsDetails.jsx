@@ -101,17 +101,17 @@ const ProductsDetails = () => {
           }}
         >
           <Form className="row g-2 mx-0">
-            <div className="col-md-3">
+            <div className="col-md-4">
               <label className="form-label">Item Code</label>
               <Field
                 type="text"
                 name="itemCode"
                 className="form-control"
-                placeholder="Item Code"
+                placeholder="Enter 14 Digit Item Code"
               />
               <ShowError name="itemCode" />
             </div>
-            <div className="col-md-4">
+            <div className="col-md-3">
               <label className="form-label">Booking Date</label>
               <Field type="date" name="bookingDate" className="form-control" />
               <ShowError name="bookingDate" />

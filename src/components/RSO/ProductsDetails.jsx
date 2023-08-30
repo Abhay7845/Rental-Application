@@ -18,7 +18,6 @@ const ProductsDetails = () => {
   const [productDetails, setProductDetails] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
   const storeCode = localStorage.getItem("storeCode");
-  console.log("payload==>", payload);
   const GetProductDetails = (itemCode) => {
     setLoading(true);
     axios
@@ -69,7 +68,7 @@ const ProductsDetails = () => {
           }
         }
         setLoading(false);
-        // payload.itemCode = "";
+        payload.itemCode = "";
       })
       .catch((errro) => {
         setLoading(false);

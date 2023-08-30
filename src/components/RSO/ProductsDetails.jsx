@@ -19,7 +19,6 @@ const ProductsDetails = () => {
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
   const storeCode = localStorage.getItem("storeCode");
   const GetProductDetails = (itemCode) => {
-    setLoading(true);
     axios
       .get(`${HOST_URL}/rental/product/view/details/${storeCode}/${itemCode}`)
       .then((res) => res)
@@ -51,7 +50,7 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
-    console.log("CheckAvaiblity==>", CheckAvaiblity);
+    // console.log("CheckAvaiblity==>", CheckAvaiblity);
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
@@ -62,12 +61,12 @@ const ProductsDetails = () => {
             GetProductDetails(itemCode);
           } else {
             alert("Product Not Available");
+            setLoading(false);
           }
         }
-        setLoading(false);
         payload.itemCode = "";
       })
-      .catch((errro) => {
+      .catch((error) => {
         setLoading(false);
       });
   };

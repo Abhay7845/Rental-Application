@@ -111,7 +111,7 @@ const ProductsDetails = () => {
               />
               <ShowError name="itemCode" />
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4">
               <label className="form-label">Booking Date</label>
               <Field type="date" name="bookingDate" className="form-control" />
               <ShowError name="bookingDate" />
@@ -185,7 +185,7 @@ const ProductsDetails = () => {
             Add To WishList
           </button>
         </div>
-        {addtoCartProducts.length && (
+        {addtoCartProducts.length > 0 && (
           <div className="col-12">
             <h6 className="bookingHeading">Your WishListed Products</h6>
             <div className="col-12 table-responsive">
@@ -228,7 +228,7 @@ const ProductsDetails = () => {
             </div>
           </div>
         )}
-        {addtoCartProducts.length && (
+        {addtoCartProducts.length > 0 && (
           <div className="d-flex justify-content-end mt-0">
             <button className="CButton">Add To Cart</button>
           </div>

@@ -37,15 +37,14 @@ const ProductsDetails = () => {
 
   const CheckAvaiblity = (payload) => {
     setPayload(payload);
-    const { itemCode, bookingDate, packageDays } = payload;
     setLoading(true);
     const CheckAvaiblity = {
       bookedDate: "",
-      bookingDate: bookingDate,
+      bookingDate: payload.bookingDate,
       endDate: "",
       image: "",
-      itemCode: itemCode,
-      packageDays: packageDays,
+      itemCode: payload.itemCode,
+      packageDays: payload.packageDays,
       stdUCP: "",
       stdWt: "",
       storeCode: storeCode,
@@ -58,7 +57,7 @@ const ProductsDetails = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           if (response.data.value === "Available") {
-            GetProductDetails(itemCode);
+            GetProductDetails(payload.itemCode);
           } else {
             alert("Product Not Available");
             setLoading(false);
@@ -90,7 +89,7 @@ const ProductsDetails = () => {
     };
     console.log("AddTowishLsit==>", AddTowishLsit);
     setAddtoCartProducts([...addtoCartProducts, AddTowishLsit]);
-    // setProductDetails({});
+    setProductDetails({});
   };
 
   const DeleteWishListRow = (pdtID) => {
@@ -151,10 +150,11 @@ const ProductsDetails = () => {
             </div>
             <div className="col-md-3">
               <label className="form-label">Customer Type</label>
-              <select
+              <Field
                 className="form-control"
-                // onChange={(e) => setCustomerType(e.target.value)}
-                // disabled={!existedUserData.custId ? true : false}
+                type="text"
+                as="select"
+                name="customerType"
               >
                 {constomerType.map((item, i) => {
                   return (
@@ -163,7 +163,8 @@ const ProductsDetails = () => {
                     </option>
                   );
                 })}
-              </select>
+              </Field>
+              <ShowError name="customerType" />
             </div>
             <div className="col-md-12">
               <div className="d-flex justify-content-end">

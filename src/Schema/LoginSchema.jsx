@@ -30,7 +30,10 @@ export const CheckAvaiblityInitialValue = {
 };
 
 export const CheckAvaiblitySchema = yup.object({
-  itemCode: yup.string().required("Item Code is required"),
+  itemCode: yup
+    .string()
+    .required("Item Code is required")
+    .min(14, "Invalid Item Code"),
   bookingDate: yup.string().required("Booking Date is required"),
   packageDays: yup.string().required("Package Days is required"),
 });

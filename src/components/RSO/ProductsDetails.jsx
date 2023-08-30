@@ -18,13 +18,11 @@ const ProductsDetails = () => {
   const [productDetails, setProductDetails] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
   const storeCode = localStorage.getItem("storeCode");
-
-  const GetProductDetails = () => {
+  console.log("payload==>", payload);
+  const GetProductDetails = (itemCode) => {
     setLoading(true);
     axios
-      .get(
-        `${HOST_URL}/rental/product/view/details/${storeCode}/${payload.itemCode}`
-      )
+      .get(`${HOST_URL}/rental/product/view/details/${storeCode}/${itemCode}`)
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
@@ -43,8 +41,8 @@ const ProductsDetails = () => {
   };
 
   const CheckAvaiblity = (payload) => {
-    const { itemCode, bookingDate, packageDays } = payload;
     setPayload(payload);
+    const { itemCode, bookingDate, packageDays } = payload;
     setLoading(true);
     const CheckAvaiblity = {
       bookedDate: "",
@@ -57,6 +55,7 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
+    console.log("CheckAvaiblity==>", CheckAvaiblity);
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
@@ -64,20 +63,19 @@ const ProductsDetails = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           if (response.data.value === "Available") {
-            GetProductDetails();
+            GetProductDetails(itemCode);
           } else {
             alert("Product Not Available");
           }
         }
-        if (response.data.code === "1001") {
-          console.log(response.data.value);
-        }
         setLoading(false);
+        // payload.itemCode = "";
       })
       .catch((errro) => {
         setLoading(false);
       });
   };
+
   const AddToWishList = () => {
     console.log("productDetails==>", productDetails);
     const AddTowishLsit = {
@@ -116,28 +114,28 @@ const ProductsDetails = () => {
           validationSchema={CheckAvaiblitySchema}
           onSubmit={(payload, { resetForm }) => {
             CheckAvaiblity(payload);
-            resetForm();
+            // resetForm();
           }}
         >
           <Form className="row g-2 mx-0">
-            <div className="col-md-4">
-              <label className="form-label">Item Code</label>
-              <Field
-                type="text"
-                name="itemCode"
-                className="form-control"
-                placeholder="Enter 14 Digit Item Code"
-              />
-              <ShowError name="itemCode" />
-            </div>
             <div className="col-md-3">
               <label className="form-label">Booking Date</label>
-              <Field type="date" name="bookingDate" className="form-control" />
+              <Field
+                type="date"
+                name="bookingDate"
+                className="form-control"
+                disabled={payload.bookingDate ? true : false}
+              />
               <ShowError name="bookingDate" />
             </div>
             <div className="col-md-3">
               <label className="form-label">Package Days</label>
-              <Field as="select" name="packageDays" className="form-control">
+              <Field
+                as="select"
+                name="packageDays"
+                className="form-control"
+                disabled={payload.packageDays ? true : false}
+              >
                 <option>Select Days</option>
                 {packageDayOption.map((days, i) => {
                   return (
@@ -148,6 +146,16 @@ const ProductsDetails = () => {
                 })}
               </Field>
               <ShowError name="packageDays" />
+            </div>
+            <div className="col-md-4">
+              <label className="form-label">Item Code</label>
+              <Field
+                type="text"
+                name="itemCode"
+                className="form-control"
+                placeholder="Enter 14 Digit Item Code"
+              />
+              <ShowError name="itemCode" />
             </div>
             <div className="col-md-2">
               <label className="form-label">.</label>

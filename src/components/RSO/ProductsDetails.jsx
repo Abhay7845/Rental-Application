@@ -73,10 +73,18 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
-
+  console.log("addtoCartProducts==>", addtoCartProducts);
   const AddToWishList = () => {
-    setAddtoCartProducts([...addtoCartProducts, productDetails]);
-    setProductDetails({});
+    const addedProduct = addtoCartProducts.map(
+      (item) => (item.itemCode = itemCode)
+    );
+    if (addedProduct.length > 0) {
+      alert("This itemCode Alredy in Your Wishlist");
+    } else {
+      setAddtoCartProducts([...addtoCartProducts, productDetails]);
+    }
+    console.log("addedProduct==>", addedProduct);
+    // setProductDetails({});
   };
 
   const DeleteWishListRow = (pdtID) => {
@@ -95,7 +103,7 @@ const ProductsDetails = () => {
           validationSchema={CheckAvaiblitySchema}
           onSubmit={(payload, { resetForm }) => {
             CheckAvaiblity(payload);
-            resetForm();
+            // resetForm();
           }}
         >
           <Form className="row g-2 mx-0">
@@ -110,7 +118,7 @@ const ProductsDetails = () => {
               <ShowError name="itemCode" />
             </div>
             <div className="col-md-3">
-              <label className="form-label">Rent Start Date</label>
+              <label className="form-label">Booking Date</label>
               <Field type="date" name="bookingDate" className="form-control" />
               <ShowError name="bookingDate" />
             </div>

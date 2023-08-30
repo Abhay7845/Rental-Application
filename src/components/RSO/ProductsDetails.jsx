@@ -17,12 +17,12 @@ const ProductsDetails = () => {
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
-  const storeCode = localStorage.getItem("rsoRole");
+  const storeCode = localStorage.getItem("storeCode");
 
   const GetProductDetails = () => {
     setLoading(true);
     axios
-      .get(`${HOST_URL}/rental/product/view/details/MAMTHA/${itemCode}`)
+      .get(`${HOST_URL}/rental/product/view/details/${storeCode}/${itemCode}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

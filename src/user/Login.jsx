@@ -16,6 +16,7 @@ const Login = (props) => {
 
   const navigate = useNavigate();
   const onLogin = (payload) => {
+    localStorage.setItem("storeCode", payload.userName);
     setLoading(true);
     axios
       .post(`${HOST_URL}/rental/login/portal`, payload)

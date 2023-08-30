@@ -5,10 +5,14 @@ import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { BsFillTrashFill } from "react-icons/bs";
+import { Field, Form, Formik } from "formik";
+import {
+  CheckAvaiblityInitialValue,
+  CheckAvaiblitySchema,
+} from "../../Schema/LoginSchema";
+import ShowError from "../../Schema/ShowEroor";
 
 const ProductsDetails = () => {
-  const [rentalDate, setRentalDate] = useState("");
-  const [packageDays, setPackageDays] = useState("");
   const [itemCode, setItemCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState({});
@@ -25,7 +29,7 @@ const ProductsDetails = () => {
           setProductDetails(response.data.value);
         }
         if (response.data.code === "1001") {
-          console.log("daata");
+          console.log("data not Found");
         }
         setLoading(false);
       })
@@ -34,11 +38,13 @@ const ProductsDetails = () => {
       });
   };
 
-  const CheckAvaiblity = () => {
+  const CheckAvaiblity = (payload) => {
+    const { itemCode, bookingDate, packageDays } = payload;
+    setItemCode(itemCode);
     setLoading(true);
     const CheckAvaiblity = {
       bookedDate: "",
-      bookingDate: rentalDate,
+      bookingDate: bookingDate,
       endDate: "",
       image: "",
       itemCode: itemCode,
@@ -47,7 +53,6 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
-    console.log("CheckAvaiblity==>", CheckAvaiblity);
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
@@ -73,7 +78,6 @@ const ProductsDetails = () => {
     setAddtoCartProducts([...addtoCartProducts, productDetails]);
     setProductDetails({});
   };
-  console.log("addtoCartProducts==>", addtoCartProducts);
 
   const DeleteWishListRow = (pdtID) => {
     const updatedData = addtoCartProducts.filter(
@@ -86,50 +90,54 @@ const ProductsDetails = () => {
       <Navbar />
       {loading === true && <Loader />}
       <div className="row g-3 mx-0 mt-3">
-        <div className="col-md-3">
-          <label className="form-label">Item Code</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Item Code"
-            onChange={(e) => setItemCode(e.target.value)}
-          />
-        </div>
-        <div className="col-md-3">
-          <label className="form-label">Rent Start Date</label>
-          <input
-            type="date"
-            className="form-control"
-            value={rentalDate}
-            onChange={(e) => setRentalDate(e.target.value)}
-          />
-        </div>
-        <div className="col-md-3">
-          <label className="form-label">Package Days</label>
-          <select
-            className="form-control"
-            value={packageDays}
-            onChange={(e) => setPackageDays(e.target.value)}
-          >
-            <option>Select Days</option>
-            {packageDayOption.map((days, i) => {
-              return (
-                <option key={i} value={days}>
-                  {days}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div className="col-md-2">
-          <label className="form-label">.</label>
-          <div className="d-flex justify-content-end">
-            <button className="CButton" onClick={CheckAvaiblity}>
-              Check Availability
-            </button>
-          </div>
-        </div>
-
+        <Formik
+          initialValues={CheckAvaiblityInitialValue}
+          validationSchema={CheckAvaiblitySchema}
+          onSubmit={(payload, { resetForm }) => {
+            CheckAvaiblity(payload);
+            resetForm();
+          }}
+        >
+          <Form className="row g-2 mx-0">
+            <div className="col-md-3">
+              <label className="form-label">Item Code</label>
+              <Field
+                type="text"
+                name="itemCode"
+                className="form-control"
+                placeholder="Item Code"
+              />
+              <ShowError name="itemCode" />
+            </div>
+            <div className="col-md-3">
+              <label className="form-label">Rent Start Date</label>
+              <Field type="date" name="bookingDate" className="form-control" />
+              <ShowError name="bookingDate" />
+            </div>
+            <div className="col-md-3">
+              <label className="form-label">Package Days</label>
+              <Field as="select" name="packageDays" className="form-control">
+                <option>Select Days</option>
+                {packageDayOption.map((days, i) => {
+                  return (
+                    <option key={i} value={days}>
+                      {days}
+                    </option>
+                  );
+                })}
+              </Field>
+              <ShowError name="packageDays" />
+            </div>
+            <div className="col-md-2">
+              <label className="form-label">.</label>
+              <div className="d-flex justify-content-end">
+                <button type="sumit" className="CButton">
+                  Check Availability
+                </button>
+              </div>
+            </div>
+          </Form>
+        </Formik>
         <div className="col-12 table-responsive">
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">

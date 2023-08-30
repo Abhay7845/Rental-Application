@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
-import { constomerType, packageDayOption } from "../../Data/DataList";
+import {
+  WishListHeader,
+  constomerType,
+  packageDayOption,
+} from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -101,39 +105,6 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
-
-  // const rentalRate = renratalRate * Pdtvalue;
-  // const depositeRate = depositRate * Pdtvalue;
-
-  const AddToWishList = () => {
-    console.log("productDetails==>", productDetails);
-    const AddTowishLsit = {
-      bookingId: productDetails.pdtId,
-      createdDate: "2023-08-30",
-      depositValue: 0,
-      itemPriceId: 0,
-      packageDays: parseInt(payload.packageDays),
-      pdtId: productDetails.pdtID,
-      productValue: parseInt(productDetails.productValue),
-      rateId: 0,
-      rentValue: 0,
-      rentalStartDate: payload.bookingDate,
-      status: "Active",
-      tempBookingRefId: "ABHAY-2023-12345",
-      updatedDate: "2023-08-30",
-    };
-    console.log("AddTowishLsit==>", AddTowishLsit);
-    setAddtoCartProducts([...addtoCartProducts, AddTowishLsit]);
-    setProductDetails({});
-  };
-
-  const DeleteWishListRow = (pdtID) => {
-    const updatedData = addtoCartProducts.filter(
-      (rowId) => rowId.pdtID !== pdtID
-    );
-    setAddtoCartProducts(updatedData);
-  };
-
   const WishListedData = {
     PdtID: productDetails.pdtID,
     HUID: productDetails.huID,
@@ -145,6 +116,19 @@ const ProductsDetails = () => {
     ProductValue: productDetails.productValue,
     RentalRate: productDetails.productValue * rateMasterData.rentalRate,
     DepositRate: productDetails.productValue * rateMasterData.depositRate,
+  };
+
+  const AddToWishList = () => {
+    console.log("productDetails==>", productDetails);
+    setAddtoCartProducts([...addtoCartProducts, WishListedData]);
+    setProductDetails({});
+  };
+
+  const DeleteWishListRow = (PdtID) => {
+    const updatedData = addtoCartProducts.filter(
+      (rowId) => rowId.PdtID !== PdtID
+    );
+    setAddtoCartProducts(updatedData);
   };
 
   return (
@@ -228,16 +212,9 @@ const ProductsDetails = () => {
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">
               <tr>
-                <th>PdtID</th>
-                <th>HUID</th>
-                <th>Item Code</th>
-                <th>Lot No.</th>
-                <th>CFA</th>
-                <th>Gross Wt</th>
-                <th>Net Wt</th>
-                <th>Product Value</th>
-                <th>Rental Rate</th>
-                <th>Deposit Rate</th>
+                {WishListHeader.map((heading, i) => {
+                  return <td key={i}>{heading}</td>;
+                })}
               </tr>
             </thead>
             {WishListedData.PdtID && (
@@ -274,32 +251,29 @@ const ProductsDetails = () => {
               <table className="table table-bordered table-hover border-dark">
                 <thead className="table-dark border-light">
                   <tr>
-                    <th>PdtID</th>
-                    <th>HUID</th>
-                    <th>Item Code</th>
-                    <th>Lot No.</th>
-                    <th>CFA</th>
-                    <th>Gross Wt</th>
-                    <th>Net Wt</th>
-                    <th>Product Value</th>
+                    {WishListHeader.map((heading, i) => {
+                      return <td key={i}>{heading}</td>;
+                    })}
                   </tr>
                 </thead>
                 <tbody>
                   {addtoCartProducts.map((item, i) => {
                     return (
                       <tr key={i}>
-                        <td>{item.pdtID}</td>
-                        <td>{item.huID}</td>
-                        <td>{item.itemCode}</td>
-                        <td>{item.lotNo}</td>
-                        <td>{item.cfa}</td>
-                        <td>{item.grossWt}</td>
-                        <td>{item.netWt}</td>
+                        <td>{item.PdtID}</td>
+                        <td>{item.HUID}</td>
+                        <td>{item.ItemCode}</td>
+                        <td>{item.LotNo}</td>
+                        <td>{item.CFA}</td>
+                        <td>{item.GrossWt}</td>
+                        <td>{item.NetWt}</td>
+                        <td>{item.ProductValue}</td>
+                        <td>{item.RentalRate}</td>
                         <td className="d-flex justify-content-between">
-                          {item.productValue}
+                          {item.DepositRate}
                           <BsFillTrashFill
                             className="DeleteRow"
-                            onClick={() => DeleteWishListRow(item.pdtID)}
+                            onClick={() => DeleteWishListRow(item.PdtID)}
                           />
                         </td>
                       </tr>

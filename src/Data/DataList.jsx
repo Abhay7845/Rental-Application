@@ -87,3 +87,16 @@ export const constomerType = [
     label: "New Customer",
   },
 ];
+
+export const WishListHeader = [
+  "PdtID",
+  "HUID",
+  "Item Code",
+  "Lot No.",
+  "CFA",
+  "Gross Wt",
+  "Net Wt",
+  "Product Value",
+  "Rental Rate",
+  "Deposit Rate",
+];

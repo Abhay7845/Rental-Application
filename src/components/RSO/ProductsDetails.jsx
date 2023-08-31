@@ -105,6 +105,14 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
+
+  const DeleteWishListRow = (PdtID) => {
+    const updatedData = addtoCartProducts.filter(
+      (rowId) => rowId.PdtID !== PdtID
+    );
+    setAddtoCartProducts(updatedData);
+  };
+
   const WishListedData = {
     PdtID: productDetails.pdtID,
     HUID: productDetails.huID,
@@ -117,19 +125,13 @@ const ProductsDetails = () => {
     RentalRate: productDetails.productValue * rateMasterData.rentalRate,
     DepositRate: productDetails.productValue * rateMasterData.depositRate,
   };
-
+  console.log("WishListedData==>", WishListedData);
   const AddToWishList = () => {
     setAddtoCartProducts([...addtoCartProducts, WishListedData]);
     setProductDetails({});
   };
 
-  const DeleteWishListRow = (PdtID) => {
-    const updatedData = addtoCartProducts.filter(
-      (rowId) => rowId.PdtID !== PdtID
-    );
-    setAddtoCartProducts(updatedData);
-  };
-
+  const AddToCart = () => {};
   return (
     <div>
       <Navbar />
@@ -227,8 +229,8 @@ const ProductsDetails = () => {
                   <td>{WishListedData.GrossWt}</td>
                   <td>{WishListedData.NetWt}</td>
                   <td>{WishListedData.ProductValue}</td>
-                  <td>{WishListedData.RentalRate}</td>
-                  <td>{WishListedData.DepositRate}</td>
+                  <td>{WishListedData.RentalRate.toString()}</td>
+                  <td>{WishListedData.DepositRate.toString()}</td>
                 </tr>
               </tbody>
             )}
@@ -285,7 +287,9 @@ const ProductsDetails = () => {
         )}
         {addtoCartProducts.length > 0 && (
           <div className="d-flex justify-content-end mt-0">
-            <button className="CButton">Add To Cart</button>
+            <button className="CButton" onClick={AddToCart}>
+              Add To Cart
+            </button>
           </div>
         )}
       </div>

@@ -19,10 +19,10 @@ export const DataList = [
     },
   },
 ];
-export const packageDayOption = [];
-for (let i = 1; i <= 31; i++) {
-  packageDayOption.push(i);
-}
+export const packageDayOption = [
+  { value: "4", label: "4 Days" },
+  { value: "8", label: "8 Days" },
+];
 
 export const EmailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/g;
 export const adharRegex =

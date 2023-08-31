@@ -194,6 +194,7 @@ const ProductsDetails = () => {
                 name="bookingDate"
                 className="form-control"
                 disabled={payload.bookingDate ? true : false}
+                min={toDayDate}
               />
               <ShowError name="bookingDate" />
             </div>

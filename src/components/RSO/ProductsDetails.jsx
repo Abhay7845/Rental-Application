@@ -122,7 +122,7 @@ const ProductsDetails = () => {
     CFA: productDetails.cfa,
     GrossWt: productDetails.grossWt,
     NetWt: productDetails.netWt,
-    ProductValue: productDetails.productValue,
+    ProductValue: parseInt(productDetails.productValue),
     RentalRate: productDetails.productValue * rateMasterData.rentalRate,
     DepositRate: productDetails.productValue * rateMasterData.depositRate,
   };
@@ -130,6 +130,29 @@ const ProductsDetails = () => {
   const AddToWishList = () => {
     setAddtoCartProducts([...addtoCartProducts, WishListedData]);
     setProductDetails({});
+  };
+
+  // TOTAL COST OF PRODUCT VALUE
+  const TProductValue = addtoCartProducts.map((item) => item.ProductValue);
+  const SumOfTProductValue = () => {
+    let total = 0;
+    for (let data of TProductValue) total = total + data;
+    return total;
+  };
+  // TOTAL COST OF  RENTAL RATE
+  const TRentalRate = addtoCartProducts.map((item) => item.RentalRate);
+  const SumOfRentalRate = () => {
+    let total = 0;
+    for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+
+  // TOTAL COST OF DEPOSIT RATE
+  const TDepositRate = addtoCartProducts.map((item) => item.DepositRate);
+  const SumOfDepositRate = () => {
+    let total = 0;
+    for (let data of TDepositRate) total = total + data;
+    return total;
   };
 
   const AddToCart = () => {};
@@ -285,6 +308,14 @@ const ProductsDetails = () => {
                       </tr>
                     );
                   })}
+                  <tr className="text-bold">
+                    <th colSpan="5" className="text-end">
+                      TOTAL
+                    </th>
+                    <th>{SumOfTProductValue()}</th>
+                    <th>{SumOfRentalRate()}</th>
+                    <th>{SumOfDepositRate()}</th>
+                  </tr>
                 </tbody>
               </table>
             </div>

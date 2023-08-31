@@ -572,7 +572,7 @@ const NewBooking = () => {
               className="CButton mx-2"
               onClick={BookYorProduct}
             >
-              BOOK
+              Raise Payment Request
             </button>
           </div>
         </div>

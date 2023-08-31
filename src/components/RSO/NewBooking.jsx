@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
 import {
+  DataList,
   ImageHeaders,
+  WishListHeader,
   constomerType,
   packageDayOption,
   phonePan,
@@ -19,7 +20,6 @@ const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
-  const [itemDetailsId, setItemDetailsId] = useState(0);
   let [secuanceNo, setSecuanceNo] = useState(1);
   console.log("existedUserData==>", existedUserData);
 
@@ -34,33 +34,8 @@ const NewBooking = () => {
   const [customerPinCode, setCustomerPinCode] = useState("");
   const [custonerIdNo, setCustonerIdNo] = useState("");
   const [packageDays, setPackageDays] = useState("");
-  const [termCondition, setTermCondition] = useState("NO");
-  console.log("termCondition==>", termCondition);
-
-  // ITEMS DETAILS ADD ROWS
-  const [itemRowCont, setItemRowCont] = useState(0);
-  const [addItemDetails, setAddItemDetails] = useState([]);
-
-  // ITEMS DETAILS SET INPUT VALUE
-  const [itemCode, setItemCode] = useState("");
-  const [lotNumber, setLotNumber] = useState("");
-  const [CFANCode, setCFANCode] = useState("");
-  const [grossWeight, setGrossWeight] = useState("");
-  const [productValue, setProductValue] = useState("");
-  const [rentalAmount, setRentalAmount] = useState("");
-  const [depositAmount, setDepositAmount] = useState("");
-
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
-
-  // ITEM DETAILS TABLE
-  const [itemDetailsTableRow, setItemDetailsTableRow] = useState([]);
-
-  // ITEMS DETAILS ADD REOWS
-  const AddRowTableItemDetails = () => {
-    setItemRowCont(itemRowCont + 1);
-    setAddItemDetails([...addItemDetails, itemRowCont + 1]);
-  };
 
   // SEARCH ALLREDY EXISTING USER
   const paramType = !phonePanValue
@@ -105,32 +80,6 @@ const NewBooking = () => {
         .catch((error) => console.log("error=>", error));
     }
   }, [existedUserData.addressProofFileName]);
-
-  // SAVE ITEM DETAILS
-  const SaveItemsDetails = () => {
-    if (!itemCode) {
-      alert("Please Enter All Details");
-    } else {
-      setItemDetailsId(itemDetailsId + 1);
-      const ItemDetailTable = {
-        id: itemDetailsId,
-        itemCode: itemCode,
-        lotNumber: lotNumber,
-        CFANCode: CFANCode,
-        grossWeight: grossWeight,
-        productValue: productValue,
-        rentalAmount: rentalAmount,
-        depositAmont: depositAmount,
-      };
-      setItemDetailsTableRow([...itemDetailsTableRow, ItemDetailTable]);
-      setAddItemDetails([]);
-    }
-  };
-
-  const DeleteRowsItemDetails = (id) => {
-    const updatedData = itemDetailsTableRow.filter((rowId) => rowId.id !== id);
-    setItemDetailsTableRow(updatedData);
-  };
 
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
@@ -399,158 +348,42 @@ const NewBooking = () => {
               >
                 <thead className="table-dark border-light">
                   <tr>
-                    <th>Item Code</th>
-                    <th>Lot No.</th>
-                    <th>CFA Code</th>
-                    <th>Gross_Weight</th>
-                    <th>Product_Value</th>
-                    <th>Rental_Amount</th>
-                    <th>Deposit_Amount</th>
+                    {WishListHeader.map((heading, i) => {
+                      return <td key={i}>{heading}</td>;
+                    })}
                   </tr>
                 </thead>
                 <tbody>
-                  {itemDetailsTableRow.map((item, i) => {
+                  {DataList.map((item, i) => {
                     return (
                       <tr key={i}>
-                        <td>{item.itemCode}</td>
-                        <td>{item.lotNumber}</td>
-                        <td>{item.CFANCode}</td>
-                        <td>{item.grossWeight}</td>
-                        <td>{item.productValue}</td>
-                        <td>{item.rentalAmount}</td>
-                        <td className="d-flex justify-content-between">
-                          {item.depositAmont} 12
-                          <BsFillTrashFill
-                            className="DeleteRow"
-                            onClick={() => DeleteRowsItemDetails(item.id)}
-                          />
-                        </td>
+                        <td>{item.name}</td>
+                        <td>{item.name}</td>
+                        <td>{item.name}</td>
+                        <td>{item.name}</td>
+                        <td>{item.name}</td>
+                        <td>{item.name}</td>
+                        <td>{item.name}</td>
+                        <td>{item.name}</td>
                       </tr>
                     );
                   })}
-                  {itemDetailsTableRow.length > 0 && (
-                    <tr className="text-bold">
-                      <th colSpan="4" className="text-end">
-                        TOTAL
-                      </th>
-                      <th>234</th>
-                      <th>124</th>
-                      <th>678</th>
-                    </tr>
-                  )}
-                  {addItemDetails.length > 0 && (
-                    <tr>
-                      <td>
-                        <input
-                          type="text"
-                          placeholder="Item Code"
-                          onChange={(e) => setItemCode(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          placeholder="Lot Number"
-                          disabled
-                          onChange={(e) => setLotNumber(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          disabled
-                          placeholder="CFA Code"
-                          onChange={(e) => setCFANCode(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          disabled
-                          placeholder="Gross Weight"
-                          onChange={(e) => setGrossWeight(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          disabled
-                          placeholder="Product Value"
-                          onChange={(e) => setProductValue(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          disabled
-                          placeholder="Rental Amount"
-                          onChange={(e) => setRentalAmount(e.target.value)}
-                        />
-                      </td>
-                      <td className="d-flex">
-                        <input
-                          type="number"
-                          disabled
-                          placeholder="Deposit Amount"
-                          onChange={(e) => setDepositAmount(e.target.value)}
-                        />
-                        <BsFillTrashFill
-                          className="DeleteRow mx-1 mt-2"
-                          onClick={() => setAddItemDetails([])}
-                        />
-                      </td>
-                    </tr>
-                  )}
+                  <tr className="text-bold">
+                    <th colSpan="5" className="text-end">
+                      TOTAL
+                    </th>
+                    <th>234</th>
+                    <th>124</th>
+                    <th>678</th>
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <div className="d-flex justify-content-end mt-0">
-            {addItemDetails.length > 0 ? (
-              <button
-                type="submit"
-                className="CButton mt-3"
-                onClick={SaveItemsDetails}
-              >
-                Save Row
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="CButton"
-                onClick={AddRowTableItemDetails}
-              >
-                Add Row
-              </button>
-            )}
-          </div>
 
-          <div className="col-12 d-flex">
-            <label className="form-label">Terms & Conditions Agree</label>
-            <div className="mx-3">
-              <input
-                className="form-check-input border-dark"
-                type="radio"
-                name="t&c"
-                defaultChecked
-                onClick={() => setTermCondition("YES")}
-              />
-              <label className="form-check-label mx-1">YES</label>
-            </div>
-            <div>
-              <input
-                className="form-check-input border-dark"
-                type="radio"
-                name="t&c"
-                defaultChecked
-                onClick={() => setTermCondition("NO")}
-              />
-              <label className="form-check-label mx-1">NO</label>
-            </div>
-          </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
-              Print Booking Acknowledgement & Upload
+              Print Terms & Conditiob and Upload
               <span className="printButtonStyle" onClick={PrintAcknowledgement}>
                 Print
               </span>

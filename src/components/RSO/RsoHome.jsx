@@ -57,10 +57,6 @@ const Home = () => {
       <Navbar />
       <div className="HomeTextStyle">
         <h3 className="heading my-4">WELCOME</h3>
-        <h5 className="heading">
-          Find The Perfect Freelance Service <br />
-          For Your Business
-        </h5>
         <div className="searchField">
           <input
             type="text"

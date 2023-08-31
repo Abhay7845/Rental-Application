@@ -3,7 +3,7 @@ import "../../Style/Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
-import { BsCartFill } from "react-icons/bs";
+// import { BsCartFill } from "react-icons/bs";
 
 const Navbar = () => {
   const UserName = localStorage.getItem("rsoRole");
@@ -31,55 +31,7 @@ const Navbar = () => {
                 }`}
                 to="/home"
               >
-                Home
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link
-                className={`nav-link navbarLink  ${
-                  path === "/booking" && "active"
-                }`}
-                to="/booking"
-              >
-                N_Booking
-              </Link>
-            </li>
-            <Link
-              className={`nav-link navbarLink  ${
-                path === "/new/customer" && "active"
-              }`}
-              to="/new/customer"
-            >
-              Customer
-            </Link>
-            <li className="nav-item mx-2">
-              <Link
-                className={`nav-link navbarLink  ${
-                  path === "/rental/issue" && "active"
-                }`}
-                to="/rental/issue"
-              >
-                Issue
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link
-                className={`nav-link navbarLink  ${
-                  path === "/rental/return" && "active"
-                }`}
-                to="/rental/return"
-              >
-                Return
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className={`nav-link navbarLink  ${
-                  path === "/cancellation" && "active"
-                }`}
-                to="/cancellation"
-              >
-                Cancel
+                Search Booking
               </Link>
             </li>
             <li className="nav-item mx-2">
@@ -89,18 +41,7 @@ const Navbar = () => {
                 }`}
                 to="/products/details"
               >
-                Products
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link to="/products/added/cart" className="notification">
-                <BsCartFill
-                  size={20}
-                  className={`mx-2 mt-2 ${
-                    path === "/products/added/cart" && "text-dark"
-                  }`}
-                />
-                <span className="badge">6</span>
+                Search Products
               </Link>
             </li>
             <li className="nav-item mx-2">

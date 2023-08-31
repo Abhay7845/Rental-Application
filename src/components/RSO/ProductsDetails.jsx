@@ -92,12 +92,7 @@ const ProductsDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          if (response.data.value === "Available") {
-            GetProductDetails(payload);
-          } else {
-            alert("Product Not Available");
-            setLoading(false);
-          }
+          GetProductDetails(payload);
         }
         payload.itemCode = "";
       })

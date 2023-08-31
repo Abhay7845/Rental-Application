@@ -15,12 +15,14 @@ import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { FetchImg } from "../../API/HostURL";
+import { useNavigate } from "react-router-dom";
 
 const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
   let [secuanceNo, setSecuanceNo] = useState(1);
+  const navigate = useNavigate();
   console.log("existedUserData==>", existedUserData);
 
   // NEW BOOKING USER INOPUTS VALUES
@@ -44,6 +46,17 @@ const NewBooking = () => {
     ? "pancard"
     : "mobileNo";
 
+  const CheckUserRegistered = (phonePanValue) => {
+    const result = window.confirm(
+      `Customer Not Registered, Please Register the Customer Details`
+    );
+    if (result) {
+      navigate("/new/customer");
+    } else {
+      console.log("User clicked Cancel");
+    }
+  };
+
   const FetchUserDetails = () => {
     setLoading(true);
     axios
@@ -53,8 +66,8 @@ const NewBooking = () => {
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
         } else if (response.data.code === "1001") {
+          CheckUserRegistered(phonePanValue);
           setExistedUserData({});
-          alert("Data Not Found");
         }
         setLoading(false);
       })

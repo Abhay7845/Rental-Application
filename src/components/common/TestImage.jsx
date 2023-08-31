@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { UploadImg } from "../../API/HostURL";
+import { useNavigate } from "react-router-dom";
 
 const TestImage = () => {
   const [imageName, setImageName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
   const UploadFile = (event) => {
     const file = event.target.files[0];
     const fileExtention = file.name.split(".");
@@ -53,6 +55,15 @@ const TestImage = () => {
       .catch((error) => console.log("error=>", error));
   }, [imageName]);
 
+  const CheckUserRegistered = () => {
+    const result = window.confirm("Customer not Registred Please Resgitred");
+    if (result) {
+      navigate("/new/customer");
+    } else {
+      console.log("User clicked Cancel");
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -65,6 +76,7 @@ const TestImage = () => {
           height="100"
         />
       )}
+      <button onClick={CheckUserRegistered}>Show Alert</button>
     </div>
   );
 };

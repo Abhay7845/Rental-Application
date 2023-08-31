@@ -44,6 +44,16 @@ const Navbar = () => {
                 Search Products
               </Link>
             </li>
+            <li>
+              <Link
+                className={`nav-link navbarLink  ${
+                  path === "/new/customer" && "active"
+                }`}
+                to="/new/customer"
+              >
+                Customer
+              </Link>
+            </li>
             <li className="nav-item mx-2">
               <Link
                 className={`nav-link navbarLink  ${

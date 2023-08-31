@@ -22,6 +22,9 @@ const ProductsDetails = () => {
   const [productDetails, setProductDetails] = useState({});
   const [rateMasterData, setRateMasterData] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
+  const [available, setAvailable] = useState(false);
+  console.log("available==>", available);
+
   const storeCode = localStorage.getItem("storeCode");
   console.log("rateMasterData==>", rateMasterData);
   console.log("productDetails==>", productDetails);
@@ -93,6 +96,9 @@ const ProductsDetails = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           GetProductDetails(payload);
+          if (response.data.value === "Available") {
+            setAvailable(true);
+          }
         }
         payload.itemCode = "";
       })
@@ -208,14 +214,22 @@ const ProductsDetails = () => {
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">
               <tr>
+                <td>Select</td>
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
                 })}
+                <td>Availability</td>
               </tr>
             </thead>
             {WishListedData.PdtID && (
               <tbody>
                 <tr>
+                  <td className="text-center">
+                    <input
+                      className="form-check-input border-dark"
+                      type="checkbox"
+                    />
+                  </td>
                   <td>{WishListedData.ItemCode}</td>
                   <td>{WishListedData.LotNo}</td>
                   <td>{WishListedData.CFA}</td>
@@ -231,8 +245,8 @@ const ProductsDetails = () => {
         </div>
         <div className="d-flex justify-content-end mt-0">
           <button
-            className={productDetails.pdtID ? "CButton" : "CDisabled"}
-            disabled={productDetails.pdtID ? false : true}
+            className={!available ? "CDisabled" : "CButton"}
+            disabled={available ? false : true}
             onClick={AddToWishList}
           >
             Add To WishList

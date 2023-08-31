@@ -15,6 +15,7 @@ import {
   CheckAvaiblitySchema,
 } from "../../Schema/LoginSchema";
 import ShowError from "../../Schema/ShowEroor";
+import moment from "moment";
 
 const ProductsDetails = () => {
   const [payload, setPayload] = useState({});
@@ -22,10 +23,12 @@ const ProductsDetails = () => {
   const [productDetails, setProductDetails] = useState({});
   const [rateMasterData, setRateMasterData] = useState({});
   const [addtoCartProducts, setAddtoCartProducts] = useState([]);
+  const [bookingProducts, setBookingProducts] = useState([]);
   const [available, setAvailable] = useState(false);
-  console.log("available==>", available);
-
+  const currentDate = new Date();
+  const toDayDate = moment(currentDate).format("YYYY-MM-DD");
   const storeCode = localStorage.getItem("storeCode");
+
   console.log("rateMasterData==>", rateMasterData);
   console.log("productDetails==>", productDetails);
 
@@ -126,9 +129,26 @@ const ProductsDetails = () => {
     RentalRate: productDetails.productValue * rateMasterData.rentalRate,
     DepositRate: productDetails.productValue * rateMasterData.depositRate,
   };
-  console.log("WishListedData==>", WishListedData);
+
+  console.log("bookingProducts==>", bookingProducts);
+  const BookingListedData = {
+    bookingId: null,
+    tempBookingRefId: "TEMP-1234-002",
+    createdDate: toDayDate,
+    updatedDate: toDayDate,
+    itemPriceId: 0,
+    packageDays: payload.packageDays,
+    pdtId: parseInt(productDetails.pdtID),
+    rateId: parseInt(rateMasterData.rateId),
+    productValue: parseInt(productDetails.productValue),
+    depositValue: productDetails.productValue * rateMasterData.depositRate,
+    rentValue: productDetails.productValue * rateMasterData.rentalRate,
+    rentalStartDate: payload.bookingDate,
+    status: "Active",
+  };
   const AddToWishList = () => {
     setAddtoCartProducts([...addtoCartProducts, WishListedData]);
+    setBookingProducts([...bookingProducts, BookingListedData]);
     setProductDetails({});
   };
 
@@ -155,7 +175,7 @@ const ProductsDetails = () => {
     return total;
   };
 
-  const AddToCart = () => {};
+  const ContineuToBooking = () => {};
   return (
     <div>
       <Navbar />
@@ -323,8 +343,8 @@ const ProductsDetails = () => {
         )}
         {addtoCartProducts.length > 0 && (
           <div className="d-flex justify-content-end mt-0">
-            <button className="CButton" onClick={AddToCart}>
-              Add To Cart
+            <button className="CButton" onClick={ContineuToBooking}>
+              Contineu To Booking
             </button>
           </div>
         )}

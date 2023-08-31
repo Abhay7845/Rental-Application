@@ -173,16 +173,6 @@ const ProductsDetails = () => {
               <ShowError name="packageDays" />
             </div>
             <div className="col-md-3">
-              <label className="form-label">Item Code</label>
-              <Field
-                type="text"
-                name="itemCode"
-                className="form-control"
-                placeholder="Enter 14 Digit Item Code"
-              />
-              <ShowError name="itemCode" />
-            </div>
-            <div className="col-md-3">
               <label className="form-label">Customer Type</label>
               <Field
                 className="form-control"
@@ -199,6 +189,16 @@ const ProductsDetails = () => {
                 })}
               </Field>
               <ShowError name="customerType" />
+            </div>
+            <div className="col-md-3">
+              <label className="form-label">Item Code</label>
+              <Field
+                type="text"
+                name="itemCode"
+                className="form-control"
+                placeholder="Enter 14 Digit Item Code"
+              />
+              <ShowError name="itemCode" />
             </div>
             <div className="col-md-12">
               <div className="d-flex justify-content-end">

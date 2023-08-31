@@ -89,8 +89,6 @@ export const constomerType = [
 ];
 
 export const WishListHeader = [
-  "PdtID",
-  "HUID",
   "Item Code",
   "Lot No.",
   "CFA",

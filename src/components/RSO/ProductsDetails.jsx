@@ -221,8 +221,6 @@ const ProductsDetails = () => {
             {WishListedData.PdtID && (
               <tbody>
                 <tr>
-                  <td>{WishListedData.PdtID}</td>
-                  <td>{WishListedData.HUID}</td>
                   <td>{WishListedData.ItemCode}</td>
                   <td>{WishListedData.LotNo}</td>
                   <td>{WishListedData.CFA}</td>
@@ -261,8 +259,6 @@ const ProductsDetails = () => {
                   {addtoCartProducts.map((item, i) => {
                     return (
                       <tr key={i}>
-                        <td>{item.PdtID}</td>
-                        <td>{item.HUID}</td>
                         <td>{item.ItemCode}</td>
                         <td>{item.LotNo}</td>
                         <td>{item.CFA}</td>

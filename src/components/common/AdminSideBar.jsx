@@ -11,16 +11,16 @@ const AdminSideBar = () => {
             UPDATE ITEM PRICE MASTER
           </Link>
           <hr style={{ color: "#ffff" }} />
-          <Link to="/admin/summary/reports" className="NavigationStyle">
-            SUMMARY REPORTS
-          </Link>
-          <hr style={{ color: "#ffff" }} />
           <Link to="/admin/discount/validation" className="NavigationStyle">
-            DISCOUNT VALIDATION
+            DISCOUNT APPROVEL
           </Link>
           <hr style={{ color: "#ffff" }} />
           <Link to="/admin/booking/verification" className="NavigationStyle">
             VERIFICATION
+          </Link>
+          <hr style={{ color: "#ffff" }} />
+          <Link to="/admin/summary/reports" className="NavigationStyle">
+            REPORTS
           </Link>
           <hr style={{ color: "#ffff" }} />
         </ul>

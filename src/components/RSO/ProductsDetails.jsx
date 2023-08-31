@@ -175,7 +175,7 @@ const ProductsDetails = () => {
     return total;
   };
 
-  const ContineuToBooking = () => {};
+  const ContinueToBooking = () => {};
   return (
     <div>
       <Navbar />
@@ -344,8 +344,9 @@ const ProductsDetails = () => {
         )}
         {addtoCartProducts.length > 0 && (
           <div className="d-flex justify-content-end mt-0">
-            <button className="CButton" onClick={ContineuToBooking}>
-              Contineu To Booking
+            <button className="CancelButton mx-2">Cancel</button>
+            <button className="CButton" onClick={ContinueToBooking}>
+              Continue To Booking
             </button>
           </div>
         )}

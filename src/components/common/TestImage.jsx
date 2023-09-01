@@ -20,7 +20,7 @@ const TestImage = () => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
           @media print {
@@ -43,7 +43,6 @@ const TestImage = () => {
               width:100% ; 
             }
           }
-
           `}
         </style>
         <table
@@ -146,16 +145,16 @@ const TestImage = () => {
                       <th colSpan="5">Payment Details:</th>
                     </tr>
                     <tr>
-                      <th scope="col">Payment Mode</th>
-                      <th scope="col">DOC No.</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Amount</th>
+                      <th>Payment Mode</th>
+                      <th>DOC No.</th>
+                      <th>Date</th>
+                      <th>Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>Card</td>
-                      <td>-</td>
+                      <td>123</td>
                       <td>21-10-2020</td>
                       <td>7000</td>
                     </tr>
@@ -168,7 +167,7 @@ const TestImage = () => {
                   </tbody>
                 </table>
               </td>
-              <td>
+              <td colSpan="3">
                 <div className="d-flex justify-content-between">
                   <b>Total Value</b>
                   <b>IGST @ 0.00</b>
@@ -181,7 +180,7 @@ const TestImage = () => {
                   <b>45</b>
                   <b>56</b>
                   <b>567</b>
-                  <b className="mx-5">567</b>
+                  <b style={{ marginLeft: "100%" }}>567</b>
                 </div>
               </td>
             </tr>

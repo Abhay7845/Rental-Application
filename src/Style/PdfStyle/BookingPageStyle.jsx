@@ -9,9 +9,13 @@ const BookingPageStyle = () => {
               display:none;
             }
           }
+          @media print {
+            .print-button {
+              display: none;
+            }
             @page {
               size: B5 landscape;
-              margin: 0;
+              margin: 0; /* Reset margins for the page */
             }
             .inner-table th,
             .inner-table td {

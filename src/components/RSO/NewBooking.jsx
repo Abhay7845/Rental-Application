@@ -18,13 +18,11 @@ const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
-  let [secuanceNo, setSecuanceNo] = useState(1);
+  let [secuqanceNo, setSecquanceNo] = useState(1);
   const navigate = useNavigate();
   console.log("existedUserData==>", existedUserData);
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
-
-  // SEARCH ALLREDY EXISTING USER
   const paramType = !phonePanValue
     ? ""
     : phonePanValue[0].match(phonePan)
@@ -82,10 +80,10 @@ const NewBooking = () => {
 
   // BOOKING YUOR PRODUCTS
   const BookYorProduct = () => {
-    setSecuanceNo(secuanceNo + 1);
+    setSecquanceNo(secuqanceNo + 1);
     const booingYear = currentDate.getFullYear();
-    secuanceNo = (secuanceNo % 10000).toString().padStart(4, "0");
-    console.log("secuanceNo==>", `MAMTHA-R-${booingYear}-${secuanceNo}`);
+    secuqanceNo = (secuqanceNo % 10000).toString().padStart(4, "0");
+    console.log("secuanceNo==>", `MAMTHA-R-${booingYear}-${secuqanceNo}`);
   };
 
   return (

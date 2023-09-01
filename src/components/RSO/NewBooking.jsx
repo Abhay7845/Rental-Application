@@ -141,15 +141,15 @@ const NewBooking = () => {
           </div>
           <div className="col-3">
             <label className="form-label">CUSOMER NAME</label>
-            <h6>Abhay Kumar</h6>
+            <h6>{existedUserData.customerName.toUpperCase()}</h6>
           </div>
           <div className="col-3">
             <label className="form-label">PHONE NUMBER</label>
-            <h6>1234567890</h6>
+            <h6>{existedUserData.mobileNo}</h6>
           </div>
           <div className="col-3">
             <label className="form-label">EMAIL</label>
-            <h6>abcd123@gmail.com</h6>
+            <h6>{existedUserData.emailId.toUpperCase()}</h6>
           </div>
           <div className="col-3">
             <label className="form-label">CUSTOMER TYPE</label>
@@ -160,23 +160,23 @@ const NewBooking = () => {
           </div>
           <div className="col-4">
             <label className="form-label">CITY</label>
-            <h6>Bangluru</h6>
+            <h6>{existedUserData.customerCity.toUpperCase()}</h6>
           </div>
           <div className="col-4">
             <label className="form-label">ADDRESS LINE-1</label>
-            <h6>Electronic City Fase 1</h6>
+            <h6>{existedUserData.customerAddress1.toUpperCase()}</h6>
           </div>
           <div className="col-4">
             <label className="form-label">ADDRESS LINE-2</label>
-            <h6>Electronic City Fase 2</h6>
+            <h6>{existedUserData.customerAddress2.toUpperCase()}</h6>
           </div>
           <div className="col-4">
             <label className="form-label">PIN CODE</label>
-            <h6>123456</h6>
+            <h6>{existedUserData.customerCityPincode}</h6>
           </div>
           <div className="col-4">
             <label className="form-label">ID NUMBER</label>
-            <h6>123456789123</h6>
+            <h6>{existedUserData.addressProofIdNo}</h6>
           </div>
           <div className="col-md-4">
             <img

@@ -5,6 +5,7 @@ import axios from "axios";
 import { BsFillXCircleFill, BsFillCheckCircleFill } from "react-icons/bs";
 import { DataList, phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
@@ -12,6 +13,8 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [btn, setBtn] = useState(false);
   const [selecttedProduct, setSelecttedProduct] = useState({});
+  const storeCode = localStorage.getItem("storeCode");
+  const navigate = useNavigate();
 
   const paramType = !phoneRefrence
     ? ""
@@ -21,11 +24,22 @@ const Home = () => {
 
   console.log("paramType==>", paramType);
 
+  const CheckBookingDetails = (phonePanValue) => {
+    const result = window.confirm(
+      "Booking Not Available, Please Book Products"
+    );
+    if (result) {
+      navigate("/products/details");
+    } else {
+      console.log("User clicked Cancel");
+    }
+  };
+
   const GetDetails = () => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/get/booking/details/MAMTHA/${paramType}/${phoneRefrence}`
+        `${HOST_URL}/get/booking/details/${storeCode}/${paramType}/${phoneRefrence}`
       )
       .then((res) => res)
       .then((response) => {
@@ -33,7 +47,7 @@ const Home = () => {
         if (response.data.code === "1000") {
           setProductData(response.data.value);
         } else if (response.data.code === "1001") {
-          alert("Data Not Found");
+          CheckBookingDetails();
         }
         setLoading(false);
       })
@@ -68,10 +82,10 @@ const Home = () => {
           />
           <button
             className={`${
-              phoneRefrence.length < 10 ? "DisableSearch" : "searchButton"
+              phoneRefrence.length < 5 ? "DisableSearch" : "searchButton"
             }`}
             onClick={GetDetails}
-            disabled={phoneRefrence.length < 10 ? true : false}
+            disabled={phoneRefrence.length < 5 ? true : false}
           >
             {loading ? (
               <span className="spinner-border spinner-border-sm" />

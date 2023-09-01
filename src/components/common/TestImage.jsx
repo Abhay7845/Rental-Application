@@ -167,14 +167,19 @@ const TestImage = () => {
                 </table>
               </td>
               <td>
-                <div className="d-flex flex-column">
+                <div className="d-flex justify-content-between">
                   <b>Total Value</b>
-                  <b>96598.00</b>
                   <b>IGST @ 0.00</b>
                   <b>SGST @ 9% </b>
                   <b>CGST @ 9%</b>
-                  <b>Total order Value:</b>
-                  <b>96598.00</b>
+                  <b>Total Order Value:</b>
+                </div>
+                <div className="d-flex justify-content-between mt-3">
+                  <b>123</b>
+                  <b>45</b>
+                  <b>56</b>
+                  <b>567</b>
+                  <b className="mx-5">567</b>
                 </div>
               </td>
             </tr>

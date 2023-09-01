@@ -1,5 +1,6 @@
 import React from "react";
 import { WishListHeader } from "../../Data/DataList";
+import BookingPageStyle from "../../Style/PdfStyle/BookingPageStyle";
 
 const BookingPdf = (props) => {
   const { PrintBooking, myRef } = props;
@@ -8,40 +9,11 @@ const BookingPdf = (props) => {
       <button onClick={PrintBooking} className="CButton">
         Print
       </button>
+      <BookingPageStyle />
       <div className="table-container hide-on-screen" ref={myRef}>
         <h6 className="text-center">
           BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT
         </h6>
-        <style>
-          {`
-          @media screen{
-            .hide-on-screen{
-              display:none;
-            }
-          }
-          @media print {
-            .print-button {
-              display: none;
-            }
-            @page {
-              size: B5 landscape;
-              margin: 0; /* Reset margins for the page */
-            }
-            .inner-table th,
-            .inner-table td {
-              padding: 5px;
-              font-size: 10px; 
-            }
-            .hide-scrollbar{
-              overflow-y:hidden;
-            }
-            .inner-table{
-              width:100% ; 
-            }
-          }
-
-          `}
-        </style>
         <table
           className="table table-bordered table-styles border-dark"
           style={{ fontSize: "15px" }}

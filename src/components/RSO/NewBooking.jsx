@@ -38,8 +38,6 @@ const NewBooking = () => {
     );
     if (result) {
       navigate("/new/customer");
-    } else {
-      console.log("User clicked Cancel");
     }
   };
 

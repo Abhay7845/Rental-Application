@@ -30,8 +30,6 @@ const Home = () => {
     );
     if (result) {
       navigate("/products/details");
-    } else {
-      console.log("User clicked Cancel");
     }
   };
 

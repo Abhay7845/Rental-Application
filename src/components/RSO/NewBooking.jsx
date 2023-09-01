@@ -5,8 +5,6 @@ import {
   DataList,
   ImageHeaders,
   WishListHeader,
-  constomerType,
-  packageDayOption,
   phonePan,
 } from "../../Data/DataList";
 import jsPDF from "jspdf";
@@ -24,18 +22,6 @@ const NewBooking = () => {
   let [secuanceNo, setSecuanceNo] = useState(1);
   const navigate = useNavigate();
   console.log("existedUserData==>", existedUserData);
-
-  // NEW BOOKING USER INOPUTS VALUES
-  const [customerName, setCustomerName] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("");
-  const [customerAddress1, setCustomerAddress1] = useState("");
-  const [customerAddress2, setCustomerAddress2] = useState("");
-  const [customerCity, setCustomerCity] = useState("");
-  const [customerType, setCustomerType] = useState("");
-  const [customerPinCode, setCustomerPinCode] = useState("");
-  const [custonerIdNo, setCustonerIdNo] = useState("");
-  const [packageDays, setPackageDays] = useState("");
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
 
@@ -97,31 +83,6 @@ const NewBooking = () => {
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
 
-  // UPDATE CUSTOMER TYPE
-  useEffect(() => {
-    if (existedUserData.custId && customerType) {
-      setLoading(true);
-      axios
-        .get(
-          `${HOST_URL}/update/customer/type/${existedUserData.custId}/${bookingDate}/${customerType}`
-        )
-        .then((res) => res)
-        .then((response) => {
-          if (response.data.code === "1000") {
-            alert(`Customer Type Updated to ${customerType}`);
-          }
-          if (response.data.code === "1004") {
-            console.log(response.data.value);
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error=>", error);
-          setLoading(false);
-        });
-    }
-  }, [customerType, bookingDate, existedUserData.custId]);
-
   // PRINT PrintAcknowledgement FUNCTION
   const PrintAcknowledgement = async () => {
     const doc = new jsPDF({
@@ -178,179 +139,60 @@ const NewBooking = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Details</h6>
           </div>
-          <div className="col-md-3">
-            <label className="form-label">Customer Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Customer Name"
-              value={
-                existedUserData.customerName
-                  ? existedUserData.customerName
-                  : customerName
-              }
-              disabled={existedUserData.customerName ? true : false}
-              onChange={(e) => setCustomerName(e.target.value)}
-            />
+          <div className="col-3">
+            <label className="form-label">CUSOMER NAME</label>
+            <h6>Abhay Kumar</h6>
           </div>
-          <div className="col-md-3">
-            <label className="form-label">Phone Number</label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Phone Number"
-              value={
-                existedUserData.mobileNo
-                  ? existedUserData.mobileNo
-                  : customerPhone
-              }
-              disabled={existedUserData.mobileNo ? true : false}
-              onChange={(e) => setCustomerPhone(e.target.value)}
-            />
+          <div className="col-3">
+            <label className="form-label">PHONE NUMBER</label>
+            <h6>1234567890</h6>
           </div>
-          <div className="col-md-3">
-            <label className="form-label">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Email"
-              value={
-                existedUserData.emailId
-                  ? existedUserData.emailId
-                  : customerEmail
-              }
-              disabled={existedUserData.emailId ? true : false}
-              onChange={(e) => setCustomerEmail(e.target.value)}
-            />
+          <div className="col-3">
+            <label className="form-label">EMAIL</label>
+            <h6>abcd123@gmail.com</h6>
           </div>
-          <div className="col-md-3">
-            <label className="form-label">Customer Type</label>
-            <select
-              className="form-control"
-              onChange={(e) => setCustomerType(e.target.value)}
-              disabled={!existedUserData.custId ? true : false}
-            >
-              {constomerType.map((item, i) => {
-                return (
-                  <option key={i} value={item.value}>
-                    {item.label}
-                  </option>
-                );
-              })}
-            </select>
+          <div className="col-3">
+            <label className="form-label">CUSTOMER TYPE</label>
+            <h6>PURPULE</h6>
           </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Address</h6>
           </div>
-          <div className="col-md-6">
-            <label className="form-label">City</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="City"
-              value={
-                existedUserData.customerCity
-                  ? existedUserData.customerCity
-                  : customerCity
-              }
-              disabled={existedUserData.customerCity ? true : false}
-              onChange={(e) => setCustomerCity(e.target.value)}
+          <div className="col-4">
+            <label className="form-label">CITY</label>
+            <h6>Bangluru</h6>
+          </div>
+          <div className="col-4">
+            <label className="form-label">ADDRESS LINE-1</label>
+            <h6>Electronic City Fase 1</h6>
+          </div>
+          <div className="col-4">
+            <label className="form-label">ADDRESS LINE-2</label>
+            <h6>Electronic City Fase 2</h6>
+          </div>
+          <div className="col-4">
+            <label className="form-label">PIN CODE</label>
+            <h6>123456</h6>
+          </div>
+          <div className="col-4">
+            <label className="form-label">ID NUMBER</label>
+            <h6>123456789123</h6>
+          </div>
+          <div className="col-md-4">
+            <img
+              src={`data:image/jpeg;base64,${panImageUrl}`}
+              alt=""
+              width="180"
+              height="85"
             />
           </div>
-
-          <div className="col-md-6">
-            <label className="form-label">Address Line-1</label>
-            <textarea
-              type="text"
-              rows={1}
-              className="form-control"
-              placeholder="Address Line-1"
-              value={
-                existedUserData.customerAddress1
-                  ? existedUserData.customerAddress1
-                  : customerAddress1
-              }
-              disabled={existedUserData.customerAddress1 ? true : false}
-              onChange={(e) => setCustomerAddress1(e.target.value)}
-            />
+          <div className="col-4">
+            <label className="form-label">RENT START DATE</label>
+            <h6>{bookingDate}</h6>
           </div>
-          <div className="col-md-6">
-            <label className="form-label">Address Line-2</label>
-            <textarea
-              type="text"
-              rows={1}
-              className="form-control"
-              placeholder="Address Line-2"
-              value={
-                existedUserData.customerAddress2
-                  ? existedUserData.customerAddress2
-                  : customerAddress2
-              }
-              disabled={existedUserData.customerAddress2 ? true : false}
-              onChange={(e) => setCustomerAddress2(e.target.value)}
-            />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Pin Code</label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Pin Code"
-              value={
-                existedUserData.customerCityPincode
-                  ? existedUserData.customerCityPincode
-                  : customerPinCode
-              }
-              disabled={existedUserData.customerCityPincode ? true : false}
-              onChange={(e) => setCustomerPinCode(e.target.value)}
-            />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">ID Number</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="ID Number"
-              value={
-                existedUserData.addressProofIdNo
-                  ? existedUserData.addressProofIdNo
-                  : custonerIdNo
-              }
-              disabled={existedUserData.addressProofIdNo ? true : false}
-              onChange={(e) => setCustonerIdNo(e.target.value)}
-            />
-          </div>
-          {panImageUrl && (
-            <div className="col-md-6 d-flex justify-content-center">
-              <img
-                src={`data:image/jpeg;base64,${panImageUrl}`}
-                alt=""
-                width="170"
-                height="95"
-              />
-            </div>
-          )}
-
-          <div className="col-md-6">
-            <label className="form-label">Rent Start Date</label>
-            <input type="date" className="form-control" />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Package Days</label>
-            <select
-              className="form-control"
-              value={packageDays}
-              onChange={(e) => setPackageDays(e.target.value)}
-            >
-              <option>Select Days</option>
-              {packageDayOption.map((days, i) => {
-                return (
-                  <option key={i} value={days.value}>
-                    {days.label}
-                  </option>
-                );
-              })}
-            </select>
+          <div className="col-4">
+            <label className="form-label">PACKAGE DAYS</label>
+            <h6>4 Days</h6>
           </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
@@ -409,7 +251,7 @@ const NewBooking = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Cashier Name"
+              placeholder="RSO Name"
             />
           </div>
           <div className="d-flex justify-content-end mb-4">

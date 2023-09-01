@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useRef } from "react";
 import Navbar from "./Navbar";
 import { WishListHeader } from "../../Data/DataList";
+import { useReactToPrint } from "react-to-print";
 
 const TestImage = () => {
-  const handlePrint = () => {
-    window.print();
-  };
+  const myRef = useRef(null);
+  const handlePrint = useReactToPrint({ content: () => myRef.current });
   return (
     <div>
       <Navbar />
       <button onClick={handlePrint} className="CButton">
         Print
       </button>
-      <div className="table-container hide-on-screen">
+      <div className="table-container hide-on-screen" ref={myRef}>
         <h6 className="text-center">
           BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT
         </h6>

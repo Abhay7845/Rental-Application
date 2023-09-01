@@ -1,17 +1,14 @@
 import React from "react";
 import { WishListHeader } from "../../Data/DataList";
 
-const BookingPdf = () => {
-  const PrintBooking = () => {
-    window.print();
-  };
-
+const BookingPdf = (props) => {
+  const { PrintBooking, myRef } = props;
   return (
     <div>
       <button onClick={PrintBooking} className="CButton">
         Print
       </button>
-      <div className="table-container hide-on-screen" id="bookinpdf">
+      <div className="table-container hide-on-screen" ref={myRef}>
         <h6 className="text-center">
           BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT
         </h6>

@@ -77,7 +77,7 @@ const TestImage = () => {
                   <div className="d-flex flex-column">
                     <b>GST NO:- ACGFRDGG1235</b>
                     <b>State:StateCode:</b>
-                    <b>Place of supply:</b>
+                    <b>Place of Supply:</b>
                   </div>
                   <div className="mx-5">
                     <b className="mx-5">PAN:- ABCDE1234F</b>
@@ -160,8 +160,10 @@ const TestImage = () => {
                       <td>7000</td>
                     </tr>
                     <tr>
-                      <td colSpan="3">Total</td>
-                      <td>#Value</td>
+                      <th colSpan="3" className="text-end">
+                        TOTAL
+                      </th>
+                      <th>3456</th>
                     </tr>
                   </tbody>
                 </table>
@@ -196,7 +198,7 @@ const TestImage = () => {
                 <div className="d-flex flex-row justify-content-between">
                   <b>Expected Date of Delivery:-</b>
                   <b>Expected Date of Pickup:-</b>
-                  <b>Expected Date of Return pickup:-</b>
+                  <b>Expected Date of Return Pickup:-</b>
                 </div>
               </td>
             </tr>

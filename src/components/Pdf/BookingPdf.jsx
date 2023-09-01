@@ -1,15 +1,11 @@
 import React from "react";
-import Navbar from "./Navbar";
 import { WishListHeader } from "../../Data/DataList";
 
-const TestImage = () => {
-  const handlePrint = () => {
-    window.print();
-  };
+const BookingPdf = (prop) => {
+  const { PrintBooking } = prop;
   return (
     <div>
-      <Navbar />
-      <button onClick={handlePrint} className="CButton">
+      <button onClick={PrintBooking} className="CButton">
         Print
       </button>
       <div className="table-container hide-on-screen">
@@ -256,4 +252,4 @@ const TestImage = () => {
   );
 };
 
-export default TestImage;
+export default BookingPdf;

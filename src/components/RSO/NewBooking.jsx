@@ -7,13 +7,13 @@ import {
   WishListHeader,
   phonePan,
 } from "../../Data/DataList";
-import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { FetchImg } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
+import BookingPdf from "../Pdf/BookingPdf";
 
 const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
@@ -82,14 +82,8 @@ const NewBooking = () => {
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
 
   // PRINT PrintAcknowledgement FUNCTION
-  const PrintAcknowledgement = async () => {
-    const doc = new jsPDF({
-      orientation: "landscape",
-    });
-    doc.text("Items Details", 15, 10);
-    doc.autoTable({ html: "#item-details-table" });
-    doc.autoTable({ html: "#booking-payment-details" });
-    doc.save("BookingDetails.pdf");
+  const PrintBooking = () => {
+    window.print();
   };
 
   // BOOKING YUOR PRODUCTS
@@ -233,13 +227,10 @@ const NewBooking = () => {
               </table>
             </div>
           </div>
-
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               Print Terms & Conditiob and Upload
-              <span className="printButtonStyle" onClick={PrintAcknowledgement}>
-                Print
-              </span>
+              <BookingPdf PrintBooking={PrintBooking} />
             </h6>
           </div>
           <div className="col-md-6">

@@ -7,7 +7,6 @@ import {
   WishListHeader,
   phonePan,
 } from "../../Data/DataList";
-import "jspdf-autotable";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -80,11 +79,6 @@ const NewBooking = () => {
 
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
-
-  // PRINT PrintAcknowledgement FUNCTION
-  const PrintBooking = () => {
-    window.print();
-  };
 
   // BOOKING YUOR PRODUCTS
   const BookYorProduct = () => {
@@ -230,7 +224,7 @@ const NewBooking = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               Print Terms & Conditiob and Upload
-              <BookingPdf PrintBooking={PrintBooking} />
+              <BookingPdf />
             </h6>
           </div>
           <div className="col-md-6">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
 import {
@@ -7,7 +7,6 @@ import {
   WishListHeader,
   phonePan,
 } from "../../Data/DataList";
-import { useReactToPrint } from "react-to-print";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -21,7 +20,6 @@ const NewBooking = () => {
   const [existedUserData, setExistedUserData] = useState({});
   let [secuqanceNo, setSecquanceNo] = useState(1);
   const navigate = useNavigate();
-  const myRef = useRef(null);
   console.log("existedUserData==>", existedUserData);
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -87,7 +85,6 @@ const NewBooking = () => {
     secuqanceNo = (secuqanceNo % 10000).toString().padStart(4, "0");
     console.log("secuanceNo==>", `MAMTHA-R-${booingYear}-${secuqanceNo}`);
   };
-  const PrintBooking = useReactToPrint({ content: () => myRef.current });
 
   return (
     <div>
@@ -225,7 +222,7 @@ const NewBooking = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               Print Terms & Conditiob and Upload
-              <BookingPdf PrintBooking={PrintBooking} myRef={myRef} />
+              <BookingPdf />
             </h6>
           </div>
           <div className="col-md-6">

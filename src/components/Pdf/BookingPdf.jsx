@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import { WishListHeader } from "../../Data/DataList";
 import BookingPageStyle from "../../Style/PdfStyle/BookingPageStyle";
+import { useReactToPrint } from "react-to-print";
 
-const BookingPdf = (props) => {
-  const { PrintBooking, myRef } = props;
+const BookingPdf = () => {
+  const BookinRef = useRef(null);
+  const PrintBooking = useReactToPrint({ content: () => BookinRef.current });
+
   return (
     <div>
       <button onClick={PrintBooking} className="CButton">
         Print
       </button>
       <BookingPageStyle />
-      <div className="table-container hide-on-screen" ref={myRef}>
+      <div className="table-container hide-on-screen" ref={BookinRef}>
         <h6 className="text-center">
           BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT
         </h6>

@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { WishListHeader } from "../../Data/DataList";
 import BookingPageStyle from "../../Style/PdfStyle/BookingPageStyle";
 import { useReactToPrint } from "react-to-print";
+import titanLogo from "../../Asset/Img/TitanLog.png";
 
 const BookingPdf = () => {
   const BookinRef = useRef(null);
@@ -14,8 +15,8 @@ const BookingPdf = () => {
       </button>
       <BookingPageStyle />
       <div className="table-container hide-on-screen" ref={BookinRef}>
-        <h6 className="text-center">
-          BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT
+        <h6 className="text-center mb-2">
+          <b>BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT</b>
         </h6>
         <table
           className="table table-bordered table-styles border-dark"
@@ -25,8 +26,13 @@ const BookingPdf = () => {
             <tr>
               <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
                 <div className="d-flex flex-column">
-                  <b>Titan Company Limited</b>
-                  <b>Store Address:</b>
+                  <b className="text-center">
+                    <img src={titanLogo} alt="" width="60" height="60" />
+                  </b>
+                  <h5 className="mt-2">
+                    <b>Store Address:</b>
+                  </h5>
+                  <b>Bangluru, Electronic City, 560012, Karnatka</b>
                 </div>
               </td>
               <td colSpan="3">
@@ -84,7 +90,7 @@ const BookingPdf = () => {
             </tr>
             <tr>
               <td colSpan="5">
-                <div className="table-responsive hide-scrollbar">
+                <div className="table">
                   <table className="table table-bordered inner-table border-dark">
                     <thead>
                       <tr>
@@ -95,13 +101,13 @@ const BookingPdf = () => {
                     </thead>
                     <tbody>
                       <tr>
-                        <th>510</th>
-                        <th>Antique</th>
+                        <th>512621FFBSAA00</th>
+                        <th>512621</th>
                         <th>32.581</th>
                         <th>32.581</th>
-                        <th>paymentDetails</th>
-                        <th>E2507R</th>
-                        <th>4</th>
+                        <th>678.09</th>
+                        <th>456</th>
+                        <th>47997</th>
                         <th>7000</th>
                       </tr>
                       <tr className="text-bold">
@@ -118,7 +124,7 @@ const BookingPdf = () => {
               </td>
             </tr>
             <tr>
-              <td colSpan="4">
+              <td colSpan="4" style={{ width: "40%" }}>
                 <table className="table table-bordered border-dark">
                   <thead>
                     <tr>
@@ -135,7 +141,7 @@ const BookingPdf = () => {
                     <tr>
                       <th>Card</th>
                       <th>-</th>
-                      <th>21-10-2020</th>
+                      <th>Aug-01</th>
                       <th>700</th>
                     </tr>
                     <tr>
@@ -147,7 +153,7 @@ const BookingPdf = () => {
                   </tbody>
                 </table>
               </td>
-              <td colSpan="4">
+              <td colSpan="5">
                 <div className="d-flex justify-content-between">
                   <b>Total Value</b>
                   <b>IGST @ 0.00</b>
@@ -166,7 +172,7 @@ const BookingPdf = () => {
             </tr>
             <tr>
               <td colSpan="5">
-                <div className="d-flex flex-row justify-content-around">
+                <div className="d-flex justify-content-around">
                   <b>Approx security deposite blocked:-</b>
                   <b>Mode:Card/UPI Card:-Card</b>
                 </div>
@@ -205,11 +211,11 @@ const BookingPdf = () => {
               <td colSpan="5">
                 <div className="d-flex justify-content-between">
                   <div>
-                    <h6>For Titan Company</h6>
+                    <b>For Titan Company Limited</b>
                     <h6 className="mt-5">(Authorized Signatory)</h6>
                   </div>
                   <div>
-                    <h6>Customer Name : Abhay Aryan</h6>
+                    <b>Customer Name : Abhay Aryan</b>
                     <h6 className="mt-5">
                       Customer Signature : ..............................
                     </h6>

@@ -22,9 +22,6 @@ const BookingPageStyle = () => {
               padding: 5px;
               font-size: 10px; 
             }
-            .hide-scrollbar{
-              overflow-y:hidden;
-            }
             .inner-table{
               width:100% ; 
             }

@@ -23,7 +23,7 @@ const BookingPdf = () => {
         >
           <tbody>
             <tr>
-              <td rowSpan="2" colSpan="3">
+              <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
                 <div className="d-flex flex-column">
                   <b>Titan Company Limited</b>
                   <b>Store Address:</b>
@@ -50,7 +50,10 @@ const BookingPdf = () => {
                     <b>State: Karnatka</b>
                     <b>Place of Supply: Bangluru</b>
                   </div>
-                  <div className="d-flex mx-5 flex-column">
+                  <div
+                    className="d-flex flex-column"
+                    style={{ marginLeft: "17%" }}
+                  >
                     <b className="mx-5">PAN: ABCDE1234F</b>
                     <b className="mx-5">State Code: 27</b>
                   </div>
@@ -67,7 +70,10 @@ const BookingPdf = () => {
                     <b>State: Karnatka, PinCode: 560012</b>
                     <b>State Code: 27</b>
                   </div>
-                  <div className="d-flex flex-column">
+                  <div
+                    className="d-flex flex-column"
+                    style={{ marginRight: "1%" }}
+                  >
                     <b>Customer Profile Number: 784568475846</b>
                     <b>PAN: CEZPG25447G</b>
                     <b>GST No.: ABCDFRTNG234FRT</b>

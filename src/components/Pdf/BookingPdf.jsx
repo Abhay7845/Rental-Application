@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { WishListHeader } from "../../Data/DataList";
-import BookingPageStyle from "../../Style/PdfStyle/BookingPageStyle";
 import { useReactToPrint } from "react-to-print";
 import titanLogo from "../../Asset/Img/TitanLog.png";
 
@@ -13,14 +12,25 @@ const BookingPdf = () => {
       <button onClick={PrintBooking} className="CButton">
         Print
       </button>
-      <BookingPageStyle />
+      <style>
+        {`
+          @media screen{
+            .hide-on-screen{
+              display:none;
+            }
+          }
+            @page {
+              size: A4;
+            }
+          `}
+      </style>
       <div className="table-container hide-on-screen" ref={BookinRef}>
         <h6 className="text-center mb-2">
           <b>BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT</b>
         </h6>
         <table
           className="table table-bordered table-styles border-dark"
-          style={{ fontSize: "15px" }}
+          style={{ fontSize: "11px" }}
         >
           <tbody>
             <tr>
@@ -29,9 +39,7 @@ const BookingPdf = () => {
                   <b className="text-center">
                     <img src={titanLogo} alt="" width="60" height="60" />
                   </b>
-                  <h5 className="mt-2">
-                    <b>Store Address:</b>
-                  </h5>
+                  <b>Store Address:</b>
                   <b>Bangluru, Electronic City, 560012, Karnatka</b>
                 </div>
               </td>

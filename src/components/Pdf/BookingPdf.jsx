@@ -238,11 +238,11 @@ const BookingPdf = () => {
                 <div className="d-flex justify-content-between">
                   <div>
                     <b>For Titan Company Limited</b>
-                    <h6 className="mt-5">(Authorized Signatory)</h6>
+                    <h6 className="mt-4">(Authorized Signatory)</h6>
                   </div>
                   <div>
                     <b>Customer Name : Abhay Aryan</b>
-                    <h6 className="mt-5">
+                    <h6 className="mt-4">
                       Customer Signature : ..............................
                     </h6>
                   </div>

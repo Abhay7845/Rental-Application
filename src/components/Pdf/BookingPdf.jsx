@@ -1,11 +1,24 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { WishListHeader } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import titanLogo from "../../Asset/Img/TitanLog.png";
+import axios from "axios";
 
 const BookingPdf = () => {
+  const [userData, setUserData] = useState([]);
   const BookinRef = useRef(null);
   const PrintBooking = useReactToPrint({ content: () => BookinRef.current });
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res)
+      .then((response) => setUserData(response.data))
+      .catch((error) => {
+        console.log("error==>", error);
+      });
+  }, []);
+  console.log("userData==>", userData);
 
   return (
     <div>
@@ -30,14 +43,14 @@ const BookingPdf = () => {
         </h6>
         <table
           className="table table-bordered table-styles border-dark"
-          style={{ fontSize: "11px" }}
+          style={{ fontSize: "10px" }}
         >
           <tbody>
             <tr>
               <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
                 <div className="d-flex flex-column">
                   <b className="text-center">
-                    <img src={titanLogo} alt="" width="60" height="60" />
+                    <img src={titanLogo} alt="" width="45" height="45" />
                   </b>
                   <b>Store Address:</b>
                   <b>Bangluru, Electronic City, 560012, Karnatka</b>
@@ -86,7 +99,7 @@ const BookingPdf = () => {
                   </div>
                   <div
                     className="d-flex flex-column"
-                    style={{ marginRight: "1%" }}
+                    style={{ marginRight: "10.5%" }}
                   >
                     <b>Customer Profile Number: 784568475846</b>
                     <b>PAN: CEZPG25447G</b>
@@ -98,6 +111,7 @@ const BookingPdf = () => {
             </tr>
             <tr>
               <td colSpan="5">
+                <b>ITEM DETAILS</b>
                 <div className="table">
                   <table className="table table-bordered inner-table border-dark">
                     <thead>
@@ -108,16 +122,20 @@ const BookingPdf = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th>512621FFBSAA00</th>
-                        <th>512621</th>
-                        <th>32.581</th>
-                        <th>32.581</th>
-                        <th>678.09</th>
-                        <th>456</th>
-                        <th>47997</th>
-                        <th>7000</th>
-                      </tr>
+                      {userData.map((data, i) => {
+                        return (
+                          <tr key={i}>
+                            <th>512621FFBSAA00</th>
+                            <th>512621</th>
+                            <th>32.581</th>
+                            <th>32.581</th>
+                            <th>678.09</th>
+                            <th>456</th>
+                            <th>47997</th>
+                            <th>7000</th>
+                          </tr>
+                        );
+                      })}
                       <tr className="text-bold">
                         <th colSpan="5" className="text-end">
                           TOTAL
@@ -174,7 +192,7 @@ const BookingPdf = () => {
                   <b>45</b>
                   <b>56</b>
                   <b>569</b>
-                  <b style={{ marginRight: "20%" }}>567</b>
+                  <b style={{ marginRight: "17%" }}>567</b>
                 </div>
               </td>
             </tr>

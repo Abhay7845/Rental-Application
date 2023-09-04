@@ -1,14 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
-import Navbar from "./Navbar";
 import { WishListHeader } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import titanLogo from "../../Asset/Img/TitanLog.png";
 import axios from "axios";
 
-const TestImage = () => {
+const DeliveryPdf = () => {
   const myRef = useRef(null);
   const [userData, setUserData] = useState([]);
-
   const handlePrint = useReactToPrint({ content: () => myRef.current });
 
   useEffect(() => {
@@ -23,7 +21,6 @@ const TestImage = () => {
   console.log("userData==>", userData);
   return (
     <div>
-      <Navbar />
       <button onClick={handlePrint} className="CButton">
         Print
       </button>
@@ -276,4 +273,4 @@ const TestImage = () => {
   );
 };
 
-export default TestImage;
+export default DeliveryPdf;

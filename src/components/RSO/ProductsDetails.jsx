@@ -184,7 +184,24 @@ const ProductsDetails = () => {
     payload.packageDays = "";
     payload.customerType = "";
   };
-  const ContinueToBooking = () => {};
+  const ContinueToBooking = () => {
+    console.log("addtoWishList===>", addtoWishList);
+    setLoading(true);
+    axios
+      .post(`${HOST_URL}/add/to/cart`, addtoWishList)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          console.log("response==>", response.data.value);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  };
   return (
     <div>
       <Navbar />

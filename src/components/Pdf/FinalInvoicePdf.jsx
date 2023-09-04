@@ -7,7 +7,9 @@ import axios from "axios";
 const FinalInvoicePdf = () => {
   const FinalInvoiceRef = useRef(null);
   const [userData, setUserData] = useState([]);
-  const FinalInvoicePDF = useReactToPrint({ content: () => myRef.current });
+  const FinalInvoicePDF = useReactToPrint({
+    content: () => FinalInvoiceRef.current,
+  });
 
   useEffect(() => {
     axios

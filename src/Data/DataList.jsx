@@ -90,6 +90,7 @@ export const constomerType = [
 
 export const WishListHeader = [
   "ITEMCODE",
+  "PDT ID",
   "LOT NO.",
   "CFA",
   "GROSS WT.",

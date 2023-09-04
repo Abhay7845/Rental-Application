@@ -20,56 +20,37 @@ import moment from "moment";
 const ProductsDetails = () => {
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
-  const [productDetails, setProductDetails] = useState({});
-  const [rateMasterData, setRateMasterData] = useState({});
-  const [addtoCartProducts, setAddtoCartProducts] = useState([]);
-  const [bookingProducts, setBookingProducts] = useState([]);
-  const [available, setAvailable] = useState(false);
+  const [productDetails, setProductDetails] = useState([]);
+  const [addtoWishList, setAddtoWishList] = useState([]);
+  const [available, setAvailable] = useState("");
+  const [wishList, setWishList] = useState(false);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
   const storeCode = localStorage.getItem("storeCode");
 
-  console.log("rateMasterData==>", rateMasterData);
+  console.log("addtoWishList==>", addtoWishList);
   console.log("productDetails==>", productDetails);
-
-  const GetMasterRate = (masterData) => {
-    const getMasterData = {
-      customerType: masterData.customerType,
-      storeCode: storeCode,
-      packagePeriod: masterData.packageDays,
-      cfaCode: masterData.cfa,
-      locType: "sameCity",
-    };
-    console.log("getMasterData==>", getMasterData);
-    axios
-      .post(`${HOST_URL}/get/rate/master`, getMasterData)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          setRateMasterData(response.data.value);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
-  };
+  console.log("available==>", available);
 
   const GetProductDetails = (payload) => {
+    const GetProducts = {
+      storeCode: storeCode,
+      itemCode: payload.itemCode,
+      customerType: payload.customerType,
+      packagePeriod: payload.packageDays,
+      cfaCode: "1234",
+      locType: "SameCity",
+    };
+    console.log("GetProducts==>", GetProducts);
     axios
-      .get(
-        `${HOST_URL}/rental/product/view/details/${storeCode}/${payload.itemCode}`
-      )
+      .post(`${HOST_URL}/rental/product/view/details`, GetProducts)
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
-          if (response.data.value) {
-            GetMasterRate({ ...payload, ...response.data.value });
-          }
         }
+        setLoading(false);
       })
       .catch((error) => {
         console.log("error==>", error);
@@ -93,7 +74,7 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
-    // console.log("CheckAvaiblity==>", CheckAvaiblity);
+    console.log("CheckAvaiblity==>", CheckAvaiblity);
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
@@ -101,9 +82,7 @@ const ProductsDetails = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           GetProductDetails(payload);
-          if (response.data.value === "Available") {
-            setAvailable(true);
-          }
+          setAvailable(response.data.value);
         }
         payload.itemCode = "";
       })
@@ -111,58 +90,78 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
+  const GetProductData = productDetails.map((data) => {
+    return {
+      cfa: data.cfa,
+      grossWt: data.grossWt,
+      huID: data.huID,
+      itemCode: data.itemCode,
+      itemPriceId: data.itemPriceId,
+      lotNo: data.lotNo,
+      netWt: data.netWt,
+      pdtID: data.pdtID,
+      productValue: data.productValue,
+      rateId: data.rateId,
+      penaltyRate: parseFloat(data.productValue * data.penaltyRate),
+      depositRate: parseFloat(data.productValue * data.depositRate),
+      rentalRate: parseFloat(data.productValue * data.rentalRate),
+      status: "Active",
+    };
+  });
+  console.log("GetProductData==>", GetProductData);
 
-  const DeleteWishListRow = (PdtID) => {
-    const updatedData = addtoCartProducts.filter(
-      (rowId) => rowId.PdtID !== PdtID
-    );
-    setAddtoCartProducts(updatedData);
+  const SelectedProducts = (product) => {
+    console.log("product==>", product);
+    const AddToWishListOBj = {
+      bookingId: 0,
+      itemCode: product.itemCode,
+      cfa: product.cfa,
+      lotNo: product.lotNo,
+      grossWt: product.grossWt,
+      netWt: product.netWt,
+      pdtId: product.pdtID,
+      rentalStartDate: payload.bookingDate,
+      packageDays: parseInt(payload.packageDays),
+      itemPriceId: parseInt(product.itemPriceId),
+      rateId: product.rateId,
+      productValue: product.productValue,
+      rentValue: product.rentalRate,
+      depositValue: product.depositRate,
+      createdDate: null,
+      updatedDate: null,
+      status: "active",
+      tempBookingRefId: "1234578",
+      paymentRequestFor: "newBooking",
+    };
+    console.log("AddToWishListOBj==>", AddToWishListOBj);
+    setAddtoWishList([...addtoWishList, AddToWishListOBj]);
   };
+  console.log("addtoWishList=>", addtoWishList);
 
-  const WishListedData = {
-    PdtID: productDetails.pdtID,
-    HUID: productDetails.huID,
-    ItemCode: productDetails.itemCode,
-    LotNo: productDetails.lotNo,
-    CFA: productDetails.cfa,
-    GrossWt: productDetails.grossWt,
-    NetWt: productDetails.netWt,
-    ProductValue: parseInt(productDetails.productValue),
-    RentalRate: productDetails.productValue * rateMasterData.rentalRate,
-    DepositRate: productDetails.productValue * rateMasterData.depositRate,
-  };
-
-  console.log("bookingProducts==>", bookingProducts);
-  const BookingListedData = {
-    bookingId: null,
-    tempBookingRefId: "TEMP-1234-002",
-    createdDate: toDayDate,
-    updatedDate: toDayDate,
-    itemPriceId: 0,
-    packageDays: payload.packageDays,
-    pdtId: parseInt(productDetails.pdtID),
-    rateId: parseInt(rateMasterData.rateId),
-    productValue: parseInt(productDetails.productValue),
-    depositValue: productDetails.productValue * rateMasterData.depositRate,
-    rentValue: productDetails.productValue * rateMasterData.rentalRate,
-    rentalStartDate: payload.bookingDate,
-    status: "Active",
-  };
   const AddToWishList = () => {
-    setAddtoCartProducts([...addtoCartProducts, WishListedData]);
-    setBookingProducts([...bookingProducts, BookingListedData]);
-    setProductDetails({});
+    setWishList(true);
+    setProductDetails([]);
+  };
+  const DeleteWishListRow = (pdtId) => {
+    const updatedData = addtoWishList.filter((rowId) => rowId.pdtId !== pdtId);
+    setAddtoWishList(updatedData);
+    if (updatedData.length === 0) {
+      setWishList(false);
+    }
   };
 
   // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = addtoCartProducts.map((item) => item.ProductValue);
+  const TProductValue = addtoWishList.map((item) =>
+    parseFloat(item.productValue)
+  );
   const SumOfTProductValue = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
     return total;
   };
   // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = addtoCartProducts.map((item) => item.RentalRate);
+  const TRentalRate = addtoWishList.map((item) => item.rentValue);
+
   const SumOfRentalRate = () => {
     let total = 0;
     for (let data of TRentalRate) total = total + data;
@@ -170,13 +169,18 @@ const ProductsDetails = () => {
   };
 
   // TOTAL COST OF DEPOSIT RATE
-  const TDepositRate = addtoCartProducts.map((item) => item.DepositRate);
+  const TDepositRate = addtoWishList.map((item) => item.depositValue);
   const SumOfDepositRate = () => {
     let total = 0;
     for (let data of TDepositRate) total = total + data;
     return total;
   };
 
+  const GoForCancel = () => {
+    setWishList(false);
+    setProductDetails([]);
+    setAddtoWishList([]);
+  };
   const ContinueToBooking = () => {};
   return (
     <div>
@@ -267,38 +271,53 @@ const ProductsDetails = () => {
                 <td>Availability</td>
               </tr>
             </thead>
-            {WishListedData.PdtID && (
+            {GetProductData.length > 0 && (
               <tbody>
-                <tr>
-                  <td className="text-center">
-                    <input
-                      className="form-check-input border-dark"
-                      type="checkbox"
-                    />
-                  </td>
-                  <td>{WishListedData.ItemCode}</td>
-                  <td>{WishListedData.LotNo}</td>
-                  <td>{WishListedData.CFA}</td>
-                  <td>{WishListedData.GrossWt}</td>
-                  <td>{WishListedData.NetWt}</td>
-                  <td>{WishListedData.ProductValue}</td>
-                  <td>{WishListedData.RentalRate.toString()}</td>
-                  <td>{WishListedData.DepositRate.toString()}</td>
-                </tr>
+                {GetProductData.map((data, i) => {
+                  return (
+                    <tr
+                      key={i}
+                      style={{
+                        pointerEvents: `${
+                          data.status === "Active" ? "" : "none"
+                        }`,
+                      }}
+                    >
+                      <td className="text-center">
+                        <input
+                          className="form-check-input border-dark"
+                          type="checkbox"
+                          disabled={data.status === "Active" ? false : true}
+                          onClick={() => SelectedProducts(data)}
+                        />
+                      </td>
+                      <td>{data.itemCode}</td>
+                      <td>{data.pdtID}</td>
+                      <td>{data.lotNo}</td>
+                      <td>{data.cfa}</td>
+                      <td>{data.grossWt}</td>
+                      <td>{data.netWt}</td>
+                      <td>{data.productValue}</td>
+                      <td>{data.rentalRate}</td>
+                      <td>{data.depositRate}</td>
+                      <td>{data.status}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             )}
           </table>
         </div>
         <div className="d-flex justify-content-end mt-0">
           <button
-            className={!available ? "CDisabled" : "CButton"}
-            disabled={available ? false : true}
+            className={addtoWishList.length > 0 ? "CButton" : "CDisabled"}
+            disabled={addtoWishList.length > 0 ? false : true}
             onClick={AddToWishList}
           >
             Add To WishList
           </button>
         </div>
-        {addtoCartProducts.length > 0 && (
+        {wishList === true && (
           <div className="col-12">
             <h6 className="bookingHeading">Your WishListed Products</h6>
             <div className="col-12 table-responsive">
@@ -311,28 +330,29 @@ const ProductsDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {addtoCartProducts.map((item, i) => {
+                  {addtoWishList.map((item, i) => {
                     return (
                       <tr key={i}>
-                        <td>{item.ItemCode}</td>
-                        <td>{item.LotNo}</td>
-                        <td>{item.CFA}</td>
-                        <td>{item.GrossWt}</td>
-                        <td>{item.NetWt}</td>
-                        <td>{item.ProductValue}</td>
-                        <td>{item.RentalRate}</td>
+                        <td>{item.itemCode}</td>
+                        <td>{item.pdtId}</td>
+                        <td>{item.lotNo}</td>
+                        <td>{item.cfa}</td>
+                        <td>{item.grossWt}</td>
+                        <td>{item.netWt}</td>
+                        <td>{item.productValue}</td>
+                        <td>{item.rentValue}</td>
                         <td className="d-flex justify-content-between">
-                          {item.DepositRate}
+                          {item.depositValue}
                           <BsFillTrashFill
                             className="DeleteRow"
-                            onClick={() => DeleteWishListRow(item.PdtID)}
+                            onClick={() => DeleteWishListRow(item.pdtId)}
                           />
                         </td>
                       </tr>
                     );
                   })}
                   <tr className="text-bold">
-                    <th colSpan="5" className="text-end">
+                    <th colSpan="6" className="text-end">
                       TOTAL
                     </th>
                     <th>{SumOfTProductValue()}</th>
@@ -344,9 +364,11 @@ const ProductsDetails = () => {
             </div>
           </div>
         )}
-        {addtoCartProducts.length > 0 && (
+        {wishList === true && (
           <div className="d-flex justify-content-end mt-0">
-            <button className="CancelButton mx-2">Cancel</button>
+            <button className="CancelButton mx-2" onClick={GoForCancel}>
+              Cancel
+            </button>
             <button className="CButton" onClick={ContinueToBooking}>
               Continue To Booking
             </button>

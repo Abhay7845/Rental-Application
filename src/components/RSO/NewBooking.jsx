@@ -19,7 +19,10 @@ const NewBooking = () => {
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
   let [secuqanceNo, setSecquanceNo] = useState(1);
+  const [bookingRSO, setBookingRSO] = useState("");
   const navigate = useNavigate();
+  const storeCode = localStorage.getItem("storeCode");
+
   console.log("existedUserData==>", existedUserData);
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -83,7 +86,30 @@ const NewBooking = () => {
     setSecquanceNo(secuqanceNo + 1);
     const booingYear = currentDate.getFullYear();
     secuqanceNo = (secuqanceNo % 10000).toString().padStart(4, "0");
-    console.log("secuanceNo==>", `MAMTHA-R-${booingYear}-${secuqanceNo}`);
+    const bookingRefId = `MAMTHA-R-${booingYear}-${secuqanceNo}`;
+
+    const BookingInputs = {
+      bookingRefId: bookingRefId,
+      storeCode: storeCode,
+      addressProofIdNo: existedUserData.addressProofIdNo,
+      custId: existedUserData.custId,
+      customerType: "PURPLE",
+      addressProofIdType: existedUserData.addressProofIdType,
+      addressProofFileName: existedUserData.addressProofFileName,
+      panCardFileName: existedUserData.panCardNoFileName,
+      customerPrevTXNFileName: "prvstxn2.jpg",
+      totalProductValue: 3001.5,
+      totalRentalAmount: 1231.5,
+      totalDepositAmount: 3001.5,
+      totalBookingAmount: 1001.7,
+      tncFileName: "tncFile1.jpg",
+      rsoName: bookingRSO,
+      createdDate: existedUserData.createDate,
+      updatedDate: existedUserData.updateDate,
+      status: "active",
+      tempRefNo: "Durgesh123987",
+    };
+    console.log("BookingInputs==>", BookingInputs);
   };
 
   return (
@@ -233,6 +259,7 @@ const NewBooking = () => {
               type="text"
               className="form-control"
               placeholder="RSO Name"
+              onChange={(e) => setBookingRSO(e.target.value)}
             />
           </div>
           <div className="d-flex justify-content-end mb-4">

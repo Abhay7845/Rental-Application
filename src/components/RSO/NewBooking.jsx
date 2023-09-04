@@ -22,6 +22,8 @@ const NewBooking = () => {
   const [bookingRSO, setBookingRSO] = useState("");
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
+  const cusType = localStorage.getItem("cusType");
+  console.log("cusType==>", cusType);
 
   console.log("existedUserData==>", existedUserData);
   // FETCH CUSOMER UPLPAD IMAGE
@@ -93,7 +95,7 @@ const NewBooking = () => {
       storeCode: storeCode,
       addressProofIdNo: existedUserData.addressProofIdNo,
       custId: existedUserData.custId,
-      customerType: "PURPLE",
+      customerType: cusType,
       addressProofIdType: existedUserData.addressProofIdType,
       addressProofFileName: existedUserData.addressProofFileName,
       panCardFileName: existedUserData.panCardNoFileName,
@@ -163,7 +165,7 @@ const NewBooking = () => {
           </div>
           <div className="col-3">
             <label className="form-label">CUSTOMER TYPE</label>
-            <h6>PURPULE</h6>
+            <h6>{cusType}</h6>
           </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Address</h6>

@@ -78,6 +78,7 @@ const ProductsDetails = () => {
   };
 
   const CheckAvaiblity = (payload) => {
+    localStorage.setItem("cusType", payload.customerType);
     setPayload(payload);
     setLoading(true);
     const CheckAvaiblity = {

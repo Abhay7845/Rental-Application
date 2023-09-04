@@ -180,6 +180,9 @@ const ProductsDetails = () => {
     setWishList(false);
     setProductDetails([]);
     setAddtoWishList([]);
+    payload.bookingDate = "";
+    payload.packageDays = "";
+    payload.customerType = "";
   };
   const ContinueToBooking = () => {};
   return (

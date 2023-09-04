@@ -98,3 +98,25 @@ export const WishListHeader = [
   "RENTAL RATE",
   "DEPOSIT RATE",
 ];
+export const DeliveryListHearders = [
+  "ITEMCODE",
+  "DISCRIPTIONS",
+  "GROSS WT.",
+  "NET WT.",
+  "BASE PRICE",
+  "HSN/SAC",
+];
+
+export const FinalInvoicePdfHeaders = [
+  "DISCRIPTIONS OF THE GOODS",
+  "GROSS WT.",
+  "NET WT.",
+  "BASE PRICE",
+  "HSN CODE",
+  "NO.OF DAYS",
+  "RENTAL CHARGES(HSN:997329)",
+  "LATE FEE(HSN:9997)",
+  "DAMAGES(HSN:999794)",
+  "DISCOUNT",
+  "VALUE AFTER DISCOUNT",
+];

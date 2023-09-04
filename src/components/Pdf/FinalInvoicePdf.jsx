@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { WishListHeader } from "../../Data/DataList";
+import { FinalInvoicePdfHeaders } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import titanLogo from "../../Asset/Img/TitanLog.png";
 import axios from "axios";
@@ -117,7 +117,7 @@ const FinalInvoicePdf = () => {
                   <table className="table table-bordered inner-table border-dark">
                     <thead>
                       <tr>
-                        {WishListHeader.map((heading, i) => {
+                        {FinalInvoicePdfHeaders.map((heading, i) => {
                           return <th key={i}>{heading}</th>;
                         })}
                       </tr>

@@ -5,9 +5,9 @@ import titanLogo from "../../Asset/Img/TitanLog.png";
 import axios from "axios";
 
 const DeliveryPdf = () => {
-  const myRef = useRef(null);
+  const DelivetyRef = useRef(null);
   const [userData, setUserData] = useState([]);
-  const handlePrint = useReactToPrint({ content: () => myRef.current });
+  const DeliveryPDF = useReactToPrint({ content: () => myRef.current });
 
   useEffect(() => {
     axios
@@ -21,7 +21,7 @@ const DeliveryPdf = () => {
   console.log("userData==>", userData);
   return (
     <div>
-      <button onClick={handlePrint} className="CButton">
+      <button onClick={DeliveryPDF} className="CButton">
         Print
       </button>
       <style>
@@ -36,7 +36,7 @@ const DeliveryPdf = () => {
             }
           `}
       </style>
-      <div className="table-container hide-on-screen" ref={myRef}>
+      <div className="table-container hide-on-screen" ref={DelivetyRef}>
         <h6 className="text-center mb-2">
           <b>BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT</b>
         </h6>

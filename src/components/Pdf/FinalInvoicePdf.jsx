@@ -1,13 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { WishListHeader } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import titanLogo from "../../Asset/Img/TitanLog.png";
 import axios from "axios";
 
-const BookingPdf = () => {
+const FinalInvoicePdf = () => {
+  const FinalInvoiceRef = useRef(null);
   const [userData, setUserData] = useState([]);
-  const BookinRef = useRef(null);
-  const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
+  const FinalInvoicePDF = useReactToPrint({ content: () => myRef.current });
 
   useEffect(() => {
     axios
@@ -19,10 +19,9 @@ const BookingPdf = () => {
       });
   }, []);
   console.log("userData==>", userData);
-
   return (
     <div>
-      <button onClick={BookingPDF} className="CButton">
+      <button onClick={FinalInvoicePDF} className="CButton">
         Print
       </button>
       <style>
@@ -37,7 +36,7 @@ const BookingPdf = () => {
             }
           `}
       </style>
-      <div className="table-container hide-on-screen" ref={BookinRef}>
+      <div className="table-container hide-on-screen" ref={FinalInvoiceRef}>
         <h6 className="text-center mb-2">
           <b>BOOKING ORDER CONFIRMATION/ADVANCE RECEIPT</b>
         </h6>
@@ -274,4 +273,4 @@ const BookingPdf = () => {
   );
 };
 
-export default BookingPdf;
+export default FinalInvoicePdf;

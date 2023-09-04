@@ -112,6 +112,13 @@ const NewBooking = () => {
       tempRefNo: "Durgesh123987",
     };
     console.log("BookingInputs==>", BookingInputs);
+    axios
+      .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
+      .then((res) => res)
+      .then((response) => console.log("response==>", response))
+      .catch((error) => {
+        console.log("error==>", error);
+      });
   };
 
   return (

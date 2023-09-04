@@ -85,6 +85,7 @@ const NewBooking = () => {
 
   // BOOKING YUOR PRODUCTS
   const BookYorProduct = () => {
+    setLoading(true);
     setSecquanceNo(secuqanceNo + 1);
     const booingYear = currentDate.getFullYear();
     secuqanceNo = (secuqanceNo % 10000).toString().padStart(4, "0");
@@ -115,9 +116,15 @@ const NewBooking = () => {
     axios
       .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
       .then((res) => res)
-      .then((response) => console.log("response==>", response))
+      .then((response) => {
+        if (response.data.code === "1000") {
+          console.log("response==>", response);
+        }
+        setLoading(false);
+      })
       .catch((error) => {
         console.log("error==>", error);
+        setLoading(false);
       });
   };
 

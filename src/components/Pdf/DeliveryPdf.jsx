@@ -7,7 +7,7 @@ import axios from "axios";
 const DeliveryPdf = () => {
   const DelivetyRef = useRef(null);
   const [userData, setUserData] = useState([]);
-  const DeliveryPDF = useReactToPrint({ content: () => myRef.current });
+  const DeliveryPDF = useReactToPrint({ content: () => DelivetyRef.current });
 
   useEffect(() => {
     axios
@@ -28,7 +28,7 @@ const DeliveryPdf = () => {
         {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {

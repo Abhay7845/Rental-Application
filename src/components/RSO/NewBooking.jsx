@@ -23,7 +23,7 @@ const NewBooking = () => {
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
   const cusType = localStorage.getItem("cusType");
-  console.log("cusType==>", cusType);
+  const packageDays = localStorage.getItem("packageDays");
 
   console.log("existedUserData==>", existedUserData);
   // FETCH CUSOMER UPLPAD IMAGE
@@ -218,7 +218,7 @@ const NewBooking = () => {
           </div>
           <div className="col-4">
             <label className="form-label">PACKAGE DAYS</label>
-            <h6>4 Days</h6>
+            <h6>{packageDays} Days</h6>
           </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>

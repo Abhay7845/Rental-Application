@@ -13,7 +13,6 @@ const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
-  let [secuqanceNo, setSecquanceNo] = useState(1);
   const [bookingRSO, setBookingRSO] = useState("");
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
@@ -239,47 +238,49 @@ const NewBooking = () => {
 
   // BOOKING YUOR PRODUCTS
   const BookYorProduct = () => {
-    setLoading(true);
-    setSecquanceNo(secuqanceNo + 1);
-    const booingYear = currentDate.getFullYear();
-    secuqanceNo = (secuqanceNo % 10000).toString().padStart(4, "0");
-    const bookingRefId = `MAMTHA-R-${booingYear}-${secuqanceNo}`;
-
-    const BookingInputs = {
-      bookingRefId: bookingRefId,
-      storeCode: storeCode,
-      addressProofIdNo: existedUserData.addressProofIdNo,
-      custId: existedUserData.custId,
-      customerType: cusType,
-      addressProofIdType: existedUserData.addressProofIdType,
-      addressProofFileName: existedUserData.addressProofFileName,
-      panCardFileName: existedUserData.panCardNoFileName,
-      customerPrevTXNFileName: transactionFile,
-      totalProductValue: 3001.5,
-      totalRentalAmount: 1231.5,
-      totalDepositAmount: 3001.5,
-      totalBookingAmount: 1001.7,
-      tncFileName: "",
-      rsoName: bookingRSO,
-      createdDate: existedUserData.createDate,
-      updatedDate: existedUserData.updateDate,
-      status: "active",
-      tempRefNo: "Durgesh123987",
-    };
-    console.log("BookingInputs==>", BookingInputs);
-    axios
-      .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          console.log("response==>", response);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+    if (!bookingRSO || !transactionFile) {
+      alert("Please Enter RSO Name & Transaction File");
+    } else {
+      setLoading(true);
+      const timeStamp = currentDate.getMilliseconds();
+      const bookingRefId = `MAMTHA-R-${bookingDate}-${timeStamp}`;
+      const BookingInputs = {
+        bookingRefId: bookingRefId,
+        storeCode: storeCode,
+        addressProofIdNo: existedUserData.addressProofIdNo,
+        custId: existedUserData.custId,
+        customerType: cusType,
+        addressProofIdType: existedUserData.addressProofIdType,
+        addressProofFileName: existedUserData.addressProofFileName,
+        panCardFileName: existedUserData.panCardNoFileName,
+        customerPrevTXNFileName: transactionFile,
+        totalProductValue: SumOfTProductValue(),
+        totalRentalAmount: SumOfRentalRate(),
+        totalDepositAmount: SumOfDepositRate(),
+        totalBookingAmount: 0.0,
+        tncFileName: "",
+        rsoName: bookingRSO,
+        createdDate: existedUserData.createDate,
+        updatedDate: existedUserData.updateDate,
+        status: "active",
+        tempRefNo: "Durgesh123987",
+      };
+      console.log("BookingInputs==>", BookingInputs);
+      axios
+        .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            alert("Your Products Booked Successfully");
+            navigate("/products/details");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   };
 
   return (

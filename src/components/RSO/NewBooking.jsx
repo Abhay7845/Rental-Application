@@ -30,6 +30,7 @@ const NewBooking = () => {
   const [bankDetailFileName, setBankDetailFileName] = useState("");
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const [transactionFile, setTransactionFile] = useState("");
+  const [transactioUI, setTransactioUI] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
   const { customerName } = existedUserData;
 
@@ -178,6 +179,7 @@ const NewBooking = () => {
           const reader = new FileReader();
           reader.onloadend = () => {
             setTransactionFile(fileExtention);
+            setTransactioUI(reader.result);
           };
           if (file) {
             reader.readAsDataURL(file);
@@ -395,7 +397,7 @@ const NewBooking = () => {
               </label>
             </div>
           )}
-          <div className="col-12">
+          <div className="col-6">
             <label className="form-label">
               UPLOAD PREVIOUS TRANSACTION FILE
             </label>
@@ -404,6 +406,11 @@ const NewBooking = () => {
               className="form-control"
               onChange={UploadPreTransaction}
             />
+          </div>
+          <div className="col-md-6 text-center">
+            {transactioUI && (
+              <img src={transactioUI} alt="" width="180" height="85" />
+            )}
           </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>

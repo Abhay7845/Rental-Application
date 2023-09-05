@@ -29,6 +29,7 @@ const NewBooking = () => {
   const [customerAccountNumber, setCustomerAccountNumber] = useState("");
   const [bankIfsc, setBankIfsc] = useState("");
   const [bankDetailFileName, setBankDetailFileName] = useState("");
+  const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
   console.log("bankDetailFileName==>", bankDetailFileName);
 
@@ -118,7 +119,46 @@ const NewBooking = () => {
     return total;
   };
 
+  const UploadBankCheque = (event) => {
+    if (customerAccountNumber.length > 10) {
+      setLoading(true);
+      const file = event.target.files[0];
+      const formData = new FormData();
+      const fileEx = file.name.split(".");
+      const fileExtention = `${customerAccountNumber}.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", file);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setBankDetailFileName(reader.result);
+              setCancelChqueFileName(fileExtention);
+            };
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+            alert("Your Cheque Book Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    } else {
+      alert("Please Enter Bank Details");
+      document.getElementById("chequeBook").value = "";
+    }
+  };
   const UpdateCustomerBankDetails = () => {
+    setLoading(true);
     const UpdateCustDetails = {
       customerName: existedUserData.customerName,
       customerAddress1: existedUserData.customerAddress1,
@@ -139,7 +179,7 @@ const NewBooking = () => {
       customerBankName: customerBankName,
       customerAccountNumber: customerAccountNumber,
       bankIfsc: BanckIfcseCode,
-      bankDetailFileName: customerAccountNumber,
+      bankDetailFileName: cancelChqueFileName,
     };
     console.log("UpdateCustDetails==>", UpdateCustDetails);
     axios
@@ -149,6 +189,7 @@ const NewBooking = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           alert("Account Details hsa been Updated Successfully");
+          FetchUserDetails();
         }
         setLoading(false);
       })
@@ -156,42 +197,6 @@ const NewBooking = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  };
-  const UploadBankCheque = (event) => {
-    if (customerAccountNumber.length > 10) {
-      setLoading(true);
-      const file = event.target.files[0];
-      const formData = new FormData();
-      const fileEx = file.name.split(".");
-      formData.append("ImgName", `${customerAccountNumber}.${fileEx[1]}`);
-      formData.append("files", file);
-      axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response.data);
-          if (response.data) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setBankDetailFileName(reader.result);
-            };
-            if (file) {
-              reader.readAsDataURL(file);
-            }
-            alert("Your Cheque Book Uploaded Successfully");
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error==>", error);
-          setLoading(false);
-        });
-    } else {
-      alert("Please Enter Bank Details");
-      document.getElementById("chequeBook").value = "";
-    }
   };
 
   // BOOKING YUOR PRODUCTS
@@ -331,8 +336,8 @@ const NewBooking = () => {
             <label className="form-label">PACKAGE DAYS</label>
             <h6>{packageDays} Days</h6>
           </div>
-          {!existedUserData.customerBankName ||
-          !existedUserData.customerAccountNumber ? (
+          {existedUserData.customerBankName === "" ||
+          existedUserData.customerAccountNumber === "" ? (
             <div className="col-4">
               <label className="form-label text-danger">
                 <b>PLEASE ADD YOUR BANK DETAILS</b>
@@ -475,6 +480,7 @@ const NewBooking = () => {
                 type="button"
                 className="CButton"
                 onClick={UpdateCustomerBankDetails}
+                data-bs-dismiss="modal"
               >
                 SAVE UPDATE
               </button>

@@ -10,6 +10,7 @@ import axios from "axios";
 import { HOST_URL, Phoneulr1, Phoneulr2, UploadImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
@@ -21,6 +22,7 @@ const NewCustomer = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
+  const navigate = useNavigate();
 
   // CUSTOMER BANK DETAIL FIELDS
   const [customerBankName, setCustomerBankName] = useState("");
@@ -281,7 +283,7 @@ const NewCustomer = () => {
     setLoading(false);
   };
 
-  const SaveCustomerDetails = () => {
+  const CreateCustomerAccount = () => {
     if (
       !customerName ||
       !phoneNumber ||
@@ -332,6 +334,7 @@ const NewCustomer = () => {
           if (response.data.code === "1000") {
             alert("Your Account has been Created Successfully");
           }
+          navigate("/products/details");
           setLoading(false);
         })
         .catch((error) => {
@@ -384,7 +387,7 @@ const NewCustomer = () => {
             <div className="col-md-3">
               {!phoneOtp ? (
                 <button className="CButton" onClick={GetPhoneOtp}>
-                  SEND OTP
+                  Verify
                 </button>
               ) : (
                 <div className="d-flex justify-content-between">
@@ -436,7 +439,7 @@ const NewCustomer = () => {
             <div className="col-md-3">
               {!emailOtp ? (
                 <button className="CButton" onClick={GetEmailOtp}>
-                  SEND OTP
+                  Verify
                 </button>
               ) : (
                 <div className="d-flex justify-content-between">
@@ -626,8 +629,8 @@ const NewCustomer = () => {
             )}
           </div>
           <div className="col-12 d-flex justify-content-end mb-4">
-            <button className="CButton" onClick={SaveCustomerDetails}>
-              Save
+            <button className="CButton" onClick={CreateCustomerAccount}>
+              Create Account
             </button>
           </div>
         </div>

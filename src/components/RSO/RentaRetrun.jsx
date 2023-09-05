@@ -235,8 +235,8 @@ const RentalReturn = () => {
               <option>Select Days</option>
               {packageDayOption.map((days, i) => {
                 return (
-                  <option key={i} value={days}>
-                    {days}
+                  <option key={i} value={days.value}>
+                    {days.label}
                   </option>
                 );
               })}

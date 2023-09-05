@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
@@ -30,7 +31,7 @@ const NewBooking = () => {
 
   const CheckUserRegistered = (phonePanValue) => {
     const result = window.confirm(
-      `Customer Not Registered, Please Register the Customer Details`
+      "Customer Not Registered, Please Register the Customer Details"
     );
     if (result) {
       navigate("/new/customer");
@@ -55,6 +56,13 @@ const NewBooking = () => {
         console.log("error==>", error);
         setLoading(false);
       });
+  };
+  const CheckBankDetails = () => {
+    const result = window.confirm("Please Add Your Bank Details");
+    console.log("result==>", result);
+    if (result) {
+      navigate("/new/customer");
+    }
   };
 
   // FETCH DOCUMENTS IMAGE
@@ -189,7 +197,7 @@ const NewBooking = () => {
             <h6 className="bookingHeading mb-0">Customer Details</h6>
           </div>
           <div className="col-3">
-            <label className="form-label">CUSOMER NAME</label>
+            <label className="form-label">CUSTOMER NAME</label>
             <h6>{existedUserData.customerName}</h6>
           </div>
           <div className="col-3">
@@ -243,6 +251,7 @@ const NewBooking = () => {
             <label className="form-label">PACKAGE DAYS</label>
             <h6>{packageDays} Days</h6>
           </div>
+
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
             <div className="table-responsive">

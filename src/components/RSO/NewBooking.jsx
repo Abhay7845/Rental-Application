@@ -30,8 +30,16 @@ const NewBooking = () => {
   const [bankIfsc, setBankIfsc] = useState("");
   const [bankDetailFileName, setBankDetailFileName] = useState("");
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
+  const [transactionFile, setTransactionFile] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
   console.log("bankDetailFileName==>", bankDetailFileName);
+  const { customerName } = existedUserData;
+
+  const custFullName = !customerName ? "" : customerName;
+  console.log("custFullName==>", custFullName);
+  const last4Phone = phonePanValue.substring(6, 10);
+  const transactionfileName = `${last4Phone}${custFullName.replace(/\s/g, "")}`;
+  console.log("transactionFile==>", transactionFile);
 
   const paramType = !phonePanValue
     ? ""
@@ -39,7 +47,7 @@ const NewBooking = () => {
     ? "pancard"
     : "mobileNo";
 
-  const CheckUserRegistered = (phonePanValue) => {
+  const CheckUserRegistered = () => {
     const result = window.confirm(
       "Customer Not Registered, Please Register the Customer Details"
     );
@@ -56,8 +64,6 @@ const NewBooking = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
-          localStorage.setItem("paramType", paramType);
-          localStorage.setItem("phonePanValue", phonePanValue);
         } else if (response.data.code === "1001") {
           CheckUserRegistered(phonePanValue);
           setExistedUserData({});
@@ -157,6 +163,38 @@ const NewBooking = () => {
       document.getElementById("chequeBook").value = "";
     }
   };
+  const UploadPreTransaction = (event) => {
+    setLoading(true);
+    const file = event.target.files[0];
+    const formData = new FormData();
+    const fileEx = file.name.split(".");
+    const fileExtention = `${transactionfileName}.${fileEx[1]}`;
+    formData.append("ImgName", fileExtention);
+    formData.append("files", file);
+    axios
+      .post(`${UploadImg}`, formData, {
+        headers: ImageHeaders,
+      })
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setTransactionFile(fileExtention);
+          };
+          if (file) {
+            reader.readAsDataURL(file);
+          }
+          alert("Transaction File Uploaded Successfully");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UpdateCustomerBankDetails = () => {
     setLoading(true);
     const UpdateCustDetails = {
@@ -216,12 +254,12 @@ const NewBooking = () => {
       addressProofIdType: existedUserData.addressProofIdType,
       addressProofFileName: existedUserData.addressProofFileName,
       panCardFileName: existedUserData.panCardNoFileName,
-      customerPrevTXNFileName: "prvstxn2.jpg",
+      customerPrevTXNFileName: transactionFile,
       totalProductValue: 3001.5,
       totalRentalAmount: 1231.5,
       totalDepositAmount: 3001.5,
       totalBookingAmount: 1001.7,
-      tncFileName: "tncFile1.jpg",
+      tncFileName: "",
       rsoName: bookingRSO,
       createdDate: existedUserData.createDate,
       updatedDate: existedUserData.updateDate,
@@ -353,6 +391,16 @@ const NewBooking = () => {
               </button>
             </div>
           ) : null}
+          <div className="col-12">
+            <label className="form-label">
+              UPLOAD PREVIOUS TRANSACTION FILE
+            </label>
+            <input
+              type="file"
+              className="form-control"
+              onChange={UploadPreTransaction}
+            />
+          </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
             <div className="table-responsive">

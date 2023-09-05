@@ -22,7 +22,6 @@ const ProductsDetails = () => {
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
-  const [available, setAvailable] = useState("");
   const [wishList, setWishList] = useState(false);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
@@ -30,7 +29,6 @@ const ProductsDetails = () => {
 
   console.log("addtoWishList==>", addtoWishList);
   console.log("productDetails==>", productDetails);
-  console.log("available==>", available);
 
   const GetProductDetails = (payload) => {
     const GetProducts = {
@@ -82,7 +80,6 @@ const ProductsDetails = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           GetProductDetails(payload);
-          setAvailable(response.data.value);
         }
         payload.itemCode = "";
       })

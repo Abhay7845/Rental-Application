@@ -109,10 +109,8 @@ const ProductsDetails = () => {
       status: "Active",
     };
   });
-  console.log("GetProductData==>", GetProductData);
 
   const SelectedProducts = (product) => {
-    console.log("product==>", product);
     const AddToWishListOBj = {
       bookingId: 0,
       itemCode: product.itemCode,
@@ -134,7 +132,6 @@ const ProductsDetails = () => {
       tempBookingRefId: "ABHAY12345",
       paymentRequestFor: "newBooking",
     };
-    console.log("AddToWishListOBj==>", AddToWishListOBj);
     setAddtoWishList([...addtoWishList, AddToWishListOBj]);
   };
   console.log("addtoWishList=>", addtoWishList);

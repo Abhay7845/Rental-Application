@@ -6,7 +6,7 @@ import { ImageHeaders, WishListHeader, phonePan } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
-import { FetchImg } from "../../API/HostURL";
+import { FetchImg, UploadImg } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
 
 const NewBooking = () => {
@@ -23,6 +23,15 @@ const NewBooking = () => {
   console.log("existedUserData==>", existedUserData);
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
+
+  // CUSTOMER BANK DETAIL FIELDS
+  const [customerBankName, setCustomerBankName] = useState("");
+  const [customerAccountNumber, setCustomerAccountNumber] = useState("");
+  const [bankIfsc, setBankIfsc] = useState("");
+  const [bankDetailFileName, setBankDetailFileName] = useState("");
+  const BanckIfcseCode = bankIfsc.toUpperCase();
+  console.log("bankDetailFileName==>", bankDetailFileName);
+
   const paramType = !phonePanValue
     ? ""
     : phonePanValue[0].match(phonePan)
@@ -80,6 +89,111 @@ const NewBooking = () => {
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
 
+  const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
+  const GetCartProductData = !CartData ? [] : CartData;
+
+  // TOTAL COST OF PRODUCT VALUE
+  const TProductValue = GetCartProductData.map((item) =>
+    parseFloat(item.productValue)
+  );
+  const SumOfTProductValue = () => {
+    let total = 0;
+    for (let data of TProductValue) total = total + data;
+    return total;
+  };
+  // TOTAL COST OF  RENTAL RATE
+  const TRentalRate = GetCartProductData.map((item) => item.rentValue);
+
+  const SumOfRentalRate = () => {
+    let total = 0;
+    for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+
+  // TOTAL COST OF DEPOSIT RATE
+  const TDepositRate = GetCartProductData.map((item) => item.depositValue);
+  const SumOfDepositRate = () => {
+    let total = 0;
+    for (let data of TDepositRate) total = total + data;
+    return total;
+  };
+
+  const UpdateCustomerBankDetails = () => {
+    const UpdateCustDetails = {
+      customerName: existedUserData.customerName,
+      customerAddress1: existedUserData.customerAddress1,
+      customerAddress2: existedUserData.customerAddress2,
+      customerCity: existedUserData.customerCity,
+      customerCityPincode: existedUserData.customerCityPincode,
+      mobileNo: existedUserData.mobileNo,
+      emailId: existedUserData.emailId,
+      panCardNo: existedUserData.panCardNo,
+      panCardNoFileName: existedUserData.panCardNoFileName,
+      addressProofIdType: "",
+      addressProofIdNo: existedUserData.addressProofIdNo,
+      addressProofFileName: existedUserData.addressProofFileName,
+      createDate: bookingDate,
+      updateDate: null,
+      status: "active",
+      rsoName: bookingRSO,
+      customerBankName: customerBankName,
+      customerAccountNumber: customerAccountNumber,
+      bankIfsc: BanckIfcseCode,
+      bankDetailFileName: customerAccountNumber,
+    };
+    console.log("UpdateCustDetails==>", UpdateCustDetails);
+    axios
+      .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          alert("Account Details hsa been Updated Successfully");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+  const UploadBankCheque = (event) => {
+    if (customerAccountNumber.length > 10) {
+      setLoading(true);
+      const file = event.target.files[0];
+      const formData = new FormData();
+      const fileEx = file.name.split(".");
+      formData.append("ImgName", `${customerAccountNumber}.${fileEx[1]}`);
+      formData.append("files", file);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setBankDetailFileName(reader.result);
+            };
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+            alert("Your Cheque Book Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    } else {
+      alert("Please Enter Bank Details");
+      document.getElementById("chequeBook").value = "";
+    }
+  };
+
   // BOOKING YUOR PRODUCTS
   const BookYorProduct = () => {
     setLoading(true);
@@ -123,35 +237,6 @@ const NewBooking = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  };
-
-  const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
-  const GetCartProductData = !CartData ? [] : CartData;
-
-  // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = GetCartProductData.map((item) =>
-    parseFloat(item.productValue)
-  );
-  const SumOfTProductValue = () => {
-    let total = 0;
-    for (let data of TProductValue) total = total + data;
-    return total;
-  };
-  // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = GetCartProductData.map((item) => item.rentValue);
-
-  const SumOfRentalRate = () => {
-    let total = 0;
-    for (let data of TRentalRate) total = total + data;
-    return total;
-  };
-
-  // TOTAL COST OF DEPOSIT RATE
-  const TDepositRate = GetCartProductData.map((item) => item.depositValue);
-  const SumOfDepositRate = () => {
-    let total = 0;
-    for (let data of TDepositRate) total = total + data;
-    return total;
   };
 
   return (
@@ -328,7 +413,6 @@ const NewBooking = () => {
       <div
         className="modal fade"
         id="exampleModal"
-        tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -352,7 +436,7 @@ const NewBooking = () => {
                   type="text"
                   className="form-control"
                   placeholder="Bank Name"
-                  // onChange={(e) => setCustomerBankName(e.target.value)}
+                  onChange={(e) => setCustomerBankName(e.target.value)}
                 />
               </div>
               <div className="col-md-4">
@@ -361,7 +445,7 @@ const NewBooking = () => {
                   type="text"
                   className="form-control"
                   placeholder="Account Number"
-                  // onChange={(e) => setCustomerAccountNumber(e.target.value)}
+                  onChange={(e) => setCustomerAccountNumber(e.target.value)}
                 />
               </div>
               <div className="col-md-6">
@@ -370,8 +454,8 @@ const NewBooking = () => {
                   type="text"
                   className="form-control"
                   placeholder="IFSC CODE"
-                  // onChange={(e) => setBankIfsc(e.target.value)}
-                  // value={BanckIfcseCode}
+                  onChange={(e) => setBankIfsc(e.target.value)}
+                  value={BanckIfcseCode}
                 />
               </div>
               <div className="col-md-6">
@@ -381,13 +465,17 @@ const NewBooking = () => {
                 <input
                   type="file"
                   className="form-control"
-                  // onChange={UploadBankCheque}
+                  onChange={UploadBankCheque}
                   id="chequeBook"
                 />
               </div>
             </div>
             <div className="d-flex justify-content-end mx-2 mb-2">
-              <button type="button" className="CButton">
+              <button
+                type="button"
+                className="CButton"
+                onClick={UpdateCustomerBankDetails}
+              >
                 SAVE UPDATE
               </button>
             </div>

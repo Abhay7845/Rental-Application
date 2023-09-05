@@ -58,6 +58,7 @@ const NewCustomer = () => {
   const last4Phoneno = phoneNumber.substring(6, 10);
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
+  console.log("PANNumber==>", PANNumber);
 
   const UploadPanFile = (event) => {
     if (PANNumber.match(panRegex)) {
@@ -312,7 +313,7 @@ const NewCustomer = () => {
         customerCityPincode: pinCode,
         mobileNo: phoneNumber,
         emailId: emailId,
-        panCardNo: panNumber,
+        panCardNo: PANNumber,
         panCardNoFileName: PanCardFileName,
         addressProofIdType: addressProofType,
         addressProofIdNo: addressIDNumber,

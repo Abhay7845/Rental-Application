@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import {
   WishListHeader,
@@ -24,6 +24,7 @@ const ProductsDetails = () => {
   const [productDetails, setProductDetails] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [wishList, setWishList] = useState(false);
+  const [thresHoldValue, setThresHoldValue] = useState(false);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
   const storeCode = localStorage.getItem("storeCode");
@@ -31,6 +32,7 @@ const ProductsDetails = () => {
 
   console.log("addtoWishList==>", addtoWishList);
   console.log("productDetails==>", productDetails);
+  console.log("thresHoldValue==>", thresHoldValue);
 
   const GetProductDetails = (payload) => {
     const GetProducts = {
@@ -203,6 +205,25 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
+
+  // THRESHOLD LIMIT API CALL
+  useEffect(() => {
+    axios
+      .get(
+        `https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental/get/threshold/value/PURPLE`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setThresHoldValue(response.data.value);
+        }
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div>
       <Navbar />

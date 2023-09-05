@@ -122,10 +122,8 @@ const NewBooking = () => {
       });
   };
 
-  const GetCartProductData = JSON.parse(
-    localStorage.getItem("itemsCartDetails")
-  );
-  console.log("GetCartProductData==>", GetCartProductData);
+  const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
+  const GetCartProductData = !CartData ? [] : CartData;
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>

@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
-import {
-  DataList,
-  ImageHeaders,
-  WishListHeader,
-  phonePan,
-} from "../../Data/DataList";
+import { ImageHeaders, WishListHeader, phonePan } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -127,6 +122,37 @@ const NewBooking = () => {
       });
   };
 
+  const GetCartProductData = JSON.parse(
+    localStorage.getItem("itemsCartDetails")
+  );
+  console.log("GetCartProductData==>", GetCartProductData);
+
+  // TOTAL COST OF PRODUCT VALUE
+  const TProductValue = GetCartProductData.map((item) =>
+    parseFloat(item.productValue)
+  );
+  const SumOfTProductValue = () => {
+    let total = 0;
+    for (let data of TProductValue) total = total + data;
+    return total;
+  };
+  // TOTAL COST OF  RENTAL RATE
+  const TRentalRate = GetCartProductData.map((item) => item.rentValue);
+
+  const SumOfRentalRate = () => {
+    let total = 0;
+    for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+
+  // TOTAL COST OF DEPOSIT RATE
+  const TDepositRate = GetCartProductData.map((item) => item.depositValue);
+  const SumOfDepositRate = () => {
+    let total = 0;
+    for (let data of TDepositRate) total = total + data;
+    return total;
+  };
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -234,27 +260,28 @@ const NewBooking = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {DataList.map((item, i) => {
+                  {GetCartProductData.map((item, i) => {
                     return (
                       <tr key={i}>
-                        <td>{item.name}</td>
-                        <td>{item.name}</td>
-                        <td>{item.name}</td>
-                        <td>{item.name}</td>
-                        <td>{item.name}</td>
-                        <td>{item.name}</td>
-                        <td>{item.name}</td>
-                        <td>{item.name}</td>
+                        <td>{item.itemCode}</td>
+                        <td>{item.pdtId}</td>
+                        <td>{item.lotNo}</td>
+                        <td>{item.cfa}</td>
+                        <td>{item.grossWt}</td>
+                        <td>{item.netWt}</td>
+                        <td>{item.productValue}</td>
+                        <td>{item.rentValue}</td>
+                        <td>{item.depositValue}</td>
                       </tr>
                     );
                   })}
                   <tr className="text-bold">
-                    <th colSpan="5" className="text-end">
+                    <th colSpan="6" className="text-end">
                       TOTAL
                     </th>
-                    <th>234</th>
-                    <th>124</th>
-                    <th>678</th>
+                    <th>{SumOfTProductValue()}</th>
+                    <th>{SumOfRentalRate()}</th>
+                    <th>{SumOfDepositRate()}</th>
                   </tr>
                 </tbody>
               </table>

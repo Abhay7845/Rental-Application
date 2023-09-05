@@ -184,7 +184,7 @@ const ProductsDetails = () => {
     payload.customerType = "";
   };
   const ContinueToBooking = () => {
-    console.log("addtoWishList===>", addtoWishList);
+    localStorage.setItem("itemsCartDetails", JSON.stringify(addtoWishList));
     setLoading(true);
     axios
       .post(`${HOST_URL}/add/to/cart`, addtoWishList)

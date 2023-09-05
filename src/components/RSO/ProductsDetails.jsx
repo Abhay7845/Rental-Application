@@ -22,6 +22,7 @@ const ProductsDetails = () => {
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState([]);
+  const [goToCart, setGoToCart] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [wishList, setWishList] = useState(false);
   const [thresHoldValue, setThresHoldValue] = useState(false);
@@ -30,8 +31,6 @@ const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
 
-  console.log("addtoWishList==>", addtoWishList);
-  console.log("productDetails==>", productDetails);
   console.log("thresHoldValue==>", thresHoldValue);
 
   const GetProductDetails = (payload) => {
@@ -43,7 +42,6 @@ const ProductsDetails = () => {
       cfaCode: "1234",
       locType: "SameCity",
     };
-    console.log("GetProducts==>", GetProducts);
     axios
       .post(`${HOST_URL}/rental/product/view/details`, GetProducts)
       .then((res) => res)
@@ -133,32 +131,31 @@ const ProductsDetails = () => {
       paymentRequestFor: "newBooking",
     };
     setAddtoWishList([...addtoWishList, AddToWishListOBj]);
+    setGoToCart([...goToCart, AddToWishListOBj]);
   };
-  console.log("addtoWishList=>", addtoWishList);
 
   const AddToWishList = () => {
     setWishList(true);
     setProductDetails([]);
+    setAddtoWishList([]);
   };
   const DeleteWishListRow = (pdtId) => {
-    const updatedData = addtoWishList.filter((rowId) => rowId.pdtId !== pdtId);
-    setAddtoWishList(updatedData);
+    const updatedData = goToCart.filter((rowId) => rowId.pdtId !== pdtId);
+    setGoToCart(updatedData);
     if (updatedData.length === 0) {
       setWishList(false);
     }
   };
 
   // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = addtoWishList.map((item) =>
-    parseFloat(item.productValue)
-  );
+  const TProductValue = goToCart.map((item) => parseFloat(item.productValue));
   const SumOfTProductValue = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
     return total;
   };
   // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = addtoWishList.map((item) => item.rentValue);
+  const TRentalRate = goToCart.map((item) => item.rentValue);
 
   const SumOfRentalRate = () => {
     let total = 0;
@@ -167,7 +164,7 @@ const ProductsDetails = () => {
   };
 
   // TOTAL COST OF DEPOSIT RATE
-  const TDepositRate = addtoWishList.map((item) => item.depositValue);
+  const TDepositRate = goToCart.map((item) => item.depositValue);
   const SumOfDepositRate = () => {
     let total = 0;
     for (let data of TDepositRate) total = total + data;
@@ -183,10 +180,10 @@ const ProductsDetails = () => {
     payload.customerType = "";
   };
   const ContinueToBooking = () => {
-    localStorage.setItem("itemsCartDetails", JSON.stringify(addtoWishList));
+    localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
     setLoading(true);
     axios
-      .post(`${HOST_URL}/add/to/cart`, addtoWishList)
+      .post(`${HOST_URL}/add/to/cart`, goToCart)
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
@@ -205,21 +202,21 @@ const ProductsDetails = () => {
 
   // THRESHOLD LIMIT API CALL
   useEffect(() => {
-    axios
-      .get(
-        `https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental/get/threshold/value/PURPLE`
-      )
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          setThresHoldValue(response.data.value);
-        }
-      })
-      .catch((error) => {
-        console.log("error=>", error);
-        setLoading(false);
-      });
-  }, []);
+    if (payload.customerType) {
+      axios
+        .get(`${HOST_URL}/get/threshold/value/${payload.customerType}`)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            setThresHoldValue(response.data.value);
+          }
+        })
+        .catch((error) => {
+          console.log("error=>", error);
+          setLoading(false);
+        });
+    }
+  }, [payload.customerType]);
 
   return (
     <div>
@@ -369,7 +366,7 @@ const ProductsDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {addtoWishList.map((item, i) => {
+                  {goToCart.map((item, i) => {
                     return (
                       <tr key={i}>
                         <td>{item.itemCode}</td>

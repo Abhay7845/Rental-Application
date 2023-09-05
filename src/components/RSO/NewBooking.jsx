@@ -375,8 +375,8 @@ const NewBooking = () => {
             <label className="form-label">PACKAGE DAYS</label>
             <h6>{packageDays} Days</h6>
           </div>
-          {existedUserData.customerBankName === "" ||
-          existedUserData.customerAccountNumber === "" ? (
+          {!existedUserData.customerBankName ||
+          !existedUserData.customerAccountNumber ? (
             <div className="col-4">
               <label className="form-label text-danger">
                 <b>PLEASE ADD YOUR BANK DETAILS</b>
@@ -391,7 +391,13 @@ const NewBooking = () => {
                 ADD ACCOUNT
               </button>
             </div>
-          ) : null}
+          ) : (
+            <div className="col-4">
+              <label className="form-label text-success">
+                <b>BANK DETAILS ARE AVAILABLE</b>
+              </label>
+            </div>
+          )}
           <div className="col-12">
             <label className="form-label">
               UPLOAD PREVIOUS TRANSACTION FILE

@@ -131,7 +131,7 @@ const ProductsDetails = () => {
       createdDate: null,
       updatedDate: null,
       status: "active",
-      tempBookingRefId: "1234578",
+      tempBookingRefId: "ABHAY12345",
       paymentRequestFor: "newBooking",
     };
     console.log("AddToWishListOBj==>", AddToWishListOBj);

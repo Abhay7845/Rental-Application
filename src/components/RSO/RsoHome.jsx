@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/Home.css";
 import axios from "axios";
-import { BsFillXCircleFill, BsFillCheckCircleFill } from "react-icons/bs";
-import { DataList, phonePan } from "../../Data/DataList";
+import { phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
@@ -19,8 +19,8 @@ const Home = () => {
   const paramType = !phoneRefrence
     ? ""
     : phoneRefrence[0].match(phonePan)
-    ? "refrenceNo"
-    : "mobileNo";
+    ? "BookingRefNo"
+    : "Mobile_No";
 
   console.log("paramType==>", paramType);
 
@@ -100,18 +100,16 @@ const Home = () => {
             <table className="table table-bordered table-hover border-dark">
               <thead className="table-dark border-light">
                 <tr>
-                  <th>Select</th>
-                  <th>Booking_Ref_ID</th>
-                  <th>Booking_Date</th>
-                  <th>Customer_Name</th>
-                  <th>Phone_Number</th>
+                  <th className="text-center">Select</th>
+                  <th>Customer Name</th>
+                  <th>Phone No.</th>
+                  <th>Package Days</th>
                   <th>Rental_Date</th>
-                  <th>Package_Days</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {DataList.map((item, i) => {
+                {productData.map((item, i) => {
                   return (
                     <tr key={i}>
                       <td className="text-center border-dark">
@@ -122,16 +120,11 @@ const Home = () => {
                           onClick={() => OnSelectRow(item)}
                         />
                       </td>
-                      <td>{item.name}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.email}</td>
-                      <td>{item.website}</td>
-                      <td>{item.address.city}</td>
-                      <td>{item.address.city}</td>
-                      <td className="text-center">
-                        <BsFillXCircleFill color="red" className="mx-1" />
-                        <BsFillCheckCircleFill color="green" className="mx-1" />
-                      </td>
+                      <td>{item.customerName}</td>
+                      <td>{item.mobileNo}</td>
+                      <td>{item.packageSelected}</td>
+                      <td>{moment(item.rentalDate).format("YYYY-MM-DD")}</td>
+                      <td>{item.status}</td>
                     </tr>
                   );
                 })}

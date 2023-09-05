@@ -22,8 +22,6 @@ const Home = () => {
     ? "BookingRefNo"
     : "Mobile_No";
 
-  console.log("paramType==>", paramType);
-
   const CheckBookingDetails = (phonePanValue) => {
     const result = window.confirm(
       "Booking Not Available, Please Book Products"
@@ -41,7 +39,6 @@ const Home = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("respo==>", response.data);
         if (response.data.code === "1000") {
           setProductData(response.data.value);
         } else if (response.data.code === "1001") {

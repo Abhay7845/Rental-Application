@@ -12,7 +12,6 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { FetchImg } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
-import BookingPdf from "../Pdf/BookingPdf";
 
 const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
@@ -260,15 +259,6 @@ const NewBooking = () => {
                 </tbody>
               </table>
             </div>
-          </div>
-          <div className="col-12 mb-0">
-            <h6 className="bookingHeading d-flex justify-content-between">
-              Print Terms & Conditiob and Upload
-              <BookingPdf />
-            </h6>
-          </div>
-          <div className="col-md-6">
-            <input type="file" className="form-control" />
           </div>
           <div className="col-md-6">
             <input

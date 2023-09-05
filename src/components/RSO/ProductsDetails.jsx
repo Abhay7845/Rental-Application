@@ -16,6 +16,7 @@ import {
 } from "../../Schema/LoginSchema";
 import ShowError from "../../Schema/ShowEroor";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const ProductsDetails = () => {
   const [payload, setPayload] = useState({});
@@ -26,6 +27,7 @@ const ProductsDetails = () => {
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
   const storeCode = localStorage.getItem("storeCode");
+  const navigate = useNavigate();
 
   console.log("addtoWishList==>", addtoWishList);
   console.log("productDetails==>", productDetails);
@@ -190,7 +192,9 @@ const ProductsDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          console.log("response==>", response.data.value);
+          if (response.data.value) {
+            navigate("/booking");
+          }
         }
         setLoading(false);
       })

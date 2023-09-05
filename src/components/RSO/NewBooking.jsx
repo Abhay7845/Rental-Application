@@ -31,14 +31,11 @@ const NewBooking = () => {
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const [transactionFile, setTransactionFile] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
-  console.log("bankDetailFileName==>", bankDetailFileName);
   const { customerName } = existedUserData;
 
   const custFullName = !customerName ? "" : customerName;
-  console.log("custFullName==>", custFullName);
   const last4Phone = phonePanValue.substring(6, 10);
   const transactionfileName = `${last4Phone}${custFullName.replace(/\s/g, "")}`;
-  console.log("transactionFile==>", transactionFile);
 
   const paramType = !phonePanValue
     ? ""
@@ -77,9 +74,9 @@ const NewBooking = () => {
 
   // FETCH DOCUMENTS IMAGE
   useEffect(() => {
-    if (existedUserData.addressProofFileName) {
+    if (existedUserData.panCardNoFileName) {
       axios
-        .get(`${FetchImg}${existedUserData.addressProofFileName}`, {
+        .get(`${FetchImg}${existedUserData.panCardNoFileName}`, {
           headers: ImageHeaders,
         })
         .then((res) => res)
@@ -90,7 +87,7 @@ const NewBooking = () => {
         })
         .catch((error) => console.log("error=>", error));
     }
-  }, [existedUserData.addressProofFileName]);
+  }, [existedUserData.panCardNoFileName]);
 
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
@@ -238,8 +235,8 @@ const NewBooking = () => {
 
   // BOOKING YUOR PRODUCTS
   const BookYorProduct = () => {
-    if (!bookingRSO || !transactionFile) {
-      alert("Please Enter RSO Name & Transaction File");
+    if (!bookingRSO) {
+      alert("Please Enter RSO Name");
     } else {
       setLoading(true);
       const timeStamp = currentDate.getMilliseconds();
@@ -528,6 +525,16 @@ const NewBooking = () => {
                   onChange={UploadBankCheque}
                   id="chequeBook"
                 />
+              </div>
+              <div className="col-md-12 text-center">
+                {bankDetailFileName && (
+                  <img
+                    src={bankDetailFileName}
+                    alt=""
+                    width="180"
+                    height="85"
+                  />
+                )}
               </div>
             </div>
             <div className="d-flex justify-content-end mx-2 mb-2">

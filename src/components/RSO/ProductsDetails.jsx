@@ -382,7 +382,7 @@ const ProductsDetails = () => {
           </div>
         )}
         {wishList === true && (
-          <div className="d-flex justify-content-end mt-0">
+          <div className="d-flex justify-content-end mt-0 mb-3">
             <button className="CancelButton mx-2" onClick={GoForCancel}>
               Cancel
             </button>

@@ -46,6 +46,8 @@ const NewBooking = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
+          localStorage.setItem("paramType", paramType);
+          localStorage.setItem("phonePanValue", phonePanValue);
         } else if (response.data.code === "1001") {
           CheckUserRegistered(phonePanValue);
           setExistedUserData({});
@@ -56,13 +58,6 @@ const NewBooking = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  };
-  const CheckBankDetails = () => {
-    const result = window.confirm("Please Add Your Bank Details");
-    console.log("result==>", result);
-    if (result) {
-      navigate("/new/customer");
-    }
   };
 
   // FETCH DOCUMENTS IMAGE
@@ -251,7 +246,23 @@ const NewBooking = () => {
             <label className="form-label">PACKAGE DAYS</label>
             <h6>{packageDays} Days</h6>
           </div>
-
+          {!existedUserData.customerBankName ||
+          !existedUserData.customerAccountNumber ? (
+            <div className="col-4">
+              <label className="form-label text-danger">
+                <b>PLEASE ADD YOUR BANK DETAILS</b>
+              </label>
+              <br />
+              <button
+                className="CButton"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                ADD ACCOUNT
+              </button>
+            </div>
+          ) : null}
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
             <div className="table-responsive">
@@ -310,6 +321,76 @@ const NewBooking = () => {
             >
               Raise Payment Request
             </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Add Account Details
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body row g-3">
+              <div className="col-md-6">
+                <label className="form-label">Bank Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Bank Name"
+                  // onChange={(e) => setCustomerBankName(e.target.value)}
+                />
+              </div>
+              <div className="col-md-4">
+                <label className="form-label">Account Number</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Account Number"
+                  // onChange={(e) => setCustomerAccountNumber(e.target.value)}
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">IFSC CODE</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="IFSC CODE"
+                  // onChange={(e) => setBankIfsc(e.target.value)}
+                  // value={BanckIfcseCode}
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">
+                  Upload Cancelled Cheque Book
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  // onChange={UploadBankCheque}
+                  id="chequeBook"
+                />
+              </div>
+            </div>
+            <div className="d-flex justify-content-end mx-2 mb-2">
+              <button type="button" className="CButton">
+                SAVE UPDATE
+              </button>
+            </div>
           </div>
         </div>
       </div>

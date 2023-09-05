@@ -22,6 +22,7 @@ const NewCustomer = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
+
   const navigate = useNavigate();
 
   // CUSTOMER BANK DETAIL FIELDS
@@ -343,6 +344,7 @@ const NewCustomer = () => {
         });
     }
   };
+
   return (
     <div>
       {loading === true && <Loader />}

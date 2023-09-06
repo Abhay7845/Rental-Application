@@ -57,6 +57,14 @@ const Home = () => {
     setSelecttedProduct(data);
   };
 
+  const CancelProducts = () => {
+    localStorage.setItem(
+      "selecttedReturnProduct",
+      JSON.stringify(selecttedProduct)
+    );
+    navigate("/cancellation");
+  };
+
   const RentalIssueProducts = () => {
     localStorage.setItem(
       "selecttedReturnProduct",
@@ -145,6 +153,7 @@ const Home = () => {
               type="button"
               className={`${btn ? "CancelButton" : "CnDisabled"}`}
               disabled={btn ? false : true}
+              onClick={CancelProducts}
             >
               Cancel
             </button>

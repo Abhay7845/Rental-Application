@@ -56,25 +56,26 @@ const RentalReturn = () => {
           <div className="col-md-3">
             <label className="form-label">Customer Name</label>
             <input
-              type="number"
-              disabled
+              type="text"
               className="form-control"
               placeholder="Customer Name"
+              disabled
             />
           </div>
           <div className="col-md-3">
             <label className="form-label">Customer ID Type</label>
             <select className="form-control" disabled>
-              <option value="Type">Type</option>
+              <option value="">Type</option>
+              <option value="">Type</option>
             </select>
           </div>
           <div className="col-md-3">
             <label className="form-label">Customer ID No.</label>
             <input
               type="text"
-              disabled
               className="form-control"
               placeholder="Customer ID No."
+              disabled
             />
           </div>
           <div className="col-md-3">
@@ -105,16 +106,16 @@ const RentalReturn = () => {
                   <thead className="table-dark border-light">
                     <tr>
                       <th>Item_Code</th>
-                      <th>Lot No.</th>
-                      <th>No. Of PCS</th>
+                      <th>Lot_No.</th>
+                      <th>No._Of_PCS</th>
                       <th>HUID</th>
                       <th>CFA</th>
                       <th>Gross_Weight</th>
                       <th>Product_Value</th>
                       <th>Rental_Amount</th>
                       <th>Deposit_Amount</th>
-                      <th>Actual_Wt at Delivery</th>
-                      <th>Actual_Wt at Return</th>
+                      <th>Actual_Wt_Delivery</th>
+                      <th>Actual_Wt_Return</th>
                     </tr>
                   </thead>
                   <tbody>

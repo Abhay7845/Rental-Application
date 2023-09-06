@@ -4,6 +4,7 @@ import "../../Style/RentalIssue.css";
 import { DataList } from "../../Data/DataList";
 import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
+import BookingPdf from "../Pdf/BookingPdf";
 
 const RentalReturn = () => {
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
@@ -188,12 +189,10 @@ const RentalReturn = () => {
               <input type="file" className="form-control" />
             </div>
           </div>
-          <div className="d-flex justify-content-end">
-            <button className="CButton">Print</button>
-          </div>
-          <div className="col-12">
-            <h6 className="bookingHeading">
+          <div className="col-12 mb-0">
+            <h6 className="bookingHeading d-flex justify-content-between">
               Signed Acknowledgement of Product Received after Inspection
+              <BookingPdf />
             </h6>
           </div>
           <div className="col-md-3 mt-0">

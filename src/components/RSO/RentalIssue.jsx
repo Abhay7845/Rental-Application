@@ -2,48 +2,12 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
 import { DataList } from "../../Data/DataList";
-import { BsFillTrashFill, BsFillEyeFill } from "react-icons/bs";
+import { BsFillEyeFill } from "react-icons/bs";
+import moment from "moment";
 
 const RentalIssue = () => {
-  // DELIVERY INSPECTION ADD ROWS
-  const [depositRowCont, setDepositRowCont] = useState(0);
-  const [addDepositItems, setAddDepositItems] = useState([]);
-  const [depositProductId, setDepositProductId] = useState(0);
-  const [addDepositeProducts, setAddDepositeProducts] = useState([]);
-  const [depositProductImg, setDepositProductImg] = useState(null);
-  // INPUT VALUES
-  const [depositType, setDepositType] = useState("");
-
-  // DELIVERY INSPECTION ADD ROWS
-  const [deliveryRowCont, setDeliveryRowCont] = useState(0);
-  const [addDeliveryItems, setAddDeliveryItems] = useState([]);
-  const [deliveryProductId, setDeliveryProductId] = useState(0);
-  const [addDeliveryProducts, setAddDeliveryProducts] = useState([]);
-
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
-  const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
   const [deliveryProductFile, setDeliveryProductImg] = useState(null);
-
-  const AddDepositRowsInputs = () => {
-    setDepositRowCont(depositRowCont + 1);
-    setAddDepositItems([...addDepositItems, depositRowCont + 1]);
-  };
-
-  const AddDeliveryRowsInputs = () => {
-    setDeliveryRowCont(deliveryRowCont + 1);
-    setAddDeliveryItems([...addDeliveryItems, deliveryRowCont + 1]);
-  };
-
-  const UploadDepositProductImg = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setDepositProductImg(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
 
   const UploadDeliveryProductImg = (event) => {
     const file = event.target.files[0];
@@ -56,46 +20,9 @@ const RentalIssue = () => {
     }
   };
 
-  const SaveDepositItemsDetails = () => {
-    if (!depositType) {
-      alert("Please Enter All Details");
-    } else {
-      setDepositProductId(depositProductId + 1);
-      const depositProductsTable = {
-        id: depositProductId,
-        depositType: depositType,
-        refNumbr: "1234",
-        depositAmount: "1234",
-        depositFile: depositProductImg,
-      };
-      setAddDepositeProducts([...addDepositeProducts, depositProductsTable]);
-      setAddDepositItems([]);
-    }
-  };
-
-  const SaveItemsDetails = () => {
-    if (!deliveryProductItemCode) {
-      alert("Please Enter All Details");
-    } else {
-      setDeliveryProductId(deliveryProductId + 1);
-      const deliveryProductsTable = {
-        id: deliveryRowCont,
-        itemCode: deliveryProductItemCode,
-        delieryProductFile: deliveryProductFile,
-      };
-      setAddDeliveryProducts([...addDeliveryProducts, deliveryProductsTable]);
-      setAddDeliveryItems([]);
-    }
-  };
-
-  const DeleteRowDeposit = (id) => {
-    const updatedData = addDepositeProducts.filter((rowId) => rowId.id !== id);
-    setAddDepositeProducts(updatedData);
-  };
-  const DeleteRowDelivery = (id) => {
-    const updatedData = addDeliveryProducts.filter((rowId) => rowId.id !== id);
-    setAddDeliveryProducts(updatedData);
-  };
+  // STARTED BY 06-09-2023
+  const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
+  const GetReturnProduct = !getProduct ? "" : getProduct;
 
   return (
     <div>
@@ -103,77 +30,21 @@ const RentalIssue = () => {
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3 mb-4">
-          <div className="col-md-4">
+          <div className="col-3">
             <label className="form-label">Booking Ref No</label>
-            <input
-              type="type"
-              className="form-control"
-              placeholder="Booking Ref No"
-            />
+            <h6>{GetReturnProduct.refId}</h6>
           </div>
-          <div className="col-md-4">
-            <label className="form-label">Issue Date</label>
-            <input type="date" className="form-control" />
+          <div className="col-3">
+            <label className="form-label">Return Date</label>
+            <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
           </div>
-          <div className="col-md-4">
+          <div className="col-3">
             <label className="form-label">Customer Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Customer Name"
-            />
+            <h6>{GetReturnProduct.customerName}</h6>
           </div>
-          <div className="col-md-6">
+          <div className="col-3">
             <label className="form-label">Phone Number</label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Phone Number"
-            />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Email ID</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Email ID"
-            />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Customer ID Type</label>
-            <select className="form-control">
-              <option>Select Type</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">2</option>
-            </select>
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Customer ID No.</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Customer ID No."
-            />
-          </div>
-          <div className="col-md-4">
-            <div className="d-flex justify-content-between">
-              <label className="form-label">Upload ID</label>
-              <span className="mx-2">
-                {deliveryProductFile && (
-                  <BsFillEyeFill
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    style={{ cursor: "pointer" }}
-                  />
-                )}
-              </span>
-            </div>
-            <input
-              type="file"
-              className="form-control"
-              onChange={UploadDeliveryProductImg}
-            />
+            <h6>{GetReturnProduct.mobileNo}</h6>
           </div>
           <div className="col-md-12">
             <b>Same Customer Pickup</b>
@@ -225,6 +96,7 @@ const RentalIssue = () => {
               onChange={UploadDeliveryProductImg}
             />
           </div>
+
           {DataList.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
@@ -235,14 +107,13 @@ const RentalIssue = () => {
                       <th>Item_Code</th>
                       <th>Lot No.</th>
                       <th>No. Of PCS</th>
-                      <th>PCS No.</th>
                       <th>HUID</th>
                       <th>CFA</th>
                       <th>Gross_Weight</th>
                       <th>Product_Value</th>
                       <th>Rental_Amount</th>
                       <th>Deposit_Amount</th>
-                      <th>Actual_Weight</th>
+                      <th>Actual_Wt at Delivery</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -255,18 +126,20 @@ const RentalIssue = () => {
                           <td>34</td>
                           <td>12</td>
                           <td>7</td>
-                          <td>12</td>
                           <td>6</td>
                           <td>43</td>
                           <td>2</td>
                           <td>
-                            <input type="number" placeholder="Actual Weight" />
+                            <input
+                              type="number"
+                              placeholder="Actual_Wt at Delivery"
+                            />
                           </td>
                         </tr>
                       );
                     })}
                     <tr>
-                      <th colSpan="7" className="text-end">
+                      <th colSpan="6" className="text-end">
                         TOTAL
                       </th>
                       <th>234</th>
@@ -280,206 +153,6 @@ const RentalIssue = () => {
             </div>
           )}
 
-          <div className="col-12">
-            <h6 className="bookingHeading">Deposit Amount Payment Details</h6>
-            <div className="table-responsive">
-              <table className="table table-bordered table-hover border-dark">
-                <thead className="table-dark border-light">
-                  <tr>
-                    <th>Type</th>
-                    <th>Ref Number</th>
-                    <th>Amount</th>
-                    <th>View</th>
-                    <td>Delete</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {addDepositeProducts.map((item, i) => {
-                    return (
-                      <tr key={i}>
-                        <td>{item.depositType}</td>
-                        <td>{item.refNumbr}</td>
-                        <td>{item.depositAmount}</td>
-                        <td>
-                          <img
-                            src={item.depositFile}
-                            alt="depositAmont"
-                            className="imageStyle"
-                          />
-                        </td>
-                        <td className="text-center">
-                          <BsFillTrashFill
-                            className="DeleteRow"
-                            onClick={() => DeleteRowDeposit(item.id)}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  {addDepositeProducts.length > 0 && (
-                    <tr>
-                      <td colSpan="2" className="text-end">
-                        Total Deposit Amount Paid
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          value={6}
-                          className="w-100"
-                          disabled
-                        />
-                      </td>
-                      <td colSpan="2" />
-                    </tr>
-                  )}
-                  {addDepositItems.length > 0 && (
-                    <tr>
-                      <td>
-                        <select
-                          className="w-100"
-                          onChange={(e) => setDepositType(e.target.value)}
-                        >
-                          <option>Select Type</option>
-                          <option value="creadit1">Creadit1</option>
-                          <option value="creadit2">Creadit2</option>
-                        </select>
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Ref Number"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          className="w-100"
-                          placeholder="Amount"
-                        />
-                      </td>
-                      <td className="d-flex justify-content-center">
-                        <input
-                          type="file"
-                          onChange={UploadDepositProductImg}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </td>
-                      <td className="text-center">
-                        <BsFillTrashFill
-                          className="DeleteRow"
-                          onClick={() => setAddDepositItems([])}
-                        />
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="d-flex justify-content-end mt-0">
-            {addDepositItems.length > 0 ? (
-              <button
-                type="submit"
-                className="CButton"
-                onClick={SaveDepositItemsDetails}
-              >
-                Save Row
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="CButton"
-                onClick={AddDepositRowsInputs}
-              >
-                Add Row
-              </button>
-            )}
-          </div>
-
-          <div className="col-12">
-            <h6 className="bookingHeading">Delivery Inspection Product</h6>
-            <div className="table-responsive">
-              <table className="table table-bordered table-hover border-dark">
-                <thead className="table-dark border-light text-center">
-                  <tr>
-                    <th>Item Code</th>
-                    <th>View</th>
-                    <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {addDeliveryProducts.map((item, i) => {
-                    return (
-                      <tr key={i}>
-                        <td>{item.itemCode}</td>
-                        <td>
-                          <img
-                            src={deliveryProductFile}
-                            alt="Preview"
-                            className="imageStyle"
-                          />
-                        </td>
-                        <td className="text-center">
-                          <BsFillTrashFill
-                            className="DeleteRow"
-                            onClick={() => DeleteRowDelivery(item.id)}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-
-                  {addDeliveryItems.length > 0 && (
-                    <tr>
-                      <td>
-                        <input
-                          type="text"
-                          placeholder="Item Code"
-                          className="w-100"
-                          onChange={(e) =>
-                            setDeliveryProductItemCode(e.target.value)
-                          }
-                        />
-                      </td>
-                      <td className="d-flex justify-content-between">
-                        <input
-                          type="file"
-                          onChange={UploadDeliveryProductImg}
-                        />
-                      </td>
-                      <td className="text-center">
-                        <BsFillTrashFill
-                          className="DeleteRow"
-                          onClick={() => setAddDeliveryItems([])}
-                        />
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-              <div className="d-flex justify-content-end mt-0">
-                {addDeliveryItems.length > 0 ? (
-                  <button
-                    type="submit"
-                    className="CButton"
-                    onClick={SaveItemsDetails}
-                  >
-                    Save Row
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    className="CButton"
-                    onClick={AddDeliveryRowsInputs}
-                  >
-                    Add Row
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
           <div className="col-12">
             <h6 className="bookingHeading">
               Print Delivery Inspection Acknowledgement
@@ -520,8 +193,15 @@ const RentalIssue = () => {
               Signed Acknowledgement of Product Received after Inspection
             </h6>
           </div>
-          <div className="col-md-3 mt-0">
+          <div className="col-md-3">
             <input type="file" className="form-control" />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="RSO Name"
+            />
           </div>
           <div className="col-md-2 mt-0">
             {deliveryProductFile && (

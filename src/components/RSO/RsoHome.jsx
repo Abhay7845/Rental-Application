@@ -56,10 +56,22 @@ const Home = () => {
     setBtn(true);
     setSelecttedProduct(data);
   };
-  const RetunProducts = () => {
-    console.log("selecttedProduct", selecttedProduct);
+
+  const RentalIssueProducts = () => {
+    localStorage.setItem(
+      "selecttedReturnProduct",
+      JSON.stringify(selecttedProduct)
+    );
+    navigate("/rental/issue");
   };
-  console.log("productData==>", productData);
+
+  const RentalRetunProducts = () => {
+    localStorage.setItem(
+      "selecttedReturnProduct",
+      JSON.stringify(selecttedProduct)
+    );
+    navigate("/rental/return");
+  };
 
   return (
     <div>
@@ -140,6 +152,7 @@ const Home = () => {
               type="button"
               className={`${btn ? "CButton mx-2" : "CDisabled mx-2"}`}
               disabled={btn ? false : true}
+              onClick={RentalIssueProducts}
             >
               Rental Issue
             </button>
@@ -147,7 +160,7 @@ const Home = () => {
               type="button"
               className={`${btn ? "CButton" : "CDisabled"}`}
               disabled={btn ? false : true}
-              onClick={RetunProducts}
+              onClick={RentalRetunProducts}
             >
               Rental Return
             </button>

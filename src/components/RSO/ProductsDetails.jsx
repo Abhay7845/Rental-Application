@@ -59,7 +59,7 @@ const ProductsDetails = () => {
   };
 
   const CheckAvaiblity = (payload) => {
-    localStorage.setItem("cusType", payload.customerType);
+    localStorage.setItem("custType", payload.customerType);
     localStorage.setItem("packageDays", payload.packageDays);
     setPayload(payload);
     setLoading(true);

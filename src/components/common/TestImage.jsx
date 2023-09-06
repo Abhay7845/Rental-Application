@@ -12,18 +12,37 @@ const TestImage = () => {
         console.log("error==>", error);
       });
   }, []);
+
+  const UserDATA = [
+    {
+      id: 1,
+      name: "Leanne Graham",
+      username: "Bret",
+      email: "Sincere@april.biz",
+    },
+    {
+      id: 2,
+      name: "Leanne Graham",
+      username: "Bret",
+      email: "Sincere@april.biz",
+    },
+  ];
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleCheckboxChange = (itemId) => {
     console.log("itemId==>", itemId);
     if (selectedItems.includes(itemId)) {
-      setSelectedItems(selectedItems.filter((item) => item !== itemId));
+      const data = selectedItems.filter((item) => item !== itemId);
+      console.log("data=>", data);
+      setSelectedItems(data);
     } else {
       setSelectedItems([...selectedItems, itemId]);
     }
   };
 
   console.log("selectedItems==>", selectedItems);
+  console.log("userData==>", userData);
+  console.log("UserDATA==>", UserDATA);
 
   return (
     <div className="mx-3 mt-5">

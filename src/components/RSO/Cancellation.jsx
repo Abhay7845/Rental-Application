@@ -15,7 +15,7 @@ const Cancellation = () => {
     const rentalDate = new Date(
       moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")
     );
-    const currentDate = new Date(moment().format("2023-08-29"));
+    const currentDate = new Date(moment().format("YYYY-MM-DD"));
     if (rentalDate < currentDate) {
       const timeDifference = rentalDate - currentDate;
       const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
@@ -27,26 +27,19 @@ const Cancellation = () => {
     }
   }, [GetReturnProduct.rentalDate]);
 
-  let cancellationCharges = 0;
+  let cancelCharge = 0;
   if (numberDays <= 0) {
-    cancellationCharges = amount; // 100% charge
+    cancelCharge = amount; // 100% charge
   } else if (numberDays > 1 && numberDays <= 7) {
-    cancellationCharges = 0.5 * amount; // 50% charge
+    cancelCharge = 0.5 * amount; // 50% charge
   } else if (numberDays > 7 && numberDays <= 14) {
-    cancellationCharges = 0.25 * amount; // 25% charge
+    cancelCharge = 0.25 * amount; // 25% charge
   } else if (numberDays < 15) {
-    cancellationCharges = amount; // 100% charge
+    cancelCharge = amount; // 100% charge
   }
-  console.log("amount==>", typeof parseInt(amount), parseInt(amount));
-  console.log(
-    "discountAmount==>",
-    typeof parseInt(discountAmount),
-    parseInt(discountAmount)
-  );
-  const netAmount =
-    parseInt(amount) + parseInt(cancellationCharges) + parseInt(discountAmount);
 
-  console.log("netAmount==>", netAmount);
+  const netAmount = parseInt(cancelCharge) + parseInt(discountAmount);
+
   return (
     <div>
       <Navbar />
@@ -139,16 +132,17 @@ const Cancellation = () => {
             <input
               type="number"
               className="form-control"
+              placeholder="Rental Amount"
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-
           <div className="col-md-3">
             <label className="form-label">Total cancellation Charges:</label>
             <input
               type="text"
               className="form-control"
-              defaultValue={cancellationCharges}
+              placeholder="Cancaletion Charge"
+              defaultValue={cancelCharge}
               disabled
             />
           </div>
@@ -165,7 +159,8 @@ const Cancellation = () => {
             <input
               type="text"
               className="form-control"
-              // defaultValue={netAmount}
+              placeholder="Net Amount"
+              defaultValue={!netAmount ? "" : netAmount}
               disabled
             />
           </div>

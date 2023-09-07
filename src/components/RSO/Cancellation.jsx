@@ -46,7 +46,7 @@ const Cancellation = () => {
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3">
-          <div className="col-2">
+          <div className="col-3">
             <label className="form-label">Booking Ref No</label>
             <h6>{GetReturnProduct.refId}</h6>
           </div>
@@ -62,7 +62,7 @@ const Cancellation = () => {
             <label className="form-label">Rental Package</label>
             <h6>{GetReturnProduct.packageSelected} Days</h6>
           </div>
-          <div className="col-2">
+          <div className="col-3">
             <label className="form-label">Cancel Date</label>
             <h6>{moment().format("YYYY-MM-DD")}</h6>
           </div>
@@ -142,7 +142,7 @@ const Cancellation = () => {
               type="text"
               className="form-control"
               placeholder="Cancaletion Charge"
-              defaultValue={cancelCharge}
+              value={!cancelCharge ? "" : cancelCharge}
               disabled
             />
           </div>
@@ -160,7 +160,7 @@ const Cancellation = () => {
               type="text"
               className="form-control"
               placeholder="Net Amount"
-              defaultValue={!netAmount ? "" : netAmount}
+              value={!netAmount ? "" : netAmount}
               disabled
             />
           </div>

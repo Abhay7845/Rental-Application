@@ -1,25 +1,68 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import { DataList } from "../../Data/DataList";
 import moment from "moment";
 
 const Cancellation = () => {
-  // STARTED BY 06-09-2023
+  const [amount, setAmount] = useState("");
+  const [numberDays, setNumberDays] = useState("");
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
+  console.log("GetReturnProduct==>", GetReturnProduct);
+
+  useEffect(() => {
+    const rentalDate = new Date(
+      moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")
+    );
+    const currentDate = new Date(moment().format("YYYY-MM-DD"));
+    if (rentalDate < currentDate) {
+      const timeDifference = rentalDate - currentDate;
+      const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+      setNumberDays(daysDifference);
+    } else if (rentalDate > currentDate) {
+      const timeDifference = rentalDate - currentDate;
+      const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      setNumberDays(daysDifference);
+    }
+  }, [GetReturnProduct.rentalDate]);
+
+  let cancellationCharges = 0;
+  if (numberDays <= 0) {
+    cancellationCharges = amount; // 100% charge
+  } else if (numberDays > 1 && numberDays <= 7) {
+    cancellationCharges = 0.5 * amount; // 50% charge
+  } else if (numberDays > 7 && numberDays <= 14) {
+    cancellationCharges = 0.25 * amount; // 25% charge
+  } else if (numberDays > 15) {
+    cancellationCharges = amount; // 100% charge
+  }
+
+  console.log("cancellationCharges==>", cancellationCharges);
   return (
     <div>
       <Navbar />
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3">
-          <div className="col-3">
+          <div className="col-2">
             <label className="form-label">Booking Ref No</label>
             <h6>{GetReturnProduct.refId}</h6>
           </div>
-          <div className="col-3">
-            <label className="form-label">Return Date</label>
+          <div className="col-2">
+            <label className="form-label">Booking Date</label>
+            <h6>{moment(GetReturnProduct.bookingDate).format("YYYY-MM-DD")}</h6>
+          </div>
+          <div className="col-2">
+            <label className="form-label">Rental Start Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
+          </div>
+          <div className="col-2">
+            <label className="form-label">Rental Package</label>
+            <h6>{GetReturnProduct.packageSelected} Days</h6>
+          </div>
+          <div className="col-2">
+            <label className="form-label">Cancel Date</label>
+            <h6>{moment().format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-3">
             <label className="form-label">Customer Name</label>
@@ -51,7 +94,6 @@ const Cancellation = () => {
                       <th>Package_Days</th>
                       <th>Product_Value</th>
                       <th>Rental_Amount</th>
-                      <th>Deposit_Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -64,12 +106,11 @@ const Cancellation = () => {
                           <td>{item.email}</td>
                           <td>{item.website}</td>
                           <td>{item.address.city}</td>
-                          <td>{item.address.city}</td>
                         </tr>
                       );
                     })}
                     <tr>
-                      <th colSpan="5" className="text-end">
+                      <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
                       <th>124</th>
@@ -80,6 +121,36 @@ const Cancellation = () => {
               </div>
             </div>
           )}
+          <div className="col-12">
+            <h6 className="bookingHeading mb-0">Cancellation Charges</h6>
+          </div>
+
+          <div className="col-md-3">
+            <label className="form-label">Rental Amount</label>
+            <input
+              type="number"
+              className="form-control"
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+
+          <div className="col-md-3">
+            <label className="form-label">Total cancellation Charges:</label>
+            <input
+              type="text"
+              className="form-control"
+              disabled
+              value={cancellationCharges}
+            />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Discount Amount</label>
+            <input type="text" className="form-control" />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Net Amount</label>
+            <input type="text" className="form-control" disabled />
+          </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Amount Paid Reference</h6>
           </div>
@@ -110,48 +181,19 @@ const Cancellation = () => {
               disabled
             />
           </div>
-          <div className="col-12">
-            <h6 className="bookingHeading mb-0">Deposit</h6>
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Deposit Type</label>
-            <select className="form-control">
-              <option>Select Type</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">2</option>
-            </select>
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Refrence Number</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Refrence Number"
-            />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Amount</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Amount"
-              value={234}
-              disabled
-            />
-          </div>
+
           {DataList.length > 0 && (
             <div className="col-12 mb-4">
-              <h6 className="bookingHeading">Total Overview</h6>
+              <h6 className="bookingHeading">Charges Overview</h6>
               <div className="table-responsive">
                 <table className="table table-bordered table-hover border-dark">
                   <thead className="table-dark border-light">
                     <tr>
                       <th>Total_Booking_Paid</th>
-                      <th>Total_Deposit_Paid</th>
                       <th>Total_Cancellation_Charge</th>
                       <th>Discount</th>
-                      <th>Total_Net_Refund</th>
+                      <th>Net Cancellation Charges</th>
+                      <th>Total_Refund</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -171,6 +213,11 @@ const Cancellation = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className="col-12 mb-3">
+          <div className="d-flex justify-content-end">
+            <button className="CButton">Raise Cancel Request</button>
+          </div>
         </div>
       </div>
     </div>

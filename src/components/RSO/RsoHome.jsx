@@ -158,7 +158,7 @@ const Home = () => {
               disabled={btn ? false : true}
               onClick={CancelProducts}
             >
-              Cancel
+              Cancel Booking
             </button>
             <button
               type="button"

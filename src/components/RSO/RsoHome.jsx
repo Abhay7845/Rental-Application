@@ -15,6 +15,7 @@ const Home = () => {
   const [selecttedProduct, setSelecttedProduct] = useState({});
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
+  console.log("productData==>", productData);
 
   const paramType = !phoneRefrence
     ? ""
@@ -119,6 +120,7 @@ const Home = () => {
                 <tr>
                   <th className="text-center">Select</th>
                   <th>Customer Name</th>
+                  <th>Booking Ref No.</th>
                   <th>Phone No.</th>
                   <th>Package Days</th>
                   <th>Rental_Date</th>
@@ -138,6 +140,7 @@ const Home = () => {
                         />
                       </td>
                       <td>{item.customerName}</td>
+                      <td>{item.refId}</td>
                       <td>{item.mobileNo}</td>
                       <td>{item.packageSelected}</td>
                       <td>{moment(item.rentalDate).format("YYYY-MM-DD")}</td>

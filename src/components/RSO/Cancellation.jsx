@@ -14,7 +14,7 @@ const Cancellation = () => {
     const rentalDate = new Date(
       moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")
     );
-    const currentDate = new Date(moment().format("YYYY-MM-DD"));
+    const currentDate = new Date(moment().format("2023-08-29"));
     if (rentalDate < currentDate) {
       const timeDifference = rentalDate - currentDate;
       const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
@@ -33,7 +33,7 @@ const Cancellation = () => {
     cancellationCharges = 0.5 * amount; // 50% charge
   } else if (numberDays > 7 && numberDays <= 14) {
     cancellationCharges = 0.25 * amount; // 25% charge
-  } else if (numberDays > 15) {
+  } else if (numberDays < 15) {
     cancellationCharges = amount; // 100% charge
   }
 

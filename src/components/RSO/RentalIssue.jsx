@@ -4,6 +4,7 @@ import "../../Style/RentalIssue.css";
 import { DataList } from "../../Data/DataList";
 import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
+import BookingPdf from "../Pdf/BookingPdf";
 
 const RentalIssue = () => {
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
@@ -153,44 +154,10 @@ const RentalIssue = () => {
             </div>
           )}
 
-          <div className="col-12">
-            <h6 className="bookingHeading">
-              Print Delivery Inspection Acknowledgement
-            </h6>
-          </div>
-          <div className="row d-flex">
-            <div className="col-md-4 d-flex">
-              <label className="form-label">Booking Ref No.</label>
-              <div className="mx-3">
-                <input
-                  className="form-check-input border-dark"
-                  type="radio"
-                  name="t&c"
-                  defaultChecked
-                />
-                <label className="form-check-label mx-1">YES</label>
-              </div>
-              <div>
-                <input
-                  className="form-check-input border-dark"
-                  type="radio"
-                  name="t&c"
-                  defaultChecked
-                />
-                <label className="form-check-label mx-1">NO</label>
-              </div>
-            </div>
-            <div className="col-md-8 d-flex justify-content-between">
-              <label className="form-label col-md-2">Loan Documents</label>
-              <input type="file" className="form-control" />
-            </div>
-          </div>
-          <div className="d-flex justify-content-end">
-            <button className="CButton">Print</button>
-          </div>
-          <div className="col-12">
-            <h6 className="bookingHeading">
+          <div className="col-12 mb-0">
+            <h6 className="bookingHeading d-flex justify-content-between">
               Signed Acknowledgement of Product Received after Inspection
+              <BookingPdf />
             </h6>
           </div>
           <div className="col-md-3">

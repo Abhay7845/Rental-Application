@@ -1,46 +1,33 @@
 import React from "react";
 import Navbar from "../common/Navbar";
 import { DataList } from "../../Data/DataList";
+import moment from "moment";
 
 const Cancellation = () => {
+  // STARTED BY 06-09-2023
+  const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
+  const GetReturnProduct = !getProduct ? "" : getProduct;
   return (
     <div>
       <Navbar />
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3">
-          <div className="col-md-4">
-            <label className="form-label">Booking Reference</label>
-            <input
-              type="type"
-              className="form-control"
-              placeholder="Booking Ref No"
-            />
+          <div className="col-3">
+            <label className="form-label">Booking Ref No</label>
+            <h6>{GetReturnProduct.refId}</h6>
           </div>
-          <div className="col-md-4">
+          <div className="col-3">
+            <label className="form-label">Return Date</label>
+            <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
+          </div>
+          <div className="col-3">
             <label className="form-label">Customer Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Customer Name"
-            />
+            <h6>{GetReturnProduct.customerName}</h6>
           </div>
-          <div className="col-md-4">
-            <label className="form-label">ID Type</label>
-            <select className="form-control">
-              <option>Select Type</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">2</option>
-            </select>
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">ID Number</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="ID Number"
-            />
+          <div className="col-3">
+            <label className="form-label">Phone Number</label>
+            <h6>{GetReturnProduct.mobileNo}</h6>
           </div>
           <div className="col-md-6">
             <label className="form-label">Reason For Cancellation</label>

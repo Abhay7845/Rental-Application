@@ -156,38 +156,9 @@ const RentalReturn = () => {
               </div>
             </div>
           )}
-
-          <div className="col-12">
-            <h6 className="bookingHeading">
-              Print Delivery Inspection Acknowledgement
-            </h6>
-          </div>
-          <div className="row d-flex">
-            <div className="col-md-4 d-flex">
-              <label className="form-label">Booking Ref No.</label>
-              <div className="mx-3">
-                <input
-                  className="form-check-input border-dark"
-                  type="radio"
-                  name="t&c"
-                  defaultChecked
-                />
-                <label className="form-check-label mx-1">YES</label>
-              </div>
-              <div>
-                <input
-                  className="form-check-input border-dark"
-                  type="radio"
-                  name="t&c"
-                  defaultChecked
-                />
-                <label className="form-check-label mx-1">NO</label>
-              </div>
-            </div>
-            <div className="col-md-8 d-flex justify-content-between">
-              <label className="form-label col-md-2">Loan Documents</label>
-              <input type="file" className="form-control" />
-            </div>
+          <div className="col-md-3">
+            <label className="form-label">Customer Name</label>
+            <input type="file" className="form-control" />
           </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">

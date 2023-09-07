@@ -38,7 +38,8 @@ const Cancellation = () => {
     cancelCharge = amount; // 100% charge
   }
 
-  const netAmount = parseInt(cancelCharge) + parseInt(discountAmount);
+  const netAmount =
+    parseInt(amount) + parseInt(cancelCharge) + parseInt(discountAmount);
 
   return (
     <div>

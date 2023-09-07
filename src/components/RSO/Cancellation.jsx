@@ -4,7 +4,8 @@ import { DataList } from "../../Data/DataList";
 import moment from "moment";
 
 const Cancellation = () => {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState();
+  const [discountAmount, setDiscountAmount] = useState();
   const [numberDays, setNumberDays] = useState("");
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -36,8 +37,16 @@ const Cancellation = () => {
   } else if (numberDays < 15) {
     cancellationCharges = amount; // 100% charge
   }
+  console.log("amount==>", typeof parseInt(amount), parseInt(amount));
+  console.log(
+    "discountAmount==>",
+    typeof parseInt(discountAmount),
+    parseInt(discountAmount)
+  );
+  const netAmount =
+    parseInt(amount) + parseInt(cancellationCharges) + parseInt(discountAmount);
 
-  console.log("cancellationCharges==>", cancellationCharges);
+  console.log("netAmount==>", netAmount);
   return (
     <div>
       <Navbar />
@@ -139,17 +148,26 @@ const Cancellation = () => {
             <input
               type="text"
               className="form-control"
+              defaultValue={cancellationCharges}
               disabled
-              value={cancellationCharges}
             />
           </div>
           <div className="col-md-3">
             <label className="form-label">Discount Amount</label>
-            <input type="text" className="form-control" />
+            <input
+              type="number"
+              className="form-control"
+              onChange={(e) => setDiscountAmount(e.target.value)}
+            />
           </div>
           <div className="col-md-3">
             <label className="form-label">Net Amount</label>
-            <input type="text" className="form-control" disabled />
+            <input
+              type="text"
+              className="form-control"
+              // defaultValue={netAmount}
+              disabled
+            />
           </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Amount Paid Reference</h6>
@@ -191,7 +209,6 @@ const Cancellation = () => {
                     <tr>
                       <th>Total_Booking_Paid</th>
                       <th>Total_Cancellation_Charge</th>
-                      <th>Discount</th>
                       <th>Net Cancellation Charges</th>
                       <th>Total_Refund</th>
                     </tr>
@@ -203,7 +220,6 @@ const Cancellation = () => {
                           <td>1234</td>
                           <td>34634</td>
                           <td>12345</td>
-                          <td>123</td>
                           <td>12543</td>
                         </tr>
                       );

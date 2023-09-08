@@ -9,6 +9,13 @@ const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [paymentDetails, setPaymentDetails] = useState({});
+  // ADD ROW
+  const [count, setCount] = useState(0);
+  const [addPaymentRows, setAddPaymentRows] = useState([]);
+  const [paymentRowId, setPaymentRowId] = useState(0);
+  const [savePaymetRow, setSavePaymetRow] = useState([]);
+  console.log("addPaymentRows==>", addPaymentRows);
+
   const GetPyamentDetials = () => {
     setLoading(true);
     axios
@@ -26,6 +33,27 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+
+  const AddPaymentRows = () => {
+    setCount(count + 1);
+    setAddPaymentRows([...addPaymentRows, count + 1]);
+  };
+
+  const SavePaymentRow = () => {
+    setPaymentRowId(paymentRowId + 1);
+    const depositProductsTable = {
+      id: paymentRowId,
+      depositType: "abhe",
+      refNumbr: "1234",
+      depositAmount: "1234",
+      depositFile: "2345",
+    };
+    setSavePaymetRow([...savePaymetRow, depositProductsTable]);
+    setAddPaymentRows([]);
+  };
+
+  console.log("savePaymetRow==>", savePaymetRow);
+
   return (
     <div>
       <Navbar />
@@ -74,17 +102,31 @@ const CashierPaymentDetails = () => {
             </table>
           </div>
         )}
-        {paymentDetails.pdtId && (
-          <div className="col-12 table-responsive mx-0">
-            <table className="table table-bordered table-hover border-dark">
-              <thead className="table-dark border-light">
-                <tr>
-                  {PaymentHeading2.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
+        <div className="col-12 table-responsive mx-0">
+          <table className="table table-bordered table-hover border-dark">
+            <thead className="table-dark border-light">
+              <tr>
+                {PaymentHeading2.map((heading, i) => {
+                  return <td key={i}>{heading}</td>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {savePaymetRow.map((item, i) => {
+                return (
+                  <tr key={i}>
+                    <td>SAVE</td>
+                    <td>SAVE</td>
+                    <td>SAVE</td>
+                    <td>
+                      <input type="file" className="form-control" />
+                    </td>
+                    <td>2023-09-08</td>
+                    <td>Active</td>
+                  </tr>
+                );
+              })}
+              {addPaymentRows.length > 0 && (
                 <tr>
                   <td>{paymentDetails.pdtId}</td>
                   <td>{paymentDetails.customerName}</td>
@@ -97,10 +139,21 @@ const CashierPaymentDetails = () => {
                   <td>2023-09-08</td>
                   <td>Active</td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="d-flex justify-content-end mt-0">
+          {addPaymentRows.length > 0 ? (
+            <button type="submit" className="CButton" onClick={SavePaymentRow}>
+              Save Row
+            </button>
+          ) : (
+            <button type="submit" className="CButton" onClick={AddPaymentRows}>
+              Add Row
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

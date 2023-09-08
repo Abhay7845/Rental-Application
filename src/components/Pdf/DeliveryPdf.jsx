@@ -18,7 +18,7 @@ const DeliveryPdf = () => {
         console.log("error==>", error);
       });
   }, []);
-  console.log("userData==>", userData);
+
   return (
     <div>
       <button onClick={DeliveryPDF} className="CButton">

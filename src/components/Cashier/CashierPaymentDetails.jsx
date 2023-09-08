@@ -295,7 +295,7 @@ const CashierPaymentDetails = () => {
             <BookingPdf />
           </h6>
         </div>
-        <div className="col-md-4 d-flex">
+        <div className="col-md-6 d-flex">
           <input type="file" className="form-control mx-2" />
           <button className="CButton">Upload</button>
         </div>

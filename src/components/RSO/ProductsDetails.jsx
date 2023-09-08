@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import {
+  AddedTocCart,
   WishListHeader,
   constomerType,
   packageDayOption,
 } from "../../Data/DataList";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { BsFillTrashFill } from "react-icons/bs";
@@ -76,9 +78,11 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           GetProductDetails(payload);
         }
+        setLoading(false);
         payload.itemCode = "";
       })
       .catch((error) => {
@@ -91,6 +95,7 @@ const ProductsDetails = () => {
       grossWt: data.grossWt,
       huID: data.huID,
       itemCode: data.itemCode,
+      description: data.description,
       itemPriceId: data.itemPriceId,
       lotNo: data.lotNo,
       netWt: data.netWt,
@@ -123,7 +128,7 @@ const ProductsDetails = () => {
       createdDate: null,
       updatedDate: null,
       status: "Added To Cart",
-      tempBookingRefId: "ABHAY12345",
+      tempBookingRefId: "",
       paymentRequestFor: "newBooking",
     };
     setAddtoWishList([...addtoWishList, AddToWishListOBj]);
@@ -190,6 +195,8 @@ const ProductsDetails = () => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
             if (response.data.value) {
+              localStorage.setItem("BookinTempId", response.data.value.Succes);
+              Swal.fire("Added", "Your Products Added To Carrt", "success");
               navigate("/booking");
             }
           }
@@ -330,6 +337,7 @@ const ProductsDetails = () => {
                         />
                       </td>
                       <td>{data.itemCode}</td>
+                      <td>{data.description}</td>
                       <td>{data.pdtID}</td>
                       <td>{data.lotNo}</td>
                       <td>{data.cfa}</td>
@@ -362,7 +370,7 @@ const ProductsDetails = () => {
               <table className="table table-bordered table-hover border-dark">
                 <thead className="table-dark border-light">
                   <tr>
-                    {WishListHeader.map((heading, i) => {
+                    {AddedTocCart.map((heading, i) => {
                       return <td key={i}>{heading}</td>;
                     })}
                   </tr>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
-import { ImageHeaders, WishListHeader, phonePan } from "../../Data/DataList";
+import { AddedTocCart, ImageHeaders, phonePan } from "../../Data/DataList";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
@@ -19,8 +19,10 @@ const NewBooking = () => {
   const storeCode = localStorage.getItem("storeCode");
   const custType = localStorage.getItem("custType");
   const packageDays = localStorage.getItem("packageDays");
+  const bookingRefId = localStorage.getItem("BookinTempId");
 
   console.log("existedUserData==>", existedUserData);
+
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
 
@@ -242,8 +244,7 @@ const NewBooking = () => {
       alert("Please Enter RSO Name");
     } else {
       setLoading(true);
-      const timeStamp = currentDate.getMilliseconds();
-      const bookingRefId = `MAMTHA-R-${bookingDate}-${timeStamp}`;
+
       const BookingInputs = {
         bookingRefId: bookingRefId,
         storeCode: storeCode,
@@ -422,7 +423,7 @@ const NewBooking = () => {
               >
                 <thead className="table-dark border-light">
                   <tr>
-                    {WishListHeader.map((heading, i) => {
+                    {AddedTocCart.map((heading, i) => {
                       return <td key={i}>{heading}</td>;
                     })}
                   </tr>

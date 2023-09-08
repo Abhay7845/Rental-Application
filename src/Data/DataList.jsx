@@ -90,6 +90,18 @@ export const constomerType = [
 
 export const WishListHeader = [
   "ITEMCODE",
+  "DESCRIPTION",
+  "PDT ID",
+  "LOT NO.",
+  "CFA",
+  "GROSS WT.",
+  "NET WT.",
+  "PRODUCTS VALUE",
+  "RENTAL RATE",
+  "DEPOSIT RATE",
+];
+export const AddedTocCart = [
+  "ITEMCODE",
   "PDT ID",
   "LOT NO.",
   "CFA",

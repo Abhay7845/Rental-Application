@@ -44,7 +44,18 @@ const TestImage = () => {
   };
 
   const Clickto = () => {
-    Swal.fire("Booked", "Your Products Booked Successfully", "success");
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
   };
   return (
     <div className="mx-3 mt-5">

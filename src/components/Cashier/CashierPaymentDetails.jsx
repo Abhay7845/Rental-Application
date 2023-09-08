@@ -100,7 +100,6 @@ const CashierPaymentDetails = () => {
       });
   };
   const DeletePaymentRow = (id) => {
-    console.log("id==>", id);
     const updatedData = savePaymetRow.filter((rowId) => rowId.id !== id);
     setSavePaymetRow(updatedData);
   };
@@ -112,7 +111,21 @@ const CashierPaymentDetails = () => {
   };
 
   const SubmitPayment = () => {
+    setLoading(true);
     console.log("savePaymetRow==>", savePaymetRow);
+    axios
+      .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          console.log("response==>", response);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
   };
   return (
     <div>
@@ -278,7 +291,7 @@ const CashierPaymentDetails = () => {
         </div>
         <div className="col-12 mb-0">
           <h6 className="bookingHeading d-flex justify-content-between">
-            <span className="mt-1">Print Terms & Codition</span>
+            <span className="mt-1">Print Terms & Condition</span>
             <BookingPdf />
           </h6>
         </div>

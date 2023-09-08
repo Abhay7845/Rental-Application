@@ -14,6 +14,8 @@ const CashierPaymentDetails = () => {
   const [addPaymentRows, setAddPaymentRows] = useState([]);
   const [paymentRowId, setPaymentRowId] = useState(0);
   const [savePaymetRow, setSavePaymetRow] = useState([]);
+  const [paymentType, setPaymentType] = useState("");
+  console.log("paymentType==>", paymentType);
   console.log("addPaymentRows==>", addPaymentRows);
 
   const GetPyamentDetials = () => {
@@ -43,10 +45,13 @@ const CashierPaymentDetails = () => {
     setPaymentRowId(paymentRowId + 1);
     const depositProductsTable = {
       id: paymentRowId,
-      depositType: "abhe",
-      refNumbr: "1234",
-      depositAmount: "1234",
-      depositFile: "2345",
+      amount: 0,
+      bookingRefId: "string",
+      createDate: "2023-09-08T06:54:32.865Z",
+      fileName: "string",
+      paymentFor: "string",
+      paymentType: paymentType,
+      txnRefNo: "string",
     };
     setSavePaymetRow([...savePaymetRow, depositProductsTable]);
     setAddPaymentRows([]);
@@ -115,28 +120,37 @@ const CashierPaymentDetails = () => {
               {savePaymetRow.map((item, i) => {
                 return (
                   <tr key={i}>
-                    <td>SAVE</td>
-                    <td>SAVE</td>
-                    <td>SAVE</td>
-                    <td>
-                      <input type="file" className="form-control" />
-                    </td>
-                    <td>2023-09-08</td>
-                    <td>Active</td>
+                    <td>{item.bookingRefId}</td>
+                    <td>{item.paymentFor}</td>
+                    <td>{item.paymentType}</td>
+                    <td>abcd</td>
+                    <td>{item.amount}</td>
+                    <td>{item.fileName}</td>
+                    <td>Date</td>
+                    <td>Status</td>
                   </tr>
                 );
               })}
               {addPaymentRows.length > 0 && (
                 <tr>
-                  <td>{paymentDetails.pdtId}</td>
-                  <td>{paymentDetails.customerName}</td>
-                  <td>{paymentDetails.mobileNo}</td>
-                  <td>{paymentDetails.paymentRequestFor}</td>
-                  <td>{paymentDetails.depositValue}</td>
+                  <td>abcd</td>
+                  <td>payment for</td>
+                  <td>payment Ref No.</td>
+                  <td>Amount</td>
+                  <td>
+                    <select
+                      className="form-control"
+                      onChange={(e) => setPaymentType(e.target.value)}
+                    >
+                      <option value="">Slect Type</option>
+                      <option value="card">Card</option>
+                      <option value="cash">Cash</option>
+                    </select>
+                  </td>
                   <td>
                     <input type="file" className="form-control" />
                   </td>
-                  <td>2023-09-08</td>
+                  <td>date</td>
                   <td>Active</td>
                 </tr>
               )}

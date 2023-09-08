@@ -135,6 +135,7 @@ const CashierPaymentDetails = () => {
           console.log("response==>", response);
           if (response.data) {
             alert("File Uploaded Successfully");
+            document.getElementById("tncFile").value = "";
           }
           setLoading(false);
         })
@@ -333,6 +334,7 @@ const CashierPaymentDetails = () => {
         <div className="col-md-6 d-flex">
           <input
             type="file"
+            id="tncFile"
             className="form-control mx-2"
             onChange={(e) => setTnCfile(e.target.files[0])}
           />

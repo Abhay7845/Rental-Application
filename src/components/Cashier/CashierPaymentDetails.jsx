@@ -27,6 +27,10 @@ const CashierPaymentDetails = () => {
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState("");
   const miliSecond = new Date().getUTCMilliseconds();
+  // TERMS AND CONDITION FILE UPLOAD
+  const [tnCfile, setTnCfile] = useState("");
+  const [tnCFileName, setTnCFileName] = useState("");
+  console.log("tnCFileName==>", tnCFileName);
 
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -108,6 +112,37 @@ const CashierPaymentDetails = () => {
     let total = 0;
     for (let num of TAmount) total = total + num;
     return total;
+  };
+
+  // UPLOAD TNC FUNCTION
+  const UploadTnCFile = () => {
+    if (!tnCfile) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = tnCfile.name.split(".");
+      const tncFileName = `${paymentType}${miliSecond}.${fileExtention[1]}`;
+      setTnCFileName(tncFileName);
+      formData.append("ImgName", tncFileName);
+      formData.append("files", tnCfile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            alert("File Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   };
 
   const SubmitPayment = () => {
@@ -296,8 +331,14 @@ const CashierPaymentDetails = () => {
           </h6>
         </div>
         <div className="col-md-6 d-flex">
-          <input type="file" className="form-control mx-2" />
-          <button className="CButton">Upload</button>
+          <input
+            type="file"
+            className="form-control mx-2"
+            onChange={(e) => setTnCfile(e.target.files[0])}
+          />
+          <button className="CButton" onClick={UploadTnCFile}>
+            Upload
+          </button>
         </div>
         <div className="col-12 d-flex justify-content-end mb-4">
           <button className="CButton">Submit</button>

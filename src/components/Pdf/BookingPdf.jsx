@@ -18,7 +18,6 @@ const BookingPdf = () => {
         console.log("error==>", error);
       });
   }, []);
-  console.log("userData==>", userData);
 
   return (
     <div>

@@ -9,6 +9,7 @@ import {
   PaymentHeading2,
 } from "../../Data/DataList";
 import { UploadImg } from "../../API/HostURL";
+import BookingPdf from "../Pdf/BookingPdf";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -193,8 +194,9 @@ const CashierPaymentDetails = () => {
                       onChange={(e) => setPaymentType(e.target.value)}
                     >
                       <option value="">Select Type</option>
-                      <option value="card">Card</option>
-                      <option value="cash">Cash</option>
+                      <option value="Card,">Card</option>
+                      <option value="Credit Note">Credit Note</option>
+                      <option value="TEP">TEP</option>
                     </select>
                   </td>
                   <td>
@@ -230,13 +232,26 @@ const CashierPaymentDetails = () => {
         <div className="d-flex justify-content-end mt-0">
           {addPaymentRows.length > 0 ? (
             <button type="submit" className="CButton" onClick={SavePaymentRow}>
-              Save Row
+              Save Payment
             </button>
           ) : (
             <button type="submit" className="CButton" onClick={AddPaymentRows}>
               Add Payment
             </button>
           )}
+        </div>
+        <div className="col-12 mb-0">
+          <h6 className="bookingHeading d-flex justify-content-between">
+            <span className="mt-1">Print Terms & Codition</span>
+            <BookingPdf />
+          </h6>
+        </div>
+        <div className="col-md-4 d-flex">
+          <input type="file" className="form-control mx-2" />
+          <button className="CButton">Upload</button>
+        </div>
+        <div className="col-12 d-flex justify-content-end mb-4">
+          <button className="CButton">Submit</button>
         </div>
       </div>
     </div>

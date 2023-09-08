@@ -39,7 +39,7 @@ const Home = () => {
     });
   };
 
-  const GetDetails = () => {
+  const GetBookingDetails = () => {
     setLoading(true);
     axios
       .get(
@@ -109,7 +109,7 @@ const Home = () => {
             className={`${
               phoneRefrence.length < 5 ? "DisableSearch" : "searchButton"
             }`}
-            onClick={GetDetails}
+            onClick={GetBookingDetails}
             disabled={phoneRefrence.length < 5 ? true : false}
           >
             {loading ? (

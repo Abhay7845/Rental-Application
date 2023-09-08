@@ -3,7 +3,12 @@ import Navbar from "../common/Navbar";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
-import { PaymentHeading1, PaymentHeading2 } from "../../Data/DataList";
+import {
+  ImageHeaders,
+  PaymentHeading1,
+  PaymentHeading2,
+} from "../../Data/DataList";
+import { UploadImg } from "../../API/HostURL";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -15,8 +20,12 @@ const CashierPaymentDetails = () => {
   const [paymentRowId, setPaymentRowId] = useState(0);
   const [savePaymetRow, setSavePaymetRow] = useState([]);
   const [paymentType, setPaymentType] = useState("");
-  console.log("paymentType==>", paymentType);
-  console.log("addPaymentRows==>", addPaymentRows);
+  const [tnxRefNo, setTnxRefNo] = useState("");
+  const [amount, setAmount] = useState("");
+  const [fileUpload, setFileUpload] = useState("");
+  const [fileImgUrl, setFileImgUrl] = useState("");
+  const [fileName, setFileName] = useState("");
+  const miliSecond = new Date().getUTCMilliseconds();
 
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -45,19 +54,56 @@ const CashierPaymentDetails = () => {
     setPaymentRowId(paymentRowId + 1);
     const depositProductsTable = {
       id: paymentRowId,
-      amount: 0,
+      amount: parseInt(amount),
       bookingRefId: "string",
       createDate: "2023-09-08T06:54:32.865Z",
-      fileName: "string",
+      fileName: fileName,
       paymentFor: "string",
       paymentType: paymentType,
-      txnRefNo: "string",
+      txnRefNo: tnxRefNo,
     };
     setSavePaymetRow([...savePaymetRow, depositProductsTable]);
     setAddPaymentRows([]);
   };
 
   console.log("savePaymetRow==>", savePaymetRow);
+
+  const UploadFile = () => {
+    if (!fileUpload) {
+      alert("Please Select File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = fileUpload.name.split(".");
+      const UploadFileName = `${paymentType}${miliSecond}.${fileExtention[1]}`;
+      setFileName(UploadFileName);
+      formData.append("ImgName", UploadFileName);
+      formData.append("files", fileUpload);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setFileImgUrl(reader.result);
+            };
+            if (fileUpload) {
+              reader.readAsDataURL(fileUpload);
+            }
+            alert("File Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
 
   return (
     <div>
@@ -83,16 +129,17 @@ const CashierPaymentDetails = () => {
             Search
           </button>
         </div>
-        {paymentDetails.pdtId && (
-          <div className="col-12 table-responsive mx-0">
-            <table className="table table-bordered table-hover border-dark">
-              <thead className="table-dark border-light">
-                <tr>
-                  {PaymentHeading1.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
-                  })}
-                </tr>
-              </thead>
+
+        <div className="col-12 table-responsive mx-0">
+          <table className="table table-bordered table-hover border-dark">
+            <thead className="table-dark border-light">
+              <tr>
+                {PaymentHeading1.map((heading, i) => {
+                  return <td key={i}>{heading}</td>;
+                })}
+              </tr>
+            </thead>
+            {paymentDetails.pdtId && (
               <tbody>
                 <tr>
                   <td>{paymentDetails.pdtId}</td>
@@ -104,9 +151,10 @@ const CashierPaymentDetails = () => {
                   <td>{paymentDetails.depositValue}</td>
                 </tr>
               </tbody>
-            </table>
-          </div>
-        )}
+            )}
+          </table>
+        </div>
+
         <div className="col-12 table-responsive mx-0">
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">
@@ -120,38 +168,60 @@ const CashierPaymentDetails = () => {
               {savePaymetRow.map((item, i) => {
                 return (
                   <tr key={i}>
-                    <td>{item.bookingRefId}</td>
                     <td>{item.paymentFor}</td>
                     <td>{item.paymentType}</td>
                     <td>abcd</td>
-                    <td>{item.amount}</td>
-                    <td>{item.fileName}</td>
-                    <td>Date</td>
-                    <td>Status</td>
+                    <td>{item.amount.toString()}</td>
+                    <td className="text-center">
+                      <img
+                        src={`data:image/jpeg;base64,${fileImgUrl}`}
+                        // src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+                        alt=""
+                        width="50"
+                        height="28"
+                      />
+                    </td>
                   </tr>
                 );
               })}
               {addPaymentRows.length > 0 && (
                 <tr>
-                  <td>abcd</td>
                   <td>payment for</td>
-                  <td>payment Ref No.</td>
-                  <td>Amount</td>
                   <td>
                     <select
-                      className="form-control"
+                      className="w-100"
                       onChange={(e) => setPaymentType(e.target.value)}
                     >
-                      <option value="">Slect Type</option>
+                      <option value="">Select Type</option>
                       <option value="card">Card</option>
                       <option value="cash">Cash</option>
                     </select>
                   </td>
                   <td>
-                    <input type="file" className="form-control" />
+                    <input
+                      className="w-100"
+                      placeholder="Payment Ref No."
+                      onChange={(e) => setTnxRefNo(e.target.value)}
+                    />
                   </td>
-                  <td>date</td>
-                  <td>Active</td>
+                  <td>
+                    <input
+                      type="number"
+                      className="w-100"
+                      placeholder="Amount"
+                      onChange={(e) => setAmount(e.target.value)}
+                    />
+                  </td>
+                  <td className="d-flex">
+                    <input
+                      type="file"
+                      className="form-control"
+                      onChange={(e) => setFileUpload(e.target.files[0])}
+                    />
+                    <button className="CButton mx-1" onClick={UploadFile}>
+                      Upload
+                    </button>
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -164,7 +234,7 @@ const CashierPaymentDetails = () => {
             </button>
           ) : (
             <button type="submit" className="CButton" onClick={AddPaymentRows}>
-              Add Row
+              Add Payment
             </button>
           )}
         </div>

@@ -144,12 +144,9 @@ export const PaymentHeading1 = [
   "Deposit_Value",
 ];
 export const PaymentHeading2 = [
-  "Booking_ID",
   "Payment_For",
-  "Paymet_Type",
+  "Payment_Type",
   "Payment_Ref_No.",
   "Amount",
   "File",
-  "Date",
-  "Status",
 ];

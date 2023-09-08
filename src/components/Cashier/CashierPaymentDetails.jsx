@@ -10,6 +10,7 @@ import {
 } from "../../Data/DataList";
 import { UploadImg } from "../../API/HostURL";
 import BookingPdf from "../Pdf/BookingPdf";
+import { BsFillTrashFill } from "react-icons/bs";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -55,7 +56,7 @@ const CashierPaymentDetails = () => {
       alert("Please Upload File");
     } else {
       setPaymentRowId(paymentRowId + 1);
-      const depositProductsTable = {
+      const savePaymentDetails = {
         id: paymentRowId,
         amount: parseInt(amount),
         bookingRefId: "",
@@ -65,7 +66,7 @@ const CashierPaymentDetails = () => {
         paymentType: paymentType,
         txnRefNo: tnxRefNo,
       };
-      setSavePaymetRow([...savePaymetRow, depositProductsTable]);
+      setSavePaymetRow([...savePaymetRow, savePaymentDetails]);
       setAddPaymentRows([]);
       setFileName("");
     }
@@ -98,7 +99,11 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
-
+  const DeletePaymentRow = (id) => {
+    console.log("id==>", id);
+    const updatedData = savePaymetRow.filter((rowId) => rowId.id !== id);
+    setSavePaymetRow(updatedData);
+  };
   const TAmount = savePaymetRow.map((item) => item.amount);
   const SumOfTAmount = () => {
     let total = 0;
@@ -158,7 +163,6 @@ const CashierPaymentDetails = () => {
             )}
           </table>
         </div>
-
         <div className="col-12 table-responsive mx-0">
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">
@@ -176,7 +180,13 @@ const CashierPaymentDetails = () => {
                     <td>{item.paymentType}</td>
                     <td>{item.paymentFor}</td>
                     <td>{item.amount.toString()}</td>
-                    <td className="text-center">{item.fileName}</td>
+                    <td className="d-flex justify-content-between">
+                      {item.fileName}
+                      <BsFillTrashFill
+                        className="DeleteRow"
+                        onClick={() => DeletePaymentRow(item.id)}
+                      />
+                    </td>
                   </tr>
                 );
               })}
@@ -191,7 +201,14 @@ const CashierPaymentDetails = () => {
               )}
               {addPaymentRows.length > 0 && (
                 <tr>
-                  <td>{paymentDetails.paymentRequestFor}</td>
+                  <td>
+                    <BsFillTrashFill
+                      className="DeleteRow"
+                      style={{ marginTop: "-5px" }}
+                      onClick={() => setAddPaymentRows([])}
+                    />
+                    {paymentDetails.paymentRequestFor}
+                  </td>
                   <td>
                     <select
                       className="form-control"

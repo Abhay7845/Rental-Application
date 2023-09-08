@@ -60,7 +60,7 @@ const CashierPaymentDetails = () => {
         bookingRefId: "string",
         createDate: "2023-09-08T06:54:32.865Z",
         fileName: fileName,
-        paymentFor: "string",
+        paymentFor: paymentDetails.paymentRequestFor,
         paymentType: paymentType,
         txnRefNo: tnxRefNo,
       };
@@ -163,7 +163,7 @@ const CashierPaymentDetails = () => {
                   <tr key={i}>
                     <td>{item.paymentFor}</td>
                     <td>{item.paymentType}</td>
-                    <td>abcd</td>
+                    <td>{item.paymentFor}</td>
                     <td>{item.amount.toString()}</td>
                     <td className="text-center">{item.fileName}</td>
                   </tr>

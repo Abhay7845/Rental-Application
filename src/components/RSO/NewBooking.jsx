@@ -246,14 +246,13 @@ const NewBooking = () => {
   };
 
   // BOOKING YUOR PRODUCTS
-  const BookYorProduct = () => {
+  const RaseBookPaymentReq = () => {
     if (!bookingRSO) {
       alert("Please Enter RSO Name");
     } else {
       setLoading(true);
-
       const BookingInputs = {
-        bookingRefId: bookingRefId,
+        bookingRefId: "",
         storeCode: storeCode,
         addressProofIdNo: existedUserData.addressProofIdNo,
         custId: existedUserData.custId,
@@ -271,7 +270,7 @@ const NewBooking = () => {
         createdDate: existedUserData.createDate,
         updatedDate: existedUserData.updateDate,
         status: "active",
-        tempRefNo: "Durgesh123987",
+        tempRefNo: bookingRefId,
       };
       console.log("BookingInputs==>", BookingInputs);
       axios
@@ -475,7 +474,7 @@ const NewBooking = () => {
             <button
               type="button"
               className="CButton mx-2"
-              onClick={BookYorProduct}
+              onClick={RaseBookPaymentReq}
             >
               Raise Payment Request
             </button>

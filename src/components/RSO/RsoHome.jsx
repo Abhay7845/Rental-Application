@@ -48,11 +48,12 @@ const Home = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("response==>", response.data.value.length);
         if (response.data.code === "1000") {
           setProductData(response.data.value);
-        } else if (response.data.code === "1001") {
-          CheckBookingDetails();
+          if (response.data.value.length === 0) {
+            CheckBookingDetails();
+          }
         }
         setLoading(false);
       })

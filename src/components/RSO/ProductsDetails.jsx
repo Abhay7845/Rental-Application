@@ -179,25 +179,31 @@ const ProductsDetails = () => {
     payload.packageDays = "";
     payload.customerType = "";
   };
+  const thresholdLimit = parseInt(thresHoldValue.limit) * 100000;
+
   const ContinueToBooking = () => {
-    localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
-    setLoading(true);
-    axios
-      .post(`${HOST_URL}/add/to/cart`, goToCart)
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response.data);
-        if (response.data.code === "1000") {
-          if (response.data.value) {
-            navigate("/booking");
+    if (thresholdLimit < SumOfTProductValue()) {
+      alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
+    } else {
+      localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
+      setLoading(true);
+      axios
+        .post(`${HOST_URL}/add/to/cart`, goToCart)
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data.code === "1000") {
+            if (response.data.value) {
+              navigate("/booking");
+            }
           }
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error=>", error);
-        setLoading(false);
-      });
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error=>", error);
+          setLoading(false);
+        });
+    }
   };
 
   // THRESHOLD LIMIT API CALL

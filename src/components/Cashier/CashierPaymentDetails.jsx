@@ -51,58 +51,58 @@ const CashierPaymentDetails = () => {
   };
 
   const SavePaymentRow = () => {
-    setPaymentRowId(paymentRowId + 1);
-    const depositProductsTable = {
-      id: paymentRowId,
-      amount: parseInt(amount),
-      bookingRefId: "string",
-      createDate: "2023-09-08T06:54:32.865Z",
-      fileName: fileName,
-      paymentFor: "string",
-      paymentType: paymentType,
-      txnRefNo: tnxRefNo,
-    };
-    setSavePaymetRow([...savePaymetRow, depositProductsTable]);
-    setAddPaymentRows([]);
+    if (!fileName) {
+      alert("Please Upload File");
+    } else {
+      setPaymentRowId(paymentRowId + 1);
+      const depositProductsTable = {
+        id: paymentRowId,
+        amount: parseInt(amount),
+        bookingRefId: "string",
+        createDate: "2023-09-08T06:54:32.865Z",
+        fileName: fileName,
+        paymentFor: "string",
+        paymentType: paymentType,
+        txnRefNo: tnxRefNo,
+      };
+      setSavePaymetRow([...savePaymetRow, depositProductsTable]);
+      setAddPaymentRows([]);
+    }
   };
 
   console.log("savePaymetRow==>", savePaymetRow);
 
   const UploadFile = () => {
-    if (!fileUpload) {
-      alert("Please Select File");
-    } else {
-      setLoading(true);
-      const formData = new FormData();
-      const fileExtention = fileUpload.name.split(".");
-      const UploadFileName = `${paymentType}${miliSecond}.${fileExtention[1]}`;
-      setFileName(UploadFileName);
-      formData.append("ImgName", UploadFileName);
-      formData.append("files", fileUpload);
-      axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response);
-          if (response.data) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setFileImgUrl(reader.result);
-            };
-            if (fileUpload) {
-              reader.readAsDataURL(fileUpload);
-            }
-            alert("File Uploaded Successfully");
+    setLoading(true);
+    const formData = new FormData();
+    const fileExtention = fileUpload.name.split(".");
+    const UploadFileName = `${paymentType}${miliSecond}.${fileExtention[1]}`;
+    setFileName(UploadFileName);
+    formData.append("ImgName", UploadFileName);
+    formData.append("files", fileUpload);
+    axios
+      .post(`${UploadImg}`, formData, {
+        headers: ImageHeaders,
+      })
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response);
+        if (response.data) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setFileImgUrl(reader.result);
+          };
+          if (fileUpload) {
+            reader.readAsDataURL(fileUpload);
           }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error==>", error);
-          setLoading(false);
-        });
-    }
+          alert("File Uploaded Successfully");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
   };
 
   return (

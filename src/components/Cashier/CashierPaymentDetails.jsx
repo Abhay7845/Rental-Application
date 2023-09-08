@@ -23,7 +23,6 @@ const CashierPaymentDetails = () => {
   const [tnxRefNo, setTnxRefNo] = useState("");
   const [amount, setAmount] = useState("");
   const [fileUpload, setFileUpload] = useState("");
-  const [fileImgUrl, setFileImgUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const miliSecond = new Date().getUTCMilliseconds();
 
@@ -67,6 +66,7 @@ const CashierPaymentDetails = () => {
       };
       setSavePaymetRow([...savePaymetRow, depositProductsTable]);
       setAddPaymentRows([]);
+      setFileName("");
     }
   };
 
@@ -88,13 +88,6 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response);
         if (response.data) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setFileImgUrl(reader.result);
-          };
-          if (fileUpload) {
-            reader.readAsDataURL(fileUpload);
-          }
           alert("File Uploaded Successfully");
         }
         setLoading(false);
@@ -172,15 +165,7 @@ const CashierPaymentDetails = () => {
                     <td>{item.paymentType}</td>
                     <td>abcd</td>
                     <td>{item.amount.toString()}</td>
-                    <td className="text-center">
-                      <img
-                        src={`data:image/jpeg;base64,${fileImgUrl}`}
-                        // src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                        alt=""
-                        width="50"
-                        height="28"
-                      />
-                    </td>
+                    <td className="text-center">{item.fileName}</td>
                   </tr>
                 );
               })}
@@ -189,7 +174,7 @@ const CashierPaymentDetails = () => {
                   <td>payment for</td>
                   <td>
                     <select
-                      className="w-100"
+                      className="form-control"
                       onChange={(e) => setPaymentType(e.target.value)}
                     >
                       <option value="">Select Type</option>
@@ -199,7 +184,7 @@ const CashierPaymentDetails = () => {
                   </td>
                   <td>
                     <input
-                      className="w-100"
+                      className="form-control"
                       placeholder="Payment Ref No."
                       onChange={(e) => setTnxRefNo(e.target.value)}
                     />
@@ -207,7 +192,7 @@ const CashierPaymentDetails = () => {
                   <td>
                     <input
                       type="number"
-                      className="w-100"
+                      className="form-control"
                       placeholder="Amount"
                       onChange={(e) => setAmount(e.target.value)}
                     />

@@ -16,7 +16,6 @@ const Home = () => {
   const [selecttedProduct, setSelecttedProduct] = useState({});
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
-  console.log("productData==>", productData);
 
   const paramType = !phoneRefrence
     ? ""
@@ -24,7 +23,7 @@ const Home = () => {
     ? "BookingRefNo"
     : "Mobile_No";
 
-  const CheckBookingDetails = (phonePanValue) => {
+  const CheckBookingDetails = () => {
     Swal.fire({
       title: "Booking Not Available",
       text: "Do You Want Book Products",

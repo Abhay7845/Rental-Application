@@ -31,8 +31,6 @@ const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
 
-  console.log("thresHoldValue==>", thresHoldValue);
-
   const GetProductDetails = (payload) => {
     const GetProducts = {
       storeCode: storeCode,
@@ -74,12 +72,10 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
-    console.log("CheckAvaiblity==>", CheckAvaiblity);
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           GetProductDetails(payload);
         }
@@ -126,7 +122,7 @@ const ProductsDetails = () => {
       depositValue: product.depositRate,
       createdDate: null,
       updatedDate: null,
-      status: "active",
+      status: "Added To Cart",
       tempBookingRefId: "ABHAY12345",
       paymentRequestFor: "newBooking",
     };
@@ -185,8 +181,8 @@ const ProductsDetails = () => {
     if (thresholdLimit < SumOfTProductValue()) {
       alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
     } else {
-      localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
       setLoading(true);
+      localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
       axios
         .post(`${HOST_URL}/add/to/cart`, goToCart)
         .then((res) => res)

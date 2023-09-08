@@ -204,45 +204,49 @@ const NewBooking = () => {
       });
   };
   const UpdateCustomerBankDetails = () => {
-    setLoading(true);
-    const UpdateCustDetails = {
-      customerName: existedUserData.customerName,
-      customerAddress1: existedUserData.customerAddress1,
-      customerAddress2: existedUserData.customerAddress2,
-      customerCity: existedUserData.customerCity,
-      customerCityPincode: existedUserData.customerCityPincode,
-      mobileNo: existedUserData.mobileNo,
-      emailId: existedUserData.emailId,
-      panCardNo: existedUserData.panCardNo,
-      panCardNoFileName: existedUserData.panCardNoFileName,
-      addressProofIdType: "",
-      addressProofIdNo: existedUserData.addressProofIdNo,
-      addressProofFileName: existedUserData.addressProofFileName,
-      createDate: bookingDate,
-      updateDate: null,
-      status: "active",
-      rsoName: bookingRSO,
-      customerBankName: customerBankName,
-      customerAccountNumber: customerAccountNumber,
-      bankIfsc: BanckIfcseCode,
-      bankDetailFileName: cancelChqueFileName,
-    };
-    console.log("UpdateCustDetails==>", UpdateCustDetails);
-    axios
-      .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response.data);
-        if (response.data.code === "1000") {
-          alert("Account Details has been Updated Successfully");
-          FetchUserDetails();
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+    if (!customerBankName || !customerAccountNumber) {
+      alert("Please Enter All Details");
+    } else {
+      setLoading(true);
+      const UpdateCustDetails = {
+        customerName: existedUserData.customerName,
+        customerAddress1: existedUserData.customerAddress1,
+        customerAddress2: existedUserData.customerAddress2,
+        customerCity: existedUserData.customerCity,
+        customerCityPincode: existedUserData.customerCityPincode,
+        mobileNo: existedUserData.mobileNo,
+        emailId: existedUserData.emailId,
+        panCardNo: existedUserData.panCardNo,
+        panCardNoFileName: existedUserData.panCardNoFileName,
+        addressProofIdType: "",
+        addressProofIdNo: existedUserData.addressProofIdNo,
+        addressProofFileName: existedUserData.addressProofFileName,
+        createDate: bookingDate,
+        updateDate: null,
+        status: "active",
+        rsoName: bookingRSO,
+        customerBankName: customerBankName,
+        customerAccountNumber: customerAccountNumber,
+        bankIfsc: BanckIfcseCode,
+        bankDetailFileName: cancelChqueFileName,
+      };
+      console.log("UpdateCustDetails==>", UpdateCustDetails);
+      axios
+        .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data.code === "1000") {
+            alert("Account Details has been Updated Successfully");
+            FetchUserDetails();
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   };
 
   // BOOKING YUOR PRODUCTS
@@ -557,7 +561,7 @@ const NewBooking = () => {
                 type="button"
                 className="CButton"
                 onClick={UpdateCustomerBankDetails}
-                data-bs-dismiss="modal"
+                data-bs-dismiss={customerAccountNumber && "modal"}
               >
                 SAVE UPDATE
               </button>

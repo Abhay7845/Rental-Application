@@ -48,12 +48,19 @@ const NewBooking = () => {
     : "mobileNo";
 
   const CheckUserRegistered = () => {
-    const result = window.confirm(
-      "Customer Not Registered, Please Register the Customer Details"
-    );
-    if (result) {
-      navigate("/new/customer");
-    }
+    Swal.fire({
+      title: "Customer Not Registered",
+      text: "Do You Want Register",
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#008080",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/new/customer");
+      }
+    });
   };
 
   const FetchUserDetails = () => {

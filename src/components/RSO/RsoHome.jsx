@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/Home.css";
 import axios from "axios";
+import moment from "moment";
+import Swal from "sweetalert2";
 import { phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
@@ -24,12 +25,19 @@ const Home = () => {
     : "Mobile_No";
 
   const CheckBookingDetails = (phonePanValue) => {
-    const result = window.confirm(
-      "Booking Not Available, Please Book Products"
-    );
-    if (result) {
-      navigate("/products/details");
-    }
+    Swal.fire({
+      title: "Booking Not Available",
+      text: "Do You Want Book Products",
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#008080",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/products/details");
+      }
+    });
   };
 
   const GetDetails = () => {
@@ -40,6 +48,7 @@ const Home = () => {
       )
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setProductData(response.data.value);
         } else if (response.data.code === "1001") {

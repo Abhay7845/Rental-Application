@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const TestImage = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   useEffect(() => {
     axios
@@ -45,15 +47,16 @@ const TestImage = () => {
 
   const Clickto = () => {
     Swal.fire({
-      title: "Do you want to save the changes?",
-      showDenyButton: true,
+      title: "Customer Not Registered",
+      text: "Do You Want Register",
+      icon: "error",
       showCancelButton: true,
-      denyButtonText: `Don't save`,
+      confirmButtonColor: "#008080",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Saved!", "", "success");
-      } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
+        navigate("/booking");
       }
     });
   };

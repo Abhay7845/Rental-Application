@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const TestImage = () => {
   const [userData, setUserData] = useState([]);
@@ -42,6 +43,9 @@ const TestImage = () => {
     setDaysDifference(days);
   };
 
+  const Clickto = () => {
+    Swal.fire("Booked", "Your Products Booked Successfully", "success");
+  };
   return (
     <div className="mx-3 mt-5">
       <table className="table table-bordered inner-table border-dark">
@@ -97,6 +101,7 @@ const TestImage = () => {
           </div>
         )}
       </div>
+      <button onClick={Clickto}>click</button>
     </div>
   );
 };

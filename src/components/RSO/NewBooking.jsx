@@ -4,6 +4,7 @@ import Navbar from "../common/Navbar";
 import moment from "moment";
 import { ImageHeaders, WishListHeader, phonePan } from "../../Data/DataList";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { FetchImg, UploadImg } from "../../API/HostURL";
@@ -224,7 +225,7 @@ const NewBooking = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          alert("Account Details hsa been Updated Successfully");
+          alert("Account Details has been Updated Successfully");
           FetchUserDetails();
         }
         setLoading(false);
@@ -270,7 +271,7 @@ const NewBooking = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
-            alert("Your Products Booked Successfully");
+            Swal.fire("Booked", "Your Products Booked Successfully", "success");
             navigate("/products/details");
           }
           setLoading(false);

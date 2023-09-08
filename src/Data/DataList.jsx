@@ -133,3 +133,23 @@ export const FinalInvoicePdfHeaders = [
   "DISCOUNT",
   "VALUE AFTER DISCOUNT",
 ];
+
+export const PaymentHeading1 = [
+  "Prodcut_ID",
+  "Customer_Name",
+  "Phone_Number",
+  "Payment_Req_For",
+  "Product_Value",
+  "Rent_Value",
+  "Deposit_Value",
+];
+export const PaymentHeading2 = [
+  "Booking_ID",
+  "Payment_For",
+  "Paymet_Type",
+  "Payment_Ref_No.",
+  "Amount",
+  "File",
+  "Date",
+  "Status",
+];

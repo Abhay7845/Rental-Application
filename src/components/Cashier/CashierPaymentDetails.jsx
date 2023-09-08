@@ -58,7 +58,7 @@ const CashierPaymentDetails = () => {
       const depositProductsTable = {
         id: paymentRowId,
         amount: parseInt(amount),
-        bookingRefId: "string",
+        bookingRefId: "",
         createDate: "2023-09-08T06:54:32.865Z",
         fileName: fileName,
         paymentFor: paymentDetails.paymentRequestFor,
@@ -104,6 +104,10 @@ const CashierPaymentDetails = () => {
     let total = 0;
     for (let num of TAmount) total = total + num;
     return total;
+  };
+
+  const SubmitPayment = () => {
+    console.log("savePaymetRow==>", savePaymetRow);
   };
   return (
     <div>
@@ -187,14 +191,14 @@ const CashierPaymentDetails = () => {
               )}
               {addPaymentRows.length > 0 && (
                 <tr>
-                  <td>payment for</td>
+                  <td>{paymentDetails.paymentRequestFor}</td>
                   <td>
                     <select
                       className="form-control"
                       onChange={(e) => setPaymentType(e.target.value)}
                     >
                       <option value="">Select Type</option>
-                      <option value="Card,">Card</option>
+                      <option value="Card">Card</option>
                       <option value="Credit Note">Credit Note</option>
                       <option value="TEP">TEP</option>
                     </select>
@@ -235,9 +239,24 @@ const CashierPaymentDetails = () => {
               Save Payment
             </button>
           ) : (
-            <button type="submit" className="CButton" onClick={AddPaymentRows}>
-              Add Payment
-            </button>
+            <div className="d-flex justify-content-between">
+              <button
+                type="submit"
+                className="CButton mx-2"
+                onClick={AddPaymentRows}
+              >
+                Add Payment
+              </button>
+              {savePaymetRow.length > 0 && (
+                <button
+                  type="submit"
+                  className="CButton"
+                  onClick={SubmitPayment}
+                >
+                  Submit Payment
+                </button>
+              )}
+            </div>
           )}
         </div>
         <div className="col-12 mb-0">

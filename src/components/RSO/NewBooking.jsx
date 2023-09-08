@@ -450,7 +450,7 @@ const NewBooking = () => {
                       </tr>
                     );
                   })}
-                  <tr className="text-bold">
+                  <tr>
                     <th colSpan="6" className="text-end">
                       TOTAL
                     </th>

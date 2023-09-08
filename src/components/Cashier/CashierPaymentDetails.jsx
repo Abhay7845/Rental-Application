@@ -98,6 +98,12 @@ const CashierPaymentDetails = () => {
       });
   };
 
+  const TAmount = savePaymetRow.map((item) => item.amount);
+  const SumOfTAmount = () => {
+    let total = 0;
+    for (let num of TAmount) total = total + num;
+    return total;
+  };
   return (
     <div>
       <Navbar />
@@ -169,6 +175,15 @@ const CashierPaymentDetails = () => {
                   </tr>
                 );
               })}
+              {savePaymetRow.length > 0 && (
+                <tr>
+                  <th colSpan="3" className="text-end">
+                    TOTAL
+                  </th>
+                  <th>{SumOfTAmount()}</th>
+                  <td colSpan="1" />
+                </tr>
+              )}
               {addPaymentRows.length > 0 && (
                 <tr>
                   <td>payment for</td>

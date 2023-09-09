@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
 
 const TestImage = () => {
   const [userData, setUserData] = useState([]);
@@ -55,6 +56,7 @@ const TestImage = () => {
           })}
         </tbody>
       </table>
+      <PaymentTnCPdf />
     </div>
   );
 };

@@ -109,10 +109,9 @@ const PaymentTnCPdf = () => {
             </tr>
             <tr>
               <td colSpan="5">
-                <b>ITEM DETAILS</b>
                 <div className="table">
                   <table className="table table-bordered inner-table border-dark">
-                    <thead>
+                    <thead className="table-dark border-light">
                       <tr>
                         {WishListHeader.map((heading, i) => {
                           return <th key={i}>{heading}</th>;
@@ -131,11 +130,13 @@ const PaymentTnCPdf = () => {
                             <th>456</th>
                             <th>47997</th>
                             <th>7000</th>
+                            <th>7000</th>
+                            <th>7000</th>
                           </tr>
                         );
                       })}
                       <tr className="text-bold">
-                        <th colSpan="5" className="text-end">
+                        <th colSpan="7" className="text-end">
                           TOTAL
                         </th>
                         <th>234</th>

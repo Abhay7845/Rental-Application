@@ -89,7 +89,7 @@ export const constomerType = [
 ];
 
 export const WishListHeader = [
-  "SR. No.",
+  "SR. NO.",
   "ITEMCODE",
   "DESCRIPTION",
   "G. WT.",

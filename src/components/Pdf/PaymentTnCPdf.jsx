@@ -27,7 +27,7 @@ const PaymentTnCPdf = () => {
         {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {

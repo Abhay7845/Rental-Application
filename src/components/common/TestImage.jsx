@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import BookingPdf from "../Pdf/PaymentTnCPdf";
+import DeliveryPdf from "../Pdf/PaymentTnCPdf";
 
 const TestImage = () => {
   const [userData, setUserData] = useState([]);
@@ -56,7 +56,7 @@ const TestImage = () => {
           })}
         </tbody>
       </table>
-      <BookingPdf />
+      <DeliveryPdf />
     </div>
   );
 };

@@ -9,8 +9,8 @@ import {
   PaymentHeading2,
 } from "../../Data/DataList";
 import { UploadImg } from "../../API/HostURL";
-import BookingPdf from "../Pdf/BookingPdf";
 import { BsFillTrashFill } from "react-icons/bs";
+import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -328,7 +328,7 @@ const CashierPaymentDetails = () => {
         <div className="col-12 mb-0">
           <h6 className="bookingHeading d-flex justify-content-between">
             <span className="mt-1">Print Terms & Condition</span>
-            <BookingPdf />
+            <PaymentTnCPdf />
           </h6>
         </div>
         <div className="col-md-6 d-flex">

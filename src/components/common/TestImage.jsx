@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
 
 const TestImage = () => {
   const navigate = useNavigate();
@@ -116,6 +117,7 @@ const TestImage = () => {
         )}
       </div>
       <button onClick={Clickto}>click</button>
+      <PaymentTnCPdf />
     </div>
   );
 };

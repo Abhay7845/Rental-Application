@@ -27,7 +27,7 @@ const PaymentTnCPdf = () => {
         {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -111,7 +111,7 @@ const PaymentTnCPdf = () => {
               <td colSpan="5">
                 <div className="table">
                   <table className="table table-bordered inner-table border-dark">
-                    <thead className="table-dark border-light">
+                    <thead>
                       <tr>
                         {WishListHeader.map((heading, i) => {
                           return <th key={i}>{heading}</th>;
@@ -122,21 +122,23 @@ const PaymentTnCPdf = () => {
                       {userData.map((data, i) => {
                         return (
                           <tr key={i}>
+                            <th>{i + 1}</th>
                             <th>512621FFBSAA00</th>
-                            <th>512621</th>
-                            <th>32.581</th>
+                            <th>Antique Gold</th>
                             <th>32.581</th>
                             <th>678.09</th>
                             <th>456</th>
-                            <th>47997</th>
+                            <th>E2507R</th>
+                            <th>4</th>
                             <th>7000</th>
-                            <th>7000</th>
+                            <th>00.00</th>
+                            <th>00.00</th>
                             <th>7000</th>
                           </tr>
                         );
                       })}
                       <tr className="text-bold">
-                        <th colSpan="7" className="text-end">
+                        <th colSpan="9" className="text-end">
                           TOTAL
                         </th>
                         <th>234</th>
@@ -153,9 +155,10 @@ const PaymentTnCPdf = () => {
                 <table className="table table-bordered border-dark">
                   <thead>
                     <tr>
-                      <th colSpan="5">Payment Details:</th>
+                      <th colSpan="5">Payment Details</th>
                     </tr>
                     <tr>
+                      <th>S. NO.</th>
                       <th>Payment Mode</th>
                       <th>DOC No.</th>
                       <th>Date</th>
@@ -164,13 +167,14 @@ const PaymentTnCPdf = () => {
                   </thead>
                   <tbody>
                     <tr>
+                      <th>1</th>
                       <th>Card</th>
                       <th>-</th>
                       <th>Aug-01</th>
                       <th>700</th>
                     </tr>
                     <tr>
-                      <th colSpan="3" className="text-end">
+                      <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
                       <th>3456</th>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DeliveryPdf from "../Pdf/PaymentTnCPdf";
+import Swal from "sweetalert2";
 
 const TestImage = () => {
   const [userData, setUserData] = useState([]);
@@ -25,6 +25,15 @@ const TestImage = () => {
 
   console.log("selectedItems==>", selectedItems);
   // console.log("userData==>", userData);
+
+  const onClick = () => {
+    Swal.fire({
+      title: "File Uploaded Successfully",
+      icon: "success",
+      confirmButtonColor: "green",
+      confirmButtonText: "OK",
+    });
+  };
 
   return (
     <div className="mx-3 mt-5">
@@ -56,7 +65,7 @@ const TestImage = () => {
           })}
         </tbody>
       </table>
-      <DeliveryPdf />
+      <button onClick={onClick}>clivk</button>
     </div>
   );
 };

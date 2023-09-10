@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import {
@@ -57,7 +58,7 @@ const CashierPaymentDetails = () => {
 
   const SavePaymentRow = () => {
     if (!fileName) {
-      alert("Please Upload File");
+      Swal.fire("Please Upload File");
     } else {
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
@@ -94,7 +95,12 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response);
         if (response.data) {
-          alert("File Uploaded Successfully");
+          Swal.fire({
+            title: "File Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "green",
+            confirmButtonText: "OK",
+          });
         }
         setLoading(false);
       })
@@ -134,7 +140,12 @@ const CashierPaymentDetails = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
-            alert("File Uploaded Successfully");
+            Swal.fire({
+              title: "File Uploaded Successfully",
+              icon: "success",
+              confirmButtonColor: "green",
+              confirmButtonText: "OK",
+            });
             document.getElementById("tncFile").value = "";
           }
           setLoading(false);

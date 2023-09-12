@@ -39,7 +39,7 @@ const Cancellation = () => {
   }
 
   const netAmount =
-    parseInt(amount) + parseInt(cancelCharge) + parseInt(discountAmount);
+    parseInt(amount) + parseInt(cancelCharge) - parseInt(discountAmount);
 
   return (
     <div>
@@ -152,6 +152,7 @@ const Cancellation = () => {
             <input
               type="number"
               className="form-control"
+              placeholder="Discount Amount"
               onChange={(e) => setDiscountAmount(e.target.value)}
             />
           </div>

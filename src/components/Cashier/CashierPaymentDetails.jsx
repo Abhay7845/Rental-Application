@@ -250,9 +250,6 @@ const CashierPaymentDetails = () => {
     }
     if (!tnCFileName) {
       alert("Please Upload T&C File");
-    }
-    if (!paymentDetails.tempBookingRef) {
-      alert("Please Search Data By Phone And Refrence ID");
     } else {
       axios
         .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)

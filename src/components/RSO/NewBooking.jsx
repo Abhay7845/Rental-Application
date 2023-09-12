@@ -250,7 +250,7 @@ const NewBooking = () => {
   };
 
   // BOOKING YUOR PRODUCTS
-  const RaseBookPaymentReq = () => {
+  const RaiseBookPaymentReq = () => {
     if (!bookingRSO) {
       alert("Please Enter RSO Name");
     } else {
@@ -478,7 +478,7 @@ const NewBooking = () => {
             <button
               type="button"
               className="CButton mx-2"
-              onClick={RaseBookPaymentReq}
+              onClick={RaiseBookPaymentReq}
             >
               Raise Payment Request
             </button>

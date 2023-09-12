@@ -4,19 +4,24 @@ export const DataList = [
     name: "Leanne Graham",
     username: "Bret",
     email: "Sincere@april.biz",
-    address: {
-      street: "Kulas Light",
-      suite: "Apt. 556",
-      city: "Gwenborough",
-      zipcode: "92998-3874",
-    },
     phone: "1-770-736-8031 x56442",
     website: "hildegard.org",
-    company: {
-      name: "Romaguera-Crona",
-      catchPhrase: "Multi-layered client-server neural-net",
-      bs: "harness real-time e-markets",
-    },
+  },
+  {
+    id: 2,
+    name: "Leanne Graham",
+    username: "Bret",
+    email: "Sincere@april.biz",
+    phone: "1-770-736-8031 x56442",
+    website: "hildegard.org",
+  },
+  {
+    id: 3,
+    name: "Leanne Graham",
+    username: "Bret",
+    email: "Sincere@april.biz",
+    phone: "1-770-736-8031 x56442",
+    website: "hildegard.org",
   },
 ];
 export const packageDayOption = [
@@ -98,14 +103,9 @@ export const WishListHeader = [
   "CFA CODE",
   "G. WT.",
   "N. WT.",
-  // "BASE PRICE",
-  // "HSN CODE",
-  // "#OF DAYS",
   "PRODUCT VALUE",
   "RENTAL VALUE",
   "DEPOSIT VALUE",
-  // "DISCOUNT",
-  // "NET CHARGES",
 ];
 export const AddedTocCart = [
   "ITEMCODE",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import {
@@ -34,8 +35,9 @@ const CashierPaymentDetails = () => {
   // TERMS AND CONDITION FILE UPLOAD
   const [tnCfile, setTnCfile] = useState("");
   const [tnCFileName, setTnCFileName] = useState("");
-  console.log("tnCFileName==>", tnCFileName);
-  console.log("tnCfile==>", tnCfile);
+  const [cashierName, setCashierName] = useState("");
+  console.log("tnCFileName===>", tnCFileName);
+  console.log("cashierName===>", cashierName);
 
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -113,7 +115,7 @@ const CashierPaymentDetails = () => {
     setLoading(true);
     const formData = new FormData();
     const fileExtention = fileUpload.name.split(".");
-    const UploadFileName = `${paymentDetails.mobileNo}${currentDate}.${fileExtention[1]}`;
+    const UploadFileName = `${paymentDetails.mobileNo}${currentDate}${RandomDigit}.${fileExtention[1]}`;
     setFileName(UploadFileName);
     formData.append("ImgName", UploadFileName);
     formData.append("files", fileUpload);
@@ -181,7 +183,7 @@ const CashierPaymentDetails = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = tnCfile.name.split(".");
-      const tncFileName = `tnc${paymentDetails.mobileNo}${currentDate}.${fileExtention[1]}`;
+      const tncFileName = `tnc${paymentDetails.mobileNo}${currentDate}${RandomDigit}.${fileExtention[1]}`;
       setTnCFileName(tncFileName);
       formData.append("ImgName", tncFileName);
       formData.append("files", tnCfile);
@@ -215,7 +217,12 @@ const CashierPaymentDetails = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            alert("Payment Submitet Successfully");
+            Swal.fire({
+              title: "Payment Submited Successfully",
+              icon: "success",
+              confirmButtonColor: "#008080",
+              confirmButtonText: "OK",
+            });
             setSavePaymetRow([]);
           }
           setLoading(false);
@@ -225,10 +232,40 @@ const CashierPaymentDetails = () => {
           setLoading(false);
         });
     } else {
-      alert("Total Amount not Equal to Rental Amount");
+      alert("Total Amount Not Equal to Rental Amount");
     }
   };
-
+  const SubmitPaymentDetails = () => {
+    const submitPaymentData = {
+      bookingRefNo: bookingRefID,
+      cashierName: cashierName,
+      status: "bookinCompleted",
+      tempRefNo: paymentDetails.tempBookingRef,
+      tncFileName: tnCFileName,
+    };
+    console.log("submitPaymentData===>", submitPaymentData);
+    axios
+      .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Payment Saved Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+          setAddPaymentRows([]);
+          setPaymentDetails({});
+          setCashierName("");
+        }
+      })
+      .then((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  };
   return (
     <div>
       <Navbar />
@@ -309,7 +346,7 @@ const CashierPaymentDetails = () => {
                   <th colSpan="3" className="text-end">
                     TOTAL
                   </th>
-                  <th>{TotalAmount}</th>
+                  <th>{TotalAmount.toString()}</th>
                   <td colSpan="1" />
                 </tr>
               )}
@@ -412,8 +449,18 @@ const CashierPaymentDetails = () => {
             Upload
           </button>
         </div>
+        <div className="col-md-6">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Cashier Name"
+            onChange={(e) => setCashierName(e.target.value)}
+          />
+        </div>
         <div className="col-12 d-flex justify-content-end mb-4">
-          <button className="CButton">Submit</button>
+          <button className="CButton" onClick={SubmitPaymentDetails}>
+            Submit
+          </button>
         </div>
       </div>
     </div>

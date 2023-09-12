@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import axios from "axios";
-import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import {
@@ -57,27 +56,27 @@ const CashierPaymentDetails = () => {
   };
 
   const SavePaymentRow = () => {
-    if (!fileName) {
-      Swal.fire("Please Upload File");
-    } else {
-      setPaymentRowId(paymentRowId + 1);
-      const savePaymentDetails = {
-        id: paymentRowId,
-        amount: parseInt(amount),
-        bookingRefId: "",
-        createDate: "2023-09-08T06:54:32.865Z",
-        fileName: fileName,
-        paymentFor: paymentDetails.paymentRequestFor,
-        paymentType: paymentType,
-        txnRefNo: tnxRefNo,
-      };
-      setSavePaymetRow([...savePaymetRow, savePaymentDetails]);
-      setAddPaymentRows([]);
-      setFileName("");
-    }
+    // if (!fileName) {
+    //   alert("Please Upload File");
+    // } else {
+    setPaymentRowId(paymentRowId + 1);
+    const savePaymentDetails = {
+      // id: paymentRowId,
+      amount: parseFloat(amount),
+      bookingId: parseInt(paymentDetails.bookingId),
+      createDate: null,
+      fileName: fileName,
+      paymentFor: paymentDetails.paymentRequestFor,
+      paymentType: paymentType,
+      txnRefNo: tnxRefNo,
+      tempRefNo: paymentDetails.tempBookingRef,
+      status: "Completed",
+    };
+    setSavePaymetRow([...savePaymetRow, savePaymentDetails]);
+    setAddPaymentRows([]);
+    setFileName("");
+    // }
   };
-
-  console.log("savePaymetRow==>", savePaymetRow);
 
   const UploadFile = () => {
     setLoading(true);
@@ -95,12 +94,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response);
         if (response.data) {
-          Swal.fire({
-            title: "File Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "green",
-            confirmButtonText: "OK",
-          });
+          alert("File Uploaded Successfully");
         }
         setLoading(false);
       })
@@ -119,6 +113,7 @@ const CashierPaymentDetails = () => {
     for (let num of TAmount) total = total + num;
     return total;
   };
+  const TotalAmount = SumOfTAmount();
 
   // UPLOAD TNC FUNCTION
   const UploadTnCFile = () => {
@@ -140,12 +135,7 @@ const CashierPaymentDetails = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
-            Swal.fire({
-              title: "File Uploaded Successfully",
-              icon: "success",
-              confirmButtonColor: "green",
-              confirmButtonText: "OK",
-            });
+            alert("File Uploaded Successfully");
             document.getElementById("tncFile").value = "";
           }
           setLoading(false);
@@ -158,21 +148,27 @@ const CashierPaymentDetails = () => {
   };
 
   const SubmitPayment = () => {
-    setLoading(true);
-    console.log("savePaymetRow==>", savePaymetRow);
-    axios
-      .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          console.log("response==>", response);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error=>", error);
-        setLoading(false);
-      });
+    if (parseInt(paymentDetails.rentValue) === TotalAmount) {
+      setLoading(true);
+      console.log("savePaymetRow==>", savePaymetRow);
+      axios
+        .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
+        .then((res) => res)
+        .then((response) => {
+          console.log();
+          if (response.data.code === "1000") {
+            console.log("response==>", response.data);
+            setSavePaymetRow([]);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error=>", error);
+          setLoading(false);
+        });
+    } else {
+      alert("Total Amount not Equal to Rental Amount");
+    }
   };
   return (
     <div>
@@ -198,7 +194,6 @@ const CashierPaymentDetails = () => {
             Search
           </button>
         </div>
-
         <div className="col-12 table-responsive mx-0">
           <table className="table table-bordered table-hover border-dark">
             <thead className="table-dark border-light">
@@ -238,7 +233,7 @@ const CashierPaymentDetails = () => {
                   <tr key={i}>
                     <td>{item.paymentFor}</td>
                     <td>{item.paymentType}</td>
-                    <td>{item.paymentFor}</td>
+                    <td>{item.txnRefNo}</td>
                     <td>{item.amount.toString()}</td>
                     <td className="d-flex justify-content-between">
                       {item.fileName}
@@ -255,7 +250,7 @@ const CashierPaymentDetails = () => {
                   <th colSpan="3" className="text-end">
                     TOTAL
                   </th>
-                  <th>{SumOfTAmount()}</th>
+                  <th>{TotalAmount}</th>
                   <td colSpan="1" />
                 </tr>
               )}

@@ -8,12 +8,17 @@ import {
   PaymentHeading1,
   PaymentHeading2,
 } from "../../Data/DataList";
-import { UploadImg } from "../../API/HostURL";
+import { UploadImg, FetchImg } from "../../API/HostURL";
 import { BsFillTrashFill } from "react-icons/bs";
 import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
+import moment from "moment/moment";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
+  const storeCode = localStorage.getItem("storeCode");
+  const currentDate = moment().format("YYYY-MM-DD");
+  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+  const bookingRefID = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [searchValue, setSearchValue] = useState("");
   const [paymentDetails, setPaymentDetails] = useState({});
   // ADD ROW
@@ -26,11 +31,11 @@ const CashierPaymentDetails = () => {
   const [amount, setAmount] = useState("");
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState("");
-  const miliSecond = new Date().getUTCMilliseconds();
   // TERMS AND CONDITION FILE UPLOAD
   const [tnCfile, setTnCfile] = useState("");
   const [tnCFileName, setTnCFileName] = useState("");
   console.log("tnCFileName==>", tnCFileName);
+  console.log("tnCfile==>", tnCfile);
 
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -54,7 +59,6 @@ const CashierPaymentDetails = () => {
     setCount(count + 1);
     setAddPaymentRows([...addPaymentRows, count + 1]);
   };
-
   const SavePaymentRow = () => {
     // if (!fileName) {
     //   alert("Please Upload File");
@@ -78,11 +82,37 @@ const CashierPaymentDetails = () => {
     // }
   };
 
-  const UploadFile = () => {
+  const PaymentFileImage = (UploadFileName) => {
+    const paymentUploadFile = {
+      bookingRefId: bookingRefID,
+      contentFor: "newBooking",
+      createdDate: currentDate,
+      documentType: "PaymentDocument",
+      fileName: UploadFileName,
+      fileSize: `${fileUpload.size}`,
+      fileType: `${fileUpload.type}`,
+      fileURL: `${FetchImg}${UploadFileName}`,
+      updatedDate: null,
+    };
+    console.log("paymentUploadFile==>", paymentUploadFile);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, paymentUploadFile)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          alert("Uploaded Successfully");
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+      });
+  };
+  const UploadPaymentFile = () => {
     setLoading(true);
     const formData = new FormData();
     const fileExtention = fileUpload.name.split(".");
-    const UploadFileName = `${paymentType}${miliSecond}.${fileExtention[1]}`;
+    const UploadFileName = `${paymentDetails.mobileNo}${currentDate}.${fileExtention[1]}`;
     setFileName(UploadFileName);
     formData.append("ImgName", UploadFileName);
     formData.append("files", fileUpload);
@@ -94,7 +124,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response);
         if (response.data) {
-          alert("File Uploaded Successfully");
+          PaymentFileImage(UploadFileName);
         }
         setLoading(false);
       })
@@ -115,6 +145,32 @@ const CashierPaymentDetails = () => {
   };
   const TotalAmount = SumOfTAmount();
 
+  const UpdateBookingFile = (tncFileName) => {
+    const updateBookingInput = {
+      bookingRefId: bookingRefID,
+      contentFor: "newBooking",
+      createdDate: currentDate,
+      documentType: "tncDocument",
+      fileName: tncFileName,
+      fileSize: `${tnCfile.size}`,
+      fileType: `${tnCfile.type}`,
+      fileURL: `${FetchImg}${tncFileName}`,
+      updatedDate: null,
+    };
+    console.log("updateBookingInput==>", updateBookingInput);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          alert("Uploaded Successfully");
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+      });
+  };
   // UPLOAD TNC FUNCTION
   const UploadTnCFile = () => {
     if (!tnCfile) {
@@ -123,7 +179,7 @@ const CashierPaymentDetails = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = tnCfile.name.split(".");
-      const tncFileName = `${paymentType}${miliSecond}.${fileExtention[1]}`;
+      const tncFileName = `tnc${paymentDetails.mobileNo}${currentDate}.${fileExtention[1]}`;
       setTnCFileName(tncFileName);
       formData.append("ImgName", tncFileName);
       formData.append("files", tnCfile);
@@ -135,7 +191,7 @@ const CashierPaymentDetails = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
-            alert("File Uploaded Successfully");
+            UpdateBookingFile(tncFileName);
             document.getElementById("tncFile").value = "";
           }
           setLoading(false);
@@ -170,6 +226,7 @@ const CashierPaymentDetails = () => {
       alert("Total Amount not Equal to Rental Amount");
     }
   };
+
   return (
     <div>
       <Navbar />
@@ -295,8 +352,12 @@ const CashierPaymentDetails = () => {
                       type="file"
                       className="form-control"
                       onChange={(e) => setFileUpload(e.target.files[0])}
+                      accept=".jpg, .jpeg, .png"
                     />
-                    <button className="CButton mx-1" onClick={UploadFile}>
+                    <button
+                      className="CButton mx-1"
+                      onClick={UploadPaymentFile}
+                    >
                       Upload
                     </button>
                   </td>
@@ -342,6 +403,7 @@ const CashierPaymentDetails = () => {
             type="file"
             id="tncFile"
             className="form-control mx-2"
+            accept=".jpg, .jpeg, .png"
             onChange={(e) => setTnCfile(e.target.files[0])}
           />
           <button className="CButton" onClick={UploadTnCFile}>

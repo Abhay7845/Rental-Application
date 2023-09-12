@@ -106,6 +106,7 @@ const CashierPaymentDetails = () => {
       })
       .catch((error) => {
         console.log("error==>", error);
+        setLoading(false);
       });
   };
   const UploadPaymentFile = () => {
@@ -169,6 +170,7 @@ const CashierPaymentDetails = () => {
       })
       .catch((error) => {
         console.log("error==>", error);
+        setLoading(false);
       });
   };
   // UPLOAD TNC FUNCTION

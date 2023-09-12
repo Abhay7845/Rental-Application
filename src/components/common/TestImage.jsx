@@ -24,7 +24,6 @@ const TestImage = () => {
   };
 
   console.log("selectedItems==>", selectedItems);
-  // console.log("userData==>", userData);
 
   const onClick = () => {
     Swal.fire({
@@ -65,7 +64,7 @@ const TestImage = () => {
           })}
         </tbody>
       </table>
-      <button onClick={onClick}>clivk</button>
+      <button onClick={onClick}>click</button>
     </div>
   );
 };

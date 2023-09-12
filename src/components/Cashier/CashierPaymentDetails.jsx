@@ -218,7 +218,8 @@ const CashierPaymentDetails = () => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
             Swal.fire({
-              title: "Payment Submited Successfully",
+              title: "Success",
+              text: "Payment Submited Successfully",
               icon: "success",
               confirmButtonColor: "#008080",
               confirmButtonText: "OK",
@@ -244,27 +245,38 @@ const CashierPaymentDetails = () => {
       tncFileName: tnCFileName,
     };
     console.log("submitPaymentData===>", submitPaymentData);
-    axios
-      .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response.data);
-        if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Payment Saved Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
-          setAddPaymentRows([]);
-          setPaymentDetails({});
-          setCashierName("");
-        }
-      })
-      .then((error) => {
-        console.log("error=>", error);
-        setLoading(false);
-      });
+    if (!cashierName) {
+      alert("Please Enter Cashier Name");
+    }
+    if (!tnCFileName) {
+      alert("Please Upload T&C File");
+    }
+    if (!paymentDetails.tempBookingRef) {
+      alert("Please Search Data By Phone And Refrence ID");
+    } else {
+      axios
+        .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data.code === "1000") {
+            Swal.fire({
+              title: "Success",
+              text: "Payment Saved Successfully",
+              icon: "success",
+              confirmButtonColor: "#008080",
+              confirmButtonText: "OK",
+            });
+            setAddPaymentRows([]);
+            setPaymentDetails({});
+            setCashierName("");
+          }
+        })
+        .then((error) => {
+          console.log("error=>", error);
+          setLoading(false);
+        });
+    }
   };
   return (
     <div>
@@ -459,7 +471,7 @@ const CashierPaymentDetails = () => {
         </div>
         <div className="col-12 d-flex justify-content-end mb-4">
           <button className="CButton" onClick={SubmitPaymentDetails}>
-            Submit
+            Save Payment
           </button>
         </div>
       </div>

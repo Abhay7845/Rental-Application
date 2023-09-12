@@ -31,6 +31,7 @@ const ProductsDetails = () => {
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
   const storeCode = localStorage.getItem("storeCode");
+  const [availableNotAvailable, setAvailableNotAvailable] = useState([]);
   const navigate = useNavigate();
 
   const GetProductDetails = (payload) => {
@@ -80,6 +81,7 @@ const ProductsDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
+          setAvailableNotAvailable(response.data.value);
           GetProductDetails(payload);
         }
         setLoading(false);
@@ -91,6 +93,7 @@ const ProductsDetails = () => {
   };
   const GetProductData = productDetails.map((data) => {
     return {
+      id: data.id,
       cfa: data.cfa,
       grossWt: data.grossWt,
       huID: data.huID,
@@ -336,6 +339,7 @@ const ProductsDetails = () => {
                           onClick={() => SelectedProducts(data)}
                         />
                       </td>
+                      <td>{data.id}</td>
                       <td>{data.itemCode}</td>
                       <td>{data.description}</td>
                       <td>{data.pdtID}</td>
@@ -346,7 +350,7 @@ const ProductsDetails = () => {
                       <td>{data.productValue}</td>
                       <td>{data.rentalRate}</td>
                       <td>{data.depositRate}</td>
-                      <td>{data.status}</td>
+                      <td>{availableNotAvailable[i].productStatus}</td>
                     </tr>
                   );
                 })}

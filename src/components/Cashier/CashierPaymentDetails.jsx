@@ -155,9 +155,9 @@ const CashierPaymentDetails = () => {
         .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
         .then((res) => res)
         .then((response) => {
-          console.log();
+          console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            console.log("response==>", response.data);
+            alert("Payment Submitet Successfully");
             setSavePaymetRow([]);
           }
           setLoading(false);

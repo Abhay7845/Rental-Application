@@ -480,11 +480,25 @@ const CashierPaymentDetails = () => {
 
             {paymentDetails.paymentRequestFor.toUpperCase() ===
               "NEWBOOKING" && (
-              <div className="col-12 mb-0">
-                <h6 className="bookingHeading d-flex justify-content-between">
-                  <span className="mt-1">Print Terms & Condition</span>
-                  <PaymentTnCPdf />
-                </h6>
+              <div>
+                <div className="col-12 mb-0">
+                  <h6 className="bookingHeading d-flex justify-content-between">
+                    <span className="mt-1">Print Terms & Condition</span>
+                    <PaymentTnCPdf />
+                  </h6>
+                </div>
+                <div className="col-md-6 d-flex">
+                  <input
+                    type="file"
+                    id="tncFile"
+                    className="form-control mx-2"
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(e) => setTnCfile(e.target.files[0])}
+                  />
+                  <button className="CButton" onClick={UploadTnCFile}>
+                    Upload
+                  </button>
+                </div>
               </div>
             )}
             {paymentDetails.paymentRequestFor.toUpperCase() ===
@@ -514,18 +528,7 @@ const CashierPaymentDetails = () => {
                 </h6>
               </div>
             )}
-            <div className="col-md-6 d-flex">
-              <input
-                type="file"
-                id="tncFile"
-                className="form-control mx-2"
-                accept=".jpg, .jpeg, .png"
-                onChange={(e) => setTnCfile(e.target.files[0])}
-              />
-              <button className="CButton" onClick={UploadTnCFile}>
-                Upload
-              </button>
-            </div>
+
             <div className="col-md-6">
               <input
                 type="text"

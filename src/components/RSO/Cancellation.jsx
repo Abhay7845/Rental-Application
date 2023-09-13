@@ -106,9 +106,9 @@ const Cancellation = () => {
                           <td>IKFDSVAKFVKNRESC</td>
                           <td>{item.name}</td>
                           <td>{item.phone}</td>
-                          <td>{item.email}</td>
-                          <td>{item.website}</td>
-                          <td>{item.address.city}</td>
+                          <td>{item.name}</td>
+                          <td>{item.name}</td>
+                          <td>{item.name}</td>
                         </tr>
                       );
                     })}
@@ -142,7 +142,7 @@ const Cancellation = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Cancaletion Charge"
+              placeholder="Cancellation Charge"
               value={!cancelCharge ? "" : cancelCharge}
               disabled
             />
@@ -166,26 +166,6 @@ const Cancellation = () => {
               disabled
             />
           </div>
-          <div className="col-12">
-            <h6 className="bookingHeading mb-0">Amount Paid Reference</h6>
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Booking Type</label>
-            <select className="form-control">
-              <option>Select Type</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">2</option>
-            </select>
-          </div>
-          <div className="col-md-4">
-            <label className="form-label">Refrence Number</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Refrence Number"
-            />
-          </div>
           <div className="col-md-4">
             <label className="form-label">Amount</label>
             <input
@@ -196,7 +176,6 @@ const Cancellation = () => {
               disabled
             />
           </div>
-
           {DataList.length > 0 && (
             <div className="col-12 mb-4">
               <h6 className="bookingHeading">Charges Overview</h6>

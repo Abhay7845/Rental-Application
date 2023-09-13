@@ -51,6 +51,15 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           setGetPaymentData(response.data.value);
         }
+        if (response.data.code === "1001") {
+          Swal.fire({
+            title: "Not Found",
+            text: "Data Not Available",
+            icon: "warning",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
         setLoading(false);
       })
       .catch((error) => {

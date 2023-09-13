@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
-import { DataList } from "../../Data/DataList";
 import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
 import BookingPdf from "../Pdf/BookingPdf";
+import axios from "axios";
+import Loader from "../common/Loader";
+import { ReturnPage } from "../../Data/DataList";
 
 const RentalReturn = () => {
+  const [loading, setLoading] = useState(false);
+  const [retunTableData, setRetunTableData] = useState([]);
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
   const [deliveryProductFile, setDeliveryProductImg] = useState(null);
 
@@ -25,8 +29,28 @@ const RentalReturn = () => {
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(
+        `https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental/fetch/table/common/data/MAMTHA/MAMTHA-R-2023-09-05-382`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setRetunTableData(response.data.value);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div>
+      {loading === true && <Loader />}
       <Navbar />
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
@@ -99,40 +123,32 @@ const RentalReturn = () => {
             />
           </div>
 
-          {DataList.length > 0 && (
+          {retunTableData.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
                 <table className="table table-bordered table-hover border-dark">
                   <thead className="table-dark border-light">
                     <tr>
-                      <th>Item_Code</th>
-                      <th>Lot_No.</th>
-                      <th>No._Of_PCS</th>
-                      <th>HUID</th>
-                      <th>CFA</th>
-                      <th>Gross_Weight</th>
-                      <th>Product_Value</th>
-                      <th>Rental_Amount</th>
-                      <th>Deposit_Amount</th>
-                      <th>Actual_Wt_Delivery</th>
-                      <th>Actual_Wt_Return</th>
+                      {ReturnPage.map((heading, i) => {
+                        return <td key={i}>{heading}</td>;
+                      })}
                     </tr>
                   </thead>
                   <tbody>
-                    {DataList.map((item, i) => {
+                    {retunTableData.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td>IKFDSVAKF</td>
-                          <td>23</td>
-                          <td>54</td>
-                          <td>34</td>
-                          <td>12</td>
-                          <td>7</td>
-                          <td>6</td>
-                          <td>43</td>
-                          <td>2</td>
-                          <td>234</td>
+                          <td>{item.itemCode}</td>
+                          <td>{item.lotNo}</td>
+                          <td>{item.noOfPc}</td>
+                          <td>{item.productHUID}</td>
+                          <td>{item.cfa}</td>
+                          <td>{item.grossWt}</td>
+                          <td>{item.productValue}</td>
+                          <td>{item.rentalAmount}</td>
+                          <td>{item.depositAmount}</td>
+                          <td>{item.deliveredWt}</td>
                           <td>
                             <input
                               type="number"

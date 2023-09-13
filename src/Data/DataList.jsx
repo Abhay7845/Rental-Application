@@ -129,3 +129,17 @@ export const PaymentHeading2 = [
   "Amount",
   "File",
 ];
+
+export const ReturnPage = [
+  "ItemCode",
+  "Lot No.",
+  "No. PCS",
+  "HUID",
+  "CFA",
+  "Gross Wt",
+  "Product Value",
+  "Rental Amount",
+  "Deposit Amount",
+  "Actual Wt Delivery",
+  "Actual Wt Return",
+];

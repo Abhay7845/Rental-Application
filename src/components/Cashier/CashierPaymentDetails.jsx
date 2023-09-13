@@ -256,7 +256,7 @@ const CashierPaymentDetails = () => {
     const submitPaymentData = {
       bookingRefNo: bookingRefID,
       cashierName: cashierName,
-      status: "bookinCompleted",
+      status: "bookingCompleted",
       tempRefNo: paymentDetails.tempBookingRef,
       tncFileName: tnCFileName,
     };
@@ -353,7 +353,6 @@ const CashierPaymentDetails = () => {
             </table>
           </div>
         )}
-
         {paymentDetails.pdtId && (
           <div className="row g-3 mt-3 mx-0">
             <div className="col-12 table-responsive mx-0">
@@ -528,8 +527,7 @@ const CashierPaymentDetails = () => {
                 </h6>
               </div>
             )}
-
-            <div className="col-md-6">
+            <div className="col-md-12">
               <input
                 type="text"
                 className="form-control"

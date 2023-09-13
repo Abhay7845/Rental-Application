@@ -166,7 +166,7 @@ const CashierPaymentDetails = () => {
   const UpdateBookingFile = (tncFileName) => {
     const updateBookingInput = {
       bookingRefId: bookingRefID,
-      contentFor: "newBooking",
+      contentFor: `${paymentDetails.paymentRequestFor}`,
       createdDate: currentDate,
       documentType: "tncDocument",
       fileName: tncFileName,
@@ -190,6 +190,7 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+
   // UPLOAD TNC FUNCTION
   const UploadTnCFile = () => {
     if (!tnCfile) {
@@ -198,7 +199,7 @@ const CashierPaymentDetails = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = tnCfile.name.split(".");
-      const tncFileName = `tnc${paymentDetails.mobileNo}${currentDate}${RandomDigit}.${fileExtention[1]}`;
+      const tncFileName = `${paymentDetails.paymentRequestFor}${paymentDetails.mobileNo}${currentDate}${RandomDigit}.${fileExtention[1]}`;
       setTnCFileName(tncFileName);
       formData.append("ImgName", tncFileName);
       formData.append("files", tnCfile);

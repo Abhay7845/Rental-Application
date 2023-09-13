@@ -133,13 +133,12 @@ export const PaymentHeading2 = [
 export const ReturnPage = [
   "ItemCode",
   "Lot No.",
-  "No. PCS",
-  "HUID",
-  "CFA",
   "Gross Wt",
-  "Product Value",
-  "Rental Amount",
-  "Deposit Amount",
   "Actual Wt Delivery",
   "Actual Wt Return",
+  "Product Value",
+  "Rental Amount",
+  "Penalty Charges",
+  "Damage Charges",
+  "Physical Damage",
 ];

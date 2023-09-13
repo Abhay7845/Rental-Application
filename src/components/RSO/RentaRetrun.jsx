@@ -41,6 +41,7 @@ const RentalReturn = () => {
       )
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setRetunTableData(response.data.value);
         }
@@ -65,6 +66,10 @@ const RentalReturn = () => {
           </div>
           <div className="col-3">
             <label className="form-label">Return Date</label>
+            <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
+          </div>
+          <div className="col-3">
+            <label className="form-label">Issue Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-3">
@@ -156,19 +161,23 @@ const RentalReturn = () => {
                         <tr key={i}>
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
-                          <td>{item.noOfPc}</td>
-                          <td>{item.productHUID}</td>
-                          <td>{item.cfa}</td>
                           <td>{item.grossWt}</td>
-                          <td>{item.productValue}</td>
-                          <td>{item.rentalAmount}</td>
-                          <td>{item.depositAmount}</td>
                           <td>{item.deliveredWt}</td>
                           <td>
                             <input
                               type="number"
                               placeholder="Actual_Wt at Return"
                             />
+                          </td>
+                          <td>{item.rentalAmount}</td>
+                          <td>{item.productValue}</td>
+                          <td>{item.penaltyValue}</td>
+                          <td>{item.penaltyValue}</td>
+                          <td>
+                            <select className="w-100">
+                              <option>NO</option>
+                              <option>Yes</option>
+                            </select>
                           </td>
                         </tr>
                       );

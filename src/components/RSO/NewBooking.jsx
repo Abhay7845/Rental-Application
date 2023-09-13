@@ -389,9 +389,9 @@ const NewBooking = () => {
           {!existedUserData.customerBankName ||
           !existedUserData.customerAccountNumber ? (
             <div className="col-4">
-              <label className="form-label text-danger">
+              <span className="form-label text-danger">
                 <b>PLEASE ADD YOUR BANK DETAILS</b>
-              </label>
+              </span>
               <br />
               <button
                 className="CButton"
@@ -404,9 +404,9 @@ const NewBooking = () => {
             </div>
           ) : (
             <div className="col-4">
-              <label className="form-label text-success">
+              <lebel className="form-label text-success">
                 <b>BANK DETAILS ARE AVAILABLE</b>
-              </label>
+              </lebel>
             </div>
           )}
           <div className="col-6">

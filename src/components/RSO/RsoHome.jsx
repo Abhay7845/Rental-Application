@@ -163,7 +163,7 @@ const Home = () => {
           <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
             <button
               type="button"
-              className={`${btn ? "CancelButton" : "CnDisabled"}`}
+              className={btn ? "CancelButton" : "CnDisabled"}
               disabled={btn ? false : true}
               onClick={CancelProducts}
             >
@@ -171,7 +171,7 @@ const Home = () => {
             </button>
             <button
               type="button"
-              className={`${btn ? "CButton mx-2" : "CDisabled mx-2"}`}
+              className={btn ? "CButton mx-2" : "CDisabled mx-2"}
               disabled={btn ? false : true}
               onClick={RentalIssueProducts}
             >
@@ -179,7 +179,7 @@ const Home = () => {
             </button>
             <button
               type="button"
-              className={`${btn ? "CButton" : "CDisabled"}`}
+              className={btn ? "CButton" : "CDisabled"}
               disabled={btn ? false : true}
               onClick={RentalRetunProducts}
             >

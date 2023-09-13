@@ -31,24 +31,52 @@ const RentalIssue = () => {
   const BanckIfcseCode = bankIfsc.toUpperCase();
   const [retunTableData, setRetunTableData] = useState([]);
   const [productImg, setProductImg] = useState([]);
+  const [productFileName, setProductFileName] = useState("");
+  console.log("productFileName==>", productFileName);
 
   // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
+  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
 
   const UploadProductImg = () => {
-    if (!productImg) {
+    if (productImg.length === 0) {
       alert("Please Choose File");
     } else {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setDeliveryProductImg(reader.result);
-      };
-      if (productImg) {
-        reader.readAsDataURL(productImg);
-      }
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = productImg.name.split(".");
+      const productFile = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
+      console.log("proDuctFile==>", productFile);
+      setProductFileName(productFile);
+      formData.append("ImgName", productFile);
+      formData.append("files", productImg);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setDeliveryProductImg(reader.result);
+            };
+            if (productImg) {
+              reader.readAsDataURL(productImg);
+            }
+            alert("File Uploaded Successfully");
+            setProductImg([]);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
     }
   };
 
@@ -190,33 +218,33 @@ const RentalIssue = () => {
 
   // ADD ROW DETAISL
   const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
-  const [deliveryProductId, setDeliveryProductId] = useState(0);
-  const [addDeliveryProducts, setAddDeliveryProducts] = useState([]);
-  const [deliveryRowCont, setDeliveryRowCont] = useState(0);
-  const [addDeliveryItems, setAddDeliveryItems] = useState([]);
+  const [rowId, setRowId] = useState(0);
+  const [addProducts, setAddProducts] = useState([]);
+  const [productRowCont, setProductRowCont] = useState(0);
+  const [addedItems, setAddedItems] = useState([]);
 
-  const SaveItemsDetails = () => {
+  const SaveProductRow = () => {
     if (!deliveryProductItemCode) {
       alert("Please Enter All Details");
     } else {
-      setDeliveryProductId(deliveryProductId + 1);
+      setRowId(rowId + 1);
       const deliveryProductsTable = {
-        id: deliveryRowCont,
+        id: productRowCont,
         itemCode: deliveryProductItemCode,
         delieryProductFile: deliveryProductFile,
       };
-      setAddDeliveryProducts([...addDeliveryProducts, deliveryProductsTable]);
-      setAddDeliveryItems([]);
+      setAddProducts([...addProducts, deliveryProductsTable]);
+      setAddedItems([]);
     }
   };
 
   const AddDeliveryRowsInputs = () => {
-    setDeliveryRowCont(deliveryRowCont + 1);
-    setAddDeliveryItems([...addDeliveryItems, deliveryRowCont + 1]);
+    setProductRowCont(productRowCont + 1);
+    setAddedItems([...addedItems, productRowCont + 1]);
   };
   const DeleteProductRow = (id) => {
-    const updatedData = addDeliveryProducts.filter((rowId) => rowId.id !== id);
-    setAddDeliveryProducts(updatedData);
+    const updatedData = addProducts.filter((rowId) => rowId.id !== id);
+    setAddProducts(updatedData);
   };
 
   return (
@@ -396,7 +424,7 @@ const RentalIssue = () => {
                 </tr>
               </thead>
               <tbody>
-                {addDeliveryProducts.map((item, i) => {
+                {addProducts.map((item, i) => {
                   return (
                     <tr key={i}>
                       <td>{item.itemCode}</td>
@@ -417,7 +445,7 @@ const RentalIssue = () => {
                     </tr>
                   );
                 })}
-                {addDeliveryItems.length > 0 && (
+                {addedItems.length > 0 && (
                   <tr>
                     <td>
                       <input
@@ -432,6 +460,7 @@ const RentalIssue = () => {
                     <td className="d-flex justify-content-between">
                       <input
                         type="file"
+                        id="prodcutFile"
                         onChange={(e) => setProductImg(e.target.files[0])}
                       />
                       <button className="CButton" onClick={UploadProductImg}>
@@ -439,7 +468,7 @@ const RentalIssue = () => {
                       </button>
                       <BsFillTrashFill
                         className="DeleteRow"
-                        onClick={() => setAddDeliveryItems([])}
+                        onClick={() => setAddedItems([])}
                       />
                     </td>
                   </tr>
@@ -448,11 +477,11 @@ const RentalIssue = () => {
             </table>
           </div>
           <div className="d-flex justify-content-end mt-0">
-            {addDeliveryItems.length > 0 ? (
+            {addedItems.length > 0 ? (
               <button
                 type="submit"
                 className="CButton"
-                onClick={SaveItemsDetails}
+                onClick={SaveProductRow}
               >
                 Save Row
               </button>

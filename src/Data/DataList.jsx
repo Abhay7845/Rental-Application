@@ -115,7 +115,6 @@ export const FinalInvoicePdfHeaders = [
 ];
 
 export const PaymentHeading1 = [
-  "Prodcut_ID",
   "Customer_Name",
   "Phone_Number",
   "Payment_Req_For",

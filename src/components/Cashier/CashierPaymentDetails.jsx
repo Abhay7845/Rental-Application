@@ -291,6 +291,7 @@ const CashierPaymentDetails = () => {
         });
     }
   };
+  console.log("NewBooking==>", paymentDetails.paymentRequestFor);
   return (
     <div>
       <Navbar />
@@ -339,7 +340,6 @@ const CashierPaymentDetails = () => {
                           onClick={() => OnSelectRow(data)}
                         />
                       </td>
-                      <td>{data.pdtId}</td>
                       <td>{data.customerName}</td>
                       <td>{data.mobileNo}</td>
                       <td>{data.paymentRequestFor}</td>
@@ -353,7 +353,7 @@ const CashierPaymentDetails = () => {
             </table>
           </div>
         )}
-        {paymentDetails.pdtId && (
+        {paymentDetails.bookingId && (
           <div className="row g-3 mt-3 mx-0">
             <div className="col-12 table-responsive mx-0">
               <table className="table table-bordered table-hover border-dark">
@@ -477,8 +477,8 @@ const CashierPaymentDetails = () => {
               )}
             </div>
 
-            {paymentDetails.paymentRequestFor.toUpperCase() ===
-              "NEWBOOKING" && (
+            {paymentDetails.paymentRequestFor ===
+              "Payment_PendingFor_NewBooking" && (
               <div>
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
@@ -500,26 +500,82 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            {paymentDetails.paymentRequestFor.toUpperCase() ===
-              "RENTALISSUENCE" && (
-              <div className="col-12 mb-0">
-                <h6 className="bookingHeading d-flex justify-content-between">
-                  <span className="mt-1">Print RENTALISSUENCE</span>
-                  <PaymentTnCPdf />
-                </h6>
+            {paymentDetails.paymentRequestFor ===
+              "Payment_PendingFor_RentalReturn" && (
+              <div className="row g-2 mx-0">
+                <div className="col-12 mb-0">
+                  <h6 className="bookingHeading d-flex justify-content-between">
+                    <span className="mt-1">
+                      Print Payment_PendingFor_RentalReturn
+                    </span>
+                    <PaymentTnCPdf />
+                  </h6>
+                </div>
+                <div className="col-md-6 d-flex">
+                  <input
+                    type="file"
+                    id="tncFile"
+                    className="form-control mx-2"
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(e) => setTnCfile(e.target.files[0])}
+                  />
+                  <button className="CButton" onClick={UploadTnCFile}>
+                    Upload
+                  </button>
+                </div>
+                <div className="col-md-6 d-flex">
+                  <input
+                    type="file"
+                    id="tncFile"
+                    className="form-control mx-2"
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(e) => setTnCfile(e.target.files[0])}
+                  />
+                  <button className="CButton" onClick={UploadTnCFile}>
+                    Upload
+                  </button>
+                </div>
               </div>
             )}
-            {paymentDetails.paymentRequestFor.toUpperCase() ===
-              "RENTALRETURN" && (
-              <div className="col-12 mb-0">
-                <h6 className="bookingHeading d-flex justify-content-between">
-                  <span className="mt-1">Print RENTALRETURN</span>
-                  <PaymentTnCPdf />
-                </h6>
+            {paymentDetails.paymentRequestFor ===
+              "Payment_PendingFor_RentalIssuence" && (
+              <div className="row g-2 mx-0">
+                <div className="col-12 mb-0">
+                  <h6 className="bookingHeading d-flex justify-content-between">
+                    <span className="mt-1">
+                      Print Payment_PendingFor_RentalIssuence
+                    </span>
+                    <PaymentTnCPdf />
+                  </h6>
+                </div>
+                <div className="col-md-6 d-flex">
+                  <input
+                    type="file"
+                    id="tncFile"
+                    className="form-control mx-2"
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(e) => setTnCfile(e.target.files[0])}
+                  />
+                  <button className="CButton" onClick={UploadTnCFile}>
+                    Upload
+                  </button>
+                </div>
+                <div className="col-md-6 d-flex">
+                  <input
+                    type="file"
+                    id="tncFile"
+                    className="form-control mx-2"
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(e) => setTnCfile(e.target.files[0])}
+                  />
+                  <button className="CButton" onClick={UploadTnCFile}>
+                    Upload
+                  </button>
+                </div>
               </div>
             )}
-            {paymentDetails.paymentRequestFor.toUpperCase() ===
-              "RENTALCANCELLATION" && (
+            {paymentDetails.paymentRequestFor ===
+              "Payment_PendingFor_RentalCacellation" && (
               <div className="col-12 mb-0">
                 <h6 className="bookingHeading d-flex justify-content-between">
                   <span className="mt-1">Print RENTALCANCELLATION</span>

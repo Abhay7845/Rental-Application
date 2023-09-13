@@ -134,6 +134,7 @@ const RentalReturn = () => {
               type="file"
               className="form-control"
               onChange={UploadDeliveryProductImg}
+              disabled={sameCustomer ? true : false}
             />
           </div>
 

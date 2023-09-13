@@ -273,7 +273,9 @@ const RentalIssue = () => {
             />
           </div>
           {!existedUserData.customerBankName ||
-          !existedUserData.customerAccountNumber ? (
+          !existedUserData.customerAccountNumber ||
+          !existedUserData.bankIfsc ||
+          !existedUserData.bankDetailFileName ? (
             <div className="col-12">
               <div className="d-flex justify-content-between">
                 <label className="form-label text-danger">

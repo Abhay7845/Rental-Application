@@ -195,10 +195,6 @@ const RentalReturn = () => {
               </div>
             </div>
           )}
-          <div className="col-md-3">
-            <label className="form-label">Customer Name</label>
-            <input type="file" className="form-control" />
-          </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">

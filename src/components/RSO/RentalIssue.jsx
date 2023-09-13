@@ -6,7 +6,7 @@ import {
   ReturnPage,
   addressTypeOption,
 } from "../../Data/DataList";
-import { BsFillEyeFill } from "react-icons/bs";
+import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
 import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
@@ -183,6 +183,38 @@ const RentalIssue = () => {
         setLoading(false);
       });
   }, [storeCode, GetReturnProduct.refId]);
+
+  // ADD ROW DETAISL
+  const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
+  const [deliveryProductId, setDeliveryProductId] = useState(0);
+  const [addDeliveryProducts, setAddDeliveryProducts] = useState([]);
+  const [deliveryRowCont, setDeliveryRowCont] = useState(0);
+  const [addDeliveryItems, setAddDeliveryItems] = useState([]);
+
+  const SaveItemsDetails = () => {
+    if (!deliveryProductItemCode) {
+      alert("Please Enter All Details");
+    } else {
+      setDeliveryProductId(deliveryProductId + 1);
+      const deliveryProductsTable = {
+        id: deliveryRowCont,
+        itemCode: deliveryProductItemCode,
+        delieryProductFile: deliveryProductFile,
+      };
+      setAddDeliveryProducts([...addDeliveryProducts, deliveryProductsTable]);
+      setAddDeliveryItems([]);
+    }
+  };
+
+  const AddDeliveryRowsInputs = () => {
+    setDeliveryRowCont(deliveryRowCont + 1);
+    setAddDeliveryItems([...addDeliveryItems, deliveryRowCont + 1]);
+  };
+  const DeleteProductRow = (id) => {
+    const updatedData = addDeliveryProducts.filter((rowId) => rowId.id !== id);
+    setAddDeliveryProducts(updatedData);
+  };
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -351,7 +383,79 @@ const RentalIssue = () => {
               </div>
             </div>
           )}
-
+          <div className="table-responsive">
+            <table className="table table-bordered table-hover border-dark">
+              <thead className="table-dark border-light text-center">
+                <tr>
+                  <th>Item Code</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+              <tbody>
+                {addDeliveryProducts.map((item, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>{item.itemCode}</td>
+                      <td className="d-flex justify-content-between">
+                        {deliveryProductFile && (
+                          <img
+                            src={deliveryProductFile}
+                            alt=""
+                            height="30"
+                            width="50"
+                          />
+                        )}
+                        <BsFillTrashFill
+                          className="DeleteRow"
+                          onClick={() => DeleteProductRow(item.id)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+                {addDeliveryItems.length > 0 && (
+                  <tr>
+                    <td>
+                      <input
+                        type="text"
+                        placeholder="Item Code"
+                        className="w-100"
+                        onChange={(e) =>
+                          setDeliveryProductItemCode(e.target.value)
+                        }
+                      />
+                    </td>
+                    <td className="d-flex justify-content-between">
+                      <input type="file" onChange={UploadDeliveryProductImg} />
+                      <BsFillTrashFill
+                        className="DeleteRow"
+                        onClick={() => setAddDeliveryItems([])}
+                      />
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="d-flex justify-content-end mt-0">
+            {addDeliveryItems.length > 0 ? (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={SaveItemsDetails}
+              >
+                Save Row
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="CButton"
+                onClick={AddDeliveryRowsInputs}
+              >
+                Add Row
+              </button>
+            )}
+          </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               Signed Acknowledgement of Product Received after Inspection
@@ -369,16 +473,7 @@ const RentalIssue = () => {
               onChange={(e) => setRSOName(e.target.value)}
             />
           </div>
-          <div className="col-md-2 mt-0">
-            {deliveryProductFile && (
-              <img
-                src={deliveryProductFile}
-                alt="Preview"
-                height="80px"
-                width="100%"
-              />
-            )}
-          </div>
+
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
               Save

@@ -6,12 +6,13 @@ import moment from "moment";
 import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
 import Loader from "../common/Loader";
-import { ReturnPage } from "../../Data/DataList";
+import { ReturnPage, addressTypeOption } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
   const storeCode = localStorage.getItem("storeCode");
+  const [sameCustomer, setSameCustomer] = useState(true);
 
   const [retunTableData, setRetunTableData] = useState([]);
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
@@ -79,6 +80,8 @@ const RentalReturn = () => {
             <input
               className="form-check-input mx-3 border-dark"
               type="checkbox"
+              checked={sameCustomer}
+              onChange={() => setSameCustomer(!sameCustomer)}
             />
           </div>
           <div className="col-md-3">
@@ -87,14 +90,22 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Customer Name"
-              disabled
+              disabled={sameCustomer ? true : false}
             />
           </div>
           <div className="col-md-3">
             <label className="form-label">Customer ID Type</label>
-            <select className="form-control" disabled>
-              <option value="">Type</option>
-              <option value="">Type</option>
+            <select
+              className="form-control"
+              disabled={sameCustomer ? true : false}
+            >
+              {addressTypeOption.map((item, i) => {
+                return (
+                  <option key={i} value={item.value}>
+                    {item.name}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="col-md-3">
@@ -103,7 +114,7 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Customer ID No."
-              disabled
+              disabled={sameCustomer ? true : false}
             />
           </div>
           <div className="col-md-3">

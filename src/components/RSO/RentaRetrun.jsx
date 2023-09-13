@@ -7,9 +7,12 @@ import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
 import Loader from "../common/Loader";
 import { ReturnPage } from "../../Data/DataList";
+import { HOST_URL } from "../../API/HostURL";
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
+  const storeCode = localStorage.getItem("storeCode");
+
   const [retunTableData, setRetunTableData] = useState([]);
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
   const [deliveryProductFile, setDeliveryProductImg] = useState(null);
@@ -33,7 +36,7 @@ const RentalReturn = () => {
     setLoading(true);
     axios
       .get(
-        `https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental/fetch/table/common/data/MAMTHA/MAMTHA-R-2023-09-05-382`
+        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}`
       )
       .then((res) => res)
       .then((response) => {
@@ -46,7 +49,7 @@ const RentalReturn = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  }, []);
+  }, [storeCode, GetReturnProduct.refId]);
 
   return (
     <div>
@@ -164,8 +167,7 @@ const RentalReturn = () => {
                       </th>
                       <th>234</th>
                       <th>124</th>
-                      <th>678</th>
-                      <th colSpan="1" />
+                      <th colSpan="2" />
                     </tr>
                   </tbody>
                 </table>
@@ -178,7 +180,9 @@ const RentalReturn = () => {
           </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
-              Signed Acknowledgement of Product Received after Inspection
+              <span className="mt-1">
+                Signed Acknowledgement of Product Received after Inspection
+              </span>
               <BookingPdf />
             </h6>
           </div>

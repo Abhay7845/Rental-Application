@@ -30,6 +30,7 @@ const RentalIssue = () => {
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
   const [retunTableData, setRetunTableData] = useState([]);
+  const [productImg, setProductImg] = useState([]);
 
   // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
@@ -37,14 +38,17 @@ const RentalIssue = () => {
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
 
-  const UploadDeliveryProductImg = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setDeliveryProductImg(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+  const UploadProductImg = () => {
+    if (!productImg) {
+      alert("Please Choose File");
+    } else {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setDeliveryProductImg(reader.result);
+      };
+      if (productImg) {
+        reader.readAsDataURL(productImg);
+      }
     }
   };
 
@@ -300,7 +304,7 @@ const RentalIssue = () => {
             <input
               type="file"
               className="form-control"
-              onChange={UploadDeliveryProductImg}
+              // onChange={UploadDeliveryProductImg}
               disabled={sameCustomer ? true : false}
             />
           </div>
@@ -426,7 +430,13 @@ const RentalIssue = () => {
                       />
                     </td>
                     <td className="d-flex justify-content-between">
-                      <input type="file" onChange={UploadDeliveryProductImg} />
+                      <input
+                        type="file"
+                        onChange={(e) => setProductImg(e.target.files[0])}
+                      />
+                      <button className="CButton" onClick={UploadProductImg}>
+                        Upload
+                      </button>
                       <BsFillTrashFill
                         className="DeleteRow"
                         onClick={() => setAddDeliveryItems([])}

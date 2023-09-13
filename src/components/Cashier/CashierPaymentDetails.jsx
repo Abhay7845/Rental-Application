@@ -13,6 +13,7 @@ import { UploadImg, FetchImg } from "../../API/HostURL";
 import { BsFillTrashFill } from "react-icons/bs";
 import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
 import moment from "moment/moment";
+import { useEffect } from "react";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ const CashierPaymentDetails = () => {
   const [searchValue, setSearchValue] = useState("");
   const [getPaymentData, setGetPaymentData] = useState([]);
   const [paymentDetails, setPaymentDetails] = useState({});
+  const [documentType, setDocumentType] = useState("");
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -162,13 +164,28 @@ const CashierPaymentDetails = () => {
     return total;
   };
   const TotalAmount = SumOfTAmount();
+  useEffect(() => {
+    if (paymentDetails.paymentRequestFor === "Payment_PendingFor_NewBooking") {
+      setDocumentType("tncDocument");
+    }
+    if (
+      paymentDetails.paymentRequestFor === "Payment_PendingFor_RentalIssuence"
+    ) {
+      setDocumentType("KarigarQAReport");
+    }
+    if (
+      paymentDetails.paymentRequestFor === "Payment_PendingFor_RentalReturn"
+    ) {
+      setDocumentType("LoanClosureDocument");
+    }
+  }, [paymentDetails.paymentRequestFor]);
 
   const UpdateBookingFile = (tncFileName) => {
     const updateBookingInput = {
       bookingRefId: bookingRefID,
       contentFor: `${paymentDetails.paymentRequestFor}`,
       createdDate: currentDate,
-      documentType: "tncDocument",
+      documentType: documentType,
       fileName: tncFileName,
       fileSize: `${tnCfile.size}`,
       fileType: `${tnCfile.type}`,
@@ -584,6 +601,7 @@ const CashierPaymentDetails = () => {
               </div>
             )}
             <div className="col-md-12">
+              <label className="form-label">Cashier Name</label>
               <input
                 type="text"
                 className="form-control"

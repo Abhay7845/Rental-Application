@@ -185,7 +185,7 @@ const Cancellation = () => {
                     <tr>
                       <th>Total_Booking_Paid</th>
                       <th>Total_Cancellation_Charge</th>
-                      <th>Net Cancellation Charges</th>
+                      <th>Net_Cancellation_Charges</th>
                       <th>Total_Refund</th>
                     </tr>
                   </thead>

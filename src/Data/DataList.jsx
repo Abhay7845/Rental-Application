@@ -41,33 +41,6 @@ export const addressTypeOption = [
   { value: "drvLincence", name: "Driver Lincence" },
 ];
 
-export const ProductsDetails = [
-  {
-    id: 1,
-    bookDate: "2023-08-20",
-    endDate: "2023-08-17",
-    coolOfEndDate: "2023-08-18",
-  },
-  {
-    id: 2,
-    bookDate: "2023-08-22",
-    endDate: "2023-08-21",
-    coolOfEndDate: "2023-08-22",
-  },
-  {
-    id: 3,
-    bookDate: "2023-08-22",
-    endDate: "2023-08-26",
-    coolOfEndDate: "2023-08-27",
-  },
-  {
-    id: 4,
-    bookDate: "2023-08-23",
-    endDate: "2023-08-26",
-    coolOfEndDate: "2023-08-27",
-  },
-];
-
 export const ImageHeaders = {
   "Content-Type": "multipart/form-data",
   UserToken: "xFeToMkUuejH0aq1IzZYmw==",
@@ -96,7 +69,6 @@ export const constomerType = [
 export const WishListHeader = [
   "SR. NO.",
   "ITEMCODE",
-
   "DESCRIPTION",
   "PDT ID",
   "LOT NO",

@@ -82,6 +82,9 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           GetProductDetails(payload);
         }
+        if (response.data.code === "1001") {
+          alert("Product Not Available");
+        }
         setLoading(false);
         payload.itemCode = "";
       })
@@ -337,7 +340,6 @@ const ProductsDetails = () => {
                           onClick={() => SelectedProducts(data)}
                         />
                       </td>
-                      <td>{data.id}</td>
                       <td>{data.itemCode}</td>
                       <td>{data.description}</td>
                       <td>{data.pdtID}</td>
@@ -348,6 +350,7 @@ const ProductsDetails = () => {
                       <td>{data.productValue}</td>
                       <td>{data.rentalRate}</td>
                       <td>{data.depositRate}</td>
+                      <td>{data.status}</td>
                     </tr>
                   );
                 })}

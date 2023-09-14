@@ -68,14 +68,13 @@ export const constomerType = [
 ];
 
 export const WishListHeader = [
-  "SR. NO.",
   "ITEMCODE",
   "DESCRIPTION",
   "PDT ID",
   "LOT NO",
   "CFA CODE",
-  "G. WT.",
-  "N. WT.",
+  "GROSS. WT.",
+  "NET. WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
   "DEPOSIT VALUE",

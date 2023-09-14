@@ -6,7 +6,6 @@ import {
   rentalIssuePage,
   addressTypeOption,
 } from "../../Data/DataList";
-import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
 import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
@@ -33,13 +32,6 @@ const RentalIssue = () => {
   const [productImg, setProductImg] = useState([]);
   const [productFileName, setProductFileName] = useState("");
   console.log("productFileName==>", productFileName);
-
-  // ADD ROW PRODUCTS DETAILS
-  const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
-  const [rowId, setRowId] = useState(0);
-  const [addProducts, setAddProducts] = useState([]);
-  const [productRowCont, setProductRowCont] = useState(0);
-  const [addedItems, setAddedItems] = useState([]);
 
   // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
@@ -222,30 +214,6 @@ const RentalIssue = () => {
         setLoading(false);
       });
   }, [storeCode, GetReturnProduct.refId]);
-
-  const SaveProductRow = () => {
-    if (!deliveryProductItemCode || productFileName) {
-      alert("Please Enter ItemCode & File");
-    } else {
-      setRowId(rowId + 1);
-      const deliveryProductsTable = {
-        id: productRowCont,
-        itemCode: deliveryProductItemCode,
-        delieryProductFile: deliveryProductFile,
-      };
-      setAddProducts([...addProducts, deliveryProductsTable]);
-      setAddedItems([]);
-    }
-  };
-
-  const AddDeliveryRowsInputs = () => {
-    setProductRowCont(productRowCont + 1);
-    setAddedItems([...addedItems, productRowCont + 1]);
-  };
-  const DeleteProductRow = (id) => {
-    const updatedData = addProducts.filter((rowId) => rowId.id !== id);
-    setAddProducts(updatedData);
-  };
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = retunTableData.map((item) =>
@@ -438,93 +406,51 @@ const RentalIssue = () => {
               <thead className="table-dark border-light text-center">
                 <tr>
                   <th>Item Code</th>
-                  <th>{addProducts.length > 0 ? "View" : "Upload"}</th>
+                  <th>Upload</th>
                 </tr>
               </thead>
               <tbody>
-                {addProducts.map((item, i) => {
+                {retunTableData.map((item, i) => {
                   return (
                     <tr key={i}>
                       <td>{item.itemCode}</td>
                       <td className="d-flex justify-content-between">
-                        {deliveryProductFile && (
-                          <img
-                            src={deliveryProductFile}
-                            alt=""
-                            height="30"
-                            width="50"
-                          />
-                        )}
-                        <BsFillTrashFill
-                          className="DeleteRow"
-                          onClick={() => DeleteProductRow(item.id)}
+                        <input
+                          type="file"
+                          id="prodcutFile"
+                          className="form-control"
+                          onChange={(e) => setProductImg(e.target.files[0])}
                         />
+                        <button
+                          className="CButton mx-2"
+                          onClick={UploadProductImg}
+                        >
+                          Upload
+                        </button>
                       </td>
                     </tr>
                   );
                 })}
-                {addedItems.length > 0 && (
-                  <tr>
-                    <td>
-                      <input
-                        type="text"
-                        placeholder="Item Code"
-                        className="w-100"
-                        onChange={(e) =>
-                          setDeliveryProductItemCode(e.target.value)
-                        }
-                      />
-                    </td>
-                    <td className="d-flex justify-content-between">
-                      <input
-                        type="file"
-                        id="prodcutFile"
-                        onChange={(e) => setProductImg(e.target.files[0])}
-                      />
-                      <button className="CButton" onClick={UploadProductImg}>
-                        Upload
-                      </button>
-                      <BsFillTrashFill
-                        className="DeleteRow"
-                        onClick={() => setAddedItems([])}
-                      />
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>
-          <div className="d-flex justify-content-end mt-0">
-            {addedItems.length > 0 ? (
-              <button
-                type="submit"
-                className="CButton"
-                onClick={SaveProductRow}
-              >
-                Save Row
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="CButton"
-                onClick={AddDeliveryRowsInputs}
-              >
-                Add Row
-              </button>
-            )}
-          </div>
+
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
               <BookingPdf />
             </h6>
           </div>
-          <div className="col-md-6 d-flex">
+          <div className="col-md-4">
             <label className="form-label">Upload Karigar QA Report</label>
             <input type="file" className="form-control" />
-            <button className="CButton mx-2">Upload</button>
+          </div>
+          <div className="col-md-2">
+            <label className="form-label">.</label> <br />
+            <button className="CButton">Upload</button>
           </div>
           <div className="col-md-6">
+            <label className="form-label">RSO Name</label>
             <input
               type="text"
               className="form-control"

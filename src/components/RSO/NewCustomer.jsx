@@ -30,6 +30,8 @@ const NewCustomer = () => {
   const [customerAccountNumber, setCustomerAccountNumber] = useState("");
   const [bankIfsc, setBankIfsc] = useState("");
   const [bankDetailFileName, setBankDetailFileName] = useState("");
+  const [bankChequeFile, setBankChequeFile] = useState("");
+
   const BanckIfcseCode = bankIfsc.toUpperCase();
 
   // EMAIL ADDRESS  OTP VALIDATION
@@ -137,13 +139,12 @@ const NewCustomer = () => {
     }
   };
 
-  const UploadBankCheque = (event) => {
+  const UploadBankCheque = () => {
     if (customerAccountNumber.length > 10) {
       setLoading(true);
-      const file = event.target.files[0];
       const formData = new FormData();
       formData.append("ImgName", `${customerAccountNumber}.jpg`);
-      formData.append("files", file);
+      formData.append("files", bankChequeFile);
       axios
         .post(`${UploadImg}`, formData, {
           headers: ImageHeaders,
@@ -156,8 +157,8 @@ const NewCustomer = () => {
             reader.onloadend = () => {
               setBankDetailFileName(reader.result);
             };
-            if (file) {
-              reader.readAsDataURL(file);
+            if (bankChequeFile) {
+              reader.readAsDataURL(bankChequeFile);
             }
             alert("Your Cheque Book Uploaded Successfully");
           }
@@ -168,7 +169,7 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else {
-      alert("Please Enter Bank Details");
+      alert("Please Enter Bank Details First");
       document.getElementById("chequeBook").value = "";
     }
   };
@@ -614,14 +615,22 @@ const NewCustomer = () => {
               value={BanckIfcseCode}
             />
           </div>
-          <div className="col-md-4">
-            <label className="form-label">Upload Cancelled Cheque Book</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={UploadBankCheque}
-              id="chequeBook"
-            />
+          <div className="col-md-4 d-flex">
+            <div>
+              <label className="form-label">Upload Cancelled Cheque Book</label>
+              <input
+                type="file"
+                className="form-control"
+                onChange={(e) => setBankChequeFile(e.target.files[0])}
+                id="chequeBook"
+              />
+            </div>
+            <div>
+              <label className="form-label">.</label>
+              <button className="CButton mx-2" onClick={UploadBankCheque}>
+                Upload
+              </button>
+            </div>
           </div>
           <div className="col-md-4 text-center">
             {bankDetailFileName && (

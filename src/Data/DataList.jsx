@@ -130,14 +130,26 @@ export const PaymentHeading2 = [
   "File",
 ];
 
-export const ReturnPage = [
+export const rentalIssuePage = [
+  "ItemCode",
+  "Lot No.",
+  "Gross Wt",
+  "Product Value",
+  "Rental Value",
+  "Deposit Value",
+  "Penalty Charges",
+  "Damage Charges",
+  "Physical Damage",
+];
+export const renatlReturnPage = [
   "ItemCode",
   "Lot No.",
   "Gross Wt",
   "Actual Wt Delivery",
   "Actual Wt Return",
   "Product Value",
-  "Rental Amount",
+  "Rental Value",
+  "Deposit Value",
   "Penalty Charges",
   "Damage Charges",
   "Physical Damage",

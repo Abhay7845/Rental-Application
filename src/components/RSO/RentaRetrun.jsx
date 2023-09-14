@@ -6,7 +6,7 @@ import moment from "moment";
 import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
 import Loader from "../common/Loader";
-import { ReturnPage, addressTypeOption } from "../../Data/DataList";
+import { renatlReturnPage, addressTypeOption } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 
 const RentalReturn = () => {
@@ -150,7 +150,7 @@ const RentalReturn = () => {
                 <table className="table table-bordered table-hover border-dark">
                   <thead className="table-dark border-light">
                     <tr>
-                      {ReturnPage.map((heading, i) => {
+                      {renatlReturnPage.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}
                     </tr>
@@ -162,7 +162,12 @@ const RentalReturn = () => {
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
-                          <td>{item.deliveredWt}</td>
+                          <td>
+                            <input
+                              type="number"
+                              placeholder="Actual_Wt at Delivery"
+                            />
+                          </td>
                           <td>
                             <input
                               type="number"
@@ -171,6 +176,7 @@ const RentalReturn = () => {
                           </td>
                           <td>{item.rentalAmount}</td>
                           <td>{item.productValue}</td>
+                          <td>{item.penaltyValue}</td>
                           <td>{item.penaltyValue}</td>
                           <td>{item.penaltyValue}</td>
                           <td>

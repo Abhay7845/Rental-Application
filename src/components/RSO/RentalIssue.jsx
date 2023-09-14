@@ -3,7 +3,7 @@ import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
 import {
   ImageHeaders,
-  ReturnPage,
+  rentalIssuePage,
   addressTypeOption,
 } from "../../Data/DataList";
 import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs";
@@ -34,6 +34,13 @@ const RentalIssue = () => {
   const [productFileName, setProductFileName] = useState("");
   console.log("productFileName==>", productFileName);
 
+  // ADD ROW PRODUCTS DETAILS
+  const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
+  const [rowId, setRowId] = useState(0);
+  const [addProducts, setAddProducts] = useState([]);
+  const [productRowCont, setProductRowCont] = useState(0);
+  const [addedItems, setAddedItems] = useState([]);
+
   // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -49,7 +56,6 @@ const RentalIssue = () => {
       const formData = new FormData();
       const fileExtention = productImg.name.split(".");
       const productFile = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
-      console.log("proDuctFile==>", productFile);
       setProductFileName(productFile);
       formData.append("ImgName", productFile);
       formData.append("files", productImg);
@@ -70,6 +76,7 @@ const RentalIssue = () => {
             }
             alert("File Uploaded Successfully");
             setProductImg([]);
+            setProductFileName("");
           }
           setLoading(false);
         })
@@ -216,16 +223,9 @@ const RentalIssue = () => {
       });
   }, [storeCode, GetReturnProduct.refId]);
 
-  // ADD ROW DETAISL
-  const [deliveryProductItemCode, setDeliveryProductItemCode] = useState("");
-  const [rowId, setRowId] = useState(0);
-  const [addProducts, setAddProducts] = useState([]);
-  const [productRowCont, setProductRowCont] = useState(0);
-  const [addedItems, setAddedItems] = useState([]);
-
   const SaveProductRow = () => {
-    if (!deliveryProductItemCode) {
-      alert("Please Enter All Details");
+    if (!deliveryProductItemCode || productFileName) {
+      alert("Please Enter ItemCode & File");
     } else {
       setRowId(rowId + 1);
       const deliveryProductsTable = {
@@ -370,7 +370,7 @@ const RentalIssue = () => {
                 <table className="table table-bordered table-hover border-dark">
                   <thead className="table-dark border-light">
                     <tr>
-                      {ReturnPage.map((heading, i) => {
+                      {rentalIssuePage.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}
                     </tr>
@@ -382,15 +382,9 @@ const RentalIssue = () => {
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
-                          <td>{item.deliveredWt}</td>
-                          <td>
-                            <input
-                              type="number"
-                              placeholder="Actual_Wt at Return"
-                            />
-                          </td>
                           <td>{item.rentalAmount}</td>
                           <td>{item.productValue}</td>
+                          <td>{item.penaltyValue}</td>
                           <td>{item.penaltyValue}</td>
                           <td>{item.penaltyValue}</td>
                           <td>
@@ -403,7 +397,7 @@ const RentalIssue = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="7" className="text-end">
+                      <th colSpan="5" className="text-end">
                         TOTAL
                       </th>
                       <th>234</th>
@@ -420,7 +414,7 @@ const RentalIssue = () => {
               <thead className="table-dark border-light text-center">
                 <tr>
                   <th>Item Code</th>
-                  <th>View</th>
+                  <th>{addProducts.length > 0 ? "View" : "Upload"}</th>
                 </tr>
               </thead>
               <tbody>
@@ -497,7 +491,9 @@ const RentalIssue = () => {
           </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
-              Signed Acknowledgement of Product Received after Inspection
+              <span className="mt-1">
+                Signed Acknowledgement of Product Received after Inspection
+              </span>
               <BookingPdf />
             </h6>
           </div>

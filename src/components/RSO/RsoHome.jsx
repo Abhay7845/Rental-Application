@@ -12,7 +12,7 @@ const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [btn, setBtn] = useState(false);
+
   const [selecttedProduct, setSelecttedProduct] = useState({});
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
@@ -73,7 +73,6 @@ const Home = () => {
   };
 
   const OnSelectRow = (data) => {
-    setBtn(true);
     setSelecttedProduct(data);
   };
 
@@ -100,9 +99,10 @@ const Home = () => {
     );
     navigate("/rental/return");
   };
-  const paymentSatus = !selecttedProduct.status ? "" : selecttedProduct.status;
-  const statusPending = paymentSatus.substring(0, 18);
-  console.log("statusPending==>", statusPending);
+  const Status = !selecttedProduct.status ? "" : selecttedProduct.status;
+  const statusPending = Status.substring(0, 18);
+
+  console.log("Status==>", Status);
 
   return (
     <div>
@@ -179,24 +179,30 @@ const Home = () => {
             <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
               <button
                 type="button"
-                className={btn ? "CancelButton" : "CnDisabled"}
-                disabled={btn ? false : true}
+                className={
+                  Status === "ReadyforDespatch" ? "CancelButton" : "CnDisabled"
+                }
+                disabled={Status === "ReadyforDespatch" ? false : true}
                 onClick={CancelProducts}
               >
                 Cancel Booking
               </button>
               <button
                 type="button"
-                className={btn ? "CButton mx-2" : "CDisabled mx-2"}
-                disabled={btn ? false : true}
+                className={
+                  Status === "ReadyforDespatch" ? "CancelButton" : "CnDisabled"
+                }
+                disabled={Status === "ReadyforDespatch" ? false : true}
                 onClick={RentalIssueProducts}
               >
                 Rental Issue
               </button>
               <button
                 type="button"
-                className={btn ? "CButton" : "CDisabled"}
-                disabled={btn ? false : true}
+                className={
+                  Status === "ReadyforDespatch" ? "CancelButton" : "CnDisabled"
+                }
+                disabled={Status === "ReadyforDespatch" ? false : true}
                 onClick={RentalRetunProducts}
               >
                 Rental Return

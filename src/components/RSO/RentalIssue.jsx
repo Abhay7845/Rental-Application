@@ -247,6 +247,36 @@ const RentalIssue = () => {
     setAddProducts(updatedData);
   };
 
+  // TOTAL COST OF PRODUCT VALUE
+  const TProductValue = retunTableData.map((item) =>
+    parseFloat(item.productValue)
+  );
+  const SumOfTProductValue = () => {
+    let total = 0;
+    for (let data of TProductValue) total = total + data;
+    return total;
+  };
+
+  // TOTAL COST OF  RENTAL RATE
+  const TRentalRate = retunTableData.map((item) =>
+    parseFloat(item.rentalAmount)
+  );
+  const SumOfRentalRate = () => {
+    let total = 0;
+    for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+
+  // TOTAL DEPOSITE AMOUNT
+  const TDepositRate = retunTableData.map((item) =>
+    parseFloat(item.depositAmount)
+  );
+  const SumOfTDepositRate = () => {
+    let total = 0;
+    for (let data of TDepositRate) total = total + data;
+    return total;
+  };
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -376,8 +406,8 @@ const RentalIssue = () => {
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
-                          <td>{item.rentalAmount}</td>
                           <td>{item.productValue}</td>
+                          <td>{item.rentalAmount}</td>
                           <td>{item.depositAmount}</td>
                           <td>
                             <input
@@ -393,9 +423,9 @@ const RentalIssue = () => {
                       <th colSpan="3" className="text-end">
                         TOTAL
                       </th>
-                      <th>234</th>
-                      <th>124</th>
-                      <th>125</th>
+                      <th>{SumOfTProductValue()}</th>
+                      <th>{SumOfRentalRate()}</th>
+                      <th>{SumOfTDepositRate()}</th>
                       <th colSpan="1" />
                     </tr>
                   </tbody>

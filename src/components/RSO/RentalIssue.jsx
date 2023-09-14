@@ -406,7 +406,7 @@ const RentalIssue = () => {
               <thead className="table-dark border-light text-center">
                 <tr>
                   <th>Item Code</th>
-                  <th>Upload</th>
+                  <th>Upload Product Images</th>
                 </tr>
               </thead>
               <tbody>

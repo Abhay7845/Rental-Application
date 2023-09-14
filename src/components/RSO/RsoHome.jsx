@@ -16,6 +16,7 @@ const Home = () => {
   const [selecttedProduct, setSelecttedProduct] = useState({});
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
+  console.log("selecttedProduct==>", selecttedProduct);
 
   const paramType = !phoneRefrence
     ? ""
@@ -25,17 +26,26 @@ const Home = () => {
 
   const CheckBookingDetails = () => {
     Swal.fire({
-      title: "Booking Not Available",
-      text: "Do You Want Book Products",
-      icon: "error",
+      title: "No Booking Found For This Phone Number",
+      text: `Click on "Cancel" to Search Agian or Click on "Book Now" to Procced For New Booking`,
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#008080",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
+      confirmButtonText: "Book Now",
     }).then((result) => {
       if (result.isConfirmed) {
         navigate("/products/details");
       }
+    });
+  };
+  const ShowPending = () => {
+    Swal.fire({
+      title: "Payment Pending",
+      text: "Payment Is Pending No Further Action Can be Performed, Please Reach out to Cashier To Complete The Payment",
+      icon: "warning",
+      confirmButtonColor: "#008080",
+      confirmButtonText: "OK",
     });
   };
 
@@ -90,6 +100,9 @@ const Home = () => {
     );
     navigate("/rental/return");
   };
+  const paymentSatus = !selecttedProduct.status ? "" : selecttedProduct.status;
+  const statusPending = paymentSatus.substring(0, 18);
+  console.log("statusPending==>", statusPending);
 
   return (
     <div>
@@ -160,32 +173,36 @@ const Home = () => {
               </tbody>
             </table>
           </div>
-          <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
-            <button
-              type="button"
-              className={btn ? "CancelButton" : "CnDisabled"}
-              disabled={btn ? false : true}
-              onClick={CancelProducts}
-            >
-              Cancel Booking
-            </button>
-            <button
-              type="button"
-              className={btn ? "CButton mx-2" : "CDisabled mx-2"}
-              disabled={btn ? false : true}
-              onClick={RentalIssueProducts}
-            >
-              Rental Issue
-            </button>
-            <button
-              type="button"
-              className={btn ? "CButton" : "CDisabled"}
-              disabled={btn ? false : true}
-              onClick={RentalRetunProducts}
-            >
-              Rental Return
-            </button>
-          </div>
+          {statusPending === "Payment_PendingFor" ? (
+            <span>{ShowPending()}</span>
+          ) : (
+            <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
+              <button
+                type="button"
+                className={btn ? "CancelButton" : "CnDisabled"}
+                disabled={btn ? false : true}
+                onClick={CancelProducts}
+              >
+                Cancel Booking
+              </button>
+              <button
+                type="button"
+                className={btn ? "CButton mx-2" : "CDisabled mx-2"}
+                disabled={btn ? false : true}
+                onClick={RentalIssueProducts}
+              >
+                Rental Issue
+              </button>
+              <button
+                type="button"
+                className={btn ? "CButton" : "CDisabled"}
+                disabled={btn ? false : true}
+                onClick={RentalRetunProducts}
+              >
+                Rental Return
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

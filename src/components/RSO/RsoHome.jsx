@@ -18,6 +18,9 @@ const Home = () => {
   const navigate = useNavigate();
   console.log("selecttedProduct==>", selecttedProduct);
 
+  const currentDate = moment(new Date()).format("YYYY-MM-DD");
+  console.log("currentDate==>", currentDate);
+
   const paramType = !phoneRefrence
     ? ""
     : phoneRefrence[0].match(phonePan)
@@ -42,7 +45,7 @@ const Home = () => {
   const ShowPending = () => {
     Swal.fire({
       title: "Payment Pending",
-      text: "Payment Is Pending No Further Action Can be Performed, Please Reach out to Cashier To Complete The Payment",
+      text: "Please Reach out to Cashier To Complete The Payment",
       icon: "warning",
       confirmButtonColor: "#008080",
       confirmButtonText: "OK",
@@ -103,6 +106,10 @@ const Home = () => {
   const statusPending = Status.substring(0, 18);
 
   console.log("Status==>", Status);
+  const rentalDate = moment(new Date(selecttedProduct.rentalDate)).format(
+    "YYYY-MM-DD"
+  );
+  console.log("rentalDate==>", rentalDate);
 
   return (
     <div>
@@ -135,7 +142,7 @@ const Home = () => {
       </div>
       {productData.length > 0 && (
         <div>
-          <h4 className="text-center my-3">Table Details</h4>
+          <h4 className="text-center my-3">Booking Details</h4>
           <div className="table-responsive mx-2">
             <table className="table table-bordered table-hover border-dark">
               <thead className="table-dark border-light">
@@ -180,9 +187,11 @@ const Home = () => {
               <button
                 type="button"
                 className={
-                  Status === "ReadyforDespatch" ? "CancelButton" : "CnDisabled"
+                  Status === "Booked&ReadyForDespatch"
+                    ? "CancelButton"
+                    : "CnDisabled"
                 }
-                disabled={Status === "ReadyforDespatch" ? false : true}
+                disabled={Status === "Booked&ReadyForDespatch" ? false : true}
                 onClick={CancelProducts}
               >
                 Cancel Booking
@@ -190,19 +199,25 @@ const Home = () => {
               <button
                 type="button"
                 className={
-                  Status === "ReadyforDespatch" ? "CancelButton" : "CnDisabled"
+                  currentDate >= rentalDate &&
+                  Status === "Booked&ReadyForDespatch"
+                    ? "CButton mx-2"
+                    : "CDisabled mx-2"
                 }
-                disabled={Status === "ReadyforDespatch" ? false : true}
+                disabled={
+                  currentDate >= rentalDate &&
+                  Status === "Booked&ReadyForDespatch"
+                    ? false
+                    : true
+                }
                 onClick={RentalIssueProducts}
               >
                 Rental Issue
               </button>
               <button
                 type="button"
-                className={
-                  Status === "ReadyforDespatch" ? "CancelButton" : "CnDisabled"
-                }
-                disabled={Status === "ReadyforDespatch" ? false : true}
+                className={Status === "ProductIssued" ? "CButton" : "CDisabled"}
+                disabled={Status === "ProductIssued" ? false : true}
                 onClick={RentalRetunProducts}
               >
                 Rental Return

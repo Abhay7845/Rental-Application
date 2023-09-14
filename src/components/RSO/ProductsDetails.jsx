@@ -106,9 +106,9 @@ const ProductsDetails = () => {
       pdtID: data.pdtID,
       productValue: data.productValue,
       rateId: data.rateId,
-      penaltyRate: parseFloat(data.productValue * data.penaltyRate),
-      depositRate: parseFloat(data.productValue * data.depositRate),
-      rentalRate: parseFloat(data.productValue * data.rentalRate),
+      penaltyRate: parseFloat(data.productValue * data.penaltyRate) / 100,
+      depositRate: parseFloat(data.productValue * data.depositRate) / 100,
+      rentalRate: parseFloat(data.productValue * data.rentalRate) / 100,
       status: "Active",
     };
   });
@@ -200,7 +200,7 @@ const ProductsDetails = () => {
           if (response.data.code === "1000") {
             if (response.data.value) {
               localStorage.setItem("BookinTempId", response.data.value.Succes);
-              Swal.fire("Added", "Your Products Added To Carrt", "success");
+              Swal.fire("Added", "Your Products Added To Cart", "success");
               navigate("/booking");
             }
           }

@@ -522,9 +522,7 @@ const CashierPaymentDetails = () => {
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
-                    <span className="mt-1">
-                      Print Payment_PendingFor_RentalReturn
-                    </span>
+                    <span className="mt-1">Print - Service Invoice</span>
                     <PaymentTnCPdf />
                   </h6>
                 </div>
@@ -559,7 +557,7 @@ const CashierPaymentDetails = () => {
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
-                    <span className="mt-1">Print Delivery Challan</span>
+                    <span className="mt-1">Print - Delivery Challan</span>
                     <PaymentTnCPdf />
                   </h6>
                 </div>
@@ -595,7 +593,7 @@ const CashierPaymentDetails = () => {
               "Payment_PendingFor_RentalCacellation" && (
               <div className="col-12 mb-0">
                 <h6 className="bookingHeading d-flex justify-content-between">
-                  <span className="mt-1">Print RENTALCANCELLATION</span>
+                  <span className="mt-1">Print - Cancellation Receipt</span>
                   <PaymentTnCPdf />
                 </h6>
               </div>
@@ -611,8 +609,22 @@ const CashierPaymentDetails = () => {
             </div>
             <div className="col-12 d-flex justify-content-end mb-4">
               <button className="CButton" onClick={SubmitPaymentDetails}>
-                Complete Booking, Complete Product Delivery,Close Booking,
-                Cancel Booking
+                {paymentDetails.paymentRequestFor ===
+                  "Payment_PendingFor_RentalCacellation" && (
+                  <span>Cancel Booking</span>
+                )}
+                {paymentDetails.paymentRequestFor ===
+                  "Payment_PendingFor_RentalIssuence" && (
+                  <span>Complete Product Delivery</span>
+                )}
+                {paymentDetails.paymentRequestFor ===
+                  "Payment_PendingFor_RentalReturn" && (
+                  <span>Close Booking</span>
+                )}
+                {paymentDetails.paymentRequestFor ===
+                  "Payment_PendingFor_NewBooking" && (
+                  <span>Complete Booking</span>
+                )}
               </button>
             </div>
           </div>

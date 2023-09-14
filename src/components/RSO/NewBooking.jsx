@@ -282,7 +282,11 @@ const NewBooking = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
-            Swal.fire("Booked", "Your Products Booked Successfully", "success");
+            Swal.fire(
+              "Payment Request Raised",
+              "Please Go to Cashier to Complete the Payment",
+              "success"
+            );
             navigate("/products/details");
           }
           setLoading(false);

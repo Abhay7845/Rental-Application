@@ -446,8 +446,8 @@ const RentalIssue = () => {
             <input type="file" className="form-control" />
           </div>
           <div className="col-md-2">
-            <label className="form-label">.</label> <br />
-            <button className="CButton">Upload</button>
+            <br />
+            <button className="CButton mt-2">Upload</button>
           </div>
           <div className="col-md-6">
             <label className="form-label">RSO Name</label>

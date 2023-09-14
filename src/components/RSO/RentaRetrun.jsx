@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
-import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
 import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
@@ -16,18 +15,6 @@ const RentalReturn = () => {
 
   const [retunTableData, setRetunTableData] = useState([]);
   // DELIVERY INSPECTION PRODUCTS INPUT VALUES
-  const [deliveryProductFile, setDeliveryProductImg] = useState(null);
-
-  const UploadDeliveryProductImg = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setDeliveryProductImg(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
 
   // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
@@ -98,7 +85,7 @@ const RentalReturn = () => {
               disabled={sameCustomer ? true : false}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-2">
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
@@ -122,25 +109,19 @@ const RentalReturn = () => {
               disabled={sameCustomer ? true : false}
             />
           </div>
-          <div className="col-md-3">
-            <div className="d-flex justify-content-between">
+          <div className="col-md-4 d-flex">
+            <div>
               <label className="form-label">Upload ID</label>
-              <span className="mx-2">
-                {deliveryProductFile && (
-                  <BsFillEyeFill
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    style={{ cursor: "pointer" }}
-                  />
-                )}
-              </span>
+              <input
+                type="file"
+                className="form-control"
+                disabled={sameCustomer ? true : false}
+              />
             </div>
-            <input
-              type="file"
-              className="form-control"
-              onChange={UploadDeliveryProductImg}
-              disabled={sameCustomer ? true : false}
-            />
+            <div>
+              <label className="form-label">.</label>
+              <button className="CButton mx-2">Upload</button>
+            </div>
           </div>
 
           {retunTableData.length > 0 && (
@@ -209,53 +190,22 @@ const RentalReturn = () => {
               <BookingPdf />
             </h6>
           </div>
-          <div className="col-md-3 mt-0">
+          <div className="col-md-6 d-flex">
             <input type="file" className="form-control" />
+            <button className="CButton mx-2">Upload</button>
           </div>
-          <div className="col-md-2 mt-0">
-            {deliveryProductFile && (
-              <img
-                src={deliveryProductFile}
-                alt="Preview"
-                height="80px"
-                width="100%"
-              />
-            )}
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="RSO Name"
+              // onChange={(e) => setRSOName(e.target.value)}
+            />
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
               Save
             </button>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 d-flex justify-content-end mt-1">
-        <div
-          className="modal fade"
-          id="exampleModal"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">
-                {deliveryProductFile && (
-                  <img
-                    src={deliveryProductFile}
-                    alt="Preview"
-                    className="fullScreenImage"
-                  />
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </div>

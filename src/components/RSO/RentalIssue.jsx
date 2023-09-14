@@ -6,7 +6,7 @@ import {
   rentalIssuePage,
   addressTypeOption,
 } from "../../Data/DataList";
-import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment";
 import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
@@ -292,7 +292,7 @@ const RentalIssue = () => {
               disabled={sameCustomer ? true : false}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-2">
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
@@ -316,25 +316,19 @@ const RentalIssue = () => {
               disabled={sameCustomer ? true : false}
             />
           </div>
-          <div className="col-md-3">
-            <div className="d-flex justify-content-between">
+          <div className="col-md-4 d-flex">
+            <div>
               <label className="form-label">Upload ID</label>
-              <span className="mx-2">
-                {deliveryProductFile && (
-                  <BsFillEyeFill
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    style={{ cursor: "pointer" }}
-                  />
-                )}
-              </span>
+              <input
+                type="file"
+                className="form-control"
+                disabled={sameCustomer ? true : false}
+              />
             </div>
-            <input
-              type="file"
-              className="form-control"
-              // onChange={UploadDeliveryProductImg}
-              disabled={sameCustomer ? true : false}
-            />
+            <div>
+              <label className="form-label">.</label>
+              <button className="CButton mx-2">Upload</button>
+            </div>
           </div>
           {!existedUserData.customerBankName ||
           !existedUserData.customerAccountNumber ||
@@ -497,8 +491,9 @@ const RentalIssue = () => {
               <BookingPdf />
             </h6>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-6 d-flex">
             <input type="file" className="form-control" />
+            <button className="CButton mx-2">Upload</button>
           </div>
           <div className="col-md-6">
             <input
@@ -508,7 +503,6 @@ const RentalIssue = () => {
               onChange={(e) => setRSOName(e.target.value)}
             />
           </div>
-
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
               Save

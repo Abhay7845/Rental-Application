@@ -136,9 +136,7 @@ export const rentalIssuePage = [
   "Product Value",
   "Rental Value",
   "Deposit Value",
-  "Penalty Charges",
-  "Damage Charges",
-  "Physical Damage",
+  "Actual Wt At Delivery",
 ];
 export const renatlReturnPage = [
   "ItemCode",
@@ -148,7 +146,6 @@ export const renatlReturnPage = [
   "Actual Wt Return",
   "Product Value",
   "Rental Value",
-  "Deposit Value",
   "Penalty Charges",
   "Damage Charges",
   "Physical Damage",

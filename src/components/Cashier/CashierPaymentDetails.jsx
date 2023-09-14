@@ -499,7 +499,7 @@ const CashierPaymentDetails = () => {
               <div>
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
-                    <span className="mt-1">Print Terms & Condition</span>
+                    <span className="mt-1">Print Booking Confirmation</span>
                     <PaymentTnCPdf />
                   </h6>
                 </div>
@@ -559,13 +559,12 @@ const CashierPaymentDetails = () => {
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
-                    <span className="mt-1">
-                      Print Payment_PendingFor_RentalIssuence
-                    </span>
+                    <span className="mt-1">Print Delivery Challan</span>
                     <PaymentTnCPdf />
                   </h6>
                 </div>
                 <div className="col-md-6 d-flex">
+                  <b>Loan Document Upload</b>
                   <input
                     type="file"
                     id="tncFile"
@@ -578,6 +577,7 @@ const CashierPaymentDetails = () => {
                   </button>
                 </div>
                 <div className="col-md-6 d-flex">
+                  <b>Signed Delivery Challan Upload</b>
                   <input
                     type="file"
                     id="tncFile"
@@ -611,7 +611,8 @@ const CashierPaymentDetails = () => {
             </div>
             <div className="col-12 d-flex justify-content-end mb-4">
               <button className="CButton" onClick={SubmitPaymentDetails}>
-                Save Payment
+                Complete Booking, Complete Product Delivery,Close Booking,
+                Cancel Booking
               </button>
             </div>
           </div>

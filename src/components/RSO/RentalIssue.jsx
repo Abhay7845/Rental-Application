@@ -378,25 +378,25 @@ const RentalIssue = () => {
                           <td>{item.grossWt}</td>
                           <td>{item.rentalAmount}</td>
                           <td>{item.productValue}</td>
-                          <td>{item.penaltyValue}</td>
-                          <td>{item.penaltyValue}</td>
-                          <td>{item.penaltyValue}</td>
+                          <td>{item.depositAmount}</td>
                           <td>
-                            <select className="w-100">
-                              <option>NO</option>
-                              <option>Yes</option>
-                            </select>
+                            <input
+                              type="number"
+                              className="w-100"
+                              placeholder="Actual Wt At Delivery"
+                            />
                           </td>
                         </tr>
                       );
                     })}
                     <tr>
-                      <th colSpan="5" className="text-end">
+                      <th colSpan="3" className="text-end">
                         TOTAL
                       </th>
                       <th>234</th>
                       <th>124</th>
-                      <th colSpan="2" />
+                      <th>125</th>
+                      <th colSpan="1" />
                     </tr>
                   </tbody>
                 </table>
@@ -485,13 +485,12 @@ const RentalIssue = () => {
           </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
-              <span className="mt-1">
-                Signed Acknowledgement of Product Received after Inspection
-              </span>
+              <span className="mt-1">Print Karigar QA Report</span>
               <BookingPdf />
             </h6>
           </div>
           <div className="col-md-6 d-flex">
+            <label className="form-label">Upload Karigar QA Report</label>
             <input type="file" className="form-control" />
             <button className="CButton mx-2">Upload</button>
           </div>
@@ -505,7 +504,7 @@ const RentalIssue = () => {
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
-              Save
+              Raise Deposit Request
             </button>
           </div>
         </div>

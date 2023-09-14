@@ -143,12 +143,7 @@ const RentalReturn = () => {
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
-                          <td>
-                            <input
-                              type="number"
-                              placeholder="Actual_Wt at Delivery"
-                            />
-                          </td>
+                          <td>DATA</td>
                           <td>
                             <input
                               type="number"
@@ -158,8 +153,13 @@ const RentalReturn = () => {
                           <td>{item.rentalAmount}</td>
                           <td>{item.productValue}</td>
                           <td>{item.penaltyValue}</td>
-                          <td>{item.penaltyValue}</td>
-                          <td>{item.penaltyValue}</td>
+                          <td>
+                            <input
+                              type="number"
+                              className="w-100"
+                              placeholder="Damage Charges"
+                            />
+                          </td>
                           <td>
                             <select className="w-100">
                               <option>NO</option>
@@ -170,12 +170,14 @@ const RentalReturn = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="7" className="text-end">
+                      <th colSpan="5" className="text-end">
                         TOTAL
                       </th>
                       <th>234</th>
                       <th>124</th>
-                      <th colSpan="2" />
+                      <th>124</th>
+                      <th>124</th>
+                      <th colSpan="1" />
                     </tr>
                   </tbody>
                 </table>
@@ -184,15 +186,17 @@ const RentalReturn = () => {
           )}
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
-              <span className="mt-1">
-                Signed Acknowledgement of Product Received after Inspection
-              </span>
+              <span className="mt-1">Print Karigar QA Report</span>
               <BookingPdf />
             </h6>
           </div>
-          <div className="col-md-6 d-flex">
+          <div className="col-12 d-flex">
+            <label>Upload Signed Karigar QA Report</label>
             <input type="file" className="form-control" />
-            <button className="CButton mx-2">Upload</button>
+            <div>
+              <b>Factory QA Required ?</b>
+              <input type="checkbox" className="mx-2" />
+            </div>
           </div>
           <div className="col-md-6">
             <input
@@ -204,7 +208,7 @@ const RentalReturn = () => {
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
-              Save
+              Print Acknowledgement & Close || Raise Closure Request
             </button>
           </div>
         </div>

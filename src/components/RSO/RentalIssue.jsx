@@ -16,7 +16,7 @@ import { UploadImg } from "../../API/HostURL";
 const RentalIssue = () => {
   const [loading, setLoading] = useState(false);
   const storeCode = localStorage.getItem("storeCode");
-  const [deliveryProductFile, setDeliveryProductImg] = useState(null);
+  const [productImgFile, setProductImgFile] = useState(null);
   const [sameCustomer, setSameCustomer] = useState(true);
   const [existedUserData, setExistedUserData] = useState({});
   const [RSOName, setRSOName] = useState("");
@@ -31,7 +31,11 @@ const RentalIssue = () => {
   const [retunTableData, setRetunTableData] = useState([]);
   const [productImg, setProductImg] = useState([]);
   const [productFileName, setProductFileName] = useState("");
+  const [karigarQAFile, setKarigarQAFile] = useState([]);
+  const [karigarQAFileName, setKarigarQAFileName] = useState("");
+  const [karigarQAUrl, setKarigarQAUrl] = useState("");
   console.log("productFileName==>", productFileName);
+  console.log("karigarQAFileName==>", karigarQAFileName);
 
   // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
@@ -40,7 +44,9 @@ const RentalIssue = () => {
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
 
-  const UploadProductImg = () => {
+  const UploadProductImg = (item) => {
+    console.log("item==>", item);
+    console.log("productImg==>", productImg);
     if (productImg.length === 0) {
       alert("Please Choose File");
     } else {
@@ -61,7 +67,7 @@ const RentalIssue = () => {
           if (response.data) {
             const reader = new FileReader();
             reader.onloadend = () => {
-              setDeliveryProductImg(reader.result);
+              setProductImgFile(reader.result);
             };
             if (productImg) {
               reader.readAsDataURL(productImg);
@@ -185,6 +191,44 @@ const RentalIssue = () => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
             alert("Account Details has been Updated Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
+
+  const UploadKarigarQA = () => {
+    if (karigarQAFile.length === 0) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = karigarQAFile.name.split(".");
+      const QAFile = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
+      setKarigarQAFileName(QAFile);
+      formData.append("ImgName", QAFile);
+      formData.append("files", karigarQAFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setKarigarQAUrl(reader.result);
+            };
+            if (karigarQAFile) {
+              reader.readAsDataURL(karigarQAFile);
+            }
+            alert("File Uploaded Successfully");
+            setKarigarQAFile([]);
           }
           setLoading(false);
         })
@@ -423,7 +467,7 @@ const RentalIssue = () => {
                         />
                         <button
                           className="CButton mx-2"
-                          onClick={UploadProductImg}
+                          onClick={() => UploadProductImg(item)}
                         >
                           Upload
                         </button>
@@ -443,11 +487,17 @@ const RentalIssue = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Upload Karigar QA Report</label>
-            <input type="file" className="form-control" />
+            <input
+              type="file"
+              className="form-control"
+              onChange={(e) => setKarigarQAFile(e.target.files[0])}
+            />
           </div>
           <div className="col-md-2">
             <br />
-            <button className="CButton mt-2">Upload</button>
+            <button className="CButton mt-2" onClick={UploadKarigarQA}>
+              Upload
+            </button>
           </div>
           <div className="col-md-6">
             <label className="form-label">RSO Name</label>
@@ -457,6 +507,11 @@ const RentalIssue = () => {
               placeholder="RSO Name"
               onChange={(e) => setRSOName(e.target.value)}
             />
+          </div>
+          <div className="col-md-6">
+            {karigarQAUrl && (
+              <img src={karigarQAUrl} alt="Preview" height="50" />
+            )}
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
@@ -483,9 +538,9 @@ const RentalIssue = () => {
                 />
               </div>
               <div className="modal-body">
-                {deliveryProductFile && (
+                {productImgFile && (
                   <img
-                    src={deliveryProductFile}
+                    src={productImgFile}
                     alt="Preview"
                     className="fullScreenImage"
                   />

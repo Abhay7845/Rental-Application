@@ -135,8 +135,13 @@ const ProductsDetails = () => {
       tempBookingRefId: "",
       paymentRequestFor: "NewBooking",
     };
-    setAddtoWishList([...addtoWishList, AddToWishListOBj]);
-    setGoToCart([...goToCart, AddToWishListOBj]);
+    const avlId = goToCart.map((id) => id.pdtId);
+    if (avlId.includes(AddToWishListOBj.pdtId)) {
+      alert("Product Is Alredy Added");
+    } else {
+      setAddtoWishList([...addtoWishList, AddToWishListOBj]);
+      setGoToCart([...goToCart, AddToWishListOBj]);
+    }
   };
 
   const AddToWishList = () => {

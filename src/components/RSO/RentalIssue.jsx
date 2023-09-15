@@ -203,7 +203,7 @@ const RentalIssue = () => {
 
   const UploadKarigarQA = () => {
     if (karigarQAFile.length === 0) {
-      alert("Please Choose File");
+      alert("Please Upload Karigar QA Report");
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -229,6 +229,7 @@ const RentalIssue = () => {
             }
             alert("File Uploaded Successfully");
             setKarigarQAFile([]);
+            document.getElementById("QAfile").value = "";
           }
           setLoading(false);
         })
@@ -489,6 +490,7 @@ const RentalIssue = () => {
             <label className="form-label">Upload Karigar QA Report</label>
             <input
               type="file"
+              id="QAfile"
               className="form-control"
               onChange={(e) => setKarigarQAFile(e.target.files[0])}
             />

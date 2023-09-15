@@ -360,9 +360,15 @@ const CashierPaymentDetails = () => {
                       <td>{data.customerName}</td>
                       <td>{data.mobileNo}</td>
                       <td>{data.paymentRequestFor}</td>
-                      <td>{data.productValue}</td>
-                      <td>{data.rentValue}</td>
-                      <td>{data.depositValue}</td>
+                      <td>
+                        {parseFloat(data.productValue).toLocaleString("en-IN")}
+                      </td>
+                      <td>
+                        {parseFloat(data.rentValue).toLocaleString("en-IN")}
+                      </td>
+                      <td>
+                        {parseFloat(data.depositValue).toLocaleString("en-IN")}
+                      </td>
                     </tr>
                   );
                 })}

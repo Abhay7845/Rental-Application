@@ -11,6 +11,7 @@ import { HOST_URL, Phoneulr1, Phoneulr2, UploadImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
@@ -61,6 +62,16 @@ const NewCustomer = () => {
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
   console.log("PANNumber==>", PANNumber);
+
+  const CreationPopUp = () => {
+    Swal.fire({
+      title: "Success",
+      text: "Customer Registered Successfully",
+      icon: "success",
+      confirmButtonColor: "#008080",
+      confirmButtonText: "OK",
+    });
+  };
 
   const UploadPanFile = (event) => {
     if (PANNumber.match(panRegex)) {
@@ -335,7 +346,7 @@ const NewCustomer = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            alert("Your Account has been Created Successfully");
+            CreationPopUp();
           }
           navigate("/products/details");
           setLoading(false);
@@ -368,8 +379,11 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="Phone Number"
               value={phoneNumber}
-              maxLength={10}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 10) {
+                  setPhoneNumber(e.target.value);
+                }
+              }}
               disabled={phoneVerified ? true : false}
             />
           </div>
@@ -495,7 +509,12 @@ const NewCustomer = () => {
               type="number"
               className="form-control"
               placeholder="Pin Code"
-              onChange={(e) => setPinCode(e.target.value)}
+              value={pinCode}
+              onChange={(e) => {
+                if (e.target.value.length <= 6) {
+                  setPinCode(e.target.value);
+                }
+              }}
             />
           </div>
           <div className="col-12">
@@ -639,7 +658,7 @@ const NewCustomer = () => {
           </div>
           <div className="col-12 d-flex justify-content-end mb-4">
             <button className="CButton" onClick={CreateCustomerAccount}>
-              Create Account
+              Registere Customer
             </button>
           </div>
         </div>

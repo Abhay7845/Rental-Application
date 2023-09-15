@@ -120,6 +120,7 @@ export const PaymentHeading1 = [
   "Product_Value",
   "Rent_Value",
   "Deposit_Value",
+  "Collected_Value",
 ];
 export const PaymentHeading2 = [
   "Payment_For",

@@ -19,8 +19,6 @@ const Home = () => {
   console.log("selecttedProduct==>", selecttedProduct);
 
   const currentDate = moment(new Date()).format("YYYY-MM-DD");
-  console.log("currentDate==>", currentDate);
-
   const paramType = !phoneRefrence
     ? ""
     : phoneRefrence[0].match(phonePan)
@@ -40,6 +38,9 @@ const Home = () => {
       if (result.isConfirmed) {
         navigate("/products/details");
       }
+      if (result.isConfirmed === false) {
+        setSelecttedProduct({});
+      }
     });
   };
   const ShowPending = () => {
@@ -52,6 +53,11 @@ const Home = () => {
     });
   };
 
+  const Status = !selecttedProduct.status ? "" : selecttedProduct.status;
+  const statusPending = Status.substring(0, 18);
+  const rentalDate = moment(new Date(selecttedProduct.rentalDate)).format(
+    "YYYY-MM-DD"
+  );
   const GetBookingDetails = () => {
     setLoading(true);
     axios
@@ -77,39 +83,23 @@ const Home = () => {
 
   const OnSelectRow = (data) => {
     setSelecttedProduct(data);
-  };
-
-  const CancelProducts = () => {
     localStorage.setItem(
       "selecttedReturnProduct",
       JSON.stringify(selecttedProduct)
     );
+  };
+
+  const CancelProducts = () => {
     navigate("/cancellation");
   };
 
   const RentalIssueProducts = () => {
-    localStorage.setItem(
-      "selecttedReturnProduct",
-      JSON.stringify(selecttedProduct)
-    );
     navigate("/rental/issue");
   };
 
   const RentalRetunProducts = () => {
-    localStorage.setItem(
-      "selecttedReturnProduct",
-      JSON.stringify(selecttedProduct)
-    );
     navigate("/rental/return");
   };
-  const Status = !selecttedProduct.status ? "" : selecttedProduct.status;
-  const statusPending = Status.substring(0, 18);
-
-  console.log("Status==>", Status);
-  const rentalDate = moment(new Date(selecttedProduct.rentalDate)).format(
-    "YYYY-MM-DD"
-  );
-  console.log("rentalDate==>", rentalDate);
 
   return (
     <div>

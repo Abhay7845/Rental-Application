@@ -28,18 +28,22 @@ const ProductsDetails = () => {
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [wishList, setWishList] = useState(false);
   const [thresHoldValue, setThresHoldValue] = useState(false);
+  const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
+  const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
+  console.log("AvlProduct==>", AvlProduct);
 
-  const GetProductDetails = (payload) => {
+  const GetProductDetails = (payload, avldata) => {
+    console.log("avldata==>", avldata.cfaCode);
     const GetProducts = {
       storeCode: storeCode,
       itemCode: payload.itemCode,
       customerType: payload.customerType,
       packagePeriod: payload.packageDays,
-      cfaCode: "1234",
+      cfaCode: avldata.cfaCode,
       locType: "SameCity",
     };
     axios
@@ -80,7 +84,8 @@ const ProductsDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          GetProductDetails(payload);
+          GetProductDetails(payload, response.data.value[0]);
+          setChekeAvaiblity(response.data.value);
         }
         if (response.data.code === "1001") {
           alert("Product Not Available");
@@ -92,6 +97,7 @@ const ProductsDetails = () => {
         setLoading(false);
       });
   };
+
   const GetProductData = productDetails.map((data) => {
     return {
       id: data.id,
@@ -353,7 +359,7 @@ const ProductsDetails = () => {
                       <td>{data.productValue.toLocaleString("en-IN")}</td>
                       <td>{data.rentalRate.toLocaleString("en-IN")}</td>
                       <td>{data.depositRate.toLocaleString("en-IN")}</td>
-                      <td>{data.status}</td>
+                      <td>{AvlProduct[0]}</td>
                     </tr>
                   );
                 })}

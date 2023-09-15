@@ -83,21 +83,29 @@ const Home = () => {
 
   const OnSelectRow = (data) => {
     setSelecttedProduct(data);
+  };
+
+  const CancelProducts = () => {
     localStorage.setItem(
       "selecttedReturnProduct",
       JSON.stringify(selecttedProduct)
     );
-  };
-
-  const CancelProducts = () => {
     navigate("/cancellation");
   };
 
   const RentalIssueProducts = () => {
+    localStorage.setItem(
+      "selecttedReturnProduct",
+      JSON.stringify(selecttedProduct)
+    );
     navigate("/rental/issue");
   };
 
   const RentalRetunProducts = () => {
+    localStorage.setItem(
+      "selecttedReturnProduct",
+      JSON.stringify(selecttedProduct)
+    );
     navigate("/rental/return");
   };
 
@@ -134,7 +142,7 @@ const Home = () => {
         <div>
           <h4 className="text-center my-3">Booking Details</h4>
           <div className="table-responsive mx-2">
-            <table className="table table-bordered table-hover border-dark">
+            <table className="table table-bordered table-hover border-dark text-center">
               <thead className="table-dark border-light">
                 <tr>
                   <th className="text-center">Select</th>

@@ -336,7 +336,7 @@ const CashierPaymentDetails = () => {
 
         {getPaymentData.length > 0 && (
           <div className="table-responsive">
-            <table className="table table-bordered table-hover border-dark">
+            <table className="table table-bordered table-hover border-dark text-center">
               <thead className="table-dark border-light">
                 <tr>
                   <td>Select</td>
@@ -373,7 +373,7 @@ const CashierPaymentDetails = () => {
         {paymentDetails.bookingId && (
           <div className="row g-3 mt-3 mx-0">
             <div className="col-12 table-responsive mx-0">
-              <table className="table table-bordered table-hover border-dark">
+              <table className="table table-bordered table-hover border-dark text-center">
                 <thead className="table-dark border-light">
                   <tr>
                     {PaymentHeading2.map((heading, i) => {

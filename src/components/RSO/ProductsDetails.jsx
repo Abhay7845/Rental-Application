@@ -104,7 +104,7 @@ const ProductsDetails = () => {
       lotNo: data.lotNo,
       netWt: data.netWt,
       pdtID: data.pdtID,
-      productValue: data.productValue,
+      productValue: parseFloat(data.productValue),
       rateId: data.rateId,
       penaltyRate: parseFloat(data.productValue * data.penaltyRate) / 100,
       depositRate: parseFloat(data.productValue * data.depositRate) / 100,
@@ -310,7 +310,7 @@ const ProductsDetails = () => {
           </Form>
         </Formik>
         <div className="col-12 table-responsive">
-          <table className="table table-bordered table-hover border-dark">
+          <table className="table table-bordered table-hover border-dark text-center">
             <thead className="table-dark border-light">
               <tr>
                 <td>Select</td>
@@ -341,15 +341,13 @@ const ProductsDetails = () => {
                         />
                       </td>
                       <td>{data.itemCode}</td>
-                      <td>{data.description}</td>
-                      <td>{data.pdtID}</td>
                       <td>{data.lotNo}</td>
-                      <td>{data.cfa}</td>
+                      <td>{data.description}</td>
                       <td>{data.grossWt}</td>
                       <td>{data.netWt}</td>
-                      <td>{data.productValue}</td>
-                      <td>{data.rentalRate}</td>
-                      <td>{data.depositRate}</td>
+                      <td>{data.productValue.toLocaleString("en-IN")}</td>
+                      <td>{data.rentalRate.toLocaleString("en-IN")}</td>
+                      <td>{data.depositRate.toLocaleString("en-IN")}</td>
                       <td>{data.status}</td>
                     </tr>
                   );
@@ -371,7 +369,7 @@ const ProductsDetails = () => {
           <div className="col-12">
             <h6 className="bookingHeading">Your WishListed Products</h6>
             <div className="col-12 table-responsive">
-              <table className="table table-bordered table-hover border-dark">
+              <table className="table table-bordered table-hover border-dark text-center">
                 <thead className="table-dark border-light">
                   <tr>
                     {AddedTocCart.map((heading, i) => {
@@ -384,15 +382,13 @@ const ProductsDetails = () => {
                     return (
                       <tr key={i}>
                         <td>{item.itemCode}</td>
-                        <td>{item.pdtId}</td>
                         <td>{item.lotNo}</td>
-                        <td>{item.cfa}</td>
                         <td>{item.grossWt}</td>
                         <td>{item.netWt}</td>
-                        <td>{item.productValue}</td>
-                        <td>{item.rentValue}</td>
+                        <td>{item.productValue.toLocaleString("en-IN")}</td>
+                        <td>{item.rentValue.toLocaleString("en-IN")}</td>
                         <td className="d-flex justify-content-between">
-                          {item.depositValue}
+                          {item.depositValue.toLocaleString("en-IN")}
                           <BsFillTrashFill
                             className="DeleteRow"
                             onClick={() => DeleteWishListRow(item.pdtId)}
@@ -402,12 +398,12 @@ const ProductsDetails = () => {
                     );
                   })}
                   <tr className="text-bold">
-                    <th colSpan="6" className="text-end">
+                    <th colSpan="4" className="text-end">
                       TOTAL
                     </th>
-                    <th>{SumOfTProductValue()}</th>
-                    <th>{SumOfRentalRate()}</th>
-                    <th>{SumOfDepositRate()}</th>
+                    <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
+                    <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
+                    <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>

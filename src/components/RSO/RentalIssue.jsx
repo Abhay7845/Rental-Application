@@ -404,7 +404,7 @@ const RentalIssue = () => {
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
+                <table className="table table-bordered table-hover border-dark text-center">
                   <thead className="table-dark border-light">
                     <tr>
                       {rentalIssuePage.map((heading, i) => {
@@ -419,9 +419,21 @@ const RentalIssue = () => {
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
-                          <td>{item.productValue}</td>
-                          <td>{item.rentalAmount}</td>
-                          <td>{item.depositAmount}</td>
+                          <td>
+                            {parseFloat(item.productValue).toLocaleString(
+                              "en-IN"
+                            )}
+                          </td>
+                          <td>
+                            {parseFloat(item.rentalAmount).toLocaleString(
+                              "en-IN"
+                            )}
+                          </td>
+                          <td>
+                            {parseFloat(item.depositAmount).toLocaleString(
+                              "en-IN"
+                            )}
+                          </td>
                           <td>
                             <input
                               type="number"
@@ -436,9 +448,9 @@ const RentalIssue = () => {
                       <th colSpan="3" className="text-end">
                         TOTAL
                       </th>
-                      <th>{SumOfTProductValue()}</th>
-                      <th>{SumOfRentalRate()}</th>
-                      <th>{SumOfTDepositRate()}</th>
+                      <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
+                      <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
+                      <th>{SumOfTDepositRate().toLocaleString("en-IN")}</th>
                       <th colSpan="1" />
                     </tr>
                   </tbody>

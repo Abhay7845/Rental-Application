@@ -12,11 +12,8 @@ const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
   const storeCode = localStorage.getItem("storeCode");
   const [sameCustomer, setSameCustomer] = useState(true);
-
   const [retunTableData, setRetunTableData] = useState([]);
-  // DELIVERY INSPECTION PRODUCTS INPUT VALUES
 
-  // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
 
@@ -48,6 +45,24 @@ const RentalReturn = () => {
     return nextDate;
   };
 
+  // TOTAL COST OF  CALCULATION
+  const TProductValue = retunTableData.map((item) =>
+    parseFloat(item.productValue)
+  );
+  const SumOfTProductValue = () => {
+    let total = 0;
+    for (let data of TProductValue) total = total + data;
+    return total;
+  };
+
+  const TRentalRateRate = retunTableData.map((item) =>
+    parseFloat(item.rentalAmount)
+  );
+  const SumOfTRentalRate = () => {
+    let total = 0;
+    for (let data of TRentalRateRate) total = total + data;
+    return total;
+  };
   return (
     <div>
       {loading === true && <Loader />}
@@ -136,7 +151,7 @@ const RentalReturn = () => {
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
+                <table className="table table-bordered table-hover border-dark text-center">
                   <thead className="table-dark border-light">
                     <tr>
                       {renatlReturnPage.map((heading, i) => {
@@ -158,9 +173,17 @@ const RentalReturn = () => {
                               placeholder="Actual_Wt at Return"
                             />
                           </td>
-                          <td>{item.rentalAmount}</td>
-                          <td>{item.productValue}</td>
-                          <td>{item.penaltyValue}</td>
+                          <td>
+                            {parseFloat(item.productValue).toLocaleString(
+                              "en-IN"
+                            )}
+                          </td>
+                          <td>
+                            {parseFloat(item.rentalAmount).toLocaleString(
+                              "en-IN"
+                            )}
+                          </td>
+                          <td>NA</td>
                           <td>
                             <input
                               type="number"
@@ -181,8 +204,8 @@ const RentalReturn = () => {
                       <th colSpan="5" className="text-end">
                         TOTAL
                       </th>
-                      <th>234</th>
-                      <th>124</th>
+                      <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
+                      <th>{SumOfTRentalRate().toLocaleString("en-IN")}</th>
                       <th>124</th>
                       <th>124</th>
                       <th colSpan="1" />

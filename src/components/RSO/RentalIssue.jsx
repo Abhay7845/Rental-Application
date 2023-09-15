@@ -303,11 +303,11 @@ const RentalIssue = () => {
           </div>
           <div className="col-2">
             <label className="form-label">Rental Start Date</label>
-            <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
+            <h6>{moment(GetReturnProduct.rentalDate).format("DD-MM- YYYY")}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Rental end Date</label>
-            <h6>{moment(getReturnDate()).format("YYYY-MM-DD")}</h6>
+            <h6>{moment(getReturnDate()).format("DD-MM- YYYY")}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Customer Name</label>

@@ -223,7 +223,7 @@ const NewBooking = () => {
         addressProofFileName: existedUserData.addressProofFileName,
         createDate: bookingDate,
         updateDate: null,
-        status: "active",
+        status: "Active",
         rsoName: bookingRSO,
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
@@ -273,7 +273,7 @@ const NewBooking = () => {
         rsoName: bookingRSO,
         createdDate: existedUserData.createDate,
         updatedDate: existedUserData.updateDate,
-        status: "active",
+        status: "Payment_PendingFor_NewBooking",
         tempRefNo: bookingRefId,
       };
       console.log("BookingInputs==>", BookingInputs);
@@ -447,24 +447,32 @@ const NewBooking = () => {
                     return (
                       <tr key={i}>
                         <td>{item.itemCode}</td>
-                        <td>{item.pdtId}</td>
                         <td>{item.lotNo}</td>
-                        <td>{item.cfa}</td>
                         <td>{item.grossWt}</td>
                         <td>{item.netWt}</td>
-                        <td>{item.productValue}</td>
-                        <td>{item.rentValue}</td>
-                        <td>{item.depositValue}</td>
+                        <td>
+                          {parseFloat(item.productValue).toLocaleString(
+                            "en-IN"
+                          )}
+                        </td>
+                        <td>
+                          {parseFloat(item.rentValue).toLocaleString("en-IN")}
+                        </td>
+                        <td>
+                          {parseFloat(item.depositValue).toLocaleString(
+                            "en-IN"
+                          )}
+                        </td>
                       </tr>
                     );
                   })}
                   <tr>
-                    <th colSpan="6" className="text-end">
+                    <th colSpan="4" className="text-end">
                       TOTAL
                     </th>
-                    <th>{SumOfTProductValue()}</th>
-                    <th>{SumOfRentalRate()}</th>
-                    <th>{SumOfDepositRate()}</th>
+                    <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
+                    <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
+                    <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>

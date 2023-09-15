@@ -34,10 +34,8 @@ const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
-  console.log("AvlProduct==>", AvlProduct);
 
   const GetProductDetails = (payload, avldata) => {
-    console.log("avldata==>", avldata.cfaCode);
     const GetProducts = {
       storeCode: storeCode,
       itemCode: payload.itemCode,
@@ -254,7 +252,7 @@ const ProductsDetails = () => {
         >
           <Form className="row g-2 mx-0">
             <div className="col-md-3">
-              <label className="form-label">Booking Date</label>
+              <label className="form-label">Rental Start Date</label>
               <Field
                 type="date"
                 name="bookingDate"

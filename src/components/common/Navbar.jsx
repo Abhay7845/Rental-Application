@@ -1,20 +1,34 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import "../../Style/Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
+import moment from "moment";
 // import { BsCartFill } from "react-icons/bs";
 
 const Navbar = () => {
+  let time = new Date().toLocaleTimeString();
   const UserName = localStorage.getItem("rsoRole");
+  const storeCode = localStorage.getItem("storeCode");
+  const [CTime, setCTime] = useState(time);
   const navigate = useNavigate();
   const path = useLocation().pathname;
+
   const Logout = () => {
     localStorage.clear();
     navigate("/JewRentalApp");
   };
 
   useEffect(() => {}, [path]);
+
+  const currentDate = new Date();
+
+  const ShowTime = () => {
+    time = new Date().toLocaleTimeString();
+    setCTime(time);
+  };
+  setInterval(ShowTime, 1000);
 
   return (
     <nav className="navbar" style={{ backgroundColor: "#008080" }}>
@@ -57,8 +71,13 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          <b className="navbarLink mx-2 mt-0">{UserName.toUpperCase()}</b>
-          <BiLogIn className="lououtBtn" onClick={Logout} />
+          <b className="navbarLink mx-2 mt-0 text-center">
+            {storeCode.toUpperCase()}
+            <br />
+            {moment(currentDate).format("DD/MM/YYYY")}
+            <span className="mx-2">{CTime}</span>
+          </b>
+          <BiLogIn className="lououtBtn mt-2 mx-2" onClick={Logout} />
         </div>
       </div>
     </nav>

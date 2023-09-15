@@ -76,11 +76,11 @@ const RentalReturn = () => {
           </div>
           <div className="col-2">
             <label className="form-label">Renatl Start Date</label>
-            <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
+            <h6>{moment(GetReturnProduct.rentalDate).format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-3">
             <label className="form-label">Rental End Date</label>
-            <h6>{moment(getReturnDate()).format("YYYY-MM-DD")}</h6>
+            <h6>{moment(getReturnDate()).format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Customer Name</label>

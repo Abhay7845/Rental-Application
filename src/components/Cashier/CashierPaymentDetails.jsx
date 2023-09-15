@@ -273,7 +273,7 @@ const CashierPaymentDetails = () => {
     const submitPaymentData = {
       bookingRefNo: bookingRefID,
       cashierName: cashierName,
-      status: "bookingCompleted",
+      status: "Booked",
       tempRefNo: paymentDetails.tempBookingRef,
       tncFileName: tnCFileName,
     };

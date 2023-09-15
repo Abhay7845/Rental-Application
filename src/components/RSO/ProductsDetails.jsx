@@ -137,7 +137,7 @@ const ProductsDetails = () => {
     };
     const avlId = goToCart.map((id) => id.pdtId);
     if (avlId.includes(AddToWishListOBj.pdtId)) {
-      alert("Product Is Alredy Added");
+      alert("Product Is Alredy Added to Wishlist");
     } else {
       setAddtoWishList([...addtoWishList, AddToWishListOBj]);
       setGoToCart([...goToCart, AddToWishListOBj]);

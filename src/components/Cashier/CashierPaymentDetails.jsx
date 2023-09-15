@@ -269,7 +269,7 @@ const CashierPaymentDetails = () => {
       alert("Total Amount Not Equal to Rental Amount");
     }
   };
-  const CompletePayment = () => {
+  const SubmitPaymentDetails = () => {
     const submitPaymentData = {
       bookingRefNo: bookingRefID,
       cashierName: cashierName,
@@ -278,8 +278,6 @@ const CashierPaymentDetails = () => {
       tncFileName: tnCFileName,
     };
     console.log("submitPaymentData===>", submitPaymentData);
-  };
-  const SubmitPaymentDetails = () => {
     if (!cashierName) {
       alert("Please Enter Cashier Name");
     }

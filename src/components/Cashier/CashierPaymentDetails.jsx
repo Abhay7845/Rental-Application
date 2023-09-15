@@ -318,7 +318,7 @@ const CashierPaymentDetails = () => {
           <input
             type="type"
             className="form-control"
-            placeholder="Search By Phone Number"
+            placeholder="Search By Customer Phone Number"
             maxLength={10}
             onChange={(e) => setSearchValue(e.target.value)}
           />

@@ -7,9 +7,11 @@ const Cancellation = () => {
   const [amount, setAmount] = useState();
   const [discountAmount, setDiscountAmount] = useState();
   const [numberDays, setNumberDays] = useState("");
+  const [rsoName, setRsoName] = useState("");
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   console.log("GetReturnProduct==>", GetReturnProduct);
+  console.log("rsoName==>", rsoName);
 
   useEffect(() => {
     const rentalDate = new Date(
@@ -38,8 +40,16 @@ const Cancellation = () => {
     cancelCharge = amount; // 100% charge
   }
 
-  const netAmount =
-    parseInt(amount) + parseInt(cancelCharge) - parseInt(discountAmount);
+  // rental value -cancel charge -discount
+  const netAmount = 124 - parseInt(cancelCharge) - parseInt(discountAmount);
+
+  const getReturnDate = () => {
+    const nextDate = new Date(GetReturnProduct.rentalDate);
+    nextDate.setDate(
+      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1)
+    );
+    return nextDate;
+  };
 
   return (
     <div>
@@ -52,19 +62,19 @@ const Cancellation = () => {
             <h6>{GetReturnProduct.refId}</h6>
           </div>
           <div className="col-2">
-            <label className="form-label">Booking Date</label>
+            <label className="form-label">Renatl Start Date</label>
             <h6>{moment(GetReturnProduct.bookingDate).format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-2">
-            <label className="form-label">Rental Start Date</label>
-            <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
+            <label className="form-label">Rental End Date</label>
+            <h6>{moment(getReturnDate()).format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Rental Package</label>
             <h6>{GetReturnProduct.packageSelected} Days</h6>
           </div>
           <div className="col-3">
-            <label className="form-label">Cancel Date</label>
+            <label className="form-label">Current Date</label>
             <h6>{moment().format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-3">
@@ -166,16 +176,6 @@ const Cancellation = () => {
               disabled
             />
           </div>
-          <div className="col-md-4">
-            <label className="form-label">Amount</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Amount"
-              value={123}
-              disabled
-            />
-          </div>
           {DataList.length > 0 && (
             <div className="col-12 mb-4">
               <h6 className="bookingHeading">Charges Overview</h6>
@@ -205,6 +205,15 @@ const Cancellation = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className="col-12">
+          <label className="form-label">RSO Name</label>
+          <input
+            type="number"
+            className="form-control"
+            placeholder="RSO Name"
+            onChange={(e) => setRsoName(e.target.value)}
+          />
         </div>
         <div className="col-12 mb-3">
           <div className="d-flex justify-content-end">

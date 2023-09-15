@@ -84,7 +84,7 @@ const RentalIssue = () => {
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
     nextDate.setDate(
-      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected)
+      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1)
     );
     return nextDate;
   };
@@ -257,11 +257,11 @@ const RentalIssue = () => {
             <h6>{GetReturnProduct.refId}</h6>
           </div>
           <div className="col-2">
-            <label className="form-label">Issue Date</label>
+            <label className="form-label">Rental Start Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-2">
-            <label className="form-label">Return Date</label>
+            <label className="form-label">Rental end Date</label>
             <h6>{moment(getReturnDate()).format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-2">

@@ -120,7 +120,7 @@ const Home = () => {
           <input
             type="text"
             className="searchStyle"
-            placeholder="Search by Phone or Refrence No."
+            placeholder="Search by Customer Phone Number or Refrence No."
             value={phoneRefrence.toUpperCase()}
             maxLength={14}
             onChange={(e) => setPhoneRefrence(e.target.value)}

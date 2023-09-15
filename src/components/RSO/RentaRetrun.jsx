@@ -40,6 +40,14 @@ const RentalReturn = () => {
       });
   }, [storeCode, GetReturnProduct.refId]);
 
+  const getReturnDate = () => {
+    const nextDate = new Date(GetReturnProduct.rentalDate);
+    nextDate.setDate(
+      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1)
+    );
+    return nextDate;
+  };
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -51,19 +59,19 @@ const RentalReturn = () => {
             <label className="form-label">Booking Ref No</label>
             <h6>{GetReturnProduct.refId}</h6>
           </div>
-          <div className="col-3">
-            <label className="form-label">Return Date</label>
+          <div className="col-2">
+            <label className="form-label">Renatl Start Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
           </div>
           <div className="col-3">
-            <label className="form-label">Issue Date</label>
-            <h6>{moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")}</h6>
+            <label className="form-label">Rental End Date</label>
+            <h6>{moment(getReturnDate()).format("YYYY-MM-DD")}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-2">
             <label className="form-label">Customer Name</label>
             <h6>{GetReturnProduct.customerName}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-2">
             <label className="form-label">Phone Number</label>
             <h6>{GetReturnProduct.mobileNo}</h6>
           </div>

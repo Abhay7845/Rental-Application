@@ -269,7 +269,7 @@ const CashierPaymentDetails = () => {
       alert("Total Amount Not Equal to Rental Amount");
     }
   };
-  const SubmitPaymentDetails = () => {
+  const CompletePayment = () => {
     const submitPaymentData = {
       bookingRefNo: bookingRefID,
       cashierName: cashierName,
@@ -278,6 +278,8 @@ const CashierPaymentDetails = () => {
       tncFileName: tnCFileName,
     };
     console.log("submitPaymentData===>", submitPaymentData);
+  };
+  const SubmitPaymentDetails = () => {
     if (!cashierName) {
       alert("Please Enter Cashier Name");
     }
@@ -378,6 +380,19 @@ const CashierPaymentDetails = () => {
         )}
         {paymentDetails.bookingId && (
           <div className="row g-3 mt-3 mx-0">
+            <div className="col-md-12 mt-0">
+              <label className="form-label">
+                Payment to be Collected/Refund
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                value={parseFloat(paymentDetails.rentValue).toLocaleString(
+                  "en-IN"
+                )}
+                disabled
+              />
+            </div>
             <div className="col-12 table-responsive mx-0">
               <table className="table table-bordered table-hover border-dark text-center">
                 <thead className="table-dark border-light">
@@ -397,9 +412,11 @@ const CashierPaymentDetails = () => {
                         <td>{item.amount.toString()}</td>
                         <td className="d-flex justify-content-between">
                           {item.fileName}
+                        </td>
+                        <td>
                           <BsFillTrashFill
-                            className="DeleteRow"
                             onClick={() => DeletePaymentRow(item.id)}
+                            style={{ cursor: "pointer", color: "red" }}
                           />
                         </td>
                       </tr>
@@ -411,19 +428,12 @@ const CashierPaymentDetails = () => {
                         TOTAL
                       </th>
                       <th>{TotalAmount.toString()}</th>
-                      <td colSpan="1" />
+                      <td colSpan="2" />
                     </tr>
                   )}
                   {addPaymentRows.length > 0 && (
                     <tr>
-                      <td>
-                        <BsFillTrashFill
-                          className="DeleteRow"
-                          style={{ marginTop: "-5px" }}
-                          onClick={() => setAddPaymentRows([])}
-                        />
-                        {paymentDetails.paymentRequestFor}
-                      </td>
+                      <td>{paymentDetails.paymentRequestFor}</td>
                       <td>
                         <select
                           className="form-control"
@@ -453,7 +463,6 @@ const CashierPaymentDetails = () => {
                       <td className="d-flex">
                         <input
                           type="file"
-                          className="form-control"
                           onChange={(e) => setFileUpload(e.target.files[0])}
                           accept=".jpg, .jpeg, .png"
                         />
@@ -463,6 +472,12 @@ const CashierPaymentDetails = () => {
                         >
                           Upload
                         </button>
+                      </td>
+                      <td>
+                        <BsFillTrashFill
+                          onClick={() => setAddPaymentRows([])}
+                          style={{ cursor: "pointer", color: "red" }}
+                        />
                       </td>
                     </tr>
                   )}
@@ -482,24 +497,14 @@ const CashierPaymentDetails = () => {
                 <div className="d-flex justify-content-between">
                   <button
                     type="submit"
-                    className="CButton mx-2"
+                    className="CButton"
                     onClick={AddPaymentRows}
                   >
                     Add Payment
                   </button>
-                  {savePaymetRow.length > 0 && (
-                    <button
-                      type="submit"
-                      className="CButton"
-                      onClick={SubmitPayment}
-                    >
-                      Submit Payment
-                    </button>
-                  )}
                 </div>
               )}
             </div>
-
             {paymentDetails.paymentRequestFor ===
               "Payment_PendingFor_NewBooking" && (
               <div>

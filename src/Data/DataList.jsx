@@ -116,7 +116,6 @@ export const PaymentHeading1 = [
   "Product_Value",
   "Rent_Value",
   "Deposit_Value",
-  "Collected_Value",
 ];
 export const PaymentHeading2 = [
   "Payment_For",
@@ -124,6 +123,7 @@ export const PaymentHeading2 = [
   "Payment_Ref_No.",
   "Amount",
   "File",
+  "Delete",
 ];
 
 export const rentalIssuePage = [

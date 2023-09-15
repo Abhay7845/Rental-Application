@@ -13,6 +13,7 @@ const RentalReturn = () => {
   const storeCode = localStorage.getItem("storeCode");
   const [sameCustomer, setSameCustomer] = useState(true);
   const [retunTableData, setRetunTableData] = useState([]);
+  const [checkedQA, setCheckedQA] = useState(false);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -221,15 +222,26 @@ const RentalReturn = () => {
               <BookingPdf />
             </h6>
           </div>
-          <div className="col-12 d-flex">
-            <label>Upload Signed Karigar QA Report</label>
+          <div className="col-md-5">
+            <label className="form-label">
+              Upload Signed Karigar QA Report
+            </label>
             <input type="file" className="form-control" />
-            <div>
-              <b>Factory QA Required ?</b>
-              <input type="checkbox" className="mx-2" />
-            </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-2">
+            <br />
+            <button className="CButton mt-2">Upload</button>
+          </div>
+          <div className="col-md-3 d-flex">
+            <b className="mt-4">Factory QA Required ?</b>
+            <input
+              type="checkbox"
+              className="mx-3 mt-1"
+              checked={checkedQA}
+              onChange={(e) => setCheckedQA(!checkedQA)}
+            />
+          </div>
+          <div className="col-md-12">
             <input
               type="text"
               className="form-control"
@@ -239,7 +251,9 @@ const RentalReturn = () => {
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">
-              Print Acknowledgement & Close || Raise Closure Request
+              {checkedQA
+                ? "Print Acknowledgement & Close"
+                : "Raise Closure Request"}
             </button>
           </div>
         </div>

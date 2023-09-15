@@ -21,7 +21,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {}, [path]);
-
   const currentDate = new Date();
 
   const ShowTime = () => {

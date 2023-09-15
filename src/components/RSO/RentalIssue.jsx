@@ -491,7 +491,6 @@ const RentalIssue = () => {
               </tbody>
             </table>
           </div>
-
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>

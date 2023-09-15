@@ -40,8 +40,6 @@ const CashierPaymentDetails = () => {
   const [tnCfile, setTnCfile] = useState("");
   const [tnCFileName, setTnCFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
-  console.log("tnCFileName===>", tnCFileName);
-  console.log("cashierName===>", cashierName);
 
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -79,26 +77,26 @@ const CashierPaymentDetails = () => {
     setAddPaymentRows([...addPaymentRows, count + 1]);
   };
   const SavePaymentRow = () => {
-    // if (!fileName) {
-    //   alert("Please Upload File");
-    // } else {
-    setPaymentRowId(paymentRowId + 1);
-    const savePaymentDetails = {
-      // id: paymentRowId,
-      amount: parseFloat(amount),
-      bookingId: parseInt(paymentDetails.bookingId),
-      createDate: null,
-      fileName: fileName,
-      paymentFor: paymentDetails.paymentRequestFor,
-      paymentType: paymentType,
-      txnRefNo: tnxRefNo,
-      tempRefNo: paymentDetails.tempBookingRef,
-      status: "Completed",
-    };
-    setSavePaymetRow([...savePaymetRow, savePaymentDetails]);
-    setAddPaymentRows([]);
-    setFileName("");
-    // }
+    if (!fileName) {
+      alert("Please Upload File");
+    } else {
+      setPaymentRowId(paymentRowId + 1);
+      const savePaymentDetails = {
+        id: paymentRowId,
+        amount: parseFloat(amount),
+        bookingId: parseInt(paymentDetails.bookingId),
+        createDate: null,
+        fileName: fileName,
+        paymentFor: paymentDetails.paymentRequestFor,
+        paymentType: paymentType,
+        txnRefNo: tnxRefNo,
+        tempRefNo: paymentDetails.tempBookingRef,
+        status: "Completed",
+      };
+      setSavePaymetRow([...savePaymetRow, savePaymentDetails]);
+      setAddPaymentRows([]);
+      setFileName("");
+    }
   };
 
   const PaymentFileImage = (UploadFileName) => {
@@ -216,7 +214,7 @@ const CashierPaymentDetails = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = tnCfile.name.split(".");
-      const tncFileName = `${paymentDetails.paymentRequestFor}${paymentDetails.mobileNo}${currentDate}${RandomDigit}.${fileExtention[1]}`;
+      const tncFileName = `${paymentDetails.paymentRequestFor}${currentDate}${RandomDigit}.${fileExtention[1]}`;
       setTnCFileName(tncFileName);
       formData.append("ImgName", tncFileName);
       formData.append("files", tnCfile);
@@ -240,24 +238,48 @@ const CashierPaymentDetails = () => {
     }
   };
 
+  const CompletePayment = () => {
+    const submitPaymentData = {
+      bookingRefNo: bookingRefID,
+      cashierName: cashierName,
+      status: "Booked",
+      tempRefNo: paymentDetails.tempBookingRef,
+      tncFileName: tnCFileName,
+    };
+    console.log("submitPaymentData===>", submitPaymentData);
+    axios
+      .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Payment Submited Successfully and Order Booked",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+          setPaymentDetails({});
+          setCashierName("");
+        }
+      })
+      .then((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  };
+
   const SubmitPayment = () => {
-    if (parseInt(paymentDetails.rentValue) === TotalAmount) {
+    if (parseFloat(paymentDetails.rentValue) === parseFloat(TotalAmount)) {
       setLoading(true);
-      console.log("savePaymetRow==>", savePaymetRow);
       axios
         .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
         .then((res) => res)
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            Swal.fire({
-              title: "Success",
-              text: "Payment Submited Successfully",
-              icon: "success",
-              confirmButtonColor: "#008080",
-              confirmButtonText: "OK",
-            });
-            setSavePaymetRow([]);
+            CompletePayment();
           }
           setLoading(false);
         })
@@ -269,46 +291,17 @@ const CashierPaymentDetails = () => {
       alert("Total Amount Not Equal to Rental Amount");
     }
   };
+
   const SubmitPaymentDetails = () => {
-    const submitPaymentData = {
-      bookingRefNo: bookingRefID,
-      cashierName: cashierName,
-      status: "Booked",
-      tempRefNo: paymentDetails.tempBookingRef,
-      tncFileName: tnCFileName,
-    };
-    console.log("submitPaymentData===>", submitPaymentData);
     if (!cashierName) {
       alert("Please Enter Cashier Name");
     }
     if (!tnCFileName) {
       alert("Please Upload T&C File");
     } else {
-      axios
-        .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response.data);
-          if (response.data.code === "1000") {
-            Swal.fire({
-              title: "Success",
-              text: "Payment Saved Successfully",
-              icon: "success",
-              confirmButtonColor: "#008080",
-              confirmButtonText: "OK",
-            });
-            setAddPaymentRows([]);
-            setGetPaymentData([]);
-            setCashierName("");
-          }
-        })
-        .then((error) => {
-          console.log("error=>", error);
-          setLoading(false);
-        });
+      SubmitPayment();
     }
   };
-  console.log("NewBooking==>", paymentDetails.paymentRequestFor);
   return (
     <div>
       <Navbar />

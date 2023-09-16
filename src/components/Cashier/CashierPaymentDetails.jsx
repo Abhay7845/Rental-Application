@@ -260,6 +260,7 @@ const CashierPaymentDetails = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
+          GetPyamentDetials();
           setPaymentDetails({});
           setGetPaymentData([]);
           setCashierName("");

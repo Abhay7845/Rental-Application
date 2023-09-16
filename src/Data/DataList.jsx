@@ -72,7 +72,6 @@ export const WishListHeader = [
   "LOT NO.",
   "DESCRIPTION",
   "GROSS. WT.",
-  "NET. WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
   "DEPOSIT VALUE",
@@ -81,10 +80,10 @@ export const AddedTocCart = [
   "ITEMCODE",
   "LOT NO.",
   "GROSS WT.",
-  "NET WT.",
   "PRODUCTS VALUE",
   "RENTAL RATE",
   "DEPOSIT RATE",
+  "Delete",
 ];
 export const DeliveryListHearders = [
   "ITEMCODE",

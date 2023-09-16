@@ -28,6 +28,7 @@ const ProductsDetails = () => {
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [wishList, setWishList] = useState(false);
   const [thresHoldValue, setThresHoldValue] = useState(false);
+
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
@@ -141,7 +142,7 @@ const ProductsDetails = () => {
     };
     const avlId = goToCart.map((id) => id.pdtId);
     if (avlId.includes(AddToWishListOBj.pdtId)) {
-      alert("Product Is Alredy Added to Wishlist");
+      alert("Product Is Alredy Added to Wishlis");
     } else {
       setAddtoWishList([...addtoWishList, AddToWishListOBj]);
       setGoToCart([...goToCart, AddToWishListOBj]);
@@ -353,7 +354,6 @@ const ProductsDetails = () => {
                       <td>{data.lotNo}</td>
                       <td>{data.description}</td>
                       <td>{data.grossWt}</td>
-                      <td>{data.netWt}</td>
                       <td>{data.productValue.toLocaleString("en-IN")}</td>
                       <td>{data.rentalRate.toLocaleString("en-IN")}</td>
                       <td>{data.depositRate.toLocaleString("en-IN")}</td>
@@ -393,13 +393,12 @@ const ProductsDetails = () => {
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>
-                        <td>{item.netWt}</td>
                         <td>{item.productValue.toLocaleString("en-IN")}</td>
                         <td>{item.rentValue.toLocaleString("en-IN")}</td>
-                        <td className="d-flex justify-content-between">
-                          {item.depositValue.toLocaleString("en-IN")}
+                        <td>{item.depositValue.toLocaleString("en-IN")}</td>
+                        <td>
                           <BsFillTrashFill
-                            className="DeleteRow"
+                            style={{ color: "red", cursor: "pointer" }}
                             onClick={() => DeleteWishListRow(item.pdtId)}
                           />
                         </td>
@@ -407,7 +406,7 @@ const ProductsDetails = () => {
                     );
                   })}
                   <tr className="text-bold">
-                    <th colSpan="4" className="text-end">
+                    <th colSpan="3" className="text-end">
                       TOTAL
                     </th>
                     <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>

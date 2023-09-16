@@ -101,10 +101,11 @@ const NewBooking = () => {
   }, [existedUserData.panCardNoFileName]);
 
   const currentDate = new Date();
-  const bookingDate = moment(currentDate).format("YYYY-MM-DD");
+  const bookingDate = moment(currentDate).format("DD-MM-YYYY");
 
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
   const GetCartProductData = !CartData ? [] : CartData;
+  console.log("GetCartProductData==>", GetCartProductData);
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>
@@ -131,6 +132,7 @@ const NewBooking = () => {
     for (let data of TDepositRate) total = total + data;
     return total;
   };
+  console.log("SumOfDepositRate==>", SumOfDepositRate());
 
   const UploadBankCheque = (event) => {
     if (customerAccountNumber.length > 10) {
@@ -433,7 +435,7 @@ const NewBooking = () => {
             <div className="table-responsive">
               <table
                 id="item-details-table"
-                className="table table-bordered table-hover border-dark"
+                className="table table-bordered table-hover border-dark text-center"
               >
                 <thead className="table-dark border-light">
                   <tr>
@@ -449,14 +451,15 @@ const NewBooking = () => {
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>
-                        <td>{item.netWt}</td>
                         <td>
                           {parseFloat(item.productValue).toLocaleString(
                             "en-IN"
                           )}
                         </td>
                         <td>
-                          {parseFloat(item.rentValue).toLocaleString("en-IN")}
+                          {Math.round(
+                            parseFloat(item.rentValue).toLocaleString("en-IN")
+                          )}
                         </td>
                         <td>
                           {parseFloat(item.depositValue).toLocaleString(
@@ -467,18 +470,20 @@ const NewBooking = () => {
                     );
                   })}
                   <tr>
-                    <th colSpan="4" className="text-end">
+                    <th colSpan="3" className="text-end">
                       TOTAL
                     </th>
                     <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
+                    <th>
+                      {Math.round(SumOfRentalRate().toLocaleString("en-IN"))}
+                    </th>
                     <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-12">
             <input
               type="text"
               className="form-control"

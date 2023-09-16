@@ -21,10 +21,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {}, [path]);
-  const currentDate = new Date();
+  const currentDate = moment().format("ll");
 
   const ShowTime = () => {
-    time = new Date().toLocaleTimeString();
+    time = moment().calendar().substring(9, 18);
     setCTime(time);
   };
   setInterval(ShowTime, 1000);
@@ -70,13 +70,13 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          <b className="navbarLink mx-2 mt-0 text-center">
+          <b className="navbarLink mx-4 mt-0 text-center">
             {storeCode.toUpperCase()}
             <br />
-            {moment(currentDate).format("DD/MM/YYYY")}
-            <span className="mx-2">{CTime}</span>
+            {currentDate.toUpperCase()},<span className="mx-2">{CTime}</span>
           </b>
-          <BiLogIn className="lououtBtn mt-2 mx-2" onClick={Logout} />
+          <b className="navbarLink mt-2">{UserName}</b>
+          <BiLogIn className="lououtBtn mt-1 mx-2" onClick={Logout} />
         </div>
       </div>
     </nav>

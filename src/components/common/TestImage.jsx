@@ -1,51 +1,22 @@
-import React, { useState } from "react";
-import Swal from "sweetalert2";
+import moment from "moment";
+import React from "react";
 
 const TestImage = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [value, setValue] = useState("");
-  const getNextDate = () => {
-    const nextDate = new Date(selectedDate);
-    nextDate.setDate(selectedDate.getDate() + 20);
-    return nextDate;
-  };
-  const CreationPopUp = () => {
-    Swal.fire({
-      title: "Success",
-      text: "Customer Registered Successfully",
-      icon: "success",
-      confirmButtonColor: "#008080",
-      confirmButtonText: "OK",
-    });
-  };
+  const now = new Date();
 
-  // const handleChange = (e) => {
-  //   const inputValue = e.target.value;
-  //   // Limit the input to a fixed length, e.g., 4 characters
-  //   if (inputValue.length <= 4) {
-  //     setValue(inputValue);
-  //   }
-  // };
+  // Get the hours and minutes from the Date object
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+
+  // Format the hours and minutes as a string (e.g., "HH:MM")
+  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}`;
+
   return (
     <div>
-      <h1>Date and Day</h1>
-      <p>Selected Date: {selectedDate.toLocaleDateString()}</p>
-      <button onClick={() => setSelectedDate(new Date())}>Reset Date</button>
-      <h2>Next Date</h2>
-      <p>Next Date: {getNextDate().toLocaleDateString()}</p>
-      <button onClick={CreationPopUp}>Click</button>
-
-      <input
-        type="number"
-        id="fixedLengthInput"
-        value={value}
-        onChange={(e) => {
-          if (e.target.value.length <= 6) {
-            setValue(e.target.value);
-          }
-        }}
-        maxLength="4"
-      />
+      <p>Current Time: {formattedTime}</p>
+      <b>{moment().calendar().substring(9, 17)}</b>
     </div>
   );
 };

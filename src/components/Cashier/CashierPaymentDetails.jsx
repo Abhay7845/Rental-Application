@@ -25,6 +25,7 @@ const CashierPaymentDetails = () => {
   const [getPaymentData, setGetPaymentData] = useState([]);
   const [paymentDetails, setPaymentDetails] = useState({});
   const [documentType, setDocumentType] = useState("");
+  console.log("getPaymentData==>", getPaymentData);
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -227,7 +228,6 @@ const CashierPaymentDetails = () => {
           console.log("response==>", response);
           if (response.data) {
             UpdateBookingFile(tncFileName);
-            document.getElementById("tncFile").value = "";
           }
           setLoading(false);
         })
@@ -261,7 +261,9 @@ const CashierPaymentDetails = () => {
             confirmButtonText: "OK",
           });
           setPaymentDetails({});
+          setGetPaymentData([]);
           setCashierName("");
+          document.getElementById("tncFile").value = "";
         }
       })
       .then((error) => {
@@ -329,7 +331,13 @@ const CashierPaymentDetails = () => {
 
         {getPaymentData.length > 0 && (
           <div className="table-responsive">
-            <table className="table table-bordered table-hover border-dark text-center">
+            <table
+              className={`${
+                paymentDetails.id
+                  ? "table table-bordered border-dark text-center"
+                  : "table table-bordered border-dark text-center table-hover"
+              }`}
+            >
               <thead className="table-dark border-light">
                 <tr>
                   <td>Select</td>
@@ -341,13 +349,14 @@ const CashierPaymentDetails = () => {
               <tbody>
                 {getPaymentData.map((data, i) => {
                   return (
-                    <tr key={i}>
+                    <tr key={i} className={paymentDetails.id && "disabled"}>
                       <td className="text-center">
                         <input
                           className="form-check-input border-dark"
                           type="radio"
                           name="select"
                           onClick={() => OnSelectRow(data)}
+                          disabled={paymentDetails.id ? true : false}
                         />
                       </td>
                       <td>{data.customerName}</td>
@@ -373,7 +382,7 @@ const CashierPaymentDetails = () => {
           <div className="row g-3 mt-3 mx-0">
             <div className="col-md-12 mt-0">
               <label className="form-label">
-                Payment to be Collected/Refund
+                <b> Payment to be Collected/Refund</b>
               </label>
               <input
                 type="text"

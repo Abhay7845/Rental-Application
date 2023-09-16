@@ -432,56 +432,58 @@ const NewBooking = () => {
           </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
-            <div className="table-responsive">
-              <table
-                id="item-details-table"
-                className="table table-bordered table-hover border-dark text-center"
-              >
-                <thead className="table-dark border-light">
-                  <tr>
-                    {AddedTocCart.map((heading, i) => {
-                      return <td key={i}>{heading}</td>;
+            {GetCartProductData.length > 0 && (
+              <div className="table-responsive">
+                <table
+                  id="item-details-table"
+                  className="table table-bordered table-hover border-dark text-center"
+                >
+                  <thead className="table-dark border-light">
+                    <tr>
+                      {AddedTocCart.map((heading, i) => {
+                        return <td key={i}>{heading}</td>;
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {GetCartProductData.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td>{item.itemCode}</td>
+                          <td>{item.lotNo}</td>
+                          <td>{item.grossWt}</td>
+                          <td>
+                            {parseFloat(item.productValue).toLocaleString(
+                              "en-IN"
+                            )}
+                          </td>
+                          <td>
+                            {Math.round(
+                              parseFloat(item.rentValue).toLocaleString("en-IN")
+                            )}
+                          </td>
+                          <td>
+                            {parseFloat(item.depositValue).toLocaleString(
+                              "en-IN"
+                            )}
+                          </td>
+                        </tr>
+                      );
                     })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {GetCartProductData.map((item, i) => {
-                    return (
-                      <tr key={i}>
-                        <td>{item.itemCode}</td>
-                        <td>{item.lotNo}</td>
-                        <td>{item.grossWt}</td>
-                        <td>
-                          {parseFloat(item.productValue).toLocaleString(
-                            "en-IN"
-                          )}
-                        </td>
-                        <td>
-                          {Math.round(
-                            parseFloat(item.rentValue).toLocaleString("en-IN")
-                          )}
-                        </td>
-                        <td>
-                          {parseFloat(item.depositValue).toLocaleString(
-                            "en-IN"
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  <tr>
-                    <th colSpan="3" className="text-end">
-                      TOTAL
-                    </th>
-                    <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>
-                      {Math.round(SumOfRentalRate().toLocaleString("en-IN"))}
-                    </th>
-                    <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                    <tr>
+                      <th colSpan="3" className="text-end">
+                        TOTAL
+                      </th>
+                      <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
+                      <th>
+                        {Math.round(SumOfRentalRate().toLocaleString("en-IN"))}
+                      </th>
+                      <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
           <div className="col-md-12">
             <input

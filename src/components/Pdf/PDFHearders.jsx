@@ -1,0 +1,16 @@
+export const BookingOrderHearders = [
+  "Sr.No",
+  "ITEMCODE",
+  "Lot No",
+  "DISCRIPTION",
+  "GROSS WT.",
+  "BASE PRICE",
+  "NO.OF DAYS",
+  "BOOKING CHARGES",
+  "OTHER CHARGES",
+  "DISCOUNT",
+  "NET CHARGES",
+  "SGST",
+  "CGST",
+  "TOTAL",
+];

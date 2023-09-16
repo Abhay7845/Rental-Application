@@ -486,6 +486,7 @@ const NewBooking = () => {
             )}
           </div>
           <div className="col-md-12">
+            <label className="form-label">RSO Name</label>
             <input
               type="text"
               className="form-control"

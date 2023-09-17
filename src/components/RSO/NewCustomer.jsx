@@ -18,7 +18,7 @@ const NewCustomer = () => {
   const [loading, setLoading] = useState(false);
   const [panFile, setPanFile] = useState(null);
   const [addressFile, setAddressFile] = useState(null);
-  const [secPhoneCount, setSecPhoneCount] = useState(60);
+  const [secPhoneCount, setSecPhoneCount] = useState(90);
   const [phoneOtp, setPhoneOtp] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
@@ -36,7 +36,7 @@ const NewCustomer = () => {
   const BanckIfcseCode = bankIfsc.toUpperCase();
 
   // EMAIL ADDRESS  OTP VALIDATION
-  const [secEmailCount, setSecEmailCount] = useState(60);
+  const [secEmailCount, setSecEmailCount] = useState(90);
   const [emailOtp, setEmailOtp] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [enterEmailOtp, setEnterEmailOtp] = useState("");
@@ -213,6 +213,7 @@ const NewCustomer = () => {
         })
         .catch((error) => {
           console.log("error==>", error);
+          alert("OTP has been sent on your Email");
           setLoading(false);
           setPhoneOtp(OtpPhone);
         });
@@ -265,7 +266,7 @@ const NewCustomer = () => {
     } else {
       setLoading(true);
       const EmailInput = {
-        fromMailId: "iteanzdurgesh@titan.co.in",
+        fromMailId: "donotreply@titan.co.in",
         toMailId: emailId,
       };
       axios

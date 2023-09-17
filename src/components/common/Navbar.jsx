@@ -5,7 +5,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 import moment from "moment";
-// import { BsCartFill } from "react-icons/bs";
 
 const Navbar = () => {
   let time = new Date().toLocaleTimeString();
@@ -16,7 +15,7 @@ const Navbar = () => {
   const path = useLocation().pathname;
 
   const Logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("rsoRole");
     navigate("/JewRentalApp");
   };
 
@@ -75,7 +74,7 @@ const Navbar = () => {
             <br />
             {currentDate.toUpperCase()},<span className="mx-2">{CTime}</span>
           </b>
-          <b className="navbarLink mt-2">{UserName}</b>
+          <b className="navbarLink mt-2">{UserName.toUpperCase()}</b>
           <BiLogIn className="lououtBtn mt-1 mx-2" onClick={Logout} />
         </div>
       </div>

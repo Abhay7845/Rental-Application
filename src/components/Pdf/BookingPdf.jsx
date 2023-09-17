@@ -2,10 +2,48 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { BookingOrderHearders } from "./PDFHearders";
-const BookingPdf = () => {
+const BookingPdf = (props) => {
+  const { savePaymetRow } = props;
   const BookinRef = useRef(null);
   const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
+  const packageDays = localStorage.getItem("packageDays");
+  const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
+  const GetCartProductData = !CartData ? [] : CartData;
 
+  // TOTAL COST OF PRODUCT VALUE
+  const TProductValue = GetCartProductData.map((item) =>
+    parseFloat(item.productValue)
+  );
+  const SumOfTProductValue = () => {
+    let total = 0;
+    for (let data of TProductValue) total = total + data;
+    return total;
+  };
+  // TOTAL COST OF  RENTAL RATE
+  const TRentalRate = GetCartProductData.map((item) => item.rentValue);
+
+  const SumOfRentalRate = () => {
+    let total = 0;
+    for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+
+  // TOTAL COST OF DEPOSIT RATE
+  const TDepositRate = GetCartProductData.map((item) => item.depositValue);
+  const SumOfDepositRate = () => {
+    let total = 0;
+    for (let data of TDepositRate) total = total + data;
+    return total;
+  };
+
+  console.log("savePaymetRow==>", savePaymetRow);
+
+  const TAmount = savePaymetRow.map((item) => item.amount);
+  const SumOfTAmount = () => {
+    let total = 0;
+    for (let num of TAmount) total = total + num;
+    return total;
+  };
   return (
     <div>
       <div>
@@ -16,7 +54,7 @@ const BookingPdf = () => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -96,7 +134,7 @@ const BookingPdf = () => {
                 <td colSpan="5">
                   <b>ITEM DETAILS</b>
                   <div className="table">
-                    <table className="table table-bordered inner-table border-dark">
+                    <table className="table table-bordered inner-table border-dark text-center">
                       <thead>
                         <tr>
                           {BookingOrderHearders.map((heading, i) => {
@@ -105,35 +143,43 @@ const BookingPdf = () => {
                         </tr>
                       </thead>
                       <tbody>
+                        {GetCartProductData.map((item, i) => {
+                          return (
+                            <tr key={i}>
+                              <th>{i + 1}</th>
+                              <th>{item.itemCode}</th>
+                              <th>{item.lotNo}</th>
+                              <th>N/A</th>
+                              <th>{item.grossWt}</th>
+                              <th>N/A</th>
+                              <th>{packageDays} Days</th>
+                              <th>N/A</th>
+                              <th>N/A</th>
+                              <th>N/A</th>
+                              <th>N/A</th>
+                              <th>N/A</th>
+                              <th>N/A</th>
+                              <th>N/A</th>
+                            </tr>
+                          );
+                        })}
                         <tr>
-                          <th>1</th>
-                          <th>510</th>
-                          <th>87</th>
-                          <th>Antique Gold Ruby Red Green Jhumka Earrings</th>
-                          <th>32.6</th>
-                          <th>46578</th>
-                          <th>E2507R</th>
-                          <th>4</th>
-                          <th>7000</th>
-                          <th>0.00</th>
-                          <th>0.00</th>
-                          <th>47549</th>
-                          <th>4764</th>
-                          <th>4,53,340</th>
-                        </tr>
-                        <tr>
-                          <th colSpan="5" className="text-center">
-                            Total
+                          <th colSpan="7" className="text-end">
+                            TOTAL
                           </th>
-                          <th>BS_T</th>
-                          <th>-</th>
-                          <th>Booking_c</th>
-                          <th>-</th>
-                          <th>-</th>
-                          <th>N_c</th>
-                          <th>S_T</th>
-                          <th>C_T</th>
-                          <th>total</th>
+                          <th>
+                            {SumOfTProductValue().toLocaleString("en-IN")}
+                          </th>
+                          <th>
+                            {Math.round(
+                              SumOfRentalRate().toLocaleString("en-IN")
+                            )}
+                          </th>
+                          <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
+                          <th>123</th>
+                          <th>123</th>
+                          <th>123</th>
+                          <th>123</th>
                         </tr>
                       </tbody>
                     </table>
@@ -156,19 +202,27 @@ const BookingPdf = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th>1</th>
-                        <th>Card</th>
-                        <th>-</th>
-                        <th>Aug-01</th>
-                        <th>700</th>
-                      </tr>
-                      <tr>
-                        <th colSpan="4" className="text-end">
-                          TOTAL
-                        </th>
-                        <th>3456</th>
-                      </tr>
+                      {savePaymetRow.map((item, i) => {
+                        return (
+                          <tr key={i}>
+                            <td>{i + 1}</td>
+                            <td>{item.paymentType}</td>
+                            <td>{item.txnRefNo}</td>
+                            <td>N/A</td>
+                            <td>
+                              {item.amount.toString().toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      {savePaymetRow.length > 0 && (
+                        <tr>
+                          <th colSpan="4" className="text-end">
+                            TOTAL
+                          </th>
+                          <th>{SumOfTAmount().toString()}</th>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </td>

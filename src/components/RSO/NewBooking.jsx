@@ -20,8 +20,10 @@ const NewBooking = () => {
   const custType = localStorage.getItem("custType");
   const packageDays = localStorage.getItem("packageDays");
   const bookingRefId = localStorage.getItem("BookinTempId");
+  const [tnxFile, setTnxFile] = useState([]);
 
   console.log("existedUserData==>", existedUserData);
+  console.log("custType==>", custType);
 
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -172,38 +174,42 @@ const NewBooking = () => {
       document.getElementById("chequeBook").value = "";
     }
   };
-  const UploadPreTransaction = (event) => {
-    setLoading(true);
-    const file = event.target.files[0];
-    const formData = new FormData();
-    const fileEx = file.name.split(".");
-    const fileExtention = `${transactionfileName}.${fileEx[1]}`;
-    formData.append("ImgName", fileExtention);
-    formData.append("files", file);
-    axios
-      .post(`${UploadImg}`, formData, {
-        headers: ImageHeaders,
-      })
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response.data);
-        if (response.data) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setTransactionFile(fileExtention);
-            setTransactioUI(reader.result);
-          };
-          if (file) {
-            reader.readAsDataURL(file);
+  const UploadPreTransaction = () => {
+    if (tnxFile.length === 0) {
+      alert("Please Upload Transaction File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileEx = tnxFile.name.split(".");
+      console.log("fileEx==>", fileEx);
+      const fileExtention = `${transactionfileName}.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", tnxFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setTransactionFile(fileExtention);
+              setTransactioUI(reader.result);
+            };
+            if (tnxFile) {
+              reader.readAsDataURL(tnxFile);
+            }
+            alert("Transaction File Uploaded Successfully");
           }
-          alert("Transaction File Uploaded Successfully");
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   };
   const UpdateCustomerBankDetails = () => {
     if (!customerBankName || !customerAccountNumber) {
@@ -255,6 +261,8 @@ const NewBooking = () => {
   const RaiseBookPaymentReq = () => {
     if (!bookingRSO) {
       alert("Please Enter RSO Name");
+    } else if (custType !== "New Customer" && transactionFile === "") {
+      alert("Please Upload Previous Transaction File");
     } else {
       setLoading(true);
       const BookingInputs = {
@@ -415,17 +423,27 @@ const NewBooking = () => {
               </lebel>
             </div>
           )}
-          <div className="col-6">
-            <label className="form-label">
-              UPLOAD PREVIOUS TRANSACTION FILE
-            </label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={UploadPreTransaction}
-            />
-          </div>
-          <div className="col-md-6 text-center">
+          {custType !== "New Customer" && (
+            <div className="d-flex">
+              <div className="col-md-4">
+                <label className="form-label">
+                  Upload Previous Transaction File
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={(e) => setTnxFile(e.target.files[0])}
+                />
+              </div>
+              <div className="col-md-2 mt-2 mx-2">
+                <br />
+                <button className="CButton" onClick={UploadPreTransaction}>
+                  Upload
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="col-md-3 text-center border">
             {transactioUI && (
               <img src={transactioUI} alt="" width="180" height="85" />
             )}

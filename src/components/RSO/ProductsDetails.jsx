@@ -36,6 +36,8 @@ const ProductsDetails = () => {
   const navigate = useNavigate();
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
 
+  console.log("payload==>", payload);
+
   const GetProductDetails = (payload, avldata) => {
     const GetProducts = {
       storeCode: storeCode,
@@ -354,9 +356,15 @@ const ProductsDetails = () => {
                       <td>{data.lotNo}</td>
                       <td>{data.description}</td>
                       <td>{data.grossWt}</td>
-                      <td>{data.productValue.toLocaleString("en-IN")}</td>
-                      <td>{data.rentalRate.toLocaleString("en-IN")}</td>
-                      <td>{data.depositRate.toLocaleString("en-IN")}</td>
+                      <td>
+                        {Math.round(data.productValue).toLocaleString("en-IN")}
+                      </td>
+                      <td>
+                        {Math.round(data.rentalRate).toLocaleString("en-IN")}
+                      </td>
+                      <td>
+                        {Math.round(data.depositRate).toLocaleString("en-IN")}
+                      </td>
                       <td>{AvlProduct[0]}</td>
                     </tr>
                   );
@@ -393,12 +401,21 @@ const ProductsDetails = () => {
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>
-                        <td>{item.productValue.toLocaleString("en-IN")}</td>
-                        <td>{item.rentValue.toLocaleString("en-IN")}</td>
-                        <td>{item.depositValue.toLocaleString("en-IN")}</td>
                         <td>
+                          {Math.round(item.productValue).toLocaleString(
+                            "en-IN"
+                          )}
+                        </td>
+                        <td>{item.rentalRate}</td>
+                        <td>
+                          <span style={{ marginLeft: "20%" }}>
+                            {item.depositValue.toLocaleString("en-IN")}
+                          </span>
                           <BsFillTrashFill
-                            style={{ color: "red", cursor: "pointer" }}
+                            className="DeleteRow"
+                            style={{
+                              marginLeft: "15%",
+                            }}
                             onClick={() => DeleteWishListRow(item.pdtId)}
                           />
                         </td>
@@ -410,8 +427,12 @@ const ProductsDetails = () => {
                       TOTAL
                     </th>
                     <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
-                    <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
+                    <th>
+                      {Math.round(SumOfRentalRate()).toLocaleString("en-IN")}
+                    </th>
+                    <th>
+                      {Math.round(SumOfDepositRate()).toLocaleString("en-IN")}
+                    </th>
                   </tr>
                 </tbody>
               </table>

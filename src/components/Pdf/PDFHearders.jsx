@@ -1,7 +1,7 @@
 export const BookingOrderHearders = [
   "Sr.No",
   "ITEMCODE",
-  "Lot No",
+  "LOT NO",
   "DISCRIPTION",
   "GROSS WT.",
   "BASE PRICE",

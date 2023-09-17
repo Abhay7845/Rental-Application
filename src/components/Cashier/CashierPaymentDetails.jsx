@@ -14,6 +14,7 @@ import { BsFillTrashFill } from "react-icons/bs";
 import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
 import moment from "moment/moment";
 import { useEffect } from "react";
+import BookingPdf from "../Pdf/BookingPdf";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -78,8 +79,8 @@ const CashierPaymentDetails = () => {
     setAddPaymentRows([...addPaymentRows, count + 1]);
   };
   const SavePaymentRow = () => {
-    if (!fileName) {
-      alert("Please Upload File");
+    if (!fileName || !amount) {
+      alert("Please Fill All Details");
     } else {
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
@@ -128,29 +129,33 @@ const CashierPaymentDetails = () => {
       });
   };
   const UploadPaymentFile = () => {
-    setLoading(true);
-    const formData = new FormData();
-    const fileExtention = fileUpload.name.split(".");
-    const UploadFileName = `${paymentDetails.mobileNo}${currentDate}${RandomDigit}.${fileExtention[1]}`;
-    setFileName(UploadFileName);
-    formData.append("ImgName", UploadFileName);
-    formData.append("files", fileUpload);
-    axios
-      .post(`${UploadImg}`, formData, {
-        headers: ImageHeaders,
-      })
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response);
-        if (response.data) {
-          PaymentFileImage(UploadFileName);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+    if (fileUpload.length === 0) {
+      alert("Please Upload Payment Receipt");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = fileUpload.name.split(".");
+      const UploadFileName = `${paymentDetails.mobileNo}${currentDate}${RandomDigit}.${fileExtention[1]}`;
+      setFileName(UploadFileName);
+      formData.append("ImgName", UploadFileName);
+      formData.append("files", fileUpload);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            PaymentFileImage(UploadFileName);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   };
   const DeletePaymentRow = (id) => {
     const updatedData = savePaymetRow.filter((rowId) => rowId.id !== id);
@@ -487,13 +492,18 @@ const CashierPaymentDetails = () => {
             </div>
             <div className="d-flex justify-content-end mt-0">
               {addPaymentRows.length > 0 ? (
-                <button
-                  type="submit"
-                  className="CButton"
-                  onClick={SavePaymentRow}
-                >
-                  Save Payment
-                </button>
+                <div className="d-flex justify-content-between w-100">
+                  <b className="text-danger">
+                    Please Fill the All (*) Marks Filed
+                  </b>
+                  <button
+                    type="submit"
+                    className="CButton"
+                    onClick={SavePaymentRow}
+                  >
+                    Save Payment
+                  </button>
+                </div>
               ) : (
                 <div className="d-flex justify-content-between">
                   <button
@@ -512,7 +522,7 @@ const CashierPaymentDetails = () => {
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Print Booking Confirmation</span>
-                    <PaymentTnCPdf />
+                    <BookingPdf savePaymetRow={savePaymetRow} />
                   </h6>
                 </div>
                 <div className="col-md-6 d-flex">

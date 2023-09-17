@@ -80,10 +80,9 @@ export const AddedTocCart = [
   "ITEMCODE",
   "LOT NO.",
   "GROSS WT.",
-  "PRODUCTS VALUE",
-  "RENTAL RATE",
-  "DEPOSIT RATE",
-  "Delete",
+  "PRODUCT VALUE",
+  "RENTAL VALUE",
+  "DEPOSIT VALUE",
 ];
 export const DeliveryListHearders = [
   "ITEMCODE",
@@ -118,10 +117,10 @@ export const PaymentHeading1 = [
 ];
 export const PaymentHeading2 = [
   "Payment_For",
-  "Payment_Type",
-  "Payment_Ref_No.",
-  "Amount",
-  "File",
+  "Payment_Type(*)",
+  "Payment_Ref_No.(*)",
+  "Amount(*)",
+  "File(*)",
   "Delete",
 ];
 

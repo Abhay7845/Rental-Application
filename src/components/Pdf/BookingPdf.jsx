@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { BookingOrderHearders } from "./PDFHearders";
+import moment from "moment";
 const BookingPdf = (props) => {
   const { savePaymetRow, existedUserData } = props;
   const BookinRef = useRef(null);
@@ -215,7 +216,7 @@ const BookingPdf = (props) => {
                             <td>{i + 1}</td>
                             <td>{item.paymentType}</td>
                             <td>{item.txnRefNo}</td>
-                            <td>N/A</td>
+                            <td>{moment().format("DD-MM-YYYY")}</td>
                             <td>
                               {item.amount.toString().toLocaleString("en-IN")}
                             </td>
@@ -281,7 +282,7 @@ const BookingPdf = (props) => {
                     </div>
 
                     <div>
-                      <b>Customer Name : Abhay Aryan</b>
+                      <b>Customer Name: {existedUserData.customerName}</b>
 
                       <h6 className="mt-4">
                         Customer Signature : ..............................

@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { BookingOrderHearders } from "./PDFHearders";
 const BookingPdf = (props) => {
-  const { savePaymetRow } = props;
+  const { savePaymetRow, existedUserData } = props;
   const BookinRef = useRef(null);
   const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
   const packageDays = localStorage.getItem("packageDays");
@@ -54,7 +54,7 @@ const BookingPdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -112,18 +112,18 @@ const BookingPdf = (props) => {
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>Bill To:</b>
-                      <b>Address 1: Electronic City Fase-1</b>
-                      <b>Address 2: Electronic City Fase-2</b>
-                      <b>PinCode: 560012</b>
+                      <b>Address 1: {existedUserData.customerAddress1}</b>
+                      <b>Address 2: {existedUserData.customerAddress2}</b>
+                      <b>PinCode: {existedUserData.customerCityPincode}</b>
                       <b>State: Karnatka</b>
-                      <b>Mobile No: +91 8790644324</b>
+                      <b>Mobile No: +91 {existedUserData.mobileNo}</b>
                     </div>
                     <div
                       className="d-flex flex-column"
                       style={{ marginRight: "10.5%" }}
                     >
                       <b>Customer Profile Number: 784568475846</b>
-                      <b>PAN: CEZPG25447G</b>
+                      <b>PAN: {existedUserData.panCardNo}</b>
                       <b>GST No.: ABCDFRTNG234FRT</b>
                       <b>State Code: 27</b>
                     </div>

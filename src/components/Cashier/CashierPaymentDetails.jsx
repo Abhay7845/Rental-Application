@@ -25,8 +25,10 @@ const CashierPaymentDetails = () => {
   const [searchValue, setSearchValue] = useState("");
   const [getPaymentData, setGetPaymentData] = useState([]);
   const [paymentDetails, setPaymentDetails] = useState({});
+  const [existedUserData, setExistedUserData] = useState({});
   const [documentType, setDocumentType] = useState("");
   console.log("getPaymentData==>", getPaymentData);
+  console.log("existedUserData==>", existedUserData);
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -43,6 +45,21 @@ const CashierPaymentDetails = () => {
   const [tnCFileName, setTnCFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
 
+  const FetchUserDetails = (phoneNo) => {
+    axios
+      .get(`${HOST_URL}/rental/customer/details/mobileNo/${phoneNo}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setExistedUserData(response.data.value);
+        }
+      })
+      .then((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
   const GetPyamentDetials = () => {
     setLoading(true);
     axios
@@ -52,6 +69,7 @@ const CashierPaymentDetails = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setGetPaymentData(response.data.value);
+          FetchUserDetails(searchValue);
         }
         if (response.data.code === "1001") {
           Swal.fire({
@@ -522,7 +540,10 @@ const CashierPaymentDetails = () => {
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Print Booking Confirmation</span>
-                    <BookingPdf savePaymetRow={savePaymetRow} />
+                    <BookingPdf
+                      savePaymetRow={savePaymetRow}
+                      existedUserData={existedUserData}
+                    />
                   </h6>
                 </div>
                 <div className="col-md-6 d-flex">

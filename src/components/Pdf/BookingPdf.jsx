@@ -59,8 +59,16 @@ const BookingPdf = (props) => {
           }
             @page {
               size: A4;
-              margin:10mm;
+              margin:5mm;
             }
+          @media print{
+            .space-in-pdf{
+              margin-right:20mm;
+            }
+            .space-in-pdf-two{
+              margin-right:15mm;
+            }
+          }
           `}
         </style>
         <div className="table-container hide-on-screen" ref={BookinRef}>
@@ -73,7 +81,7 @@ const BookingPdf = (props) => {
           >
             <tbody>
               <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
+                <td rowSpan="2" colSpan="1" style={{ width: "30%" }}>
                   <div className="d-flex flex-column">
                     <b className="text-center">
                       <img src={TitanLogo} alt="" width="45" height="45" />
@@ -82,27 +90,29 @@ const BookingPdf = (props) => {
                     <b>Bangluru, Electronic City, 560012, Karnatka</b>
                   </div>
                 </td>
-                <td colSpan="3">
-                  <div className="d-flex flex-row">
+                <td colSpan="4">
+                  <div className="d-flex flex-row justify-content-between">
                     <b>Booking Reference No: ACGFRDGG1235</b>
-                    <b className="mx-5">Dated: 29/08/29</b>
+
+                    <b className="space-in-pdf">Date: 29/08/29</b>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colSpan="3">
-                  <div className="d-flex flex-row">
+                  <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>GST NO: ACGFRDGG1235</b>
+
                       <b>State: Karnatka</b>
+
                       <b>Place of Supply: Bangluru</b>
                     </div>
-                    <div
-                      className="d-flex flex-column"
-                      style={{ marginLeft: "17%" }}
-                    >
-                      <b className="mx-5">PAN: ABCDE1234F</b>
-                      <b className="mx-5">State Code: 27</b>
+
+                    <div className="d-flex flex-column space-in-pdf-two">
+                      <b>PAN: ABCDE1234F</b>
+
+                      <b>State Code: 27</b>
                     </div>
                   </div>
                 </td>
@@ -118,11 +128,8 @@ const BookingPdf = (props) => {
                       <b>State: Karnatka</b>
                       <b>Mobile No: +91 {existedUserData.mobileNo}</b>
                     </div>
-                    <div
-                      className="d-flex flex-column"
-                      style={{ marginRight: "10.5%" }}
-                    >
-                      <b>Customer Profile Number: 784568475846</b>
+                    <div className="d-flex flex-column">
+                      <b>Customer Profile Number: 784</b>
                       <b>PAN: {existedUserData.panCardNo}</b>
                       <b>GST No.: ABCDFRTNG234FRT</b>
                       <b>State Code: 27</b>
@@ -134,7 +141,7 @@ const BookingPdf = (props) => {
                 <td colSpan="5">
                   <b>ITEM DETAILS</b>
                   <div className="table">
-                    <table className="table table-bordered inner-table border-dark text-center">
+                    <table className="table table-bordered inner-table border-dark">
                       <thead>
                         <tr>
                           {BookingOrderHearders.map((heading, i) => {
@@ -145,7 +152,7 @@ const BookingPdf = (props) => {
                       <tbody>
                         {GetCartProductData.map((item, i) => {
                           return (
-                            <tr key={i}>
+                            <tr>
                               <th>{i + 1}</th>
                               <th>{item.itemCode}</th>
                               <th>{item.lotNo}</th>
@@ -187,7 +194,7 @@ const BookingPdf = (props) => {
                 </td>
               </tr>
               <tr>
-                <td colSpan="4" style={{ width: "100%" }}>
+                <td colSpan="4" style={{ width: "60%" }}>
                   <table className="table table-bordered border-dark">
                     <thead>
                       <tr>
@@ -226,7 +233,6 @@ const BookingPdf = (props) => {
                     </tbody>
                   </table>
                 </td>
-                <td></td>
               </tr>
               <tr>
                 <td colSpan="5">
@@ -263,18 +269,21 @@ const BookingPdf = (props) => {
               </tr>
               <tr>
                 <td colSpan="5">
-                  <div className="d-flex flex-column">
-                    <div className="mb-4">
+                  <b>
+                    I have read, understood and agree to all Terms and
+                    Conditions overleaf.
+                  </b>
+                  <div className="d-flex justify-content-between mt-3">
+                    <div>
                       <b>For Titan Company Limited</b>
-                      <h6>(Authorized Signatory)</h6>
+
+                      <h6 className="mt-4">(Authorized Signatory)</h6>
                     </div>
-                    <b>
-                      I have read, understood and agree to all Terms and
-                      Conditions overleaf.
-                    </b>
-                    <div className="mt-4">
+
+                    <div>
                       <b>Customer Name : Abhay Aryan</b>
-                      <h6>
+
+                      <h6 className="mt-4">
                         Customer Signature : ..............................
                       </h6>
                     </div>

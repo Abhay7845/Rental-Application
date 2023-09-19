@@ -52,23 +52,26 @@ const BookingPdf = (props) => {
         </button>
         <style>
           {`
-          @media screen{
-            .hide-on-screen{
-              display:none;
+            @media screen {
+              .hide-on-screen {
+                display: none;
+              }
             }
-          }
-            @page {
-              size: A4;
-              margin:5mm;
+             @page {
+                size: A4;
+                margin: 10mm;
+              }
+            @media print {
+              .space-in-pdf {
+                margin-right: 31mm;
+              }
+              .space-in-pdf-two {
+                margin-right: 25mm;
             }
-          @media print{
-            .space-in-pdf{
-              margin-right:20mm;
+              .rental-terms {
+                page-break-before: always;
+              }
             }
-            .space-in-pdf-two{
-              margin-right:15mm;
-            }
-          }
           `}
         </style>
         <div className="table-container hide-on-screen" ref={BookinRef}>

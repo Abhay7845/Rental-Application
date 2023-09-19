@@ -68,7 +68,12 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          setGetPaymentData(response.data.value);
+          const PendingStatusData = response.data.value.filter(
+            (data) =>
+              data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"
+          );
+          console.log("PendingStatusData==>", PendingStatusData);
+          setGetPaymentData(PendingStatusData);
           FetchUserDetails(searchValue);
         }
         if (response.data.code === "1001") {

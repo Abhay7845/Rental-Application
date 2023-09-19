@@ -10,7 +10,6 @@ const BookingPdf = (props) => {
   const packageDays = localStorage.getItem("packageDays");
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
   const GetCartProductData = !CartData ? [] : CartData;
-
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>
     parseFloat(item.productValue)
@@ -94,7 +93,6 @@ const BookingPdf = (props) => {
                 <td colSpan="4">
                   <div className="d-flex flex-row justify-content-between">
                     <b>Booking Reference No: ACGFRDGG1235</b>
-
                     <b className="space-in-pdf">Date: 29/08/29</b>
                   </div>
                 </td>
@@ -104,15 +102,11 @@ const BookingPdf = (props) => {
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>GST NO: ACGFRDGG1235</b>
-
                       <b>State: Karnatka</b>
-
                       <b>Place of Supply: Bangluru</b>
                     </div>
-
                     <div className="d-flex flex-column space-in-pdf-two">
                       <b>PAN: ABCDE1234F</b>
-
                       <b>State Code: 27</b>
                     </div>
                   </div>
@@ -153,12 +147,13 @@ const BookingPdf = (props) => {
                       <tbody>
                         {GetCartProductData.map((item, i) => {
                           return (
-                            <tr>
+                            <tr key={i}>
                               <th>{i + 1}</th>
                               <th>{item.itemCode}</th>
                               <th>{item.lotNo}</th>
                               <th>N/A</th>
                               <th>{item.grossWt}</th>
+                              <th>Rental Start Date</th>
                               <th>N/A</th>
                               <th>{packageDays} Days</th>
                               <th>N/A</th>
@@ -273,13 +268,10 @@ const BookingPdf = (props) => {
                   <div className="d-flex justify-content-between mt-3">
                     <div>
                       <b>For Titan Company Limited</b>
-
                       <h6 className="mt-4">(Authorized Signatory)</h6>
                     </div>
-
                     <div>
                       <b>Customer Name: {existedUserData.customerName}</b>
-
                       <h6 className="mt-4">
                         Customer Signature : ..............................
                       </h6>

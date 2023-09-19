@@ -4,6 +4,7 @@ export const BookingOrderHearders = [
   "LOT NO",
   "DISCRIPTION",
   "GROSS WT.",
+  "RENTAL START DATE",
   "BASE PRICE",
   "NO.OF DAYS",
   "BOOKING CHARGES",

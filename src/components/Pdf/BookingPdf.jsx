@@ -10,6 +10,7 @@ const BookingPdf = (props) => {
   const packageDays = localStorage.getItem("packageDays");
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
   const GetCartProductData = !CartData ? [] : CartData;
+
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>
     parseFloat(item.productValue)
@@ -35,8 +36,6 @@ const BookingPdf = (props) => {
     for (let data of TDepositRate) total = total + data;
     return total;
   };
-
-  console.log("savePaymetRow==>", savePaymetRow);
 
   const TAmount = savePaymetRow.map((item) => item.amount);
   const SumOfTAmount = () => {

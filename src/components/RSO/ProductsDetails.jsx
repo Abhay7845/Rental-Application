@@ -36,7 +36,7 @@ const ProductsDetails = () => {
   const navigate = useNavigate();
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
 
-  console.log("payload==>", payload);
+  console.log("goToCart==>", goToCart);
 
   const GetProductDetails = (payload, avldata) => {
     const GetProducts = {
@@ -396,7 +396,7 @@ const ProductsDetails = () => {
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>
                         <td>{item.productValue.toLocaleString("en-IN")}</td>
-                        <td>{item.rentalRate}</td>
+                        <td>{item.rentValue.toLocaleString("en-IN")}</td>
                         <td>
                           <span style={{ marginLeft: "20%" }}>
                             {item.depositValue.toLocaleString("en-IN")}

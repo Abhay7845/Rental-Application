@@ -178,11 +178,7 @@ const BookingPdf = (props) => {
                           <th>
                             {SumOfTProductValue().toLocaleString("en-IN")}
                           </th>
-                          <th>
-                            {Math.round(
-                              SumOfRentalRate().toLocaleString("en-IN")
-                            )}
-                          </th>
+                          <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
                           <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
                           <th>123</th>
                           <th>123</th>

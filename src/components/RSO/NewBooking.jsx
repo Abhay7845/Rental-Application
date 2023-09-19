@@ -476,9 +476,7 @@ const NewBooking = () => {
                             )}
                           </td>
                           <td>
-                            {Math.round(
-                              parseFloat(item.rentValue).toLocaleString("en-IN")
-                            )}
+                            {parseFloat(item.rentValue).toLocaleString("en-IN")}
                           </td>
                           <td>
                             {parseFloat(item.depositValue).toLocaleString(
@@ -493,9 +491,7 @@ const NewBooking = () => {
                         TOTAL
                       </th>
                       <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>
-                        {Math.round(SumOfRentalRate().toLocaleString("en-IN"))}
-                      </th>
+                      <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
                       <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
                     </tr>
                   </tbody>

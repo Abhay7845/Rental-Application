@@ -1,10 +1,11 @@
 import React from "react";
-import BookingPdf from "../Pdf/BookingPdf";
+import Navbar from "./Navbar";
 
 const TestImage = () => {
   return (
     <div>
-      <BookingPdf />
+      <Navbar />
+      Test
     </div>
   );
 };

@@ -356,15 +356,9 @@ const ProductsDetails = () => {
                       <td>{data.lotNo}</td>
                       <td>{data.description}</td>
                       <td>{data.grossWt}</td>
-                      <td>
-                        {Math.round(data.productValue).toLocaleString("en-IN")}
-                      </td>
-                      <td>
-                        {Math.round(data.rentalRate).toLocaleString("en-IN")}
-                      </td>
-                      <td>
-                        {Math.round(data.depositRate).toLocaleString("en-IN")}
-                      </td>
+                      <td>{data.productValue.toLocaleString("en-IN")}</td>
+                      <td>{data.rentalRate.toLocaleString("en-IN")}</td>
+                      <td>{data.depositRate.toLocaleString("en-IN")}</td>
                       <td>{AvlProduct[0]}</td>
                     </tr>
                   );
@@ -401,11 +395,7 @@ const ProductsDetails = () => {
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>
-                        <td>
-                          {Math.round(item.productValue).toLocaleString(
-                            "en-IN"
-                          )}
-                        </td>
+                        <td>{item.productValue.toLocaleString("en-IN")}</td>
                         <td>{item.rentalRate}</td>
                         <td>
                           <span style={{ marginLeft: "20%" }}>
@@ -427,12 +417,8 @@ const ProductsDetails = () => {
                       TOTAL
                     </th>
                     <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>
-                      {Math.round(SumOfRentalRate()).toLocaleString("en-IN")}
-                    </th>
-                    <th>
-                      {Math.round(SumOfDepositRate()).toLocaleString("en-IN")}
-                    </th>
+                    <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
+                    <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>

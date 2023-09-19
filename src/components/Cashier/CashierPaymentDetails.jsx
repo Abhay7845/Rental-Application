@@ -355,13 +355,7 @@ const CashierPaymentDetails = () => {
 
         {getPaymentData.length > 0 && (
           <div className="table-responsive">
-            <table
-              className={`${
-                paymentDetails.id
-                  ? "table table-bordered border-dark text-center"
-                  : "table table-bordered border-dark text-center table-hover"
-              }`}
-            >
+            <table className="table table-bordered border-dark text-center">
               <thead className="table-dark border-light">
                 <tr>
                   <td>Select</td>
@@ -373,14 +367,16 @@ const CashierPaymentDetails = () => {
               <tbody>
                 {getPaymentData.map((data, i) => {
                   return (
-                    <tr key={i} className={paymentDetails.id && "disabled"}>
+                    <tr key={i}>
                       <td className="text-center">
                         <input
                           className="form-check-input border-dark"
                           type="radio"
                           name="select"
                           onClick={() => OnSelectRow(data)}
-                          disabled={paymentDetails.id ? true : false}
+                          // disabled={
+                          //   paymentDetails.id !== data.id ? true : false
+                          // }
                         />
                       </td>
                       <td>{data.customerName}</td>

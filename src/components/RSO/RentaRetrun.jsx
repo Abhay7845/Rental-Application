@@ -238,7 +238,7 @@ const RentalReturn = () => {
               type="checkbox"
               className="mx-3 mt-1"
               checked={checkedQA}
-              onChange={(e) => setCheckedQA(!checkedQA)}
+              onChange={() => setCheckedQA(!checkedQA)}
             />
           </div>
           <div className="col-md-12">

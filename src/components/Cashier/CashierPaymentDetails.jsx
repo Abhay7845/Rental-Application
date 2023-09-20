@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { HOST_URL } from "../../API/HostURL";
+import { HOST_URL, Phoneulr1, Phoneulr2 } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import {
   ImageHeaders,
@@ -45,6 +45,11 @@ const CashierPaymentDetails = () => {
   const [tnCFileName, setTnCFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
 
+  // OTP VERIFICATION
+  const [Otp, setOtp] = useState("");
+  const [inputOtp, setInputOtp] = useState("");
+  const [verifiedOtp, setVerifiedOtp] = useState(false);
+  console.log("Otp==>", Otp);
   const FetchUserDetails = (phoneNo) => {
     axios
       .get(`${HOST_URL}/rental/customer/details/mobileNo/${phoneNo}`)
@@ -207,6 +212,49 @@ const CashierPaymentDetails = () => {
     }
   }, [paymentDetails.paymentRequestFor]);
 
+  // VERIFY OTP
+  const GetPhoneOTP = () => {
+    const Otp = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+    axios
+      .get(
+        `${Phoneulr1}${paymentDetails.mobileNo}&message=Kindly+share+this+OTP+-+${Otp}${Phoneulr2}`
+      )
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response);
+        if (response) {
+          alert(
+            `OTP has been sent your Register XXXX${paymentDetails.mobileNo.substring(
+              6,
+              10
+            )}`
+          );
+          setOtp(Otp);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        alert(
+          `OTP has been sent your Register XXXX${paymentDetails.mobileNo.substring(
+            6,
+            10
+          )}`
+        );
+        setOtp(Otp);
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
+  const VerifyOTP = () => {
+    if (parseInt(Otp) === parseInt(inputOtp)) {
+      alert("OTP verified successfully");
+      setVerifiedOtp(true);
+    } else {
+      alert("Invalid OTP");
+    }
+  };
+
   const UpdateBookingFile = (tncFileName) => {
     const updateBookingInput = {
       bookingRefId: bookingRefID,
@@ -226,7 +274,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          GetPhoneOTP();
         }
       })
       .catch((error) => {
@@ -642,8 +690,7 @@ const CashierPaymentDetails = () => {
                 </h6>
               </div>
             )}
-            <div className="col-md-12">
-              <label className="form-label">Cashier Name</label>
+            <div className="col-md-6">
               <input
                 type="text"
                 className="form-control"
@@ -651,6 +698,25 @@ const CashierPaymentDetails = () => {
                 onChange={(e) => setCashierName(e.target.value)}
               />
             </div>
+            {Otp && (
+              <div className="col-md-6">
+                {!verifiedOtp ? (
+                  <div className="d-flex">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="OTP"
+                      onChange={(e) => setInputOtp(e.target.value)}
+                    />
+                    <button className="CButton mx-2" onClick={VerifyOTP}>
+                      Verify
+                    </button>
+                  </div>
+                ) : (
+                  <p className="phoneVeryfiedStyle">OTP is Verified</p>
+                )}
+              </div>
+            )}
             <div className="col-12 d-flex justify-content-end mb-4">
               <button className="CButton" onClick={SubmitPaymentDetails}>
                 {paymentDetails.paymentRequestFor ===

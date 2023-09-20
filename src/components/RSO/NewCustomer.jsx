@@ -192,9 +192,8 @@ const NewCustomer = () => {
     } else if (phoneNumber.length < 9) {
       alert("Please Enter Valid Number");
     } else {
-      const min = 100000;
-      const max = 999999;
-      const OtpPhone = Math.floor(Math.random() * (max - min + 1)) + min;
+      const OtpPhone =
+        Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setLoading(true);
       axios
         .get(

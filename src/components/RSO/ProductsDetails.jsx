@@ -37,6 +37,7 @@ const ProductsDetails = () => {
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
 
   console.log("goToCart==>", goToCart);
+  console.log("goToCart==>", goToCart);
 
   const GetProductDetails = (payload, avldata) => {
     const GetProducts = {
@@ -79,6 +80,7 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
+    console;
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)

@@ -80,7 +80,6 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
-    console;
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)

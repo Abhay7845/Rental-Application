@@ -10,7 +10,8 @@ import moment from "moment";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
-import { UploadImg } from "../../API/HostURL";
+import { UploadImg, FetchImg } from "../../API/HostURL";
+import noImg from "../../Asset/Img/NoImage.jpg";
 
 const RentalIssue = () => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,7 @@ const RentalIssue = () => {
   const [sameCustomer, setSameCustomer] = useState(true);
   const [existedUserData, setExistedUserData] = useState({});
   const [RSOName, setRSOName] = useState("");
+  const [panImageUrl, setPanImgUrl] = useState("");
 
   // CUSTOMER BANK DETAIL FIELDS
   const [customerBankName, setCustomerBankName] = useState("");
@@ -39,9 +41,11 @@ const RentalIssue = () => {
   const [sameCustIDType, setSameCustIDType] = useState("");
   const [sameCustIDNo, setSameCustIDNo] = useState("");
   const [sameCustFile, setSameCustFile] = useState("");
+  const [actualWtAtDlr, setActualWtAtDlr] = useState("");
 
   console.log("productFileName==>", productFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
+  console.log("actualWtAtDlr==>", actualWtAtDlr);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -91,6 +95,7 @@ const RentalIssue = () => {
   };
 
   console.log("GetReturnProduct==>", GetReturnProduct);
+  console.log("existedUserData==>", existedUserData);
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -111,8 +116,6 @@ const RentalIssue = () => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
-        } else if (response.data.code === "1001") {
-          setExistedUserData({});
         }
         setLoading(false);
       })
@@ -121,6 +124,22 @@ const RentalIssue = () => {
         setLoading(false);
       });
   }, [GetReturnProduct.mobileNo]);
+  // FETCH DOCUMENTS IMAGE
+  useEffect(() => {
+    if (existedUserData.panCardNoFileName) {
+      axios
+        .get(`${FetchImg}${existedUserData.panCardNoFileName}`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          if (response.data) {
+            setPanImgUrl(response.data);
+          }
+        })
+        .catch((error) => console.log("error=>", error));
+    }
+  }, [existedUserData.panCardNoFileName]);
 
   const UploadBankCheque = (event) => {
     if (customerAccountNumber.length > 10) {
@@ -337,16 +356,17 @@ const RentalIssue = () => {
               type="text"
               className="form-control"
               placeholder="Customer Name"
-              disabled={sameCustomer ? true : false}
+              value={sameCustomer ? existedUserData.customerName : sameCustName}
               onChange={(e) => setSameCustName(e.target.value)}
+              disabled={sameCustomer ? true : false}
             />
           </div>
           <div className="col-md-2">
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
-              disabled={sameCustomer ? true : false}
               onChange={(e) => setSameCustIDType(e.target.value)}
+              disabled={sameCustomer ? true : false}
             >
               {addressTypeOption.map((item, i) => {
                 return (
@@ -363,30 +383,46 @@ const RentalIssue = () => {
               type="text"
               className="form-control"
               placeholder="Customer ID No."
-              disabled={sameCustomer ? true : false}
+              value={sameCustomer ? existedUserData.panCardNo : sameCustIDNo}
               onChange={(e) => setSameCustIDNo(e.target.value)}
+              disabled={sameCustomer ? true : false}
             />
           </div>
-          <div className="col-md-4 d-flex">
-            <div>
-              <label className="form-label">Upload ID</label>
-              <input
-                type="file"
-                className="form-control"
-                disabled={sameCustomer ? true : false}
-                onChange={(e) => setSameCustFile(e.target.files([0]))}
-              />
+          {sameCustomer ? (
+            <div className="col-md-4">
+              {panImageUrl ? (
+                <img
+                  src={`data:image/jpeg;base64,${panImageUrl}`}
+                  alt=""
+                  width="180"
+                  height="85"
+                />
+              ) : (
+                <img src={noImg} alt="" width="180" height="85" />
+              )}
             </div>
-            <div>
-              <label className="form-label">.</label>
-              <button
-                className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
-                disabled={sameCustomer ? true : false}
-              >
-                Upload
-              </button>
+          ) : (
+            <div className="col-md-4 d-flex">
+              <div>
+                <label className="form-label">Upload ID</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={(e) => setSameCustFile(e.target.files[0])}
+                  disabled={sameCustomer ? true : false}
+                />
+              </div>
+              <div>
+                <label className="form-label">.</label>
+                <button
+                  className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
+                  disabled={sameCustomer ? true : false}
+                >
+                  Upload
+                </button>
+              </div>
             </div>
-          </div>
+          )}
           {!existedUserData.customerBankName ||
           !existedUserData.customerAccountNumber ||
           !existedUserData.bankIfsc ||
@@ -453,6 +489,7 @@ const RentalIssue = () => {
                               type="number"
                               className="w-100"
                               placeholder="Actual Wt At Delivery"
+                              onChange={(e) => setActualWtAtDlr(e.target.value)}
                             />
                           </td>
                         </tr>
@@ -520,13 +557,18 @@ const RentalIssue = () => {
               onChange={(e) => setKarigarQAFile(e.target.files[0])}
             />
           </div>
-          <div className="col-md-2">
+          <div className="col-md-1">
             <br />
             <button className="CButton mt-2" onClick={UploadKarigarQA}>
               Upload
             </button>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-2">
+            {karigarQAUrl && (
+              <img src={karigarQAUrl} alt="Preview" height="70" width="140" />
+            )}
+          </div>
+          <div className="col-md-5">
             <label className="form-label">RSO Name</label>
             <input
               type="text"
@@ -534,11 +576,6 @@ const RentalIssue = () => {
               placeholder="RSO Name"
               onChange={(e) => setRSOName(e.target.value)}
             />
-          </div>
-          <div className="col-md-6">
-            {karigarQAUrl && (
-              <img src={karigarQAUrl} alt="Preview" height="50" />
-            )}
           </div>
           <div className="d-flex justify-content-end mb-4">
             <button type="button" className="CButton">

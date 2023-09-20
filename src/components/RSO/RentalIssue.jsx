@@ -7,7 +7,6 @@ import {
   addressTypeOption,
 } from "../../Data/DataList";
 import moment from "moment";
-import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -34,10 +33,16 @@ const RentalIssue = () => {
   const [karigarQAFile, setKarigarQAFile] = useState([]);
   const [karigarQAFileName, setKarigarQAFileName] = useState("");
   const [karigarQAUrl, setKarigarQAUrl] = useState("");
+
+  // SAME NOT SAME CUSTOME FOR PICKUP DETAILS
+  const [sameCustName, setSameCustName] = useState("");
+  const [sameCustIDType, setSameCustIDType] = useState("");
+  const [sameCustIDNo, setSameCustIDNo] = useState("");
+  const [sameCustFile, setSameCustFile] = useState("");
+
   console.log("productFileName==>", productFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
 
-  // STARTED BY 06-09-2023
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const currentDate = new Date();
@@ -333,6 +338,7 @@ const RentalIssue = () => {
               className="form-control"
               placeholder="Customer Name"
               disabled={sameCustomer ? true : false}
+              onChange={(e) => setSameCustName(e.target.value)}
             />
           </div>
           <div className="col-md-2">
@@ -340,6 +346,7 @@ const RentalIssue = () => {
             <select
               className="form-control"
               disabled={sameCustomer ? true : false}
+              onChange={(e) => setSameCustIDType(e.target.value)}
             >
               {addressTypeOption.map((item, i) => {
                 return (
@@ -357,6 +364,7 @@ const RentalIssue = () => {
               className="form-control"
               placeholder="Customer ID No."
               disabled={sameCustomer ? true : false}
+              onChange={(e) => setSameCustIDNo(e.target.value)}
             />
           </div>
           <div className="col-md-4 d-flex">
@@ -366,11 +374,17 @@ const RentalIssue = () => {
                 type="file"
                 className="form-control"
                 disabled={sameCustomer ? true : false}
+                onChange={(e) => setSameCustFile(e.target.files([0]))}
               />
             </div>
             <div>
               <label className="form-label">.</label>
-              <button className="CButton mx-2">Upload</button>
+              <button
+                className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
+                disabled={sameCustomer ? true : false}
+              >
+                Upload
+              </button>
             </div>
           </div>
           {!existedUserData.customerBankName ||
@@ -494,7 +508,7 @@ const RentalIssue = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
-              <BookingPdf />
+              Print
             </h6>
           </div>
           <div className="col-md-4">

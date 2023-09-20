@@ -61,7 +61,6 @@ const NewCustomer = () => {
   const last4Phoneno = phoneNumber.substring(6, 10);
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
-  console.log("PANNumber==>", PANNumber);
 
   const CreationPopUp = () => {
     Swal.fire({
@@ -213,9 +212,10 @@ const NewCustomer = () => {
         })
         .catch((error) => {
           console.log("error==>", error);
-          alert("OTP has been sent on your Email");
-          setLoading(false);
+          alert("OTP has been sent your mobile Number");
           setPhoneOtp(OtpPhone);
+          setSecPhoneCount(60);
+          setLoading(false);
         });
     }
   };
@@ -659,7 +659,7 @@ const NewCustomer = () => {
           </div>
           <div className="col-12 d-flex justify-content-end mb-4">
             <button className="CButton" onClick={CreateCustomerAccount}>
-              Registere Customer
+              Register Customer
             </button>
           </div>
         </div>

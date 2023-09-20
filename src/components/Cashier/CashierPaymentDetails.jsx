@@ -377,6 +377,9 @@ const CashierPaymentDetails = () => {
     }
     if (!tnCFileName) {
       alert("Please Upload T&C File");
+    }
+    if (verifiedOtp === false) {
+      alert("Please Verify OTP");
     } else {
       SubmitPayment();
     }

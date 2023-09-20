@@ -189,6 +189,14 @@ const ProductsDetails = () => {
     return total;
   };
 
+  // DISABLES AFTER TWO MONTHS  DATES
+
+  const getReturnDate = () => {
+    const nextDate = new Date();
+    nextDate.setDate(nextDate.getDate() + parseInt(60));
+    return nextDate;
+  };
+
   const GoForCancel = () => {
     setWishList(false);
     setProductDetails([]);
@@ -263,6 +271,7 @@ const ProductsDetails = () => {
                 className="form-control"
                 disabled={payload.bookingDate ? true : false}
                 min={toDayDate}
+                max={moment(getReturnDate()).format("YYYY-MM-DD")}
               />
               <ShowError name="bookingDate" />
             </div>

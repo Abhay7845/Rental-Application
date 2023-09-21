@@ -113,7 +113,7 @@ const CashierPaymentDetails = () => {
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
         id: paymentRowId,
-        amount: parseFloat(amount),
+        amount: Math.round(amount),
         bookingId: parseInt(paymentDetails.bookingId),
         createDate: null,
         fileName: fileName,
@@ -350,7 +350,7 @@ const CashierPaymentDetails = () => {
   };
 
   const SubmitPayment = () => {
-    if (parseFloat(paymentDetails.rentValue) === parseFloat(TotalAmount)) {
+    if (parseInt(paymentDetails.rentValue) === parseInt(TotalAmount)) {
       setLoading(true);
       axios
         .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
@@ -439,13 +439,13 @@ const CashierPaymentDetails = () => {
                       <td>{data.mobileNo}</td>
                       <td>{data.paymentRequestFor}</td>
                       <td>
-                        {parseFloat(data.productValue).toLocaleString("en-IN")}
+                        {Math.round(data.productValue).toLocaleString("en-IN")}
                       </td>
                       <td>
-                        {parseFloat(data.rentValue).toLocaleString("en-IN")}
+                        {Math.round(data.rentValue).toLocaleString("en-IN")}
                       </td>
                       <td>
-                        {parseFloat(data.depositValue).toLocaleString("en-IN")}
+                        {Math.round(data.depositValue).toLocaleString("en-IN")}
                       </td>
                     </tr>
                   );
@@ -463,7 +463,7 @@ const CashierPaymentDetails = () => {
               <input
                 type="text"
                 className="form-control"
-                value={parseFloat(paymentDetails.rentValue).toLocaleString(
+                value={Math.round(paymentDetails.rentValue).toLocaleString(
                   "en-IN"
                 )}
                 disabled
@@ -543,7 +543,7 @@ const CashierPaymentDetails = () => {
                         <input
                           type="file"
                           onChange={(e) => setFileUpload(e.target.files[0])}
-                          accept=".jpg, .jpeg, .png"
+                          accept=".jpg, .jpeg, .png, .pdf"
                         />
                         <button
                           className="CButton mx-1"

@@ -602,7 +602,7 @@ const RentalIssue = () => {
                           <td>
                             <input
                               type="number"
-                              className="w-100"
+                              className="w-100 text-center"
                               placeholder="Actual Wt At Delivery"
                               name={i}
                               defaultValue={inputValues[i]}

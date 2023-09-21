@@ -352,6 +352,39 @@ const RentalIssue = () => {
     return total;
   };
 
+  const RaiseDepositeRequest = () => {
+    const RaiseDepositValue = {
+      actualWtAtDelivery: [
+        {
+          actualWtAtDelivery: 0,
+          pdtId: 0,
+        },
+      ],
+      bookingRefNo: GetReturnProduct.refId,
+      dispatchDate: "2023-09-21T07:42:35.068Z",
+      issuenceDocumentUpload: "string",
+      loanDocumentUpload: "string",
+      pickUpByCustomerName: sameCustomer
+        ? existedUserData.customerName
+        : sameCustName,
+      pickUpByCustomerIdType: sameCustomer
+        ? existedUserData.addressProofIdType
+        : sameCustIDType,
+      pickUpByCustomerIdNo: sameCustomer
+        ? existedUserData.panCardNo
+        : sameCustIDNo,
+      pickUpCustomerFileName: sameCustomer ? panImageUrl : sameCutIDFileName,
+      qaCHeckedStatus: "string",
+      qaCHeckedStatusUpload: "string",
+      rsoName: RSOName,
+      signedAckUpload: "string",
+      totalDepositAmount: SumOfTDepositRate(),
+      totalDepositAmountPaid: "string",
+      totalProductValue: SumOfTProductValue(),
+      totalRentalValue: SumOfRentalRate(),
+    };
+    console.log("RaiseDepositValue==>", RaiseDepositValue);
+  };
   return (
     <div>
       {loading === true && <Loader />}
@@ -635,7 +668,11 @@ const RentalIssue = () => {
             />
           </div>
           <div className="d-flex justify-content-end mb-4">
-            <button type="button" className="CButton">
+            <button
+              type="button"
+              className="CButton"
+              onClick={RaiseDepositeRequest}
+            >
               Raise Deposit Request
             </button>
           </div>

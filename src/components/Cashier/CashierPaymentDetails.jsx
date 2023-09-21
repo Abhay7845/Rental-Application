@@ -519,6 +519,9 @@ const CashierPaymentDetails = () => {
                           <option value="Card">Card</option>
                           <option value="Credit Note">Credit Note</option>
                           <option value="TEP">TEP</option>
+                          <option value="NEFT">NEFT</option>
+                          <option value="RTGS">RTGS</option>
+                          <option value="Bank Transfer">Bank Transfer</option>
                         </select>
                       </td>
                       <td>
@@ -693,7 +696,7 @@ const CashierPaymentDetails = () => {
                 </h6>
               </div>
             )}
-            <div className="col-md-6">
+            <div className="col-md-12">
               <input
                 type="text"
                 className="form-control"

@@ -723,9 +723,7 @@ const RentalIssue = () => {
                 />
               </div>
               <div className="col-md-6">
-                <label className="form-label">
-                  Upload Cancelled Cheque Book
-                </label>
+                <label className="form-label">Cancelled Cheque</label>
                 <input
                   type="file"
                   className="form-control"

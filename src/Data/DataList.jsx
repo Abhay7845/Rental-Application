@@ -39,7 +39,7 @@ export const phonePan = /^[A-Z]{1,10}$/;
 export const addressTypeOption = [
   { value: "", name: "Select ID Type" },
   { value: "aadhar", name: "Aadhar Card" },
-  { value: "drvLincence", name: "Driver Lincence" },
+  { value: "Passport", name: "Passport" },
 ];
 
 export const ImageHeaders = {
@@ -113,7 +113,7 @@ export const PaymentHeading1 = [
   "Payment_Req_For",
   "Product_Value",
   "Rent_Value",
-  "Deposit_Value",
+  "Damage_Protection_Amount",
 ];
 export const PaymentHeading2 = [
   "Payment_For",

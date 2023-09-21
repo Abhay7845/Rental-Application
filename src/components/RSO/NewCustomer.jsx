@@ -636,7 +636,7 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-4 d-flex">
             <div>
-              <label className="form-label">Upload Cancelled Cheque Book</label>
+              <label className="form-label">Cancelled Cheque</label>
               <input
                 type="file"
                 className="form-control"

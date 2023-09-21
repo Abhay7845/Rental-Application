@@ -111,7 +111,7 @@ const NewBooking = () => {
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>
-    parseFloat(item.productValue)
+    parseInt(item.productValue)
   );
   const SumOfTProductValue = () => {
     let total = 0;
@@ -471,15 +471,15 @@ const NewBooking = () => {
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
                           <td>
-                            {parseFloat(item.productValue).toLocaleString(
+                            {Math.round(item.productValue).toLocaleString(
                               "en-IN"
                             )}
                           </td>
                           <td>
-                            {parseFloat(item.rentValue).toLocaleString("en-IN")}
+                            {Math.round(item.rentValue).toLocaleString("en-IN")}
                           </td>
                           <td>
-                            {parseFloat(item.depositValue).toLocaleString(
+                            {Math.round(item.depositValue).toLocaleString(
                               "en-IN"
                             )}
                           </td>

@@ -326,7 +326,7 @@ const RentalIssue = () => {
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = retunTableData.map((item) =>
-    parseFloat(item.productValue)
+    parseInt(item.productValue)
   );
   const SumOfTProductValue = () => {
     let total = 0;
@@ -335,9 +335,7 @@ const RentalIssue = () => {
   };
 
   // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = retunTableData.map((item) =>
-    parseFloat(item.rentalAmount)
-  );
+  const TRentalRate = retunTableData.map((item) => parseInt(item.rentalAmount));
   const SumOfRentalRate = () => {
     let total = 0;
     for (let data of TRentalRate) total = total + data;
@@ -346,7 +344,7 @@ const RentalIssue = () => {
 
   // TOTAL DEPOSITE AMOUNT
   const TDepositRate = retunTableData.map((item) =>
-    parseFloat(item.depositAmount)
+    parseInt(item.depositAmount)
   );
   const SumOfTDepositRate = () => {
     let total = 0;
@@ -529,17 +527,17 @@ const RentalIssue = () => {
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
                           <td>
-                            {parseFloat(item.productValue).toLocaleString(
+                            {Math.round(item.productValue).toLocaleString(
                               "en-IN"
                             )}
                           </td>
                           <td>
-                            {parseFloat(item.rentalAmount).toLocaleString(
+                            {Math.round(item.rentalAmount).toLocaleString(
                               "en-IN"
                             )}
                           </td>
                           <td>
-                            {parseFloat(item.depositAmount).toLocaleString(
+                            {Math.round(item.depositAmount).toLocaleString(
                               "en-IN"
                             )}
                           </td>

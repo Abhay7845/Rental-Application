@@ -47,7 +47,7 @@ const RentalReturn = () => {
 
   // TOTAL COST OF  CALCULATION
   const TProductValue = retunTableData.map((item) =>
-    parseFloat(item.productValue)
+    Math.round(item.productValue)
   );
   const SumOfTProductValue = () => {
     let total = 0;
@@ -56,7 +56,7 @@ const RentalReturn = () => {
   };
 
   const TRentalRateRate = retunTableData.map((item) =>
-    parseFloat(item.rentalAmount)
+    parseInt(item.rentalAmount)
   );
   const SumOfTRentalRate = () => {
     let total = 0;
@@ -174,12 +174,12 @@ const RentalReturn = () => {
                             />
                           </td>
                           <td>
-                            {parseFloat(item.productValue).toLocaleString(
+                            {Math.round(item.productValue).toLocaleString(
                               "en-IN"
                             )}
                           </td>
                           <td>
-                            {parseFloat(item.rentalAmount).toLocaleString(
+                            {Math.round(item.rentalAmount).toLocaleString(
                               "en-IN"
                             )}
                           </td>

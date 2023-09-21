@@ -40,12 +40,15 @@ const RentalIssue = () => {
   const [sameCustName, setSameCustName] = useState("");
   const [sameCustIDType, setSameCustIDType] = useState("");
   const [sameCustIDNo, setSameCustIDNo] = useState("");
-  const [sameCustFile, setSameCustFile] = useState("");
+  const [sameCustFile, setSameCustFile] = useState([]);
   const [actualWtAtDlr, setActualWtAtDlr] = useState("");
+  const [sameCustFileUrl, setSameCustFileUrl] = useState("");
+  const [sameCutIDFileName, setSameCutIDFileName] = useState("");
 
   console.log("productFileName==>", productFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
   console.log("actualWtAtDlr==>", actualWtAtDlr);
+  console.log("sameCutIDFileName==>", sameCutIDFileName);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -141,6 +144,43 @@ const RentalIssue = () => {
     }
   }, [existedUserData.panCardNoFileName]);
 
+  const UploadSameCustIDProof = () => {
+    console.log("sameCustFile==>", sameCustFile);
+    if (sameCustFile.length === 0) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileEx = sameCustFile.name.split(".");
+      const fileExtention = `${customerAccountNumber}${currentDate}.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", sameCustFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setSameCustFileUrl(reader.result);
+              setSameCutIDFileName(fileExtention);
+            };
+            if (sameCustFile) {
+              reader.readAsDataURL(sameCustFile);
+            }
+            alert("Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
   const UploadBankCheque = (event) => {
     if (customerAccountNumber.length > 10) {
       setLoading(true);
@@ -356,7 +396,9 @@ const RentalIssue = () => {
               type="text"
               className="form-control"
               placeholder="Customer Name"
-              value={sameCustomer ? existedUserData.customerName : sameCustName}
+              defaultValue={
+                sameCustomer ? existedUserData.customerName : sameCustName
+              }
               onChange={(e) => setSameCustName(e.target.value)}
               disabled={sameCustomer ? true : false}
             />
@@ -365,6 +407,11 @@ const RentalIssue = () => {
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
+              defaultValue={
+                sameCustomer
+                  ? existedUserData.addressProofIdType
+                  : sameCustIDType
+              }
               onChange={(e) => setSameCustIDType(e.target.value)}
               disabled={sameCustomer ? true : false}
             >
@@ -383,7 +430,9 @@ const RentalIssue = () => {
               type="text"
               className="form-control"
               placeholder="Customer ID No."
-              value={sameCustomer ? existedUserData.panCardNo : sameCustIDNo}
+              defaultValue={
+                sameCustomer ? existedUserData.panCardNo : sameCustIDNo
+              }
               onChange={(e) => setSameCustIDNo(e.target.value)}
               disabled={sameCustomer ? true : false}
             />
@@ -402,25 +451,35 @@ const RentalIssue = () => {
               )}
             </div>
           ) : (
-            <div className="col-md-4 d-flex">
-              <div>
-                <label className="form-label">Upload ID</label>
-                <input
-                  type="file"
-                  className="form-control"
-                  onChange={(e) => setSameCustFile(e.target.files[0])}
-                  disabled={sameCustomer ? true : false}
-                />
-              </div>
-              <div>
-                <label className="form-label">.</label>
-                <button
-                  className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
-                  disabled={sameCustomer ? true : false}
-                >
-                  Upload
-                </button>
-              </div>
+            <div className="col-md-4">
+              {sameCustFileUrl ? (
+                <img src={sameCustFileUrl} alt="" width="180" height="85" />
+              ) : (
+                <div className="d-flex">
+                  <div>
+                    <label className="form-label">Upload ID</label>
+                    <input
+                      type="file"
+                      id="sameCust"
+                      className="form-control"
+                      onChange={(e) => setSameCustFile(e.target.files[0])}
+                      disabled={sameCustomer ? true : false}
+                    />
+                  </div>
+                  <div>
+                    <label className="form-label">.</label>
+                    <button
+                      className={
+                        sameCustomer ? "CDisabled mx-1" : "CButton mx-1"
+                      }
+                      onClick={UploadSameCustIDProof}
+                      disabled={sameCustomer ? true : false}
+                    >
+                      Upload
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
           {!existedUserData.customerBankName ||

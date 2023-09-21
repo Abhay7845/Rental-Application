@@ -62,7 +62,7 @@ export const constomerType = [
     label: "Non-Purple",
   },
   {
-    value: "New Customer",
+    value: "NewRental_OnlyCustomer",
     label: "New Customer",
   },
 ];

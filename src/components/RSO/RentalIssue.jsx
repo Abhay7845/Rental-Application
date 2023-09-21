@@ -30,8 +30,7 @@ const RentalIssue = () => {
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
   const [retunTableData, setRetunTableData] = useState([]);
-  const [productImg, setProductImg] = useState([]);
-  const [productFileName, setProductFileName] = useState("");
+  const [productFileName, setProductFileName] = useState([]);
   const [karigarQAFile, setKarigarQAFile] = useState([]);
   const [karigarQAFileName, setKarigarQAFileName] = useState("");
   const [karigarQAUrl, setKarigarQAUrl] = useState("");
@@ -48,7 +47,7 @@ const RentalIssue = () => {
 
   console.log("productFileName==>", productFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
-  console.log("sameCutIDFileName==>", sameCutIDFileName);
+  console.log("productImgFile==>", productImgFile);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -73,41 +72,49 @@ const RentalIssue = () => {
       [name]: file,
     });
   };
-  console.log("inputFile==>", inputFile);
+  const PdtItemWiseImg = [];
+  for (const key in inputFile) {
+    if (inputFile.hasOwnProperty(key)) {
+      PdtItemWiseImg.push(inputFile[key]);
+    }
+  }
 
-  const UploadPdtImgItemWise = () => {
-    setLoading(true);
-    const formData = new FormData();
-    const fileExtention = productImg.name.split(".");
-    const productFile = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
-    setProductFileName(productFile);
-    formData.append("ImgName", productFile);
-    formData.append("files", productImg);
-    axios
-      .post(`${UploadImg}`, formData, {
-        headers: ImageHeaders,
-      })
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response);
-        if (response.data) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setProductImgFile(reader.result);
-          };
-          if (productImg) {
-            reader.readAsDataURL(productImg);
+  console.log(
+    "PdtItemWiseImg==>",
+    PdtItemWiseImg.map((data, i) => data)
+  );
+  const UploadPdtImgItemWise = (item) => {
+    PdtItemWiseImg.map((pdtIdImg, i) => {
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = pdtIdImg.name.split(".");
+      const productFile = `id-${i}-${item.itemCode}-${bookingDate}-${RandomDigit}.${fileExtention[1]}`;
+      setProductFileName([...productFileName, productFile]);
+      formData.append("ImgName", productFile);
+      formData.append("files", pdtIdImg);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setProductImgFile(reader.result);
+            };
+            if (pdtIdImg) {
+              reader.readAsDataURL(pdtIdImg);
+            }
           }
-          alert("File Uploaded Successfully");
-          setProductImg([]);
-          setProductFileName("");
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    });
   };
 
   const getReturnDate = () => {
@@ -651,7 +658,7 @@ const RentalIssue = () => {
                         />
                         <button
                           className="CButton mx-2"
-                          onClick={UploadPdtImgItemWise}
+                          onClick={() => UploadPdtImgItemWise(item)}
                         >
                           Upload
                         </button>
@@ -708,36 +715,7 @@ const RentalIssue = () => {
           </div>
         </div>
       </div>
-      <div className="col-12 d-flex justify-content-end mt-1">
-        <div
-          className="modal fade"
-          id="exampleModal"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">
-                {productImgFile && (
-                  <img
-                    src={productImgFile}
-                    alt="Preview"
-                    className="fullScreenImage"
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       {/*BANK DETAILS POP UP*/}
       <div
         className="modal fade"

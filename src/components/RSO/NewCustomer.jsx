@@ -197,7 +197,12 @@ const NewCustomer = () => {
       setLoading(true);
       axios
         .get(
-          `${Phoneulr1}${phoneNumber}&message=Kindly+share+this+OTP+-+${OtpPhone}${Phoneulr2}`
+          `${Phoneulr1}${phoneNumber}&message=Kindly+share+this+OTP+-+${OtpPhone}${Phoneulr2}`,
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
         )
         .then((res) => res)
         .then((response) => {

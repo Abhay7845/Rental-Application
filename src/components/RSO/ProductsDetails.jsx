@@ -48,6 +48,7 @@ const ProductsDetails = () => {
       cfaCode: avldata.cfaCode,
       locType: "SameCity",
     };
+    console.log("GetProducts==>", GetProducts);
     axios
       .post(`${HOST_URL}/rental/product/view/details`, GetProducts)
       .then((res) => res)
@@ -80,6 +81,7 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
+    console.log("CheckAvaiblity==>", CheckAvaiblity);
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
@@ -193,7 +195,7 @@ const ProductsDetails = () => {
 
   const getReturnDate = () => {
     const nextDate = new Date();
-    nextDate.setDate(nextDate.getDate() + parseInt(60));
+    nextDate.setDate(nextDate.getDate() + parseInt(90));
     return nextDate;
   };
 

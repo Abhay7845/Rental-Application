@@ -74,7 +74,7 @@ export const WishListHeader = [
   "GROSS. WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
-  "DEPOSIT VALUE",
+  "DAMAGE_PROTECTION_AMOUNT",
 ];
 export const AddedTocCart = [
   "ITEMCODE",
@@ -82,7 +82,7 @@ export const AddedTocCart = [
   "GROSS WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
-  "DEPOSIT VALUE",
+  "DAMAGE_PROTECTION_AMOUNT",
 ];
 export const DeliveryListHearders = [
   "ITEMCODE",
@@ -113,7 +113,7 @@ export const PaymentHeading1 = [
   "Payment_Req_For",
   "Product_Value",
   "Rent_Value",
-  "Damage_Protection_Amount",
+  "DAMAGE_PROTECTION_AMOUNT",
 ];
 export const PaymentHeading2 = [
   "Payment_For",

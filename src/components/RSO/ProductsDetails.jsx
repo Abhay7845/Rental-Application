@@ -114,11 +114,11 @@ const ProductsDetails = () => {
       lotNo: data.lotNo,
       netWt: data.netWt,
       pdtID: data.pdtID,
-      productValue: parseFloat(data.productValue),
+      productValue: parseInt(data.productValue),
       rateId: data.rateId,
-      penaltyRate: parseFloat(data.productValue * data.penaltyRate) / 100,
-      depositRate: parseFloat(data.productValue * data.depositRate) / 100,
-      rentalRate: parseFloat(data.productValue * data.rentalRate) / 100,
+      penaltyRate: parseInt(data.productValue * data.penaltyRate) / 100,
+      depositRate: parseInt(data.productValue * data.depositRate) / 100,
+      rentalRate: parseInt(data.productValue * data.rentalRate) / 100,
       status: "Active",
     };
   });
@@ -136,9 +136,9 @@ const ProductsDetails = () => {
       packageDays: parseInt(payload.packageDays),
       itemPriceId: parseInt(product.itemPriceId),
       rateId: product.rateId,
-      productValue: product.productValue,
-      rentValue: product.rentalRate,
-      depositValue: product.depositRate,
+      productValue: parseInt(product.productValue),
+      rentValue: parseInt(product.rentalRate),
+      depositValue: parseInt(product.depositRate),
       createdDate: null,
       updatedDate: null,
       status: "Added To Cart",
@@ -168,7 +168,7 @@ const ProductsDetails = () => {
   };
 
   // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = goToCart.map((item) => parseFloat(item.productValue));
+  const TProductValue = goToCart.map((item) => parseInt(item.productValue));
   const SumOfTProductValue = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
@@ -368,9 +368,15 @@ const ProductsDetails = () => {
                       <td>{data.lotNo}</td>
                       <td>{data.description}</td>
                       <td>{data.grossWt}</td>
-                      <td>{data.productValue.toLocaleString("en-IN")}</td>
-                      <td>{data.rentalRate.toLocaleString("en-IN")}</td>
-                      <td>{data.depositRate.toLocaleString("en-IN")}</td>
+                      <td>
+                        {Math.round(data.productValue).toLocaleString("en-IN")}
+                      </td>
+                      <td>
+                        {Math.round(data.rentalRate).toLocaleString("en-IN")}
+                      </td>
+                      <td>
+                        {Math.round(data.depositRate).toLocaleString("en-IN")}
+                      </td>
                       <td>{AvlProduct[0]}</td>
                     </tr>
                   );
@@ -407,11 +413,19 @@ const ProductsDetails = () => {
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>
-                        <td>{item.productValue.toLocaleString("en-IN")}</td>
-                        <td>{item.rentValue.toLocaleString("en-IN")}</td>
+                        <td>
+                          {Math.round(item.productValue).toLocaleString(
+                            "en-IN"
+                          )}
+                        </td>
+                        <td>
+                          {Math.round(item.rentValue).toLocaleString("en-IN")}
+                        </td>
                         <td>
                           <span style={{ marginLeft: "20%" }}>
-                            {item.depositValue.toLocaleString("en-IN")}
+                            {Math.round(item.depositValue).toLocaleString(
+                              "en-IN"
+                            )}
                           </span>
                           <BsFillTrashFill
                             className="DeleteRow"

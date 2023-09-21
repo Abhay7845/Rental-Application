@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
 import moment from "moment";
-import BookingPdf from "../Pdf/BookingPdf";
 import axios from "axios";
 import Loader from "../common/Loader";
 import { renatlReturnPage, addressTypeOption } from "../../Data/DataList";
@@ -219,7 +218,7 @@ const RentalReturn = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
-              <BookingPdf />
+              Print
             </h6>
           </div>
           <div className="col-md-5">

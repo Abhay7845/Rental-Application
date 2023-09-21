@@ -11,6 +11,8 @@ const TestImage = () => {
   ];
 
   const handleInputChange = (e) => {
+    console.log("name==>", e.target.name);
+    console.log("value==>", e.target.value);
     const { name, value } = e.target;
     setInputValues({
       ...inputValues,

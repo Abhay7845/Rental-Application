@@ -99,6 +99,8 @@ const RentalIssue = () => {
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("existedUserData==>", existedUserData);
   const GetActualWtAtDlr = (e) => {
+    console.log("name==>", e.target.name);
+    console.log("value==>", e.target.value);
     const { name, value } = e.target;
     setInputValues({
       ...inputValues,
@@ -359,9 +361,30 @@ const RentalIssue = () => {
     return total;
   };
 
+  const PdtItemWt = [];
+  for (const key in inputValues) {
+    if (inputValues.hasOwnProperty(key)) {
+      PdtItemWt.push(inputValues[key]);
+    }
+  }
+
+  // TOTAL ACTUAL ITEM PDT  VALUE
+  const SumOfActualItemWt = () => {
+    let total = 0;
+    for (let data of PdtItemWt) total = total + parseInt(data);
+    return total;
+  };
+
+  const PdtItemWitewt = PdtItemWt.map((ele, i) => {
+    return {
+      actualWtAtDelivery: ele,
+      pdtId: i,
+    };
+  });
+
   const RaiseDepositeRequest = () => {
     const RaiseDepositValue = {
-      actualWtAtDelivery: "",
+      actualWtAtDelivery: PdtItemWitewt,
       bookingRefNo: GetReturnProduct.refId,
       dispatchDate: "2023-09-21T07:42:35.068Z",
       issuenceDocumentUpload: "string",
@@ -581,8 +604,8 @@ const RentalIssue = () => {
                               type="number"
                               className="w-100"
                               placeholder="Actual Wt At Delivery"
-                              name={item.i}
-                              defaultValue={inputValues[item.i]}
+                              name={i}
+                              defaultValue={inputValues[i]}
                               onChange={GetActualWtAtDlr}
                             />
                           </td>
@@ -596,7 +619,7 @@ const RentalIssue = () => {
                       <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
                       <th>{SumOfTDepositRate().toLocaleString("en-IN")}</th>
-                      <th>SUM</th>
+                      <th>{SumOfActualItemWt()}</th>
                     </tr>
                   </tbody>
                 </table>

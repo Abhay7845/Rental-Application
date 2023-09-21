@@ -44,6 +44,7 @@ const RentalIssue = () => {
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const [inputValues, setInputValues] = useState({});
+  const [inputFile, setInputFile] = useState({});
 
   console.log("productFileName==>", productFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
@@ -55,59 +56,59 @@ const RentalIssue = () => {
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
 
-  const UploadProductImg = (item) => {
-    console.log("item==>", item);
-    console.log("productImg==>", productImg);
-    if (productImg.length === 0) {
-      alert("Please Choose File");
-    } else {
-      setLoading(true);
-      const formData = new FormData();
-      const fileExtention = productImg.name.split(".");
-      const productFile = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
-      setProductFileName(productFile);
-      formData.append("ImgName", productFile);
-      formData.append("files", productImg);
-      axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response);
-          if (response.data) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setProductImgFile(reader.result);
-            };
-            if (productImg) {
-              reader.readAsDataURL(productImg);
-            }
-            alert("File Uploaded Successfully");
-            setProductImg([]);
-            setProductFileName("");
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error==>", error);
-          setLoading(false);
-        });
-    }
-  };
-
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("existedUserData==>", existedUserData);
   const GetActualWtAtDlr = (e) => {
-    console.log("name==>", e.target.name);
-    console.log("value==>", e.target.value);
     const { name, value } = e.target;
     setInputValues({
       ...inputValues,
       [name]: value,
     });
   };
-  console.log("inputValues==>", inputValues);
+  const GetPdtItemWiseImg = (e) => {
+    const name = e.target.name;
+    const file = e.target.files[0];
+    setInputFile({
+      ...inputFile,
+      [name]: file,
+    });
+  };
+  console.log("inputFile==>", inputFile);
+
+  const UploadPdtImgItemWise = () => {
+    setLoading(true);
+    const formData = new FormData();
+    const fileExtention = productImg.name.split(".");
+    const productFile = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
+    setProductFileName(productFile);
+    formData.append("ImgName", productFile);
+    formData.append("files", productImg);
+    axios
+      .post(`${UploadImg}`, formData, {
+        headers: ImageHeaders,
+      })
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response);
+        if (response.data) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setProductImgFile(reader.result);
+          };
+          if (productImg) {
+            reader.readAsDataURL(productImg);
+          }
+          alert("File Uploaded Successfully");
+          setProductImg([]);
+          setProductFileName("");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -619,7 +620,7 @@ const RentalIssue = () => {
                       <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
                       <th>{SumOfTDepositRate().toLocaleString("en-IN")}</th>
-                      <th>{SumOfActualItemWt()}</th>
+                      <th>{SumOfActualItemWt()} g.</th>
                     </tr>
                   </tbody>
                 </table>
@@ -644,11 +645,13 @@ const RentalIssue = () => {
                           type="file"
                           id="prodcutFile"
                           className="form-control"
-                          onChange={(e) => setProductImg(e.target.files[0])}
+                          name={i}
+                          defaultValue={inputFile[i]}
+                          onChange={GetPdtItemWiseImg}
                         />
                         <button
                           className="CButton mx-2"
-                          onClick={() => UploadProductImg(item)}
+                          onClick={UploadPdtImgItemWise}
                         >
                           Upload
                         </button>

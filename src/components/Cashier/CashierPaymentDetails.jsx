@@ -567,7 +567,7 @@ const CashierPaymentDetails = () => {
               {addPaymentRows.length > 0 ? (
                 <div className="d-flex justify-content-between w-100">
                   <b className="text-danger">
-                    Please Fill the All (*) Marks Filed
+                    Note:- Please fill the all (*) marks filed
                   </b>
                   <button
                     type="submit"

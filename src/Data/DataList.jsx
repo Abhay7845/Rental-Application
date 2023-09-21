@@ -108,20 +108,20 @@ export const FinalInvoicePdfHeaders = [
 ];
 
 export const PaymentHeading1 = [
-  "Customer_Name",
-  "Phone_Number",
-  "Payment_Req_For",
-  "Product_Value",
-  "Rent_Value",
+  "CUSTOMER_NAME",
+  "PHONE_NUMBER",
+  "PAYMENT_REQUEST_FOR",
+  "PRODUCT_VALUE",
+  "RENT_VALUE",
   "DAMAGE_PROTECTION_AMOUNT",
 ];
 export const PaymentHeading2 = [
-  "Payment_For",
-  "Payment_Type(*)",
-  "Payment_Ref_No.(*)",
-  "Amount(*)",
-  "File(*)",
-  "Delete",
+  "PAYMENT_FOR",
+  "PAYMENT_TYPE(*)",
+  "PAYMENT_REF_NO.(*)",
+  "AMOUNT(*)",
+  "FILE(*)",
+  "DELETE",
 ];
 
 export const rentalIssuePage = [

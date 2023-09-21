@@ -371,7 +371,7 @@ const RentalIssue = () => {
   // TOTAL ACTUAL ITEM PDT  VALUE
   const SumOfActualItemWt = () => {
     let total = 0;
-    for (let data of PdtItemWt) total = total + parseInt(data);
+    for (let data of PdtItemWt) total = total + parseFloat(data);
     return total;
   };
 

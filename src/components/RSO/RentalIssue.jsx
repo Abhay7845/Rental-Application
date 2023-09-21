@@ -41,13 +41,12 @@ const RentalIssue = () => {
   const [sameCustIDType, setSameCustIDType] = useState("");
   const [sameCustIDNo, setSameCustIDNo] = useState("");
   const [sameCustFile, setSameCustFile] = useState([]);
-  const [actualWtAtDlr, setActualWtAtDlr] = useState("");
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
+  const [inputValues, setInputValues] = useState({});
 
   console.log("productFileName==>", productFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
-  console.log("actualWtAtDlr==>", actualWtAtDlr);
   console.log("sameCutIDFileName==>", sameCutIDFileName);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
@@ -99,6 +98,14 @@ const RentalIssue = () => {
 
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("existedUserData==>", existedUserData);
+  const GetActualWtAtDlr = (e) => {
+    const { name, value } = e.target;
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
+  };
+  console.log("inputValues==>", inputValues);
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -354,12 +361,7 @@ const RentalIssue = () => {
 
   const RaiseDepositeRequest = () => {
     const RaiseDepositValue = {
-      actualWtAtDelivery: [
-        {
-          actualWtAtDelivery: 0,
-          pdtId: 0,
-        },
-      ],
+      actualWtAtDelivery: "",
       bookingRefNo: GetReturnProduct.refId,
       dispatchDate: "2023-09-21T07:42:35.068Z",
       issuenceDocumentUpload: "string",
@@ -579,7 +581,9 @@ const RentalIssue = () => {
                               type="number"
                               className="w-100"
                               placeholder="Actual Wt At Delivery"
-                              onChange={(e) => setActualWtAtDlr(e.target.value)}
+                              name={item.i}
+                              defaultValue={inputValues[item.i]}
+                              onChange={GetActualWtAtDlr}
                             />
                           </td>
                         </tr>
@@ -592,7 +596,7 @@ const RentalIssue = () => {
                       <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
                       <th>{SumOfTDepositRate().toLocaleString("en-IN")}</th>
-                      <th colSpan="1" />
+                      <th>SUM</th>
                     </tr>
                   </tbody>
                 </table>

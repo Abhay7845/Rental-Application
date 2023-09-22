@@ -214,7 +214,6 @@ const Cancellation = () => {
     return total;
   };
 
-  console.log("SumOfRentalRate==>", SumOfRentalRate(), numberDays);
   let cancelCharge = 0;
   if (numberDays <= 0) {
     cancelCharge = SumOfRentalRate(); // 100% charge
@@ -537,7 +536,7 @@ const Cancellation = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Cancellation Charges</h6>
           </div>
-          <div className="col-md-6">
+          <div className="col-6">
             <label className="form-label">Total Cancellation Charges</label>
             <input
               type="text"
@@ -547,7 +546,7 @@ const Cancellation = () => {
               disabled
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-6">
             <label className="form-label">Discount Amount</label>
             <input
               type="number"

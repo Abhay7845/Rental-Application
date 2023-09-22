@@ -33,15 +33,10 @@ const Cancellation = () => {
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const [discountValue, setDiscountValue] = useState({});
 
-  console.log("cancellationReason==>", cancellationReason);
   console.log("GetReturnProduct==>", GetReturnProduct);
-  console.log("rsoName==>", rsoName);
-  console.log("sameCustName==>", sameCustName);
-  console.log("sameCustIDType==>", sameCustIDType);
-  console.log("sameCustIDNo==>", sameCustIDNo);
-  console.log("sameCustFile==>", sameCustFile);
-  console.log("sameCutIDFileName==>", sameCutIDFileName);
-  const currentDate = new Date();
+  console.log("existedUserData==>", existedUserData);
+
+  const currentDate = moment().format("YYYY-MM-DD");
 
   useEffect(() => {
     setLoading(true);
@@ -234,6 +229,27 @@ const Cancellation = () => {
   const afterDiscount = cancelCharge - discountAmount;
   const netRefund = SumOfRentalRate() - afterDiscount;
 
+  const ItemWiseDiscountAmount = (e) => {
+    const { name, value } = e.target;
+    setDiscountValue({
+      ...discountValue,
+      [name]: value,
+    });
+  };
+  const ItemWiseDiscount = [];
+  for (const key in discountValue) {
+    if (discountValue.hasOwnProperty(key)) {
+      ItemWiseDiscount.push(discountValue[key]);
+    }
+  }
+
+  // TOTAL  DISCOUNT AMOUNT
+  const SumOfTotalDiscount = () => {
+    let total = 0;
+    for (let data of ItemWiseDiscount) total = total + parseFloat(data);
+    return total;
+  };
+
   const RaiseCancelBookingRequest = () => {
     if (!rsoName) {
       alert("Please Enter RSO Name");
@@ -241,13 +257,19 @@ const Cancellation = () => {
       alert("Please Select cancellationReason");
     } else {
       setLoading(true);
-      const cancellationInputs = {
+      const CancellationInputs = {
         bookingID: GetReturnProduct.bookingID,
-        cancelDate: null,
-        customerName: sumOfAmounts.customerName,
-        customerIdType: "",
-        customerIdNo: "",
-        customerIdFileName: "",
+        cancelDate: currentDate,
+        customerName: sameCustomer
+          ? existedUserData.customerName
+          : sameCustName,
+        customerIdType: sameCustomer
+          ? existedUserData.addressProofIdType
+          : sameCustIDType,
+        customerIdNo: sameCustomer ? existedUserData.panCardNo : sameCustIDNo,
+        customerIdFileName: sameCustomer
+          ? existedUserData.panCardNoFileName
+          : sameCutIDFileName,
         cancellationReason: cancellationReason,
         cancellationCharges: parseInt(cancelCharge),
         discountAmount: parseInt(discountAmount),
@@ -259,9 +281,9 @@ const Cancellation = () => {
         createdDate: null,
         updatedDate: null,
       };
-      console.log("BookingInputs==>", cancellationInputs);
+      console.log("CancellationInputs==>", CancellationInputs);
       axios
-        .post(`${HOST_URL}/cancel/booking`, cancellationInputs)
+        .post(`${HOST_URL}/cancel/booking`, CancellationInputs)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -294,28 +316,6 @@ const Cancellation = () => {
         });
     }
   };
-
-  const ItemWiseDiscountAmount = (e) => {
-    const { name, value } = e.target;
-    setDiscountValue({
-      ...discountValue,
-      [name]: value,
-    });
-  };
-  const ItemWiseDiscount = [];
-  for (const key in discountValue) {
-    if (discountValue.hasOwnProperty(key)) {
-      ItemWiseDiscount.push(discountValue[key]);
-    }
-  }
-
-  // TOTAL  DISCOUNT AMOUNT
-  const SumOfTotalDiscount = () => {
-    let total = 0;
-    for (let data of ItemWiseDiscount) total = total + parseFloat(data);
-    return total;
-  };
-  console.log("SumOfTotalDiscount==>", SumOfTotalDiscount());
   return (
     <div>
       {loading === true && <Loader />}
@@ -599,7 +599,7 @@ const Cancellation = () => {
             onChange={(e) => setRsoName(e.target.value)}
           />
         </div>
-        <div className="col-12 mb-3">
+        <div className="col-12 mb-3 my-3">
           <div className="d-flex justify-content-end">
             <button className="CButton" onClick={RaiseCancelBookingRequest}>
               Raise Cancel Request

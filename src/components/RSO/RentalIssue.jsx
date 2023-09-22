@@ -623,10 +623,10 @@ const RentalIssue = () => {
                       <th colSpan="3" className="text-end">
                         TOTAL
                       </th>
-                      <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
-                      <th>{SumOfTDepositRate().toLocaleString("en-IN")}</th>
-                      <th>{SumOfActualItemWt()} g.</th>
+                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
+                      <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
+                      <th>₹ {SumOfTDepositRate().toLocaleString("en-IN")}</th>
+                      <th>₹ {SumOfActualItemWt()} g.</th>
                     </tr>
                   </tbody>
                 </table>

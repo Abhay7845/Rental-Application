@@ -7,7 +7,7 @@ import {
   panRegex,
 } from "../../Data/DataList";
 import axios from "axios";
-import { HOST_URL, Phoneulr1, Phoneulr2, UploadImg } from "../../API/HostURL";
+import { HOST_URL, UploadImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
@@ -192,28 +192,21 @@ const NewCustomer = () => {
     } else if (phoneNumber.length < 9) {
       alert("Please Enter Valid Number");
     } else {
-      const OtpPhone =
-        Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setLoading(true);
       axios
-        .get(
-          `${Phoneulr1}${phoneNumber}&message=Kindly+share+this+OTP+-+${OtpPhone}${Phoneulr2}`
-        )
+        .get(`${HOST_URL}/get/mobile/otp/${phoneNumber}`)
         .then((res) => res)
         .then((response) => {
           console.log("response==>", response);
-          if (response) {
-            alert("OTP has been sent your mobile Number");
-            setPhoneOtp(OtpPhone);
+          if (response.data.code === "1000") {
+            setPhoneOtp(response.data.otp);
             setSecPhoneCount(60);
+            alert("OTP has been sent your Mobile Number");
           }
           setLoading(false);
         })
         .catch((error) => {
           console.log("error==>", error);
-          alert("OTP has been sent your mobile Number");
-          setPhoneOtp(OtpPhone);
-          setSecPhoneCount(60);
           setLoading(false);
         });
     }

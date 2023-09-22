@@ -442,9 +442,9 @@ const ProductsDetails = () => {
                     <th colSpan="3" className="text-end">
                       TOTAL
                     </th>
-                    <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
-                    <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
+                    <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
+                    <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
+                    <th>₹ {SumOfDepositRate().toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import { DataList } from "../../Data/DataList";
+import { CancellationReason, DataList } from "../../Data/DataList";
 import moment from "moment";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import Swal from "sweetalert2";
 import { addressTypeOption } from "../../Data/DataList";
+import { FetchImg, UploadImg } from "../../API/HostURL";
+import { ImageHeaders } from "../../Data/DataList";
+import noImg from "../../Asset/Img/NoImage.jpg";
 
 const Cancellation = () => {
   const [loading, setLoading] = useState(false);
@@ -25,6 +28,10 @@ const Cancellation = () => {
   const [sameCustFile, setSameCustFile] = useState("");
   const [sameCustomer, setSameCustomer] = useState(true);
   const [itemWiseDiscount, setItemWiseDiscount] = useState([]);
+  const [existedUserData, setExistedUserData] = useState({});
+  const [panImageUrl, setPanImgUrl] = useState("");
+  const [sameCustFileUrl, setSameCustFileUrl] = useState("");
+  const [sameCutIDFileName, setSameCutIDFileName] = useState("");
 
   console.log("cancellationReason==>", cancellationReason);
   console.log("GetReturnProduct==>", GetReturnProduct);
@@ -33,6 +40,82 @@ const Cancellation = () => {
   console.log("sameCustIDType==>", sameCustIDType);
   console.log("sameCustIDNo==>", sameCustIDNo);
   console.log("sameCustFile==>", sameCustFile);
+  console.log("sameCutIDFileName==>", sameCutIDFileName);
+  const currentDate = new Date();
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(
+        `${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`
+      )
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          setExistedUserData(response.data.value);
+        }
+        setLoading(false);
+      })
+      .then((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  }, [GetReturnProduct.mobileNo]);
+
+  // FETCH DOCUMENTS IMAGE
+  useEffect(() => {
+    if (existedUserData.panCardNoFileName) {
+      axios
+        .get(`${FetchImg}${existedUserData.panCardNoFileName}`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          if (response.data) {
+            setPanImgUrl(response.data);
+          }
+        })
+        .catch((error) => console.log("error=>", error));
+    }
+  }, [existedUserData.panCardNoFileName]);
+
+  const UploadSameCustIDProof = () => {
+    if (sameCustFile.length === 0) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileEx = sameCustFile.name.split(".");
+      const fileExtention = `${currentDate}.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", sameCustFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setSameCustFileUrl(reader.result);
+              setSameCutIDFileName(fileExtention);
+            };
+            if (sameCustFile) {
+              reader.readAsDataURL(sameCustFile);
+            }
+            alert("Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -77,8 +160,6 @@ const Cancellation = () => {
     );
     return nextDate;
   };
-
-  // /fetch/sumOf / amounts / common / { storeCode } / { bookingRefNo }
 
   useEffect(() => {
     axios
@@ -271,16 +352,24 @@ const Cancellation = () => {
               type="text"
               className="form-control"
               placeholder="Customer Name"
-              disabled={sameCustomer ? true : false}
+              defaultValue={
+                sameCustomer ? existedUserData.customerName : sameCustName
+              }
               onChange={(e) => setSameCustName(e.target.value)}
+              disabled={sameCustomer ? true : false}
             />
           </div>
           <div className="col-md-2">
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
-              disabled={sameCustomer ? true : false}
+              defaultValue={
+                sameCustomer
+                  ? existedUserData.addressProofIdType
+                  : sameCustIDType
+              }
               onChange={(e) => setSameCustIDType(e.target.value)}
+              disabled={sameCustomer ? true : false}
             >
               {addressTypeOption.map((item, i) => {
                 return (
@@ -297,49 +386,71 @@ const Cancellation = () => {
               type="text"
               className="form-control"
               placeholder="Customer ID No."
-              disabled={sameCustomer ? true : false}
+              defaultValue={
+                sameCustomer ? existedUserData.panCardNo : sameCustIDNo
+              }
               onChange={(e) => setSameCustIDNo(e.target.value)}
+              disabled={sameCustomer ? true : false}
             />
           </div>
-          <div className="col-md-4 d-flex">
-            <div>
-              <label className="form-label">Upload ID</label>
-              <input
-                type="file"
-                className="form-control"
-                disabled={sameCustomer ? true : false}
-                onChange={(e) => setSameCustFile(e.target.files([0]))}
-              />
+          {sameCustomer ? (
+            <div className="col-md-4">
+              {panImageUrl ? (
+                <img
+                  src={`data:image/jpeg;base64,${panImageUrl}`}
+                  alt=""
+                  width="180"
+                  height="85"
+                />
+              ) : (
+                <img src={noImg} alt="" width="180" height="85" />
+              )}
             </div>
-            <div>
-              <label className="form-label">.</label>
-              <button
-                className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
-                disabled={sameCustomer ? true : false}
-              >
-                Upload
-              </button>
+          ) : (
+            <div className="col-md-4">
+              {sameCustFileUrl ? (
+                <img src={sameCustFileUrl} alt="" width="180" height="85" />
+              ) : (
+                <div className="d-flex">
+                  <div>
+                    <label className="form-label">Upload ID</label>
+                    <input
+                      type="file"
+                      id="sameCust"
+                      className="form-control"
+                      onChange={(e) => setSameCustFile(e.target.files[0])}
+                      disabled={sameCustomer ? true : false}
+                    />
+                  </div>
+                  <div>
+                    <label className="form-label">.</label>
+                    <button
+                      className={
+                        sameCustomer ? "CDisabled mx-1" : "CButton mx-1"
+                      }
+                      onClick={UploadSameCustIDProof}
+                      disabled={sameCustomer ? true : false}
+                    >
+                      Upload
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          )}
           <div className="col-md-12">
             <label className="form-label">Reason For Cancellation</label>
             <select
               onChange={(e) => setCancellationReason(e.target.value)}
               className="form-control"
             >
-              <option value="">Select Type</option>
-              <option value="Cancelling due to change in Wedding dates">
-                Cancelling due to change in Wedding dates
-              </option>
-              <option value="Cancelling - Need no more exists">
-                Cancelling - Need no more exists
-              </option>
-              <option value="Cancelling - Product not Ready">
-                Cancelling - Product not Ready
-              </option>
-              <option value="Cancelling - Product Not Available">
-                Cancelling - Product Not Available
-              </option>
+              {CancellationReason.map((item, i) => {
+                return (
+                  <option key={i} value={item.value}>
+                    {item.name}
+                  </option>
+                );
+              })}
             </select>
           </div>
 

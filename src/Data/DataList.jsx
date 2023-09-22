@@ -42,6 +42,26 @@ export const addressTypeOption = [
   { value: "Passport", name: "Passport" },
 ];
 
+export const CancellationReason = [
+  { value: "", name: "Select Reason" },
+  {
+    value: "Cancelling due to change in Wedding dates",
+    name: "Cancelling due to change in Wedding dates",
+  },
+  {
+    value: "Cancelling - Need no more exists",
+    name: "Cancelling - Need no more exists",
+  },
+  {
+    value: "Cancelling - Product not Ready",
+    name: "Cancelling - Product not Ready",
+  },
+  {
+    value: "Cancelling - Product Not Available",
+    name: "Cancelling - Product Not Available",
+  },
+];
+
 export const ImageHeaders = {
   "Content-Type": "multipart/form-data",
   UserToken: "xFeToMkUuejH0aq1IzZYmw==",

@@ -347,7 +347,7 @@ const Cancellation = () => {
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
+                <table className="table table-bordered table-hover border-dark text-center">
                   <thead className="table-dark border-light">
                     <tr>
                       <th>Item Code</th>
@@ -385,7 +385,7 @@ const Cancellation = () => {
                             <div className="col-md-12">
                               <input
                                 type="number"
-                                className="form-control"
+                                className="text-center"
                                 placeholder="Discount Amount"
                                 onBlur={ItemWiseDiscountAmount}
                               />

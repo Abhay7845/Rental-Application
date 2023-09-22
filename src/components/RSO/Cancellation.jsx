@@ -31,7 +31,6 @@ const Cancellation = () => {
   const [panImageUrl, setPanImgUrl] = useState("");
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
-  const [discountValue, setDiscountValue] = useState({});
 
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("existedUserData==>", existedUserData);
@@ -228,30 +227,9 @@ const Cancellation = () => {
   const afterDiscount = cancelCharge - discountAmount;
   const netRefund = SumOfRentalRate() - afterDiscount;
 
-  const ItemWiseDiscountAmount = (e) => {
-    const { name, value } = e.target;
-    setDiscountValue({
-      ...discountValue,
-      [name]: value,
-    });
-  };
-  const ItemWiseDiscount = [];
-  for (const key in discountValue) {
-    if (discountValue.hasOwnProperty(key)) {
-      ItemWiseDiscount.push(discountValue[key]);
-    }
-  }
-
-  // TOTAL  DISCOUNT AMOUNT
-  const SumOfTotalDiscount = () => {
-    let total = 0;
-    for (let data of ItemWiseDiscount) total = total + parseFloat(data);
-    return total;
-  };
-
   const RaiseCancelBookingRequest = () => {
     if (!rsoName || !cancellationReason) {
-      alert("Please Enter Cancellation & ReasonRSO Name");
+      alert("Please Enter Cancellation Reason & RSO Name");
     } else {
       setLoading(true);
       const CancellationInputs = {
@@ -497,18 +475,6 @@ const Cancellation = () => {
                             "en-IN"
                           )}
                         </td>
-                        <td>
-                          <div className="col-md-12">
-                            <input
-                              type="number"
-                              className="text-center w-100"
-                              placeholder="Discount Amount"
-                              name={i}
-                              defaultValue={discountValue[i]}
-                              onBlur={ItemWiseDiscountAmount}
-                            />
-                          </div>
-                        </td>
                       </tr>
                     );
                   })}
@@ -518,7 +484,6 @@ const Cancellation = () => {
                     </th>
                     <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
                     <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
-                    <th>₹ {SumOfTotalDiscount().toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>

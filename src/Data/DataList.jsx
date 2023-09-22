@@ -173,5 +173,4 @@ export const CancelPageHeading = [
   "PACKAGE_DAYS",
   "PRODUCT_VALUE",
   "RENTAL_AMOUNT",
-  "DISCOUNT_AMOUNT",
 ];

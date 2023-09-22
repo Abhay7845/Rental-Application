@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-const TestImage = () => {
-  const [inputValues, setInputValues] = useState({});
+function TestImage() {
+  const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(null);
 
   const items = [
     { id: "1", name: "Item 1" },
@@ -10,17 +11,19 @@ const TestImage = () => {
     { id: "4", name: "Item 4" },
   ];
 
-  const handleInputChange = (e) => {
-    console.log("name==>", e.target.name);
-    console.log("value==>", e.target.value);
-    const { name, value } = e.target;
-    setInputValues({
-      ...inputValues,
-      [name]: value,
-    });
+  const handleImageUpload = (e) => {
+    const newImage = e.target.files[0];
+    setCurrentImage(newImage);
   };
 
-  console.log("inputValues==>", inputValues);
+  const handleImageSubmit = () => {
+    if (currentImage) {
+      setImages([...images, currentImage]);
+      setCurrentImage(null);
+    }
+  };
+
+  console.log("images==>", images);
 
   return (
     <div>
@@ -38,11 +41,11 @@ const TestImage = () => {
                 <td>{i}</td>
                 <td>
                   <input
-                    type="text"
-                    name={item.id}
-                    defaultValue={inputValues[item.id]}
-                    onChange={handleInputChange}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
                   />
+                  <button onClick={handleImageSubmit}>Upload Image</button>
                 </td>
               </tr>
             );
@@ -51,6 +54,6 @@ const TestImage = () => {
       </table>
     </div>
   );
-};
+}
 
 export default TestImage;

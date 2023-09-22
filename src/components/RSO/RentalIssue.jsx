@@ -78,7 +78,7 @@ const RentalIssue = () => {
       PdtItemWiseImg.push(inputFile[key]);
     }
   }
-
+  console.log("PdtItemWiseImg==>", PdtItemWiseImg);
   const UploadPdtImgItemWise = (item) => {
     PdtItemWiseImg.map((pdtIdImg, i) => {
       setLoading(true);
@@ -643,28 +643,29 @@ const RentalIssue = () => {
                     <tr key={i}>
                       <td>{item.itemCode}</td>
                       <td className="d-flex justify-content-between">
-                        {productImgFile.length > 0 ? (
-                          productImgFile.map((url, i) => {
-                            return (
-                              <img
-                                key={i}
-                                src={url}
-                                height="30"
-                                width="50"
-                                alt=""
-                              />
-                            );
-                          })
-                        ) : (
-                          <input
-                            type="file"
-                            id="prodcutFile"
-                            className="form-control"
-                            name={i}
-                            defaultValue={inputFile[i]}
-                            onChange={GetPdtItemWiseImg}
-                          />
-                        )}
+                        {productImgFile.map((url, i) => {
+                          return (
+                            <img
+                              key={i}
+                              src={url}
+                              height="37"
+                              width="55"
+                              alt=""
+                              className="mx-1"
+                              style={
+                                i ? { display: "none" } : { display: "visible" }
+                              }
+                            />
+                          );
+                        })}
+                        <input
+                          type="file"
+                          id="prodcutFile"
+                          className="form-control"
+                          name={i}
+                          defaultValue={inputFile[i]}
+                          onChange={GetPdtItemWiseImg}
+                        />
                         <button
                           className="CButton mx-2"
                           onClick={() => UploadPdtImgItemWise(item)}

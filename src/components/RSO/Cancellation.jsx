@@ -27,11 +27,11 @@ const Cancellation = () => {
   const [sameCustIDNo, setSameCustIDNo] = useState("");
   const [sameCustFile, setSameCustFile] = useState("");
   const [sameCustomer, setSameCustomer] = useState(true);
-  const [itemWiseDiscount, setItemWiseDiscount] = useState([]);
   const [existedUserData, setExistedUserData] = useState({});
   const [panImageUrl, setPanImgUrl] = useState("");
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
+  const [discountValue, setDiscountValue] = useState({});
 
   console.log("cancellationReason==>", cancellationReason);
   console.log("GetReturnProduct==>", GetReturnProduct);
@@ -296,12 +296,26 @@ const Cancellation = () => {
   };
 
   const ItemWiseDiscountAmount = (e) => {
-    const amount = e.target.value;
-    console.log(amount);
-    setItemWiseDiscount(amount);
+    const { name, value } = e.target;
+    setDiscountValue({
+      ...discountValue,
+      [name]: value,
+    });
   };
+  const ItemWiseDiscount = [];
+  for (const key in discountValue) {
+    if (discountValue.hasOwnProperty(key)) {
+      ItemWiseDiscount.push(discountValue[key]);
+    }
+  }
 
-  console.log("itemWiseDiscount==>", itemWiseDiscount);
+  // TOTAL  DISCOUNT AMOUNT
+  const SumOfTotalDiscount = () => {
+    let total = 0;
+    for (let data of ItemWiseDiscount) total = total + parseFloat(data);
+    return total;
+  };
+  console.log("SumOfTotalDiscount==>", SumOfTotalDiscount());
   return (
     <div>
       {loading === true && <Loader />}
@@ -498,6 +512,8 @@ const Cancellation = () => {
                                 type="number"
                                 className="text-center"
                                 placeholder="Discount Amount"
+                                name={i}
+                                defaultValue={discountValue[i]}
                                 onBlur={ItemWiseDiscountAmount}
                               />
                             </div>
@@ -511,7 +527,7 @@ const Cancellation = () => {
                       </th>
                       <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
-                      <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
+                      <th>{SumOfTotalDiscount().toLocaleString("en-IN")}</th>
                     </tr>
                   </tbody>
                 </table>

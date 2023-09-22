@@ -16,7 +16,7 @@ import noImg from "../../Asset/Img/NoImage.jpg";
 const RentalIssue = () => {
   const [loading, setLoading] = useState(false);
   const storeCode = localStorage.getItem("storeCode");
-  const [productImgFile, setProductImgFile] = useState(null);
+  const [productImgFile, setProductImgFile] = useState([]);
   const [sameCustomer, setSameCustomer] = useState(true);
   const [existedUserData, setExistedUserData] = useState({});
   const [RSOName, setRSOName] = useState("");
@@ -79,10 +79,6 @@ const RentalIssue = () => {
     }
   }
 
-  console.log(
-    "PdtItemWiseImg==>",
-    PdtItemWiseImg.map((data, i) => data)
-  );
   const UploadPdtImgItemWise = (item) => {
     PdtItemWiseImg.map((pdtIdImg, i) => {
       setLoading(true);
@@ -102,7 +98,7 @@ const RentalIssue = () => {
           if (response.data) {
             const reader = new FileReader();
             reader.onloadend = () => {
-              setProductImgFile(reader.result);
+              setProductImgFile([...productImgFile, reader.result]);
             };
             if (pdtIdImg) {
               reader.readAsDataURL(pdtIdImg);
@@ -162,7 +158,6 @@ const RentalIssue = () => {
   }, [existedUserData.panCardNoFileName]);
 
   const UploadSameCustIDProof = () => {
-    console.log("sameCustFile==>", sameCustFile);
     if (sameCustFile.length === 0) {
       alert("Please Choose File");
     } else {
@@ -648,14 +643,28 @@ const RentalIssue = () => {
                     <tr key={i}>
                       <td>{item.itemCode}</td>
                       <td className="d-flex justify-content-between">
-                        <input
-                          type="file"
-                          id="prodcutFile"
-                          className="form-control"
-                          name={i}
-                          defaultValue={inputFile[i]}
-                          onChange={GetPdtItemWiseImg}
-                        />
+                        {productImgFile.length > 0 ? (
+                          productImgFile.map((url, i) => {
+                            return (
+                              <img
+                                key={i}
+                                src={url}
+                                height="30"
+                                width="50"
+                                alt=""
+                              />
+                            );
+                          })
+                        ) : (
+                          <input
+                            type="file"
+                            id="prodcutFile"
+                            className="form-control"
+                            name={i}
+                            defaultValue={inputFile[i]}
+                            onChange={GetPdtItemWiseImg}
+                          />
+                        )}
                         <button
                           className="CButton mx-2"
                           onClick={() => UploadPdtImgItemWise(item)}

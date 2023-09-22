@@ -250,10 +250,8 @@ const Cancellation = () => {
   };
 
   const RaiseCancelBookingRequest = () => {
-    if (!rsoName) {
-      alert("Please Enter RSO Name");
-    } else if (cancellationReason === "") {
-      alert("Please Select cancellationReason");
+    if (!rsoName || !cancellationReason) {
+      alert("Please Enter Cancellation & ReasonRSO Name");
     } else {
       setLoading(true);
       const CancellationInputs = {
@@ -589,7 +587,10 @@ const Cancellation = () => {
         </div>
         <div className="col-12 mb-3 my-3">
           <div className="d-flex justify-content-end">
-            <button className="CButton" onClick={RaiseCancelBookingRequest}>
+            <button
+              className="CancelButton"
+              onClick={RaiseCancelBookingRequest}
+            >
               Raise Cancel Request
             </button>
           </div>

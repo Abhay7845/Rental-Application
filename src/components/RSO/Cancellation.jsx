@@ -20,7 +20,7 @@ const Cancellation = () => {
   const storeCode = localStorage.getItem("storeCode");
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
-  const [sumOfAmounts, setSumOfAmounts] = useState({});
+  const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [cancellationReason, setCancellationReason] = useState("");
   const [sameCustName, setSameCustName] = useState("");
   const [sameCustIDType, setSameCustIDType] = useState("");
@@ -155,6 +155,7 @@ const Cancellation = () => {
     return nextDate;
   };
 
+  // TOTAL PAID BOOKING AMONT
   useEffect(() => {
     axios
       .get(
@@ -162,38 +163,18 @@ const Cancellation = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("setSumOfAmounts==>", response.data);
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          setSumOfAmounts(response.data.value);
-          // navigate("/products/details");
+          setTotalPaidAmount(response.data.value);
         }
-        setLoading(false);
       })
       .catch((error) => {
         console.log("error==>", error);
         setLoading(false);
       });
+  }, [storeCode, GetReturnProduct.refId]);
 
-    axios
-      .get(
-        `${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`
-      )
-      .then((res) => res)
-      .then((response) => {
-        console.log("customerDetails==>", response.data);
-        if (response.data.code === "1000") {
-          // setSumOfAmounts(response.data.value);
-          // navigate("/products/details");
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
-  }, [storeCode, GetReturnProduct.refId, GetReturnProduct.mobileNo]);
-
-  console.log("sumOfamount==>", sumOfAmounts);
+  console.log("sumOfamount==>", totalPaidAmount);
 
   const TProductValue = returnTableData.map((item) =>
     parseInt(item.productValue)
@@ -249,8 +230,8 @@ const Cancellation = () => {
         cancellationCharges: parseInt(cancelCharge),
         discountAmount: parseInt(discountAmount),
         rentalCharges: parseInt(SumOfRentalRate()),
-        bookingAmountPaid: parseInt(sumOfAmounts.totalBookingAmount),
-        depositAmountPaid: parseInt(sumOfAmounts.totalDepositAmount),
+        bookingAmountPaid: parseInt(totalPaidAmount.totalBookingAmount),
+        depositAmountPaid: parseInt(totalPaidAmount.totalDepositAmount),
         netRefundAmount: parseInt(netRefund),
         rsoName: rsoName,
         createdDate: null,
@@ -511,13 +492,7 @@ const Cancellation = () => {
               placeholder="Discount Amount"
               value={discountAmount}
               onChange={(e) =>
-                setDiscountAmount(
-                  cancelCharge === SumOfRentalRate()
-                    ? 0
-                    : e.target.value || cancelCharge === 0
-                    ? 0
-                    : e.target.value
-                )
+                setDiscountAmount(cancelCharge === 0 ? 0 : e.target.value)
               }
             />
           </div>
@@ -534,9 +509,14 @@ const Cancellation = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{sumOfAmounts.totalBookingAmount}</td>
-                    <td>{!afterDiscount ? 0 : afterDiscount}</td>
-                    <td>{netRefund >= 0 ? netRefund : 0}</td>
+                    <th>
+                      ₹
+                      {Math.round(
+                        totalPaidAmount.totalBookingAmount
+                      ).toLocaleString("en-IN")}
+                    </th>
+                    <th>₹ {!afterDiscount ? 0 : afterDiscount}</th>
+                    <th>₹ {netRefund >= 0 ? netRefund : 0}</th>
                   </tr>
                 </tbody>
               </table>

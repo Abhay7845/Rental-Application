@@ -172,5 +172,5 @@ export const CancelPageHeading = [
   "RENT_START_DATE",
   "PACKAGE_DAYS",
   "PRODUCT_VALUE",
-  "RENTAL_AMOUNT",
+  "RENTAL_VALUE",
 ];

@@ -524,9 +524,9 @@ const Cancellation = () => {
                       <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
-                      <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
-                      <th>{SumOfTotalDiscount().toLocaleString("en-IN")}</th>
+                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
+                      <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
+                      <th>₹ {SumOfTotalDiscount().toLocaleString("en-IN")}</th>
                     </tr>
                   </tbody>
                 </table>

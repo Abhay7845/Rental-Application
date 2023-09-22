@@ -80,6 +80,7 @@ const RentalIssue = () => {
   }
   console.log("PdtItemWiseImg==>", PdtItemWiseImg);
   const UploadPdtImgItemWise = (item) => {
+    // eslint-disable-next-line
     PdtItemWiseImg.map((pdtIdImg, i) => {
       setLoading(true);
       const formData = new FormData();
@@ -401,7 +402,9 @@ const RentalIssue = () => {
       pickUpByCustomerIdNo: sameCustomer
         ? existedUserData.panCardNo
         : sameCustIDNo,
-      pickUpCustomerFileName: sameCustomer ? panImageUrl : sameCutIDFileName,
+      pickUpCustomerFileName: sameCustomer
+        ? existedUserData.panCardNoFileName
+        : sameCutIDFileName,
       qaCHeckedStatus: "string",
       qaCHeckedStatusUpload: "string",
       rsoName: RSOName,
@@ -634,7 +637,19 @@ const RentalIssue = () => {
               <thead className="table-dark border-light text-center">
                 <tr>
                   <th>Item Code</th>
-                  <th>Upload Product Images</th>
+                  <th>
+                    Upload Product Images
+                    {productImgFile.length > 0 && (
+                      <span
+                        className="mx-5"
+                        data-bs-toggle="modal"
+                        data-bs-target="#showImageModal"
+                        style={{ cursor: "pointer" }}
+                      >
+                        Preview
+                      </span>
+                    )}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -643,21 +658,6 @@ const RentalIssue = () => {
                     <tr key={i}>
                       <td>{item.itemCode}</td>
                       <td className="d-flex justify-content-between">
-                        {productImgFile.map((url, i) => {
-                          return (
-                            <img
-                              key={i}
-                              src={url}
-                              height="37"
-                              width="55"
-                              alt=""
-                              className="mx-1"
-                              style={
-                                i ? { display: "none" } : { display: "visible" }
-                              }
-                            />
-                          );
-                        })}
                         <input
                           type="file"
                           id="prodcutFile"
@@ -804,6 +804,39 @@ const RentalIssue = () => {
               >
                 SAVE UPDATE
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/*IMAGE SHOW MODAL*/}
+      <div
+        className="modal fade"
+        id="showImageModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="d-flex justify-content-end mx-2 mt-2">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <div className="row">
+                {productImgFile.map((url, i) => {
+                  return (
+                    <div key={i} className="col-sm-3">
+                      <img src={url} className="img-thumbnail" alt="" />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

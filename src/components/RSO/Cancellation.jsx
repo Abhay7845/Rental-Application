@@ -481,7 +481,9 @@ const Cancellation = () => {
                       <tr key={i}>
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
-                        <td>{item.rentStartDate}</td>
+                        <td>
+                          {moment(item.rentStartDate).format("DD-MM-YYYY")}
+                        </td>
                         <td>
                           {Math.round(item.packageDays).toLocaleString("en-IN")}
                         </td>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import { CancellationReason, DataList } from "../../Data/DataList";
+import { CancelPageHeading, CancellationReason } from "../../Data/DataList";
 import moment from "moment";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
@@ -466,73 +466,65 @@ const Cancellation = () => {
               })}
             </select>
           </div>
-
-          {DataList.length > 0 && (
-            <div className="col-12">
-              <h6 className="bookingHeading">Item Details</h6>
-              <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark text-center">
-                  <thead className="table-dark border-light">
-                    <tr>
-                      <th>Item Code</th>
-                      <th>Lot No.</th>
-                      <th>Rent_Start_Date</th>
-                      <th>Package_Days</th>
-                      <th>Product_Value</th>
-                      <th>Rental_Amount</th>
-                      <th>Discount_Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {returnTableData.map((item, i) => {
-                      return (
-                        <tr key={i}>
-                          <td>{item.itemCode}</td>
-                          <td>{item.lotNo}</td>
-                          <td>{item.rentStartDate}</td>
-                          <td>
-                            {Math.round(item.packageDays).toLocaleString(
-                              "en-IN"
-                            )}
-                          </td>
-                          <td>
-                            {Math.round(item.productValue).toLocaleString(
-                              "en-IN"
-                            )}
-                          </td>
-                          <td>
-                            {Math.round(item.rentalAmount).toLocaleString(
-                              "en-IN"
-                            )}
-                          </td>
-                          <td>
-                            <div className="col-md-12">
-                              <input
-                                type="number"
-                                className="text-center"
-                                placeholder="Discount Amount"
-                                name={i}
-                                defaultValue={discountValue[i]}
-                                onBlur={ItemWiseDiscountAmount}
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      );
+          <div className="col-12">
+            <h6 className="bookingHeading">Item Details</h6>
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover border-dark text-center">
+                <thead className="table-dark border-light">
+                  <tr>
+                    {CancelPageHeading.map((headers, i) => {
+                      return <td key={i}>{headers}</td>;
                     })}
-                    <tr>
-                      <th colSpan="4" className="text-end">
-                        TOTAL
-                      </th>
-                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfTotalDiscount().toLocaleString("en-IN")}</th>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  </tr>
+                </thead>
+                <tbody>
+                  {returnTableData.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>{item.itemCode}</td>
+                        <td>{item.lotNo}</td>
+                        <td>{item.rentStartDate}</td>
+                        <td>
+                          {Math.round(item.packageDays).toLocaleString("en-IN")}
+                        </td>
+                        <td>
+                          {Math.round(item.productValue).toLocaleString(
+                            "en-IN"
+                          )}
+                        </td>
+                        <td>
+                          {Math.round(item.rentalAmount).toLocaleString(
+                            "en-IN"
+                          )}
+                        </td>
+                        <td>
+                          <div className="col-md-12">
+                            <input
+                              type="number"
+                              className="text-center w-100"
+                              placeholder="Discount Amount"
+                              name={i}
+                              defaultValue={discountValue[i]}
+                              onBlur={ItemWiseDiscountAmount}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  <tr>
+                    <th colSpan="4" className="text-end">
+                      TOTAL
+                    </th>
+                    <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
+                    <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
+                    <th>₹ {SumOfTotalDiscount().toLocaleString("en-IN")}</th>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          )}
+          </div>
+
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Cancellation Charges</h6>
           </div>
@@ -564,30 +556,27 @@ const Cancellation = () => {
               }
             />
           </div>
-
-          {DataList.length > 0 && (
-            <div className="col-12 mb-4">
-              <h6 className="bookingHeading">Charges Overview</h6>
-              <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark">
-                  <thead className="table-dark border-light">
-                    <tr>
-                      <th>Total_Booking_Paid</th>
-                      <th>Net_Cancellation_Charges</th>
-                      <th>Total_Refund_Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{sumOfAmounts.totalBookingAmount}</td>
-                      <td>{!afterDiscount ? 0 : afterDiscount}</td>
-                      <td>{netRefund >= 0 ? netRefund : 0}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+          <div className="col-12">
+            <h6 className="bookingHeading">Charges Overview</h6>
+            <div className="table-responsive">
+              <table className="table table-bordered border-dark text-center">
+                <thead className="table-dark border-light">
+                  <tr>
+                    <td>Total_Booking_Paid</td>
+                    <td>Net_Cancellation_Charges</td>
+                    <td>Total_Refund_Amount</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{sumOfAmounts.totalBookingAmount}</td>
+                    <td>{!afterDiscount ? 0 : afterDiscount}</td>
+                    <td>{netRefund >= 0 ? netRefund : 0}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          )}
+          </div>
         </div>
         <div className="col-12">
           <label className="form-label">RSO Name</label>

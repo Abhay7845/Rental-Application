@@ -165,3 +165,13 @@ export const renatlReturnPage = [
   "Damage CHARGES",
   "PHYSICAL DAMAGE",
 ];
+
+export const CancelPageHeading = [
+  "ITEMCODE",
+  "LOT NO.",
+  "RENT_START_DATE",
+  "PACKAGE_DAYS",
+  "PRODUCT_VALUE",
+  "RENTAL_AMOUNT",
+  "DISCOUNT_AMOUNT",
+];

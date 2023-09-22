@@ -264,7 +264,7 @@ const NewBooking = () => {
     } else if (custType !== "New Customer" && transactionFile === "") {
       alert("Please Upload Previous Transaction File");
     } else {
-      // setLoading(true);
+      setLoading(true);
       const BookingInputs = {
         bookingRefId: "",
         storeCode: storeCode,
@@ -287,24 +287,24 @@ const NewBooking = () => {
         tempRefNo: bookingRefId,
       };
       console.log("BookingInputs==>", BookingInputs);
-      // axios
-      //   .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
-      //   .then((res) => res)
-      //   .then((response) => {
-      //     if (response.data.code === "1000") {
-      //       Swal.fire(
-      //         "Payment Request Raised",
-      //         "Please Go to Cashier to Complete the Payment",
-      //         "success"
-      //       );
-      //       navigate("/products/details");
-      //     }
-      //     setLoading(false);
-      //   })
-      //   .catch((error) => {
-      //     console.log("error==>", error);
-      //     setLoading(false);
-      //   });
+      axios
+        .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            Swal.fire(
+              "Payment Request Raised",
+              "Please Go to Cashier to Complete the Payment",
+              "success"
+            );
+            navigate("/products/details");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
     }
   };
 

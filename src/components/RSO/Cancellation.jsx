@@ -96,11 +96,11 @@ const Cancellation = () => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}`
+        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}/${GetReturnProduct.tempBookingRefNo}`
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("responsreturn==>", response.data);
         if (response.data.code === "1000") {
           setReturnTableData(response.data.value);
         }
@@ -110,7 +110,7 @@ const Cancellation = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  }, [storeCode, GetReturnProduct.refId]);
+  }, [storeCode, GetReturnProduct.refId, GetReturnProduct.tempBookingRefNo]);
 
   useEffect(() => {
     const rentalDate = new Date(
@@ -144,7 +144,7 @@ const Cancellation = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("responsePaid==>", response.data);
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
@@ -189,6 +189,27 @@ const Cancellation = () => {
   const afterDiscount = cancelCharge - discountAmount;
   const netRefund = SumOfRentalRate() - afterDiscount;
 
+  const UpdateCancelStatus = (bookingID) => {
+    axios
+      .get(`${HOST_URL}/update/txn/status/${bookingID}/BookingCancelled`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Cancel Request Raised Succesfully",
+            text: "Please connect with the Cashier",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
   const RaiseCancelBookingRequest = () => {
     if (!rsoName || !cancellationReason) {
       alert("Please Enter Cancellation Reason & RSO Name");
@@ -196,17 +217,11 @@ const Cancellation = () => {
       setLoading(true);
       const CancellationInputs = {
         bookingID: GetReturnProduct.bookingID,
-        cancelDate: currentDate,
-        customerName: sameCustomer
-          ? existedUserData.customerName
-          : sameCustName,
-        customerIdType: sameCustomer
-          ? existedUserData.addressProofIdType
-          : sameCustIDType,
-        customerIdNo: sameCustomer ? existedUserData.panCardNo : sameCustIDNo,
-        customerIdFileName: sameCustomer
-          ? existedUserData.panCardNoFileName
-          : sameCutIDFileName,
+        cancelDate: null,
+        customerName: sameCustomer ? "" : sameCustName,
+        customerIdType: sameCustomer ? "" : sameCustIDType,
+        customerIdNo: sameCustomer ? "" : sameCustIDNo,
+        customerIdFileName: sameCustomer ? "" : sameCutIDFileName,
         cancellationReason: cancellationReason,
         cancellationCharges: parseInt(cancelCharge),
         discountAmount: parseInt(discountAmount),
@@ -223,27 +238,11 @@ const Cancellation = () => {
         .post(`${HOST_URL}/cancel/booking`, CancellationInputs)
         .then((res) => res)
         .then((response) => {
+          console.log("responseCancel==>", response.data);
           if (response.data.code === "1000") {
-            axios
-              .get(
-                `${HOST_URL}/update/txn/status/${GetReturnProduct.bookingID}/BookingCancelled`
-              )
-              .then((res) => res)
-              .then((response) => {
-                if (response.data.code === "1000") {
-                  Swal.fire(
-                    "Payment Request Raised",
-                    "Please Go to Cashier to Complete the Payment",
-                    "success"
-                  );
-                  // navigate("/products/details");
-                }
-                setLoading(false);
-              })
-              .catch((error) => {
-                console.log("error==>", error);
-                setLoading(false);
-              });
+            UpdateCancelStatus(GetReturnProduct.bookingID);
+            setRsoName("");
+            setCancellationReason("");
           }
           setLoading(false);
         })
@@ -364,8 +363,9 @@ const Cancellation = () => {
           <div className="col-md-12">
             <label className="form-label">Reason For Cancellation</label>
             <select
-              onChange={(e) => setCancellationReason(e.target.value)}
               className="form-control"
+              value={cancellationReason}
+              onChange={(e) => setCancellationReason(e.target.value)}
             >
               {CancellationReason.map((item, i) => {
                 return (
@@ -482,6 +482,7 @@ const Cancellation = () => {
             type="text"
             className="form-control"
             placeholder="RSO Name"
+            value={rsoName}
             onChange={(e) => setRsoName(e.target.value)}
           />
         </div>

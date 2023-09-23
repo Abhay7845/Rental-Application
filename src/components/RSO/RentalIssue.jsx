@@ -447,16 +447,10 @@ const RentalIssue = () => {
         dispatchDate: null,
         issuenceDocumentUpload: "",
         loanDocumentUpload: sameCustomer ? "" : sameCutIDFileName,
-        pickUpByCustomerName: sameCustomer
-          ? existedUserData.customerName
-          : sameCustName,
+        pickUpByCustomerName: sameCustomer ? "" : sameCustName,
         pickUpByCustomerIdType: sameCustomer ? "" : sameCustIDType,
-        pickUpByCustomerIdNo: sameCustomer
-          ? existedUserData.panCardNo
-          : sameCustIDNo,
-        pickUpCustomerFileName: sameCustomer
-          ? existedUserData.panCardNoFileName
-          : sameCutIDFileName,
+        pickUpByCustomerIdNo: sameCustomer ? "" : sameCustIDNo,
+        pickUpCustomerFileName: sameCustomer ? "" : sameCutIDFileName,
         qaCHeckedStatus: "",
         qaCHeckedStatusUpload: "",
         rsoName: RSOName,

@@ -65,10 +65,21 @@ const RentalIssue = () => {
 
   console.log("retunTableData==>", retunTableData);
   console.log("existedUserData==>", existedUserData);
-  const GetActualWtAtDlr = (e) => {
-    const { name, value } = e.target;
-    console.log("value==>", value);
 
+  const GetActualWtAtDlr = (e, item) => {
+    const { name, value } = e.target;
+    console.log("item==>", item);
+    console.log("inputValues==>", inputValues);
+
+    // const MaxGrossWt =
+    //   parseFloat(item.grossWt) - (parseFloat(item.grossWt) * 10) / 100;
+    // console.log("MaxGrossWt==>", MaxGrossWt);
+    // const MinGrossWt =
+    //   parseFloat(item.grossWt) - (parseFloat(item.grossWt) * 10) / 100;
+    // console.log("MinGrossWt==>", MinGrossWt);
+    // if (MaxGrossWt) {
+    //   alert("please enter currect value");
+    // }
     setInputValues({
       ...inputValues,
       [name]: value,
@@ -688,7 +699,7 @@ const RentalIssue = () => {
                               placeholder="Actual Wt At Delivery"
                               name={i}
                               defaultValue={inputValues[i]}
-                              onChange={GetActualWtAtDlr}
+                              onChange={(e) => GetActualWtAtDlr(e, item)}
                             />
                           </td>
                         </tr>

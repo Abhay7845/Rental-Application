@@ -27,6 +27,10 @@ const CashierPaymentDetails = () => {
   const [paymentDetails, setPaymentDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [documentType, setDocumentType] = useState("");
+  const [collectedAmount, setCollectedAmount] = useState("");
+
+  const { paymentRequestFor, rentValue } = paymentDetails;
+
   console.log("getPaymentData==>", getPaymentData);
   console.log("existedUserData==>", existedUserData);
 
@@ -49,7 +53,6 @@ const CashierPaymentDetails = () => {
   const [Otp, setOtp] = useState("");
   const [inputOtp, setInputOtp] = useState("");
   const [verifiedOtp, setVerifiedOtp] = useState(false);
-  console.log("Otp==>", Otp);
   const FetchUserDetails = (phoneNo) => {
     axios
       .get(`${HOST_URL}/rental/customer/details/mobileNo/${phoneNo}`)
@@ -77,11 +80,12 @@ const CashierPaymentDetails = () => {
             (data) =>
               data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"
           );
-          console.log("PendingStatusData==>", PendingStatusData);
           setGetPaymentData(PendingStatusData);
           FetchUserDetails(searchValue);
         }
         if (response.data.code === "1001") {
+          setGetPaymentData({});
+          setPaymentDetails({});
           Swal.fire({
             title: "Not Found",
             text: "Data Not Available",
@@ -102,6 +106,20 @@ const CashierPaymentDetails = () => {
     setPaymentDetails(seletedData);
   };
   console.log("paymentDetails==>", paymentDetails);
+
+  console.log("collectedAmount==>", collectedAmount);
+  useEffect(() => {
+    if (paymentRequestFor === "Payment_PendingFor_RentalCacel") {
+      setCollectedAmount(rentValue);
+    }
+    if (paymentRequestFor === "Payment_PendingFor_Issuance") {
+      setCollectedAmount(rentValue);
+    }
+    if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
+      setCollectedAmount(rentValue);
+    }
+  }, [rentValue, paymentRequestFor]);
+
   const AddPaymentRows = () => {
     setCount(count + 1);
     setAddPaymentRows([...addPaymentRows, count + 1]);
@@ -117,7 +135,7 @@ const CashierPaymentDetails = () => {
         bookingId: parseInt(paymentDetails.bookingId),
         createDate: null,
         fileName: fileName,
-        paymentFor: paymentDetails.paymentRequestFor,
+        paymentFor: paymentRequestFor,
         paymentType: paymentType,
         txnRefNo: tnxRefNo,
         tempRefNo: paymentDetails.tempBookingRef,
@@ -197,20 +215,16 @@ const CashierPaymentDetails = () => {
   };
   const TotalAmount = SumOfTAmount();
   useEffect(() => {
-    if (paymentDetails.paymentRequestFor === "Payment_PendingFor_NewBooking") {
+    if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setDocumentType("tncDocument");
     }
-    if (
-      paymentDetails.paymentRequestFor === "Payment_PendingFor_RentalIssuence"
-    ) {
+    if (paymentRequestFor === "Payment_PendingFor_RentalIssuence") {
       setDocumentType("KarigarQAReport");
     }
-    if (
-      paymentDetails.paymentRequestFor === "Payment_PendingFor_RentalReturn"
-    ) {
+    if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setDocumentType("LoanClosureDocument");
     }
-  }, [paymentDetails.paymentRequestFor]);
+  }, [paymentRequestFor]);
 
   // VERIFY OTP
   const GetPhoneOTP = (mobileNo) => {
@@ -248,7 +262,7 @@ const CashierPaymentDetails = () => {
   const UpdateBookingFile = (tncFileName) => {
     const updateBookingInput = {
       bookingRefId: bookingRefID,
-      contentFor: `${paymentDetails.paymentRequestFor}`,
+      contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: documentType,
       fileName: tncFileName,
@@ -281,7 +295,7 @@ const CashierPaymentDetails = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = tnCfile.name.split(".");
-      const tncFileName = `${paymentDetails.paymentRequestFor}${currentDate}${RandomDigit}.${fileExtention[1]}`;
+      const tncFileName = `${paymentRequestFor}${currentDate}${RandomDigit}.${fileExtention[1]}`;
       setTnCFileName(tncFileName);
       formData.append("ImgName", tncFileName);
       formData.append("files", tnCfile);
@@ -454,9 +468,7 @@ const CashierPaymentDetails = () => {
               <input
                 type="text"
                 className="form-control"
-                value={Math.round(paymentDetails.rentValue).toLocaleString(
-                  "en-IN"
-                )}
+                value={1234}
                 disabled
               />
             </div>
@@ -500,7 +512,7 @@ const CashierPaymentDetails = () => {
                   )}
                   {addPaymentRows.length > 0 && (
                     <tr>
-                      <td>{paymentDetails.paymentRequestFor}</td>
+                      <td>{paymentRequestFor}</td>
                       <td>
                         <select
                           className="form-control"
@@ -580,8 +592,7 @@ const CashierPaymentDetails = () => {
                 </div>
               )}
             </div>
-            {paymentDetails.paymentRequestFor ===
-              "Payment_PendingFor_NewBooking" && (
+            {paymentRequestFor === "Payment_PendingFor_NewBooking" && (
               <div>
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
@@ -606,8 +617,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            {paymentDetails.paymentRequestFor ===
-              "Payment_PendingFor_RentalReturn" && (
+            {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
@@ -641,8 +651,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            {paymentDetails.paymentRequestFor ===
-              "Payment_PendingFor_Issuance" && (
+            {paymentRequestFor === "Payment_PendingFor_Issuance" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
@@ -678,8 +687,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            {paymentDetails.paymentRequestFor ===
-              "Payment_PendingFor_RentalCacellation" && (
+            {paymentRequestFor === "Payment_PendingFor_RentalCacellation" && (
               <div className="col-12 mb-0">
                 <h6 className="bookingHeading d-flex justify-content-between">
                   <span className="mt-1">Print - Cancellation Receipt</span>
@@ -716,20 +724,17 @@ const CashierPaymentDetails = () => {
             )}
             <div className="col-12 d-flex justify-content-end mb-4">
               <button className="CButton" onClick={SubmitPaymentDetails}>
-                {paymentDetails.paymentRequestFor ===
+                {paymentRequestFor ===
                   "Payment_PendingFor_RentalCacellation" && (
                   <span>Cancel Booking</span>
                 )}
-                {paymentDetails.paymentRequestFor ===
-                  "Payment_PendingFor_Issuance" && (
+                {paymentRequestFor === "Payment_PendingFor_Issuance" && (
                   <span>Complete Product Delivery</span>
                 )}
-                {paymentDetails.paymentRequestFor ===
-                  "Payment_PendingFor_RentalReturn" && (
+                {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (
                   <span>Close Booking</span>
                 )}
-                {paymentDetails.paymentRequestFor ===
-                  "Payment_PendingFor_NewBooking" && (
+                {paymentRequestFor === "Payment_PendingFor_NewBooking" && (
                   <span>Complete Booking</span>
                 )}
               </button>

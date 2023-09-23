@@ -191,7 +191,9 @@ const Cancellation = () => {
 
   const UpdateCancelStatus = (bookingID) => {
     axios
-      .get(`${HOST_URL}/update/txn/status/${bookingID}/BookingCancelled`)
+      .get(
+        `${HOST_URL}/update/txn/status/${bookingID}/Payment_PendingFor_RentalCacellation`
+      )
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -223,12 +225,12 @@ const Cancellation = () => {
         customerIdNo: sameCustomer ? "" : sameCustIDNo,
         customerIdFileName: sameCustomer ? "" : sameCutIDFileName,
         cancellationReason: cancellationReason,
-        cancellationCharges: parseInt(cancelCharge),
-        discountAmount: parseInt(discountAmount),
-        rentalCharges: parseInt(SumOfRentalRate()),
-        bookingAmountPaid: parseInt(totalPaidAmount.totalBookingAmount),
-        depositAmountPaid: parseInt(totalPaidAmount.totalDepositAmount),
-        netRefundAmount: parseInt(netRefund),
+        cancellationCharges: parseFloat(cancelCharge),
+        discountAmount: parseFloat(discountAmount),
+        rentalCharges: parseFloat(SumOfRentalRate()),
+        bookingAmountPaid: parseFloat(totalPaidAmount.totalBookingAmount),
+        depositAmountPaid: parseFloat(totalPaidAmount.totalDepositAmount),
+        netRefundAmount: parseFloat(netRefund),
         rsoName: rsoName,
         createdDate: null,
         updatedDate: null,

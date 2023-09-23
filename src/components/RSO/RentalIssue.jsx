@@ -10,8 +10,7 @@ import moment from "moment";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
-import { UploadImg, FetchImg } from "../../API/HostURL";
-import noImg from "../../Asset/Img/NoImage.jpg";
+import { UploadImg } from "../../API/HostURL";
 import KarigarQAPdf from "../Pdf/KarigarQAPdf";
 import Swal from "sweetalert2";
 
@@ -22,7 +21,6 @@ const RentalIssue = () => {
   const [sameCustomer, setSameCustomer] = useState(true);
   const [existedUserData, setExistedUserData] = useState({});
   const [RSOName, setRSOName] = useState("");
-  const [panImageUrl, setPanImgUrl] = useState("");
 
   // CUSTOMER BANK DETAIL FIELDS
   const [customerBankName, setCustomerBankName] = useState("");
@@ -186,23 +184,6 @@ const RentalIssue = () => {
   useEffect(() => {
     FetchExistedCustDetails(GetReturnProduct.mobileNo);
   }, [GetReturnProduct.mobileNo]);
-
-  // FETCH DOCUMENTS IMAGE
-  useEffect(() => {
-    if (existedUserData.panCardNoFileName) {
-      axios
-        .get(`${FetchImg}${existedUserData.panCardNoFileName}`, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          if (response.data) {
-            setPanImgUrl(response.data);
-          }
-        })
-        .catch((error) => console.log("error=>", error));
-    }
-  }, [existedUserData.panCardNoFileName]);
 
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
@@ -469,9 +450,7 @@ const RentalIssue = () => {
         pickUpByCustomerName: sameCustomer
           ? existedUserData.customerName
           : sameCustName,
-        pickUpByCustomerIdType: sameCustomer
-          ? existedUserData.addressProofIdType
-          : sameCustIDType,
+        pickUpByCustomerIdType: sameCustomer ? "" : sameCustIDType,
         pickUpByCustomerIdNo: sameCustomer
           ? existedUserData.panCardNo
           : sameCustIDNo,
@@ -494,8 +473,15 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response=>", response);
           if (response.data.code === "1000") {
-            alert("succsess");
+            Swal.fire({
+              title: "Request Raised Succesfully",
+              text: "Please reach out to the Cashier To Complete The Issue Process",
+              icon: "success",
+              confirmButtonColor: "#008080",
+              confirmButtonText: "OK",
+            });
           }
+          setLoading(false);
         })
         .catch((error) => {
           console.log("error=>", error);
@@ -545,9 +531,6 @@ const RentalIssue = () => {
               type="text"
               className="form-control"
               placeholder="Customer Name"
-              defaultValue={
-                sameCustomer ? existedUserData.customerName : sameCustName
-              }
               onChange={(e) => setSameCustName(e.target.value)}
               disabled={sameCustomer ? true : false}
             />
@@ -556,11 +539,6 @@ const RentalIssue = () => {
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
-              defaultValue={
-                sameCustomer
-                  ? existedUserData.addressProofIdType
-                  : sameCustIDType
-              }
               onChange={(e) => setSameCustIDType(e.target.value)}
               disabled={sameCustomer ? true : false}
             >
@@ -579,58 +557,38 @@ const RentalIssue = () => {
               type="text"
               className="form-control"
               placeholder="Customer ID No."
-              defaultValue={
-                sameCustomer ? existedUserData.panCardNo : sameCustIDNo
-              }
               onChange={(e) => setSameCustIDNo(e.target.value)}
               disabled={sameCustomer ? true : false}
             />
           </div>
-          {sameCustomer ? (
-            <div className="col-md-4">
-              {panImageUrl ? (
-                <img
-                  src={`data:image/jpeg;base64,${panImageUrl}`}
-                  alt=""
-                  width="180"
-                  height="85"
-                />
-              ) : (
-                <img src={noImg} alt="" width="180" height="85" />
-              )}
-            </div>
-          ) : (
-            <div className="col-md-4">
-              {sameCustFileUrl ? (
-                <img src={sameCustFileUrl} alt="" width="180" height="85" />
-              ) : (
-                <div className="d-flex">
-                  <div>
-                    <label className="form-label">Upload ID</label>
-                    <input
-                      type="file"
-                      id="sameCust"
-                      className="form-control"
-                      onChange={(e) => setSameCustFile(e.target.files[0])}
-                      disabled={sameCustomer ? true : false}
-                    />
-                  </div>
-                  <div>
-                    <label className="form-label">.</label>
-                    <button
-                      className={
-                        sameCustomer ? "CDisabled mx-1" : "CButton mx-1"
-                      }
-                      onClick={UploadSameCustIDProof}
-                      disabled={sameCustomer ? true : false}
-                    >
-                      Upload
-                    </button>
-                  </div>
+          <div className="col-md-4">
+            {sameCustFileUrl ? (
+              <img src={sameCustFileUrl} alt="" width="180" height="85" />
+            ) : (
+              <div className="d-flex">
+                <div>
+                  <label className="form-label">Upload ID</label>
+                  <input
+                    type="file"
+                    id="sameCust"
+                    className="form-control"
+                    onChange={(e) => setSameCustFile(e.target.files[0])}
+                    disabled={sameCustomer ? true : false}
+                  />
                 </div>
-              )}
-            </div>
-          )}
+                <div>
+                  <label className="form-label">.</label>
+                  <button
+                    className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
+                    onClick={UploadSameCustIDProof}
+                    disabled={sameCustomer ? true : false}
+                  >
+                    Upload
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           {!existedUserData.customerBankName ||
           !existedUserData.customerAccountNumber ||
           !existedUserData.bankIfsc ||

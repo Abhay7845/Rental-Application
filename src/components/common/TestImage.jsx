@@ -5,9 +5,9 @@ import Swal from "sweetalert2";
 function TestImage() {
   const CheckBookingDetails = () => {
     Swal.fire({
-      title: "Missing Bank Details",
-      text: "Please Upload your bank details!",
-      icon: "warning",
+      title: "Request Raised Succesfully",
+      text: "Please reach out to the Cashier To Complete The Issue Process",
+      icon: "success",
       confirmButtonColor: "#008080",
       confirmButtonText: "OK",
     });

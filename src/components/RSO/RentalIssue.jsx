@@ -72,6 +72,27 @@ const RentalIssue = () => {
       [name]: value,
     });
   };
+
+  const PdtItemWt = [];
+  for (const key in inputValues) {
+    if (inputValues.hasOwnProperty(key)) {
+      PdtItemWt.push(inputValues[key]);
+    }
+  }
+  const PdtItemWitewt = PdtItemWt.map((ele, i) => {
+    return {
+      actualWtAtDelivery: ele,
+      pdtId: i,
+    };
+  });
+
+  // TOTAL ACTUAL ITEM PDT  VALUE
+  const SumOfActualItemWt = () => {
+    let total = 0;
+    for (let data of PdtItemWt) total = total + parseFloat(data);
+    return total;
+  };
+
   const GetPdtItemWiseImg = (e) => {
     const name = e.target.name;
     const file = e.target.files[0];
@@ -86,7 +107,7 @@ const RentalIssue = () => {
       PdtItemWiseImg.push(inputFile[key]);
     }
   }
-  console.log("PdtItemWiseImg==>", PdtItemWiseImg);
+
   const UploadPdtImgItemWise = (item) => {
     // eslint-disable-next-line
     PdtItemWiseImg.map((pdtIdImg, i) => {
@@ -405,27 +426,6 @@ const RentalIssue = () => {
         setLoading(false);
       });
   }, [storeCode, GetReturnProduct.refId]);
-
-  const PdtItemWt = [];
-  for (const key in inputValues) {
-    if (inputValues.hasOwnProperty(key)) {
-      PdtItemWt.push(inputValues[key]);
-    }
-  }
-
-  // TOTAL ACTUAL ITEM PDT  VALUE
-  const SumOfActualItemWt = () => {
-    let total = 0;
-    for (let data of PdtItemWt) total = total + parseFloat(data);
-    return total;
-  };
-
-  const PdtItemWitewt = PdtItemWt.map((ele, i) => {
-    return {
-      actualWtAtDelivery: ele,
-      pdtId: i,
-    };
-  });
 
   const RaiseDepositeRequest = () => {
     if (

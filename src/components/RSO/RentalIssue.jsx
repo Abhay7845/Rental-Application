@@ -626,7 +626,7 @@ const RentalIssue = () => {
                       <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfTDepositRate().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfActualItemWt()} g.</th>
+                      <th>{SumOfActualItemWt()} g.</th>
                     </tr>
                   </tbody>
                 </table>
@@ -809,7 +809,6 @@ const RentalIssue = () => {
           </div>
         </div>
       </div>
-
       {/*IMAGE SHOW MODAL*/}
       <div
         className="modal fade"

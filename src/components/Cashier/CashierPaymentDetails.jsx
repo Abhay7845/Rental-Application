@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { HOST_URL, Phoneulr1, Phoneulr2 } from "../../API/HostURL";
+import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import {
   ImageHeaders,
@@ -213,34 +213,24 @@ const CashierPaymentDetails = () => {
   }, [paymentDetails.paymentRequestFor]);
 
   // VERIFY OTP
-  const GetPhoneOTP = () => {
-    const Otp = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+  const GetPhoneOTP = (mobileNo) => {
     axios
-      .get(
-        `${Phoneulr1}${paymentDetails.mobileNo}&message=Kindly+share+this+OTP+-+${Otp}${Phoneulr2}`
-      )
+      .get(`${HOST_URL}/get/mobile/otp/${mobileNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response);
-        if (response) {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          setOtp(response.data.otp);
           alert(
             `OTP has been sent your Register XXXX${paymentDetails.mobileNo.substring(
               6,
               10
             )}`
           );
-          setOtp(Otp);
         }
         setLoading(false);
       })
       .catch((error) => {
-        alert(
-          `OTP has been sent your Register XXXX${paymentDetails.mobileNo.substring(
-            6,
-            10
-          )}`
-        );
-        setOtp(Otp);
         console.log("error==>", error);
         setLoading(false);
       });
@@ -274,7 +264,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          GetPhoneOTP();
+          GetPhoneOTP(paymentDetails.mobileNo);
         }
       })
       .catch((error) => {
@@ -378,9 +368,10 @@ const CashierPaymentDetails = () => {
     if (!tnCFileName) {
       alert("Please Upload T&C File");
     }
-    if (verifiedOtp === false) {
-      alert("Please Verify OTP");
-    } else {
+    // if (verifiedOtp === false) {
+    //   alert("Please Verify OTP");
+    // }
+    else {
       SubmitPayment();
     }
   };
@@ -696,7 +687,7 @@ const CashierPaymentDetails = () => {
                 </h6>
               </div>
             )}
-            <div className="col-md-12">
+            <div className="col-md-6">
               <input
                 type="text"
                 className="form-control"

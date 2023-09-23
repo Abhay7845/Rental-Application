@@ -334,7 +334,6 @@ const RentalIssue = () => {
             }
             alert("File Uploaded Successfully");
             setKarigarQAFile([]);
-            document.getElementById("QAfile").value = "";
           }
           setLoading(false);
         })
@@ -373,7 +372,6 @@ const RentalIssue = () => {
             }
             alert("File Uploaded Successfully");
             setKarateMtrFile([]);
-            document.getElementById("karetfile").value = "";
           }
           setLoading(false);
         })
@@ -421,6 +419,27 @@ const RentalIssue = () => {
         setLoading(false);
       });
   }, [storeCode, GetReturnProduct.refId]);
+  const TnxStatusUpdate = (bookingId) => {
+    axios
+      .get(
+        `${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_Issuance`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Request Raised Succesfully",
+            text: "Please reach out to the Cashier To Complete The Issue Process",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+      });
+  };
 
   const RaiseDepositeRequest = () => {
     if (
@@ -430,8 +449,10 @@ const RentalIssue = () => {
       productFileName.length <= 0
     ) {
       alert("Please Enter RSO Name & Uplaod Files");
-    }
-    if (!existedUserData.customerAccountNumber || !existedUserData.bankIfsc) {
+    } else if (
+      !existedUserData.customerAccountNumber ||
+      !existedUserData.bankIfsc
+    ) {
       Swal.fire({
         title: "Missing Bank Details",
         text: "Please Upload your bank details!",
@@ -467,13 +488,11 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response=>", response);
           if (response.data.code === "1000") {
-            Swal.fire({
-              title: "Request Raised Succesfully",
-              text: "Please reach out to the Cashier To Complete The Issue Process",
-              icon: "success",
-              confirmButtonColor: "#008080",
-              confirmButtonText: "OK",
-            });
+            TnxStatusUpdate(totalPaidAmount.bookingId);
+            setProductFileName([]);
+            setProductImgFile([]);
+            document.getElementById("QAfile").value = "";
+            document.getElementById("karetfile").value = "";
           }
           setLoading(false);
         })

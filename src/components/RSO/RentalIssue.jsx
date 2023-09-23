@@ -63,10 +63,12 @@ const RentalIssue = () => {
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
 
-  console.log("GetReturnProduct==>", GetReturnProduct);
+  console.log("retunTableData==>", retunTableData);
   console.log("existedUserData==>", existedUserData);
   const GetActualWtAtDlr = (e) => {
     const { name, value } = e.target;
+    console.log("value==>", value);
+
     setInputValues({
       ...inputValues,
       [name]: value,
@@ -79,10 +81,11 @@ const RentalIssue = () => {
       PdtItemWt.push(inputValues[key]);
     }
   }
+
   const PdtItemWitewt = PdtItemWt.map((ele, i) => {
     return {
-      actualWtAtDelivery: ele,
-      pdtId: i,
+      actualWtAtDelivery: parseFloat(ele),
+      pdtId: parseInt(retunTableData[i].pdtId),
     };
   });
 
@@ -416,7 +419,7 @@ const RentalIssue = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("responsesum==>", response.data);
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
@@ -445,10 +448,11 @@ const RentalIssue = () => {
         confirmButtonText: "OK",
       });
     } else {
+      setLoading(true);
       const RaiseDepositValue = {
         actualWtAtDelivery: PdtItemWitewt,
-        bookingRefNo: GetReturnProduct.refId,
-        dispatchDate: moment().format("YYYY-MM-DD"),
+        bookingRefNo: totalPaidAmount.bookingId,
+        dispatchDate: null,
         issuenceDocumentUpload: "",
         loanDocumentUpload: sameCustomer ? "" : sameCutIDFileName,
         pickUpByCustomerName: sameCustomer
@@ -467,12 +471,25 @@ const RentalIssue = () => {
         qaCHeckedStatusUpload: "",
         rsoName: RSOName,
         signedAckUpload: "",
-        totalDepositAmount: totalPaidAmount.totalDepositAmount,
+        totalDepositAmount: parseFloat(totalPaidAmount.totalDepositAmount),
         totalDepositAmountPaid: "",
         totalProductValue: totalPaidAmount.totalProductValue,
         totalRentalValue: totalPaidAmount.totalRentalValue,
       };
       console.log("RaiseDepositValue==>", RaiseDepositValue);
+      axios
+        .post(`${HOST_URL}/rental/issue/api`, RaiseDepositValue)
+        .then((res) => res)
+        .then((response) => {
+          console.log("response=>", response);
+          if (response.data.code === "1000") {
+            alert("succsess");
+          }
+        })
+        .catch((error) => {
+          console.log("error=>", error);
+          setLoading(false);
+        });
     }
   };
   return (

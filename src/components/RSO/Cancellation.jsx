@@ -7,9 +7,8 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import Swal from "sweetalert2";
 import { addressTypeOption } from "../../Data/DataList";
-import { FetchImg, UploadImg } from "../../API/HostURL";
+import { UploadImg } from "../../API/HostURL";
 import { ImageHeaders } from "../../Data/DataList";
-import noImg from "../../Asset/Img/NoImage.jpg";
 
 const Cancellation = () => {
   const [loading, setLoading] = useState(false);
@@ -28,7 +27,6 @@ const Cancellation = () => {
   const [sameCustFile, setSameCustFile] = useState("");
   const [sameCustomer, setSameCustomer] = useState(true);
   const [existedUserData, setExistedUserData] = useState({});
-  const [panImageUrl, setPanImgUrl] = useState("");
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
 
@@ -56,23 +54,6 @@ const Cancellation = () => {
         setLoading(false);
       });
   }, [GetReturnProduct.mobileNo]);
-
-  // FETCH DOCUMENTS IMAGE
-  useEffect(() => {
-    if (existedUserData.panCardNoFileName) {
-      axios
-        .get(`${FetchImg}${existedUserData.panCardNoFileName}`, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          if (response.data) {
-            setPanImgUrl(response.data);
-          }
-        })
-        .catch((error) => console.log("error=>", error));
-    }
-  }, [existedUserData.panCardNoFileName]);
 
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
@@ -322,9 +303,6 @@ const Cancellation = () => {
               type="text"
               className="form-control"
               placeholder="Customer Name"
-              defaultValue={
-                sameCustomer ? existedUserData.customerName : sameCustName
-              }
               onChange={(e) => setSameCustName(e.target.value)}
               disabled={sameCustomer ? true : false}
             />
@@ -333,11 +311,6 @@ const Cancellation = () => {
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
-              defaultValue={
-                sameCustomer
-                  ? existedUserData.addressProofIdType
-                  : sameCustIDType
-              }
               onChange={(e) => setSameCustIDType(e.target.value)}
               disabled={sameCustomer ? true : false}
             >
@@ -356,58 +329,38 @@ const Cancellation = () => {
               type="text"
               className="form-control"
               placeholder="Customer ID No."
-              defaultValue={
-                sameCustomer ? existedUserData.panCardNo : sameCustIDNo
-              }
               onChange={(e) => setSameCustIDNo(e.target.value)}
               disabled={sameCustomer ? true : false}
             />
           </div>
-          {sameCustomer ? (
-            <div className="col-md-4">
-              {panImageUrl ? (
-                <img
-                  src={`data:image/jpeg;base64,${panImageUrl}`}
-                  alt=""
-                  width="180"
-                  height="85"
-                />
-              ) : (
-                <img src={noImg} alt="" width="180" height="85" />
-              )}
-            </div>
-          ) : (
-            <div className="col-md-4">
-              {sameCustFileUrl ? (
-                <img src={sameCustFileUrl} alt="" width="180" height="85" />
-              ) : (
-                <div className="d-flex">
-                  <div>
-                    <label className="form-label">Upload ID</label>
-                    <input
-                      type="file"
-                      id="sameCust"
-                      className="form-control"
-                      onChange={(e) => setSameCustFile(e.target.files[0])}
-                      disabled={sameCustomer ? true : false}
-                    />
-                  </div>
-                  <div>
-                    <label className="form-label">.</label>
-                    <button
-                      className={
-                        sameCustomer ? "CDisabled mx-1" : "CButton mx-1"
-                      }
-                      onClick={UploadSameCustIDProof}
-                      disabled={sameCustomer ? true : false}
-                    >
-                      Upload
-                    </button>
-                  </div>
+          <div className="col-md-4">
+            {sameCustFileUrl ? (
+              <img src={sameCustFileUrl} alt="" width="180" height="85" />
+            ) : (
+              <div className="d-flex">
+                <div>
+                  <label className="form-label">Upload ID</label>
+                  <input
+                    type="file"
+                    id="sameCust"
+                    className="form-control"
+                    onChange={(e) => setSameCustFile(e.target.files[0])}
+                    disabled={sameCustomer ? true : false}
+                  />
                 </div>
-              )}
-            </div>
-          )}
+                <div>
+                  <label className="form-label">.</label>
+                  <button
+                    className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
+                    onClick={UploadSameCustIDProof}
+                    disabled={sameCustomer ? true : false}
+                  >
+                    Upload
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           <div className="col-md-12">
             <label className="form-label">Reason For Cancellation</label>
             <select

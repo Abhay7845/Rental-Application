@@ -49,12 +49,6 @@ const RentalIssue = () => {
   const [inputFile, setInputFile] = useState({});
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
 
-  console.log("productFileName==>", productFileName);
-  console.log("karigarQAFileName==>", karigarQAFileName);
-  console.log("productImgFile==>", productImgFile);
-  console.log("totalPaidAmount==>", totalPaidAmount);
-  console.log("karateMtrFileName==>", karateMtrFileName);
-
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const currentDate = new Date();
@@ -137,10 +131,10 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
-            setProductFileName([...productFileName, productFile]);
             const reader = new FileReader();
             reader.onloadend = () => {
               setProductImgFile([...productImgFile, reader.result]);
+              setProductFileName([...productFileName, productFile]);
             };
             if (pdtIdImg) {
               reader.readAsDataURL(pdtIdImg);
@@ -491,6 +485,9 @@ const RentalIssue = () => {
             TnxStatusUpdate(totalPaidAmount.bookingId);
             setProductFileName([]);
             setProductImgFile([]);
+            setRSOName("");
+            setKaretMtrUrl("");
+            setKarigarQAUrl("");
             document.getElementById("QAfile").value = "";
             document.getElementById("karetfile").value = "";
           }
@@ -800,6 +797,7 @@ const RentalIssue = () => {
               type="text"
               className="form-control"
               placeholder="RSO Name"
+              value={RSOName}
               onChange={(e) => setRSOName(e.target.value)}
             />
           </div>

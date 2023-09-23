@@ -642,7 +642,7 @@ const CashierPaymentDetails = () => {
               </div>
             )}
             {paymentDetails.paymentRequestFor ===
-              "Payment_PendingFor_RentalIssuence" && (
+              "Payment_PendingFor_Issuance" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
@@ -721,7 +721,7 @@ const CashierPaymentDetails = () => {
                   <span>Cancel Booking</span>
                 )}
                 {paymentDetails.paymentRequestFor ===
-                  "Payment_PendingFor_RentalIssuence" && (
+                  "Payment_PendingFor_Issuance" && (
                   <span>Complete Product Delivery</span>
                 )}
                 {paymentDetails.paymentRequestFor ===

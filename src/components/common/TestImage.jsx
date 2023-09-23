@@ -1,27 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
+import Navbar from "./Navbar";
+import Swal from "sweetalert2";
 
 function TestImage() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
+  const CheckBookingDetails = () => {
+    Swal.fire({
+      title: "Missing Bank Details",
+      text: "Please Upload your bank details!",
+      icon: "warning",
+      confirmButtonColor: "#008080",
+      confirmButtonText: "OK",
+    });
   };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-  console.log("isOpen==>", isOpen);
-
   return (
     <div>
-      <h1>React Pop-up Screen Example</h1>
-      <button onClick={openModal}>Open Modal</button>
-      <button onClick={closeModal}>Close Modal</button>
-      {isOpen && (
-        <div className="modal-overlay">
-          <div className="modal">Hello</div>
-        </div>
-      )}
+      <Navbar />
+      <button onClick={CheckBookingDetails}>Click</button>
     </div>
   );
 }

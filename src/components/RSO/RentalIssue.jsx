@@ -12,6 +12,8 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import noImg from "../../Asset/Img/NoImage.jpg";
+import KarigarQAPdf from "../Pdf/KarigarQAPdf";
+import Swal from "sweetalert2";
 
 const RentalIssue = () => {
   const [loading, setLoading] = useState(false);
@@ -32,8 +34,11 @@ const RentalIssue = () => {
   const [retunTableData, setRetunTableData] = useState([]);
   const [productFileName, setProductFileName] = useState([]);
   const [karigarQAFile, setKarigarQAFile] = useState([]);
+  const [karateMtrFile, setKarateMtrFile] = useState([]);
   const [karigarQAFileName, setKarigarQAFileName] = useState("");
+  const [karateMtrFileName, setKarateMtrFileName] = useState("");
   const [karigarQAUrl, setKarigarQAUrl] = useState("");
+  const [karetMtrUrl, setKaretMtrUrl] = useState("");
 
   // SAME NOT SAME CUSTOME FOR PICKUP DETAILS
   const [sameCustName, setSameCustName] = useState("");
@@ -44,10 +49,13 @@ const RentalIssue = () => {
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const [inputValues, setInputValues] = useState({});
   const [inputFile, setInputFile] = useState({});
+  const [totalPaidAmount, setTotalPaidAmount] = useState({});
 
   console.log("productFileName==>", productFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
   console.log("productImgFile==>", productImgFile);
+  console.log("totalPaidAmount==>", totalPaidAmount);
+  console.log("karateMtrFileName==>", karateMtrFileName);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -318,11 +326,50 @@ const RentalIssue = () => {
     }
   };
 
+  const UploadKarateMtr = () => {
+    if (karateMtrFile.length === 0) {
+      alert("Please Upload Karate Meter Report");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = karateMtrFile.name.split(".");
+      const karateMtr = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
+      setKarateMtrFileName(karateMtr);
+      formData.append("ImgName", karateMtr);
+      formData.append("files", karateMtrFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setKaretMtrUrl(reader.result);
+            };
+            if (karateMtrFile) {
+              reader.readAsDataURL(karateMtrFile);
+            }
+            alert("File Uploaded Successfully");
+            setKarateMtrFile([]);
+            document.getElementById("karetfile").value = "";
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}`
+        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}/${GetReturnProduct.tempBookingRefNo}`
       )
       .then((res) => res)
       .then((response) => {
@@ -336,35 +383,25 @@ const RentalIssue = () => {
         console.log("error==>", error);
         setLoading(false);
       });
+  }, [storeCode, GetReturnProduct.refId, GetReturnProduct.tempBookingRefNo]);
+  // TOTAL PAID BOOKING AMONT
+  useEffect(() => {
+    axios
+      .get(
+        `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${GetReturnProduct.refId}`
+      )
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          setTotalPaidAmount(response.data.value);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
   }, [storeCode, GetReturnProduct.refId]);
-
-  // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = retunTableData.map((item) =>
-    parseInt(item.productValue)
-  );
-  const SumOfTProductValue = () => {
-    let total = 0;
-    for (let data of TProductValue) total = total + data;
-    return total;
-  };
-
-  // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = retunTableData.map((item) => parseInt(item.rentalAmount));
-  const SumOfRentalRate = () => {
-    let total = 0;
-    for (let data of TRentalRate) total = total + data;
-    return total;
-  };
-
-  // TOTAL DEPOSITE AMOUNT
-  const TDepositRate = retunTableData.map((item) =>
-    parseInt(item.depositAmount)
-  );
-  const SumOfTDepositRate = () => {
-    let total = 0;
-    for (let data of TDepositRate) total = total + data;
-    return total;
-  };
 
   const PdtItemWt = [];
   for (const key in inputValues) {
@@ -388,34 +425,47 @@ const RentalIssue = () => {
   });
 
   const RaiseDepositeRequest = () => {
-    const RaiseDepositValue = {
-      actualWtAtDelivery: PdtItemWitewt,
-      bookingRefNo: GetReturnProduct.refId,
-      dispatchDate: "2023-09-21T07:42:35.068Z",
-      issuenceDocumentUpload: "string",
-      loanDocumentUpload: "string",
-      pickUpByCustomerName: sameCustomer
-        ? existedUserData.customerName
-        : sameCustName,
-      pickUpByCustomerIdType: sameCustomer
-        ? existedUserData.addressProofIdType
-        : sameCustIDType,
-      pickUpByCustomerIdNo: sameCustomer
-        ? existedUserData.panCardNo
-        : sameCustIDNo,
-      pickUpCustomerFileName: sameCustomer
-        ? existedUserData.panCardNoFileName
-        : sameCutIDFileName,
-      qaCHeckedStatus: "string",
-      qaCHeckedStatusUpload: "string",
-      rsoName: RSOName,
-      signedAckUpload: "string",
-      totalDepositAmount: SumOfTDepositRate(),
-      totalDepositAmountPaid: "string",
-      totalProductValue: SumOfTProductValue(),
-      totalRentalValue: SumOfRentalRate(),
-    };
-    console.log("RaiseDepositValue==>", RaiseDepositValue);
+    if (!RSOName || !karateMtrFileName || !karigarQAFileName) {
+      alert("Please Enter RSO Name & Uplaod Files");
+    }
+    if (!existedUserData.customerAccountNumber || !existedUserData.bankIfsc) {
+      Swal.fire({
+        title: "Missing Bank Details",
+        text: "Please Upload your bank details!",
+        icon: "warning",
+        confirmButtonColor: "#008080",
+        confirmButtonText: "OK",
+      });
+    } else {
+      const RaiseDepositValue = {
+        actualWtAtDelivery: PdtItemWitewt,
+        bookingRefNo: GetReturnProduct.refId,
+        dispatchDate: moment().format("YYYY-MM-DD"),
+        issuenceDocumentUpload: "string",
+        loanDocumentUpload: sameCustomer ? "" : sameCutIDFileName,
+        pickUpByCustomerName: sameCustomer
+          ? existedUserData.customerName
+          : sameCustName,
+        pickUpByCustomerIdType: sameCustomer
+          ? existedUserData.addressProofIdType
+          : sameCustIDType,
+        pickUpByCustomerIdNo: sameCustomer
+          ? existedUserData.panCardNo
+          : sameCustIDNo,
+        pickUpCustomerFileName: sameCustomer
+          ? existedUserData.panCardNoFileName
+          : sameCutIDFileName,
+        qaCHeckedStatus: "",
+        qaCHeckedStatusUpload: "",
+        rsoName: RSOName,
+        signedAckUpload: "",
+        totalDepositAmount: totalPaidAmount.totalDepositAmount,
+        totalDepositAmountPaid: "",
+        totalProductValue: totalPaidAmount.totalProductValue,
+        totalRentalValue: totalPaidAmount.totalRentalValue,
+      };
+      console.log("RaiseDepositValue==>", RaiseDepositValue);
+    }
   };
   return (
     <div>
@@ -623,9 +673,24 @@ const RentalIssue = () => {
                       <th colSpan="3" className="text-end">
                         TOTAL
                       </th>
-                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfTDepositRate().toLocaleString("en-IN")}</th>
+                      <th>
+                        ₹
+                        {Math.round(
+                          totalPaidAmount.totalProductValue
+                        ).toLocaleString("en-IN")}
+                      </th>
+                      <th>
+                        ₹
+                        {Math.round(
+                          totalPaidAmount.totalRentalValue
+                        ).toLocaleString("en-IN")}
+                      </th>
+                      <th>
+                        ₹
+                        {Math.round(
+                          totalPaidAmount.totalDepositAmount
+                        ).toLocaleString("en-IN")}
+                      </th>
                       <th>{SumOfActualItemWt()} g.</th>
                     </tr>
                   </tbody>
@@ -634,23 +699,19 @@ const RentalIssue = () => {
             </div>
           )}
           <div className="table-responsive">
+            <button
+              className="CButton mx-1 mb-2"
+              data-bs-toggle="modal"
+              data-bs-target="#showImageModal"
+              style={{ float: "right" }}
+            >
+              Preview Image
+            </button>
             <table className="table table-bordered table-hover border-dark">
               <thead className="table-dark border-light text-center">
                 <tr>
                   <th>Item Code</th>
-                  <th>
-                    Upload Product Images
-                    {productImgFile.length > 0 && (
-                      <span
-                        className="mx-5"
-                        data-bs-toggle="modal"
-                        data-bs-target="#showImageModal"
-                        style={{ cursor: "pointer" }}
-                      >
-                        Preview
-                      </span>
-                    )}
-                  </th>
+                  <th>Upload Product Images</th>
                 </tr>
               </thead>
               <tbody>
@@ -683,10 +744,10 @@ const RentalIssue = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
-              Print
+              <KarigarQAPdf />
             </h6>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Upload Karigar QA Report</label>
             <input
               type="file"
@@ -706,7 +767,27 @@ const RentalIssue = () => {
               <img src={karigarQAUrl} alt="Preview" height="70" width="140" />
             )}
           </div>
-          <div className="col-md-5">
+          <div className="col-md-3">
+            <label className="form-label">Upload Karat Meter Report</label>
+            <input
+              type="file"
+              id="karetfile"
+              className="form-control"
+              onChange={(e) => setKarateMtrFile(e.target.files[0])}
+            />
+          </div>
+          <div className="col-md-1">
+            <br />
+            <button className="CButton mt-2" onClick={UploadKarateMtr}>
+              Upload
+            </button>
+          </div>
+          <div className="col-md-2">
+            {karetMtrUrl && (
+              <img src={karetMtrUrl} alt="Preview" height="70" width="140" />
+            )}
+          </div>
+          <div className="col-12">
             <label className="form-label">RSO Name</label>
             <input
               type="text"
@@ -757,7 +838,7 @@ const RentalIssue = () => {
                   onChange={(e) => setCustomerBankName(e.target.value)}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-md-6">
                 <label className="form-label">Account Number</label>
                 <input
                   type="text"

@@ -94,7 +94,6 @@ const RentalIssue = () => {
       const formData = new FormData();
       const fileExtention = pdtIdImg.name.split(".");
       const productFile = `id-${i}-${item.itemCode}-${bookingDate}-${RandomDigit}.${fileExtention[1]}`;
-      setProductFileName([...productFileName, productFile]);
       formData.append("ImgName", productFile);
       formData.append("files", pdtIdImg);
       axios
@@ -105,6 +104,7 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
+            setProductFileName([...productFileName, productFile]);
             const reader = new FileReader();
             reader.onloadend = () => {
               setProductImgFile([...productImgFile, reader.result]);
@@ -130,12 +130,10 @@ const RentalIssue = () => {
     return nextDate;
   };
 
-  useEffect(() => {
+  const FetchExistedCustDetails = (mobileNo) => {
     setLoading(true);
     axios
-      .get(
-        `${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`
-      )
+      .get(`${HOST_URL}/rental/customer/details/mobileNo/${mobileNo}`)
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
@@ -148,6 +146,10 @@ const RentalIssue = () => {
         console.log("error==>", error);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    FetchExistedCustDetails(GetReturnProduct.mobileNo);
   }, [GetReturnProduct.mobileNo]);
 
   // FETCH DOCUMENTS IMAGE
@@ -276,6 +278,7 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
+            FetchExistedCustDetails(GetReturnProduct.mobileNo);
             alert("Account Details has been Updated Successfully");
           }
           setLoading(false);
@@ -373,7 +376,7 @@ const RentalIssue = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("responseCommon==>", response.data);
         if (response.data.code === "1000") {
           setRetunTableData(response.data.value);
         }
@@ -425,7 +428,12 @@ const RentalIssue = () => {
   });
 
   const RaiseDepositeRequest = () => {
-    if (!RSOName || !karateMtrFileName || !karigarQAFileName) {
+    if (
+      !RSOName ||
+      !karateMtrFileName ||
+      !karigarQAFileName ||
+      productFileName.length <= 0
+    ) {
       alert("Please Enter RSO Name & Uplaod Files");
     }
     if (!existedUserData.customerAccountNumber || !existedUserData.bankIfsc) {
@@ -441,7 +449,7 @@ const RentalIssue = () => {
         actualWtAtDelivery: PdtItemWitewt,
         bookingRefNo: GetReturnProduct.refId,
         dispatchDate: moment().format("YYYY-MM-DD"),
-        issuenceDocumentUpload: "string",
+        issuenceDocumentUpload: "",
         loanDocumentUpload: sameCustomer ? "" : sameCutIDFileName,
         pickUpByCustomerName: sameCustomer
           ? existedUserData.customerName
@@ -881,8 +889,8 @@ const RentalIssue = () => {
               <button
                 type="button"
                 className="CButton"
-                onClick={UpdateCustomerBankDetails}
                 data-bs-dismiss={customerAccountNumber && "modal"}
+                onClick={UpdateCustomerBankDetails}
               >
                 SAVE UPDATE
               </button>

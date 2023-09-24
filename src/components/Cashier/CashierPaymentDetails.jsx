@@ -30,6 +30,7 @@ const CashierPaymentDetails = () => {
   const [documentType, setDocumentType] = useState("");
   const [collectedAmount, setCollectedAmount] = useState();
   const [alertMessage, setAlertMessage] = useState();
+  const [bookedStatus, setBookedStatus] = useState("");
 
   const { paymentRequestFor, rentValue, refundValue, depositValue } =
     paymentDetails;
@@ -134,18 +135,22 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       setCollectedAmount(parseFloat(refundValue));
       setAlertMessage("Booking Successfully Cancelled");
+      setBookedStatus("Cancellation_After_Booking");
     }
     if (paymentRequestFor === "Payment_PendingFor_Issuance") {
       setCollectedAmount(Math.round(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
+      setBookedStatus("Issued. Rental Period");
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setCollectedAmount(Math.round(rentValue));
       setAlertMessage("Payment Submited Successfully and Order Booked");
+      setBookedStatus("Booked");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(Math.round(rentValue));
       setAlertMessage("Item Return Successfully");
+      setBookedStatus("Product Retuned");
     }
   }, [rentValue, paymentRequestFor, depositValue, refundValue]);
 
@@ -242,7 +247,7 @@ const CashierPaymentDetails = () => {
     for (let num of TAmount) total = total + num;
     return total;
   };
-  const TotalAmount = SumOfTAmount();
+  let TotalAmount = SumOfTAmount();
   useEffect(() => {
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setDocumentType("tncDocument");
@@ -262,7 +267,7 @@ const CashierPaymentDetails = () => {
       .get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("GERoTP==>", response.data);
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
           alert(
@@ -382,7 +387,7 @@ const CashierPaymentDetails = () => {
     const submitPaymentData = {
       bookingRefNo: bookingRefID,
       cashierName: cashierName,
-      status: "Booked",
+      status: bookedStatus,
       tempRefNo: paymentDetails.tempBookingRef,
       tncFileName: tnCFileName,
     };
@@ -416,26 +421,32 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
-
+  const CallPaymentAPI = () => {
+    setLoading(true);
+    axios
+      .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          CompletePayment();
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  };
   const SubmitPayment = () => {
-    if (collectedAmount === parseInt(TotalAmount)) {
-      setLoading(true);
-      axios
-        .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response.data);
-          if (response.data.code === "1000") {
-            CompletePayment();
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error=>", error);
-          setLoading(false);
-        });
+    if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+      CallPaymentAPI();
     } else {
-      alert("Total Amount Not Equal to Rental Amount");
+      if (collectedAmount === parseInt(TotalAmount)) {
+        CallPaymentAPI();
+      } else {
+        alert("Total Amount Not Equal to Rental Amount");
+      }
     }
   };
 
@@ -798,7 +809,7 @@ const CashierPaymentDetails = () => {
             )}
             <div className="col-12 d-flex justify-content-between mb-4">
               <button className="CButton" onClick={GetPhoneOTP}>
-                Get OTP
+                {Otp ? "Send Again" : "Get OTP"}
               </button>
               <button className="CButton" onClick={SubmitPaymentDetails}>
                 {paymentRequestFor ===

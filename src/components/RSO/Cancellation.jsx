@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { addressTypeOption } from "../../Data/DataList";
 import { UploadImg } from "../../API/HostURL";
 import { ImageHeaders } from "../../Data/DataList";
+import { useNavigate } from "react-router-dom";
 
 const Cancellation = () => {
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ const Cancellation = () => {
   const [existedUserData, setExistedUserData] = useState({});
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
+  const navigate = useNavigate();
 
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("existedUserData==>", existedUserData);
@@ -204,6 +206,7 @@ const Cancellation = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
+          navigate("/home");
         }
       })
       .catch((error) => {

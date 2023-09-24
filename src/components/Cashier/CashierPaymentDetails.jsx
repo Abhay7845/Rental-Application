@@ -28,7 +28,7 @@ const CashierPaymentDetails = () => {
   const [paymentDetails, setPaymentDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [documentType, setDocumentType] = useState("");
-  const [collectedAmount, setCollectedAmount] = useState("");
+  const [collectedAmount, setCollectedAmount] = useState();
 
   const { paymentRequestFor, rentValue, refundValue, depositValue } =
     paymentDetails;
@@ -48,7 +48,9 @@ const CashierPaymentDetails = () => {
   const [fileName, setFileName] = useState("");
   // TERMS AND CONDITION FILE UPLOAD
   const [printFile, setPrintFile] = useState("");
+  const [deliveryChallan, setDeliveryChallan] = useState([]);
   const [tnCFileName, setTnCFileName] = useState("");
+  const [dlrChalalnFileName, setDlrChalalnFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
 
   // OTP VERIFICATION
@@ -109,7 +111,6 @@ const CashierPaymentDetails = () => {
   };
   console.log("paymentDetails==>", paymentDetails);
 
-  console.log("collectedAmount==>", collectedAmount);
   useEffect(() => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       setCollectedAmount(parseFloat(refundValue));
@@ -232,9 +233,10 @@ const CashierPaymentDetails = () => {
   }, [paymentRequestFor]);
 
   // VERIFY OTP
-  const GetPhoneOTP = (mobileNo) => {
+  const GetPhoneOTP = () => {
+    setLoading(true);
     axios
-      .get(`${HOST_URL}/get/mobile/otp/${mobileNo}`)
+      .get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
@@ -269,7 +271,7 @@ const CashierPaymentDetails = () => {
       bookingRefId: bookingRefID,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
-      documentType: documentType,
+      documentType: !documentType ? dlrChalalnFileName : documentType,
       fileName: printFileName,
       fileSize: `${printFile.size}`,
       fileType: `${printFile.type}`,
@@ -283,7 +285,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          GetPhoneOTP(paymentDetails.mobileNo);
+          alert("Uploaded Successfully");
         }
       })
       .catch((error) => {
@@ -300,7 +302,7 @@ const CashierPaymentDetails = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = printFile.name.split(".");
-      const printFileName = `${paymentRequestFor}${currentDate}${RandomDigit}.${fileExtention[1]}`;
+      const printFileName = `${storeCode}-${paymentRequestFor}-${currentDate}-${RandomDigit}.${fileExtention[1]}`;
       setTnCFileName(printFileName);
       formData.append("ImgName", printFileName);
       formData.append("files", printFile);
@@ -313,6 +315,36 @@ const CashierPaymentDetails = () => {
           console.log("response==>", response);
           if (response.data) {
             UpdateBookingFile(printFileName);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
+  // UPLOAD TNC FUNCTION
+  const UploadDeliveryChallan = () => {
+    if (deliveryChallan.length === 0) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileExtention = deliveryChallan.name.split(".");
+      const deliveryChallanFile = `${paymentRequestFor}-challan-${currentDate}-${RandomDigit}.${fileExtention[1]}`;
+      formData.append("ImgName", deliveryChallanFile);
+      formData.append("files", deliveryChallan);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response);
+          if (response.data) {
+            setDlrChalalnFileName(deliveryChallanFile);
+            alert("Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -348,8 +380,12 @@ const CashierPaymentDetails = () => {
           GetPyamentDetials();
           setPaymentDetails({});
           setGetPaymentData([]);
+          setSavePaymetRow([]);
           setCashierName("");
-          document.getElementById("tncFile").value = "";
+          setVerifiedOtp(false);
+          setPrintFile([]);
+          setDeliveryChallan([]);
+          setCollectedAmount(0);
         }
       })
       .then((error) => {
@@ -359,7 +395,7 @@ const CashierPaymentDetails = () => {
   };
 
   const SubmitPayment = () => {
-    if (parseInt(paymentDetails.rentValue) === parseInt(TotalAmount)) {
+    if (collectedAmount === parseInt(TotalAmount)) {
       setLoading(true);
       axios
         .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
@@ -384,7 +420,7 @@ const CashierPaymentDetails = () => {
     if (!cashierName) {
       alert("Please Enter Cashier Name");
     } else if (!tnCFileName) {
-      alert("Please Upload T&C File");
+      alert("Please Upload Print File/PDF");
     } else if (!verifiedOtp) {
       alert("Please Verify OTP");
     } else {
@@ -608,7 +644,6 @@ const CashierPaymentDetails = () => {
                 <div className="col-md-6 d-flex">
                   <input
                     type="file"
-                    id="tncFile"
                     className="form-control mx-2"
                     accept=".jpg, .jpeg, .png"
                     onChange={(e) => setPrintFile(e.target.files[0])}
@@ -630,7 +665,6 @@ const CashierPaymentDetails = () => {
                 <div className="col-md-6 d-flex">
                   <input
                     type="file"
-                    id="tncFile"
                     className="form-control mx-2"
                     accept=".jpg, .jpeg, .png"
                     onChange={(e) => setPrintFile(e.target.files[0])}
@@ -642,9 +676,8 @@ const CashierPaymentDetails = () => {
                 <div className="col-md-6 d-flex">
                   <input
                     type="file"
-                    id="tncFile"
                     className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png"
+                    accept=".jpg, .jpeg, .png, .pdf"
                     onChange={(e) => setPrintFile(e.target.files[0])}
                   />
                   <button className="CButton" onClick={UploadPrintFile}>
@@ -666,18 +699,29 @@ const CashierPaymentDetails = () => {
                   <input
                     type="file"
                     className="form-control"
-                    placeholder="Username"
+                    accept=".jpg, .jpeg, .png, .pdf"
+                    onChange={(e) => setPrintFile(e.target.files[0])}
                   />
-                  <button className="CButton mx-1">Upload</button>
+                  <button className="CButton mx-1" onClick={UploadPrintFile}>
+                    Upload
+                  </button>
                 </div>
                 <div className="input-group">
-                  <div className="input-group-text">Loan Document Upload</div>
+                  <div className="input-group-text">
+                    Acknowledged Delivery Challan
+                  </div>
                   <input
                     type="file"
                     className="form-control"
-                    placeholder="Username"
+                    accept=".jpg, .jpeg, .png, .pdf"
+                    onChange={(e) => setDeliveryChallan(e.target.files[0])}
                   />
-                  <button className="CButton mx-1">Upload</button>
+                  <button
+                    className="CButton mx-1"
+                    onClick={UploadDeliveryChallan}
+                  >
+                    Upload
+                  </button>
                 </div>
               </div>
             )}
@@ -692,9 +736,9 @@ const CashierPaymentDetails = () => {
                 <div className="col-md-6 d-flex">
                   <input
                     type="file"
-                    id="tncFile"
                     className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png"
+                    accept=".jpg, .jpeg, .png. pdf"
+                    onChange={(e) => setPrintFile(e.target.files[0])}
                   />
                   <button className="CButton" onClick={UploadPrintFile}>
                     Upload
@@ -729,7 +773,10 @@ const CashierPaymentDetails = () => {
                 )}
               </div>
             )}
-            <div className="col-12 d-flex justify-content-end mb-4">
+            <div className="col-12 d-flex justify-content-between mb-4">
+              <button className="CButton" onClick={GetPhoneOTP}>
+                Get OTP
+              </button>
               <button className="CButton" onClick={SubmitPaymentDetails}>
                 {paymentRequestFor ===
                   "Payment_PendingFor_RentalCancellation" && (

@@ -267,7 +267,7 @@ const ProductsDetails = () => {
         .then((response) => {
           console.log("responseDtaa==>", response.data.value.Succes);
           if (response.data.code === "1000") {
-            if (response.data.value) {
+            if (response.data.value.Succes) {
               localStorage.setItem("BookinTempId", response.data.value.Succes);
               InsertTableCalendar(response.data.value.Succes);
             }
@@ -395,17 +395,19 @@ const ProductsDetails = () => {
                   return (
                     <tr
                       key={i}
-                      style={{
-                        pointerEvents: `${
-                          data.status === "Active" ? "" : "none"
-                        }`,
-                      }}
+                      // style={{
+                      //   pointerEvents: `${
+                      //     AvlProduct[0] === "AvlProduct" ? "" : "none"
+                      //   }`,
+                      // }}
                     >
                       <td className="text-center">
                         <input
                           className="form-check-input border-dark"
                           type="checkbox"
-                          disabled={data.status === "Active" ? false : true}
+                          // disabled={
+                          //   AvlProduct[0] === "AvlProduct" ? false : true
+                          // }
                           onClick={() => SelectedProducts(data)}
                         />
                       </td>

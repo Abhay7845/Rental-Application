@@ -37,7 +37,21 @@ const ProductsDetails = () => {
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
 
   console.log("goToCart==>", goToCart);
-  console.log("goToCart==>", goToCart);
+  console.log("payload==>", payload);
+
+  const ReturnEndDate = () => {
+    const nextDate = new Date(payload.bookingDate);
+    nextDate.setDate(nextDate.getDate() + (parseInt(payload.packageDays) - 1));
+    return nextDate;
+  };
+  const rentalEndDate = moment(ReturnEndDate()).format("YYYY-MM-DD");
+  const CoolOfDate = () => {
+    const nextDate = new Date(rentalEndDate);
+    nextDate.setDate(nextDate.getDate() + 5);
+    return nextDate;
+  };
+
+  const coolOfDate = moment(CoolOfDate()).format("YYYY-MM-DD");
 
   const GetProductDetails = (payload, avldata) => {
     const GetProducts = {
@@ -209,6 +223,27 @@ const ProductsDetails = () => {
   };
   const thresholdLimit = parseInt(thresHoldValue.limit) * 100000;
 
+  const InsertTableCalendar = (tempId) => {
+    console.log("tempId==>", tempId);
+    console.log("goToCart==>", goToCart);
+    const CanlendarInputs = goToCart.map((data) => {
+      return {
+        pdtId: data.pdtId,
+        bookingId: "",
+        bookingDate: payload.bookingDate,
+        createdDate: null,
+        updatedDate: null,
+        status: "Blocked",
+        packageDays: payload.packageDays,
+        rentalEndDate: rentalEndDate,
+        storeCode: storeCode,
+        coolOfDate: coolOfDate,
+        tempBookingRefNo: tempId,
+      };
+    });
+    console.log("CanlendarInputs==>", CanlendarInputs);
+  };
+
   const ContinueToBooking = () => {
     if (thresholdLimit < SumOfTProductValue()) {
       alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
@@ -219,13 +254,14 @@ const ProductsDetails = () => {
         .post(`${HOST_URL}/add/to/cart`, goToCart)
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
+          console.log("responseDtaa==>", response.data.value.Succes);
           if (response.data.code === "1000") {
             if (response.data.value) {
               localStorage.setItem("BookinTempId", response.data.value.Succes);
               Swal.fire("Added", "Your Products Added To Cart", "success");
               navigate("/booking");
             }
+            InsertTableCalendar(response.data.value.Succes);
           }
           setLoading(false);
         })

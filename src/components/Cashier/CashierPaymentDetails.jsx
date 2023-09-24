@@ -29,6 +29,7 @@ const CashierPaymentDetails = () => {
   const [existedUserData, setExistedUserData] = useState({});
   const [documentType, setDocumentType] = useState("");
   const [collectedAmount, setCollectedAmount] = useState();
+  const [alertMessage, setAlertMessage] = useState();
 
   const { paymentRequestFor, rentValue, refundValue, depositValue } =
     paymentDetails;
@@ -72,6 +73,24 @@ const CashierPaymentDetails = () => {
       });
   };
 
+  // const FetchTableData = (data) => {
+  //   console.log("data==>", data);
+  //   axios
+  //     .get(
+  //       `${HOST_URL}/RentalApplication/Rental/fetch/table/common/data/${storeCode}/{bookingRefNo}/{tempBookingRefNo}`
+  //     )
+  //     .then((res) => res)
+  //     .then((response) => {
+  //       console.log("response==>", response);
+  //       if (response.data.code === "1000") {
+  //         console.log("response==>", response);
+  //       }
+  //     })
+  //     .then((error) => {
+  //       console.log("error=>", error);
+  //     });
+  // };
+
   const GetPyamentDetials = () => {
     setLoading(true);
     axios
@@ -114,15 +133,19 @@ const CashierPaymentDetails = () => {
   useEffect(() => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       setCollectedAmount(parseFloat(refundValue));
+      setAlertMessage("Booking Successfully Cancelled");
     }
     if (paymentRequestFor === "Payment_PendingFor_Issuance") {
       setCollectedAmount(Math.round(depositValue));
+      setAlertMessage("Item Issued. Rental Period Started");
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setCollectedAmount(Math.round(rentValue));
+      setAlertMessage("Payment Submited Successfully and Order Booked");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(Math.round(rentValue));
+      setAlertMessage("Item Return Successfully");
     }
   }, [rentValue, paymentRequestFor, depositValue, refundValue]);
 
@@ -372,7 +395,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           Swal.fire({
             title: "Success",
-            text: "Payment Submited Successfully and Order Booked",
+            text: alertMessage,
             icon: "success",
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
@@ -506,7 +529,7 @@ const CashierPaymentDetails = () => {
               <input
                 type="text"
                 className="form-control"
-                value={collectedAmount}
+                defaultValue={collectedAmount}
                 disabled
               />
             </div>

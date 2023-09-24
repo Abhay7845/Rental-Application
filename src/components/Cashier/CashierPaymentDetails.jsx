@@ -264,16 +264,16 @@ const CashierPaymentDetails = () => {
     }
   };
 
-  const UpdateBookingFile = (tncFileName) => {
+  const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
       bookingRefId: bookingRefID,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: documentType,
-      fileName: tncFileName,
+      fileName: printFileName,
       fileSize: `${printFile.size}`,
       fileType: `${printFile.type}`,
-      fileURL: `${FetchImg}${tncFileName}`,
+      fileURL: `${FetchImg}${printFileName}`,
       updatedDate: null,
     };
     console.log("updateBookingInput==>", updateBookingInput);
@@ -300,9 +300,9 @@ const CashierPaymentDetails = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = printFile.name.split(".");
-      const tncFileName = `${paymentRequestFor}${currentDate}${RandomDigit}.${fileExtention[1]}`;
-      setTnCFileName(tncFileName);
-      formData.append("ImgName", tncFileName);
+      const printFileName = `${paymentRequestFor}${currentDate}${RandomDigit}.${fileExtention[1]}`;
+      setTnCFileName(printFileName);
+      formData.append("ImgName", printFileName);
       formData.append("files", printFile);
       axios
         .post(`${UploadImg}`, formData, {
@@ -312,7 +312,7 @@ const CashierPaymentDetails = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
-            UpdateBookingFile(tncFileName);
+            UpdateBookingFile(printFileName);
           }
           setLoading(false);
         })
@@ -329,7 +329,7 @@ const CashierPaymentDetails = () => {
       cashierName: cashierName,
       status: "Booked",
       tempRefNo: paymentDetails.tempBookingRef,
-      tncFileName: tnCFileName,
+      printFileName: tnCFileName,
     };
     console.log("submitPaymentData===>", submitPaymentData);
     axios
@@ -383,14 +383,11 @@ const CashierPaymentDetails = () => {
   const SubmitPaymentDetails = () => {
     if (!cashierName) {
       alert("Please Enter Cashier Name");
-    }
-    if (!tnCFileName) {
+    } else if (!tnCFileName) {
       alert("Please Upload T&C File");
-    }
-    // if (verifiedOtp === false) {
-    //   alert("Please Verify OTP");
-    // }
-    else {
+    } else if (!verifiedOtp) {
+      alert("Please Verify OTP");
+    } else {
       SubmitPayment();
     }
   };

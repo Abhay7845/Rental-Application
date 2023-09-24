@@ -15,6 +15,7 @@ import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
 import moment from "moment/moment";
 import { useEffect } from "react";
 import BookingPdf from "../Pdf/BookingPdf";
+import CancelationPdf from "../Pdf/CancelationPdf";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,8 @@ const CashierPaymentDetails = () => {
   const [documentType, setDocumentType] = useState("");
   const [collectedAmount, setCollectedAmount] = useState("");
 
-  const { paymentRequestFor, rentValue } = paymentDetails;
+  const { paymentRequestFor, rentValue, refundValue, depositValue } =
+    paymentDetails;
 
   console.log("getPaymentData==>", getPaymentData);
   console.log("existedUserData==>", existedUserData);
@@ -109,16 +111,19 @@ const CashierPaymentDetails = () => {
 
   console.log("collectedAmount==>", collectedAmount);
   useEffect(() => {
-    if (paymentRequestFor === "Payment_PendingFor_RentalCacel") {
-      setCollectedAmount(rentValue);
+    if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+      setCollectedAmount(parseFloat(refundValue));
     }
     if (paymentRequestFor === "Payment_PendingFor_Issuance") {
-      setCollectedAmount(rentValue);
+      setCollectedAmount(Math.round(depositValue));
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
-      setCollectedAmount(rentValue);
+      setCollectedAmount(Math.round(rentValue));
     }
-  }, [rentValue, paymentRequestFor]);
+    if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
+      setCollectedAmount(Math.round(rentValue));
+    }
+  }, [rentValue, paymentRequestFor, depositValue, refundValue]);
 
   const AddPaymentRows = () => {
     setCount(count + 1);
@@ -463,12 +468,12 @@ const CashierPaymentDetails = () => {
           <div className="row g-3 mt-3 mx-0">
             <div className="col-md-12 mt-0">
               <label className="form-label">
-                <b> Payment to be Collected/Refund</b>
+                <b>Amount to be Collected/Refunded</b>
               </label>
               <input
                 type="text"
                 className="form-control"
-                value={1234}
+                value={collectedAmount}
                 disabled
               />
             </div>
@@ -659,40 +664,43 @@ const CashierPaymentDetails = () => {
                     <PaymentTnCPdf />
                   </h6>
                 </div>
-                <div className="col-md-6 d-flex">
-                  <b>Loan Document Upload</b>
+                <div className="input-group">
+                  <div className="input-group-text">Loan Document Upload</div>
                   <input
                     type="file"
-                    id="tncFile"
-                    className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png"
-                    onChange={(e) => setTnCfile(e.target.files[0])}
+                    className="form-control"
+                    placeholder="Username"
                   />
-                  <button className="CButton" onClick={UploadTnCFile}>
-                    Upload
-                  </button>
+                  <button className="CButton mx-1">Upload</button>
                 </div>
-                <div className="col-md-6 d-flex">
-                  <b>Signed Delivery Challan Upload</b>
+                <div className="input-group">
+                  <div className="input-group-text">Loan Document Upload</div>
                   <input
                     type="file"
-                    id="tncFile"
-                    className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png"
-                    onChange={(e) => setTnCfile(e.target.files[0])}
+                    className="form-control"
+                    placeholder="Username"
                   />
-                  <button className="CButton" onClick={UploadTnCFile}>
-                    Upload
-                  </button>
+                  <button className="CButton mx-1">Upload</button>
                 </div>
               </div>
             )}
-            {paymentRequestFor === "Payment_PendingFor_RentalCacellation" && (
-              <div className="col-12 mb-0">
-                <h6 className="bookingHeading d-flex justify-content-between">
-                  <span className="mt-1">Print - Cancellation Receipt</span>
-                  <PaymentTnCPdf />
-                </h6>
+            {paymentRequestFor === "Payment_PendingFor_RentalCancellation" && (
+              <div>
+                <div className="col-12 mb-0">
+                  <h6 className="bookingHeading d-flex justify-content-between">
+                    <span className="mt-1">Print Booking Confirmation</span>
+                    <CancelationPdf />
+                  </h6>
+                </div>
+                <div className="col-md-6 d-flex">
+                  <input
+                    type="file"
+                    id="tncFile"
+                    className="form-control mx-2"
+                    accept=".jpg, .jpeg, .png"
+                  />
+                  <button className="CButton">Upload</button>
+                </div>
               </div>
             )}
             <div className="col-md-6">
@@ -725,7 +733,7 @@ const CashierPaymentDetails = () => {
             <div className="col-12 d-flex justify-content-end mb-4">
               <button className="CButton" onClick={SubmitPaymentDetails}>
                 {paymentRequestFor ===
-                  "Payment_PendingFor_RentalCacellation" && (
+                  "Payment_PendingFor_RentalCancellation" && (
                   <span>Cancel Booking</span>
                 )}
                 {paymentRequestFor === "Payment_PendingFor_Issuance" && (

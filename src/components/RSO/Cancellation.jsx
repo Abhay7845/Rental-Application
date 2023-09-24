@@ -192,7 +192,7 @@ const Cancellation = () => {
   const UpdateCancelStatus = (bookingID) => {
     axios
       .get(
-        `${HOST_URL}/update/txn/status/${bookingID}/Payment_PendingFor_RentalCacellation`
+        `${HOST_URL}/update/txn/status/${bookingID}/Payment_PendingFor_RentalCancellation`
       )
       .then((res) => res)
       .then((response) => {

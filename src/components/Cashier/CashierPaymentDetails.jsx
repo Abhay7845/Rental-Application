@@ -329,14 +329,14 @@ const CashierPaymentDetails = () => {
       cashierName: cashierName,
       status: "Booked",
       tempRefNo: paymentDetails.tempBookingRef,
-      printFileName: tnCFileName,
+      tncFileName: tnCFileName,
     };
-    console.log("submitPaymentData===>", submitPaymentData);
+    console.log("submitPaymentData==>", submitPaymentData);
     axios
       .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("update/summary==>", response.data);
         if (response.data.code === "1000") {
           Swal.fire({
             title: "Success",

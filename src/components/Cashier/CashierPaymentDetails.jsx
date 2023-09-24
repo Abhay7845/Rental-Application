@@ -47,7 +47,7 @@ const CashierPaymentDetails = () => {
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState("");
   // TERMS AND CONDITION FILE UPLOAD
-  const [tnCfile, setTnCfile] = useState("");
+  const [printFile, setPrintFile] = useState("");
   const [tnCFileName, setTnCFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
 
@@ -271,8 +271,8 @@ const CashierPaymentDetails = () => {
       createdDate: currentDate,
       documentType: documentType,
       fileName: tncFileName,
-      fileSize: `${tnCfile.size}`,
-      fileType: `${tnCfile.type}`,
+      fileSize: `${printFile.size}`,
+      fileType: `${printFile.type}`,
       fileURL: `${FetchImg}${tncFileName}`,
       updatedDate: null,
     };
@@ -293,17 +293,17 @@ const CashierPaymentDetails = () => {
   };
 
   // UPLOAD TNC FUNCTION
-  const UploadTnCFile = () => {
-    if (!tnCfile) {
+  const UploadPrintFile = () => {
+    if (!printFile) {
       alert("Please Choose File");
     } else {
       setLoading(true);
       const formData = new FormData();
-      const fileExtention = tnCfile.name.split(".");
+      const fileExtention = printFile.name.split(".");
       const tncFileName = `${paymentRequestFor}${currentDate}${RandomDigit}.${fileExtention[1]}`;
       setTnCFileName(tncFileName);
       formData.append("ImgName", tncFileName);
-      formData.append("files", tnCfile);
+      formData.append("files", printFile);
       axios
         .post(`${UploadImg}`, formData, {
           headers: ImageHeaders,
@@ -614,9 +614,9 @@ const CashierPaymentDetails = () => {
                     id="tncFile"
                     className="form-control mx-2"
                     accept=".jpg, .jpeg, .png"
-                    onChange={(e) => setTnCfile(e.target.files[0])}
+                    onChange={(e) => setPrintFile(e.target.files[0])}
                   />
-                  <button className="CButton" onClick={UploadTnCFile}>
+                  <button className="CButton" onClick={UploadPrintFile}>
                     Upload
                   </button>
                 </div>
@@ -636,9 +636,9 @@ const CashierPaymentDetails = () => {
                     id="tncFile"
                     className="form-control mx-2"
                     accept=".jpg, .jpeg, .png"
-                    onChange={(e) => setTnCfile(e.target.files[0])}
+                    onChange={(e) => setPrintFile(e.target.files[0])}
                   />
-                  <button className="CButton" onClick={UploadTnCFile}>
+                  <button className="CButton" onClick={UploadPrintFile}>
                     Upload
                   </button>
                 </div>
@@ -648,9 +648,9 @@ const CashierPaymentDetails = () => {
                     id="tncFile"
                     className="form-control mx-2"
                     accept=".jpg, .jpeg, .png"
-                    onChange={(e) => setTnCfile(e.target.files[0])}
+                    onChange={(e) => setPrintFile(e.target.files[0])}
                   />
-                  <button className="CButton" onClick={UploadTnCFile}>
+                  <button className="CButton" onClick={UploadPrintFile}>
                     Upload
                   </button>
                 </div>
@@ -699,7 +699,9 @@ const CashierPaymentDetails = () => {
                     className="form-control mx-2"
                     accept=".jpg, .jpeg, .png"
                   />
-                  <button className="CButton">Upload</button>
+                  <button className="CButton" onClick={UploadPrintFile}>
+                    Upload
+                  </button>
                 </div>
               </div>
             )}

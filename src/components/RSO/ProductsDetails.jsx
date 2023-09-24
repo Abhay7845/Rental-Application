@@ -224,8 +224,6 @@ const ProductsDetails = () => {
   const thresholdLimit = parseInt(thresHoldValue.limit) * 100000;
 
   const InsertTableCalendar = (tempId) => {
-    console.log("tempId==>", tempId);
-    console.log("goToCart==>", goToCart);
     const CanlendarInputs = goToCart.map((data) => {
       return {
         pdtId: data.pdtId,
@@ -234,7 +232,7 @@ const ProductsDetails = () => {
         createdDate: null,
         updatedDate: null,
         status: "Blocked",
-        packageDays: payload.packageDays,
+        packageDays: parseInt(payload.packageDays),
         rentalEndDate: rentalEndDate,
         storeCode: storeCode,
         coolOfDate: coolOfDate,
@@ -242,6 +240,19 @@ const ProductsDetails = () => {
       };
     });
     console.log("CanlendarInputs==>", CanlendarInputs);
+    axios
+      .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response);
+        if (response.data.code === "1000") {
+          Swal.fire("Added", "Your Products Added To Cart", "success");
+          navigate("/booking");
+        }
+      })
+      .catch((error) => {
+        console.log("erorr==>", error);
+      });
   };
 
   const ContinueToBooking = () => {
@@ -258,10 +269,8 @@ const ProductsDetails = () => {
           if (response.data.code === "1000") {
             if (response.data.value) {
               localStorage.setItem("BookinTempId", response.data.value.Succes);
-              Swal.fire("Added", "Your Products Added To Cart", "success");
-              navigate("/booking");
+              InsertTableCalendar(response.data.value.Succes);
             }
-            InsertTableCalendar(response.data.value.Succes);
           }
           setLoading(false);
         })

@@ -31,7 +31,6 @@ const CashierPaymentDetails = () => {
   const [collectedAmount, setCollectedAmount] = useState();
   const [alertMessage, setAlertMessage] = useState();
   const [bookedStatus, setBookedStatus] = useState("");
-
   const { paymentRequestFor, rentValue, refundValue, depositValue } =
     paymentDetails;
 
@@ -48,6 +47,7 @@ const CashierPaymentDetails = () => {
   const [amount, setAmount] = useState("");
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState("");
+
   // TERMS AND CONDITION FILE UPLOAD
   const [printFile, setPrintFile] = useState("");
   const [deliveryChallan, setDeliveryChallan] = useState([]);
@@ -73,24 +73,6 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
-
-  // const FetchTableData = (data) => {
-  //   console.log("data==>", data);
-  //   axios
-  //     .get(
-  //       `${HOST_URL}/RentalApplication/Rental/fetch/table/common/data/${storeCode}/{bookingRefNo}/{tempBookingRefNo}`
-  //     )
-  //     .then((res) => res)
-  //     .then((response) => {
-  //       console.log("response==>", response);
-  //       if (response.data.code === "1000") {
-  //         console.log("response==>", response);
-  //       }
-  //     })
-  //     .then((error) => {
-  //       console.log("error=>", error);
-  //     });
-  // };
 
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -592,7 +574,6 @@ const CashierPaymentDetails = () => {
                         >
                           <option value="">Select Type</option>
                           <option value="Card">Card</option>
-                          <option value="Credit Note">Credit Note</option>
                           <option value="TEP">TEP</option>
                           <option value="NEFT">NEFT</option>
                           <option value="RTGS">RTGS</option>
@@ -763,7 +744,7 @@ const CashierPaymentDetails = () => {
               <div>
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
-                    <span className="mt-1">Print Booking Confirmation</span>
+                    <span className="mt-1">Cancellation Invoice</span>
                     <CancelationPdf />
                   </h6>
                 </div>

@@ -38,6 +38,7 @@ const ProductsDetails = () => {
 
   console.log("goToCart==>", goToCart);
   console.log("payload==>", payload);
+  console.log("AvlProduct==>", AvlProduct);
 
   const ReturnEndDate = () => {
     const nextDate = new Date(payload.bookingDate);
@@ -67,7 +68,7 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/rental/product/view/details`, GetProducts)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("GetProductsResponse==>", response.data);
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
         }
@@ -100,13 +101,10 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
+        console.log("AvlResponse==>", response.data);
         if (response.data.code === "1000") {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
-        }
-        if (response.data.code === "1001") {
-          alert("Product Not Available");
         }
         setLoading(false);
         payload.itemCode = "";
@@ -396,19 +394,23 @@ const ProductsDetails = () => {
                   return (
                     <tr
                       key={i}
-                      // style={{
-                      //   pointerEvents: `${
-                      //     AvlProduct[0] === "AvlProduct" ? "" : "none"
-                      //   }`,
-                      // }}
+                      style={{
+                        pointerEvents: `${
+                          AvlProduct[i] === "Product_Not_Available"
+                            ? "none"
+                            : ""
+                        }`,
+                      }}
                     >
                       <td className="text-center">
                         <input
                           className="form-check-input border-dark"
                           type="checkbox"
-                          // disabled={
-                          //   AvlProduct[0] === "AvlProduct" ? false : true
-                          // }
+                          disabled={
+                            AvlProduct[i] === "Product_Not_Available"
+                              ? true
+                              : false
+                          }
                           onClick={() => SelectedProducts(data)}
                         />
                       </td>
@@ -425,7 +427,7 @@ const ProductsDetails = () => {
                       <td>
                         {Math.round(data.depositRate).toLocaleString("en-IN")}
                       </td>
-                      <td>{AvlProduct[0]}</td>
+                      <td>{AvlProduct[i]}</td>
                     </tr>
                   );
                 })}

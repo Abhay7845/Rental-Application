@@ -341,7 +341,7 @@ const NewCustomer = () => {
           if (response.data.code === "1000") {
             CreationPopUp();
           }
-          navigate("/products/details");
+          navigate("/booking");
           setLoading(false);
         })
         .catch((error) => {
@@ -368,13 +368,15 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-3">
             <input
-              type="number"
+              type="text"
               className="form-control"
               placeholder="Phone Number"
+              icon={false}
               value={phoneNumber}
               onChange={(e) => {
                 if (e.target.value.length <= 10) {
-                  setPhoneNumber(e.target.value);
+                  const numericValue = e.target.value.replace(/\D/g, "");
+                  setPhoneNumber(numericValue);
                 }
               }}
               disabled={phoneVerified ? true : false}
@@ -386,7 +388,10 @@ const NewCustomer = () => {
                 type="number"
                 className="form-control"
                 placeholder="Phone OTP"
-                onChange={(e) => setEnterPhoneOtp(e.target.value)}
+                onChange={(e) => {
+                  const OTPVal = e.target.value.replace(/\D/g, "");
+                  setEnterPhoneOtp(OTPVal);
+                }}
               />
             </div>
           )}

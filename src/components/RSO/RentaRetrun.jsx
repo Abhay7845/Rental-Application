@@ -40,9 +40,7 @@ const RentalReturn = () => {
 
   console.log("sameCutIDFileName==>", sameCutIDFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
-  console.log("RSOName==>", RSOName);
 
-  // currentDate - rentalenddate;
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
     nextDate.setDate(
@@ -52,8 +50,6 @@ const RentalReturn = () => {
   };
   const timeDifference = currentDate - getReturnDate();
   const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-  console.log("penaltyDays==>", penaltyDays);
 
   const refactoreDataTable = retunTableData.map((data) => {
     let peneltyCharge = 0;
@@ -307,35 +303,7 @@ const RentalReturn = () => {
       idFileName: "string",
       idNumber: "string",
       idType: "string",
-      itemDetails: [
-        {
-          actualWtReturn: "string",
-          bookingRefId: "string",
-          cfa: "string",
-          custId: "string",
-          customerName: "string",
-          deliveredWt: "string",
-          depositAmount: "string",
-          description: "string",
-          grossWt: "string",
-          id: 0,
-          itemCode: "string",
-          itemPriceId: "string",
-          lotNo: "string",
-          mobileNo: "string",
-          netWt: "string",
-          noOfPc: "string",
-          packageDays: "string",
-          pdtId: "string",
-          productHUID: "string",
-          productValue: "string",
-          rateId: "string",
-          refId: "string",
-          rentStartDate: "string",
-          rentalAmount: "string",
-          tempBookingRefNo: "string",
-        },
-      ],
+      itemDetails: retunTableData,
       karigarQAPassed: "string",
       loanReturnDoc: "string",
       paidBooking: [
@@ -360,11 +328,11 @@ const RentalReturn = () => {
           itemCode: "string",
         },
       ],
-      rsoName: "string",
+      rsoName: RSOName,
       totalBookingPaid: 0,
       totalDamageCharges: 0,
       totalDepositPaid: 0,
-      totalPenaltyCharges: 0,
+      totalPenaltyCharges: SumOfTPeneltyCharge(),
       totalRentaLAmount: 0,
       updatedDate: "2023-09-25T06:36:08.171Z",
     };

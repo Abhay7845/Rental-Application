@@ -372,8 +372,9 @@ const RentalReturn = () => {
                               defaultValue={inputPhyDmg[i]}
                               onChange={GetPhysicalDmg}
                             >
-                              <option>NO</option>
-                              <option>Yes</option>
+                              <option value="">Select</option>
+                              <option value="NO">NO</option>
+                              <option value="YES">Yes</option>
                             </select>
                           </td>
                         </tr>

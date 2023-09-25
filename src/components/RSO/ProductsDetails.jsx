@@ -217,6 +217,7 @@ const ProductsDetails = () => {
     setWishList(false);
     setProductDetails([]);
     setAddtoWishList([]);
+    setGoToCart([]);
     payload.bookingDate = "";
     payload.packageDays = "";
     payload.customerType = "";
@@ -433,6 +434,9 @@ const ProductsDetails = () => {
           </table>
         </div>
         <div className="d-flex justify-content-end mt-0">
+          <button className="CancelButton mx-2" onClick={GoForCancel}>
+            Reset
+          </button>
           <button
             className={addtoWishList.length > 0 ? "CButton" : "CDisabled"}
             disabled={addtoWishList.length > 0 ? false : true}

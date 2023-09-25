@@ -26,20 +26,25 @@ const RentalReturn = () => {
   const [karigarQAFile, setKarigarQAFile] = useState([]);
   const [karigarQAFileUrl, setKarigarQAFileUrl] = useState([]);
   const [karigarQAFileName, setKarigarQAFileName] = useState([]);
+  // ACTUAL WT RETURN
+  const [inputRtnValues, setInputRtnValues] = useState({});
+  const [inputDmgValues, setInputDmgValues] = useState({});
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
+  const { refId, tempBookingRefNo } = GetReturnProduct;
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
 
   console.log("sameCutIDFileName==>", sameCutIDFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
+  console.log("inputRtnValues==>", inputRtnValues);
 
   useEffect(() => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}`
+        `${HOST_URL}/fetch/table/common/data/KAN/${refId}/${tempBookingRefNo}`
       )
       .then((res) => res)
       .then((response) => {
@@ -53,7 +58,7 @@ const RentalReturn = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  }, [storeCode, GetReturnProduct.refId]);
+  }, [storeCode, refId, tempBookingRefNo]);
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -155,6 +160,51 @@ const RentalReturn = () => {
           setLoading(false);
         });
     }
+  };
+
+  // CALCULATION OF ACTUAL WT AT RETURN
+  const GetActualWtAtReturl = (e, item) => {
+    const { name, value } = e.target;
+    console.log("item==>", item);
+
+    setInputRtnValues({
+      ...inputRtnValues,
+      [name]: value,
+    });
+  };
+  const PdtItemWtRtn = [];
+  for (const key in inputRtnValues) {
+    if (inputRtnValues.hasOwnProperty(key)) {
+      PdtItemWtRtn.push(inputRtnValues[key]);
+    }
+  }
+  // TOTAL ACTUAL WT OF RETURN
+  const SumOfActualItemWt = () => {
+    let total = 0;
+    for (let data of PdtItemWtRtn) total = total + parseFloat(data);
+    return total;
+  };
+
+  // CALCULATION OF DAMAGE CHAREGES WT AT RETURN
+  const GetActualWtOfDamage = (e, item) => {
+    const { name, value } = e.target;
+
+    setInputDmgValues({
+      ...inputDmgValues,
+      [name]: value,
+    });
+  };
+  const PdtItemWtDmg = [];
+  for (const key in inputDmgValues) {
+    if (inputDmgValues.hasOwnProperty(key)) {
+      PdtItemWtDmg.push(inputDmgValues[key]);
+    }
+  }
+  // TOTAL ACTUAL WT OF RETURN
+  const SumOfDmgCharge = () => {
+    let total = 0;
+    for (let data of PdtItemWtDmg) total = total + parseInt(data);
+    return total;
   };
 
   return (
@@ -278,7 +328,10 @@ const RentalReturn = () => {
                           <td>
                             <input
                               type="number"
-                              placeholder="Actual_Wt at Return"
+                              placeholder="Actual Wt at Return"
+                              name={i}
+                              defaultValue={inputRtnValues[i]}
+                              onChange={GetActualWtAtReturl}
                             />
                           </td>
                           <td>
@@ -297,6 +350,9 @@ const RentalReturn = () => {
                               type="number"
                               className="w-100"
                               placeholder="Damage Charges"
+                              name={i}
+                              defaultValue={inputRtnValues[i]}
+                              onChange={GetActualWtOfDamage}
                             />
                           </td>
                           <td>
@@ -309,13 +365,14 @@ const RentalReturn = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="5" className="text-end">
+                      <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
-                      <th>{SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>{SumOfTRentalRate().toLocaleString("en-IN")}</th>
-                      <th>124</th>
-                      <th>124</th>
+                      <th>{SumOfActualItemWt()} g.</th>
+                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
+                      <th>₹ {SumOfTRentalRate().toLocaleString("en-IN")}</th>
+                      <th>₹ N/A</th>
+                      <th>₹ {SumOfDmgCharge().toLocaleString("en-IN")}</th>
                       <th colSpan="1" />
                     </tr>
                   </tbody>

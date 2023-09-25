@@ -51,6 +51,14 @@ const RentalIssue = () => {
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
+  const {
+    refId,
+    tempBookingRefNo,
+    rentalDate,
+    packageSelected,
+    mobileNo,
+    customerName,
+  } = GetReturnProduct;
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
@@ -150,10 +158,8 @@ const RentalIssue = () => {
   };
 
   const getReturnDate = () => {
-    const nextDate = new Date(GetReturnProduct.rentalDate);
-    nextDate.setDate(
-      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1)
-    );
+    const nextDate = new Date(rentalDate);
+    nextDate.setDate(nextDate.getDate() + parseInt(packageSelected - 1));
     return nextDate;
   };
 
@@ -176,8 +182,8 @@ const RentalIssue = () => {
   };
 
   useEffect(() => {
-    FetchExistedCustDetails(GetReturnProduct.mobileNo);
-  }, [GetReturnProduct.mobileNo]);
+    FetchExistedCustDetails(mobileNo);
+  }, [mobileNo]);
 
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
@@ -288,7 +294,7 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            FetchExistedCustDetails(GetReturnProduct.mobileNo);
+            FetchExistedCustDetails(mobileNo);
             alert("Account Details has been Updated Successfully");
           }
           setLoading(false);
@@ -380,7 +386,7 @@ const RentalIssue = () => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}/${GetReturnProduct.tempBookingRefNo}`
+        `${HOST_URL}/fetch/table/common/data/${storeCode}/${refId}/${tempBookingRefNo}`
       )
       .then((res) => res)
       .then((response) => {
@@ -394,13 +400,11 @@ const RentalIssue = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  }, [storeCode, GetReturnProduct.refId, GetReturnProduct.tempBookingRefNo]);
+  }, [storeCode, refId, tempBookingRefNo]);
   // TOTAL PAID BOOKING AMONT
   useEffect(() => {
     axios
-      .get(
-        `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${GetReturnProduct.refId}`
-      )
+      .get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${refId}`)
       .then((res) => res)
       .then((response) => {
         console.log("responsesum==>", response.data);
@@ -412,7 +416,8 @@ const RentalIssue = () => {
         console.log("error==>", error);
         setLoading(false);
       });
-  }, [storeCode, GetReturnProduct.refId]);
+  }, [storeCode, refId]);
+
   const TnxStatusUpdate = (bookingId) => {
     axios
       .get(
@@ -508,11 +513,11 @@ const RentalIssue = () => {
         <div className="row g-3 mb-4">
           <div className="col-3">
             <label className="form-label">Booking Ref No</label>
-            <h6>{GetReturnProduct.refId}</h6>
+            <h6>{refId}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Rental Start Date</label>
-            <h6>{moment(GetReturnProduct.rentalDate).format("DD-MM- YYYY")}</h6>
+            <h6>{moment(rentalDate).format("DD-MM- YYYY")}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Rental end Date</label>
@@ -520,11 +525,11 @@ const RentalIssue = () => {
           </div>
           <div className="col-2">
             <label className="form-label">Customer Name</label>
-            <h6>{GetReturnProduct.customerName}</h6>
+            <h6>{customerName}</h6>
           </div>
           <div className="col-3">
             <label className="form-label">Phone Number</label>
-            <h6>{GetReturnProduct.mobileNo}</h6>
+            <h6>{mobileNo}</h6>
           </div>
           <div className="col-md-12">
             <b>Same Customer Pickup</b>

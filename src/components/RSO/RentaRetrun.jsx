@@ -4,8 +4,13 @@ import "../../Style/RentalIssue.css";
 import moment from "moment";
 import axios from "axios";
 import Loader from "../common/Loader";
-import { renatlReturnPage, addressTypeOption } from "../../Data/DataList";
+import {
+  renatlReturnPage,
+  addressTypeOption,
+  ImageHeaders,
+} from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
+import { UploadImg } from "../../API/HostURL";
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
@@ -13,9 +18,16 @@ const RentalReturn = () => {
   const [sameCustomer, setSameCustomer] = useState(true);
   const [retunTableData, setRetunTableData] = useState([]);
   const [checkedQA, setCheckedQA] = useState(false);
+  const [sameCustFile, setSameCustFile] = useState([]);
+  const [sameCutIDFileName, setSameCutIDFileName] = useState("");
+  const [sameCustFileUrl, setSameCustFileUrl] = useState("");
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
+  const currentDate = new Date();
+  const bookingDate = moment(currentDate).format("YYYY-MM-DD");
+
+  console.log("sameCutIDFileName==>", sameCutIDFileName);
 
   useEffect(() => {
     setLoading(true);
@@ -63,6 +75,45 @@ const RentalReturn = () => {
     for (let data of TRentalRateRate) total = total + data;
     return total;
   };
+
+  // UPLOAD CUSTOMER ID
+  const UploadSameCustIDProof = () => {
+    if (sameCustFile.length === 0) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileEx = sameCustFile.name.split(".");
+      const fileExtention = `${bookingDate}.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", sameCustFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setSameCustFileUrl(reader.result);
+              setSameCutIDFileName(fileExtention);
+            };
+            if (sameCustFile) {
+              reader.readAsDataURL(sameCustFile);
+            }
+            alert("Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -132,19 +183,33 @@ const RentalReturn = () => {
               disabled={sameCustomer ? true : false}
             />
           </div>
-          <div className="col-md-4 d-flex">
-            <div>
-              <label className="form-label">Upload ID</label>
-              <input
-                type="file"
-                className="form-control"
-                disabled={sameCustomer ? true : false}
-              />
-            </div>
-            <div>
-              <label className="form-label">.</label>
-              <button className="CButton mx-2">Upload</button>
-            </div>
+          <div className="col-md-4">
+            {sameCustFileUrl ? (
+              <img src={sameCustFileUrl} alt="" width="180" height="85" />
+            ) : (
+              <div className="d-flex">
+                <div>
+                  <label className="form-label">Upload ID</label>
+                  <input
+                    type="file"
+                    id="sameCust"
+                    className="form-control"
+                    onChange={(e) => setSameCustFile(e.target.files[0])}
+                    disabled={sameCustomer ? true : false}
+                  />
+                </div>
+                <div>
+                  <label className="form-label">.</label>
+                  <button
+                    className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
+                    onClick={UploadSameCustIDProof}
+                    disabled={sameCustomer ? true : false}
+                  >
+                    Upload
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           {retunTableData.length > 0 && (

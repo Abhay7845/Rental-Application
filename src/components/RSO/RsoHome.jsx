@@ -209,7 +209,7 @@ const Home = () => {
               <button
                 type="button"
                 className={Status === "ProductIssued" ? "CButton" : "CDisabled"}
-                disabled={Status === "ProductIssued" ? false : true}
+                // disabled={Status === "ProductIssued" ? false : true}
                 onClick={RentalRetunProducts}
               >
                 Rental Return

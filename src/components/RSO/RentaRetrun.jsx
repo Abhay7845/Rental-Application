@@ -18,9 +18,14 @@ const RentalReturn = () => {
   const [sameCustomer, setSameCustomer] = useState(true);
   const [retunTableData, setRetunTableData] = useState([]);
   const [checkedQA, setCheckedQA] = useState(false);
+  // SAME CUSTOME UPLOAD /
   const [sameCustFile, setSameCustFile] = useState([]);
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
+  // UPLOAD KARIGAR FILE
+  const [karigarQAFile, setKarigarQAFile] = useState([]);
+  const [karigarQAFileUrl, setKarigarQAFileUrl] = useState([]);
+  const [karigarQAFileName, setKarigarQAFileName] = useState([]);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -28,6 +33,7 @@ const RentalReturn = () => {
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
 
   console.log("sameCutIDFileName==>", sameCutIDFileName);
+  console.log("karigarQAFileName==>", karigarQAFileName);
 
   useEffect(() => {
     setLoading(true);
@@ -102,6 +108,43 @@ const RentalReturn = () => {
             };
             if (sameCustFile) {
               reader.readAsDataURL(sameCustFile);
+            }
+            alert("Uploaded Successfully");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
+  // UPLOAD KARIGAR QA REPORT ID
+  const karigarAQFile = () => {
+    if (karigarQAFile.length === 0) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileEx = karigarQAFile.name.split(".");
+      const fileExtention = `${bookingDate}.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", karigarQAFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setKarigarQAFileUrl(reader.result);
+              setKarigarQAFileName(fileExtention);
+            };
+            if (karigarQAFile) {
+              reader.readAsDataURL(karigarQAFile);
             }
             alert("Uploaded Successfully");
           }
@@ -290,17 +333,27 @@ const RentalReturn = () => {
             <label className="form-label">
               Upload Signed Karigar QA Report
             </label>
-            <input type="file" className="form-control" />
+            <input
+              type="file"
+              className="form-control"
+              onChange={(e) => setKarigarQAFile(e.target.files[0])}
+            />
           </div>
           <div className="col-md-2">
             <br />
-            <button className="CButton mt-2">Upload</button>
+            <button className="CButton mt-2" onClick={karigarAQFile}>
+              Upload
+            </button>
           </div>
-          <div className="col-md-3 d-flex">
+          <div className="col-md-3">
+            <img src={karigarQAFileUrl} alt="" width="180" height="85" />
+          </div>
+
+          <div className="col-md-12 d-flex">
             <b className="mt-4">Factory QA Required ?</b>
             <input
               type="checkbox"
-              className="mx-3 mt-1"
+              className="mx-3 mt-4"
               checked={checkedQA}
               onChange={() => setCheckedQA(!checkedQA)}
             />

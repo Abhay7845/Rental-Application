@@ -68,18 +68,6 @@ const RentalIssue = () => {
 
   const GetActualWtAtDlr = (e, item) => {
     const { name, value } = e.target;
-    console.log("item==>", item);
-    console.log("inputValues==>", inputValues);
-
-    // const MaxGrossWt =
-    //   parseFloat(item.grossWt) - (parseFloat(item.grossWt) * 10) / 100;
-    // console.log("MaxGrossWt==>", MaxGrossWt);
-    // const MinGrossWt =
-    //   parseFloat(item.grossWt) - (parseFloat(item.grossWt) * 10) / 100;
-    // console.log("MinGrossWt==>", MinGrossWt);
-    // if (MaxGrossWt) {
-    //   alert("please enter currect value");
-    // }
     setInputValues({
       ...inputValues,
       [name]: value,

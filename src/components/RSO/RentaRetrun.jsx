@@ -31,22 +31,73 @@ const RentalReturn = () => {
   const [inputRtnValues, setInputRtnValues] = useState({});
   const [inputDmgValues, setInputDmgValues] = useState({});
   const [inputPhyDmg, setInputPhyDmg] = useState({});
+  const [RSOName, setRSOName] = useState("");
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const { refId, tempBookingRefNo } = GetReturnProduct;
-  const currentDate = new Date();
-  const bookingDate = moment(currentDate).format("YYYY-MM-DD");
+  const currentDate = new Date(moment().format("YYYY-MM-DD"));
 
   console.log("sameCutIDFileName==>", sameCutIDFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
-  console.log("inputPhyDmg==>", inputPhyDmg);
+  console.log("RSOName==>", RSOName);
+
+  // currentDate - rentalenddate;
+  const getReturnDate = () => {
+    const nextDate = new Date(GetReturnProduct.rentalDate);
+    nextDate.setDate(
+      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1)
+    );
+    return nextDate;
+  };
+  const timeDifference = currentDate - getReturnDate();
+  const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  console.log("penaltyDays==>", penaltyDays);
+
+  const refactoreDataTable = retunTableData.map((data) => {
+    let peneltyCharge = 0;
+    if (penaltyDays <= 0) {
+      peneltyCharge = 0;
+    } else {
+      const chargeAmt = (parseInt(data.productValue) * penaltyDays) / 100;
+      peneltyCharge = chargeAmt;
+    }
+    return {
+      id: data.id,
+      actualWtReturn: data.actualWtReturn,
+      bookingRefId: data.bookingRefId,
+      cfa: data.cfa,
+      custId: data.custId,
+      customerName: data.customerName,
+      deliveredWt: data.deliveredWt,
+      description: data.description,
+      grossWt: data.grossWt,
+      itemCode: data.itemCode,
+      itemPriceId: data.itemPriceId,
+      lotNo: data.lotNo,
+      mobileNo: data.mobileNo,
+      netWt: data.netWt,
+      noOfPc: data.noOfPc,
+      packageDays: data.packageDays,
+      pdtId: data.pdtId,
+      productHUID: data.productHUID,
+      rateId: data.rateId,
+      refId: data.refId,
+      depositAmount: data.depositAmount,
+      productValue: data.productValue,
+      rentStartDate: data.rentStartDate,
+      rentalAmount: data.rentalAmount,
+      peneltyCharge: peneltyCharge,
+      tempBookingRefNo: data.tempBookingRefNo,
+    };
+  });
 
   useEffect(() => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/fetch/table/common/data/KAN/${refId}/${tempBookingRefNo}`
+        `${HOST_URL}/fetch/table/common/data/${storeCode}/${refId}/${tempBookingRefNo}`
       )
       .then((res) => res)
       .then((response) => {
@@ -62,16 +113,8 @@ const RentalReturn = () => {
       });
   }, [storeCode, refId, tempBookingRefNo]);
 
-  const getReturnDate = () => {
-    const nextDate = new Date(GetReturnProduct.rentalDate);
-    nextDate.setDate(
-      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1)
-    );
-    return nextDate;
-  };
-
   // TOTAL COST OF  CALCULATION
-  const TProductValue = retunTableData.map((item) =>
+  const TProductValue = refactoreDataTable.map((item) =>
     Math.round(item.productValue)
   );
   const SumOfTProductValue = () => {
@@ -80,12 +123,21 @@ const RentalReturn = () => {
     return total;
   };
 
-  const TRentalRateRate = retunTableData.map((item) =>
+  const TRentalRateRate = refactoreDataTable.map((item) =>
     parseInt(item.rentalAmount)
   );
   const SumOfTRentalRate = () => {
     let total = 0;
     for (let data of TRentalRateRate) total = total + data;
+    return total;
+  };
+
+  const TPenaltyRate = refactoreDataTable.map((item) =>
+    parseInt(item.peneltyCharge)
+  );
+  const SumOfTPeneltyCharge = () => {
+    let total = 0;
+    for (let data of TPenaltyRate) total = total + data;
     return total;
   };
 
@@ -97,7 +149,7 @@ const RentalReturn = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = sameCustFile.name.split(".");
-      const fileExtention = `${bookingDate}.${fileEx[1]}`;
+      const fileExtention = `${currentDate}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
@@ -134,7 +186,7 @@ const RentalReturn = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = karigarQAFile.name.split(".");
-      const fileExtention = `${bookingDate}.${fileEx[1]}`;
+      const fileExtention = `${currentDate}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", karigarQAFile);
       axios
@@ -175,12 +227,21 @@ const RentalReturn = () => {
       [name]: value,
     });
   };
+
   const PdtItemWtRtn = [];
   for (const key in inputRtnValues) {
     if (inputRtnValues.hasOwnProperty(key)) {
       PdtItemWtRtn.push(inputRtnValues[key]);
     }
   }
+
+  const PdtItemWitewt = PdtItemWtRtn.map((ele, i) => {
+    return {
+      actualWtAtDelivery: parseFloat(ele),
+      pdtId: parseInt(refactoreDataTable[i].pdtId),
+    };
+  });
+
   // TOTAL ACTUAL WT OF RETURN
   const SumOfActualItemWt = () => {
     let total = 0;
@@ -215,6 +276,99 @@ const RentalReturn = () => {
       ...inputPhyDmg,
       [name]: value,
     });
+  };
+
+  const RaiseClouseRequest = () => {
+    const RetnaReturnInputs = {
+      actualWtReturn: PdtItemWitewt,
+      balanceToBePaid: 0,
+      bookingPayments: [
+        {
+          amount: "string",
+          bookingRefId: "string",
+          fileUpload: "string",
+          paymentType: "string",
+          txnRefNo: "string",
+        },
+      ],
+      bookingRefNo: "string",
+      closeRentalAgreementUpload: "string",
+      createdDate: "2023-09-25T06:36:08.171Z",
+      customerName: "string",
+      depositPaid: [
+        {
+          amount: "string",
+          refNo: "string",
+          type: "string",
+        },
+      ],
+      despId: "string",
+      factoryQARequired: "string",
+      idFileName: "string",
+      idNumber: "string",
+      idType: "string",
+      itemDetails: [
+        {
+          actualWtReturn: "string",
+          bookingRefId: "string",
+          cfa: "string",
+          custId: "string",
+          customerName: "string",
+          deliveredWt: "string",
+          depositAmount: "string",
+          description: "string",
+          grossWt: "string",
+          id: 0,
+          itemCode: "string",
+          itemPriceId: "string",
+          lotNo: "string",
+          mobileNo: "string",
+          netWt: "string",
+          noOfPc: "string",
+          packageDays: "string",
+          pdtId: "string",
+          productHUID: "string",
+          productValue: "string",
+          rateId: "string",
+          refId: "string",
+          rentStartDate: "string",
+          rentalAmount: "string",
+          tempBookingRefNo: "string",
+        },
+      ],
+      karigarQAPassed: "string",
+      loanReturnDoc: "string",
+      paidBooking: [
+        {
+          amount: "string",
+          refNo: "string",
+          type: "string",
+        },
+      ],
+      qaCheckList: [
+        {
+          bookingRefNo: "string",
+          imageUpload: "string",
+          qaCheck: "string",
+        },
+      ],
+      returnDate: "2023-09-25T06:36:08.171Z",
+      returnInspectionResponses: [
+        {
+          bookingRefNo: "string",
+          imageUpload: "string",
+          itemCode: "string",
+        },
+      ],
+      rsoName: "string",
+      totalBookingPaid: 0,
+      totalDamageCharges: 0,
+      totalDepositPaid: 0,
+      totalPenaltyCharges: 0,
+      totalRentaLAmount: 0,
+      updatedDate: "2023-09-25T06:36:08.171Z",
+    };
+    console.log("RetnaReturnInputs==>", RetnaReturnInputs);
   };
 
   return (
@@ -315,7 +469,7 @@ const RentalReturn = () => {
             )}
           </div>
 
-          {retunTableData.length > 0 && (
+          {refactoreDataTable.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
@@ -328,7 +482,7 @@ const RentalReturn = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {retunTableData.map((item, i) => {
+                    {refactoreDataTable.map((item, i) => {
                       return (
                         <tr key={i}>
                           <td>{item.itemCode}</td>
@@ -354,7 +508,7 @@ const RentalReturn = () => {
                               "en-IN"
                             )}
                           </td>
-                          <td>NA</td>
+                          <td>{item.peneltyCharge.toLocaleString("en-IN")}</td>
                           <td>
                             <input
                               type="number"
@@ -387,7 +541,7 @@ const RentalReturn = () => {
                       <th>{SumOfActualItemWt()} g.</th>
                       <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfTRentalRate().toLocaleString("en-IN")}</th>
-                      <th>₹ N/A</th>
+                      <th>₹ {SumOfTPeneltyCharge().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfDmgCharge().toLocaleString("en-IN")}</th>
                       <th colSpan="1" />
                     </tr>
@@ -438,11 +592,15 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="RSO Name"
-              // onChange={(e) => setRSOName(e.target.value)}
+              onChange={(e) => setRSOName(e.target.value)}
             />
           </div>
           <div className="d-flex justify-content-end mb-4">
-            <button type="button" className="CButton">
+            <button
+              type="button"
+              className="CButton"
+              onClick={RaiseClouseRequest}
+            >
               {checkedQA
                 ? "Print Acknowledgement & Close"
                 : "Raise Closure Request"}

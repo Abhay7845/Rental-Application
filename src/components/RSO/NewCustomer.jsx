@@ -211,6 +211,9 @@ const NewCustomer = () => {
         });
     }
   };
+  const EditPhoneNumber = () => {
+    setPhoneOtp("");
+  };
   const VerifyPhoneOTP = () => {
     setLoading(true);
     if (phoneOtp === parseInt(enterPhoneOtp)) {
@@ -366,7 +369,7 @@ const NewCustomer = () => {
               onChange={(e) => setCustomerName(e.target.value)}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-2">
             <input
               type="text"
               className="form-control"
@@ -379,15 +382,19 @@ const NewCustomer = () => {
                   setPhoneNumber(numericValue);
                 }
               }}
-              disabled={phoneVerified ? true : false}
+              disabled={phoneOtp ? true : false}
             />
           </div>
           {phoneOtp && !phoneVerified && (
-            <div className="col-md-2">
+            <div className="col-md-3 d-flex">
+              <button className="CButton mx-1" onClick={EditPhoneNumber}>
+                Edit
+              </button>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 placeholder="Phone OTP"
+                value={enterPhoneOtp}
                 onChange={(e) => {
                   const OTPVal = e.target.value.replace(/\D/g, "");
                   setEnterPhoneOtp(OTPVal);

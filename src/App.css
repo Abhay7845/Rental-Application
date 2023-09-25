@@ -120,6 +120,3 @@ tr:hover .DeleteRow {
   width: 100%;
   z-index: 1;
 }
-input[type=number] {
-  -moz-appearance: nones;
-}

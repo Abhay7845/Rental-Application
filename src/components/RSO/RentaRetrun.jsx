@@ -29,6 +29,7 @@ const RentalReturn = () => {
   // ACTUAL WT RETURN
   const [inputRtnValues, setInputRtnValues] = useState({});
   const [inputDmgValues, setInputDmgValues] = useState({});
+  const [inputPhyDmg, setInputPhyDmg] = useState({});
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -38,7 +39,7 @@ const RentalReturn = () => {
 
   console.log("sameCutIDFileName==>", sameCutIDFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
-  console.log("inputRtnValues==>", inputRtnValues);
+  console.log("inputPhyDmg==>", inputPhyDmg);
 
   useEffect(() => {
     setLoading(true);
@@ -166,7 +167,6 @@ const RentalReturn = () => {
   const GetActualWtAtReturl = (e, item) => {
     const { name, value } = e.target;
     console.log("item==>", item);
-
     setInputRtnValues({
       ...inputRtnValues,
       [name]: value,
@@ -188,7 +188,6 @@ const RentalReturn = () => {
   // CALCULATION OF DAMAGE CHAREGES WT AT RETURN
   const GetActualWtOfDamage = (e, item) => {
     const { name, value } = e.target;
-
     setInputDmgValues({
       ...inputDmgValues,
       [name]: value,
@@ -205,6 +204,14 @@ const RentalReturn = () => {
     let total = 0;
     for (let data of PdtItemWtDmg) total = total + parseInt(data);
     return total;
+  };
+
+  const GetPhysicalDmg = (e, item) => {
+    const { name, value } = e.target;
+    setInputPhyDmg({
+      ...inputPhyDmg,
+      [name]: value,
+    });
   };
 
   return (
@@ -351,12 +358,17 @@ const RentalReturn = () => {
                               className="w-100"
                               placeholder="Damage Charges"
                               name={i}
-                              defaultValue={inputRtnValues[i]}
+                              defaultValue={inputDmgValues[i]}
                               onChange={GetActualWtOfDamage}
                             />
                           </td>
                           <td>
-                            <select className="w-100">
+                            <select
+                              className="w-100"
+                              name={i}
+                              defaultValue={inputPhyDmg[i]}
+                              onChange={GetPhysicalDmg}
+                            >
                               <option>NO</option>
                               <option>Yes</option>
                             </select>

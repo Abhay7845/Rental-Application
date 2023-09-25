@@ -11,6 +11,7 @@ import {
 } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg } from "../../API/HostURL";
+import KarigarQAPdf from "../Pdf/KarigarQAPdf";
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
@@ -395,7 +396,7 @@ const RentalReturn = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
-              Print
+              <KarigarQAPdf />
             </h6>
           </div>
           <div className="col-md-5">

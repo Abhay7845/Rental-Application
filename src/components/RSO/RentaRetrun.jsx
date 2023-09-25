@@ -25,7 +25,7 @@ const RentalReturn = () => {
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   // UPLOAD KARIGAR FILE
   const [karigarQAFile, setKarigarQAFile] = useState([]);
-  const [karigarQAFileUrl, setKarigarQAFileUrl] = useState([]);
+  const [karigarQAFileUrl, setKarigarQAFileUrl] = useState("");
   const [karigarQAFileName, setKarigarQAFileName] = useState([]);
   // ACTUAL WT RETURN
   const [inputRtnValues, setInputRtnValues] = useState({});
@@ -149,6 +149,8 @@ const RentalReturn = () => {
             reader.onloadend = () => {
               setKarigarQAFileUrl(reader.result);
               setKarigarQAFileName(fileExtention);
+              setKarigarQAFile([]);
+              document.getElementById("KarigrQAid").value = "";
             };
             if (karigarQAFile) {
               reader.readAsDataURL(karigarQAFile);
@@ -405,6 +407,7 @@ const RentalReturn = () => {
             </label>
             <input
               type="file"
+              id="KarigrQAid"
               className="form-control"
               onChange={(e) => setKarigarQAFile(e.target.files[0])}
             />
@@ -415,10 +418,11 @@ const RentalReturn = () => {
               Upload
             </button>
           </div>
-          <div className="col-md-3">
-            <img src={karigarQAFileUrl} alt="" width="180" height="85" />
-          </div>
-
+          {karigarQAFileUrl && (
+            <div className="col-md-3">
+              <img src={karigarQAFileUrl} alt="" width="180" height="85" />
+            </div>
+          )}
           <div className="col-md-12 d-flex">
             <b className="mt-4">Factory QA Required ?</b>
             <input

@@ -162,8 +162,8 @@ export const renatlReturnPage = [
   "PRODUCT VALUE",
   "RENTAL VALUE",
   "PENALTY CHARGES",
-  "Damage CHARGES",
   "PHYSICAL DAMAGE",
+  "Damage CHARGES",
 ];
 
 export const CancelPageHeading = [

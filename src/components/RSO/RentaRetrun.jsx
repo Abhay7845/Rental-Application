@@ -211,9 +211,8 @@ const RentalReturn = () => {
   };
 
   // CALCULATION OF ACTUAL WT AT RETURN
-  const GetActualWtAtReturl = (e, item) => {
+  const GetActualWtAtReturl = (e) => {
     const { name, value } = e.target;
-    console.log("item==>", item);
     setInputRtnValues({
       ...inputRtnValues,
       [name]: value,
@@ -262,7 +261,7 @@ const RentalReturn = () => {
     return total;
   };
 
-  const GetPhysicalDmg = (e, item) => {
+  const GetPhysicalDmg = (e) => {
     const { name, value } = e.target;
     setInputPhyDmg({
       ...inputPhyDmg,
@@ -274,15 +273,6 @@ const RentalReturn = () => {
     const RetnaReturnInputs = {
       actualWtReturn: PdtItemWitewt,
       balanceToBePaid: 0,
-      bookingPayments: [
-        {
-          amount: "string",
-          bookingRefId: "string",
-          fileUpload: "string",
-          paymentType: "string",
-          txnRefNo: "string",
-        },
-      ],
       bookingRefNo: "string",
       closeRentalAgreementUpload: "string",
       createdDate: "2023-09-25T06:36:08.171Z",
@@ -474,16 +464,6 @@ const RentalReturn = () => {
                           </td>
                           <td>{item.peneltyCharge.toLocaleString("en-IN")}</td>
                           <td>
-                            <input
-                              type="number"
-                              className="w-100"
-                              placeholder="Damage Charges"
-                              name={i}
-                              defaultValue={inputDmgValues[i]}
-                              onChange={GetActualWtOfDamage}
-                            />
-                          </td>
-                          <td>
                             <select
                               className="w-100"
                               name={i}
@@ -494,6 +474,19 @@ const RentalReturn = () => {
                               <option value="NO">NO</option>
                               <option value="YES">Yes</option>
                             </select>
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              className="w-100"
+                              placeholder="Damage Charge"
+                              name={i}
+                              defaultValue={
+                                inputPhyDmg[i] === "NO" ? 0 : inputDmgValues[i]
+                              }
+                              onChange={GetActualWtOfDamage}
+                              disabled={inputPhyDmg[i] === "NO" ? true : false}
+                            />
                           </td>
                         </tr>
                       );
@@ -506,8 +499,8 @@ const RentalReturn = () => {
                       <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfTRentalRate().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfTPeneltyCharge().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfDmgCharge().toLocaleString("en-IN")}</th>
                       <th colSpan="1" />
+                      <th>₹ {SumOfDmgCharge().toLocaleString("en-IN")}</th>
                     </tr>
                   </tbody>
                 </table>

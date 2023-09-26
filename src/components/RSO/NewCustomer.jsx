@@ -32,6 +32,9 @@ const NewCustomer = () => {
   const [bankIfsc, setBankIfsc] = useState("");
   const [bankDetailFileName, setBankDetailFileName] = useState("");
   const [bankChequeFile, setBankChequeFile] = useState("");
+  // ADDRESS PROOF
+  const [choosePan, setChoosePan] = useState("");
+  const [adderessProof, setAdderessProof] = useState("");
 
   const BanckIfcseCode = bankIfsc.toUpperCase();
 
@@ -75,13 +78,12 @@ const NewCustomer = () => {
   const UploadPanFile = (event) => {
     if (PANNumber.match(panRegex)) {
       setLoading(true);
-      const file = event.target.files[0];
       const formData = new FormData();
-      const fileExtention = file.name.split(".")[1];
+      const fileExtention = choosePan.name.split(".")[1];
       const PanCardFileName = `${PANNumber}${miliSecond}${last4Phoneno}.${fileExtention}`;
       setPanCardFileName(PanCardFileName);
       formData.append("ImgName", PanCardFileName);
-      formData.append("files", file);
+      formData.append("files", choosePan);
       axios
         .post(`${UploadImg}`, formData, {
           headers: ImageHeaders,
@@ -94,8 +96,8 @@ const NewCustomer = () => {
             reader.onloadend = () => {
               setPanFile(reader.result);
             };
-            if (file) {
-              reader.readAsDataURL(file);
+            if (choosePan) {
+              reader.readAsDataURL(choosePan);
             }
             alert("Your PAN Uploaded Successfully");
           }
@@ -105,22 +107,22 @@ const NewCustomer = () => {
           console.log("error==>", error);
           setLoading(false);
         });
+    } else if (choosePan.length === 0) {
+      alert("Please Choose PAN");
     } else {
       alert("Please Enter Valid PAN Number");
-      document.getElementById("panProof").value = "";
     }
   };
 
-  const UploadAddressProof = (event) => {
+  const UploadAddressProof = () => {
     if (addressIDNumber.length > 11) {
       setLoading(true);
-      const file = event.target.files[0];
       const formData = new FormData();
-      const fileExtention = file.name.split(".");
+      const fileExtention = adderessProof.name.split(".");
       const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}.${fileExtention[1]}`;
       setAddressFileName(AddressFileName);
       formData.append("ImgName", AddressFileName);
-      formData.append("files", file);
+      formData.append("files", adderessProof);
       axios
         .post(`${UploadImg}`, formData, {
           headers: ImageHeaders,
@@ -132,10 +134,10 @@ const NewCustomer = () => {
             reader.onloadend = () => {
               setAddressFile(reader.result);
             };
-            if (file) {
-              reader.readAsDataURL(file);
+            if (adderessProof) {
+              reader.readAsDataURL(adderessProof);
             }
-            alert("Address Proof Uploaded Successfully");
+            alert("Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -143,9 +145,20 @@ const NewCustomer = () => {
           console.log("error==>", error);
           setLoading(false);
         });
+    } else if (adderessProof.length === 0) {
+      alert(
+        `Please Choose  ${
+          addressProofType === "aadhar" ? "Aadhar File" : "Passport File"
+        }`
+      );
     } else {
-      alert("Please Enter First ID Number");
-      document.getElementById("addressProof").value = "";
+      alert(
+        `Please Enter First  ${
+          addressProofType === "aadhar"
+            ? "Valid Aadhar Number"
+            : "Valid Passport Number"
+        }`
+      );
     }
   };
 
@@ -178,9 +191,10 @@ const NewCustomer = () => {
           console.log("error==>", error);
           setLoading(false);
         });
+    } else if (bankChequeFile.length === 0) {
+      alert("Please Choose Cancelled Cheque");
     } else {
       alert("Please Enter Bank Details First");
-      document.getElementById("chequeBook").value = "";
     }
   };
 
@@ -374,7 +388,6 @@ const NewCustomer = () => {
               type="text"
               className="form-control"
               placeholder="Phone Number"
-              icon={false}
               value={phoneNumber}
               onChange={(e) => {
                 if (e.target.value.length <= 10) {
@@ -422,18 +435,12 @@ const NewCustomer = () => {
                     disabled={secPhoneCount > 0 ? true : false}
                     onClick={GetPhoneOtp}
                   >
-                    RE-SEND
+                    RE-SEND IN {secPhoneCount}
                   </button>
                 </div>
               )}
-              {phoneOtp && secPhoneCount > 0 && (
-                <span className="d-flex justify-content-end mt-0">
-                  Resend OTP After Secconds : {secPhoneCount}
-                </span>
-              )}
             </div>
           )}
-
           <div className="col-md-4">
             <input
               type="email"
@@ -474,14 +481,9 @@ const NewCustomer = () => {
                     disabled={secEmailCount > 0 ? true : false}
                     onClick={GetEmailOtp}
                   >
-                    RE-SEND
+                    RE-SEND IN {secEmailCount}
                   </button>
                 </div>
-              )}
-              {emailOtp && secEmailCount > 0 && (
-                <span className="d-flex justify-content-end mt-0">
-                  Resend OTP After Secconds : {secEmailCount}
-                </span>
               )}
             </div>
           )}
@@ -511,13 +513,14 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-6">
             <input
-              type="number"
+              type="text"
               className="form-control"
               placeholder="Pin Code"
               value={pinCode}
               onChange={(e) => {
                 if (e.target.value.length <= 6) {
-                  setPinCode(e.target.value);
+                  const numericValue = e.target.value.replace(/\D/g, "");
+                  setPinCode(numericValue);
                 }
               }}
             />
@@ -541,18 +544,28 @@ const NewCustomer = () => {
             <input
               type="file"
               className="form-control"
-              onChange={UploadPanFile}
               id="panProof"
+              onChange={(e) => setChoosePan(e.target.files[0])}
             />
           </div>
-          <div className="col-md-4 text-center">
+          <div className="col-md-1">
+            <br />
+            <button className="CButton mt-2" onClick={UploadPanFile}>
+              Upload
+            </button>
+          </div>
+          <div className="col-md-3 text-center">
             {panFile && <img src={panFile} alt="panfile" height="100px" />}
           </div>
           <div className="col-md-4">
             <label className="form-label">Address Proof ID Type</label>
             <select
               className="form-control"
-              onChange={(e) => setAddressProofType(e.target.value)}
+              onChange={(e) => {
+                setAddressProofType(e.target.value);
+                setAdderessProof([]);
+                setAddressFile(null);
+              }}
             >
               <option value="">Select Type</option>
               {addressTypeOption.map((item, i) => {
@@ -566,9 +579,13 @@ const NewCustomer = () => {
           </div>
           {addressProofType && (
             <div className="col-md-2">
-              <label className="form-label">ID Number</label>
+              <label className="form-label">
+                {addressProofType === "aadhar"
+                  ? "Aadhar Number"
+                  : "Passport Number"}
+              </label>
               <input
-                type={addressProofType === "aadhar" ? "number" : "text"}
+                type="text"
                 placeholder={
                   addressProofType === "aadhar"
                     ? "xxxx-xxxx-xxxx"
@@ -577,22 +594,41 @@ const NewCustomer = () => {
                 className="form-control"
                 value={addressIDNumber.toLocaleUpperCase()}
                 maxLength={addressProofType === "aadhar" ? 12 : 15}
-                onChange={(e) => setAddressIDNumber(e.target.value)}
+                onChange={(e) => {
+                  if (addressProofType === "aadhar") {
+                    const numericValue = e.target.value.replace(/\D/g, "");
+                    setAddressIDNumber(numericValue);
+                  } else {
+                    setAddressIDNumber(e.target.value);
+                  }
+                }}
               />
             </div>
           )}
           {addressProofType && (
             <div className="col-md-3">
-              <label className="form-label">Upload Address Proof ID</label>
+              <label className="form-label">
+                {addressProofType === "aadhar"
+                  ? "Upload Aadhar"
+                  : "Upload Passport"}
+              </label>
               <input
                 type="file"
                 className="form-control"
-                onChange={UploadAddressProof}
                 id="addressProof"
+                onChange={(e) => setAdderessProof(e.target.files[0])}
               />
             </div>
           )}
-          <div className="col-md-3 text-center">
+          {addressProofType && (
+            <div className="col-md-1">
+              <br />
+              <button className="CButton mt-2" onClick={UploadAddressProof}>
+                Upload
+              </button>
+            </div>
+          )}
+          <div className="col-md-2 text-center">
             {addressFile && (
               <img src={addressFile} alt="addressFile" height="100px" />
             )}
@@ -650,8 +686,8 @@ const NewCustomer = () => {
               />
             </div>
             <div>
-              <label className="form-label">.</label>
-              <button className="CButton mx-2" onClick={UploadBankCheque}>
+              <br />
+              <button className="CButton mx-2 mt-2" onClick={UploadBankCheque}>
                 Upload
               </button>
             </div>

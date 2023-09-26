@@ -481,7 +481,7 @@ const RentalReturn = () => {
                               className="w-100"
                               placeholder="Damage Charge"
                               name={i}
-                              defaultValue={
+                              value={
                                 inputPhyDmg[i] === "NO" ? 0 : inputDmgValues[i]
                               }
                               onChange={GetActualWtOfDamage}

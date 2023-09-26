@@ -269,7 +269,7 @@ const NewCustomer = () => {
   // EMAIL OTP VERIFICATION FUNCTION
   const GetEmailOtp = () => {
     if (!emailId) {
-      alert("Please Enter Email Id");
+      alert("Please Enter Email");
     } else if (!emailId.match(EmailRegex)) {
       alert("Please Enter Valid Email Id");
     } else {
@@ -379,7 +379,7 @@ const NewCustomer = () => {
             <input
               type="type"
               className="form-control"
-              placeholder="Customer Name"
+              placeholder="Customer Name*"
               onChange={(e) => setCustomerName(e.target.value)}
             />
           </div>
@@ -387,7 +387,7 @@ const NewCustomer = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Phone Number"
+              placeholder="Phone Number*"
               value={phoneNumber}
               onChange={(e) => {
                 if (e.target.value.length <= 10) {
@@ -445,7 +445,7 @@ const NewCustomer = () => {
             <input
               type="email"
               className="form-control"
-              placeholder="Email ID"
+              placeholder="Email Address*"
               value={emailId}
               onChange={(e) => setEmailId(e.target.value)}
               disabled={emailVerified ? true : false}
@@ -491,7 +491,7 @@ const NewCustomer = () => {
             <textarea
               type="type"
               className="form-control"
-              placeholder="Address Line 1"
+              placeholder="Address Line 1*"
               onChange={(e) => setAddresLine1(e.target.value)}
             />
           </div>
@@ -499,7 +499,7 @@ const NewCustomer = () => {
             <textarea
               type="type"
               className="form-control"
-              placeholder="Address Line 2"
+              placeholder="Address Line 2*"
               onChange={(e) => setAddresLine2(e.target.value)}
             />
           </div>
@@ -507,7 +507,7 @@ const NewCustomer = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="City"
+              placeholder="City*"
               onChange={(e) => setCityName(e.target.value)}
             />
           </div>
@@ -515,7 +515,7 @@ const NewCustomer = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Pin Code"
+              placeholder="Pin Code*"
               value={pinCode}
               onChange={(e) => {
                 if (e.target.value.length <= 6) {
@@ -529,7 +529,7 @@ const NewCustomer = () => {
             <h6 className="bookingHeading mb-0">Customer Document Details</h6>
           </div>
           <div className="col-md-4">
-            <label className="form-label">PAN Number</label>
+            <label className="form-label">PAN Number*</label>
             <input
               type="type"
               className="form-control"
@@ -540,7 +540,7 @@ const NewCustomer = () => {
             />
           </div>
           <div className="col-md-4">
-            <label className="form-label">Upload PAN</label>
+            <label className="form-label">Upload PAN*</label>
             <input
               type="file"
               className="form-control"
@@ -558,7 +558,7 @@ const NewCustomer = () => {
             {panFile && <img src={panFile} alt="panfile" height="100px" />}
           </div>
           <div className="col-md-4">
-            <label className="form-label">Address Proof Type</label>
+            <label className="form-label">Address Proof Type*</label>
             <select
               className="form-control"
               onChange={(e) => {
@@ -580,8 +580,8 @@ const NewCustomer = () => {
             <div className="col-md-2">
               <label className="form-label">
                 {addressProofType === "aadhar"
-                  ? "Aadhar Number"
-                  : "Passport Number"}
+                  ? "Aadhar Number*"
+                  : "Passport Number*"}
               </label>
               <input
                 type="text"
@@ -608,8 +608,8 @@ const NewCustomer = () => {
             <div className="col-md-3">
               <label className="form-label">
                 {addressProofType === "aadhar"
-                  ? "Upload Aadhar"
-                  : "Upload Passport"}
+                  ? "Upload Aadhar*"
+                  : "Upload Passport*"}
               </label>
               <input
                 type="file"
@@ -633,7 +633,7 @@ const NewCustomer = () => {
             )}
           </div>
           <div className="col-md-4">
-            <label className="form-label">RSO Name</label>
+            <label className="form-label">RSO Name*</label>
             <input
               type="text"
               className="form-control"

@@ -156,6 +156,7 @@ const ProductsDetails = () => {
       status: "Added To Cart",
       tempBookingRefId: "",
       paymentRequestFor: "NewBooking",
+      storeCode: storeCode,
     };
     const avlId = goToCart.map((id) => id.pdtId);
     if (avlId.includes(AddToWishListOBj.pdtId)) {

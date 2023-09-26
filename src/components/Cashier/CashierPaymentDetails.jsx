@@ -98,7 +98,9 @@ const CashierPaymentDetails = () => {
   const GetPyamentDetials = () => {
     setLoading(true);
     axios
-      .get(`${HOST_URL}/get/payment/request/details/for/cashier/${searchValue}`)
+      .get(
+        `${HOST_URL}/get/payment/request/details/for/cashier/${storeCode}/${searchValue}`
+      )
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);

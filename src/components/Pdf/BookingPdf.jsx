@@ -43,15 +43,12 @@ const BookingPdf = (props) => {
   const CsgstData = RefacotorData.map((item) => item.csgst);
   const RentalData = RefacotorData.map((item) => item.rentalAmount);
   const TotalDSP = [...SgstData, ...CsgstData, ...RentalData];
-  console.log("TotalDSP==>", TotalDSP);
 
   const SumOfTotalAmount = () => {
     let total = 0;
     for (let data of TotalDSP) total = total + data;
     return total;
   };
-
-  console.log("RefacotorData==>", RefacotorData);
 
   const TSGST = RefacotorData.map((item) => parseInt(item.sgst));
   const SumOfSGST = () => {

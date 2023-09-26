@@ -16,7 +16,6 @@ const Login = (props) => {
 
   const navigate = useNavigate();
   const onLogin = (payload) => {
-    localStorage.setItem("storeCode", payload.userName);
     setLoading(true);
     axios
       .post(`${HOST_URL}/rental/login/portal`, payload)
@@ -26,11 +25,18 @@ const Login = (props) => {
         if (response.data.code === "1000") {
           if (response.data.value.role === "RSO") {
             localStorage.setItem("rsoRole", response.data.value.role);
+            localStorage.setItem("storeCode", payload.userName);
             navigate("/home");
           } else if (response.data.value.role === "Admin") {
             localStorage.setItem("rsoRole", response.data.value.role);
+            localStorage.setItem("storeCode", payload.userName);
             navigate("/admin/update/master/price");
           } else if (response.data.value.role === "Cashier") {
+            const storeCode = payload.userName.substring(
+              1,
+              payload.userName.length
+            );
+            localStorage.setItem("storeCode", storeCode);
             localStorage.setItem("rsoRole", response.data.value.role);
             navigate("/cashier/payment");
           }

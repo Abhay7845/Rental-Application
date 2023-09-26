@@ -52,13 +52,6 @@ const RentalReturn = () => {
   const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
   const refactoreDataTable = retunTableData.map((data) => {
-    let peneltyCharge = 0;
-    if (penaltyDays <= 0) {
-      peneltyCharge = 0;
-    } else {
-      const chargeAmt = (parseInt(data.productValue) * penaltyDays) / 100;
-      peneltyCharge = chargeAmt;
-    }
     return {
       id: data.id,
       actualWtReturn: data.actualWtReturn,
@@ -84,7 +77,10 @@ const RentalReturn = () => {
       productValue: data.productValue,
       rentStartDate: data.rentStartDate,
       rentalAmount: data.rentalAmount,
-      peneltyCharge: peneltyCharge,
+      peneltyCharge:
+        penaltyDays <= 0
+          ? 0
+          : (parseInt(data.productValue) * penaltyDays) / 100,
       tempBookingRefNo: data.tempBookingRefNo,
     };
   });
@@ -456,7 +452,7 @@ const RentalReturn = () => {
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
-                          <td>DATA</td>
+                          <td>{item.deliveredWt}</td>
                           <td>
                             <input
                               type="number"

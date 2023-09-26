@@ -17,13 +17,13 @@ const NewBooking = () => {
   const [bookingRSO, setBookingRSO] = useState("");
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
+  const regNumber = localStorage.getItem("regNumber");
   const custType = localStorage.getItem("custType");
   const packageDays = localStorage.getItem("packageDays");
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
 
   console.log("existedUserData==>", existedUserData);
-  console.log("custType==>", custType);
 
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -65,7 +65,7 @@ const NewBooking = () => {
     });
   };
 
-  const FetchUserDetails = () => {
+  const FetchUDetailsBysearch = () => {
     setLoading(true);
     axios
       .get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
@@ -84,6 +84,33 @@ const NewBooking = () => {
         setLoading(false);
       });
   };
+  const FetchUDetailsOnlOad = () => {
+    setLoading(true);
+    axios
+      .get(`${HOST_URL}/rental/customer/details/mobileNo/${regNumber}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setExistedUserData(response.data.value);
+        } else if (response.data.code === "1001") {
+          CheckUserRegistered(phonePanValue);
+          setExistedUserData({});
+        }
+        setLoading(false);
+      })
+      .then((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (regNumber) {
+      FetchUDetailsOnlOad();
+    } else if (phonePanValue) {
+      FetchUDetailsBysearch();
+    }
+  }, []);
 
   // FETCH DOCUMENTS IMAGE
   useEffect(() => {
@@ -246,7 +273,7 @@ const NewBooking = () => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
             alert("Account Details has been Updated Successfully");
-            FetchUserDetails();
+            FetchUDetailsBysearch();
           }
           setLoading(false);
         })
@@ -337,7 +364,7 @@ const NewBooking = () => {
                 phonePanValue.length < 10 ? "CDisabled" : "CButton"
               }`}
               disabled={phonePanValue.length < 10 ? true : false}
-              onClick={FetchUserDetails}
+              onClick={FetchUDetailsBysearch}
             >
               Search
             </button>
@@ -418,9 +445,9 @@ const NewBooking = () => {
             </div>
           ) : (
             <div className="col-4">
-              <lebel className="form-label text-success">
+              <label className="form-label text-success">
                 <b>BANK DETAILS ARE AVAILABLE</b>
-              </lebel>
+              </label>
             </div>
           )}
           {custType !== "New Customer" && (

@@ -183,7 +183,7 @@ const NewCustomer = () => {
             if (bankChequeFile) {
               reader.readAsDataURL(bankChequeFile);
             }
-            alert("Your Cheque Book Uploaded Successfully");
+            alert("Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -321,8 +321,8 @@ const NewCustomer = () => {
       !rsoName
     ) {
       alert("Please Fill All Form Details");
-    } else if (phoneVerified === false || emailVerified === false) {
-      alert("Please Complete OTP Verification With Phone & Email");
+    } else if (phoneVerified === false) {
+      alert("Please Complete Phone Number Verification");
     } else {
       setLoading(true);
       const NewCustomer = {
@@ -355,6 +355,7 @@ const NewCustomer = () => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
             CreationPopUp();
+            localStorage.setItem("regNumber", phoneNumber);
           }
           navigate("/booking");
           setLoading(false);
@@ -647,6 +648,9 @@ const NewCustomer = () => {
               Customer Bank Details (OPTIONAL)
             </h6>
           </div>
+          <b className="text-danger mt-0">
+            Please inform customer to get the bank details during Rental Issue
+          </b>
           <div className="col-md-4">
             <label className="form-label">Bank Name</label>
             <input

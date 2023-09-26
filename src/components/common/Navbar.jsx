@@ -16,6 +16,7 @@ const Navbar = () => {
 
   const Logout = () => {
     localStorage.removeItem("rsoRole");
+    localStorage.removeItem("regNumber");
     navigate("/JewRentalApp");
   };
 

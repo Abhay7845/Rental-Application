@@ -4,45 +4,85 @@ import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { BookingOrderHearders } from "./PDFHearders";
 import moment from "moment";
 const BookingPdf = (props) => {
-  const { savePaymetRow, existedUserData } = props;
+  const { savePaymetRow, existedUserData, addedPdts } = props;
   const BookinRef = useRef(null);
   const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
-  const packageDays = localStorage.getItem("packageDays");
-  const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
-  const GetCartProductData = !CartData ? [] : CartData;
 
-  // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = GetCartProductData.map((item) =>
-    parseFloat(item.productValue)
+  const RefacotorData = addedPdts.map((data) => {
+    return {
+      actualWtReturn: data.actualWtReturn,
+      bookingRefId: data.bookingRefId,
+      cfa: data.cfa,
+      custId: data.custId,
+      customerName: data.customerName,
+      deliveredWt: data.deliveredWt,
+      depositAmount: data.depositAmount,
+      description: data.description,
+      grossWt: data.grossWt,
+      id: data.id,
+      itemCode: data.itemCode,
+      itemPriceId: data.itemPriceId,
+      lotNo: data.lotNo,
+      mobileNo: data.mobileNo,
+      netWt: data.netWt,
+      noOfPc: data.noOfPc,
+      packageDays: data.packageDays,
+      pdtId: data.pdtId,
+      productHUID: data.productHUID,
+      productValue: parseInt(data.productValue),
+      rateId: data.rateId,
+      refId: data.refId,
+      rentStartDate: data.rentStartDate,
+      rentalAmount: parseInt(data.rentalAmount),
+      tempBookingRefNo: data.tempBookingRefNo,
+      sgst: (parseInt(data.rentalAmount) * 9) / 100,
+      csgst: (parseInt(data.rentalAmount) * 9) / 100,
+    };
+  });
+  const SgstData = RefacotorData.map((item) => item.sgst);
+  const CsgstData = RefacotorData.map((item) => item.csgst);
+  const RentalData = RefacotorData.map((item) => item.rentalAmount);
+  const TotalDSP = [...SgstData, ...CsgstData, ...RentalData];
+  console.log("TotalDSP==>", TotalDSP);
+
+  const SumOfTotalAmount = () => {
+    let total = 0;
+    for (let data of TotalDSP) total = total + data;
+    return total;
+  };
+
+  console.log("RefacotorData==>", RefacotorData);
+
+  const TSGST = RefacotorData.map((item) => parseInt(item.sgst));
+  const SumOfSGST = () => {
+    let total = 0;
+    for (let data of TSGST) total = total + data;
+    return total;
+  };
+  const TCGST = RefacotorData.map((item) => parseInt(item.csgst));
+  const SumOfCGST = () => {
+    let total = 0;
+    for (let data of TCGST) total = total + data;
+    return total;
+  };
+
+  // TOTAL BOOKING CHARGES
+  const TProductValue = RefacotorData.map((item) =>
+    parseInt(item.rentalAmount)
   );
-  const SumOfTProductValue = () => {
+  const SumOfBookinCharge = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
     return total;
   };
-  // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = GetCartProductData.map((item) => item.rentValue);
 
-  const SumOfRentalRate = () => {
-    let total = 0;
-    for (let data of TRentalRate) total = total + data;
-    return total;
-  };
-
-  // TOTAL COST OF DEPOSIT RATE
-  const TDepositRate = GetCartProductData.map((item) => item.depositValue);
-  const SumOfDepositRate = () => {
-    let total = 0;
-    for (let data of TDepositRate) total = total + data;
-    return total;
-  };
-
-  const TAmount = savePaymetRow.map((item) => item.amount);
-  const SumOfTAmount = () => {
+  const TAmount = savePaymetRow.map((item) => parseInt(item.amount));
+  const SumOfSaveAmount = () => {
     let total = 0;
     for (let num of TAmount) total = total + num;
     return total;
   };
+
   return (
     <div>
       <div>
@@ -53,7 +93,7 @@ const BookingPdf = (props) => {
           {`
             @media screen {
               .hide-on-screen {
-                display: none;
+                display: block;
               }
             }
              @page {
@@ -119,6 +159,7 @@ const BookingPdf = (props) => {
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>Bill To:</b>
+                      <b>Customer Name: {existedUserData.customerName}</b>
                       <b>Address 1: {existedUserData.customerAddress1}</b>
                       <b>Address 2: {existedUserData.customerAddress2}</b>
                       <b>PinCode: {existedUserData.customerCityPincode}</b>
@@ -128,65 +169,93 @@ const BookingPdf = (props) => {
                     <div className="d-flex flex-column">
                       <b>Customer Profile Number: 784</b>
                       <b>PAN: {existedUserData.panCardNo}</b>
-                      <b>GST No.: ABCDFRTNG234FRT</b>
+                      <b>GST No.: {existedUserData.panCardNo}</b>
                       <b>State Code: 27</b>
                     </div>
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td colSpan="5">
-                  <b>ITEM DETAILS</b>
-                  <div className="table">
-                    <table className="table table-bordered inner-table border-dark">
-                      <thead>
-                        <tr>
-                          {BookingOrderHearders.map((heading, i) => {
-                            return <th key={i}>{heading}</th>;
+              {RefacotorData.length > 0 && (
+                <tr>
+                  <td colSpan="5">
+                    <b>ITEM DETAILS</b>
+                    <div className="table">
+                      <table className="table table-bordered inner-table border-dark">
+                        <thead>
+                          <tr>
+                            {BookingOrderHearders.map((heading, i) => {
+                              return <th key={i}>{heading}</th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {RefacotorData.map((item, i) => {
+                            return (
+                              <tr key={i}>
+                                <th>{i + 1}</th>
+                                <th>{item.itemCode}</th>
+                                <th>{item.lotNo}</th>
+                                <th>N/A</th>
+                                <th>{item.grossWt}</th>
+                                <th>Rental Start Date</th>
+                                <th>N/A</th>
+                                <th>{item.packageDays} Days</th>
+                                <th>
+                                  {Math.round(item.rentalAmount).toLocaleString(
+                                    "en-IN"
+                                  )}
+                                </th>
+                                <th>N/A</th>
+                                <th>N/A</th>
+                                <th>
+                                  {Math.round(item.rentalAmount).toLocaleString(
+                                    "en-IN"
+                                  )}
+                                </th>
+                                <th>
+                                  {Math.round(item.sgst).toLocaleString(
+                                    "en-IN"
+                                  )}
+                                </th>
+                                <th>
+                                  {Math.round(item.csgst).toLocaleString(
+                                    "en-IN"
+                                  )}
+                                </th>
+                                <th>
+                                  {Math.round(
+                                    item.rentalAmount + item.sgst + item.csgst
+                                  ).toLocaleString("en-IN")}
+                                </th>
+                              </tr>
+                            );
                           })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {GetCartProductData.map((item, i) => {
-                          return (
-                            <tr key={i}>
-                              <th>{i + 1}</th>
-                              <th>{item.itemCode}</th>
-                              <th>{item.lotNo}</th>
-                              <th>N/A</th>
-                              <th>{item.grossWt}</th>
-                              <th>Rental Start Date</th>
-                              <th>N/A</th>
-                              <th>{packageDays} Days</th>
-                              <th>N/A</th>
-                              <th>N/A</th>
-                              <th>N/A</th>
-                              <th>N/A</th>
-                              <th>N/A</th>
-                              <th>N/A</th>
-                              <th>N/A</th>
-                            </tr>
-                          );
-                        })}
-                        <tr>
-                          <th colSpan="7" className="text-end">
-                            TOTAL
-                          </th>
-                          <th>
-                            {SumOfTProductValue().toLocaleString("en-IN")}
-                          </th>
-                          <th>{SumOfRentalRate().toLocaleString("en-IN")}</th>
-                          <th>{SumOfDepositRate().toLocaleString("en-IN")}</th>
-                          <th>123</th>
-                          <th>123</th>
-                          <th>123</th>
-                          <th>123</th>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </td>
-              </tr>
+                          <tr>
+                            <th colSpan="8" className="text-end">
+                              TOTAL
+                            </th>
+                            <th>
+                              {SumOfBookinCharge().toLocaleString("en-IN")}
+                            </th>
+                            <th>N/A</th>
+                            <th>N/A</th>
+                            <th>
+                              {SumOfBookinCharge().toLocaleString("en-IN")}
+                            </th>
+                            <th>{SumOfSGST().toLocaleString("en-IN")}</th>
+                            <th>{SumOfCGST().toLocaleString("en-IN")}</th>
+                            <th>
+                              {Math.round(SumOfTotalAmount()).toLocaleString(
+                                "en-IN"
+                              )}
+                            </th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              )}
               <tr>
                 <td colSpan="4" style={{ width: "60%" }}>
                   <table className="table table-bordered border-dark">
@@ -221,7 +290,7 @@ const BookingPdf = (props) => {
                           <th colSpan="4" className="text-end">
                             TOTAL
                           </th>
-                          <th>{SumOfTAmount().toString()}</th>
+                          <th>{SumOfSaveAmount().toString()}</th>
                         </tr>
                       )}
                     </tbody>

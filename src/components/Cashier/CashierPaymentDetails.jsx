@@ -25,6 +25,7 @@ const CashierPaymentDetails = () => {
   const bookingRefID = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [searchValue, setSearchValue] = useState("");
   const [getPaymentData, setGetPaymentData] = useState([]);
+  const [addedPdts, setAddedPdts] = useState([]);
   const [paymentDetails, setPaymentDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [documentType, setDocumentType] = useState("");
@@ -73,6 +74,26 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(
+        `${HOST_URL}/fetch/table/common/data/MAMTHA/""/${paymentDetails.tempBookingRef}`
+      )
+      .then((res) => res)
+      .then((response) => {
+        console.log("responseCommon==>", response.data);
+        if (response.data.code === "1000") {
+          setAddedPdts(response.data.value);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  }, [storeCode, paymentDetails.tempBookingRef]);
 
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -653,6 +674,7 @@ const CashierPaymentDetails = () => {
                     <BookingPdf
                       savePaymetRow={savePaymetRow}
                       existedUserData={existedUserData}
+                      addedPdts={addedPdts}
                     />
                   </h6>
                 </div>

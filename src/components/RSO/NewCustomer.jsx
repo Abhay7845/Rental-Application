@@ -225,9 +225,7 @@ const NewCustomer = () => {
         });
     }
   };
-  const EditPhoneNumber = () => {
-    setPhoneOtp("");
-  };
+
   const VerifyPhoneOTP = () => {
     setLoading(true);
     if (phoneOtp === parseInt(enterPhoneOtp)) {
@@ -400,7 +398,7 @@ const NewCustomer = () => {
           </div>
           {phoneOtp && !phoneVerified && (
             <div className="col-md-3 d-flex">
-              <button className="CButton mx-1" onClick={EditPhoneNumber}>
+              <button className="CButton mx-1" onClick={() => setPhoneOtp("")}>
                 Edit
               </button>
               <input
@@ -448,11 +446,14 @@ const NewCustomer = () => {
               placeholder="Email Address*"
               value={emailId}
               onChange={(e) => setEmailId(e.target.value)}
-              disabled={emailVerified ? true : false}
+              disabled={emailOtp ? true : false}
             />
           </div>
           {emailOtp && !emailVerified && (
-            <div className="col-md-2">
+            <div className="col-md-4 d-flex">
+              <button className="CButton mx-1" onClick={() => setEmailOtp("")}>
+                Edit
+              </button>
               <input
                 type="number"
                 className="form-control"

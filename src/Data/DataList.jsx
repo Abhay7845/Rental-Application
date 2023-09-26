@@ -37,7 +37,7 @@ export const driverRegex = /^[A-Z](?:\d[- ]*){14}$/g;
 export const phonePan = /^[A-Z]{1,10}$/;
 
 export const addressTypeOption = [
-  { value: "", name: "Select ID Type" },
+  { value: "", name: "Select" },
   { value: "aadhar", name: "Aadhar Card" },
   { value: "Passport", name: "Passport" },
 ];

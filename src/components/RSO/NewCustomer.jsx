@@ -558,7 +558,7 @@ const NewCustomer = () => {
             {panFile && <img src={panFile} alt="panfile" height="100px" />}
           </div>
           <div className="col-md-4">
-            <label className="form-label">Address Proof ID Type</label>
+            <label className="form-label">Address Proof Type</label>
             <select
               className="form-control"
               onChange={(e) => {
@@ -567,7 +567,6 @@ const NewCustomer = () => {
                 setAddressFile(null);
               }}
             >
-              <option value="">Select Type</option>
               {addressTypeOption.map((item, i) => {
                 return (
                   <option key={i} value={item.value}>

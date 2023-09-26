@@ -241,7 +241,7 @@ const RentalReturn = () => {
   };
 
   // CALCULATION OF DAMAGE CHAREGES WT AT RETURN
-  const GetActualWtOfDamage = (e, item) => {
+  const GetActualWtOfDamage = (e) => {
     const { name, value } = e.target;
     setInputDmgValues({
       ...inputDmgValues,

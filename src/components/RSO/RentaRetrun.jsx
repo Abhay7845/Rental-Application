@@ -40,6 +40,7 @@ const RentalReturn = () => {
 
   console.log("sameCutIDFileName==>", sameCutIDFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
+  console.log("inputPhyDmg==>", inputPhyDmg);
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -473,6 +474,7 @@ const RentalReturn = () => {
                               <option value="">Select</option>
                               <option value="NO">NO</option>
                               <option value="YES">Yes</option>
+                              <option value="FactoryQA">Factory QA</option>
                             </select>
                           </td>
                           <td>
@@ -482,7 +484,8 @@ const RentalReturn = () => {
                               placeholder="Damage Charge"
                               name={i}
                               value={
-                                inputPhyDmg[i] === "NO"
+                                inputPhyDmg[i] === "NO" ||
+                                inputPhyDmg[i] === "FactoryQA"
                                   ? (inputDmgValues[i] = 0)
                                   : inputDmgValues[i]
                               }
@@ -542,7 +545,11 @@ const RentalReturn = () => {
             <input
               type="checkbox"
               className="mx-3 mt-4"
-              checked={checkedQA}
+              // checked={
+              //   inputPhyDmg.map((i) => inputPhyDmg[i]) === "FactoryQA"
+              //     ? checkedQA
+              //     : !checkedQA
+              // }
               onChange={() => setCheckedQA(!checkedQA)}
             />
           </div>

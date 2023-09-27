@@ -10,7 +10,7 @@ import {
   ImageHeaders,
 } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
-import { UploadImg } from "../../API/HostURL";
+import { UploadImg, FetchImg } from "../../API/HostURL";
 import KarigarQAPdf from "../Pdf/KarigarQAPdf";
 
 const RentalReturn = () => {
@@ -19,14 +19,18 @@ const RentalReturn = () => {
   const [sameCustomer, setSameCustomer] = useState(true);
   const [retunTableData, setRetunTableData] = useState([]);
   const [checkedQA, setCheckedQA] = useState(false);
-  // SAME CUSTOME UPLOAD /
+  const [totalPaidAmount, setTotalPaidAmount] = useState({});
+  // SAME CUSTOME UPLOAD & DETAILS/
+  const [sameCustName, setSameCustName] = useState("");
+  const [sameCustIDType, setSameCustIDType] = useState("");
+  const [sameCustIDNo, setSameCustIDNo] = useState("");
   const [sameCustFile, setSameCustFile] = useState([]);
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   // UPLOAD KARIGAR FILE
   const [karigarQAFile, setKarigarQAFile] = useState([]);
   const [karigarQAFileUrl, setKarigarQAFileUrl] = useState("");
-  const [karigarQAFileName, setKarigarQAFileName] = useState([]);
+  const [karigarQAFileName, setKarigarQAFileName] = useState("");
   // ACTUAL WT RETURN
   const [inputRtnValues, setInputRtnValues] = useState({});
   const [inputDmgValues, setInputDmgValues] = useState({});
@@ -36,10 +40,8 @@ const RentalReturn = () => {
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const { refId, tempBookingRefNo } = GetReturnProduct;
-  const currentDate = new Date(moment().format("YYYY-MM-DD"));
-
-  console.log("sameCutIDFileName==>", sameCutIDFileName);
-  console.log("karigarQAFileName==>", karigarQAFileName);
+  const currentDate = moment(new Date()).format("DD-MM-YYYY");
+  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -48,7 +50,7 @@ const RentalReturn = () => {
     );
     return nextDate;
   };
-  const timeDifference = currentDate - getReturnDate();
+  const timeDifference = new Date() - getReturnDate();
   const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
   const refactoreDataTable = retunTableData.map((data) => {
@@ -84,6 +86,25 @@ const RentalReturn = () => {
       tempBookingRefNo: data.tempBookingRefNo,
     };
   });
+
+  // TOTAL PAID BOOKING AMONT
+  useEffect(() => {
+    axios
+      .get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${refId}`)
+      .then((res) => res)
+      .then((response) => {
+        console.log("responsesum==>", response.data);
+        if (response.data.code === "1000") {
+          setTotalPaidAmount(response.data.value);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  }, [storeCode, refId]);
+
+  console.log("totalPaidAmount==>", totalPaidAmount);
 
   useEffect(() => {
     setLoading(true);
@@ -133,6 +154,33 @@ const RentalReturn = () => {
     return total;
   };
 
+  const UpdateBookingFile = () => {
+    const updateBookingInput = {
+      bookingRefId: refId,
+      contentFor: "return",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "KarigarQAReport",
+      fileName: karigarQAFileName,
+      fileSize: `${karigarQAFile.size}`,
+      fileType: `${karigarQAFile.type}`,
+      fileURL: `${FetchImg}${karigarQAFileName}`,
+      updatedDate: null,
+    };
+    console.log("updateBookingInput==>", updateBookingInput);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
+      .then((res) => res)
+      .then((response) => {
+        console.log("responseUpload==>", response.data);
+        if (response.data.code === "1000") {
+          alert("Uploaded Successfully");
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   // UPLOAD CUSTOMER ID
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
@@ -141,7 +189,7 @@ const RentalReturn = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = sameCustFile.name.split(".");
-      const fileExtention = `${currentDate}.${fileEx[1]}`;
+      const fileExtention = `${currentDate}-${RandomDigit}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
@@ -156,11 +204,11 @@ const RentalReturn = () => {
             reader.onloadend = () => {
               setSameCustFileUrl(reader.result);
               setSameCutIDFileName(fileExtention);
+              UpdateBookingFile();
             };
             if (sameCustFile) {
               reader.readAsDataURL(sameCustFile);
             }
-            alert("Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -193,8 +241,6 @@ const RentalReturn = () => {
             reader.onloadend = () => {
               setKarigarQAFileUrl(reader.result);
               setKarigarQAFileName(fileExtention);
-              setKarigarQAFile([]);
-              document.getElementById("KarigrQAid").value = "";
             };
             if (karigarQAFile) {
               reader.readAsDataURL(karigarQAFile);
@@ -228,7 +274,7 @@ const RentalReturn = () => {
 
   const PdtItemWitewt = PdtItemWtRtn.map((ele, i) => {
     return {
-      actualWtAtDelivery: parseFloat(ele),
+      actualWtAtReturn: parseFloat(ele),
       pdtId: parseInt(refactoreDataTable[i].pdtId),
     };
   });
@@ -277,59 +323,45 @@ const RentalReturn = () => {
   };
 
   const RaiseClouseRequest = () => {
+    setLoading(true);
     const RetnaReturnInputs = {
       actualWtReturn: PdtItemWitewt,
-      balanceToBePaid: 0,
-      bookingRefNo: "string",
-      closeRentalAgreementUpload: "string",
-      createdDate: "2023-09-25T06:36:08.171Z",
-      customerName: "string",
-      depositPaid: [
-        {
-          amount: "string",
-          refNo: "string",
-          type: "string",
-        },
-      ],
-      despId: "string",
-      factoryQARequired: "string",
-      idFileName: "string",
-      idNumber: "string",
-      idType: "string",
-      itemDetails: retunTableData,
-      karigarQAPassed: "string",
-      loanReturnDoc: "string",
-      paidBooking: [
-        {
-          amount: "string",
-          refNo: "string",
-          type: "string",
-        },
-      ],
-      qaCheckList: [
-        {
-          bookingRefNo: "string",
-          imageUpload: "string",
-          qaCheck: "string",
-        },
-      ],
-      returnDate: "2023-09-25T06:36:08.171Z",
-      returnInspectionResponses: [
-        {
-          bookingRefNo: "string",
-          imageUpload: "string",
-          itemCode: "string",
-        },
-      ],
+      balanceToBePaid: parseFloat(SumOfDmgCharge() + SumOfTPeneltyCharge()),
+      bookingRefNo: totalPaidAmount.bookingId,
+      closeRentalAgreementUpload: "",
+      createdDate: null,
+      customerName: sameCustomer ? "" : sameCustName,
+      despId: "3",
+      factoryQARequired: checkedQA ? "YES" : "NO",
+      idFileName: sameCustomer ? "" : sameCutIDFileName,
+      idNumber: sameCustomer ? "" : sameCustIDNo,
+      idType: sameCustomer ? "" : sameCustIDType,
+      karigarQAPassed: "",
+      loanReturnDoc: "",
+      returnDate: null,
       rsoName: RSOName,
-      totalBookingPaid: 0,
-      totalDamageCharges: 0,
-      totalDepositPaid: 0,
-      totalPenaltyCharges: SumOfTPeneltyCharge(),
-      totalRentaLAmount: 0,
-      updatedDate: "2023-09-25T06:36:08.171Z",
+      totalBookingPaid: parseFloat(totalPaidAmount.totalBookingAmount),
+      totalDamageCharges: parseFloat(SumOfDmgCharge()),
+      totalDepositPaid: parseFloat(totalPaidAmount.totalDepositAmount),
+      totalPenaltyCharges: parseFloat(SumOfTPeneltyCharge()),
+      totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
+      updatedDate: null,
     };
     console.log("RetnaReturnInputs==>", RetnaReturnInputs);
+    axios
+      .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          alert("Success");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
   };
 
   return (
@@ -341,7 +373,7 @@ const RentalReturn = () => {
         <div className="row g-3 mb-4">
           <div className="col-3">
             <label className="form-label">Booking Ref No</label>
-            <h6>{GetReturnProduct.refId}</h6>
+            <h6>{refId}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Renatl Start Date</label>
@@ -375,12 +407,14 @@ const RentalReturn = () => {
               className="form-control"
               placeholder="Customer Name"
               disabled={sameCustomer ? true : false}
+              onChange={(e) => setSameCustName(e.target.value)}
             />
           </div>
           <div className="col-md-2">
             <label className="form-label">Customer ID Type</label>
             <select
               className="form-control"
+              onChange={(e) => setSameCustIDType(e.target.value)}
               disabled={sameCustomer ? true : false}
             >
               {addressTypeOption.map((item, i) => {
@@ -398,6 +432,7 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Customer ID No."
+              onChange={(e) => setSameCustIDNo(e.target.value)}
               disabled={sameCustomer ? true : false}
             />
           </div>
@@ -474,7 +509,7 @@ const RentalReturn = () => {
                             <select
                               className="w-100"
                               name={i}
-                              value={inputPhyDmg[i]}
+                              defaultValue={inputPhyDmg[i]}
                               onChange={GetPhysicalDmg}
                             >
                               <option value="">Select</option>

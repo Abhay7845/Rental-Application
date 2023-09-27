@@ -583,7 +583,7 @@ const CashierPaymentDetails = () => {
                       <th colSpan="3" className="text-end">
                         TOTAL
                       </th>
-                      <th>{TotalAmount.toString()}</th>
+                      <th>₹ {TotalAmount.toString()}</th>
                       <td colSpan="2" />
                     </tr>
                   )}

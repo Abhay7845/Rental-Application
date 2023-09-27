@@ -40,7 +40,6 @@ const RentalReturn = () => {
 
   console.log("sameCutIDFileName==>", sameCutIDFileName);
   console.log("karigarQAFileName==>", karigarQAFileName);
-  console.log("inputPhyDmg==>", inputPhyDmg);
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -264,6 +263,13 @@ const RentalReturn = () => {
 
   const GetPhysicalDmg = (e) => {
     const { name, value } = e.target;
+    if (value === "FactoryQA") {
+      setCheckedQA(true);
+    } else if (checkedQA === true) {
+      setCheckedQA(false);
+    } else {
+      setCheckedQA(false);
+    }
     setInputPhyDmg({
       ...inputPhyDmg,
       [name]: value,
@@ -468,7 +474,7 @@ const RentalReturn = () => {
                             <select
                               className="w-100"
                               name={i}
-                              defaultValue={inputPhyDmg[i]}
+                              value={inputPhyDmg[i]}
                               onChange={GetPhysicalDmg}
                             >
                               <option value="">Select</option>
@@ -545,12 +551,9 @@ const RentalReturn = () => {
             <input
               type="checkbox"
               className="mx-3 mt-4"
-              // checked={
-              //   inputPhyDmg.map((i) => inputPhyDmg[i]) === "FactoryQA"
-              //     ? checkedQA
-              //     : !checkedQA
-              // }
-              onChange={() => setCheckedQA(!checkedQA)}
+              value={checkedQA}
+              checked={checkedQA}
+              // onChange={() => setCheckedQA(checkedQA)}
             />
           </div>
           <div className="col-md-12">

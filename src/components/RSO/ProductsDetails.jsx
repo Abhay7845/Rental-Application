@@ -382,7 +382,7 @@ const ProductsDetails = () => {
           <table className="table table-bordered table-hover border-dark text-center">
             <thead className="table-dark border-light">
               <tr>
-                <td>Select</td>
+                <td>SELECT</td>
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
                 })}

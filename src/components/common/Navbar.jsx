@@ -57,16 +57,6 @@ const Navbar = () => {
                 Search Products
               </Link>
             </li>
-            <li className="nav-item mx-2">
-              <Link
-                className={`nav-link navbarLink  ${
-                  path === "/test/image" && "active"
-                }`}
-                to="/test/image"
-              >
-                Test
-              </Link>
-            </li>
           </ul>
         )}
         <div className="d-flex">

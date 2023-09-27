@@ -4,7 +4,7 @@ import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { BookingOrderHearders } from "./PDFHearders";
 import moment from "moment";
 const BookingPdf = (props) => {
-  const { savePaymetRow, existedUserData, addedPdts } = props;
+  const { savePaymetRow, existedUserData, addedPdts, bookingRefID } = props;
   const BookinRef = useRef(null);
   const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
 
@@ -79,7 +79,14 @@ const BookingPdf = (props) => {
     for (let num of TAmount) total = total + num;
     return total;
   };
+  const DateOfPic = RefacotorData.map((date) => date.rentStartDate);
+  const packageDays = RefacotorData.map((date) => date.packageDays);
 
+  const getReturnDate = () => {
+    const nextDate = new Date(DateOfPic[0]);
+    nextDate.setDate(nextDate.getDate() + parseInt(packageDays[0] - 1));
+    return nextDate;
+  };
   return (
     <div>
       <div>
@@ -131,8 +138,10 @@ const BookingPdf = (props) => {
                 </td>
                 <td colSpan="4">
                   <div className="d-flex flex-row justify-content-between">
-                    <b>Booking Reference No: ACGFRDGG1235</b>
-                    <b className="space-in-pdf">Date: 29/08/29</b>
+                    <b>Booking Reference No:- {bookingRefID}</b>
+                    <b className="space-in-pdf">
+                      Date:- {moment().format("DD-MM-YYYY")}
+                    </b>
                   </div>
                 </td>
               </tr>
@@ -156,18 +165,26 @@ const BookingPdf = (props) => {
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>Bill To:</b>
-                      <b>Customer Name: {existedUserData.customerName}</b>
-                      <b>Address 1: {existedUserData.customerAddress1}</b>
-                      <b>Address 2: {existedUserData.customerAddress2}</b>
-                      <b>PinCode: {existedUserData.customerCityPincode}</b>
-                      <b>State: Karnatka</b>
-                      <b>Mobile No: +91 {existedUserData.mobileNo}</b>
+                      <b>
+                        Customer Name:-
+                        {existedUserData.customerName.toUpperCase()}
+                      </b>
+                      <b>
+                        Address 1:-
+                        {existedUserData.customerAddress1.toUpperCase()}
+                      </b>
+                      <b>
+                        Address 2:-
+                        {existedUserData.customerAddress2.toUpperCase()}
+                      </b>
+                      <b>PinCode:- {existedUserData.customerCityPincode}</b>
+                      <b>Mobile No:- +91 {existedUserData.mobileNo}</b>
                     </div>
                     <div className="d-flex flex-column">
-                      <b>Customer Profile Number: 784</b>
+                      <b>Customer Profile Number:-{existedUserData.custId}</b>
                       <b>PAN: {existedUserData.panCardNo}</b>
-                      <b>GST No.: {existedUserData.panCardNo}</b>
-                      <b>State Code: 27</b>
+                      <b>GST No.:- </b>
+                      <b>State Code:-</b>
                     </div>
                   </div>
                 </td>
@@ -192,18 +209,26 @@ const BookingPdf = (props) => {
                                 <th>{i + 1}</th>
                                 <th>{item.itemCode}</th>
                                 <th>{item.lotNo}</th>
-                                <th>N/A</th>
+                                <th>{item.description}</th>
                                 <th>{item.grossWt}</th>
-                                <th>Rental Start Date</th>
-                                <th>N/A</th>
+                                <th>
+                                  {moment(item.rentStartDate).format(
+                                    "DD-MM-YYYY"
+                                  )}
+                                </th>
+                                <th>
+                                  {Math.round(item.productValue).toLocaleString(
+                                    "en-IN"
+                                  )}
+                                </th>
                                 <th>{item.packageDays} Days</th>
                                 <th>
                                   {Math.round(item.rentalAmount).toLocaleString(
                                     "en-IN"
                                   )}
                                 </th>
-                                <th>N/A</th>
-                                <th>N/A</th>
+                                <th>0</th>
+                                <th>0</th>
                                 <th>
                                   {Math.round(item.rentalAmount).toLocaleString(
                                     "en-IN"
@@ -232,16 +257,17 @@ const BookingPdf = (props) => {
                               TOTAL
                             </th>
                             <th>
-                              {SumOfBookinCharge().toLocaleString("en-IN")}
+                              ₹{SumOfBookinCharge().toLocaleString("en-IN")}
                             </th>
-                            <th>N/A</th>
-                            <th>N/A</th>
+                            <th>₹0</th>
+                            <th>₹0</th>
                             <th>
-                              {SumOfBookinCharge().toLocaleString("en-IN")}
+                              ₹{SumOfBookinCharge().toLocaleString("en-IN")}
                             </th>
-                            <th>{SumOfSGST().toLocaleString("en-IN")}</th>
-                            <th>{SumOfCGST().toLocaleString("en-IN")}</th>
+                            <th>₹{SumOfSGST().toLocaleString("en-IN")}</th>
+                            <th>₹{SumOfCGST().toLocaleString("en-IN")}</th>
                             <th>
+                              ₹
                               {Math.round(SumOfTotalAmount()).toLocaleString(
                                 "en-IN"
                               )}
@@ -287,7 +313,7 @@ const BookingPdf = (props) => {
                           <th colSpan="4" className="text-end">
                             TOTAL
                           </th>
-                          <th>{SumOfSaveAmount().toString()}</th>
+                          <th>₹{SumOfSaveAmount().toString()}</th>
                         </tr>
                       )}
                     </tbody>
@@ -302,8 +328,14 @@ const BookingPdf = (props) => {
               <tr>
                 <td colSpan="5">
                   <div className="d-flex justify-content-around">
-                    <b>Date of Pickup: - </b>
-                    <b>Date of return: -</b>
+                    <b>
+                      Date of Pickup: -
+                      {moment(DateOfPic[0]).format("DD-MM-YYYY")}
+                    </b>
+                    <b>
+                      Date of return: -
+                      {moment(getReturnDate()).format("DD-MM-YYYY")}
+                    </b>
                   </div>
                 </td>
               </tr>
@@ -339,7 +371,10 @@ const BookingPdf = (props) => {
                       <h6 className="mt-4">(Authorized Signatory)</h6>
                     </div>
                     <div>
-                      <b>Customer Name: {existedUserData.customerName}</b>
+                      <b>
+                        Customer Name:-{" "}
+                        {existedUserData.customerName.toUpperCase()}
+                      </b>
                       <h6 className="mt-4">
                         Customer Signature : ..............................
                       </h6>

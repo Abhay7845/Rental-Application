@@ -677,6 +677,7 @@ const CashierPaymentDetails = () => {
                       savePaymetRow={savePaymetRow}
                       existedUserData={existedUserData}
                       addedPdts={addedPdts}
+                      bookingRefID={bookingRefID}
                     />
                   </h6>
                 </div>

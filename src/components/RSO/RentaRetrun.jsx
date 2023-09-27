@@ -482,7 +482,9 @@ const RentalReturn = () => {
                               placeholder="Damage Charge"
                               name={i}
                               value={
-                                inputPhyDmg[i] === "NO" ? 0 : inputDmgValues[i]
+                                inputPhyDmg[i] === "NO"
+                                  ? (inputDmgValues[i] = 0)
+                                  : inputDmgValues[i]
                               }
                               onChange={GetActualWtOfDamage}
                               disabled={inputPhyDmg[i] === "NO" ? true : false}

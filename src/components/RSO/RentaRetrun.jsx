@@ -588,7 +588,6 @@ const RentalReturn = () => {
               className="mx-3 mt-4"
               value={checkedQA}
               checked={checkedQA}
-              // onChange={() => setCheckedQA(checkedQA)}
             />
           </div>
           <div className="col-md-12">

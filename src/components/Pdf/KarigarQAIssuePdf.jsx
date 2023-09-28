@@ -33,7 +33,7 @@ const KarigarQAIssuePdf = (pros) => {
         {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
             .margin-on-ps{
                 margin: 10px;

@@ -1,11 +1,13 @@
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
-const KarigarQAPdf = () => {
+const KarigarQAPdf = (props) => {
+  const { refactoreDataTable } = props;
   const QARef = useRef(null);
   const QAPDF = useReactToPrint({
     content: () => QARef.current,
   });
+  console.log("refactoreDataTable==>", refactoreDataTable);
   return (
     <div>
       <button onClick={QAPDF} className="CButton">

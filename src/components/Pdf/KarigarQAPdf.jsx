@@ -1,8 +1,11 @@
+import moment from "moment";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 const KarigarQAPdf = (props) => {
   const { refactoreDataTable } = props;
+  const storeCode = localStorage.getItem("storeCode");
+
   const QARef = useRef(null);
   const QAPDF = useReactToPrint({
     content: () => QARef.current,
@@ -44,45 +47,54 @@ const KarigarQAPdf = (props) => {
                 Product Quality Checklist
               </th>
             </tr>
-            <tr>
-              <td>
-                <div className="d-flex flex-column">
-                  <b>User Name:</b>
-                  <b>SKU Code:</b>
-                </div>
-              </td>
-              <td>
-                <div className="d-flex flex-column">
-                  <b>Handover</b>
-                  <b>Date:</b>
-                  <b>RSO/Karigar Name:</b>
-                </div>
-              </td>
-              <td colSpan="2">
-                <div className="d-flex flex-column">
-                  <b>Return</b>
-                  <b>Date:</b>
-                  <b>RSO/Karigar Name:</b>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <b>Checkpoints</b>
-              </td>
-              <td>
-                <b>Detailed Description</b>
-              </td>
-              <td>
-                <b>Handover to Customer</b>
-              </td>
-              <td>
-                <b>Return by Customer</b>
-              </td>
-            </tr>
+            {refactoreDataTable.map((data, i) => {
+              return (
+                <>
+                  <tr>
+                    <td>
+                      <div className="d-flex flex-column">
+                        <b>User Name: {storeCode}</b>
+                        <b>SKU Code: {data.itemCode}</b>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column">
+                        <b>Handover Date: {moment().format("DD-MM-YYYY")}</b>
+                        <b>RSO/Karigar Name: {storeCode}</b>
+                      </div>
+                    </td>
+                    <td colSpan="2">
+                      <div className="d-flex flex-column">
+                        <b>Return Date: {moment().format("DD-MM-YYYY")}</b>
+                        <b>RSO/Karigar Name: {storeCode}</b>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ width: "25%" }}>
+                      <b>Checkpoints </b>
+                      <input
+                        className="form-check-input mx-4 border-dark"
+                        type="checkbox"
+                        style={{ height: "17px", width: "17px" }}
+                      />
+                    </td>
+                    <td style={{ width: "35%" }}>
+                      <b>Detailed Description</b>
+                    </td>
+                    <td>
+                      <b>Handover to Customer</b>
+                    </td>
+                    <td>
+                      <b>Return by Customer</b>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
             <tr>
               <td>Matching Design as per Catalog Vs TAG </td>
-              <td>
+              <td className="text-justify">
                 Check the product image in the system by entering the 14 digit
                 code in the tag and ensure that the image matches the product in
                 hand
@@ -90,7 +102,7 @@ const KarigarQAPdf = (props) => {
               <td></td>
               <td></td>
             </tr>
-            <tr>
+            <tr className="text-justify">
               <td>Matching TAG Weight Vs Phy Weight (Gross weight)</td>
               <td>Measure the gross weight of the product Vs TAG</td>
               <td></td>
@@ -98,7 +110,7 @@ const KarigarQAPdf = (props) => {
             </tr>
             <tr>
               <td>Proper falling</td>
-              <td>
+              <td className="text-justify">
                 Fall, fitting and comfort should be checked by allowing the
                 customer to wear the product. Any defect & Changes should be
                 noted (Shape ,Size )
@@ -108,7 +120,7 @@ const KarigarQAPdf = (props) => {
             </tr>
             <tr>
               <td>No Non Gold item presence</td>
-              <td>
+              <td className="text-justify">
                 Foreign materials such as water or acid, non gold items like
                 steel pins, balls, wires etc Any dust, polishing residue etc
               </td>

@@ -12,6 +12,8 @@ import {
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import KarigarQAPdf from "../Pdf/KarigarQAPdf";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
@@ -30,7 +32,6 @@ const RentalReturn = () => {
   // UPLOAD KARIGAR FILE
   const [karigarQAFile, setKarigarQAFile] = useState([]);
   const [karigarQAFileUrl, setKarigarQAFileUrl] = useState("");
-  const [karigarQAFileName, setKarigarQAFileName] = useState("");
   // ACTUAL WT RETURN
   const [inputRtnValues, setInputRtnValues] = useState({});
   const [inputDmgValues, setInputDmgValues] = useState({});
@@ -42,6 +43,7 @@ const RentalReturn = () => {
   const { refId, tempBookingRefNo } = GetReturnProduct;
   const currentDate = moment(new Date()).format("DD-MM-YYYY");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+  const navigate = useNavigate();
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -154,16 +156,53 @@ const RentalReturn = () => {
     return total;
   };
 
-  const UpdateBookingFile = () => {
+  // UPLOAD CUSTOMER ID
+  const UploadSameCustIDProof = () => {
+    if (sameCustFile.length === 0) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileEx = sameCustFile.name.split(".");
+      const fileExtention = `${timeDifference}-${currentDate}-${RandomDigit}.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", sameCustFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setSameCustFileUrl(reader.result);
+              setSameCutIDFileName(fileExtention);
+            };
+            if (sameCustFile) {
+              reader.readAsDataURL(sameCustFile);
+            }
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
+
+  const UpdateBookingFile = (fileExtention) => {
     const updateBookingInput = {
       bookingRefId: refId,
       contentFor: "return",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "KarigarQAReport",
-      fileName: karigarQAFileName,
+      fileName: fileExtention,
       fileSize: `${karigarQAFile.size}`,
       fileType: `${karigarQAFile.type}`,
-      fileURL: `${FetchImg}${karigarQAFileName}`,
+      fileURL: `${FetchImg}${fileExtention}`,
       updatedDate: null,
     };
     console.log("updateBookingInput==>", updateBookingInput);
@@ -181,43 +220,6 @@ const RentalReturn = () => {
         setLoading(false);
       });
   };
-  // UPLOAD CUSTOMER ID
-  const UploadSameCustIDProof = () => {
-    if (sameCustFile.length === 0) {
-      alert("Please Choose File");
-    } else {
-      setLoading(true);
-      const formData = new FormData();
-      const fileEx = sameCustFile.name.split(".");
-      const fileExtention = `${currentDate}-${RandomDigit}.${fileEx[1]}`;
-      formData.append("ImgName", fileExtention);
-      formData.append("files", sameCustFile);
-      axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          console.log("response==>", response.data);
-          if (response.data) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setSameCustFileUrl(reader.result);
-              setSameCutIDFileName(fileExtention);
-              UpdateBookingFile();
-            };
-            if (sameCustFile) {
-              reader.readAsDataURL(sameCustFile);
-            }
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error==>", error);
-          setLoading(false);
-        });
-    }
-  };
   // UPLOAD KARIGAR QA REPORT ID
   const karigarAQFile = () => {
     if (karigarQAFile.length === 0) {
@@ -226,7 +228,7 @@ const RentalReturn = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = karigarQAFile.name.split(".");
-      const fileExtention = `${currentDate}.${fileEx[1]}`;
+      const fileExtention = `${timeDifference}-${currentDate}-${RandomDigit}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", karigarQAFile);
       axios
@@ -240,12 +242,11 @@ const RentalReturn = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
               setKarigarQAFileUrl(reader.result);
-              setKarigarQAFileName(fileExtention);
+              UpdateBookingFile(fileExtention);
             };
             if (karigarQAFile) {
               reader.readAsDataURL(karigarQAFile);
             }
-            alert("Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -323,45 +324,56 @@ const RentalReturn = () => {
   };
 
   const RaiseClouseRequest = () => {
-    setLoading(true);
-    const RetnaReturnInputs = {
-      actualWtReturn: PdtItemWitewt,
-      balanceToBePaid: parseFloat(SumOfDmgCharge() + SumOfTPeneltyCharge()),
-      bookingRefNo: totalPaidAmount.bookingId,
-      closeRentalAgreementUpload: "",
-      createdDate: null,
-      customerName: sameCustomer ? "" : sameCustName,
-      despId: "3",
-      factoryQARequired: checkedQA ? "YES" : "NO",
-      idFileName: sameCustomer ? "" : sameCutIDFileName,
-      idNumber: sameCustomer ? "" : sameCustIDNo,
-      idType: sameCustomer ? "" : sameCustIDType,
-      karigarQAPassed: "",
-      loanReturnDoc: "",
-      returnDate: null,
-      rsoName: RSOName,
-      totalBookingPaid: parseFloat(totalPaidAmount.totalBookingAmount),
-      totalDamageCharges: parseFloat(SumOfDmgCharge()),
-      totalDepositPaid: parseFloat(totalPaidAmount.totalDepositAmount),
-      totalPenaltyCharges: parseFloat(SumOfTPeneltyCharge()),
-      totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
-      updatedDate: null,
-    };
-    console.log("RetnaReturnInputs==>", RetnaReturnInputs);
-    axios
-      .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response.data);
-        if (response.data.code === "1000") {
-          alert("Success");
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+    if (!RSOName || karigarQAFile.length === 0) {
+      alert("Please Enter RSO Name & Upload Print File");
+    } else {
+      setLoading(true);
+      const RetnaReturnInputs = {
+        actualWtReturn: PdtItemWitewt,
+        balanceToBePaid: parseFloat(SumOfDmgCharge() + SumOfTPeneltyCharge()),
+        bookingRefNo: totalPaidAmount.bookingId,
+        closeRentalAgreementUpload: "",
+        createdDate: null,
+        customerName: sameCustomer ? "" : sameCustName,
+        despId: "3",
+        factoryQARequired: checkedQA ? "YES" : "NO",
+        idFileName: sameCustomer ? "" : sameCutIDFileName,
+        idNumber: sameCustomer ? "" : sameCustIDNo,
+        idType: sameCustomer ? "" : sameCustIDType,
+        karigarQAPassed: "",
+        loanReturnDoc: "",
+        returnDate: null,
+        rsoName: RSOName,
+        totalBookingPaid: parseFloat(totalPaidAmount.totalBookingAmount),
+        totalDamageCharges: parseFloat(SumOfDmgCharge()),
+        totalDepositPaid: parseFloat(totalPaidAmount.totalDepositAmount),
+        totalPenaltyCharges: parseFloat(SumOfTPeneltyCharge()),
+        totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
+        updatedDate: null,
+      };
+      console.log("RetnaReturnInputs==>", RetnaReturnInputs);
+      axios
+        .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data);
+          if (response.data.code === "1000") {
+            Swal.fire({
+              title: "Product Returned Successfully",
+              text: "Please reach out to the Cashier to complete the payment process",
+              icon: "success",
+              confirmButtonColor: "#008080",
+              confirmButtonText: "OK",
+            });
+            navigate("/home");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   };
 
   return (

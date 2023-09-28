@@ -106,11 +106,8 @@ const BookingPdf = (props) => {
               }
             @media print {
               .space-in-pdf {
-                margin-right: 31mm;
+                margin-right: 17mm;
               }
-              .space-in-pdf-two {
-                margin-right: 25mm;
-            }
               .rental-terms {
                 page-break-before: always;
               }

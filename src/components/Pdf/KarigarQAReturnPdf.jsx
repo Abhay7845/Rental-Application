@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
-const KarigarQAPdf = (props) => {
+const KarigarQAReturnPdf = (props) => {
   const { refactoreDataTable } = props;
   const storeCode = localStorage.getItem("storeCode");
 
@@ -323,4 +323,4 @@ const KarigarQAPdf = (props) => {
   );
 };
 
-export default KarigarQAPdf;
+export default KarigarQAReturnPdf;

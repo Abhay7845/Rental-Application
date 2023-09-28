@@ -11,9 +11,9 @@ import {
 } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
-import KarigarQAPdf from "../Pdf/KarigarQAPdf";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import KarigarQAReturnPdf from "../Pdf/KarigarQAReturnPdf";
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
@@ -568,7 +568,7 @@ const RentalReturn = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
-              <KarigarQAPdf refactoreDataTable={refactoreDataTable} />
+              <KarigarQAReturnPdf refactoreDataTable={refactoreDataTable} />
             </h6>
           </div>
           <div className="col-md-5">

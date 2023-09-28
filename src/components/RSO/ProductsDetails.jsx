@@ -36,9 +36,7 @@ const ProductsDetails = () => {
   const navigate = useNavigate();
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
 
-  console.log("goToCart==>", goToCart);
   console.log("payload==>", payload);
-  console.log("AvlProduct==>", AvlProduct);
 
   const ReturnEndDate = () => {
     const nextDate = new Date(payload.bookingDate);

@@ -11,7 +11,6 @@ import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { UploadImg } from "../../API/HostURL";
-import KarigarQAPdf from "../Pdf/KarigarQAPdf";
 import Swal from "sweetalert2";
 
 const RentalIssue = () => {
@@ -63,6 +62,7 @@ const RentalIssue = () => {
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
 
+  console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("retunTableData==>", retunTableData);
   console.log("existedUserData==>", existedUserData);
 
@@ -741,7 +741,7 @@ const RentalIssue = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
-              <KarigarQAPdf />
+              Print
             </h6>
           </div>
           <div className="col-md-3">

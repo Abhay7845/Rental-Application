@@ -696,14 +696,16 @@ const RentalIssue = () => {
             </div>
           )}
           <div className="table-responsive">
-            <button
-              className="CButton mx-1 mb-2"
-              data-bs-toggle="modal"
-              data-bs-target="#showImageModal"
-              style={{ float: "right" }}
-            >
-              Preview Image
-            </button>
+            {productImgFile.length > 0 && (
+              <button
+                className="CButton mx-1 mb-2"
+                data-bs-toggle="modal"
+                data-bs-target="#showImageModal"
+                style={{ float: "right" }}
+              >
+                Preview Image
+              </button>
+            )}
             <table className="table table-bordered table-hover border-dark">
               <thead className="table-dark border-light text-center">
                 <tr>
@@ -740,7 +742,7 @@ const RentalIssue = () => {
           </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
-              <span className="mt-1">Print Karigar QA Report</span>
+              <span className="mt-1">Karigar QA Report</span>
               Print
             </h6>
           </div>

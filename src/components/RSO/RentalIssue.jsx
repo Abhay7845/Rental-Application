@@ -12,6 +12,7 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { UploadImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
+import KarigarQAIssuePdf from "../Pdf/KarigarQAIssuePdf";
 
 const RentalIssue = () => {
   const [loading, setLoading] = useState(false);
@@ -743,7 +744,7 @@ const RentalIssue = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Karigar QA Report</span>
-              Print
+              <KarigarQAIssuePdf retunTableData={retunTableData} />
             </h6>
           </div>
           <div className="col-md-3">

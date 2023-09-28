@@ -2,18 +2,18 @@ import moment from "moment";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
-const KarigarQAReturnPdf = (props) => {
-  const { refactoreDataTable } = props;
+const KarigarQAIssuePdf = (pros) => {
+  const { retunTableData } = pros;
   const storeCode = localStorage.getItem("storeCode");
+  const RetntalIssueAQRef = useRef(null);
 
-  const RetntalReturnAQRef = useRef(null);
-  const RentalReturnQAPDF = useReactToPrint({
-    content: () => RetntalReturnAQRef.current,
+  const RentalIssueQAPDF = useReactToPrint({
+    content: () => RetntalIssueAQRef.current,
   });
 
-  const rentStartDate = refactoreDataTable.map((date) => date.rentStartDate);
+  const rentStartDate = retunTableData.map((date) => date.rentStartDate);
   const rentalDate = rentStartDate[0];
-  const packageDays = refactoreDataTable.map((date) => date.packageDays);
+  const packageDays = retunTableData.map((date) => date.packageDays);
   const SelePackage = packageDays[0];
 
   const getReturnDate = () => {
@@ -25,7 +25,7 @@ const KarigarQAReturnPdf = (props) => {
 
   return (
     <div>
-      <button onClick={RentalReturnQAPDF} className="CButton">
+      <button onClick={RentalIssueQAPDF} className="CButton">
         Print
       </button>
       <style>
@@ -48,7 +48,7 @@ const KarigarQAReturnPdf = (props) => {
             }
           `}
       </style>
-      <div ref={RetntalReturnAQRef} className="margin-on-ps hide-on-screen">
+      <div ref={RetntalIssueAQRef} className="margin-on-ps hide-on-screen">
         <table
           className="table table-bordered border-dark"
           style={{ fontSize: "12px" }}
@@ -59,7 +59,7 @@ const KarigarQAReturnPdf = (props) => {
                 Product Quality Checklist
               </th>
             </tr>
-            {refactoreDataTable.map((data, i) => {
+            {retunTableData.map((data, i) => {
               return (
                 <>
                   <tr>
@@ -322,4 +322,4 @@ const KarigarQAReturnPdf = (props) => {
   );
 };
 
-export default KarigarQAReturnPdf;
+export default KarigarQAIssuePdf;

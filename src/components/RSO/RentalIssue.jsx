@@ -488,6 +488,7 @@ const RentalIssue = () => {
             document.getElementById("QAfile").value = "";
             document.getElementById("karetfile").value = "";
             navigate("/home");
+            localStorage.removeItem("selecttedReturnProduct");
           }
           setLoading(false);
         })

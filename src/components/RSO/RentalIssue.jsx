@@ -46,7 +46,7 @@ const RentalIssue = () => {
   const [sameCustFile, setSameCustFile] = useState([]);
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
-  const [inputValues, setInputValues] = useState({});
+  const [inputValues, setInputValues] = useState([]);
   const [inputFile, setInputFile] = useState({});
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
 
@@ -67,7 +67,7 @@ const RentalIssue = () => {
 
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("retunTableData==>", retunTableData);
-  console.log("existedUserData==>", existedUserData);
+  console.log("inputValues==>", inputValues.length);
 
   const GetActualWtAtDlr = (e) => {
     const { name, value } = e.target;
@@ -436,9 +436,10 @@ const RentalIssue = () => {
       !RSOName ||
       !karateMtrFileName ||
       !karigarQAFileName ||
+      inputValues.length === 0 ||
       productFileName.length <= 0
     ) {
-      alert("Please Enter RSO Name & Uplaod Files");
+      alert("Please Enter Product Actual Wt, Uplaod Files & RSO Name");
     } else if (
       !existedUserData.customerAccountNumber ||
       !existedUserData.bankIfsc
@@ -700,16 +701,6 @@ const RentalIssue = () => {
             </div>
           )}
           <div className="table-responsive">
-            {productImgFile.length > 0 && (
-              <button
-                className="CButton mx-1 mb-2"
-                data-bs-toggle="modal"
-                data-bs-target="#showImageModal"
-                style={{ float: "right" }}
-              >
-                Preview Image
-              </button>
-            )}
             <table className="table table-bordered table-hover border-dark">
               <thead className="table-dark border-light text-center">
                 <tr>
@@ -744,6 +735,18 @@ const RentalIssue = () => {
               </tbody>
             </table>
           </div>
+          {productImgFile.length > 0 && (
+            <div className="d-flex justify-content-end mt-0">
+              <button
+                className="CButton mx-1 mb-2"
+                data-bs-toggle="modal"
+                data-bs-target="#showImageModal"
+                style={{ float: "right" }}
+              >
+                Preview Image
+              </button>
+            </div>
+          )}
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Karigar QA Report</span>

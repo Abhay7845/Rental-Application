@@ -67,10 +67,10 @@ const RentalIssue = () => {
 
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("retunTableData==>", retunTableData);
-  console.log("inputValues==>", inputValues.length);
 
   const GetActualWtAtDlr = (e) => {
     const { name, value } = e.target;
+
     setInputValues({
       ...inputValues,
       [name]: value,

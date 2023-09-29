@@ -145,7 +145,7 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_Issuance") {
       setCollectedAmount(Math.round(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
-      setBookedStatus("Issued. Rental Period");
+      setBookedStatus("Issued_Rental_Period");
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setCollectedAmount(Math.round(rentValue));

@@ -52,6 +52,25 @@ const Home = () => {
       confirmButtonText: "OK",
     });
   };
+  const ShowCancellationAlert = () => {
+    Swal.fire({
+      title:
+        "The Selected Booking is Cancelled & No further action is Possible.",
+      text: `Select "Book Now" for New Booking and Click On "Cancel" to Go Back.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008080",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Book Now",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/products/details");
+      }
+      if (result.isConfirmed === false) {
+        setSelecttedProduct({});
+      }
+    });
+  };
 
   const Status = !selecttedProduct.status ? "" : selecttedProduct.status;
   const statusPending = Status.substring(0, 18);
@@ -108,6 +127,7 @@ const Home = () => {
     );
     navigate("/rental/return");
   };
+  console.log("Status==>", Status);
 
   return (
     <div>
@@ -178,42 +198,73 @@ const Home = () => {
               </tbody>
             </table>
           </div>
-          {statusPending === "Payment_PendingFor" ? (
-            <span>{ShowPending()}</span>
+          {statusPending === "Payment_PendingFor" ||
+          Status === "Cancellation_After_Booking" ? (
+            <div>
+              {ShowPending()}
+              <span>
+                {Status === "Cancellation_After_Booking" &&
+                  ShowCancellationAlert()}
+              </span>
+            </div>
           ) : (
-            <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
-              <button
-                type="button"
-                className={Status === "Booked" ? "CancelButton" : "CnDisabled"}
-                disabled={Status === "Booked" ? false : true}
-                onClick={CancelProducts}
-              >
-                Cancel Booking
-              </button>
-              <button
-                type="button"
-                className={
-                  currentDate >= rentalDate && Status === "Booked"
-                    ? "CButton mx-2"
-                    : "CDisabled mx-2"
-                }
-                disabled={
-                  currentDate >= rentalDate && Status === "Booked"
-                    ? false
-                    : true
-                }
-                onClick={RentalIssueProducts}
-              >
-                Rental Issue
-              </button>
-              <button
-                type="button"
-                className={Status === "ProductIssued" ? "CButton" : "CDisabled"}
-                // disabled={Status === "ProductIssued" ? false : true}
-                onClick={RentalRetunProducts}
-              >
-                Rental Return
-              </button>
+            <div>
+              {Status === "Cancellation_After_Booking" ? (
+                <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
+                  <button
+                    type="button"
+                    className={
+                      Status === "Booked" || Status === "Issued_Rental_Period"
+                        ? "CancelButton"
+                        : "CnDisabled"
+                    }
+                    disabled={
+                      Status === "Booked" || Status === "Issued_Rental_Period"
+                        ? false
+                        : true
+                    }
+                    onClick={CancelProducts}
+                  >
+                    Cancel Booking
+                  </button>
+                  <button
+                    type="button"
+                    className={
+                      currentDate >= rentalDate && Status === "Booked"
+                        ? "CButton mx-2"
+                        : "CDisabled mx-2"
+                    }
+                    disabled={
+                      currentDate >= rentalDate && Status === "Booked"
+                        ? false
+                        : true
+                    }
+                    onClick={RentalIssueProducts}
+                  >
+                    Rental Issue
+                  </button>
+                  <button
+                    type="button"
+                    className={
+                      Status === "ProductIssued" ||
+                      Status === "Issued_Rental_Period"
+                        ? "CButton"
+                        : "CDisabled"
+                    }
+                    disabled={
+                      Status === "ProductIssued" ||
+                      Status === "Issued_Rental_Period"
+                        ? false
+                        : true
+                    }
+                    onClick={RentalRetunProducts}
+                  >
+                    Rental Return
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           )}
         </div>

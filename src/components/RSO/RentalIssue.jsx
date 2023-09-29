@@ -316,6 +316,7 @@ const RentalIssue = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
+          setKarigarQAFileName(QAFilepdf);
           alert("Uploaded Successfully");
           setKarigarQAFile([]);
         }
@@ -334,7 +335,6 @@ const RentalIssue = () => {
       const formData = new FormData();
       const fileExtention = karigarQAFile.name.split(".");
       const QAFilepdf = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
-      setKarigarQAFileName(QAFilepdf);
       formData.append("ImgName", QAFilepdf);
       formData.append("files", karigarQAFile);
       axios

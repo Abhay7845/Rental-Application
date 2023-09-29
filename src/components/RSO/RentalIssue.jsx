@@ -10,7 +10,7 @@ import moment from "moment";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
-import { UploadImg } from "../../API/HostURL";
+import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
 import KarigarQAIssuePdf from "../Pdf/KarigarQAIssuePdf";
 import { useNavigate } from "react-router-dom";
@@ -297,6 +297,35 @@ const RentalIssue = () => {
     }
   };
 
+  const UploadKarigarQAPdf = (QAFilepdf) => {
+    const UpdateKarigarQAPdf = {
+      bookingRefId: refId,
+      contentFor: "KrigarQAReportsPdf",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "",
+      fileName: QAFilepdf,
+      fileSize: `${karigarQAFile.size}`,
+      fileType: `${karigarQAFile.type}`,
+      fileURL: `${FetchImg}${QAFilepdf}`,
+      updatedDate: null,
+    };
+    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          alert("Uploaded Successfully");
+          setKarigarQAFile([]);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
   const UploadKarigarQA = () => {
     if (karigarQAFile.length === 0) {
       alert("Please Upload Karigar QA Report");
@@ -304,9 +333,9 @@ const RentalIssue = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = karigarQAFile.name.split(".");
-      const QAFile = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
-      setKarigarQAFileName(QAFile);
-      formData.append("ImgName", QAFile);
+      const QAFilepdf = `${existedUserData.mobileNo}${bookingDate}${RandomDigit}.${fileExtention[1]}`;
+      setKarigarQAFileName(QAFilepdf);
+      formData.append("ImgName", QAFilepdf);
       formData.append("files", karigarQAFile);
       axios
         .post(`${UploadImg}`, formData, {
@@ -316,6 +345,7 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
+            UploadKarigarQAPdf(QAFilepdf);
             const reader = new FileReader();
             reader.onloadend = () => {
               setKarigarQAUrl(reader.result);
@@ -323,8 +353,6 @@ const RentalIssue = () => {
             if (karigarQAFile) {
               reader.readAsDataURL(karigarQAFile);
             }
-            alert("File Uploaded Successfully");
-            setKarigarQAFile([]);
           }
           setLoading(false);
         })
@@ -335,6 +363,34 @@ const RentalIssue = () => {
     }
   };
 
+  const UploadKarateMeterPdf = (karateMtr) => {
+    const UpdateKaratemeterQAPdf = {
+      bookingRefId: refId,
+      contentFor: "KarateMeterReportsPdf",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "",
+      fileName: karateMtr,
+      fileSize: `${karateMtrFile.size}`,
+      fileType: `${karateMtrFile.type}`,
+      fileURL: `${FetchImg}${karateMtr}`,
+      updatedDate: null,
+    };
+    console.log("UpdateKaratemeterQAPdf==>", UpdateKaratemeterQAPdf);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, UpdateKaratemeterQAPdf)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          alert("Uploaded Successfully");
+          setKarateMtrFile([]);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UploadKarateMtr = () => {
     if (karateMtrFile.length === 0) {
       alert("Please Upload Karate Meter Report");
@@ -354,6 +410,7 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("response==>", response);
           if (response.data) {
+            UploadKarateMeterPdf(karateMtr);
             const reader = new FileReader();
             reader.onloadend = () => {
               setKaretMtrUrl(reader.result);
@@ -361,8 +418,6 @@ const RentalIssue = () => {
             if (karateMtrFile) {
               reader.readAsDataURL(karateMtrFile);
             }
-            alert("File Uploaded Successfully");
-            setKarateMtrFile([]);
           }
           setLoading(false);
         })

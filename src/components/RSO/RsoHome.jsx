@@ -208,63 +208,57 @@ const Home = () => {
               </span>
             </div>
           ) : (
-            <div>
-              {Status === "Cancellation_After_Booking" ? (
-                <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
-                  <button
-                    type="button"
-                    className={
-                      Status === "Booked" || Status === "Issued_Rental_Period"
-                        ? "CancelButton"
-                        : "CnDisabled"
-                    }
-                    disabled={
-                      Status === "Booked" || Status === "Issued_Rental_Period"
-                        ? false
-                        : true
-                    }
-                    onClick={CancelProducts}
-                  >
-                    Cancel Booking
-                  </button>
-                  <button
-                    type="button"
-                    className={
-                      currentDate >= rentalDate && Status === "Booked"
-                        ? "CButton mx-2"
-                        : "CDisabled mx-2"
-                    }
-                    disabled={
-                      currentDate >= rentalDate && Status === "Booked"
-                        ? false
-                        : true
-                    }
-                    onClick={RentalIssueProducts}
-                  >
-                    Rental Issue
-                  </button>
-                  <button
-                    type="button"
-                    className={
-                      Status === "ProductIssued" ||
-                      Status === "Issued_Rental_Period"
-                        ? "CButton"
-                        : "CDisabled"
-                    }
-                    disabled={
-                      Status === "ProductIssued" ||
-                      Status === "Issued_Rental_Period"
-                        ? false
-                        : true
-                    }
-                    onClick={RentalRetunProducts}
-                  >
-                    Rental Return
-                  </button>
-                </div>
-              ) : (
-                ""
-              )}
+            <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
+              <button
+                type="button"
+                className={
+                  Status === "Booked" || Status === "Issued_Rental_Period"
+                    ? "CancelButton"
+                    : "CnDisabled"
+                }
+                disabled={
+                  Status === "Booked" || Status === "Issued_Rental_Period"
+                    ? false
+                    : true
+                }
+                onClick={CancelProducts}
+              >
+                Cancel Booking
+              </button>
+              <button
+                type="button"
+                className={
+                  currentDate >= rentalDate && Status === "Booked"
+                    ? "CButton mx-2"
+                    : "CDisabled mx-2"
+                }
+                disabled={
+                  currentDate >= rentalDate && Status === "Booked"
+                    ? false
+                    : true
+                }
+                onClick={RentalIssueProducts}
+              >
+                Rental Issue
+              </button>
+              <button
+                type="button"
+                className={
+                  Status === "ProductIssued" ||
+                  Status === "Issued_Rental_Period"
+                    ? "CButton"
+                    : "CDisabled"
+                }
+                disabled={
+                  Status === "ProductIssued" ||
+                  Status === "Issued_Rental_Period"
+                    ? false
+                    : true
+                }
+                onClick={RentalRetunProducts}
+              >
+                Rental Return
+              </button>
             </div>
           )}
         </div>

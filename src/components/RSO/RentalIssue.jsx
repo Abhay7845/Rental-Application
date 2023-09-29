@@ -13,6 +13,7 @@ import Loader from "../common/Loader";
 import { UploadImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
 import KarigarQAIssuePdf from "../Pdf/KarigarQAIssuePdf";
+import { useNavigate } from "react-router-dom";
 
 const RentalIssue = () => {
   const [loading, setLoading] = useState(false);
@@ -62,12 +63,13 @@ const RentalIssue = () => {
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+  const navigate = useNavigate();
 
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("retunTableData==>", retunTableData);
   console.log("existedUserData==>", existedUserData);
 
-  const GetActualWtAtDlr = (e, item) => {
+  const GetActualWtAtDlr = (e) => {
     const { name, value } = e.target;
     setInputValues({
       ...inputValues,
@@ -484,6 +486,7 @@ const RentalIssue = () => {
             setKarigarQAUrl("");
             document.getElementById("QAfile").value = "";
             document.getElementById("karetfile").value = "";
+            navigate("/home");
           }
           setLoading(false);
         })

@@ -300,9 +300,9 @@ const RentalIssue = () => {
   const UploadKarigarQAPdf = (QAFilepdf) => {
     const UpdateKarigarQAPdf = {
       bookingRefId: refId,
-      contentFor: "KrigarQAReportsPdf",
+      contentFor: "Issue",
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "",
+      documentType: "KrigarQAReportsPdf",
       fileName: QAFilepdf,
       fileSize: `${karigarQAFile.size}`,
       fileType: `${karigarQAFile.type}`,
@@ -366,9 +366,9 @@ const RentalIssue = () => {
   const UploadKarateMeterPdf = (karateMtr) => {
     const UpdateKaratemeterQAPdf = {
       bookingRefId: refId,
-      contentFor: "KarateMeterReportsPdf",
+      contentFor: "Issue",
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "",
+      documentType: "KarateMeterReportsPdf",
       fileName: karateMtr,
       fileSize: `${karateMtrFile.size}`,
       fileType: `${karateMtrFile.type}`,

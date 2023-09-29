@@ -80,9 +80,8 @@ const NewCustomer = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = choosePan.name.split(".")[1];
-      const PanCardFileName = `${PANNumber}${miliSecond}${last4Phoneno}.${fileExtention}`;
-      setPanCardFileName(PanCardFileName);
-      formData.append("ImgName", PanCardFileName);
+      const panCardFileName = `${PANNumber}${miliSecond}${last4Phoneno}.${fileExtention}`;
+      formData.append("ImgName", panCardFileName);
       formData.append("files", choosePan);
       axios
         .post(`${UploadImg}`, formData, {
@@ -92,6 +91,7 @@ const NewCustomer = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data) {
+            setPanCardFileName(panCardFileName);
             const reader = new FileReader();
             reader.onloadend = () => {
               setPanFile(reader.result);

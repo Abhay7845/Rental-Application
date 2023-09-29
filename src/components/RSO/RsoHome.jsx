@@ -215,11 +215,11 @@ const Home = () => {
                     ? "CancelButton"
                     : "CnDisabled"
                 }
-                // disabled={
-                //   Status === "Booked" || Status === "Issued_Rental_Period"
-                //     ? false
-                //     : true
-                // }
+                disabled={
+                  Status === "Booked" || Status === "Issued_Rental_Period"
+                    ? false
+                    : true
+                }
                 onClick={CancelProducts}
               >
                 Cancel Booking
@@ -231,11 +231,11 @@ const Home = () => {
                     ? "CButton mx-2"
                     : "CDisabled mx-2"
                 }
-                // disabled={
-                //   currentDate >= rentalDate && Status === "Booked"
-                //     ? false
-                //     : true
-                // }
+                disabled={
+                  currentDate >= rentalDate && Status === "Booked"
+                    ? false
+                    : true
+                }
                 onClick={RentalIssueProducts}
               >
                 Rental Issue
@@ -248,12 +248,12 @@ const Home = () => {
                     ? "CButton"
                     : "CDisabled"
                 }
-                // disabled={
-                //   Status === "ProductIssued" ||
-                //   Status === "Issued_Rental_Period"
-                //     ? false
-                //     : true
-                // }
+                disabled={
+                  Status === "ProductIssued" ||
+                  Status === "Issued_Rental_Period"
+                    ? false
+                    : true
+                }
                 onClick={RentalRetunProducts}
               >
                 Rental Return

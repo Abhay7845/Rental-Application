@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import {
   AddedTocCart,
@@ -27,16 +27,14 @@ const ProductsDetails = () => {
   const [goToCart, setGoToCart] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [wishList, setWishList] = useState(false);
-  const [thresHoldValue, setThresHoldValue] = useState(false);
-
+  const [thresholdLimit, setThresholdLimit] = useState("");
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
-  const currentDate = new Date();
-  const toDayDate = moment(currentDate).format("YYYY-MM-DD");
+
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
-
-  console.log("payload==>", payload);
+  const currentDate = new Date();
+  const toDayDate = moment(currentDate).format("YYYY-MM-DD");
 
   const ReturnEndDate = () => {
     const nextDate = new Date(payload.bookingDate);
@@ -78,6 +76,21 @@ const ProductsDetails = () => {
       });
   };
 
+  const CheckThresholdMilimt = (payload) => {
+    axios
+      .get(`${HOST_URL}/get/threshold/value/${payload.customerType}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setThresholdLimit(parseInt(response.data.value.limit));
+        }
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  };
+
   const CheckAvaiblity = (payload) => {
     localStorage.setItem("custType", payload.customerType);
     localStorage.setItem("packageDays", payload.packageDays);
@@ -103,6 +116,7 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
+          CheckThresholdMilimt(payload);
         }
         setLoading(false);
         payload.itemCode = "";
@@ -219,7 +233,6 @@ const ProductsDetails = () => {
     payload.packageDays = "";
     payload.customerType = "";
   };
-  const thresholdLimit = parseInt(thresHoldValue.limit) * 100000;
 
   const InsertTableCalendar = (tempId) => {
     const CanlendarInputs = goToCart.map((data) => {
@@ -254,7 +267,7 @@ const ProductsDetails = () => {
   };
 
   const ContinueToBooking = () => {
-    if (thresholdLimit < SumOfTProductValue()) {
+    if (thresholdLimit < parseInt(SumOfTProductValue())) {
       alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
     } else {
       setLoading(true);
@@ -278,24 +291,6 @@ const ProductsDetails = () => {
         });
     }
   };
-
-  // THRESHOLD LIMIT API CALL
-  useEffect(() => {
-    if (payload.customerType) {
-      axios
-        .get(`${HOST_URL}/get/threshold/value/${payload.customerType}`)
-        .then((res) => res)
-        .then((response) => {
-          if (response.data.code === "1000") {
-            setThresHoldValue(response.data.value);
-          }
-        })
-        .catch((error) => {
-          console.log("error=>", error);
-          setLoading(false);
-        });
-    }
-  }, [payload.customerType]);
 
   return (
     <div>

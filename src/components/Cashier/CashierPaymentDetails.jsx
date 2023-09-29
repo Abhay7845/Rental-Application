@@ -837,7 +837,7 @@ const CashierPaymentDetails = () => {
             )}
             <div className="col-12 d-flex justify-content-between mb-4">
               <button className="CButton" onClick={GetPhoneOTP}>
-                {Otp ? "Send Again" : "Get OTP"}
+                Get OTP
               </button>
               <button className="CButton" onClick={SubmitPaymentDetails}>
                 {paymentRequestFor ===

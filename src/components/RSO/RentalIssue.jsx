@@ -432,7 +432,7 @@ const RentalIssue = () => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${refId}/${tempBookingRefNo}`
+        `${HOST_URL}/fetch/table/common/data/${storeCode}/""/${refId}/${tempBookingRefNo}`
       )
       .then((res) => res)
       .then((response) => {

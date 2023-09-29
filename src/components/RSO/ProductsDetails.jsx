@@ -67,6 +67,8 @@ const ProductsDetails = () => {
         console.log("GetProductsResponse==>", response.data);
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
+        } else if (response.data.code === "1001") {
+          alert("Data Not Found");
         }
         setLoading(false);
       })

@@ -92,7 +92,7 @@ const CashierPaymentDetails = () => {
     setLoading(true);
     axios
       .get(
-        `${HOST_URL}/fetch/table/common/data/MAMTHA/""/${paymentDetails.tempBookingRef}`
+        `${HOST_URL}/fetch/table/common/data/${storeCode}/""/${paymentDetails.tempBookingRef}`
       )
       .then((res) => res)
       .then((response) => {

@@ -210,16 +210,8 @@ const Home = () => {
             <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
               <button
                 type="button"
-                className={
-                  Status === "Booked" || Status === "Issued_Rental_Period"
-                    ? "CancelButton"
-                    : "CnDisabled"
-                }
-                disabled={
-                  Status === "Booked" || Status === "Issued_Rental_Period"
-                    ? false
-                    : true
-                }
+                className={Status === "Booked" ? "CancelButton" : "CnDisabled"}
+                disabled={Status === "Booked" ? false : true}
                 onClick={CancelProducts}
               >
                 Cancel Booking

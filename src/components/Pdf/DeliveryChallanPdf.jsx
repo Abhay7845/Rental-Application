@@ -9,7 +9,13 @@ const DeliveryChallanPdf = (props) => {
   const DeliveryChalanPDF = useReactToPrint({
     content: () => DeliveryChalanRef.current,
   });
-  const { savePaymetRow, existedUserData, addedPdts, paymentDetails } = props;
+  const {
+    savePaymetRow,
+    existedUserData,
+    addedPdts,
+    paymentDetails,
+    storeDetails,
+  } = props;
   const CutometProfileNo = addedPdts.map((data) => data.custId);
 
   // TOTAL BOOKING CHARGES
@@ -26,6 +32,7 @@ const DeliveryChallanPdf = (props) => {
     for (let num of TAmount) total = total + num;
     return total;
   };
+  console.log("storeDetails==>", storeDetails);
   return (
     <div>
       <div>

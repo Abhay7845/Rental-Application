@@ -26,6 +26,7 @@ const CashierPaymentDetails = () => {
   const bookingRefID = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [searchValue, setSearchValue] = useState("");
   const [getPaymentData, setGetPaymentData] = useState([]);
+  const [storeDetails, setStoreDetails] = useState({});
   const [addedPdts, setAddedPdts] = useState([]);
   const [paymentDetails, setPaymentDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
@@ -74,6 +75,18 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    axios
+      .get(`${HOST_URL}/store/details/for/pdf/${storeCode}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setStoreDetails(response.data.value);
+        }
+      })
+      .catch((error) => console.log("error==>", error));
+  }, [storeCode]);
 
   useEffect(() => {
     setLoading(true);
@@ -678,6 +691,7 @@ const CashierPaymentDetails = () => {
                       existedUserData={existedUserData}
                       addedPdts={addedPdts}
                       bookingRefID={bookingRefID}
+                      storeDetails={storeDetails}
                     />
                   </h6>
                 </div>
@@ -737,6 +751,7 @@ const CashierPaymentDetails = () => {
                         existedUserData={existedUserData}
                         addedPdts={addedPdts}
                         paymentDetails={paymentDetails}
+                        storeDetails={storeDetails}
                       />
                     )}
                   </h6>

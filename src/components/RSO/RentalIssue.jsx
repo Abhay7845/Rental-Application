@@ -666,7 +666,7 @@ const RentalIssue = () => {
                               placeholder="Actual Wt At Delivery"
                               name={i}
                               defaultValue={inputValues[i]}
-                              onChange={(e) => GetActualWtAtDlr(e, item)}
+                              onChange={GetActualWtAtDlr}
                             />
                           </td>
                         </tr>

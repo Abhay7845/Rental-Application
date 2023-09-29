@@ -16,6 +16,7 @@ import moment from "moment/moment";
 import { useEffect } from "react";
 import BookingPdf from "../Pdf/BookingPdf";
 import CancelationPdf from "../Pdf/CancelationPdf";
+import DeliveryChallanPdf from "../Pdf/DeliveryChallanPdf";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,6 @@ const CashierPaymentDetails = () => {
     paymentDetails;
 
   console.log("getPaymentData==>", getPaymentData);
-  console.log("existedUserData==>", existedUserData);
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -731,7 +731,14 @@ const CashierPaymentDetails = () => {
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Print - Delivery Challan</span>
-                    <PaymentTnCPdf />
+                    {addedPdts.length > 0 && (
+                      <DeliveryChallanPdf
+                        savePaymetRow={savePaymetRow}
+                        existedUserData={existedUserData}
+                        addedPdts={addedPdts}
+                        paymentDetails={paymentDetails}
+                      />
+                    )}
                   </h6>
                 </div>
                 <div className="input-group">

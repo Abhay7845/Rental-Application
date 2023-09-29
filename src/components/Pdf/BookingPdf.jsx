@@ -146,12 +146,12 @@ const BookingPdf = (props) => {
                 <td colSpan="3">
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
-                      <b>GST NO: ACGFRDGG1235</b>
-                      <b>State: Karnatka</b>
+                      <b>GST NO:-</b>
+                      <b>State:-</b>
                       <b>Place of Supply: Bangluru</b>
                     </div>
                     <div className="d-flex flex-column space-in-pdf-two">
-                      <b>PAN: ABCDE1234F</b>
+                      <b>PAN:-</b>
                       <b>State Code: 27</b>
                     </div>
                   </div>
@@ -180,8 +180,6 @@ const BookingPdf = (props) => {
                     <div className="d-flex flex-column">
                       <b>Customer Profile Number:-{existedUserData.custId}</b>
                       <b>PAN: {existedUserData.panCardNo}</b>
-                      <b>GST No.:- </b>
-                      <b>State Code:-</b>
                     </div>
                   </div>
                 </td>

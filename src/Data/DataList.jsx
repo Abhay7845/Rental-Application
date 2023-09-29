@@ -105,12 +105,15 @@ export const AddedTocCart = [
   "DAMAGE_PROTECTION_AMOUNT",
 ];
 export const DeliveryListHearders = [
+  "SR.NO",
   "ITEMCODE",
-  "DISCRIPTIONS",
+  "LOT NO",
+  "DESCRIPTION",
   "GROSS WT.",
-  "NET WT.",
+  "GROSS WT AT DELIVERY",
+  "NUMBER OF DAYS",
   "BASE PRICE",
-  "HSN/SAC",
+  "DAMAGE PROTECTION AMOUNT",
 ];
 
 export const FinalInvoicePdfHeaders = [
@@ -137,7 +140,7 @@ export const PaymentHeading1 = [
 ];
 export const PaymentHeading2 = [
   "PAYMENT_FOR",
-  "PAYMENT_TYPE(*)",
+  "PAYMENT_MODE(*)",
   "PAYMENT_REF_NO.(*)",
   "AMOUNT(*)",
   "FILE(*)",

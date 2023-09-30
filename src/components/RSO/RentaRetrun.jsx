@@ -323,6 +323,29 @@ const RentalReturn = () => {
     });
   };
 
+  const TnxStatusUpdate = (bookingId) => {
+    axios
+      .get(
+        `${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_RentalReturn`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Product Returned Successfully",
+            text: "Please reach out to the Cashier to complete the payment process",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+          navigate("/home");
+        }
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+      });
+  };
+
   const RaiseClouseRequest = () => {
     if (!RSOName || karigarQAFile.length === 0) {
       alert("Please Enter RSO Name & Upload Print File");
@@ -335,7 +358,7 @@ const RentalReturn = () => {
         closeRentalAgreementUpload: "",
         createdDate: null,
         customerName: sameCustomer ? "" : sameCustName,
-        despId: "3",
+        despId: "0",
         factoryQARequired: checkedQA ? "YES" : "NO",
         idFileName: sameCustomer ? "" : sameCutIDFileName,
         idNumber: sameCustomer ? "" : sameCustIDNo,
@@ -358,14 +381,7 @@ const RentalReturn = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            Swal.fire({
-              title: "Product Returned Successfully",
-              text: "Please reach out to the Cashier to complete the payment process",
-              icon: "success",
-              confirmButtonColor: "#008080",
-              confirmButtonText: "OK",
-            });
-            navigate("/home");
+            TnxStatusUpdate(totalPaidAmount.bookingId);
           }
           setLoading(false);
         })

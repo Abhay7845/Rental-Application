@@ -195,7 +195,9 @@ const CashierPaymentDetails = () => {
       setBookingGenNo(bookingRefID);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-      setCollectedAmount(Math.round(rentValue));
+      setCollectedAmount(
+        Math.round(refundValue === "" ? 0 : parseInt(refundValue))
+      );
       setAlertMessage("Item Return Successfully");
       setBookedStatus("Product Retuned");
       setAmontErrMassage("Total Amount Not Equal to Rental Retuan");

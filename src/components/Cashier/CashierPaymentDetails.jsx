@@ -24,6 +24,7 @@ const CashierPaymentDetails = () => {
   const currentDate = moment().format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const bookingRefID = `${storeCode}-R-${currentDate}-${RandomDigit}`;
+  const [bookingGenNo, setBookingGenNo] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [getPaymentData, setGetPaymentData] = useState([]);
   const [storeDetails, setStoreDetails] = useState({});
@@ -35,7 +36,6 @@ const CashierPaymentDetails = () => {
   const [alertMessage, setAlertMessage] = useState();
   const [bookedStatus, setBookedStatus] = useState("");
   const [amontErrMassage, setAmontErrMassage] = useState("");
-  const [bookingGenNo, setBookingGenNo] = useState("");
   const [regUserData, setRegUserData] = useState([]);
 
   const { paymentRequestFor, rentValue, refundValue, depositValue } =
@@ -353,7 +353,7 @@ const CashierPaymentDetails = () => {
 
   const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
-      bookingRefId: bookingRefID,
+      bookingRefId: bookingGenNo,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: !documentType ? dlrChalalnFileName : documentType,
@@ -731,7 +731,7 @@ const CashierPaymentDetails = () => {
                         savePaymetRow={savePaymetRow}
                         existedUserData={existedUserData}
                         addedPdts={addedPdts}
-                        bookingRefID={bookingRefID}
+                        bookingRefID={bookingGenNo}
                         storeDetails={storeDetails}
                         regUserData={regUserData}
                       />
@@ -796,7 +796,7 @@ const CashierPaymentDetails = () => {
                         paymentDetails={paymentDetails}
                         storeDetails={storeDetails}
                         regUserData={regUserData}
-                        bookingRefID={bookingRefID}
+                        bookingRefID={bookingGenNo}
                       />
                     )}
                   </h6>

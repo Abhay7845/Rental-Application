@@ -50,6 +50,8 @@ const RentalIssue = () => {
   const [inputFile, setInputFile] = useState({});
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
 
+  console.log("karigarQAFile==>", karigarQAFile);
+
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const {
@@ -816,6 +818,7 @@ const RentalIssue = () => {
               type="file"
               id="QAfile"
               className="form-control"
+              multiple
               onChange={(e) => setKarigarQAFile(e.target.files[0])}
             />
           </div>
@@ -835,6 +838,7 @@ const RentalIssue = () => {
             <input
               type="file"
               id="karetfile"
+              multiple
               className="form-control"
               onChange={(e) => setKarateMtrFile(e.target.files[0])}
             />

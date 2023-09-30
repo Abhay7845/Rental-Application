@@ -34,10 +34,15 @@ const CashierPaymentDetails = () => {
   const [collectedAmount, setCollectedAmount] = useState();
   const [alertMessage, setAlertMessage] = useState();
   const [bookedStatus, setBookedStatus] = useState("");
+  const [amontErrMassage, setAmontErrMassage] = useState("");
+  const [bookingGenNo, setBookingGenNo] = useState("");
+  const [regUserData, setRegUserData] = useState([]);
+
   const { paymentRequestFor, rentValue, refundValue, depositValue } =
     paymentDetails;
 
   console.log("getPaymentData==>", getPaymentData);
+  console.log("bookingGenNo==>", bookingGenNo);
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -88,6 +93,23 @@ const CashierPaymentDetails = () => {
       .catch((error) => console.log("error==>", error));
   }, [storeCode]);
 
+  const GetRegistreUserData = () => {
+    axios
+      .get(
+        `${HOST_URL}/get/booking/details/${storeCode}/Mobile_No/${searchValue}`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setRegUserData(response.data.value);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -124,6 +146,7 @@ const CashierPaymentDetails = () => {
           );
           setGetPaymentData(PendingStatusData);
           FetchUserDetails(searchValue);
+          GetRegistreUserData();
         }
         if (response.data.code === "1001") {
           setGetPaymentData({});
@@ -154,23 +177,38 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(parseFloat(refundValue));
       setAlertMessage("Booking Successfully Cancelled");
       setBookedStatus("Cancellation_After_Booking");
+      setAmontErrMassage("Total Amount Not Equal to Net Cancellation Charges");
+      setBookingGenNo(paymentDetails.bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_Issuance") {
       setCollectedAmount(Math.round(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
+      setAmontErrMassage("Total Amount Not Equal to Damage Protection Charge");
+      setBookingGenNo(paymentDetails.bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setCollectedAmount(Math.round(rentValue));
       setAlertMessage("Payment Submited Successfully and Order Booked");
       setBookedStatus("Booked");
+      setAmontErrMassage("Total Amount Not Equal to Rental Amount");
+      setBookingGenNo(bookingRefID);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(Math.round(rentValue));
       setAlertMessage("Item Return Successfully");
       setBookedStatus("Product Retuned");
+      setAmontErrMassage("Total Amount Not Equal to Rental Retuan");
+      setBookingGenNo(paymentDetails.bookingRefNo);
     }
-  }, [rentValue, paymentRequestFor, depositValue, refundValue]);
+  }, [
+    rentValue,
+    paymentRequestFor,
+    depositValue,
+    refundValue,
+    bookingRefID,
+    paymentDetails.bookingRefNo,
+  ]);
 
   const AddPaymentRows = () => {
     setCount(count + 1);
@@ -184,7 +222,7 @@ const CashierPaymentDetails = () => {
       const savePaymentDetails = {
         id: paymentRowId,
         amount: Math.round(amount),
-        bookingId: parseInt(paymentDetails.bookingId),
+        bookingRefId: parseInt(paymentDetails.bookingId),
         createDate: null,
         fileName: fileName,
         paymentFor: paymentRequestFor,
@@ -201,7 +239,7 @@ const CashierPaymentDetails = () => {
 
   const PaymentFileImage = (UploadFileName) => {
     const paymentUploadFile = {
-      bookingRefId: bookingRefID,
+      bookingRefId: bookingGenNo,
       contentFor: "newBooking",
       createdDate: currentDate,
       documentType: "PaymentDocument",
@@ -226,6 +264,7 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+
   const UploadPaymentFile = () => {
     if (fileUpload.length === 0) {
       alert("Please Upload Payment Receipt");
@@ -403,7 +442,7 @@ const CashierPaymentDetails = () => {
 
   const CompletePayment = () => {
     const submitPaymentData = {
-      bookingRefNo: bookingRefID,
+      bookingRefNo: paymentDetails.bookingId,
       cashierName: cashierName,
       status: bookedStatus,
       tempRefNo: paymentDetails.tempBookingRef,
@@ -432,6 +471,7 @@ const CashierPaymentDetails = () => {
           setPrintFile([]);
           setDeliveryChallan([]);
           setCollectedAmount(0);
+          setVerifiedOtp(false);
         }
       })
       .then((error) => {
@@ -463,7 +503,7 @@ const CashierPaymentDetails = () => {
       if (collectedAmount === parseInt(TotalAmount)) {
         CallPaymentAPI();
       } else {
-        alert("Total Amount Not Equal to Rental Amount");
+        alert(amontErrMassage);
       }
     }
   };
@@ -686,13 +726,16 @@ const CashierPaymentDetails = () => {
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Print Booking Confirmation</span>
-                    <BookingPdf
-                      savePaymetRow={savePaymetRow}
-                      existedUserData={existedUserData}
-                      addedPdts={addedPdts}
-                      bookingRefID={bookingRefID}
-                      storeDetails={storeDetails}
-                    />
+                    {addedPdts.length > 0 && (
+                      <BookingPdf
+                        savePaymetRow={savePaymetRow}
+                        existedUserData={existedUserData}
+                        addedPdts={addedPdts}
+                        bookingRefID={bookingRefID}
+                        storeDetails={storeDetails}
+                        regUserData={regUserData}
+                      />
+                    )}
                   </h6>
                 </div>
                 <div className="col-md-6 d-flex">
@@ -752,6 +795,8 @@ const CashierPaymentDetails = () => {
                         addedPdts={addedPdts}
                         paymentDetails={paymentDetails}
                         storeDetails={storeDetails}
+                        regUserData={regUserData}
+                        bookingRefID={bookingRefID}
                       />
                     )}
                   </h6>

@@ -15,6 +15,7 @@ const DeliveryChallanPdf = (props) => {
     addedPdts,
     paymentDetails,
     storeDetails,
+    regUserData,
   } = props;
   const CutometProfileNo = addedPdts.map((data) => data.custId);
 
@@ -32,7 +33,18 @@ const DeliveryChallanPdf = (props) => {
     for (let num of TAmount) total = total + num;
     return total;
   };
-  console.log("storeDetails==>", storeDetails);
+  const bookingDate = regUserData.map((data) => data.bookingDate);
+  const rentalDate = regUserData.map((data) => data.rentalDate);
+
+  const DateOfPic = addedPdts.map((date) => date.rentStartDate);
+  const packageDays = addedPdts.map((date) => date.packageDays);
+
+  const getReturnDate = () => {
+    const nextDate = new Date(DateOfPic[0]);
+    nextDate.setDate(nextDate.getDate() + parseInt(packageDays[0] - 1));
+    return nextDate;
+  };
+
   return (
     <div>
       <div>
@@ -74,19 +86,26 @@ const DeliveryChallanPdf = (props) => {
                     <b className="text-center">
                       <img src={TitanLogo} alt="" width="45" height="45" />
                     </b>
-                    <b>Store Address:</b>
-                    <b>Bangluru, Electronic City, 560012, Karnatka</b>
+                    <b>Store Address</b>
+                    <b>{storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="3">
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
-                      <b>Challan No:-Challan No.</b>
+                      <b>Challan No:-{paymentDetails.bookingRefNo}-D</b>
                       <b>Booking Ref No:-{paymentDetails.bookingRefNo}</b>
                     </div>
                     <div className="d-flex flex-column space-in-pdf">
                       <b>Challan Date: {moment().format("DD-MM-YYYY")}</b>
-                      <b>Booking Date: 29/08/29</b>
+                      <b>
+                        Rental Start Date:
+                        {moment(rentalDate[0]).format("DD-MM-YYYY")}
+                      </b>
+                      <b>
+                        Booking Date:
+                        {moment(bookingDate[0]).format("DD-MM-YYYY")}
+                      </b>
                     </div>
                   </div>
                 </td>
@@ -95,13 +114,13 @@ const DeliveryChallanPdf = (props) => {
                 <td colSpan="3">
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
-                      <b>GST NO:-</b>
-                      <b>State:-</b>
-                      <b>Place of Supply:-</b>
+                      <b>GST NO:-{storeDetails.gstin}</b>
+                      <b>State:-{storeDetails.state}</b>
+                      <b>Place of Supply:-{storeDetails.city}</b>
                     </div>
                     <div className="d-flex flex-column space-in-pdf-two">
-                      <b>PAN:-</b>
-                      <b>State Code: 27</b>
+                      <b>PAN:-{storeDetails.pan}</b>
+                      <b>State Code:-{storeDetails.StateCode}</b>
                     </div>
                   </div>
                 </td>
@@ -111,9 +130,18 @@ const DeliveryChallanPdf = (props) => {
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>Bill To:</b>
-                      <b>Customer Name:-{existedUserData.customerName}</b>
-                      <b>Address 1:-{existedUserData.customerAddress1}</b>
-                      <b>Address 2:-{existedUserData.customerAddress2}</b>
+                      <b>
+                        Customer Name:-
+                        {existedUserData.customerName.toUpperCase()}
+                      </b>
+                      <b>
+                        Address 1:-
+                        {existedUserData.customerAddress1.toUpperCase()}
+                      </b>
+                      <b>
+                        Address 2:-
+                        {existedUserData.customerAddress2.toUpperCase()}
+                      </b>
                       <b>PinCode:-{existedUserData.customerCityPincode}</b>
                       <b>Mobile No:- +91 {existedUserData.mobileNo}</b>
                     </div>
@@ -230,7 +258,10 @@ const DeliveryChallanPdf = (props) => {
               </tr>
               <tr>
                 <td colSpan="5">
-                  <b>Date of Return:-</b>
+                  <b>
+                    Date of Return:-
+                    {moment(getReturnDate()).format("DD-MM-YYYY")}
+                  </b>
                 </td>
               </tr>
               <tr>

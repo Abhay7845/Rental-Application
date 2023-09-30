@@ -4,7 +4,13 @@ import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { BookingOrderHearders } from "./PDFHearders";
 import moment from "moment";
 const BookingPdf = (props) => {
-  const { savePaymetRow, existedUserData, addedPdts, bookingRefID } = props;
+  const {
+    savePaymetRow,
+    existedUserData,
+    addedPdts,
+    bookingRefID,
+    regUserData,
+  } = props;
   const BookinRef = useRef(null);
   const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
 
@@ -87,6 +93,9 @@ const BookingPdf = (props) => {
     nextDate.setDate(nextDate.getDate() + parseInt(packageDays[0] - 1));
     return nextDate;
   };
+  const bookingDate = regUserData.map((data) => data.bookingDate);
+  console.log("bookingDate==>", bookingDate);
+
   return (
     <div>
       <div>

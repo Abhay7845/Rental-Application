@@ -48,7 +48,6 @@ const DeliveryChallanPdf = (props) => {
           }
             @page {
               size: A4;
-              margin:10mm;
             }
            @media print {
             .space-in-pdf {

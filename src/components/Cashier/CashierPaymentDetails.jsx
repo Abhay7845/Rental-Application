@@ -442,7 +442,7 @@ const CashierPaymentDetails = () => {
 
   const CompletePayment = () => {
     const submitPaymentData = {
-      bookingRefNo: paymentDetails.bookingId,
+      bookingRefNo: bookingGenNo,
       cashierName: cashierName,
       status: bookedStatus,
       tempRefNo: paymentDetails.tempBookingRef,

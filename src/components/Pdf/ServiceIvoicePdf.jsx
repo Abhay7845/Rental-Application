@@ -105,10 +105,8 @@ const ServiceIvoicePdf = () => {
                       className="d-flex flex-column"
                       style={{ marginRight: "10.5%" }}
                     >
-                      <b>Customer Profile Number: 784568475846</b>
+                      <b>Customer Profile No.: 784568475846</b>
                       <b>PAN: CEZPG25447G</b>
-                      <b>GST No.: ABCDFRTNG234FRT</b>
-                      <b>State Code:27</b>
                     </div>
                   </div>
                 </td>

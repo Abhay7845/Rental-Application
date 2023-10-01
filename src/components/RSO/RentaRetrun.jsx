@@ -33,7 +33,7 @@ const RentalReturn = () => {
   const [karigarQAFile, setKarigarQAFile] = useState([]);
   const [karigarQAFileUrl, setKarigarQAFileUrl] = useState("");
   // ACTUAL WT RETURN
-  const [inputRtnValues, setInputRtnValues] = useState({});
+  const [inputRtnValues, setInputRtnValues] = useState([]);
   const [inputDmgValues, setInputDmgValues] = useState({});
   const [inputPhyDmg, setInputPhyDmg] = useState({});
   const [RSOName, setRSOName] = useState("");
@@ -52,6 +52,7 @@ const RentalReturn = () => {
     );
     return nextDate;
   };
+
   const timeDifference = new Date() - getReturnDate();
   const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
@@ -323,11 +324,15 @@ const RentalReturn = () => {
     });
   };
 
+  const FactoryQAStaus = checkedQA
+    ? "FactoryQA_Required"
+    : "Payment_PendingFor_RentalReturn";
+
+  console.log("FactoryQAStaus==>", FactoryQAStaus);
+
   const TnxStatusUpdate = (bookingId) => {
     axios
-      .get(
-        `${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_RentalReturn`
-      )
+      .get(`${HOST_URL}/update/txn/status/${bookingId}/${FactoryQAStaus}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -345,48 +350,95 @@ const RentalReturn = () => {
         console.log("error=>", error);
       });
   };
+  console.log("retunTableData==>", retunTableData);
 
-  const RaiseClouseRequest = () => {
-    if (!RSOName || karigarQAFile.length === 0) {
-      alert("Please Enter RSO Name & Upload Print File");
+  const DespId = retunTableData.map((data) => data.despId);
+  console.log("DespId=>", DespId);
+
+  const RaiseClouseRequest = (despId) => {
+    const RetnaReturnInputs = {
+      actualWtReturn: PdtItemWitewt,
+      balanceToBePaid: parseFloat(SumOfDmgCharge() + SumOfTPeneltyCharge()),
+      bookingRefNo: totalPaidAmount.bookingId,
+      closeRentalAgreementUpload: "",
+      createdDate: null,
+      customerName: sameCustomer ? "" : sameCustName,
+      despId: despId === "" ? "0" : despId,
+      factoryQARequired: checkedQA ? "YES" : "NO",
+      idFileName: sameCustomer ? "" : sameCutIDFileName,
+      idNumber: sameCustomer ? "" : sameCustIDNo,
+      idType: sameCustomer ? "" : sameCustIDType,
+      karigarQAPassed: "",
+      loanReturnDoc: "",
+      returnDate: null,
+      rsoName: RSOName,
+      totalBookingPaid: parseFloat(totalPaidAmount.totalBookingAmount),
+      totalDamageCharges: parseFloat(SumOfDmgCharge()),
+      totalDepositPaid: parseFloat(totalPaidAmount.totalDepositAmount),
+      totalPenaltyCharges: parseFloat(SumOfTPeneltyCharge()),
+      totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
+      updatedDate: null,
+    };
+    console.log("RetnaReturnInputs==>", RetnaReturnInputs);
+    axios
+      .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          TnxStatusUpdate(totalPaidAmount.bookingId);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
+  const InsertReturnTableData = () => {
+    if (!RSOName || karigarQAFile.length === 0 || inputRtnValues.length === 0) {
+      alert("Please Actual wt Return Enter, Upload Print File & RSO Name");
     } else {
       setLoading(true);
-      const RetnaReturnInputs = {
-        actualWtReturn: PdtItemWitewt,
-        balanceToBePaid: parseFloat(SumOfDmgCharge() + SumOfTPeneltyCharge()),
-        bookingRefNo: totalPaidAmount.bookingId,
-        closeRentalAgreementUpload: "",
-        createdDate: null,
-        customerName: sameCustomer ? "" : sameCustName,
-        despId: "0",
-        factoryQARequired: checkedQA ? "YES" : "NO",
-        idFileName: sameCustomer ? "" : sameCutIDFileName,
-        idNumber: sameCustomer ? "" : sameCustIDNo,
-        idType: sameCustomer ? "" : sameCustIDType,
-        karigarQAPassed: "",
-        loanReturnDoc: "",
-        returnDate: null,
-        rsoName: RSOName,
-        totalBookingPaid: parseFloat(totalPaidAmount.totalBookingAmount),
-        totalDamageCharges: parseFloat(SumOfDmgCharge()),
-        totalDepositPaid: parseFloat(totalPaidAmount.totalDepositAmount),
-        totalPenaltyCharges: parseFloat(SumOfTPeneltyCharge()),
-        totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
-        updatedDate: null,
-      };
-      console.log("RetnaReturnInputs==>", RetnaReturnInputs);
+      const InsertTableInputs = retunTableData.map((data, i) => {
+        return {
+          bookingId: totalPaidAmount.bookingId,
+          despId: data.despId === "" ? "0" : data.despId,
+          pdtId: data.pdtId,
+          actualWtAtDelivery: data.deliveredWt === "" ? 0 : data.deliveredWt,
+          actualWtAtReturn: inputRtnValues[i],
+          rentalStartDate: moment(data.rentStartDate).format("YYYY-MM-DD"),
+          packageDays: data.packageDays,
+          rentalReturnDate: moment(getReturnDate()).format("YYYY-MM-DD"),
+          totalRentalDays: 0,
+          itemPriceID: data.itemPriceId,
+          rateId: data.rateId,
+          productValue: parseFloat(data.productValue),
+          rentValue: parseFloat(data.rentalAmount),
+          penaltyValue:
+            penaltyDays <= 0
+              ? 0
+              : ((parseInt(data.productValue) * 2) / 100) * penaltyDays,
+          tempBookingRefNo: data.tempBookingRefNo,
+          damageCharges: parseFloat(inputDmgValues[i]),
+          createdDate: null,
+          updatedDate: null,
+        };
+      });
+      console.log("InsertTableInputs==>", InsertTableInputs);
+
       axios
-        .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
+        .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
         .then((res) => res)
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
-            TnxStatusUpdate(totalPaidAmount.bookingId);
+            RaiseClouseRequest(DespId[0]);
           }
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
+          console.log("error=>", error);
           setLoading(false);
         });
     }
@@ -611,12 +663,7 @@ const RentalReturn = () => {
           )}
           <div className="col-md-12 d-flex">
             <b className="mt-4">Factory QA Required ?</b>
-            <input
-              type="checkbox"
-              className="mx-3 mt-4"
-              value={checkedQA}
-              checked={checkedQA}
-            />
+            <input type="checkbox" className="mx-3 mt-4" checked={checkedQA} />
           </div>
           <div className="col-md-12">
             <input
@@ -630,7 +677,7 @@ const RentalReturn = () => {
             <button
               type="button"
               className="CButton"
-              onClick={RaiseClouseRequest}
+              onClick={InsertReturnTableData}
             >
               {checkedQA
                 ? "Print Acknowledgement & Close"

@@ -16,6 +16,7 @@ const ServiceIvoicePdf = (props) => {
     existedUserData,
     storeDetails,
     regUserData,
+    savePaymetRow,
   } = props;
 
   const bookingDate = regUserData.map((data) => data.bookingDate);
@@ -59,6 +60,13 @@ const ServiceIvoicePdf = (props) => {
 
   // TOTAL REFUND  AMOUNT =TOTAL AMOUNT PAID - TOTAL CHARGES
 
+  const TAmount = savePaymetRow.map((item) => parseInt(item.amount));
+  const SumOfSaveAmount = () => {
+    let total = 0;
+    for (let num of TAmount) total = total + num;
+    return total;
+  };
+
   return (
     <div>
       <div>
@@ -69,7 +77,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -150,7 +158,7 @@ const ServiceIvoicePdf = (props) => {
                         Address 2:-
                         {existedUserData.customerAddress1.toUpperCase()}
                       </b>
-                      <b>PinCode:-{existedUserData.customerCityPincode}</b>
+                      <b>Pin Code:-{existedUserData.customerCityPincode}</b>
                       <b>Mobile No: +91 {existedUserData.mobileNo}</b>
                     </div>
                     <div
@@ -226,7 +234,7 @@ const ServiceIvoicePdf = (props) => {
                   <table className="table table-bordered border-dark">
                     <thead>
                       <tr>
-                        <th colSpan="6">Payment Details:</th>
+                        <th colSpan="6">Payment Details</th>
                       </tr>
                       <tr>
                         <th>Sr.No</th>
@@ -238,19 +246,35 @@ const ServiceIvoicePdf = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th>1</th>
-                        <th>Card</th>
-                        <th>RTGS/NEFT</th>
-                        <th>-</th>
-                        <th>Aug-01</th>
-                        <th>700</th>
-                      </tr>
+                      {savePaymetRow.map((item, i) => {
+                        return (
+                          <tr key={i}>
+                            <td>{i + 1}</td>
+                            <td>
+                              {item.paymentFor ===
+                              "Payment_PendingFor_RentalReturn"
+                                ? "Damge Protection Charge"
+                                : ""}
+                            </td>
+                            <td>{item.paymentType}</td>
+                            <td>{item.txnRefNo}</td>
+                            <td>{moment().format("DD-MM-YYYY")}</td>
+                            <td>
+                              {item.amount.toString().toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+                        );
+                      })}
                       <tr>
                         <th colSpan="5" className="text-end">
                           TOTAL
                         </th>
-                        <th>3456</th>
+                        <th>
+                          ₹
+                          {Math.round(SumOfSaveAmount()).toLocaleString(
+                            "en-In"
+                          )}
+                        </th>
                       </tr>
                     </tbody>
                   </table>

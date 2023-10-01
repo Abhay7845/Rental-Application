@@ -83,11 +83,10 @@ const DeliveryChallanPdf = (props) => {
               <tr>
                 <td rowSpan="2" colSpan="2" style={{ width: "20%" }}>
                   <div className="d-flex flex-column">
-                    <b className="text-center">
+                    <b className="text-center my-2">
                       <img src={TitanLogo} alt="" width="45" height="45" />
                     </b>
-                    <b>Store Address</b>
-                    <b>{storeDetails.storeAddress}</b>
+                    <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="3">

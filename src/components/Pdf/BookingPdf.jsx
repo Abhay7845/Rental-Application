@@ -237,19 +237,13 @@ const BookingPdf = (props) => {
                                     "en-IN"
                                   )}
                                 </th>
+                                <th>{item.sgst.toLocaleString("en-IN")}</th>
+                                <th>{item.csgst.toLocaleString("en-IN")}</th>
                                 <th>
-                                  {Math.round(item.sgst).toLocaleString(
-                                    "en-IN"
-                                  )}
-                                </th>
-                                <th>
-                                  {Math.round(item.csgst).toLocaleString(
-                                    "en-IN"
-                                  )}
-                                </th>
-                                <th>
-                                  {Math.round(
-                                    item.rentalAmount + item.sgst + item.csgst
+                                  {(
+                                    item.rentalAmount +
+                                    item.sgst +
+                                    item.csgst
                                   ).toLocaleString("en-IN")}
                                 </th>
                               </tr>
@@ -270,10 +264,7 @@ const BookingPdf = (props) => {
                             <th>₹{SumOfSGST().toLocaleString("en-IN")}</th>
                             <th>₹{SumOfCGST().toLocaleString("en-IN")}</th>
                             <th>
-                              ₹
-                              {Math.round(SumOfTotalAmount()).toLocaleString(
-                                "en-IN"
-                              )}
+                              ₹{SumOfTotalAmount().toLocaleString("en-IN")}
                             </th>
                           </tr>
                         </tbody>

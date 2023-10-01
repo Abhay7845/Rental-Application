@@ -758,7 +758,14 @@ const CashierPaymentDetails = () => {
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Print - Service Invoice</span>
-                    <ServiceIvoicePdf />
+                    <ServiceIvoicePdf
+                      savePaymetRow={savePaymetRow}
+                      existedUserData={existedUserData}
+                      addedPdts={addedPdts}
+                      bookingRefID={bookingGenNo}
+                      storeDetails={storeDetails}
+                      regUserData={regUserData}
+                    />
                   </h6>
                 </div>
                 <div className="col-md-6 d-flex">

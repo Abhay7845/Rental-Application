@@ -1,26 +1,65 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef } from "react";
 import { ServiveInvoicePdfHeaders } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import TitanLogo from "../../Asset/Img/TitanLog.png";
-import axios from "axios";
+import moment from "moment";
 
-const ServiceIvoicePdf = () => {
+const ServiceIvoicePdf = (props) => {
   const ServiceInvoiceRef = useRef(null);
-  const [userData, setUserData] = useState([]);
   const ServiceInvoicePDF = useReactToPrint({
     content: () => ServiceInvoiceRef.current,
   });
 
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res)
-      .then((response) => setUserData(response.data))
-      .catch((error) => {
-        console.log("error==>", error);
-      });
-  }, []);
-  console.log("userData==>", userData);
+  const {
+    addedPdts,
+    bookingRefID,
+    existedUserData,
+    storeDetails,
+    regUserData,
+  } = props;
+
+  const bookingDate = regUserData.map((data) => data.bookingDate);
+
+  const RefacotorData = addedPdts.map((data) => {
+    return {
+      actualWtReturn: data.actualWtReturn,
+      bookingRefId: data.bookingRefId,
+      cfa: data.cfa,
+      custId: data.custId,
+      customerName: data.customerName,
+      deliveredWt: data.deliveredWt,
+      depositAmount: data.depositAmount,
+      description: data.description,
+      grossWt: data.grossWt,
+      id: data.id,
+      itemCode: data.itemCode,
+      itemPriceId: data.itemPriceId,
+      lotNo: data.lotNo,
+      mobileNo: data.mobileNo,
+      netWt: data.netWt,
+      noOfPc: data.noOfPc,
+      packageDays: data.packageDays,
+      pdtId: data.pdtId,
+      productHUID: data.productHUID,
+      productValue: parseInt(data.productValue),
+      rateId: data.rateId,
+      refId: data.refId,
+      rentStartDate: data.rentStartDate,
+      rentalAmount: parseInt(data.rentalAmount),
+      tempBookingRefNo: data.tempBookingRefNo,
+      sgst: (parseInt(data.rentalAmount) * 9) / 100,
+      csgst: (parseInt(data.rentalAmount) * 9) / 100,
+    };
+  });
+  console.log("storeDetails==>", storeDetails);
+  // RENTAL CHARGES + LATE FEE +DAMGA CHARGE -DISCOUNT = TOTAL CHARGES
+
+  // SGST = (TOTAL CHARGES *9)/100
+  // CGST = (TOTAL CHARGES *9)/100
+  // TOTAL =TOTAL CHARGES + SGST +CGST
+
+  // TOTAL REFUND  AMOUNT =TOTAL AMOUNT PAID - TOTAL CHARGES
+
   return (
     <div>
       <div>
@@ -36,7 +75,6 @@ const ServiceIvoicePdf = () => {
           }
             @page {
               size: A4;
-              margin:10mm;
             }
           `}
         </style>
@@ -52,22 +90,26 @@ const ServiceIvoicePdf = () => {
               <tr>
                 <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
                   <div className="d-flex flex-column">
-                    <b className="text-center">
+                    <b className="text-center my-2">
                       <img src={TitanLogo} alt="" width="45" height="45" />
                     </b>
-                    <b>Store Address:</b>
-                    <b>Bangluru, Electronic City, 560012, Karnatka</b>
+                    <b>Store Address: - {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="3">
                   <div className="d-flex flex-row">
                     <div className="d-flex flex-column">
                       <b>Invoice No: ACGFRDGG1235</b>
-                      <b>Booking Reference No: ASDFGHJWERTY54</b>
+                      <b>Booking Ref No: {bookingRefID}</b>
                     </div>
                     <div className="d-flex flex-column mx-5">
-                      <b className="mx-5">Invoice Dated: 29/08/29</b>
-                      <b className="mx-5">Booking Dated: 29/08/29</b>
+                      <b className="mx-5">
+                        Invoice Date:-{moment().format("DD-MM-YYYY")}
+                      </b>
+                      <b className="mx-5">
+                        Booking Date:-
+                        {moment(bookingDate[0]).format("DD-MM-YY")}
+                      </b>
                     </div>
                   </div>
                 </td>
@@ -76,16 +118,18 @@ const ServiceIvoicePdf = () => {
                 <td colSpan="3">
                   <div className="d-flex flex-row">
                     <div className="d-flex flex-column">
-                      <b>GST NO: ACGFRDGG1235</b>
-                      <b>State: Karnatka</b>
-                      <b>Place of Supply: Bangluru</b>
+                      <b>GST NO:-{storeDetails.gstin}</b>
+                      <b>State:-{storeDetails.state}</b>
+                      <b>Place of Supply:-{storeDetails.city}</b>
                     </div>
                     <div
                       className="d-flex flex-column"
                       style={{ marginLeft: "17%" }}
                     >
-                      <b className="mx-5">PAN: ABCDE1234F</b>
-                      <b className="mx-5">State Code: 27</b>
+                      <b className="mx-5">PAN:-{storeDetails.gstin}</b>
+                      <b className="mx-5">
+                        State Code: {storeDetails.stateCode}
+                      </b>
                     </div>
                   </div>
                 </td>
@@ -95,18 +139,27 @@ const ServiceIvoicePdf = () => {
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>Bill To: </b>
-                      <b>Address 1: Electronic City Fase-1</b>
-                      <b>Address 2: Electronic City Fase-2</b>
-                      <b>PinCode: 560012</b>
-                      <b>State: Karnatka</b>
-                      <b>Mobile No: +91 6305843583</b>
+                      <b>
+                        Customer Name:-
+                        {existedUserData.customerName.toUpperCase()}
+                      </b>
+                      <b>
+                        Address 1:-
+                        {existedUserData.customerAddress1.toUpperCase()}
+                      </b>
+                      <b>
+                        Address 2:-
+                        {existedUserData.customerAddress1.toUpperCase()}
+                      </b>
+                      <b>PinCode:-{existedUserData.customerCityPincode}</b>
+                      <b>Mobile No: +91 {existedUserData.mobileNo}</b>
                     </div>
                     <div
                       className="d-flex flex-column"
                       style={{ marginRight: "10.5%" }}
                     >
-                      <b>Customer Profile No.: 784568475846</b>
-                      <b>PAN: CEZPG25447G</b>
+                      <b>Customer Profile No.:-{existedUserData.custId}</b>
+                      <b>PAN: {existedUserData.panCardNo}</b>
                     </div>
                   </div>
                 </td>
@@ -124,40 +177,31 @@ const ServiceIvoicePdf = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>CES946</td>
-                          <td>32</td>
-                          <td>Antique Gold Ruby Red Green Jhumka Earrings</td>
-                          <td>32.581</td>
-                          <td>223994.375</td>
-                          <td>4</td>
-                          <td>4,4450</td>
-                          <td>4,4450</td>
-                          <td>30000</td>
-                          <td>-</td>
-                          <td>38499</td>
-                          <td>3,506</td>
-                          <td>3,506</td>
-                          <td>45,975</td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>CES946</td>
-                          <td>32</td>
-                          <td>Antique Gold Ruby Red Green Jhumka Earrings</td>
-                          <td>32.581</td>
-                          <td>223994.375</td>
-                          <td>4</td>
-                          <td>4,4450</td>
-                          <td>4,4450</td>
-                          <td>30000</td>
-                          <td>-</td>
-                          <td>38499</td>
-                          <td>3,506</td>
-                          <td>3,506</td>
-                          <td>45,975</td>
-                        </tr>
+                        {RefacotorData.map((item, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{i + 1}</td>
+                              <td>{item.itemCode}</td>
+                              <td>{item.lotNo}</td>
+                              <td>{item.description}</td>
+                              <td>{item.grossWt}</td>
+                              <td>0</td>
+                              <td>{item.packageDays}</td>
+                              <td>
+                                {Math.round(item.rentalAmount).toLocaleString(
+                                  "en-IN"
+                                )}
+                              </td>
+                              <td>N/A</td>
+                              <td>N/A</td>
+                              <td>0</td>
+                              <td>N/A</td>
+                              <td>N/A</td>
+                              <td>N/A</td>
+                              <td>N/A</td>
+                            </tr>
+                          );
+                        })}
                         <tr className="text-bold">
                           <th colSpan="5" className="text-end">
                             TOTAL
@@ -212,16 +256,26 @@ const ServiceIvoicePdf = () => {
                     </tbody>
                   </table>
                 </td>
-                <td colSpan="5">
-                  <div className="d-flex flex-column mx-2 my-2">
-                    <b style={{ marginBottom: "10px" }}>
-                      Total Amount Paid: 745645
-                    </b>
-                    <b style={{ marginBottom: "10px" }}>
-                      Total charges: 874568
-                    </b>
-                    <b style={{ marginBottom: "10px" }}>Total Refund: 764537</b>
-                  </div>
+                <td colSpan="4" style={{ width: "40%" }}>
+                  <table className="table table-bordered border-dark">
+                    <thead>
+                      <tr>
+                        <th colSpan="6">Total Amount Details</th>
+                      </tr>
+                      <tr>
+                        <th>Total Amount Paid</th>
+                        <th>Total charges</th>
+                        <th>Total Refund</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>1234</th>
+                        <th>4345</th>
+                        <th>3456</th>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
               <tr>

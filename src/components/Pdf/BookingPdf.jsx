@@ -94,7 +94,6 @@ const BookingPdf = (props) => {
     return nextDate;
   };
   const bookingDate = regUserData.map((data) => data.bookingDate);
-  console.log("bookingDate==>", bookingDate);
 
   return (
     <div>
@@ -143,9 +142,10 @@ const BookingPdf = (props) => {
                 </td>
                 <td colSpan="4">
                   <div className="d-flex flex-row justify-content-between">
-                    <b>Booking Reference No:- {bookingRefID}</b>
+                    <b>Booking Ref No:-{bookingRefID}</b>
                     <b className="space-in-pdf">
-                      Date:- {moment().format("DD-MM-YYYY")}
+                      Booking Date:-
+                      {moment(bookingDate[0]).format("DD-MM-YYYY")}
                     </b>
                   </div>
                 </td>

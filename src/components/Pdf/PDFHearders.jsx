@@ -33,3 +33,33 @@ export const CancelPdfHeders = [
   "TOTAL CHARGES",
   "REFUND",
 ];
+
+export const ServiveInvoicePdfHeaders = [
+  "S.No",
+  "ITEMCODE",
+  "LOT NO",
+  "DESCRIPTIONS",
+  "GROSS WT",
+  "BASE PRICE",
+  "NUMBER OF DAYS RENTED",
+  "RENTAL CHARGES[SAC - 997329]",
+  "LATE FEE[SAC - 999799]",
+  "DAMAGE CHARGES[SAC - 999794]",
+  "DISCOUNT",
+  "TOTAL CHARGES",
+  "SGST[9%]",
+  "CGST[9%]",
+  "TOTAL",
+];
+
+export const DeliveryListHearders = [
+  "SR.NO",
+  "ITEMCODE",
+  "LOT NO",
+  "DESCRIPTION",
+  "GROSS WT.",
+  "GROSS WT AT DELIVERY",
+  "NUMBER OF DAYS",
+  "BASE PRICE",
+  "DAMAGE PROTECTION AMOUNT",
+];

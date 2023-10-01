@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { ServiveInvoicePdfHeaders } from "../../Data/DataList";
+import { ServiveInvoicePdfHeaders } from "../Pdf/PDFHearders";
 import { useReactToPrint } from "react-to-print";
 import TitanLogo from "../../Asset/Img/TitanLog.png";
 import moment from "moment";
@@ -51,7 +51,6 @@ const ServiceIvoicePdf = (props) => {
       csgst: (parseInt(data.rentalAmount) * 9) / 100,
     };
   });
-  console.log("storeDetails==>", storeDetails);
   // RENTAL CHARGES + LATE FEE +DAMGA CHARGE -DISCOUNT = TOTAL CHARGES
 
   // SGST = (TOTAL CHARGES *9)/100
@@ -70,7 +69,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {

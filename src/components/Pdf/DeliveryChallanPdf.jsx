@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { DeliveryListHearders } from "../../Data/DataList";
+import { DeliveryListHearders } from "../Pdf/PDFHearders";
 import { useReactToPrint } from "react-to-print";
 import TitanLogo from "../../Asset/Img/TitanLog.png";
 import moment from "moment";

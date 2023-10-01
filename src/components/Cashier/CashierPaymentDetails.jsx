@@ -37,11 +37,24 @@ const CashierPaymentDetails = () => {
   const [bookedStatus, setBookedStatus] = useState("");
   const [amontErrMassage, setAmontErrMassage] = useState("");
   const [regUserData, setRegUserData] = useState([]);
+  const [totalPaidAmount, setTotalPaidAmount] = useState({});
 
-  const { paymentRequestFor, rentValue, refundValue, depositValue } =
-    paymentDetails;
+  const {
+    paymentRequestFor,
+    rentValue,
+    refundValue,
+    depositValue,
+    bookingRefNo,
+  } = paymentDetails;
+
+  const { totalDamageCharges, totalPenaltyCharges } = totalPaidAmount;
 
   console.log("getPaymentData==>", getPaymentData);
+  console.log("totalPaidAmount==>", totalPaidAmount);
+  const CollectedAmount =
+    parseInt(depositValue) -
+    (parseInt(totalDamageCharges) + parseInt(totalPenaltyCharges));
+  console.log("CollectedAmount==>", CollectedAmount);
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -108,6 +121,27 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+
+  // TOTAL PAID BOOKING AMONT
+  useEffect(() => {
+    if (bookingRefNo) {
+      axios
+        .get(
+          `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`
+        )
+        .then((res) => res)
+        .then((response) => {
+          console.log("responsesum==>", response.data);
+          if (response.data.code === "1000") {
+            setTotalPaidAmount(response.data.value);
+          }
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  }, [storeCode, bookingRefNo]);
 
   useEffect(() => {
     if (paymentDetails.tempBookingRef) {
@@ -203,7 +237,7 @@ const CashierPaymentDetails = () => {
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(
-        Math.round(refundValue === "" ? 0 : parseInt(refundValue))
+        Math.round(refundValue === "" ? 0 : parseInt(CollectedAmount))
       );
       setAlertMessage("Item Return Successfully");
       setBookedStatus("ProductReturned");
@@ -219,6 +253,7 @@ const CashierPaymentDetails = () => {
     refundValue,
     bookingRefID,
     paymentDetails.bookingRefNo,
+    CollectedAmount,
   ]);
 
   const AddPaymentRows = () => {
@@ -628,17 +663,44 @@ const CashierPaymentDetails = () => {
         )}
         {paymentDetails.bookingId && (
           <div className="row g-3 mt-3 mx-0">
-            <div className="col-md-12 mt-0">
+            <div className="col-md-4 mt-0">
+              <label className="form-label">
+                <b>Damage Charges</b>
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={
+                  totalDamageCharges === "" ? 0 : parseInt(totalDamageCharges)
+                }
+                disabled
+              />
+            </div>
+            <div className="col-md-4 mt-0">
+              <label className="form-label">
+                <b>Penalty Charges</b>
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={
+                  totalPenaltyCharges === "" ? 0 : parseInt(totalPenaltyCharges)
+                }
+                disabled
+              />
+            </div>
+            <div className="col-md-4 mt-0">
               <label className="form-label">
                 <b>Amount to be Collected/Refunded</b>
               </label>
               <input
                 type="text"
                 className="form-control"
-                defaultValue={collectedAmount}
+                defaultValue={CollectedAmount}
                 disabled
               />
             </div>
+
             <div className="col-12 table-responsive mx-0">
               <table className="table table-bordered table-hover border-dark text-center">
                 <thead className="table-dark border-light">

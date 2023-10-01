@@ -42,7 +42,6 @@ const CashierPaymentDetails = () => {
     paymentDetails;
 
   console.log("getPaymentData==>", getPaymentData);
-  console.log("bookingGenNo==>", bookingGenNo);
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -111,23 +110,25 @@ const CashierPaymentDetails = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/""/${paymentDetails.tempBookingRef}`
-      )
-      .then((res) => res)
-      .then((response) => {
-        console.log("responseCommon==>", response.data);
-        if (response.data.code === "1000") {
-          setAddedPdts(response.data.value);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+    if (paymentDetails.tempBookingRef) {
+      setLoading(true);
+      axios
+        .get(
+          `${HOST_URL}/fetch/table/common/data/${storeCode}/""/${paymentDetails.tempBookingRef}`
+        )
+        .then((res) => res)
+        .then((response) => {
+          console.log("responseCommon==>", response.data);
+          if (response.data.code === "1000") {
+            setAddedPdts(response.data.value);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   }, [storeCode, paymentDetails.tempBookingRef]);
 
   const GetPyamentDetials = () => {
@@ -177,21 +178,27 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(parseFloat(refundValue));
       setAlertMessage("Booking Successfully Cancelled");
       setBookedStatus("Cancellation_After_Booking");
-      setAmontErrMassage("Total Amount Not Equal to Net Cancellation Charges");
+      setAmontErrMassage(
+        "Total Amount Not Equal to Net Cancellation Charges & Save Payment"
+      );
       setBookingGenNo(paymentDetails.bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_Issuance") {
       setCollectedAmount(Math.round(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
-      setAmontErrMassage("Total Amount Not Equal to Damage Protection Charge");
+      setAmontErrMassage(
+        "Total Amount Not Equal to Damage Protection Charge & Save Payment"
+      );
       setBookingGenNo(paymentDetails.bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setCollectedAmount(Math.round(rentValue));
       setAlertMessage("Payment Submited Successfully and Order Booked");
       setBookedStatus("Booked");
-      setAmontErrMassage("Total Amount Not Equal to Rental Amount");
+      setAmontErrMassage(
+        "Total Amount Not Equal to Rental Amount & Save Payment"
+      );
       setBookingGenNo(bookingRefID);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
@@ -200,7 +207,9 @@ const CashierPaymentDetails = () => {
       );
       setAlertMessage("Item Return Successfully");
       setBookedStatus("Product Retuned");
-      setAmontErrMassage("Total Amount Not Equal to Rental Retuan");
+      setAmontErrMassage(
+        "Total Amount Not Equal to Rental Return & Save Payment"
+      );
       setBookingGenNo(paymentDetails.bookingRefNo);
     }
   }, [
@@ -551,7 +560,7 @@ const CashierPaymentDetails = () => {
             <table className="table table-bordered border-dark text-center">
               <thead className="table-dark border-light">
                 <tr>
-                  <td>Select</td>
+                  <td>SELECT</td>
                   {PaymentHeading1.map((heading, i) => {
                     return <td key={i}>{heading}</td>;
                   })}
@@ -753,6 +762,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
+
             {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
@@ -770,30 +780,43 @@ const CashierPaymentDetails = () => {
                     )}
                   </h6>
                 </div>
-                <div className="col-md-6 d-flex">
+                <div className="col-md-5">
+                  <label className="form-label">Upload Service Invoice</label>
                   <input
                     type="file"
-                    className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png"
+                    className="form-control"
                     onChange={(e) => setPrintFile(e.target.files[0])}
                   />
-                  <button className="CButton" onClick={UploadPrintFile}>
+                </div>
+                <div className="col-md-1">
+                  <br />
+                  <button
+                    className="CButton mt-2 mx-1"
+                    onClick={UploadPrintFile}
+                  >
                     Upload
                   </button>
                 </div>
-                <div className="col-md-6 d-flex">
+                <div className="col-md-5">
+                  <label className="form-label">Invoice</label>
                   <input
                     type="file"
-                    className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png, .pdf"
+                    className="form-control"
                     onChange={(e) => setPrintFile(e.target.files[0])}
                   />
-                  <button className="CButton" onClick={UploadPrintFile}>
+                </div>
+                <div className="col-md-1">
+                  <br />
+                  <button
+                    className="CButton mt-2 mx-1"
+                    onClick={UploadPrintFile}
+                  >
                     Upload
                   </button>
                 </div>
               </div>
             )}
+
             {paymentRequestFor === "Payment_PendingFor_Issuance" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
@@ -864,13 +887,19 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-6">
+
+            <div className="col-md-5">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Cashier Name"
                 onChange={(e) => setCashierName(e.target.value)}
               />
+            </div>
+            <div className="col-md-1">
+              <button className="CButton" onClick={GetPhoneOTP}>
+                GET_OTP
+              </button>
             </div>
             {Otp && (
               <div className="col-md-6">
@@ -891,10 +920,7 @@ const CashierPaymentDetails = () => {
                 )}
               </div>
             )}
-            <div className="col-12 d-flex justify-content-between mb-4">
-              <button className="CButton" onClick={GetPhoneOTP}>
-                Get OTP
-              </button>
+            <div className="col-12 d-flex justify-content-end mb-4">
               <button className="CButton" onClick={SubmitPaymentDetails}>
                 {paymentRequestFor ===
                   "Payment_PendingFor_RentalCancellation" && (

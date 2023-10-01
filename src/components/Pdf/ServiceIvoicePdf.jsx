@@ -192,6 +192,8 @@ const ServiceIvoicePdf = (props) => {
     return total;
   };
 
+  const TotalRefund = SumOfTTotalAmount() - SumOfTTotalChages();
+
   return (
     <div>
       <div>
@@ -202,7 +204,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -340,19 +342,25 @@ const ServiceIvoicePdf = (props) => {
                           <th colSpan="6" className="text-end">
                             TOTAL
                           </th>
-                          <th>{SumOfBasePrise().toLocaleString("en-IN")}</th>
-                          <th>{SumOfTRentalAmont().toLocaleString("en-IN")}</th>
-                          <th>{SumOfTLateFee().toLocaleString("en-IN")}</th>
+                          <th>₹{SumOfBasePrise().toLocaleString("en-IN")}</th>
                           <th>
-                            {SumOfTDamageCharges().toLocaleString("en-IN")}
+                            ₹{SumOfTRentalAmont().toLocaleString("en-IN")}
+                          </th>
+                          <th>₹{SumOfTLateFee().toLocaleString("en-IN")}</th>
+                          <th>
+                            ₹{SumOfTDamageCharges().toLocaleString("en-IN")}
                           </th>
                           <th>
-                            {SumOfTDiscountAmount().toLocaleString("en-IN")}
+                            ₹{SumOfTDiscountAmount().toLocaleString("en-IN")}
                           </th>
-                          <th>{SumOfTTotalChages().toLocaleString("en-IN")}</th>
-                          <th>{SumOfTSgst().toLocaleString("en-IN")}</th>
-                          <th>{SumOfTCgst().toLocaleString("en-IN")}</th>
-                          <th>{SumOfTTotalAmount().toLocaleString("en-IN")}</th>
+                          <th>
+                            ₹{SumOfTTotalChages().toLocaleString("en-IN")}
+                          </th>
+                          <th>₹{SumOfTSgst().toLocaleString("en-IN")}</th>
+                          <th>₹{SumOfTCgst().toLocaleString("en-IN")}</th>
+                          <th>
+                            ₹{SumOfTTotalAmount().toLocaleString("en-IN")}
+                          </th>
                         </tr>
                       </tbody>
                     </table>
@@ -423,9 +431,9 @@ const ServiceIvoicePdf = (props) => {
                     </thead>
                     <tbody>
                       <tr>
-                        <th>1234</th>
-                        <th>4345</th>
-                        <th>3456</th>
+                        <th>₹{SumOfTTotalAmount().toLocaleString("en-IN")}</th>
+                        <th>₹{SumOfTTotalChages().toLocaleString("en-IN")}</th>
+                        <th>₹{TotalRefund.toLocaleString("en-IN")}</th>
                       </tr>
                     </tbody>
                   </table>

@@ -183,7 +183,7 @@ const CashierPaymentDetails = () => {
       );
       setBookingGenNo(paymentDetails.bookingRefNo);
     }
-    if (paymentRequestFor === "Payment_PendingFor_Issuance") {
+    if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
       setCollectedAmount(Math.round(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
@@ -320,7 +320,7 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setDocumentType("tncDocument");
     }
-    if (paymentRequestFor === "Payment_PendingFor_RentalIssuence") {
+    if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
       setDocumentType("KarigarQAReport");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
@@ -451,6 +451,28 @@ const CashierPaymentDetails = () => {
     }
   };
 
+  const TnxStatusUpdate = (bookingId) => {
+    axios
+      .get(
+        `${HOST_URL}/update/txn/status/${paymentDetails.bookingId}/${paymentRequestFor}`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: alertMessage,
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+      });
+  };
+
   const CompletePayment = () => {
     const submitPaymentData = {
       bookingRefNo: bookingGenNo,
@@ -498,7 +520,11 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          CompletePayment();
+          if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
+            CompletePayment();
+          } else {
+            TnxStatusUpdate();
+          }
         }
         setLoading(false);
       })
@@ -817,7 +843,7 @@ const CashierPaymentDetails = () => {
               </div>
             )}
 
-            {paymentRequestFor === "Payment_PendingFor_Issuance" && (
+            {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
@@ -926,7 +952,7 @@ const CashierPaymentDetails = () => {
                   "Payment_PendingFor_RentalCancellation" && (
                   <span>Cancel Booking</span>
                 )}
-                {paymentRequestFor === "Payment_PendingFor_Issuance" && (
+                {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
                   <span>Complete Product Delivery</span>
                 )}
                 {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (

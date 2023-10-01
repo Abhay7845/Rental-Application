@@ -470,7 +470,7 @@ const RentalIssue = () => {
   const TnxStatusUpdate = (bookingId) => {
     axios
       .get(
-        `${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_Issuance`
+        `${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_RentalIssuance`
       )
       .then((res) => res)
       .then((response) => {

@@ -206,7 +206,7 @@ const CashierPaymentDetails = () => {
         Math.round(refundValue === "" ? 0 : parseInt(refundValue))
       );
       setAlertMessage("Item Return Successfully");
-      setBookedStatus("Product_Retuned");
+      setBookedStatus("ProductReturned");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Return & Save Payment"
       );

@@ -343,6 +343,7 @@ const ProductsDetails = () => {
                 type="text"
                 as="select"
                 name="customerType"
+                disabled={payload.packageDays ? true : false}
               >
                 {constomerType.map((item, i) => {
                   return (

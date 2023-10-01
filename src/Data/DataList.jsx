@@ -116,18 +116,22 @@ export const DeliveryListHearders = [
   "DAMAGE PROTECTION AMOUNT",
 ];
 
-export const FinalInvoicePdfHeaders = [
-  "DISCRIPTIONS OF THE GOODS",
-  "GROSS WT.",
-  "NET WT.",
+export const ServiveInvoicePdfHeaders = [
+  "S.No",
+  "ITEMCODE",
+  "LOT NO",
+  "DESCRIPTIONS",
+  "GROSS WT",
   "BASE PRICE",
-  "HSN CODE",
-  "NO.OF DAYS",
-  "RENTAL CHARGES(HSN:997329)",
-  "LATE FEE(HSN:9997)",
-  "DAMAGES(HSN:999794)",
+  "NUMBER OF DAYS RENTED",
+  "RENTAL CHARGES[SAC - 997329]",
+  "LATE FEE[SAC - 999799]",
+  "DAMAGE CHARGES[SAC - 999794]",
   "DISCOUNT",
-  "VALUE AFTER DISCOUNT",
+  "TOTAL CHARGES",
+  "SGST[9%]",
+  "CGST[9%]",
+  "TOTAL",
 ];
 
 export const PaymentHeading1 = [

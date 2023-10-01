@@ -11,12 +11,12 @@ import {
 } from "../../Data/DataList";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import { BsFillTrashFill } from "react-icons/bs";
-import PaymentTnCPdf from "../Pdf/PaymentTnCPdf";
 import moment from "moment/moment";
 import { useEffect } from "react";
 import BookingPdf from "../Pdf/BookingPdf";
 import CancelationPdf from "../Pdf/CancelationPdf";
 import DeliveryChallanPdf from "../Pdf/DeliveryChallanPdf";
+import ServiceIvoicePdf from "../Pdf/ServiceIvoicePdf";
 
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -758,7 +758,7 @@ const CashierPaymentDetails = () => {
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Print - Service Invoice</span>
-                    <PaymentTnCPdf />
+                    <ServiceIvoicePdf />
                   </h6>
                 </div>
                 <div className="col-md-6 d-flex">

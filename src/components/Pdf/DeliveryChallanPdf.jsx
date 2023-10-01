@@ -286,7 +286,10 @@ const DeliveryChallanPdf = (props) => {
                       <h6 className="mt-4">(Authorized Signatory)</h6>
                     </div>
                     <div>
-                      <b>Customer Name : Abhay Aryan</b>
+                      <b>
+                        Customer Name :
+                        {existedUserData.customerName.toUpperCase()}
+                      </b>
                       <h6 className="mt-4">
                         Customer Signature : ..............................
                       </h6>

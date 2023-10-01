@@ -48,17 +48,142 @@ const ServiceIvoicePdf = (props) => {
       rentStartDate: data.rentStartDate,
       rentalAmount: parseInt(data.rentalAmount),
       tempBookingRefNo: data.tempBookingRefNo,
-      sgst: (parseInt(data.rentalAmount) * 9) / 100,
-      csgst: (parseInt(data.rentalAmount) * 9) / 100,
+      lateFee: data.penaltyCharges === "" ? 0 : parseInt(data.penaltyCharges),
+      damageCharges:
+        data.damageCharges === "" ? 0 : parseInt(data.damageCharges),
+      discountAmount: 0,
     };
   });
-  // RENTAL CHARGES + LATE FEE +DAMGA CHARGE -DISCOUNT = TOTAL CHARGES
+  const RefacotorTableData = RefacotorData.map((data) => {
+    return {
+      actualWtReturn: data.actualWtReturn,
+      bookingRefId: data.bookingRefId,
+      cfa: data.cfa,
+      custId: data.custId,
+      customerName: data.customerName,
+      deliveredWt: data.deliveredWt,
+      depositAmount: data.depositAmount,
+      description: data.description,
+      grossWt: data.grossWt,
+      id: data.id,
+      itemCode: data.itemCode,
+      itemPriceId: data.itemPriceId,
+      lotNo: data.lotNo,
+      mobileNo: data.mobileNo,
+      netWt: data.netWt,
+      noOfPc: data.noOfPc,
+      packageDays: data.packageDays,
+      pdtId: data.pdtId,
+      productHUID: data.productHUID,
+      productValue: parseInt(data.productValue),
+      rateId: data.rateId,
+      refId: data.refId,
+      rentStartDate: data.rentStartDate,
+      rentalAmount: parseInt(data.rentalAmount),
+      tempBookingRefNo: data.tempBookingRefNo,
+      lateFee: data.lateFee,
+      damageCharges: data.damageCharges,
+      discountAmount: 0,
+      totalChages: Math.round(
+        data.rentalAmount +
+          data.lateFee +
+          data.damageCharges -
+          data.discountAmount
+      ).toLocaleString("en-IN"),
+      sgst: parseFloat(
+        (
+          ((data.rentalAmount +
+            data.lateFee +
+            data.damageCharges -
+            data.discountAmount) *
+            9) /
+          100
+        ).toLocaleString("en-IN")
+      ),
+      cgst: parseFloat(
+        (
+          ((data.rentalAmount +
+            data.lateFee +
+            data.damageCharges -
+            data.discountAmount) *
+            9) /
+          100
+        ).toLocaleString("en-IN")
+      ),
+      totalAmount: (
+        (data.rentalAmount +
+          data.lateFee +
+          data.damageCharges -
+          data.discountAmount) *
+        1.18
+      ).toLocaleString("en-IN"),
+    };
+  });
 
-  // SGST = (TOTAL CHARGES *9)/100
-  // CGST = (TOTAL CHARGES *9)/100
-  // TOTAL =TOTAL CHARGES + SGST +CGST
+  const TBasePrise = RefacotorTableData.map((data) => data.productValue);
+  const SumOfBasePrise = () => {
+    let total = 0;
+    for (let num of TBasePrise) total = total + num;
+    return total;
+  };
 
-  // TOTAL REFUND  AMOUNT =TOTAL AMOUNT PAID - TOTAL CHARGES
+  const TRentalAmont = RefacotorTableData.map((data) => data.rentalAmount);
+  const SumOfTRentalAmont = () => {
+    let total = 0;
+    for (let num of TRentalAmont) total = total + num;
+    return total;
+  };
+
+  const TLateFee = RefacotorTableData.map((data) => data.lateFee);
+  const SumOfTLateFee = () => {
+    let total = 0;
+    for (let num of TLateFee) total = total + num;
+    return total;
+  };
+  const TDamageCharges = RefacotorTableData.map((data) => data.damageCharges);
+  const SumOfTDamageCharges = () => {
+    let total = 0;
+    for (let num of TDamageCharges) total = total + num;
+    return total;
+  };
+  const TDiscountAmount = RefacotorTableData.map((data) => data.discountAmount);
+  const SumOfTDiscountAmount = () => {
+    let total = 0;
+    for (let num of TDiscountAmount) total = total + num;
+    return total;
+  };
+
+  const TTotalChages = RefacotorTableData.map((data) =>
+    parseInt(data.totalChages.replace(/,/g, ""))
+  );
+  const SumOfTTotalChages = () => {
+    let total = 0;
+    for (let num of TTotalChages) total = total + num;
+    return total;
+  };
+
+  const TSgst = RefacotorTableData.map((data) => data.sgst);
+  const SumOfTSgst = () => {
+    let total = 0;
+    for (let num of TSgst) total = total + num;
+    return total;
+  };
+
+  const TCgst = RefacotorTableData.map((data) => data.cgst);
+  const SumOfTCgst = () => {
+    let total = 0;
+    for (let num of TCgst) total = total + num;
+    return total;
+  };
+
+  const TTotalAmount = RefacotorTableData.map((data) =>
+    parseFloat(data.totalAmount.replace(/,/g, ""))
+  );
+  const SumOfTTotalAmount = () => {
+    let total = 0;
+    for (let num of TTotalAmount) total = total + num;
+    return total;
+  };
 
   const TAmount = savePaymetRow.map((item) => parseInt(item.amount));
   const SumOfSaveAmount = () => {
@@ -77,7 +202,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -175,7 +300,7 @@ const ServiceIvoicePdf = (props) => {
                 <td colSpan="5">
                   <b>ITEM DETAILS</b>
                   <div className="table">
-                    <table className="table table-bordered inner-table border-dark">
+                    <table className="table table-bordered inner-table border-dark text-center">
                       <thead>
                         <tr>
                           {ServiveInvoicePdfHeaders.map((heading, i) => {
@@ -184,7 +309,7 @@ const ServiceIvoicePdf = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {RefacotorData.map((item, i) => {
+                        {RefacotorTableData.map((item, i) => {
                           return (
                             <tr key={i}>
                               <td>{i + 1}</td>
@@ -192,37 +317,42 @@ const ServiceIvoicePdf = (props) => {
                               <td>{item.lotNo}</td>
                               <td>{item.description}</td>
                               <td>{item.grossWt}</td>
-                              <td>0</td>
                               <td>{item.packageDays}</td>
+                              <td>
+                                {item.productValue.toLocaleString("en-IN")}
+                              </td>
                               <td>
                                 {Math.round(item.rentalAmount).toLocaleString(
                                   "en-IN"
                                 )}
                               </td>
-                              <td>N/A</td>
-                              <td>N/A</td>
-                              <td>0</td>
-                              <td>N/A</td>
-                              <td>N/A</td>
-                              <td>N/A</td>
-                              <td>N/A</td>
+                              <td>{item.lateFee}</td>
+                              <td>{item.damageCharges}</td>
+                              <td>{item.discountAmount}</td>
+                              <td>{item.totalChages}</td>
+                              <td>{item.sgst}</td>
+                              <td>{item.cgst}</td>
+                              <td>{item.totalAmount}</td>
                             </tr>
                           );
                         })}
-                        <tr className="text-bold">
-                          <th colSpan="5" className="text-end">
+                        <tr>
+                          <th colSpan="6" className="text-end">
                             TOTAL
                           </th>
-                          <th>38765</th>
-                          <th>-</th>
-                          <th>34589</th>
-                          <th>34589</th>
-                          <th>34589</th>
-                          <th>-</th>
-                          <th>47,919</th>
-                          <th>4,312</th>
-                          <th>4,312</th>
-                          <th>4,312</th>
+                          <th>{SumOfBasePrise().toLocaleString("en-IN")}</th>
+                          <th>{SumOfTRentalAmont().toLocaleString("en-IN")}</th>
+                          <th>{SumOfTLateFee().toLocaleString("en-IN")}</th>
+                          <th>
+                            {SumOfTDamageCharges().toLocaleString("en-IN")}
+                          </th>
+                          <th>
+                            {SumOfTDiscountAmount().toLocaleString("en-IN")}
+                          </th>
+                          <th>{SumOfTTotalChages().toLocaleString("en-IN")}</th>
+                          <th>{SumOfTSgst().toLocaleString("en-IN")}</th>
+                          <th>{SumOfTCgst().toLocaleString("en-IN")}</th>
+                          <th>{SumOfTTotalAmount().toLocaleString("en-IN")}</th>
                         </tr>
                       </tbody>
                     </table>
@@ -320,7 +450,7 @@ const ServiceIvoicePdf = (props) => {
                     voucher has been effected by us and it shall be accounted
                     for in the turnover of supplies/advances while filing of
                     return and the due tax, if any payable on the supply has
-                    been paid or shall be paid
+                    been paid or shall be paid.
                   </b>
                 </td>
               </tr>
@@ -332,7 +462,10 @@ const ServiceIvoicePdf = (props) => {
                       <h6 className="mt-4">(Authorized Signatory)</h6>
                     </div>
                     <div>
-                      <b>Customer Name : Abhay Aryan</b>
+                      <b>
+                        Customer Name :-
+                        {existedUserData.customerName.toUpperCase()}
+                      </b>
                       <h6 className="mt-4">
                         Customer Signature : ..............................
                       </h6>

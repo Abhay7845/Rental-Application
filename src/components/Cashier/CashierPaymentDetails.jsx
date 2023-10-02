@@ -50,11 +50,9 @@ const CashierPaymentDetails = () => {
   const { totalDamageCharges, totalPenaltyCharges } = totalPaidAmount;
 
   console.log("getPaymentData==>", getPaymentData);
-  console.log("totalPaidAmount==>", totalPaidAmount);
   const CollectedAmount =
     parseInt(depositValue) -
     (parseInt(totalDamageCharges) + parseInt(totalPenaltyCharges));
-  console.log("CollectedAmount==>", CollectedAmount);
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -236,9 +234,7 @@ const CashierPaymentDetails = () => {
       setBookingGenNo(bookingRefID);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-      setCollectedAmount(
-        Math.round(refundValue === "" ? 0 : parseInt(CollectedAmount))
-      );
+      setCollectedAmount(CollectedAmount);
       setAlertMessage("Item Return Successfully");
       setBookedStatus("ProductReturned");
       setAmontErrMassage(
@@ -670,9 +666,7 @@ const CashierPaymentDetails = () => {
               <input
                 type="text"
                 className="form-control"
-                defaultValue={
-                  totalDamageCharges === "" ? 0 : parseInt(totalDamageCharges)
-                }
+                value={parseInt(totalDamageCharges)}
                 disabled
               />
             </div>
@@ -683,9 +677,7 @@ const CashierPaymentDetails = () => {
               <input
                 type="text"
                 className="form-control"
-                defaultValue={
-                  totalPenaltyCharges === "" ? 0 : parseInt(totalPenaltyCharges)
-                }
+                value={parseInt(totalPenaltyCharges)}
                 disabled
               />
             </div>
@@ -696,7 +688,7 @@ const CashierPaymentDetails = () => {
               <input
                 type="text"
                 className="form-control"
-                defaultValue={CollectedAmount}
+                value={collectedAmount}
                 disabled
               />
             </div>

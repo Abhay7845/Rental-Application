@@ -482,9 +482,7 @@ const CashierPaymentDetails = () => {
 
   const TnxStatusUpdate = (bookingId) => {
     axios
-      .get(
-        `${HOST_URL}/update/txn/status/${paymentDetails.bookingId}/${paymentRequestFor}`
-      )
+      .get(`${HOST_URL}/update/txn/status/${bookingId}/${paymentRequestFor}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -495,6 +493,17 @@ const CashierPaymentDetails = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
+          GetPyamentDetials();
+          setPaymentDetails({});
+          setGetPaymentData([]);
+          setSavePaymetRow([]);
+          setCashierName("");
+          setVerifiedOtp(false);
+          setPrintFile([]);
+          setDeliveryChallan([]);
+          setCollectedAmount(0);
+          setVerifiedOtp(false);
+          setOtp("");
         }
       })
       .catch((error) => {
@@ -534,6 +543,7 @@ const CashierPaymentDetails = () => {
           setDeliveryChallan([]);
           setCollectedAmount(0);
           setVerifiedOtp(false);
+          setOtp("");
         }
       })
       .then((error) => {
@@ -552,7 +562,7 @@ const CashierPaymentDetails = () => {
           if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
             CompletePayment();
           } else {
-            TnxStatusUpdate();
+            TnxStatusUpdate(paymentDetails.bookingId);
           }
         }
         setLoading(false);
@@ -660,14 +670,14 @@ const CashierPaymentDetails = () => {
             {paymentRequestFor === "Payment_PendingFor_NewBooking" ? (
               ""
             ) : (
-              <div className="d-flex col-md-8 border mt-0">
-                <div className="col-md-4 mt-0">
+              <div className="d-flex col-md-8 mt-0">
+                <div className="col-md-5 mt-0">
                   <label className="form-label">
                     <b>Damage Charges</b>
                   </label>
                   <h6>₹ {totalDamageCharges}</h6>
                 </div>
-                <div className="col-md-4 mt-0">
+                <div className="col-md-5 mt-0">
                   <label className="form-label">
                     <b>Penalty Charges</b>
                   </label>
@@ -675,7 +685,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-4 mt-0 border">
+            <div className="col-md-4 mt-0">
               <label className="form-label">
                 <b>Amount to be Collected/Refunded</b>
               </label>

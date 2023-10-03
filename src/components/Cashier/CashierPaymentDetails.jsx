@@ -811,7 +811,7 @@ const CashierPaymentDetails = () => {
               )}
             </div>
             {paymentRequestFor === "Payment_PendingFor_NewBooking" && (
-              <div>
+              <div className="">
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Print Booking Confirmation</span>
@@ -827,16 +827,20 @@ const CashierPaymentDetails = () => {
                     )}
                   </h6>
                 </div>
-                <div className="col-md-6 d-flex">
-                  <input
-                    type="file"
-                    className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png"
-                    onChange={(e) => setPrintFile(e.target.files[0])}
-                  />
-                  <button className="CButton" onClick={UploadPrintFile}>
-                    Upload
-                  </button>
+                <div className="col-md-6">
+                  <label className="form-label">
+                    Upload Acknowledged Booking Receipt
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="file"
+                      className="form-control"
+                      onChange={(e) => setPrintFile(e.target.files[0])}
+                    />
+                    <button className="CButton mx-1" onClick={UploadPrintFile}>
+                      Upload
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -918,7 +922,6 @@ const CashierPaymentDetails = () => {
                   <input
                     type="file"
                     className="form-control"
-                    accept=".jpg, .jpeg, .png, .pdf"
                     onChange={(e) => setPrintFile(e.target.files[0])}
                   />
                   <button className="CButton mx-1" onClick={UploadPrintFile}>
@@ -932,7 +935,6 @@ const CashierPaymentDetails = () => {
                   <input
                     type="file"
                     className="form-control"
-                    accept=".jpg, .jpeg, .png, .pdf"
                     onChange={(e) => setDeliveryChallan(e.target.files[0])}
                   />
                   <button

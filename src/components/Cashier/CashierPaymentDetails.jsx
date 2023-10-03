@@ -122,21 +122,23 @@ const CashierPaymentDetails = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`
-      )
-      .then((res) => res)
-      .then((response) => {
-        console.log("responseSum==>", response.data);
-        if (response.data.code === "1000") {
-          setTotalPaidAmount(response.data.value);
-        }
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+    if (bookingRefNo) {
+      axios
+        .get(
+          `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`
+        )
+        .then((res) => res)
+        .then((response) => {
+          console.log("responseSum==>", response.data);
+          if (response.data.code === "1000") {
+            setTotalPaidAmount(response.data.value);
+          }
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
   }, [storeCode, bookingRefNo]);
 
   useEffect(() => {
@@ -224,12 +226,11 @@ const CashierPaymentDetails = () => {
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setCollectedAmount(Math.round(rentValue));
-      setAlertMessage("Payment Submited Successfully and Order Booked");
+      setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
       );
-      setBookingGenNo(bookingRefID);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(CollectedAmount);
@@ -245,7 +246,6 @@ const CashierPaymentDetails = () => {
     paymentRequestFor,
     depositValue,
     refundValue,
-    bookingRefID,
     paymentDetails.bookingRefNo,
     CollectedAmount,
   ]);
@@ -279,7 +279,7 @@ const CashierPaymentDetails = () => {
 
   const PaymentFileImage = (UploadFileName) => {
     const paymentUploadFile = {
-      bookingRefId: bookingGenNo,
+      bookingRefId: !bookingGenNo ? bookingRefID : bookingGenNo,
       contentFor: "newBooking",
       createdDate: currentDate,
       documentType: "PaymentDocument",
@@ -393,7 +393,7 @@ const CashierPaymentDetails = () => {
 
   const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
-      bookingRefId: bookingGenNo,
+      bookingRefId: !bookingGenNo ? bookingRefID : bookingGenNo,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: !documentType ? dlrChalalnFileName : documentType,
@@ -513,7 +513,7 @@ const CashierPaymentDetails = () => {
 
   const CompletePayment = () => {
     const submitPaymentData = {
-      bookingRefNo: bookingGenNo,
+      bookingRefNo: !bookingGenNo ? bookingRefID : bookingGenNo,
       cashierName: cashierName,
       status: bookedStatus,
       tempRefNo: paymentDetails.tempBookingRef,
@@ -820,7 +820,7 @@ const CashierPaymentDetails = () => {
                         savePaymetRow={savePaymetRow}
                         existedUserData={existedUserData}
                         addedPdts={addedPdts}
-                        bookingRefID={bookingGenNo}
+                        bookingRefID={bookingRefID}
                         storeDetails={storeDetails}
                         regUserData={regUserData}
                       />

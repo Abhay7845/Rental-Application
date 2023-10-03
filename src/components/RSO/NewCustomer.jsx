@@ -10,7 +10,7 @@ import axios from "axios";
 import { HOST_URL, UploadImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const NewCustomer = () => {
@@ -20,9 +20,10 @@ const NewCustomer = () => {
   const [addressFile, setAddressFile] = useState(null);
   const [secPhoneCount, setSecPhoneCount] = useState(90);
   const [phoneOtp, setPhoneOtp] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
+  const phoneNo = localStorage.getItem("serachBookingNo");
+  const phoneNumber = !phoneNo ? "" : phoneNo;
 
   const navigate = useNavigate();
 
@@ -199,13 +200,7 @@ const NewCustomer = () => {
   };
 
   const GetPhoneOtp = () => {
-    if (!phoneNumber) {
-      alert("Please Enter Phone Number");
-    } else if (phoneNumber.length > 10) {
-      alert("Please Enter Valid Number");
-    } else if (phoneNumber.length < 9) {
-      alert("Please Enter Valid Number");
-    } else {
+    if (phoneNumber) {
       setLoading(true);
       axios
         .get(`${HOST_URL}/get/mobile/otp/${phoneNumber}`)
@@ -215,7 +210,7 @@ const NewCustomer = () => {
           if (response.data.code === "1000") {
             setPhoneOtp(response.data.otp);
             setSecPhoneCount(60);
-            alert("OTP has been sent your Mobile Number");
+            alert("OTP has been sent your mobile number");
           }
           setLoading(false);
         })
@@ -223,6 +218,8 @@ const NewCustomer = () => {
           console.log("error==>", error);
           setLoading(false);
         });
+    } else {
+      alert("Please Enter Phone Number");
     }
   };
 
@@ -372,7 +369,12 @@ const NewCustomer = () => {
       {loading === true && <Loader />}
       <Navbar />
       <div className="mt-4 mx-2">
-        <h6 className="bookingHeading">New Customer Details</h6>
+        <h6 className="bookingHeading d-flex justify-content-between">
+          <b>New Customer Details</b>
+          <Link to="/booking" className="text-light mx-2">
+            Go Back
+          </Link>
+        </h6>
         <div className="row g-3">
           <div className="col-md-4">
             <input
@@ -387,21 +389,12 @@ const NewCustomer = () => {
               type="text"
               className="form-control"
               placeholder="Phone Number*"
-              value={phoneNumber}
-              onChange={(e) => {
-                if (e.target.value.length <= 10) {
-                  const numericValue = e.target.value.replace(/\D/g, "");
-                  setPhoneNumber(numericValue);
-                }
-              }}
-              disabled={phoneOtp ? true : false}
+              defaultValue={phoneNumber}
+              disabled
             />
           </div>
           {phoneOtp && !phoneVerified && (
             <div className="col-md-3 d-flex">
-              <button className="CButton mx-1" onClick={() => setPhoneOtp("")}>
-                Edit
-              </button>
               <input
                 type="text"
                 className="form-control"

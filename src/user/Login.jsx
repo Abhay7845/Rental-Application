@@ -57,8 +57,7 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    localStorage.removeItem("rsoRole");
-    localStorage.removeItem("regNumber");
+    localStorage.clear();
   }, []);
 
   return (

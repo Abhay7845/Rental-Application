@@ -61,6 +61,7 @@ const NewBooking = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         navigate("/new/customer");
+        localStorage.setItem("serachBookingNo", phonePanValue);
       }
     });
   };
@@ -414,12 +415,21 @@ const NewBooking = () => {
             <h6>{existedUserData.addressProofIdNo}</h6>
           </div>
           <div className="col-md-4">
-            <img
-              src={`data:image/jpeg;base64,${panImageUrl}`}
-              alt=""
-              width="180"
-              height="85"
-            />
+            {panImageUrl ? (
+              <img
+                src={`data:image/jpeg;base64,${panImageUrl}`}
+                alt=""
+                width="180"
+                height="85"
+              />
+            ) : (
+              <img
+                src={`data:image/jpeg;base64,${panImageUrl}`}
+                alt=""
+                width="180"
+                height="85"
+              />
+            )}
           </div>
           <div className="col-4">
             <label className="form-label">RENT START DATE</label>

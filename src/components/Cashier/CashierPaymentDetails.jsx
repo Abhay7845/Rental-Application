@@ -50,6 +50,7 @@ const CashierPaymentDetails = () => {
   const { totalDamageCharges, totalPenaltyCharges } = totalPaidAmount;
 
   console.log("paymentDetails==>", paymentDetails);
+
   const CollectedAmount =
     parseInt(depositValue) -
     (parseInt(totalDamageCharges) + parseInt(totalPenaltyCharges));
@@ -121,23 +122,21 @@ const CashierPaymentDetails = () => {
   };
 
   useEffect(() => {
-    if (bookingRefNo) {
-      axios
-        .get(
-          `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`
-        )
-        .then((res) => res)
-        .then((response) => {
-          console.log("responsesum==>", response.data);
-          if (response.data.code === "1000") {
-            setTotalPaidAmount(response.data.value);
-          }
-        })
-        .catch((error) => {
-          console.log("error==>", error);
-          setLoading(false);
-        });
-    }
+    axios
+      .get(
+        `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`
+      )
+      .then((res) => res)
+      .then((response) => {
+        console.log("responseSum==>", response.data);
+        if (response.data.code === "1000") {
+          setTotalPaidAmount(response.data.value);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
   }, [storeCode, bookingRefNo]);
 
   useEffect(() => {
@@ -658,19 +657,25 @@ const CashierPaymentDetails = () => {
         )}
         {paymentDetails.bookingId && (
           <div className="row g-3 mt-3 mx-0">
-            <div className="col-md-4 mt-0">
-              <label className="form-label">
-                <b>Damage Charges</b>
-              </label>
-              <h6>₹ {totalDamageCharges}</h6>
-            </div>
-            <div className="col-md-4 mt-0">
-              <label className="form-label">
-                <b>Penalty Charges</b>
-              </label>
-              <h6>₹ {totalPenaltyCharges}</h6>
-            </div>
-            <div className="col-md-4 mt-0">
+            {paymentRequestFor === "Payment_PendingFor_NewBooking" ? (
+              ""
+            ) : (
+              <div className="d-flex col-md-8 border mt-0">
+                <div className="col-md-4 mt-0">
+                  <label className="form-label">
+                    <b>Damage Charges</b>
+                  </label>
+                  <h6>₹ {totalDamageCharges}</h6>
+                </div>
+                <div className="col-md-4 mt-0">
+                  <label className="form-label">
+                    <b>Penalty Charges</b>
+                  </label>
+                  <h6>₹ {totalPenaltyCharges}</h6>
+                </div>
+              </div>
+            )}
+            <div className="col-md-4 mt-0 border">
               <label className="form-label">
                 <b>Amount to be Collected/Refunded</b>
               </label>

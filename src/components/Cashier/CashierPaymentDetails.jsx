@@ -49,7 +49,7 @@ const CashierPaymentDetails = () => {
 
   const { totalDamageCharges, totalPenaltyCharges } = totalPaidAmount;
 
-  console.log("getPaymentData==>", getPaymentData);
+  console.log("paymentDetails==>", paymentDetails);
   const CollectedAmount =
     parseInt(depositValue) -
     (parseInt(totalDamageCharges) + parseInt(totalPenaltyCharges));
@@ -210,7 +210,7 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Booking Successfully Cancelled");
       setBookedStatus("Cancellation_After_Booking");
       setAmontErrMassage(
-        "Total Amount Not Equal to Net Cancellation Charges & Save Payment"
+        "Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment"
       );
       setBookingGenNo(paymentDetails.bookingRefNo);
     }
@@ -219,7 +219,7 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
       setAmontErrMassage(
-        "Total Amount Not Equal to Damage Protection Charge & Save Payment"
+        "Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment"
       );
       setBookingGenNo(paymentDetails.bookingRefNo);
     }
@@ -228,7 +228,7 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Payment Submited Successfully and Order Booked");
       setBookedStatus("Booked");
       setAmontErrMassage(
-        "Total Amount Not Equal to Rental Amount & Save Payment"
+        "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
       );
       setBookingGenNo(bookingRefID);
     }
@@ -237,7 +237,7 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Item Return Successfully");
       setBookedStatus("ProductReturned");
       setAmontErrMassage(
-        "Total Amount Not Equal to Rental Return & Save Payment"
+        "Total Amount Not Equal to Rental Return & Please ensure to Save the Payment"
       );
       setBookingGenNo(paymentDetails.bookingRefNo);
     }

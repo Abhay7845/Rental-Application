@@ -51,9 +51,7 @@ const CashierPaymentDetails = () => {
 
   console.log("paymentDetails==>", paymentDetails);
 
-  const CollectedAmount =
-    parseInt(depositValue) -
-    (parseInt(totalDamageCharges) + parseInt(totalPenaltyCharges));
+  const CollectedAmount = depositValue - +totalPenaltyCharges;
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -675,13 +673,13 @@ const CashierPaymentDetails = () => {
                   <label className="form-label">
                     <b>Damage Charges</b>
                   </label>
-                  <h6>₹ {totalDamageCharges}</h6>
+                  <h6>₹ {totalDamageCharges.toLocaleString("en-IN")}</h6>
                 </div>
                 <div className="col-md-5 mt-0">
                   <label className="form-label">
                     <b>Penalty Charges</b>
                   </label>
-                  <h6>₹ {totalPenaltyCharges}</h6>
+                  <h6>₹ {totalPenaltyCharges.toLocaleString("en-IN")}</h6>
                 </div>
               </div>
             )}
@@ -689,7 +687,7 @@ const CashierPaymentDetails = () => {
               <label className="form-label">
                 <b>Amount to be Collected/Refunded</b>
               </label>
-              <h6>₹ {collectedAmount}</h6>
+              <h6>₹ {collectedAmount.toLocaleString("en-IN")}</h6>
             </div>
             <div className="col-12 table-responsive mx-0">
               <table className="table table-bordered table-hover border-dark text-center">
@@ -800,6 +798,15 @@ const CashierPaymentDetails = () => {
                 </div>
               ) : (
                 <div className="d-flex justify-content-between">
+                  {savePaymetRow.length > 0 && (
+                    <button
+                      type="submit"
+                      className="CancelButton mx-2"
+                      onClick={() => setSavePaymetRow([])}
+                    >
+                      Cancel Payment
+                    </button>
+                  )}
                   <button
                     type="submit"
                     className="CButton"

@@ -120,7 +120,6 @@ const CashierPaymentDetails = () => {
       });
   };
 
-  // TOTAL PAID BOOKING AMONT
   useEffect(() => {
     if (bookingRefNo) {
       axios
@@ -663,36 +662,20 @@ const CashierPaymentDetails = () => {
               <label className="form-label">
                 <b>Damage Charges</b>
               </label>
-              <input
-                type="text"
-                className="form-control"
-                value={parseInt(totalDamageCharges)}
-                disabled
-              />
+              <h6>₹ {totalDamageCharges}</h6>
             </div>
             <div className="col-md-4 mt-0">
               <label className="form-label">
                 <b>Penalty Charges</b>
               </label>
-              <input
-                type="text"
-                className="form-control"
-                value={parseInt(totalPenaltyCharges)}
-                disabled
-              />
+              <h6>₹ {totalPenaltyCharges}</h6>
             </div>
             <div className="col-md-4 mt-0">
               <label className="form-label">
                 <b>Amount to be Collected/Refunded</b>
               </label>
-              <input
-                type="text"
-                className="form-control"
-                value={collectedAmount}
-                disabled
-              />
+              <h6>₹ {collectedAmount}</h6>
             </div>
-
             <div className="col-12 table-responsive mx-0">
               <table className="table table-bordered table-hover border-dark text-center">
                 <thead className="table-dark border-light">

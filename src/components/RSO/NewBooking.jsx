@@ -415,14 +415,7 @@ const NewBooking = () => {
             <h6>{existedUserData.addressProofIdNo}</h6>
           </div>
           <div className="col-md-4">
-            {panImageUrl ? (
-              <img
-                src={`data:image/jpeg;base64,${panImageUrl}`}
-                alt=""
-                width="180"
-                height="85"
-              />
-            ) : (
+            {panImageUrl && (
               <img
                 src={`data:image/jpeg;base64,${panImageUrl}`}
                 alt=""

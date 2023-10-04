@@ -90,27 +90,6 @@ const RentalReturn = () => {
     };
   });
 
-  const UpdateBookingCalendar = (bookingID) => {
-    const updatedInputs = returnTableData.map((data, i) => {
-      return {
-        bookingId: bookingID,
-        pdtId: data.pdtId,
-        status:
-          inputPhyDmg[i] === "FactoryQA"
-            ? "FactoryQA_Required"
-            : "ProductReturnedSuccess",
-        storeCode: storeCode,
-        tempRefNo: data.tempBookingRefNo,
-      };
-    });
-    console.log("updatedBookingInputs==>", updatedInputs);
-    axios
-      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
-      .then((res) => res)
-      .then((response) => console.log("UpdatedResponse==>", response.data))
-      .catch((error) => console.log("error==>", error));
-  };
-
   // TOTAL PAID BOOKING AMONT
   useEffect(() => {
     axios
@@ -329,11 +308,37 @@ const RentalReturn = () => {
     for (let data of PdtItemWtDmg) total = total + parseInt(data);
     return total;
   };
-
+  const UpdateBookingCalendar = (bookingID) => {
+    setLoading(true);
+    const updatedInputs = returnTableData.map((data, i) => {
+      return {
+        bookingId: bookingID,
+        pdtId: data.pdtId,
+        status: inputPhyDmg[i] === "FactoryQA" && "In_Factory_QA",
+        storeCode: storeCode,
+        tempRefNo: data.tempBookingRefNo,
+      };
+    });
+    console.log("updatedBookingInputs==>", updatedInputs);
+    axios
+      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          console.log("UpdatedResponse==>", response.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const GetPhysicalDmg = (e) => {
     const { name, value } = e.target;
     if (value === "FactoryQA") {
       setCheckedQA(true);
+      UpdateBookingCalendar(GetReturnProduct.bookingID);
     } else if (checkedQA === true) {
       setCheckedQA(false);
     } else {
@@ -449,7 +454,6 @@ const RentalReturn = () => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
             RaiseClouseRequest(DespId[0]);
-            UpdateBookingCalendar(GetReturnProduct.bookingID);
           }
           setLoading(false);
         })

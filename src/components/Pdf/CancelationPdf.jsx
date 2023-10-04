@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { CancelPdfHeders } from "./PDFHearders";
+import moment from "moment";
 
 const CancelationPdf = (props) => {
   const CancelationRef = useRef(null);
@@ -10,15 +11,16 @@ const CancelationPdf = (props) => {
   });
 
   const {
-    // savePaymetRow,
     existedUserData,
     addedPdts,
-    // paymentDetails,
+    paymentDetails,
     storeDetails,
-    // regUserData,
+    regUserData,
     totalPaidAmount,
   } = props;
   const CutometProfileNo = addedPdts.map((data) => data.custId);
+  const bookingDate = regUserData.map((data) => data.bookingDate);
+
   const RefacotorData = addedPdts.map((data) => {
     return {
       actualWtReturn: data.actualWtReturn,
@@ -48,9 +50,10 @@ const CancelationPdf = (props) => {
       tempBookingRefNo: data.tempBookingRefNo,
       sgst: (parseInt(data.rentalAmount) * 9) / 100,
       csgst: (parseInt(data.rentalAmount) * 9) / 100,
+      netCharges: data.rentalAmount - totalPaidAmount.totalDiscountAmount,
     };
   });
-
+  console.log("RefacotorData==>", RefacotorData);
   return (
     <div>
       <div>
@@ -61,7 +64,7 @@ const CancelationPdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -99,11 +102,17 @@ const CancelationPdf = (props) => {
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>Invoice No: ACGFRDGG1235</b>
-                      <b>Booking Reference No: ASDFGHJWERTY54</b>
+                      <b>Booking Ref No:-{paymentDetails.bookingRefNo}</b>
                     </div>
                     <div className="d-flex flex-column space-in-pdf">
-                      <b>Invoice Dated: 29/08/29</b>
-                      <b>Booking Dated: 29/08/29</b>
+                      <b>
+                        Invoice Date:-
+                        {moment().format("DD-MM-YYYY")}
+                      </b>
+                      <b>
+                        Booking Date:-
+                        {moment(bookingDate[0]).format("DD-MM-YYYY")}
+                      </b>
                     </div>
                   </div>
                 </td>
@@ -182,14 +191,9 @@ const CancelationPdf = (props) => {
                                   "en-IN"
                                 )}
                               </th>
-                              <th>
-                                {parseFloat(item.rentalAmount) -
-                                  parseFloat(
-                                    totalPaidAmount.totalDiscountAmount
-                                  )}
-                              </th>
+                              <th>N/A</th>
                               <th>0</th>
-                              <th>0</th>
+                              <th>{totalPaidAmount.totalDiscountAmount}</th>
                               <th>
                                 {Math.round(item.rentalAmount).toLocaleString(
                                   "en-IN"
@@ -197,6 +201,7 @@ const CancelationPdf = (props) => {
                               </th>
                               <th>{item.sgst.toLocaleString("en-IN")}</th>
                               <th>{item.csgst.toLocaleString("en-IN")}</th>
+                              <th>{item.netCharges}</th>
                               <th>
                                 {(
                                   item.rentalAmount +
@@ -231,10 +236,12 @@ const CancelationPdf = (props) => {
               </tr>
               <tr>
                 <td colSpan="5" className="text-center">
-                  <b>
-                    The refund will be credited to your preffered Bank Account
-                    within 5 days.
-                  </b>
+                  <h6>
+                    <b>
+                      The refund will be credited to your preffered Bank Account
+                      within 5 days.
+                    </b>
+                  </h6>
                 </td>
               </tr>
               <tr>
@@ -260,7 +267,10 @@ const CancelationPdf = (props) => {
                       <h6 className="mt-4">(Authorized Signatory)</h6>
                     </div>
                     <div>
-                      <b>Customer Name : Abhay Aryan</b>
+                      <b>
+                        Customer Name:-
+                        {existedUserData.customerName.toUpperCase()}
+                      </b>
                       <h6 className="mt-4">
                         Customer Signature : ..............................
                       </h6>

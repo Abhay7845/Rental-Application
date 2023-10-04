@@ -771,134 +771,137 @@ const CashierPaymentDetails = () => {
                   : collectedAmount.toLocaleString("en-IN")}
               </h6>
             </div>
-            <div className="col-12 table-responsive mx-0">
-              <table className="table table-bordered table-hover border-dark text-center">
-                <thead className="table-dark border-light">
-                  <tr>
-                    {PaymentHeading2.map((heading, i) => {
-                      return <td key={i}>{heading}</td>;
+            {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
+              <div className="col-12 table-responsive mx-0">
+                <table className="table table-bordered table-hover border-dark text-center">
+                  <thead className="table-dark border-light">
+                    <tr>
+                      {PaymentHeading2.map((heading, i) => {
+                        return <td key={i}>{heading}</td>;
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {savePaymetRow.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td>{item.paymentFor}</td>
+                          <td>{item.paymentType}</td>
+                          <td>{item.txnRefNo}</td>
+                          <td>{item.amount.toString()}</td>
+                          <td className="d-flex justify-content-between">
+                            {item.fileName}
+                          </td>
+                          <td>
+                            <BsFillTrashFill
+                              onClick={() => DeletePaymentRow(item.id)}
+                              style={{ cursor: "pointer", color: "red" }}
+                            />
+                          </td>
+                        </tr>
+                      );
                     })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {savePaymetRow.map((item, i) => {
-                    return (
-                      <tr key={i}>
-                        <td>{item.paymentFor}</td>
-                        <td>{item.paymentType}</td>
-                        <td>{item.txnRefNo}</td>
-                        <td>{item.amount.toString()}</td>
-                        <td className="d-flex justify-content-between">
-                          {item.fileName}
+                    {savePaymetRow.length > 0 && (
+                      <tr>
+                        <th colSpan="3" className="text-end">
+                          TOTAL
+                        </th>
+                        <th>₹ {TotalAmount.toString()}</th>
+                        <td colSpan="2" />
+                      </tr>
+                    )}
+                    {addPaymentRows.length > 0 && (
+                      <tr>
+                        <td>{paymentRequestFor}</td>
+                        <td>
+                          <select
+                            className="form-control"
+                            onChange={(e) => setPaymentType(e.target.value)}
+                          >
+                            <option value="">Select Type</option>
+                            <option value="Card">Card</option>
+                            <option value="TEP">TEP</option>
+                            <option value="NEFT">NEFT</option>
+                            <option value="RTGS">RTGS</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input
+                            className="form-control"
+                            placeholder="Payment Ref No."
+                            onChange={(e) => setTnxRefNo(e.target.value)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Amount"
+                            onChange={(e) => setAmount(e.target.value)}
+                          />
+                        </td>
+                        <td className="d-flex">
+                          <input
+                            type="file"
+                            onChange={(e) => setFileUpload(e.target.files[0])}
+                          />
+                          <button
+                            className="CButton mx-1"
+                            onClick={UploadPaymentFile}
+                          >
+                            Upload
+                          </button>
                         </td>
                         <td>
                           <BsFillTrashFill
-                            onClick={() => DeletePaymentRow(item.id)}
+                            onClick={() => setAddPaymentRows([])}
                             style={{ cursor: "pointer", color: "red" }}
                           />
                         </td>
                       </tr>
-                    );
-                  })}
-                  {savePaymetRow.length > 0 && (
-                    <tr>
-                      <th colSpan="3" className="text-end">
-                        TOTAL
-                      </th>
-                      <th>₹ {TotalAmount.toString()}</th>
-                      <td colSpan="2" />
-                    </tr>
-                  )}
-                  {addPaymentRows.length > 0 && (
-                    <tr>
-                      <td>{paymentRequestFor}</td>
-                      <td>
-                        <select
-                          className="form-control"
-                          onChange={(e) => setPaymentType(e.target.value)}
-                        >
-                          <option value="">Select Type</option>
-                          <option value="Card">Card</option>
-                          <option value="TEP">TEP</option>
-                          <option value="NEFT">NEFT</option>
-                          <option value="RTGS">RTGS</option>
-                          <option value="Bank Transfer">Bank Transfer</option>
-                        </select>
-                      </td>
-                      <td>
-                        <input
-                          className="form-control"
-                          placeholder="Payment Ref No."
-                          onChange={(e) => setTnxRefNo(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          className="form-control"
-                          placeholder="Amount"
-                          onChange={(e) => setAmount(e.target.value)}
-                        />
-                      </td>
-                      <td className="d-flex">
-                        <input
-                          type="file"
-                          onChange={(e) => setFileUpload(e.target.files[0])}
-                          accept=".jpg, .jpeg, .png, .pdf"
-                        />
-                        <button
-                          className="CButton mx-1"
-                          onClick={UploadPaymentFile}
-                        >
-                          Upload
-                        </button>
-                      </td>
-                      <td>
-                        <BsFillTrashFill
-                          onClick={() => setAddPaymentRows([])}
-                          style={{ cursor: "pointer", color: "red" }}
-                        />
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-            <div className="d-flex justify-content-end mt-0">
-              {addPaymentRows.length > 0 ? (
-                <div className="d-flex justify-content-between w-100">
-                  <b className="text-danger">
-                    Note:- Please fill the all (*) marks filed
-                  </b>
-                  <button
-                    type="submit"
-                    className="CButton"
-                    onClick={SavePaymentRow}
-                  >
-                    Save Payment
-                  </button>
-                </div>
-              ) : (
-                <div className="d-flex justify-content-between">
-                  {savePaymetRow.length > 0 && (
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
+              <div className="d-flex justify-content-end mt-0">
+                {addPaymentRows.length > 0 ? (
+                  <div className="d-flex justify-content-between w-100">
+                    <b className="text-danger">
+                      Note:- Please fill the all (*) marks filed
+                    </b>
                     <button
                       type="submit"
-                      className="CancelButton mx-2"
-                      onClick={() => setSavePaymetRow([])}
+                      className="CButton"
+                      onClick={SavePaymentRow}
                     >
-                      Cancel Payment
+                      Save Payment
                     </button>
-                  )}
-                  <button
-                    type="submit"
-                    className="CButton"
-                    onClick={AddPaymentRows}
-                  >
-                    Add Payment
-                  </button>
-                </div>
-              )}
-            </div>
+                  </div>
+                ) : (
+                  <div className="d-flex justify-content-between">
+                    {savePaymetRow.length > 0 && (
+                      <button
+                        type="submit"
+                        className="CancelButton mx-2"
+                        onClick={() => setSavePaymetRow([])}
+                      >
+                        Cancel Payment
+                      </button>
+                    )}
+                    <button
+                      type="submit"
+                      className="CButton"
+                      onClick={AddPaymentRows}
+                    >
+                      Add Payment
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
             {paymentRequestFor === "Payment_PendingFor_NewBooking" && (
               <div className="">
                 <div className="col-12 mb-0">

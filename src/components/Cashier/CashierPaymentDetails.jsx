@@ -665,7 +665,7 @@ const CashierPaymentDetails = () => {
         )}
         {paymentDetails.bookingId && (
           <div className="row g-3 mt-3 mx-0">
-            {paymentRequestFor === "Payment_PendingFor_NewBooking" ? (
+            {paymentRequestFor !== "Payment_PendingFor_RentalReturn" ? (
               ""
             ) : (
               <div className="d-flex col-md-8 mt-0">
@@ -673,13 +673,23 @@ const CashierPaymentDetails = () => {
                   <label className="form-label">
                     <b>Damage Charges</b>
                   </label>
-                  <h6>₹ {totalDamageCharges.toLocaleString("en-IN")}</h6>
+                  <h6>
+                    ₹
+                    {!totalDamageCharges
+                      ? ""
+                      : totalDamageCharges.toLocaleString("en-IN")}
+                  </h6>
                 </div>
                 <div className="col-md-5 mt-0">
                   <label className="form-label">
                     <b>Penalty Charges</b>
                   </label>
-                  <h6>₹ {totalPenaltyCharges.toLocaleString("en-IN")}</h6>
+                  <h6>
+                    ₹
+                    {!totalPenaltyCharges
+                      ? ""
+                      : totalPenaltyCharges.toLocaleString("en-IN")}
+                  </h6>
                 </div>
               </div>
             )}
@@ -687,7 +697,12 @@ const CashierPaymentDetails = () => {
               <label className="form-label">
                 <b>Amount to be Collected/Refunded</b>
               </label>
-              <h6>₹ {collectedAmount.toLocaleString("en-IN")}</h6>
+              <h6>
+                ₹
+                {!collectedAmount
+                  ? ""
+                  : collectedAmount.toLocaleString("en-IN")}
+              </h6>
             </div>
             <div className="col-12 table-responsive mx-0">
               <table className="table table-bordered table-hover border-dark text-center">
@@ -958,14 +973,25 @@ const CashierPaymentDetails = () => {
                 <div className="col-12 mb-0">
                   <h6 className="bookingHeading d-flex justify-content-between">
                     <span className="mt-1">Cancellation Invoice</span>
-                    <CancelationPdf />
+                    <CancelationPdf
+                      savePaymetRow={savePaymetRow}
+                      existedUserData={existedUserData}
+                      addedPdts={addedPdts}
+                      paymentDetails={paymentDetails}
+                      storeDetails={storeDetails}
+                      regUserData={regUserData}
+                      bookingRefID={bookingGenNo}
+                      totalPaidAmount={totalPaidAmount}
+                    />
                   </h6>
                 </div>
-                <div className="col-md-6 d-flex">
+                <div className="input-group">
+                  <div className="input-group-text">
+                    Upload Cancellation Invoice
+                  </div>
                   <input
                     type="file"
-                    className="form-control mx-2"
-                    accept=".jpg, .jpeg, .png. pdf"
+                    className="form-control"
                     onChange={(e) => setPrintFile(e.target.files[0])}
                   />
                   <button className="CButton" onClick={UploadPrintFile}>

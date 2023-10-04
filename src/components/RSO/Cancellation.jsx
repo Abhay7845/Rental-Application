@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cancellation = () => {
   const [loading, setLoading] = useState(false);
-  const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountAmount, setDiscountAmount] = useState();
   const [numberDays, setNumberDays] = useState("");
   const [rsoName, setRsoName] = useState("");
   const [returnTableData, setReturnTableData] = useState([]);
@@ -218,6 +218,8 @@ const Cancellation = () => {
   const RaiseCancelBookingRequest = () => {
     if (!rsoName || !cancellationReason) {
       alert("Please Enter Cancellation Reason & RSO Name");
+    } else if (cancelCharge < discountAmount) {
+      alert("Discount amount can't be Greater than Cancellation Charges");
     } else {
       setLoading(true);
       const CancellationInputs = {
@@ -445,13 +447,14 @@ const Cancellation = () => {
           <div className="col-6">
             <label className="form-label">Discount Amount</label>
             <input
-              type="number"
+              type="text"
               className="form-control"
               placeholder="Discount Amount"
               value={discountAmount}
-              onChange={(e) =>
-                setDiscountAmount(cancelCharge === 0 ? 0 : e.target.value)
-              }
+              onChange={(e) => {
+                let discount = e.target.value.replace(/\D/g, "");
+                setDiscountAmount(cancelCharge === 0 ? 0 : discount);
+              }}
             />
           </div>
           <div className="col-12">

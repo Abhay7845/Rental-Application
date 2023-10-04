@@ -119,6 +119,8 @@ const ProductsDetails = () => {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
           CheckThresholdMilimt(payload);
+        } else if (response.data.code === "1001") {
+          alert("Selected Product is not Available in the Store");
         }
         setLoading(false);
         payload.itemCode = "";
@@ -174,7 +176,7 @@ const ProductsDetails = () => {
     };
     const avlId = goToCart.map((id) => id.pdtId);
     if (avlId.includes(AddToWishListOBj.pdtId)) {
-      alert("Product Is Alredy Added to Wishlis");
+      alert("Product Is Already Added to the Wishlist");
     } else {
       setAddtoWishList([...addtoWishList, AddToWishListOBj]);
       setGoToCart([...goToCart, AddToWishListOBj]);
@@ -433,9 +435,11 @@ const ProductsDetails = () => {
           </table>
         </div>
         <div className="d-flex justify-content-end mt-0">
-          <button className="CancelButton mx-2" onClick={GoForCancel}>
-            Reset
-          </button>
+          {productDetails.length > 0 && (
+            <button className="CancelButton mx-2" onClick={GoForCancel}>
+              Reset
+            </button>
+          )}
           <button
             className={addtoWishList.length > 0 ? "CButton" : "CDisabled"}
             disabled={addtoWishList.length > 0 ? false : true}

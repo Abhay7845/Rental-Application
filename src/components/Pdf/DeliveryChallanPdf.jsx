@@ -16,6 +16,7 @@ const DeliveryChallanPdf = (props) => {
     paymentDetails,
     storeDetails,
     regUserData,
+    challanNo,
   } = props;
   const CutometProfileNo = addedPdts.map((data) => data.custId);
 
@@ -92,7 +93,7 @@ const DeliveryChallanPdf = (props) => {
                 <td colSpan="3">
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
-                      <b>Challan No:-{paymentDetails.bookingRefNo}-D</b>
+                      <b>Challan No:-{challanNo}</b>
                       <b>Booking Ref No:-{paymentDetails.bookingRefNo}</b>
                     </div>
                     <div className="d-flex flex-column space-in-pdf">

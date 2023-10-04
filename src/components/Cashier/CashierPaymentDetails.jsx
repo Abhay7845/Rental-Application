@@ -39,6 +39,8 @@ const CashierPaymentDetails = () => {
   const [regUserData, setRegUserData] = useState([]);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [updateStatus, setUpdateStatus] = useState("");
+  const [invoiceNo, setInvoiceNo] = useState("");
+  const [challanNo, setChallanNo] = useState("");
 
   const {
     paymentRequestFor,
@@ -48,7 +50,10 @@ const CashierPaymentDetails = () => {
     bookingRefNo,
   } = paymentDetails;
 
-  const { totalDamageCharges, totalPenaltyCharges } = totalPaidAmount;
+  const { totalDamageCharges, totalPenaltyCharges, bookingId } =
+    totalPaidAmount;
+  const GenChallanNo = `${bookingRefNo}-D`;
+  const GenInvoiceNo = "123456";
 
   console.log("paymentDetails==>", paymentDetails);
 
@@ -219,6 +224,8 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(Math.round(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
+      setInvoiceNo("");
+      setChallanNo(GenChallanNo);
       setAmontErrMassage(
         "Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment"
       );
@@ -238,6 +245,8 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Item Return Successfully");
       setBookedStatus("ProductBooked");
       setUpdateStatus("ProductReturnedSuccess");
+      setInvoiceNo(GenInvoiceNo);
+      setChallanNo("");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Return & Please ensure to Save the Payment"
       );
@@ -250,16 +259,50 @@ const CashierPaymentDetails = () => {
     refundValue,
     paymentDetails.bookingRefNo,
     CollectedAmount,
+    GenChallanNo,
   ]);
 
   const AddPaymentRows = () => {
     setCount(count + 1);
     setAddPaymentRows([...addPaymentRows, count + 1]);
   };
+
+  const InsertInvoiceData = (challanNo) => {
+    setLoading(true);
+    const InvoiceInputs = {
+      bookingId: bookingId,
+      bookingRefNo: bookingRefNo,
+      challanNo: challanNo,
+      invoiceNo: invoiceNo,
+      createdDate: null,
+      storeCode: storeCode,
+    };
+    console.log("InvoiceInputs==>", InvoiceInputs);
+    axios
+      .post(`${HOST_URL}/insert/invoice/details`, InvoiceInputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          console.log("responseInvoice==>", response.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  };
+
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
       alert("Please Fill All Details");
     } else {
+      if (
+        paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
+        paymentRequestFor === "Payment_PendingFor_RentalReturn"
+      ) {
+        InsertInvoiceData(challanNo);
+      }
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
         id: paymentRowId,
@@ -959,6 +1002,7 @@ const CashierPaymentDetails = () => {
                         storeDetails={storeDetails}
                         regUserData={regUserData}
                         bookingRefID={bookingGenNo}
+                        challanNo={challanNo}
                       />
                     )}
                   </h6>

@@ -69,6 +69,7 @@ const CancelationPdf = (props) => {
           }
             @page {
               size: A4;
+              oriantation:landscape;
             }
             @media print{
               .space-in-pdf{

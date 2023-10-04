@@ -638,7 +638,8 @@ const CashierPaymentDetails = () => {
   const SubmitPayment = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       CallPaymentAPI();
-    } else if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
+    }
+    if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
       UpdateBookingCalaendar();
     } else {
       if (collectedAmount === parseInt(TotalAmount)) {

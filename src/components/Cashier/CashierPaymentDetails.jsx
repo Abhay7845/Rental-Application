@@ -38,6 +38,7 @@ const CashierPaymentDetails = () => {
   const [amontErrMassage, setAmontErrMassage] = useState("");
   const [regUserData, setRegUserData] = useState([]);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
+  const [updateStatus, setUpdateStatus] = useState("");
 
   const {
     paymentRequestFor,
@@ -208,6 +209,7 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(parseFloat(refundValue));
       setAlertMessage("Booking Successfully Cancelled");
       setBookedStatus("Cancellation_After_Booking");
+      setUpdateStatus("BookingCancelled");
       setAmontErrMassage(
         "Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment"
       );
@@ -226,6 +228,7 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(Math.round(rentValue));
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
+      setUpdateStatus("ProductBooked");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
       );
@@ -233,7 +236,8 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(CollectedAmount);
       setAlertMessage("Item Return Successfully");
-      setBookedStatus("ProductReturned");
+      setBookedStatus("ProductBooked");
+      setUpdateStatus("ProductReturnedSuccess");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Return & Please ensure to Save the Payment"
       );
@@ -273,6 +277,24 @@ const CashierPaymentDetails = () => {
       setAddPaymentRows([]);
       setFileName("");
     }
+  };
+
+  const UpdateBookingCalaendar = () => {
+    const updatedInputs = addedPdts.map((data) => {
+      return {
+        bookingId: paymentDetails.bookingId,
+        pdtId: data.pdtId,
+        status: updateStatus,
+        storeCode: storeCode,
+        tempRefNo: data.tempBookingRefNo,
+      };
+    });
+    console.log("updatedBookingInputs==>", updatedInputs);
+    axios
+      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+      .then((res) => res)
+      .then((response) => console.log("UpdatedResponse==>", response.data))
+      .catch((error) => console.log("error==>", error));
   };
 
   const PaymentFileImage = (UploadFileName) => {
@@ -573,6 +595,8 @@ const CashierPaymentDetails = () => {
   const SubmitPayment = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       CallPaymentAPI();
+    } else if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
+      UpdateBookingCalaendar();
     } else {
       if (collectedAmount === parseInt(TotalAmount)) {
         CallPaymentAPI();

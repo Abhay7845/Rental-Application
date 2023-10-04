@@ -545,7 +545,7 @@ const CashierPaymentDetails = () => {
 
   const TnxStatusUpdate = (bookingId) => {
     axios
-      .get(`${HOST_URL}/update/txn/status/${bookingId}/${paymentRequestFor}`)
+      .get(`${HOST_URL}/update/txn/status/${bookingId}/${bookedStatus}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

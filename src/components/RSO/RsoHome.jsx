@@ -240,12 +240,12 @@ const Home = () => {
                     ? "CButton"
                     : "CDisabled"
                 }
-                disabled={
-                  Status === "ProductIssued" ||
-                  Status === "Issued_Rental_Period"
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   Status === "ProductIssued" ||
+                //   Status === "Issued_Rental_Period"
+                //     ? false
+                //     : true
+                // }
                 onClick={RentalRetunProducts}
               >
                 Rental Return

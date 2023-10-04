@@ -19,7 +19,7 @@ const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
   const storeCode = localStorage.getItem("storeCode");
   const [sameCustomer, setSameCustomer] = useState(true);
-  const [retunTableData, setRetunTableData] = useState([]);
+  const [returnTableData, setReturnTableData] = useState([]);
   const [checkedQA, setCheckedQA] = useState(false);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   // SAME CUSTOME UPLOAD & DETAILS/
@@ -56,7 +56,7 @@ const RentalReturn = () => {
   const timeDifference = new Date() - getReturnDate();
   const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-  const refactoreDataTable = retunTableData.map((data) => {
+  const refactoreDataTable = returnTableData.map((data) => {
     return {
       id: data.id,
       actualWtReturn: data.actualWtReturn,
@@ -90,6 +90,27 @@ const RentalReturn = () => {
     };
   });
 
+  const UpdateBookingCalendar = (bookingID) => {
+    const updatedInputs = returnTableData.map((data, i) => {
+      return {
+        bookingId: bookingID,
+        pdtId: data.pdtId,
+        status:
+          inputPhyDmg[i] === "FactoryQA"
+            ? "FactoryQA_Required"
+            : "ProductReturnedSuccess",
+        storeCode: storeCode,
+        tempRefNo: data.tempBookingRefNo,
+      };
+    });
+    console.log("updatedBookingInputs==>", updatedInputs);
+    axios
+      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+      .then((res) => res)
+      .then((response) => console.log("UpdatedResponse==>", response.data))
+      .catch((error) => console.log("error==>", error));
+  };
+
   // TOTAL PAID BOOKING AMONT
   useEffect(() => {
     axios
@@ -119,7 +140,7 @@ const RentalReturn = () => {
       .then((response) => {
         console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          setRetunTableData(response.data.value);
+          setReturnTableData(response.data.value);
         }
         setLoading(false);
       })
@@ -328,8 +349,6 @@ const RentalReturn = () => {
     ? "FactoryQA_Required"
     : "Payment_PendingFor_RentalReturn";
 
-  console.log("FactoryQAStaus==>", FactoryQAStaus);
-
   const TnxStatusUpdate = (bookingId) => {
     axios
       .get(`${HOST_URL}/update/txn/status/${bookingId}/${FactoryQAStaus}`)
@@ -350,10 +369,7 @@ const RentalReturn = () => {
         console.log("error=>", error);
       });
   };
-  console.log("retunTableData==>", retunTableData);
-
-  const DespId = retunTableData.map((data) => data.despId);
-  console.log("DespId=>", DespId);
+  const DespId = returnTableData.map((data) => data.despId);
 
   const RaiseClouseRequest = (despId) => {
     const RetnaReturnInputs = {
@@ -379,7 +395,6 @@ const RentalReturn = () => {
       totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
       updatedDate: null,
     };
-    console.log("RetnaReturnInputs==>", RetnaReturnInputs);
     axios
       .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
       .then((res) => res)
@@ -400,7 +415,7 @@ const RentalReturn = () => {
       alert("Please Actual wt Return Enter, Upload Print File & RSO Name");
     } else {
       setLoading(true);
-      const InsertTableInputs = retunTableData.map((data, i) => {
+      const InsertTableInputs = returnTableData.map((data, i) => {
         return {
           bookingId: totalPaidAmount.bookingId,
           despId: data.despId === "" ? "0" : data.despId,
@@ -434,6 +449,7 @@ const RentalReturn = () => {
           console.log("response==>", response.data);
           if (response.data.code === "1000") {
             RaiseClouseRequest(DespId[0]);
+            UpdateBookingCalendar(GetReturnProduct.bookingID);
           }
           setLoading(false);
         })

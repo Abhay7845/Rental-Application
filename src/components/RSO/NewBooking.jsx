@@ -475,7 +475,7 @@ const NewBooking = () => {
               </div>
             </div>
           )}
-          <div className="col-md-3 text-center border">
+          <div className="col-md-3 text-center">
             {transactioUI && (
               <img src={transactioUI} alt="" width="180" height="85" />
             )}

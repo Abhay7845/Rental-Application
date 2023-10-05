@@ -185,7 +185,7 @@ const CashierPaymentDetails = () => {
           FetchUserDetails(searchValue);
           GetRegistreUserData();
         }
-        if (response.data.code === "1001" || PendingStatusData.length === 0) {
+        if (response.data.code === "1001") {
           setGetPaymentData({});
           setPaymentDetails({});
           Swal.fire({
@@ -641,7 +641,8 @@ const CashierPaymentDetails = () => {
     }
     if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
       UpdateBookingCalaendar();
-    } else {
+    }
+    if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       if (collectedAmount === parseInt(TotalAmount)) {
         CallPaymentAPI();
       } else {

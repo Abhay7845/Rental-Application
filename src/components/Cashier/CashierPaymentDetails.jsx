@@ -642,7 +642,10 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
       UpdateBookingCalaendar();
     }
-    if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
+    if (
+      paymentRequestFor === "Payment_PendingFor_NewBooking" ||
+      paymentRequestFor === "Payment_PendingFor_RentalIssuance"
+    ) {
       if (collectedAmount === parseInt(TotalAmount)) {
         CallPaymentAPI();
       } else {

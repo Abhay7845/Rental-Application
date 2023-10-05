@@ -254,7 +254,7 @@ const RentalIssue = () => {
   };
 
   const UpdateCustomerBankDetails = () => {
-    if (!customerBankName || !customerAccountNumber) {
+    if (!customerBankName || !customerAccountNumber || !cancelChqueFileName) {
       alert("Please Enter All Details");
     } else {
       setLoading(true);
@@ -952,7 +952,7 @@ const RentalIssue = () => {
                 data-bs-dismiss={customerAccountNumber && "modal"}
                 onClick={UpdateCustomerBankDetails}
               >
-                SAVE UPDATE
+                Save & Update
               </button>
             </div>
           </div>

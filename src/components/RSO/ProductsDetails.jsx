@@ -26,9 +26,9 @@ const ProductsDetails = () => {
   const [productDetails, setProductDetails] = useState([]);
   const [goToCart, setGoToCart] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
-  const [wishList, setWishList] = useState(false);
   const [thresholdLimit, setThresholdLimit] = useState("");
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
+  const [selectedId, setSelectedId] = useState("");
 
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
@@ -152,6 +152,7 @@ const ProductsDetails = () => {
   });
 
   const SelectedProducts = (product) => {
+    setSelectedId(product.pdtID);
     const AddToWishListOBj = {
       bookingId: 0,
       itemCode: product.itemCode,
@@ -174,28 +175,25 @@ const ProductsDetails = () => {
       paymentRequestFor: "NewBooking",
       storeCode: storeCode,
     };
+    setAddtoWishList([...addtoWishList, AddToWishListOBj]);
+  };
+  const AddToWishList = () => {
     const avlId = goToCart.map((id) => id.pdtId);
-    if (avlId.includes(AddToWishListOBj.pdtId)) {
+    if (avlId.includes(selectedId)) {
       alert("Product Is Already Added to the Wishlist");
     } else {
-      setAddtoWishList([...addtoWishList, AddToWishListOBj]);
-      setGoToCart([...goToCart, AddToWishListOBj]);
+      setGoToCart([...goToCart, ...addtoWishList]);
+      setProductDetails([]);
+      setAddtoWishList([]);
     }
   };
 
-  const AddToWishList = () => {
-    setWishList(true);
-    setProductDetails([]);
-    setAddtoWishList([]);
-  };
   const DeleteWishListRow = (pdtId) => {
     const updatedData = goToCart.filter((rowId) => rowId.pdtId !== pdtId);
     setGoToCart(updatedData);
-    if (updatedData.length === 0) {
-      setWishList(false);
-    }
   };
 
+  console.log("goToCart==>", goToCart);
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = goToCart.map((item) => parseInt(item.productValue));
   const SumOfTProductValue = () => {
@@ -229,7 +227,6 @@ const ProductsDetails = () => {
   };
 
   const GoForCancel = () => {
-    setWishList(false);
     setProductDetails([]);
     setAddtoWishList([]);
     setGoToCart([]);
@@ -448,7 +445,7 @@ const ProductsDetails = () => {
             Add To WishList
           </button>
         </div>
-        {wishList === true && (
+        {goToCart.length > 0 && (
           <div className="col-12">
             <h6 className="bookingHeading">Your WishListed Products</h6>
             <div className="col-12 table-responsive">
@@ -505,7 +502,7 @@ const ProductsDetails = () => {
             </div>
           </div>
         )}
-        {wishList === true && (
+        {goToCart.length > 0 && (
           <div className="d-flex justify-content-end mt-0 mb-3">
             <button className="CancelButton mx-2" onClick={GoForCancel}>
               Cancel

@@ -162,7 +162,8 @@ const NewBooking = () => {
     for (let data of TDepositRate) total = total + data;
     return total;
   };
-  console.log("SumOfDepositRate==>", SumOfDepositRate());
+
+  const TotalWithGstAmount = SumOfRentalRate() + SumOfRentalRate() * 0.18;
 
   const UploadBankCheque = (event) => {
     if (customerAccountNumber.length > 10) {
@@ -306,7 +307,7 @@ const NewBooking = () => {
         totalProductValue: SumOfTProductValue(),
         totalRentalAmount: SumOfRentalRate(),
         totalDepositAmount: SumOfDepositRate(),
-        totalBookingAmount: SumOfRentalRate(),
+        totalBookingAmount: TotalWithGstAmount,
         tncFileName: "",
         rsoName: bookingRSO,
         createdDate: existedUserData.createDate,

@@ -34,11 +34,11 @@ const CashierPaymentDetails = () => {
   const [documentType, setDocumentType] = useState("");
   const [collectedAmount, setCollectedAmount] = useState();
   const [alertMessage, setAlertMessage] = useState();
-  const [bookedStatus, setBookedStatus] = useState("");
   const [amontErrMassage, setAmontErrMassage] = useState("");
   const [regUserData, setRegUserData] = useState([]);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [updateStatus, setUpdateStatus] = useState("");
+  const [bookedStatus, setBookedStatus] = useState("");
   const [invoiceNo, setInvoiceNo] = useState("");
   const [challanNo, setChallanNo] = useState("");
 
@@ -243,6 +243,7 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(CollectedAmount);
       setAlertMessage("Item Return Successfully");
       setUpdateStatus("ProductReturnedSuccess");
+      setBookedStatus("ProductReturnedSuccess");
       setInvoiceNo(GenInvoiceNo);
       setChallanNo("");
       setAmontErrMassage(

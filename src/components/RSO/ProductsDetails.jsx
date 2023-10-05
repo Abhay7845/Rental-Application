@@ -151,8 +151,9 @@ const ProductsDetails = () => {
     };
   });
 
-  const SelectedProducts = (product) => {
+  const SelectedProducts = (e, product) => {
     setSelectedId(product.pdtID);
+
     const AddToWishListOBj = {
       bookingId: 0,
       itemCode: product.itemCode,
@@ -175,7 +176,14 @@ const ProductsDetails = () => {
       paymentRequestFor: "NewBooking",
       storeCode: storeCode,
     };
-    setAddtoWishList([...addtoWishList, AddToWishListOBj]);
+    if (e.target.checked) {
+      setAddtoWishList([...addtoWishList, AddToWishListOBj]);
+    } else {
+      const selectedData = addtoWishList.filter(
+        (rowId) => rowId === AddToWishListOBj.pdtId
+      );
+      setAddtoWishList(selectedData);
+    }
   };
   const AddToWishList = () => {
     const avlId = goToCart.map((id) => id.pdtId);
@@ -193,7 +201,6 @@ const ProductsDetails = () => {
     setGoToCart(updatedData);
   };
 
-  console.log("goToCart==>", goToCart);
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = goToCart.map((item) => parseInt(item.productValue));
   const SumOfTProductValue = () => {
@@ -407,7 +414,7 @@ const ProductsDetails = () => {
                               ? true
                               : false
                           }
-                          onClick={() => SelectedProducts(data)}
+                          onClick={(e) => SelectedProducts(e, data)}
                         />
                       </td>
                       <td>{data.itemCode}</td>

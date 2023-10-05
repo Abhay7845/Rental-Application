@@ -417,7 +417,7 @@ const RentalReturn = () => {
 
   const InsertReturnTableData = () => {
     if (!RSOName || karigarQAFile.length === 0 || inputRtnValues.length === 0) {
-      alert("Please Actual wt Return Enter, Upload Print File & RSO Name");
+      alert("Please Enter Actual wt Return, Upload Print File & RSO Name");
     } else {
       setLoading(true);
       const InsertTableInputs = returnTableData.map((data, i) => {

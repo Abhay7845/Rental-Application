@@ -235,7 +235,6 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(Math.round(rentValue));
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
-      setUpdateStatus("ProductBooked");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
       );
@@ -644,7 +643,8 @@ const CashierPaymentDetails = () => {
     }
     if (
       paymentRequestFor === "Payment_PendingFor_NewBooking" ||
-      paymentRequestFor === "Payment_PendingFor_RentalIssuance"
+      paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
+      paymentRequestFor === "Payment_PendingFor_RentalReturn"
     ) {
       if (collectedAmount === parseInt(TotalAmount)) {
         CallPaymentAPI();
@@ -745,23 +745,13 @@ const CashierPaymentDetails = () => {
                   <label className="form-label">
                     <b>Damage Charges</b>
                   </label>
-                  <h6>
-                    ₹
-                    {!totalDamageCharges
-                      ? ""
-                      : totalDamageCharges.toLocaleString("en-IN")}
-                  </h6>
+                  <h6>₹ {totalDamageCharges}</h6>
                 </div>
                 <div className="col-md-5 mt-0">
                   <label className="form-label">
                     <b>Penalty Charges</b>
                   </label>
-                  <h6>
-                    ₹
-                    {!totalPenaltyCharges
-                      ? ""
-                      : totalPenaltyCharges.toLocaleString("en-IN")}
-                  </h6>
+                  <h6>₹ {totalPenaltyCharges}</h6>
                 </div>
               </div>
             )}

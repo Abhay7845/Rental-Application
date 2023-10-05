@@ -242,7 +242,6 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(CollectedAmount);
       setAlertMessage("Item Return Successfully");
-      setBookedStatus("ProductBooked");
       setUpdateStatus("ProductReturnedSuccess");
       setInvoiceNo(GenInvoiceNo);
       setChallanNo("");

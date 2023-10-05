@@ -176,21 +176,21 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
+        const PendingStatusData = response.data.value.filter(
+          (data) =>
+            data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"
+        );
         if (response.data.code === "1000") {
-          const PendingStatusData = response.data.value.filter(
-            (data) =>
-              data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"
-          );
           setGetPaymentData(PendingStatusData);
           FetchUserDetails(searchValue);
           GetRegistreUserData();
         }
-        if (response.data.code === "1001") {
+        if (response.data.code === "1001" || PendingStatusData.length === 0) {
           setGetPaymentData({});
           setPaymentDetails({});
           Swal.fire({
-            title: "Not Found",
-            text: "Data Not Available",
+            title: "No Pending Payment Requests",
+            text: "There are no Open Payment Requests for this Customer",
             icon: "warning",
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",

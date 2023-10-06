@@ -217,7 +217,7 @@ const Cancellation = () => {
 
   const RaiseCancelBookingRequest = () => {
     if (!rsoName || !cancellationReason) {
-      alert("Please Enter Cancellation Reason & RSO Name");
+      alert("Please Choose Cancellation Reason & RSO Name");
     } else if (cancelCharge < discountAmount) {
       alert("Discount amount can't be Greater than Cancellation Charges");
     } else {

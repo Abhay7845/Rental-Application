@@ -649,7 +649,11 @@ const CashierPaymentDetails = () => {
       paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
       paymentRequestFor === "Payment_PendingFor_RentalReturn"
     ) {
-      CallPaymentAPI();
+      if (collectedAmount === TotalAmount) {
+        CallPaymentAPI();
+      } else {
+        alert(amontErrMassage);
+      }
     }
   };
 
@@ -800,7 +804,7 @@ const CashierPaymentDetails = () => {
                         <th colSpan="3" className="text-end">
                           TOTAL
                         </th>
-                        <th>₹ {TotalAmount.toString()}</th>
+                        <th>₹ {TotalAmount.toLocaleString("en-IN")}</th>
                         <td colSpan="2" />
                       </tr>
                     )}
@@ -944,6 +948,7 @@ const CashierPaymentDetails = () => {
                         bookingRefID={bookingGenNo}
                         storeDetails={storeDetails}
                         regUserData={regUserData}
+                        paymentDetails={paymentDetails}
                       />
                     )}
                   </h6>
@@ -966,7 +971,7 @@ const CashierPaymentDetails = () => {
                   </button>
                 </div>
                 <div className="col-md-5">
-                  <label className="form-label">Invoice</label>
+                  <label className="form-label">Loan Closure Document</label>
                   <input
                     type="file"
                     className="form-control"

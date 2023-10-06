@@ -17,7 +17,9 @@ const ServiceIvoicePdf = (props) => {
     storeDetails,
     regUserData,
     savePaymetRow,
+    paymentDetails,
   } = props;
+  const { totalDepositAmountPaidWithTax } = paymentDetails;
 
   const bookingDate = regUserData.map((data) => data.bookingDate);
 
@@ -120,6 +122,8 @@ const ServiceIvoicePdf = (props) => {
     };
   });
 
+  console.log("RefacotorTableData==>", RefacotorTableData);
+
   const TBasePrise = RefacotorTableData.map((data) => data.productValue);
   const SumOfBasePrise = () => {
     let total = 0;
@@ -192,7 +196,8 @@ const ServiceIvoicePdf = (props) => {
     return total;
   };
 
-  const TotalRefund = SumOfTTotalAmount() - SumOfTTotalChages();
+  const TotalRefund =
+    totalDepositAmountPaidWithTax + SumOfTTotalAmount() - SumOfTTotalAmount();
 
   return (
     <div>
@@ -431,8 +436,13 @@ const ServiceIvoicePdf = (props) => {
                     </thead>
                     <tbody>
                       <tr>
+                        <th>
+                          ₹
+                          {(
+                            totalDepositAmountPaidWithTax + SumOfTTotalAmount()
+                          ).toLocaleString("en-IN")}
+                        </th>
                         <th>₹{SumOfTTotalAmount().toLocaleString("en-IN")}</th>
-                        <th>₹{SumOfTTotalChages().toLocaleString("en-IN")}</th>
                         <th>₹{TotalRefund.toLocaleString("en-IN")}</th>
                       </tr>
                     </tbody>

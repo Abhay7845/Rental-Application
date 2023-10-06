@@ -64,7 +64,7 @@ const CancelationPdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -180,12 +180,12 @@ const CancelationPdf = (props) => {
                               <th>{item.lotNo}</th>
                               <th>{item.description}</th>
                               <th>{item.grossWt}</th>
+                              <th>{item.packageDays} Days</th>
                               <th>
                                 {Math.round(item.productValue).toLocaleString(
                                   "en-IN"
                                 )}
                               </th>
-                              <th>{item.packageDays} Days</th>
                               <th>
                                 {Math.round(item.rentalAmount).toLocaleString(
                                   "en-IN"
@@ -214,20 +214,19 @@ const CancelationPdf = (props) => {
                         })}
 
                         <tr className="text-bold">
-                          <th colSpan="5" className="text-end">
+                          <th colSpan="6" className="text-end">
                             TOTAL
                           </th>
                           <th>38765</th>
-                          <th>-</th>
                           <th>34589</th>
                           <th>34589</th>
                           <th>34589</th>
-                          <th>-</th>
                           <th>47,919</th>
                           <th>4,312</th>
                           <th>4,312</th>
                           <th>4,312</th>
                           <th>7654</th>
+                          <th>7656</th>
                         </tr>
                       </tbody>
                     </table>

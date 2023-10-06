@@ -18,6 +18,10 @@ const CancelationPdf = (props) => {
     regUserData,
     totalPaidAmount,
   } = props;
+  // const {} = paymentDetails;
+  const { cancellationCharges } = totalPaidAmount;
+  console.log("totalPaidAmount==>", totalPaidAmount);
+
   const CutometProfileNo = addedPdts.map((data) => data.custId);
   const bookingDate = regUserData.map((data) => data.bookingDate);
 
@@ -64,7 +68,7 @@ const CancelationPdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -191,7 +195,7 @@ const CancelationPdf = (props) => {
                                   "en-IN"
                                 )}
                               </th>
-                              <th>N/A</th>
+                              <th>{cancellationCharges}</th>
                               <th>0</th>
                               <th>{totalPaidAmount.totalDiscountAmount}</th>
                               <th>

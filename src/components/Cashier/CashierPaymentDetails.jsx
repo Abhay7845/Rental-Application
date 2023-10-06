@@ -48,6 +48,8 @@ const CashierPaymentDetails = () => {
     refundValue,
     depositValue,
     bookingRefNo,
+    totalBookingAmount,
+    totalDepositAmountPaidWithTax,
   } = paymentDetails;
 
   const { totalDamageCharges, totalPenaltyCharges, bookingId } =
@@ -218,10 +220,10 @@ const CashierPaymentDetails = () => {
       setAmontErrMassage(
         "Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment"
       );
-      setBookingGenNo(paymentDetails.bookingRefNo);
+      setBookingGenNo(bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
-      setCollectedAmount(Math.round(depositValue));
+      setCollectedAmount(Math.round(totalDepositAmountPaidWithTax));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
       setInvoiceNo("");
@@ -229,10 +231,10 @@ const CashierPaymentDetails = () => {
       setAmontErrMassage(
         "Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment"
       );
-      setBookingGenNo(paymentDetails.bookingRefNo);
+      setBookingGenNo(bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
-      setCollectedAmount(Math.round(rentValue));
+      setCollectedAmount(Math.round(totalBookingAmount));
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
       setAmontErrMassage(
@@ -249,16 +251,18 @@ const CashierPaymentDetails = () => {
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Return & Please ensure to Save the Payment"
       );
-      setBookingGenNo(paymentDetails.bookingRefNo);
+      setBookingGenNo(bookingRefNo);
     }
   }, [
     rentValue,
     paymentRequestFor,
     depositValue,
     refundValue,
-    paymentDetails.bookingRefNo,
+    bookingRefNo,
     CollectedAmount,
     GenChallanNo,
+    totalBookingAmount,
+    totalDepositAmountPaidWithTax,
   ]);
 
   const AddPaymentRows = () => {

@@ -49,6 +49,8 @@ const RentalIssue = () => {
   const [inputValues, setInputValues] = useState([]);
   const [inputFile, setInputFile] = useState({});
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
+  const { totalDepositAmount } = totalPaidAmount;
+  const TDepositWithTax = totalDepositAmount + totalDepositAmount * 0.18;
 
   console.log("karigarQAFile==>", karigarQAFile);
 
@@ -72,7 +74,6 @@ const RentalIssue = () => {
 
   const GetActualWtAtDlr = (e) => {
     const { name, value } = e.target;
-
     setInputValues({
       ...inputValues,
       [name]: value,
@@ -525,6 +526,7 @@ const RentalIssue = () => {
         qaCHeckedStatusUpload: "",
         rsoName: RSOName,
         signedAckUpload: "",
+        totalDepositAmountWithTax: TDepositWithTax,
         totalDepositAmount: parseFloat(totalPaidAmount.totalDepositAmount),
         totalDepositAmountPaid: "",
         totalProductValue: totalPaidAmount.totalProductValue,

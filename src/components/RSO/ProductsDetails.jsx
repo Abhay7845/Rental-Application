@@ -35,6 +35,7 @@ const ProductsDetails = () => {
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
+  console.log("AvlProduct==>", AvlProduct);
 
   const ReturnEndDate = () => {
     const nextDate = new Date(payload.bookingDate);

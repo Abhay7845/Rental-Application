@@ -239,7 +239,7 @@ const RentalIssue = () => {
             if (file) {
               reader.readAsDataURL(file);
             }
-            alert("Your Cheque Book Uploaded Successfully");
+            alert("Cancelled Cheque Uploaded Successfully");
           }
           setLoading(false);
         })

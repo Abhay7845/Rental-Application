@@ -59,8 +59,6 @@ const CashierPaymentDetails = () => {
 
   console.log("paymentDetails==>", paymentDetails);
 
-  const CollectedAmount = depositValue - +totalPenaltyCharges;
-
   // ADD ROW
   const [count, setCount] = useState(0);
   const [addPaymentRows, setAddPaymentRows] = useState([]);
@@ -242,7 +240,7 @@ const CashierPaymentDetails = () => {
       );
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-      setCollectedAmount(CollectedAmount);
+      setCollectedAmount(Math.round(totalDepositAmountPaidWithTax));
       setAlertMessage("Item Return Successfully");
       setUpdateStatus("ProductReturnedSuccess");
       setBookedStatus("ProductReturnedSuccess");
@@ -259,7 +257,6 @@ const CashierPaymentDetails = () => {
     depositValue,
     refundValue,
     bookingRefNo,
-    CollectedAmount,
     GenChallanNo,
     totalBookingAmount,
     totalDepositAmountPaidWithTax,
@@ -299,6 +296,8 @@ const CashierPaymentDetails = () => {
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
       alert("Please Fill All Details");
+    } else if (collectedAmount < TotalAmount + parseInt(amount)) {
+      alert(amontErrMassage);
     } else {
       if (
         paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
@@ -650,11 +649,7 @@ const CashierPaymentDetails = () => {
       paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
       paymentRequestFor === "Payment_PendingFor_RentalReturn"
     ) {
-      if (collectedAmount === parseInt(TotalAmount)) {
-        CallPaymentAPI();
-      } else {
-        alert(amontErrMassage);
-      }
+      CallPaymentAPI();
     }
   };
 

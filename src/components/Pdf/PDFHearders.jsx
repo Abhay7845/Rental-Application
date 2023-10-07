@@ -26,12 +26,7 @@ export const CancelPdfHeders = [
   "BOOKING CHARGES COLLECTED",
   "CANCELLATION CHARGES[SAC - 999794]",
   "OTHER CHARGES",
-  "DISCOUNT",
-  "NET CHARGES",
-  "SGST[9%]",
-  "CGST[9%]",
   "TOTAL CHARGES",
-  "REFUND",
 ];
 
 export const ServiveInvoicePdfHeaders = [

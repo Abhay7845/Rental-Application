@@ -762,12 +762,7 @@ const CashierPaymentDetails = () => {
               <label className="form-label">
                 <b>Amount to be Collected/Refunded</b>
               </label>
-              <h6>
-                ₹
-                {!collectedAmount
-                  ? ""
-                  : collectedAmount.toLocaleString("en-IN")}
-              </h6>
+              <h6>₹{collectedAmount}</h6>
             </div>
             {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
               <div className="col-12 table-responsive mx-0">

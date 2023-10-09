@@ -280,7 +280,7 @@ const BookingPdf = (props) => {
                   <table className="table table-bordered border-dark">
                     <thead>
                       <tr>
-                        <th colSpan="5">Payment Details:</th>
+                        <th colSpan="5">Payment Details</th>
                       </tr>
                       <tr>
                         <th>Sr.No</th>
@@ -328,11 +328,11 @@ const BookingPdf = (props) => {
                 <td colSpan="5">
                   <div className="d-flex justify-content-around">
                     <b>
-                      Date of Pickup: -
+                      Date of Pickup:-
                       {moment(DateOfPic[0]).format("DD-MM-YYYY")}
                     </b>
                     <b>
-                      Date of return: -
+                      Date of return:-
                       {moment(getReturnDate()).format("DD-MM-YYYY")}
                     </b>
                   </div>

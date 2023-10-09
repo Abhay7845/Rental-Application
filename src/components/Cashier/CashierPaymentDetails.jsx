@@ -42,6 +42,7 @@ const CashierPaymentDetails = () => {
   const [bookedStatus, setBookedStatus] = useState("");
   const [invoiceNo, setInvoiceNo] = useState("");
   const [challanNo, setChallanNo] = useState("");
+  const [invoicePdfNo, setInvoicePdfNo] = useState({});
 
   const {
     paymentRequestFor,
@@ -56,7 +57,11 @@ const CashierPaymentDetails = () => {
   const { totalDamageCharges, totalPenaltyCharges, bookingId } =
     totalPaidAmount;
   const GenChallanNo = `${bookingRefNo}-D`;
-  const GenInvoiceNo = "123456";
+  const InvoiceDgt = !invoicePdfNo.invoiceNo
+    ? ""
+    : invoicePdfNo.invoiceNo.split("-");
+  const Invdigit = parseInt(InvoiceDgt[1]) + 1;
+  const GenInvoiceNo = `${storeCode}-${Invdigit}`;
 
   console.log("paymentDetails==>", paymentDetails);
 
@@ -165,6 +170,22 @@ const CashierPaymentDetails = () => {
         });
     }
   }, [bookingId]);
+
+  useEffect(() => {
+    axios
+      .get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
+      .then((res) => res)
+      .then((response) => {
+        console.log("InvoiceResponse==>", response.data);
+        if (response.data.code === "1000") {
+          setInvoicePdfNo(response.data.value);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  }, [storeCode]);
 
   useEffect(() => {
     if (paymentDetails.tempBookingRef) {
@@ -281,6 +302,7 @@ const CashierPaymentDetails = () => {
     GenChallanNo,
     totalBookingAmount,
     totalDepositAmountPaidWithTax,
+    GenInvoiceNo,
   ]);
 
   const AddPaymentRows = () => {
@@ -320,12 +342,6 @@ const CashierPaymentDetails = () => {
     } else if (collectedAmount < TotalAmount + parseInt(amount)) {
       alert(amontErrMassage);
     } else {
-      if (
-        paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
-        paymentRequestFor === "Payment_PendingFor_RentalReturn"
-      ) {
-        InsertInvoiceData(challanNo);
-      }
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
         id: paymentRowId,
@@ -664,6 +680,10 @@ const CashierPaymentDetails = () => {
     }
     if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
       UpdateBookingCalaendar();
+      InsertInvoiceData(challanNo, GenInvoiceNo);
+    }
+    if (paymentRequestFor !== "Payment_PendingFor_RentalReturn") {
+      InsertInvoiceData();
     }
     if (
       paymentRequestFor === "Payment_PendingFor_NewBooking" ||
@@ -966,6 +986,7 @@ const CashierPaymentDetails = () => {
                         regUserData={regUserData}
                         paymentDetails={paymentDetails}
                         previousTnxData={previousTnxData}
+                        invoiceNo={invoiceNo}
                       />
                     )}
                   </h6>

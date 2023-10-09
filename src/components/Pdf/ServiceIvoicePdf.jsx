@@ -19,6 +19,7 @@ const ServiceIvoicePdf = (props) => {
     savePaymetRow,
     paymentDetails,
     previousTnxData,
+    invoiceNo,
   } = props;
   const { totalDepositAmountPaidWithTax } = paymentDetails;
 
@@ -122,8 +123,6 @@ const ServiceIvoicePdf = (props) => {
       ).toLocaleString("en-IN"),
     };
   });
-
-  console.log("RefacotorTableData==>", RefacotorTableData);
 
   const TBasePrise = RefacotorTableData.map((data) => data.productValue);
   const SumOfBasePrise = () => {
@@ -245,7 +244,7 @@ const ServiceIvoicePdf = (props) => {
                 <td colSpan="3">
                   <div className="d-flex flex-row">
                     <div className="d-flex flex-column">
-                      <b>Invoice No: ACGFRDGG1235</b>
+                      <b>Invoice No: {invoiceNo}</b>
                       <b>Booking Ref No: {bookingRefID}</b>
                     </div>
                     <div className="d-flex flex-column mx-5">

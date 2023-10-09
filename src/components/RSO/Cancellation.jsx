@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cancellation = () => {
   const [loading, setLoading] = useState(false);
-  const [discountAmount, setDiscountAmount] = useState();
+  const [discountAmount, setDiscountAmount] = useState(0);
   const [numberDays, setNumberDays] = useState("");
   const [rsoName, setRsoName] = useState("");
   const [returnTableData, setReturnTableData] = useState([]);
@@ -31,6 +31,7 @@ const Cancellation = () => {
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const navigate = useNavigate();
+  const { totalBookingAmount, totalDepositAmount } = totalPaidAmount;
 
   console.log("GetReturnProduct==>", GetReturnProduct);
   console.log("existedUserData==>", existedUserData);
@@ -189,7 +190,7 @@ const Cancellation = () => {
   }
 
   const afterDiscount = cancelCharge - discountAmount;
-  const netRefund = SumOfRentalRate() - afterDiscount;
+  const netRefund = totalBookingAmount - afterDiscount;
 
   const UpdateCancelStatus = (bookingID) => {
     axios
@@ -234,8 +235,8 @@ const Cancellation = () => {
         cancellationCharges: parseFloat(cancelCharge),
         discountAmount: parseFloat(discountAmount),
         rentalCharges: parseFloat(SumOfRentalRate()),
-        bookingAmountPaid: parseFloat(totalPaidAmount.totalBookingAmount),
-        depositAmountPaid: parseFloat(totalPaidAmount.totalDepositAmount),
+        bookingAmountPaid: parseFloat(totalBookingAmount),
+        depositAmountPaid: parseFloat(totalDepositAmount),
         netRefundAmount: parseFloat(netRefund),
         rsoName: rsoName,
         createdDate: null,
@@ -454,8 +455,9 @@ const Cancellation = () => {
               value={discountAmount}
               onChange={(e) => {
                 let discount = e.target.value.replace(/\D/g, "");
-                setDiscountAmount(cancelCharge === 0 ? 0 : discount);
+                setDiscountAmount(discount);
               }}
+              disabled={cancelCharge === 0 ? true : false}
             />
           </div>
           <div className="col-12">
@@ -472,13 +474,12 @@ const Cancellation = () => {
                 <tbody>
                   <tr>
                     <th>
-                      ₹
-                      {Math.round(
-                        totalPaidAmount.totalBookingAmount
-                      ).toLocaleString("en-IN")}
+                      ₹{Math.round(totalBookingAmount).toLocaleString("en-IN")}
                     </th>
-                    <th>₹ {!afterDiscount ? 0 : afterDiscount}</th>
-                    <th>₹ {netRefund >= 0 ? netRefund : 0}</th>
+                    <th>
+                      ₹{Math.round(afterDiscount).toLocaleString("en-IN")}
+                    </th>
+                    <th>₹{Math.round(netRefund).toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>

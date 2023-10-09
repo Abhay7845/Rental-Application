@@ -927,7 +927,6 @@ const CashierPaymentDetails = () => {
                     )}
                     <button
                       type="submit"
-                      // className="CButton"TotalAmount collectedAmount
                       className={
                         TotalAmount === collectedAmount
                           ? "CDisabled"

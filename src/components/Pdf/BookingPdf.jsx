@@ -4,15 +4,17 @@ import TitanLogo from "../../Asset/Img/TitanLog.png";
 import { BookingOrderHearders } from "./PDFHearders";
 import moment from "moment";
 const BookingPdf = (props) => {
+  const BookinRef = useRef(null);
+  const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
   const {
     savePaymetRow,
     existedUserData,
     addedPdts,
     bookingRefID,
     regUserData,
+    totalPaidAmount,
   } = props;
-  const BookinRef = useRef(null);
-  const BookingPDF = useReactToPrint({ content: () => BookinRef.current });
+  const { totalDepositAmount } = totalPaidAmount;
 
   const RefacotorData = addedPdts.map((data) => {
     return {
@@ -316,7 +318,10 @@ const BookingPdf = (props) => {
               </tr>
               <tr>
                 <td colSpan="5">
-                  <b>Approx damage protection Amount to be collected: -</b>
+                  <b>
+                    Approx damage protection Amount to be collected:-
+                    {Math.round(totalDepositAmount).toLocaleString("en-IN")}
+                  </b>
                 </td>
               </tr>
               <tr>

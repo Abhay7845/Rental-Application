@@ -457,7 +457,7 @@ const Cancellation = () => {
                 let discount = e.target.value.replace(/\D/g, "");
                 setDiscountAmount(discount);
               }}
-              disabled={cancelCharge === 0 ? true : false}
+              disabled={cancelCharge <= 0 ? true : false}
             />
           </div>
           <div className="col-12">

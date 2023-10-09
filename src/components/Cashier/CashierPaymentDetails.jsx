@@ -951,6 +951,7 @@ const CashierPaymentDetails = () => {
                         bookingRefID={bookingRefID}
                         storeDetails={storeDetails}
                         regUserData={regUserData}
+                        totalPaidAmount={totalPaidAmount}
                       />
                     )}
                   </h6>

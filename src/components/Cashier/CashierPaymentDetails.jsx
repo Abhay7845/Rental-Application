@@ -43,6 +43,7 @@ const CashierPaymentDetails = () => {
   const [invoiceNo, setInvoiceNo] = useState("");
   const [challanNo, setChallanNo] = useState("");
   const [invoicePdfNo, setInvoicePdfNo] = useState({});
+  const [outStatus, setOutStatus] = useState("");
 
   const {
     paymentRequestFor,
@@ -52,6 +53,7 @@ const CashierPaymentDetails = () => {
     bookingRefNo,
     totalBookingAmount,
     totalDepositAmountPaidWithTax,
+    productValue,
   } = paymentDetails;
 
   const { totalDamageCharges, totalPenaltyCharges, bookingId } =
@@ -266,6 +268,7 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(Math.round(totalDepositAmountPaidWithTax));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
+      setOutStatus("Booked_Product_Issued");
       setInvoiceNo("");
       setChallanNo(GenChallanNo);
       setAmontErrMassage(
@@ -287,6 +290,7 @@ const CashierPaymentDetails = () => {
       setUpdateStatus("ProductReturnedSuccess");
       setBookedStatus("ProductReturnedSuccess");
       setInvoiceNo(GenInvoiceNo);
+      setOutStatus("Product_Returned_Successfully");
       setChallanNo("");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Return & Please ensure to Save the Payment"
@@ -359,6 +363,29 @@ const CashierPaymentDetails = () => {
       setAddPaymentRows([]);
       setFileName("");
     }
+  };
+
+  const InsertOutStanding = (outStatus) => {
+    const OutstandingInputs = {
+      bookingId: bookingId,
+      createdDate: null,
+      custId: existedUserData.custId,
+      outstanding: parseFloat(productValue),
+      pancardContentId: existedUserData.panCardNo,
+      status: outStatus,
+      updatedDate: null,
+    };
+    console.log("OutstandingInputs==>", OutstandingInputs);
+    axios
+      .post(`${HOST_URL}/insert/outstanding/details`, OutstandingInputs)
+      .then((res) => res)
+      .then((response) => {
+        console.log("responseoutstanding==>", response);
+        if (response.data.code === "100") {
+          console.log("response==>", response);
+        }
+      })
+      .catch((error) => console.log("error=>", error));
   };
 
   const UpdateBookingCalaendar = () => {
@@ -681,6 +708,12 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
       UpdateBookingCalaendar();
       InsertInvoiceData(challanNo);
+    }
+    if (
+      paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
+      paymentRequestFor === "Payment_PendingFor_RentalReturn"
+    ) {
+      InsertOutStanding(outStatus);
     }
     if (
       paymentRequestFor === "Payment_PendingFor_NewBooking" ||

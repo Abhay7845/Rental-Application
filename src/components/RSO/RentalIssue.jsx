@@ -49,6 +49,7 @@ const RentalIssue = () => {
   const [inputValues, setInputValues] = useState([]);
   const [inputFile, setInputFile] = useState({});
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
+  const [outstandingData, setOutstandingData] = useState({});
   const { totalDepositAmount } = totalPaidAmount;
   const TDepositWithTax = totalDepositAmount + totalDepositAmount * 0.18;
 
@@ -466,20 +467,24 @@ const RentalIssue = () => {
   }, [storeCode, refId]);
 
   useEffect(() => {
-    axios
-      .get(`${HOST_URL}/get/outstarnding/amount/details/${mobileNo}`)
-      .then((res) => res)
-      .then((response) => {
-        console.log("outstarnding==>", response.data);
-        //  if (response.data.code === "1000") {
-        //    setTotalPaidAmount(response.data.value);
-        //  }
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
-  }, [mobileNo]);
+    if (existedUserData.panCardNo) {
+      axios
+        .get(
+          `${HOST_URL}/get/outstanding/amount/details/${mobileNo}/${existedUserData.panCardNo}`
+        )
+        .then((res) => res)
+        .then((response) => {
+          console.log("outstarnding==>", response.data);
+          if (response.data.code === "1000") {
+            setOutstandingData(response.data.value);
+          }
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  }, [mobileNo, existedUserData.panCardNo]);
 
   const TnxStatusUpdate = (bookingId) => {
     axios

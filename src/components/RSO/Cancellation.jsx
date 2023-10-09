@@ -454,7 +454,7 @@ const Cancellation = () => {
               placeholder="Discount Amount"
               value={discountAmount}
               onChange={(e) => {
-                let discount = e.target.value.replace(/\D/g, "");
+                let discount = e.target.value.replace(/[^0-9.]/g, "");
                 setDiscountAmount(discount);
               }}
               disabled={cancelCharge <= 0 ? true : false}
@@ -474,12 +474,12 @@ const Cancellation = () => {
                 <tbody>
                   <tr>
                     <th>
-                      ₹{Math.round(totalBookingAmount).toLocaleString("en-IN")}
+                      ₹{parseFloat(totalBookingAmount).toLocaleString("en-IN")}
                     </th>
                     <th>
-                      ₹{Math.round(afterDiscount).toLocaleString("en-IN")}
+                      ₹{parseFloat(afterDiscount).toLocaleString("en-IN")}
                     </th>
-                    <th>₹{Math.round(netRefund).toLocaleString("en-IN")}</th>
+                    <th>₹{parseFloat(netRefund).toLocaleString("en-IN")}</th>
                   </tr>
                 </tbody>
               </table>

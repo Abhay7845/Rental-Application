@@ -207,6 +207,7 @@ const Cancellation = () => {
             confirmButtonText: "OK",
           });
           navigate("/home");
+          localStorage.removeItem("selecttedReturnProduct");
         }
       })
       .catch((error) => {

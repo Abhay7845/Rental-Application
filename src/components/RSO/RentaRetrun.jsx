@@ -368,6 +368,7 @@ const RentalReturn = () => {
             confirmButtonText: "OK",
           });
           navigate("/home");
+          localStorage.removeItem("selecttedReturnProduct");
         }
       })
       .catch((error) => {

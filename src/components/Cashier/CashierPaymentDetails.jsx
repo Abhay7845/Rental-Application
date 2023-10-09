@@ -680,10 +680,7 @@ const CashierPaymentDetails = () => {
     }
     if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
       UpdateBookingCalaendar();
-      InsertInvoiceData(challanNo, GenInvoiceNo);
-    }
-    if (paymentRequestFor !== "Payment_PendingFor_RentalReturn") {
-      InsertInvoiceData();
+      InsertInvoiceData(challanNo);
     }
     if (
       paymentRequestFor === "Payment_PendingFor_NewBooking" ||

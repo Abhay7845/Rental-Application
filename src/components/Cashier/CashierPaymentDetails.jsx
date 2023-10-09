@@ -36,6 +36,7 @@ const CashierPaymentDetails = () => {
   const [alertMessage, setAlertMessage] = useState();
   const [amontErrMassage, setAmontErrMassage] = useState("");
   const [regUserData, setRegUserData] = useState([]);
+  const [previousTnxData, setPreviousTnxData] = useState([]);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [updateStatus, setUpdateStatus] = useState("");
   const [bookedStatus, setBookedStatus] = useState("");
@@ -144,6 +145,26 @@ const CashierPaymentDetails = () => {
         });
     }
   }, [storeCode, bookingRefNo]);
+
+  useEffect(() => {
+    if (bookingId) {
+      axios
+        .get(
+          `${HOST_URL}/get/prev/txn/details/forReturn/pdf/${bookingId}/Payment_PendingFor_NewBooking`
+        )
+        .then((res) => res)
+        .then((response) => {
+          console.log("PreResponse==>", response.data);
+          if (response.data.code === "1000") {
+            setPreviousTnxData(response.data.value);
+          }
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  }, [bookingId]);
 
   useEffect(() => {
     if (paymentDetails.tempBookingRef) {
@@ -944,6 +965,7 @@ const CashierPaymentDetails = () => {
                         storeDetails={storeDetails}
                         regUserData={regUserData}
                         paymentDetails={paymentDetails}
+                        previousTnxData={previousTnxData}
                       />
                     )}
                   </h6>

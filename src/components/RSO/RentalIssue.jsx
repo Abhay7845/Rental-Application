@@ -52,8 +52,6 @@ const RentalIssue = () => {
   const { totalDepositAmount } = totalPaidAmount;
   const TDepositWithTax = totalDepositAmount + totalDepositAmount * 0.18;
 
-  console.log("karigarQAFile==>", karigarQAFile);
-
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const {
@@ -70,7 +68,6 @@ const RentalIssue = () => {
   const navigate = useNavigate();
 
   console.log("GetReturnProduct==>", GetReturnProduct);
-  console.log("retunTableData==>", retunTableData);
 
   const GetActualWtAtDlr = (e) => {
     const { name, value } = e.target;
@@ -467,6 +464,22 @@ const RentalIssue = () => {
         setLoading(false);
       });
   }, [storeCode, refId]);
+
+  useEffect(() => {
+    axios
+      .get(`${HOST_URL}/get/outstarnding/amount/details/${mobileNo}`)
+      .then((res) => res)
+      .then((response) => {
+        console.log("outstarnding==>", response.data);
+        //  if (response.data.code === "1000") {
+        //    setTotalPaidAmount(response.data.value);
+        //  }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  }, [mobileNo]);
 
   const TnxStatusUpdate = (bookingId) => {
     axios

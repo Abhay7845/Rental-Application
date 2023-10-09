@@ -927,8 +927,14 @@ const CashierPaymentDetails = () => {
                     )}
                     <button
                       type="submit"
-                      className="CButton"
+                      // className="CButton"TotalAmount collectedAmount
+                      className={
+                        TotalAmount === collectedAmount
+                          ? "CDisabled"
+                          : "CButton"
+                      }
                       onClick={AddPaymentRows}
+                      disabled={TotalAmount === collectedAmount ? true : false}
                     >
                       Add Payment
                     </button>

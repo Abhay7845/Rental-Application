@@ -56,7 +56,7 @@ const DeliveryChallanPdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -175,7 +175,11 @@ const DeliveryChallanPdf = (props) => {
                               <td>{item.grossWt}</td>
                               <td>{item.deliveredWt}</td>
                               <td>{item.packageDays}</td>
-                              <td>0</td>
+                              <td>
+                                {parseInt(item.productValue).toLocaleString(
+                                  "en-IN"
+                                )}
+                              </td>
                               <td>
                                 {Math.round(item.depositAmount).toLocaleString(
                                   "en-IN"

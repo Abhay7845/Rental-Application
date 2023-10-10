@@ -44,6 +44,7 @@ const CashierPaymentDetails = () => {
   const [challanNo, setChallanNo] = useState("");
   const [invoicePdfNo, setInvoicePdfNo] = useState({});
   const [outStatus, setOutStatus] = useState("");
+  const [amontHeading, setAmontHeading] = useState("");
 
   const {
     paymentRequestFor,
@@ -226,6 +227,7 @@ const CashierPaymentDetails = () => {
       )
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         const PendingStatusData = response.data.value.filter(
           (data) =>
             data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"
@@ -264,17 +266,19 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Booking Successfully Cancelled");
       setBookedStatus("Cancellation_After_Booking");
       setUpdateStatus("BookingCancelled");
+      setAmontHeading("Amount to be Refunded");
       setAmontErrMassage(
         "Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment"
       );
       setBookingGenNo(bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
-      setCollectedAmount(Math.round(totalDepositAmountPaidWithTax));
+      setCollectedAmount(parseInt(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
       setOutStatus("Booked_Product_Issued");
       setInvoiceNo("");
+      setAmontHeading("Amount to be collected");
       setChallanNo(GenChallanNo);
       setAmontErrMassage(
         "Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment"
@@ -285,6 +289,7 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(Math.round(totalBookingAmount));
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
+      setAmontHeading("Amount to be collected");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
       );
@@ -296,6 +301,7 @@ const CashierPaymentDetails = () => {
       setBookedStatus("ProductReturnedSuccess");
       setInvoiceNo(GenInvoiceNo);
       setOutStatus("Product_Returned_Successfully");
+      setAmontHeading("Amount to be Refunded");
       setChallanNo("");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Return & Please ensure to Save the Payment"
@@ -818,7 +824,7 @@ const CashierPaymentDetails = () => {
             )}
             <div className="col-md-4 mt-0">
               <label className="form-label">
-                <b>Amount to be Collected/Refunded</b>
+                <b>{amontHeading}</b>
               </label>
               <h6>₹{collectedAmount}</h6>
             </div>

@@ -51,7 +51,6 @@ const RentalIssue = () => {
   const [inputFile, setInputFile] = useState({});
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [outstandingData, setOutstandingData] = useState({});
-  const { totalDepositAmount } = totalPaidAmount;
   // const TDepositWithTax = totalDepositAmount + totalDepositAmount * 0.18;
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
@@ -562,7 +561,7 @@ const RentalIssue = () => {
           qaCHeckedStatusUpload: "",
           rsoName: RSOName,
           signedAckUpload: "",
-          totalDepositAmountWithTax: totalDepositAmount,
+          totalDepositAmountWithTax: 0,
           totalDepositAmount: parseFloat(totalPaidAmount.totalDepositAmount),
           totalDepositAmountPaid: "",
           totalProductValue: totalPaidAmount.totalProductValue,
@@ -583,7 +582,6 @@ const RentalIssue = () => {
               setKarigarQAUrl("");
               document.getElementById("QAfile").value = "";
               document.getElementById("karetfile").value = "";
-              localStorage.removeItem("selecttedReturnProduct");
             }
             setLoading(false);
           })

@@ -82,7 +82,7 @@ const NewCustomer = () => {
       fileName: imgName,
       fileSize: `${choosePan.size}`,
       fileType: `${choosePan.type}`,
-      fileURL: `${FetchImg}${choosePan}`,
+      fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
     console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
@@ -152,7 +152,7 @@ const NewCustomer = () => {
       fileName: imgName,
       fileSize: `${imgData.size}`,
       fileType: `${imgData.type}`,
-      fileURL: `${FetchImg}${imgData}`,
+      fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
     console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
@@ -214,12 +214,46 @@ const NewCustomer = () => {
       );
     }
   };
+  const UploadChequeDetails = (imgName) => {
+    const UpdateKarigarQAPdf = {
+      bookingRefId: "",
+      contentFor: "customerCreation",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "cnacelledCheque",
+      fileName: imgName,
+      fileSize: `${bankChequeFile.size}`,
+      fileType: `${bankChequeFile.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
 
   const UploadBankCheque = () => {
     if (customerAccountNumber.length > 10) {
       setLoading(true);
       const formData = new FormData();
-      formData.append("ImgName", `${customerAccountNumber}.jpg`);
+      const fileEx = bankChequeFile.name.split(".");
+      const fileName = `${customerAccountNumber}.${fileEx[1]}`;
+      formData.append("ImgName", fileName);
       formData.append("files", bankChequeFile);
       axios
         .post(`${UploadImg}`, formData, {
@@ -227,8 +261,8 @@ const NewCustomer = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
+            UploadChequeDetails(fileName);
             const reader = new FileReader();
             reader.onloadend = () => {
               setBankDetailFileName(reader.result);
@@ -236,7 +270,6 @@ const NewCustomer = () => {
             if (bankChequeFile) {
               reader.readAsDataURL(bankChequeFile);
             }
-            alert("Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -753,7 +786,12 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-4 text-center">
             {bankDetailFileName && (
-              <img src={bankDetailFileName} alt="..." height="100px" />
+              <img
+                src={bankDetailFileName}
+                alt="..."
+                height="100px"
+                width="140px"
+              />
             )}
           </div>
           <div className="col-12 d-flex justify-content-end mb-4">

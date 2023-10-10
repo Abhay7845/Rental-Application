@@ -52,7 +52,7 @@ const RentalIssue = () => {
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [outstandingData, setOutstandingData] = useState({});
   const { totalDepositAmount } = totalPaidAmount;
-  const TDepositWithTax = totalDepositAmount + totalDepositAmount * 0.18;
+  // const TDepositWithTax = totalDepositAmount + totalDepositAmount * 0.18;
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -562,7 +562,7 @@ const RentalIssue = () => {
           qaCHeckedStatusUpload: "",
           rsoName: RSOName,
           signedAckUpload: "",
-          totalDepositAmountWithTax: TDepositWithTax,
+          totalDepositAmountWithTax: totalDepositAmount,
           totalDepositAmount: parseFloat(totalPaidAmount.totalDepositAmount),
           totalDepositAmountPaid: "",
           totalProductValue: totalPaidAmount.totalProductValue,

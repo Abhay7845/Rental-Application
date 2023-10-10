@@ -7,7 +7,7 @@ import {
   panRegex,
 } from "../../Data/DataList";
 import axios from "axios";
-import { HOST_URL, UploadImg } from "../../API/HostURL";
+import { HOST_URL, UploadImg, FetchImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
   const [loading, setLoading] = useState(false);
   const [panFile, setPanFile] = useState(null);
-  const [addressFile, setAddressFile] = useState(null);
+  const [addressFile, setAddressFile] = useState([]);
   const [secPhoneCount, setSecPhoneCount] = useState(90);
   const [phoneOtp, setPhoneOtp] = useState("");
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
@@ -35,7 +35,7 @@ const NewCustomer = () => {
   const [bankChequeFile, setBankChequeFile] = useState("");
   // ADDRESS PROOF
   const [choosePan, setChoosePan] = useState("");
-  const [adderessProof, setAdderessProof] = useState("");
+  const [adderessProof, setAdderessProof] = useState([]);
 
   const BanckIfcseCode = bankIfsc.toUpperCase();
 
@@ -59,12 +59,13 @@ const NewCustomer = () => {
   const [addressProofType, setAddressProofType] = useState("");
   // UPLOAD FILE NAME STATE
   const [PanCardFileName, setPanCardFileName] = useState("");
-  const [AddressFileName, setAddressFileName] = useState("");
+  const [AddressFileName, setAddressFileName] = useState([]);
   const PANNumber = panNumber.toUpperCase();
-  const miliSecond = new Date().getUTCMilliseconds();
+  const miliSec = new Date().getUTCMilliseconds();
   const last4Phoneno = phoneNumber.substring(6, 10);
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
+  console.log("AddressFileName==>", AddressFileName);
 
   const CreationPopUp = () => {
     Swal.fire({
@@ -76,12 +77,12 @@ const NewCustomer = () => {
     });
   };
 
-  const UploadPanFile = (event) => {
+  const UploadPanFile = () => {
     if (PANNumber.match(panRegex)) {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = choosePan.name.split(".")[1];
-      const panCardFileName = `${PANNumber}${miliSecond}${last4Phoneno}.${fileExtention}`;
+      const panCardFileName = `${PANNumber}${miliSec}${last4Phoneno}.${fileExtention}`;
       formData.append("ImgName", panCardFileName);
       formData.append("files", choosePan);
       axios
@@ -114,38 +115,70 @@ const NewCustomer = () => {
       alert("Please Enter Valid PAN Number");
     }
   };
-
+  const UploadAddressDetails = (imgName, imgData) => {
+    console.log("imgName==>", imgName);
+    console.log("imgData==>", imgData);
+    const UpdateKarigarQAPdf = {
+      bookingRefId: "",
+      contentFor: "Issue",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "addressPfrrof",
+      fileName: imgName,
+      fileSize: `${imgData.size}`,
+      fileType: `${imgData.type}`,
+      fileURL: `${FetchImg}${imgData}`,
+      updatedDate: null,
+    };
+    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UploadAddressProof = () => {
     if (addressIDNumber.length > 11) {
-      setLoading(true);
-      const formData = new FormData();
-      const fileExtention = adderessProof.name.split(".");
-      const AddressFileName = `${addressIDNumber}${miliSecond}${last4Phoneno}.${fileExtention[1]}`;
-      setAddressFileName(AddressFileName);
-      formData.append("ImgName", AddressFileName);
-      formData.append("files", adderessProof);
-      axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          if (response.data) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setAddressFile(reader.result);
-            };
-            if (adderessProof) {
-              reader.readAsDataURL(adderessProof);
+      for (let i = 0; i < adderessProof.length; i++) {
+        setLoading(true);
+        const formData = new FormData();
+        const fileEx = adderessProof[i].name.split(".");
+        const fileName = `${addressIDNumber}${miliSec}${last4Phoneno}-img_${i}.${fileEx[1]}`;
+        formData.append("ImgName", fileName);
+        formData.append("files", adderessProof[i]);
+        axios
+          .post(`${UploadImg}`, formData, {
+            headers: ImageHeaders,
+          })
+          .then((res) => res)
+          .then((response) => {
+            if (response.data) {
+              AddressFileName[i] = fileName;
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                addressFile[i] = reader.result;
+                UploadAddressDetails(AddressFileName[i], adderessProof[i]);
+              };
+              if (adderessProof[i]) {
+                reader.readAsDataURL(adderessProof[i]);
+              }
             }
-            alert("Uploaded Successfully");
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error==>", error);
-          setLoading(false);
-        });
+            setLoading(false);
+          });
+      }
     } else if (adderessProof.length === 0) {
       alert(
         `Please Choose  ${
@@ -344,16 +377,15 @@ const NewCustomer = () => {
         bankIfsc: BanckIfcseCode,
         bankDetailFileName: customerAccountNumber,
       };
-      console.log("NewCustomer==>", NewCustomer);
       axios
         .post(`${HOST_URL}/rental/add/new/customer`, NewCustomer)
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data.code === "1000") {
             CreationPopUp();
             localStorage.setItem("regNumber", phoneNumber);
           }
+          setAddressFileName([]);
           navigate("/booking");
           setLoading(false);
         })
@@ -559,7 +591,7 @@ const NewCustomer = () => {
               onChange={(e) => {
                 setAddressProofType(e.target.value);
                 setAdderessProof([]);
-                setAddressFile(null);
+                setAddressFile([]);
               }}
             >
               {addressTypeOption.map((item, i) => {
@@ -572,7 +604,7 @@ const NewCustomer = () => {
             </select>
           </div>
           {addressProofType && (
-            <div className="col-md-2">
+            <div className="col-md-3">
               <label className="form-label">
                 {addressProofType === "aadhar"
                   ? "Aadhar Number*"
@@ -600,7 +632,7 @@ const NewCustomer = () => {
             </div>
           )}
           {addressProofType && (
-            <div className="col-md-3">
+            <div className="col-md-4">
               <label className="form-label">
                 {addressProofType === "aadhar"
                   ? "Upload Aadhar*"
@@ -610,7 +642,8 @@ const NewCustomer = () => {
                 type="file"
                 className="form-control"
                 id="addressProof"
-                onChange={(e) => setAdderessProof(e.target.files[0])}
+                multiple
+                onChange={(e) => setAdderessProof(Array.from(e.target.files))}
               />
             </div>
           )}
@@ -622,10 +655,20 @@ const NewCustomer = () => {
               </button>
             </div>
           )}
-          <div className="col-md-2 text-center">
-            {addressFile && (
-              <img src={addressFile} alt="addressFile" height="100px" />
-            )}
+          <div className="col-12 text-center">
+            {addressFile.length > 0 &&
+              addressFile.map((ulr, i) => {
+                return (
+                  <img
+                    key={i}
+                    src={ulr}
+                    alt="addressFile"
+                    height="100px"
+                    width="140px"
+                    className="mx-1"
+                  />
+                );
+              })}
           </div>
           <div className="col-md-4">
             <label className="form-label">RSO Name*</label>

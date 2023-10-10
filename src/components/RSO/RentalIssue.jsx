@@ -8,7 +8,7 @@ import {
 } from "../../Data/DataList";
 import moment from "moment";
 import axios from "axios";
-import { HOST_URL } from "../../API/HostURL";
+import { HOST_URL, thresholdmsg } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
@@ -38,6 +38,7 @@ const RentalIssue = () => {
   const [karateMtrFileName, setKarateMtrFileName] = useState("");
   const [karigarQAUrl, setKarigarQAUrl] = useState("");
   const [karetMtrUrl, setKaretMtrUrl] = useState("");
+  const [thresholdLimit, setThresholdLimit] = useState("");
 
   // SAME NOT SAME CUSTOME FOR PICKUP DETAILS
   const [sameCustName, setSameCustName] = useState("");
@@ -67,8 +68,6 @@ const RentalIssue = () => {
   const bookingDate = moment(currentDate).format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const navigate = useNavigate();
-
-  console.log("GetReturnProduct==>", GetReturnProduct);
 
   const GetActualWtAtDlr = (e) => {
     const { name, value } = e.target;
@@ -476,7 +475,7 @@ const RentalIssue = () => {
         .then((response) => {
           console.log("outstarnding==>", response.data);
           if (response.data.code === "1000") {
-            setOutstandingData(response.data.value);
+            setOutstandingData(parseInt(response.data.value.outStanding));
           }
         })
         .catch((error) => {
@@ -485,6 +484,21 @@ const RentalIssue = () => {
         });
     }
   }, [mobileNo, existedUserData.panCardNo]);
+
+  useEffect(() => {
+    axios
+      .get(`${HOST_URL}/get/threshold/value/PURPLE`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setThresholdLimit(parseInt(response.data.value.limit));
+        }
+      })
+      .catch((error) => {
+        console.log("error=>", error);
+        setLoading(false);
+      });
+  }, []);
 
   const TnxStatusUpdate = (bookingId) => {
     axios
@@ -501,6 +515,7 @@ const RentalIssue = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
+          navigate("/home");
         }
       })
       .catch((error) => {
@@ -529,51 +544,54 @@ const RentalIssue = () => {
         confirmButtonText: "OK",
       });
     } else {
-      setLoading(true);
-      const RaiseDepositValue = {
-        actualWtAtDelivery: PdtItemWitewt,
-        bookingRefNo: totalPaidAmount.bookingId,
-        dispatchDate: null,
-        issuenceDocumentUpload: "",
-        loanDocumentUpload: sameCustomer ? "" : sameCutIDFileName,
-        pickUpByCustomerName: sameCustomer ? "" : sameCustName,
-        pickUpByCustomerIdType: sameCustomer ? "" : sameCustIDType,
-        pickUpByCustomerIdNo: sameCustomer ? "" : sameCustIDNo,
-        pickUpCustomerFileName: sameCustomer ? "" : sameCutIDFileName,
-        qaCHeckedStatus: "",
-        qaCHeckedStatusUpload: "",
-        rsoName: RSOName,
-        signedAckUpload: "",
-        totalDepositAmountWithTax: TDepositWithTax,
-        totalDepositAmount: parseFloat(totalPaidAmount.totalDepositAmount),
-        totalDepositAmountPaid: "",
-        totalProductValue: totalPaidAmount.totalProductValue,
-        totalRentalValue: totalPaidAmount.totalRentalValue,
-      };
-      console.log("RaiseDepositValue==>", RaiseDepositValue);
-      axios
-        .post(`${HOST_URL}/rental/issue/api`, RaiseDepositValue)
-        .then((res) => res)
-        .then((response) => {
-          console.log("response=>", response);
-          if (response.data.code === "1000") {
-            TnxStatusUpdate(totalPaidAmount.bookingId);
-            setProductFileName([]);
-            setProductImgFile([]);
-            setRSOName("");
-            setKaretMtrUrl("");
-            setKarigarQAUrl("");
-            document.getElementById("QAfile").value = "";
-            document.getElementById("karetfile").value = "";
-            navigate("/home");
-            localStorage.removeItem("selecttedReturnProduct");
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error=>", error);
-          setLoading(false);
-        });
+      if (thresholdLimit < outstandingData) {
+        alert(thresholdmsg);
+      } else {
+        setLoading(true);
+        const RaiseDepositValue = {
+          actualWtAtDelivery: PdtItemWitewt,
+          bookingRefNo: totalPaidAmount.bookingId,
+          dispatchDate: null,
+          issuenceDocumentUpload: "",
+          loanDocumentUpload: sameCustomer ? "" : sameCutIDFileName,
+          pickUpByCustomerName: sameCustomer ? "" : sameCustName,
+          pickUpByCustomerIdType: sameCustomer ? "" : sameCustIDType,
+          pickUpByCustomerIdNo: sameCustomer ? "" : sameCustIDNo,
+          pickUpCustomerFileName: sameCustomer ? "" : sameCutIDFileName,
+          qaCHeckedStatus: "",
+          qaCHeckedStatusUpload: "",
+          rsoName: RSOName,
+          signedAckUpload: "",
+          totalDepositAmountWithTax: TDepositWithTax,
+          totalDepositAmount: parseFloat(totalPaidAmount.totalDepositAmount),
+          totalDepositAmountPaid: "",
+          totalProductValue: totalPaidAmount.totalProductValue,
+          totalRentalValue: totalPaidAmount.totalRentalValue,
+        };
+        console.log("RaiseDepositValue==>", RaiseDepositValue);
+        axios
+          .post(`${HOST_URL}/rental/issue/api`, RaiseDepositValue)
+          .then((res) => res)
+          .then((response) => {
+            console.log("response=>", response);
+            if (response.data.code === "1000") {
+              TnxStatusUpdate(totalPaidAmount.bookingId);
+              setProductFileName([]);
+              setProductImgFile([]);
+              setRSOName("");
+              setKaretMtrUrl("");
+              setKarigarQAUrl("");
+              document.getElementById("QAfile").value = "";
+              document.getElementById("karetfile").value = "";
+              localStorage.removeItem("selecttedReturnProduct");
+            }
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log("error=>", error);
+            setLoading(false);
+          });
+      }
     }
   };
   return (

@@ -387,7 +387,7 @@ const NewCustomer = () => {
       alert("Please Complete Phone Number Verification");
     } else {
       setLoading(true);
-      const NewCustomer = {
+      const NewCustomerInputs = {
         customerName: customerName,
         customerAddress1: addresLine2,
         customerAddress2: addresLine1,
@@ -399,7 +399,7 @@ const NewCustomer = () => {
         panCardNoFileName: PanCardFileName,
         addressProofIdType: addressProofType,
         addressProofIdNo: addressIDNumber,
-        addressProofFileName: AddressFileName,
+        addressProofFileName: AddressFileName[0],
         createDate: RegDate,
         updateDate: null,
         status: "active",
@@ -409,8 +409,9 @@ const NewCustomer = () => {
         bankIfsc: BanckIfcseCode,
         bankDetailFileName: customerAccountNumber,
       };
+      console.log("NewCustomerInputs==>");
       axios
-        .post(`${HOST_URL}/rental/add/new/customer`, NewCustomer)
+        .post(`${HOST_URL}/rental/add/new/customer`, NewCustomerInputs)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -708,7 +709,7 @@ const NewCustomer = () => {
                 );
               })}
           </div>
-          <div className="col-md-4">
+          <div className="col-md-12">
             <label className="form-label">RSO Name*</label>
             <input
               type="text"

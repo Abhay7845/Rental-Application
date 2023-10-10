@@ -734,11 +734,13 @@ const NewCustomer = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">
               Customer Bank Details (OPTIONAL)
+              <b className="text-warning mx-2">
+                Please inform customer to get the bank details during Rental
+                Issue
+              </b>
             </h6>
           </div>
-          <b className="text-danger mt-0">
-            Please inform customer to get the bank details during Rental Issue
-          </b>
+
           <div className="col-md-4">
             <label className="form-label">Bank Name</label>
             <input

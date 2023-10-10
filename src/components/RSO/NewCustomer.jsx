@@ -76,7 +76,39 @@ const NewCustomer = () => {
       confirmButtonText: "OK",
     });
   };
-
+  const UploadPanDetails = (imgName) => {
+    const UpdateKarigarQAPdf = {
+      bookingRefId: "",
+      contentFor: "customerCreation",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "panCard",
+      fileName: imgName,
+      fileSize: `${choosePan.size}`,
+      fileType: `${choosePan.type}`,
+      fileURL: `${FetchImg}${choosePan}`,
+      updatedDate: null,
+    };
+    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UploadPanFile = () => {
     if (PANNumber.match(panRegex)) {
       setLoading(true);
@@ -91,17 +123,16 @@ const NewCustomer = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
             setPanCardFileName(panCardFileName);
             const reader = new FileReader();
             reader.onloadend = () => {
               setPanFile(reader.result);
+              UploadPanDetails(panCardFileName);
             };
             if (choosePan) {
               reader.readAsDataURL(choosePan);
             }
-            alert("Your PAN Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -116,13 +147,11 @@ const NewCustomer = () => {
     }
   };
   const UploadAddressDetails = (imgName, imgData) => {
-    console.log("imgName==>", imgName);
-    console.log("imgData==>", imgData);
     const UpdateKarigarQAPdf = {
       bookingRefId: "",
-      contentFor: "Issue",
+      contentFor: "customerCreation",
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "addressPfrrof",
+      documentType: "addressProof",
       fileName: imgName,
       fileSize: `${imgData.size}`,
       fileType: `${imgData.type}`,

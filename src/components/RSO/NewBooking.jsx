@@ -37,11 +37,6 @@ const NewBooking = () => {
   const [transactionFile, setTransactionFile] = useState("");
   const [transactioUI, setTransactioUI] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
-  const { customerName } = existedUserData;
-
-  const custFullName = !customerName ? "" : customerName;
-  const last4Phone = phonePanValue.substring(6, 10);
-  const transactionfileName = `${last4Phone}${custFullName.replace(/\s/g, "")}`;
 
   const paramType = !phonePanValue
     ? ""
@@ -203,6 +198,40 @@ const NewBooking = () => {
       document.getElementById("chequeBook").value = "";
     }
   };
+
+  const UploadTnxDetails = (imgName) => {
+    const TnxIputsDetails = {
+      bookingRefId: "",
+      contentFor: "newBooking",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "tnxPreviousFile",
+      fileName: imgName,
+      fileSize: `${tnxFile.size}`,
+      fileType: `${tnxFile.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    console.log("TnxIputsDetails==>", TnxIputsDetails);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, TnxIputsDetails)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
   const UploadPreTransaction = () => {
     if (tnxFile.length === 0) {
       alert("Please Upload Transaction File");
@@ -210,8 +239,7 @@ const NewBooking = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = tnxFile.name.split(".");
-      console.log("fileEx==>", fileEx);
-      const fileExtention = `${transactionfileName}.${fileEx[1]}`;
+      const fileExtention = `${phonePanValue}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", tnxFile);
       axios
@@ -222,6 +250,7 @@ const NewBooking = () => {
         .then((response) => {
           console.log("response==>", response.data);
           if (response.data) {
+            UploadTnxDetails(fileExtention);
             const reader = new FileReader();
             reader.onloadend = () => {
               setTransactionFile(fileExtention);
@@ -230,7 +259,6 @@ const NewBooking = () => {
             if (tnxFile) {
               reader.readAsDataURL(tnxFile);
             }
-            alert("Transaction File Uploaded Successfully");
           }
           setLoading(false);
         })

@@ -65,8 +65,6 @@ const CashierPaymentDetails = () => {
   const Invdigit = parseInt(InvoiceDgt[1]) + 1;
   const GenInvoiceNo = `${storeCode}-${Invdigit}`;
 
-  console.log("paymentDetails==>", paymentDetails);
-
   // ADD ROW
   const [count, setCount] = useState(0);
   const [addPaymentRows, setAddPaymentRows] = useState([]);
@@ -141,7 +139,6 @@ const CashierPaymentDetails = () => {
         )
         .then((res) => res)
         .then((response) => {
-          console.log("responseSum==>", response.data);
           if (response.data.code === "1000") {
             setTotalPaidAmount(response.data.value);
           }
@@ -161,7 +158,6 @@ const CashierPaymentDetails = () => {
         )
         .then((res) => res)
         .then((response) => {
-          console.log("PreResponse==>", response.data);
           if (response.data.code === "1000") {
             setPreviousTnxData(response.data.value);
           }
@@ -178,7 +174,6 @@ const CashierPaymentDetails = () => {
       .get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
       .then((res) => res)
       .then((response) => {
-        console.log("InvoiceResponse==>", response.data);
         if (response.data.code === "1000") {
           setInvoicePdfNo(response.data.value);
         }
@@ -198,7 +193,6 @@ const CashierPaymentDetails = () => {
         )
         .then((res) => res)
         .then((response) => {
-          console.log("responseCommon==>", response.data);
           if (response.data.code === "1000") {
             setAddedPdts(response.data.value);
           }
@@ -211,6 +205,19 @@ const CashierPaymentDetails = () => {
     }
   }, [storeCode, paymentDetails.tempBookingRef]);
 
+  const ClearAllUIData = () => {
+    GetPyamentDetials();
+    setPaymentDetails({});
+    setGetPaymentData([]);
+    setSavePaymetRow([]);
+    setCashierName("");
+    setVerifiedOtp(false);
+    setPrintFile([]);
+    setDeliveryChallan([]);
+    setCollectedAmount(0);
+    setVerifiedOtp(false);
+    setOtp("");
+  };
   const GetPyamentDetials = () => {
     setLoading(true);
     axios
@@ -219,7 +226,6 @@ const CashierPaymentDetails = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         const PendingStatusData = response.data.value.filter(
           (data) =>
             data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"
@@ -251,7 +257,6 @@ const CashierPaymentDetails = () => {
   const OnSelectRow = (seletedData) => {
     setPaymentDetails(seletedData);
   };
-  console.log("paymentDetails==>", paymentDetails);
 
   useEffect(() => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
@@ -286,7 +291,7 @@ const CashierPaymentDetails = () => {
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setCollectedAmount(Math.round(totalDepositAmountPaidWithTax));
-      setAlertMessage("Item Return Successfully");
+      setAlertMessage("Item Returned Successfully");
       setUpdateStatus("ProductReturnedSuccess");
       setBookedStatus("ProductReturnedSuccess");
       setInvoiceNo(GenInvoiceNo);
@@ -324,13 +329,19 @@ const CashierPaymentDetails = () => {
       createdDate: null,
       storeCode: storeCode,
     };
-    console.log("InvoiceInputs==>", InvoiceInputs);
     axios
       .post(`${HOST_URL}/insert/invoice/details`, InvoiceInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          console.log("responseInvoice==>", response.data);
+          if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
+            UpdateBookingCalendar();
+            console.log("UpdateBookingCalendar--->8");
+          }
+          if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
+            InsertOutStanding(outStatus);
+            console.log("InsertOutStanding--->9");
+          }
         }
         setLoading(false);
       })
@@ -375,20 +386,19 @@ const CashierPaymentDetails = () => {
       status: outStatus,
       updatedDate: null,
     };
-    console.log("OutstandingInputs==>", OutstandingInputs);
     axios
       .post(`${HOST_URL}/insert/outstanding/details`, OutstandingInputs)
       .then((res) => res)
       .then((response) => {
-        console.log("responseoutstanding==>", response);
-        if (response.data.code === "100") {
-          console.log("response==>", response);
+        if (response.data.code === "1000") {
+          TnxStatusUpdate(paymentDetails.bookingId);
+          console.log("TnxStatusUpdate--->10");
         }
       })
       .catch((error) => console.log("error=>", error));
   };
 
-  const UpdateBookingCalaendar = () => {
+  const UpdateBookingCalendar = () => {
     const updatedInputs = addedPdts.map((data) => {
       return {
         bookingId: paymentDetails.bookingId,
@@ -398,11 +408,25 @@ const CashierPaymentDetails = () => {
         tempRefNo: data.tempBookingRefNo,
       };
     });
-    console.log("updatedBookingInputs==>", updatedInputs);
     axios
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
-      .then((response) => console.log("UpdatedResponse==>", response.data))
+      .then((response) => {
+        if (response.data.code === "1000") {
+          if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
+            TnxStatusUpdate(paymentDetails.bookingId);
+            console.log("TnxStatusUpdate--->20");
+          }
+          if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+            TnxStatusUpdate(paymentDetails.bookingId);
+            console.log("TnxStatusUpdate--->2");
+          }
+          if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
+            InsertOutStanding(outStatus);
+            console.log("InsertOutStanding--->3");
+          }
+        }
+      })
       .catch((error) => console.log("error==>", error));
   };
 
@@ -418,12 +442,10 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${UploadFileName}`,
       updatedDate: null,
     };
-    console.log("paymentUploadFile==>", paymentUploadFile);
     axios
       .post(`${HOST_URL}/insert/image/details`, paymentUploadFile)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           alert("Uploaded Successfully");
         }
@@ -451,7 +473,6 @@ const CashierPaymentDetails = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response);
           if (response.data) {
             PaymentFileImage(UploadFileName);
           }
@@ -532,12 +553,10 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${printFileName}`,
       updatedDate: null,
     };
-    console.log("updateBookingInput==>", updateBookingInput);
     axios
       .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           alert("Uploaded Successfully");
         }
@@ -566,7 +585,6 @@ const CashierPaymentDetails = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response);
           if (response.data) {
             UpdateBookingFile(printFileName);
           }
@@ -595,7 +613,6 @@ const CashierPaymentDetails = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response);
           if (response.data) {
             setDlrChalalnFileName(deliveryChallanFile);
             alert("Uploaded Successfully");
@@ -622,17 +639,8 @@ const CashierPaymentDetails = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
-          GetPyamentDetials();
-          setPaymentDetails({});
-          setGetPaymentData([]);
-          setSavePaymetRow([]);
-          setCashierName("");
-          setVerifiedOtp(false);
-          setPrintFile([]);
-          setDeliveryChallan([]);
-          setCollectedAmount(0);
-          setVerifiedOtp(false);
-          setOtp("");
+          ClearAllUIData();
+          console.log("TnxStatusUpdate--->4");
         }
       })
       .catch((error) => {
@@ -648,31 +656,13 @@ const CashierPaymentDetails = () => {
       tempRefNo: paymentDetails.tempBookingRef,
       tncFileName: tnCFileName,
     };
-    console.log("submitPaymentData==>", submitPaymentData);
     axios
       .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
       .then((res) => res)
       .then((response) => {
-        console.log("update/summary==>", response.data);
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: alertMessage,
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
-          GetPyamentDetials();
-          setPaymentDetails({});
-          setGetPaymentData([]);
-          setSavePaymetRow([]);
-          setCashierName("");
-          setVerifiedOtp(false);
-          setPrintFile([]);
-          setDeliveryChallan([]);
-          setCollectedAmount(0);
-          setVerifiedOtp(false);
-          setOtp("");
+          console.log("CompletePayment--->1");
+          UpdateBookingCalendar();
         }
       })
       .then((error) => {
@@ -686,12 +676,18 @@ const CashierPaymentDetails = () => {
       .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
             CompletePayment();
-          } else {
-            TnxStatusUpdate(paymentDetails.bookingId);
+            console.log("CompletePayment--->5");
+          } else if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
+            InsertInvoiceData(challanNo);
+            console.log("CompletePayment--->6");
+          } else if (
+            paymentRequestFor === "Payment_PendingFor_RentalIssuance"
+          ) {
+            InsertInvoiceData(challanNo);
+            console.log("CompletePayment--->7");
           }
         }
         setLoading(false);
@@ -703,17 +699,7 @@ const CashierPaymentDetails = () => {
   };
   const SubmitPayment = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
-      CallPaymentAPI();
-    }
-    if (paymentRequestFor !== "Payment_PendingFor_RentalIssuance") {
-      UpdateBookingCalaendar();
-      InsertInvoiceData(challanNo);
-    }
-    if (
-      paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
-      paymentRequestFor === "Payment_PendingFor_RentalReturn"
-    ) {
-      InsertOutStanding(outStatus);
+      UpdateBookingCalendar();
     }
     if (
       paymentRequestFor === "Payment_PendingFor_NewBooking" ||
@@ -722,6 +708,7 @@ const CashierPaymentDetails = () => {
     ) {
       if (collectedAmount === TotalAmount) {
         CallPaymentAPI();
+        console.log("CallPaymentAPI--->11");
       } else {
         alert(amontErrMassage);
       }

@@ -466,7 +466,7 @@ const RentalIssue = () => {
   }, [storeCode, refId]);
 
   useEffect(() => {
-    if (existedUserData.panCardNo) {
+    if (existedUserData.panCardNo && mobileNo) {
       axios
         .get(
           `${HOST_URL}/get/outstanding/amount/details/${mobileNo}/${existedUserData.panCardNo}`

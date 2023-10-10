@@ -223,11 +223,11 @@ const Home = () => {
                     ? "CButton mx-2"
                     : "CDisabled mx-2"
                 }
-                disabled={
-                  currentDate >= rentalDate && Status === "Booked"
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   currentDate >= rentalDate && Status === "Booked"
+                //     ? false
+                //     : true
+                // }
                 onClick={RentalIssueProducts}
               >
                 Rental Issue

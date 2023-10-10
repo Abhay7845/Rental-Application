@@ -24,7 +24,6 @@ const NewCustomer = () => {
   const [phoneVerified, setPhoneVerified] = useState(false);
   const phoneNo = localStorage.getItem("serachBookingNo");
   const phoneNumber = !phoneNo ? "" : phoneNo;
-
   const navigate = useNavigate();
 
   // CUSTOMER BANK DETAIL FIELDS
@@ -36,7 +35,6 @@ const NewCustomer = () => {
   // ADDRESS PROOF
   const [choosePan, setChoosePan] = useState("");
   const [adderessProof, setAdderessProof] = useState([]);
-
   const BanckIfcseCode = bankIfsc.toUpperCase();
 
   // EMAIL ADDRESS  OTP VALIDATION
@@ -64,15 +62,6 @@ const NewCustomer = () => {
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
 
-  const CreationPopUp = () => {
-    Swal.fire({
-      title: "Success",
-      text: "Customer Registered Successfully",
-      icon: "success",
-      confirmButtonColor: "#008080",
-      confirmButtonText: "OK",
-    });
-  };
   const UploadPanDetails = (imgName) => {
     const UpdateKarigarQAPdf = {
       bookingRefId: "",
@@ -425,7 +414,13 @@ const NewCustomer = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
-            CreationPopUp();
+            Swal.fire({
+              title: "Success",
+              text: "Customer Registered Successfully",
+              icon: "success",
+              confirmButtonColor: "#008080",
+              confirmButtonText: "OK",
+            });
             localStorage.setItem("regNumber", phoneNumber);
           }
           setAddressFileName([]);

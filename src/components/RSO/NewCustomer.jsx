@@ -85,12 +85,10 @@ const NewCustomer = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           Swal.fire({
             title: "Success",
@@ -155,15 +153,10 @@ const NewCustomer = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          console.log("");
-        }
-      })
+      .then((response) => console.log(""))
       .catch((error) => {
         console.log("error==>", error);
         setLoading(false);
@@ -226,7 +219,6 @@ const NewCustomer = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
@@ -291,11 +283,10 @@ const NewCustomer = () => {
         .get(`${HOST_URL}/get/mobile/otp/${phoneNumber}`)
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response);
           if (response.data.code === "1000") {
             setPhoneOtp(response.data.otp);
             setSecPhoneCount(60);
-            alert("OTP has been sent your mobile number");
+            alert("OTP has been sent your Mobile Number");
           }
           setLoading(false);
         })

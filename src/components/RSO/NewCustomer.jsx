@@ -61,11 +61,8 @@ const NewCustomer = () => {
   const [PanCardFileName, setPanCardFileName] = useState("");
   const [AddressFileName, setAddressFileName] = useState([]);
   const PANNumber = panNumber.toUpperCase();
-  const miliSec = new Date().getUTCMilliseconds();
-  const last4Phoneno = phoneNumber.substring(6, 10);
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
-  console.log("AddressFileName==>", AddressFileName);
 
   const CreationPopUp = () => {
     Swal.fire({
@@ -114,7 +111,7 @@ const NewCustomer = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = choosePan.name.split(".")[1];
-      const panCardFileName = `${PANNumber}${miliSec}${last4Phoneno}.${fileExtention}`;
+      const panCardFileName = `${PANNumber}.${fileExtention}`;
       formData.append("ImgName", panCardFileName);
       formData.append("files", choosePan);
       axios
@@ -163,15 +160,8 @@ const NewCustomer = () => {
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: "Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
+          console.log("");
         }
       })
       .catch((error) => {
@@ -185,7 +175,7 @@ const NewCustomer = () => {
         setLoading(true);
         const formData = new FormData();
         const fileEx = adderessProof[i].name.split(".");
-        const fileName = `${addressIDNumber}${miliSec}${last4Phoneno}-img_${i}.${fileEx[1]}`;
+        const fileName = `${addressIDNumber}_${i + 1}.${fileEx[1]}`;
         formData.append("ImgName", fileName);
         formData.append("files", adderessProof[i]);
         axios

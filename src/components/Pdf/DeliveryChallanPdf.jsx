@@ -27,7 +27,12 @@ const DeliveryChallanPdf = (props) => {
     for (let data of TDamagValue) total = total + data;
     return total;
   };
-
+  const TBasePrive = addedPdts.map((item) => parseInt(item.productValue));
+  const SumOfBasePrice = () => {
+    let total = 0;
+    for (let num of TBasePrive) total = total + num;
+    return total;
+  };
   const TAmount = savePaymetRow.map((item) => parseInt(item.amount));
   const SumOfSaveAmount = () => {
     let total = 0;
@@ -56,7 +61,7 @@ const DeliveryChallanPdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -175,12 +180,12 @@ const DeliveryChallanPdf = (props) => {
                               <td>{item.grossWt}</td>
                               <td>{item.deliveredWt}</td>
                               <td>{item.packageDays}</td>
-                              <td>
+                              <td className="text-end">
                                 {parseInt(item.productValue).toLocaleString(
                                   "en-IN"
                                 )}
                               </td>
-                              <td>
+                              <td className="text-end">
                                 {Math.round(item.depositAmount).toLocaleString(
                                   "en-IN"
                                 )}
@@ -188,11 +193,9 @@ const DeliveryChallanPdf = (props) => {
                             </tr>
                           );
                         })}
-                        <tr className="text-bold">
-                          <th colSpan="7" className="text-end">
-                            TOTAL
-                          </th>
-                          <th>₹ 0</th>
+                        <tr className="text-end">
+                          <th colSpan="7">TOTAL</th>
+                          <th>₹ {SumOfBasePrice().toLocaleString("en-IN")}</th>
                           <th>
                             ₹
                             {Math.round(SumOfDamagCharge()).toLocaleString(
@@ -208,18 +211,18 @@ const DeliveryChallanPdf = (props) => {
               <tr>
                 <td colSpan="4" style={{ width: "60%" }}>
                   {savePaymetRow.length > 0 && (
-                    <table className="table table-bordered border-dark">
+                    <table className="table table-bordered border-dark text-center">
                       <thead>
                         <tr>
                           <th colSpan="6">Payment Details:</th>
                         </tr>
-                        <tr>
-                          <th>Sr.No</th>
+                        <tr className="text-center">
+                          <th>SR.No</th>
                           <th>Amount Type</th>
                           <th>Payment Mode</th>
                           <th>DOC No.</th>
                           <th>Date</th>
-                          <th>Amount(Rs)</th>
+                          <th>Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -229,24 +232,22 @@ const DeliveryChallanPdf = (props) => {
                               <td>{i + 1}</td>
                               <td>
                                 {item.paymentFor ===
-                                "Payment_PendingFor_Issuance"
+                                "Payment_PendingFor_RentalIssuance"
                                   ? "Damge Protection Charge"
                                   : ""}
                               </td>
                               <td>{item.paymentType}</td>
                               <td>{item.txnRefNo}</td>
                               <td>{moment().format("DD-MM-YYYY")}</td>
-                              <td>
+                              <td className="text-end">
                                 {item.amount.toString().toLocaleString("en-IN")}
                               </td>
                             </tr>
                           );
                         })}
                         {savePaymetRow.length > 0 && (
-                          <tr>
-                            <th colSpan="5" className="text-end">
-                              TOTAL
-                            </th>
+                          <tr className="text-end">
+                            <th colSpan="5">TOTAL</th>
                             <th>
                               ₹
                               {Math.round(SumOfSaveAmount()).toLocaleString(

@@ -308,7 +308,7 @@ const RentalReturn = () => {
 
   const PdtItemWitewt = PdtItemWtRtn.map((ele, i) => {
     return {
-      actualWtAtReturn: parseFloat(ele),
+      actualWtAtReturn: parseFloat(ele).toFixed(3),
       pdtId: parseInt(refactoreDataTable[i].pdtId),
     };
   });
@@ -670,7 +670,7 @@ const RentalReturn = () => {
                       <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
-                      <th>{SumOfActualItemWt()} g.</th>
+                      <th>{SumOfActualItemWt().toFixed(3)} g.</th>
                       <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfTRentalRate().toLocaleString("en-IN")}</th>
                       <th>₹ {SumOfTPeneltyCharge().toLocaleString("en-IN")}</th>

@@ -19,6 +19,7 @@ const DeliveryChallanPdf = (props) => {
     challanNo,
   } = props;
   const CutometProfileNo = addedPdts.map((data) => data.custId);
+  console.log("addedPdts==>", addedPdts);
 
   // TOTAL BOOKING CHARGES
   const TDamagValue = addedPdts.map((item) => parseInt(item.depositAmount));

@@ -65,7 +65,9 @@ const CashierPaymentDetails = () => {
     bookingId,
     totalDepositAmount,
   } = totalPaidAmount;
-  const TotalCharges = totalDamageCharges + totalPenaltyCharges;
+  const TotalCharges =
+    (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
+
   const GenChallanNo = `${bookingRefNo}-D`;
   const InvoiceDgt = !invoicePdfNo.invoiceNo
     ? ""
@@ -302,12 +304,13 @@ const CashierPaymentDetails = () => {
       );
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-      if (TotalCharges > totalDepositAmount) {
+      const bookingDesposit = totalBookingAmount + totalDepositAmount;
+      if (TotalCharges > bookingDesposit) {
         setAmontHeading("Amount to be collected");
-        setCollectedAmount(Math.round(TotalCharges - totalDepositAmount));
-      } else if (TotalCharges <= totalDepositAmount) {
+        setCollectedAmount(TotalCharges - bookingDesposit);
+      } else if (TotalCharges <= bookingDesposit) {
         setAmontHeading("Amount to be Refunded");
-        setCollectedAmount(Math.round(totalDepositAmount - TotalCharges));
+        setCollectedAmount(bookingDesposit - TotalCharges);
       }
       setAlertMessage("Item Returned Successfully");
       setUpdateStatus("ProductReturnedSuccess");
@@ -375,13 +378,13 @@ const CashierPaymentDetails = () => {
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
       alert("Please Fill All Details");
-    } else if (collectedAmount < TotalAmount + parseInt(amount)) {
+    } else if (collectedAmount < TotalAmount + parseFloat(amount)) {
       alert(amontErrMassage);
     } else {
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
         id: paymentRowId,
-        amount: Math.round(amount),
+        amount: parseFloat(amount),
         bookingRefId: parseInt(paymentDetails.bookingId),
         createDate: null,
         fileName: fileName,
@@ -517,6 +520,7 @@ const CashierPaymentDetails = () => {
     return total;
   };
   let TotalAmount = SumOfTAmount();
+
   useEffect(() => {
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
       setDocumentType("tncDocument");
@@ -919,7 +923,13 @@ const CashierPaymentDetails = () => {
               <label className="form-label">
                 <b>{amontHeading}</b>
               </label>
-              <h6>₹{collectedAmount}</h6>
+              <h6>
+                {new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                  minimumFractionDigits: 2,
+                }).format(collectedAmount)}
+              </h6>
             </div>
             {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
               <div className="col-12 table-responsive mx-0">
@@ -938,7 +948,13 @@ const CashierPaymentDetails = () => {
                           <td>{item.paymentFor}</td>
                           <td>{item.paymentType}</td>
                           <td>{item.txnRefNo}</td>
-                          <td>{item.amount.toString()}</td>
+                          <td>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: 2,
+                            }).format(item.amount)}
+                          </td>
                           <td className="d-flex justify-content-between">
                             {item.fileName}
                           </td>
@@ -956,7 +972,13 @@ const CashierPaymentDetails = () => {
                         <th colSpan="3" className="text-end">
                           TOTAL
                         </th>
-                        <th>₹ {TotalAmount.toLocaleString("en-IN")}</th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: 2,
+                          }).format(TotalAmount)}
+                        </th>
                         <td colSpan="2" />
                       </tr>
                     )}
@@ -1043,13 +1065,8 @@ const CashierPaymentDetails = () => {
                     )}
                     <button
                       type="submit"
-                      className={
-                        TotalAmount === collectedAmount
-                          ? "CDisabled"
-                          : "CButton"
-                      }
+                      className="CButton"
                       onClick={AddPaymentRows}
-                      disabled={TotalAmount === collectedAmount ? true : false}
                     >
                       Add Payment
                     </button>
@@ -1071,6 +1088,7 @@ const CashierPaymentDetails = () => {
                         storeDetails={storeDetails}
                         regUserData={regUserData}
                         totalPaidAmount={totalPaidAmount}
+                        paymentDetails={paymentDetails}
                       />
                     )}
                   </h6>

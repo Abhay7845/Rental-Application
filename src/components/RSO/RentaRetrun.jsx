@@ -97,7 +97,6 @@ const RentalReturn = () => {
       .get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${refId}`)
       .then((res) => res)
       .then((response) => {
-        console.log("responsesum==>", response.data);
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
@@ -438,7 +437,6 @@ const RentalReturn = () => {
       .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           TnxStatusUpdate(totalPaidAmount.bookingId);
         }
@@ -479,13 +477,10 @@ const RentalReturn = () => {
           updatedDate: null,
         };
       });
-      console.log("InsertTableInputs==>", InsertTableInputs);
-
       axios
         .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data.code === "1000") {
             RaiseClouseRequest(DespId[0]);
           }

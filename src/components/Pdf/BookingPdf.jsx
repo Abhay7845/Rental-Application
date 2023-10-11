@@ -12,10 +12,9 @@ const BookingPdf = (props) => {
     addedPdts,
     bookingRefID,
     regUserData,
-    totalPaidAmount,
+    paymentDetails,
   } = props;
-  const { totalDepositAmount } = totalPaidAmount;
-  console.log("totalPaidAmount==>", totalPaidAmount);
+  const { depositValue } = paymentDetails;
 
   const RefacotorData = addedPdts.map((data) => {
     return {
@@ -224,32 +223,50 @@ const BookingPdf = (props) => {
                                 </th>
                                 <th>{item.packageDays} Days</th>
                                 <th className="text-end">
-                                  {Math.round(item.productValue).toLocaleString(
-                                    "en-IN"
-                                  )}
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: 2,
+                                  }).format(item.productValue)}
                                 </th>
                                 <th className="text-end">
-                                  {Math.round(item.rentalAmount).toLocaleString(
-                                    "en-IN"
-                                  )}
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: 2,
+                                  }).format(item.rentalAmount)}
                                 </th>
                                 <th className="text-end">0</th>
                                 <th className="text-end">0</th>
                                 <th className="text-end">
-                                  {Math.round(item.rentalAmount).toLocaleString(
-                                    "en-IN"
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: 2,
+                                  }).format(item.rentalAmount)}
+                                </th>
+                                <th className="text-end">
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: 2,
+                                  }).format(item.sgst)}
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: 2,
+                                  }).format(item.csgst)}
+                                </th>
+                                <th className="text-end">
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: 2,
+                                  }).format(
+                                    item.rentalAmount + item.sgst + item.csgst
                                   )}
-                                </th>
-                                <th className="text-end">
-                                  {item.sgst.toLocaleString("en-IN")}
-                                </th>
-                                <th>{item.csgst.toLocaleString("en-IN")}</th>
-                                <th className="text-end">
-                                  {(
-                                    item.rentalAmount +
-                                    item.sgst +
-                                    item.csgst
-                                  ).toLocaleString("en-IN")}
                                 </th>
                               </tr>
                             );
@@ -257,17 +274,41 @@ const BookingPdf = (props) => {
                           <tr className="text-end">
                             <th colSpan="8">TOTAL</th>
                             <th>
-                              ₹{SumOfBookinCharge().toLocaleString("en-IN")}
+                              {new Intl.NumberFormat("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                                minimumFractionDigits: 2,
+                              }).format(SumOfBookinCharge())}
                             </th>
                             <th>₹0</th>
                             <th>₹0</th>
                             <th>
-                              ₹{SumOfBookinCharge().toLocaleString("en-IN")}
+                              {new Intl.NumberFormat("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                                minimumFractionDigits: 2,
+                              }).format(SumOfBookinCharge())}
                             </th>
-                            <th>₹{SumOfSGST().toLocaleString("en-IN")}</th>
-                            <th>₹{SumOfCGST().toLocaleString("en-IN")}</th>
                             <th>
-                              ₹{SumOfTotalAmount().toLocaleString("en-IN")}
+                              {new Intl.NumberFormat("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                                minimumFractionDigits: 2,
+                              }).format(SumOfSGST())}
+                            </th>
+                            <th>
+                              {new Intl.NumberFormat("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                                minimumFractionDigits: 2,
+                              }).format(SumOfCGST())}
+                            </th>
+                            <th>
+                              {new Intl.NumberFormat("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                                minimumFractionDigits: 2,
+                              }).format(SumOfTotalAmount())}
                             </th>
                           </tr>
                         </tbody>
@@ -288,7 +329,7 @@ const BookingPdf = (props) => {
                         <th>Payment Mode</th>
                         <th>Doc No.</th>
                         <th>Date</th>
-                        <th>Amount(Rs)</th>
+                        <th>Amount</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -300,7 +341,11 @@ const BookingPdf = (props) => {
                             <td>{item.txnRefNo}</td>
                             <td>{moment().format("DD-MM-YYYY")}</td>
                             <td className="text-end">
-                              {item.amount.toString().toLocaleString("en-IN")}
+                              {new Intl.NumberFormat("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                                minimumFractionDigits: 2,
+                              }).format(item.amount)}
                             </td>
                           </tr>
                         );
@@ -308,7 +353,13 @@ const BookingPdf = (props) => {
                       {savePaymetRow.length > 0 && (
                         <tr className="text-end">
                           <th colSpan="4">TOTAL</th>
-                          <th>₹{SumOfSaveAmount().toString()}</th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: 2,
+                            }).format(SumOfSaveAmount())}
+                          </th>
                         </tr>
                       )}
                     </tbody>
@@ -318,8 +369,12 @@ const BookingPdf = (props) => {
               <tr>
                 <td colSpan="5">
                   <b>
-                    Approx damage protection Amount to be collected :- ₹
-                    {totalDepositAmount.toLocaleString("en-IN")}
+                    Approx damage protection Amount to be collected :-
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: 2,
+                    }).format(depositValue)}
                   </b>
                 </td>
               </tr>

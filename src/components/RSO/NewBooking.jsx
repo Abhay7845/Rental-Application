@@ -247,13 +247,7 @@ const NewBooking = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: "Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
+          alert("Uploaded Successfully");
         }
       })
       .catch((error) => {

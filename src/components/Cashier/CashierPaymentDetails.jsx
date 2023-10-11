@@ -576,7 +576,6 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
-  // UPLOAD TNC FUNCTION
   const UploadPrintFile = () => {
     if (!printFile) {
       alert("Please Choose File");

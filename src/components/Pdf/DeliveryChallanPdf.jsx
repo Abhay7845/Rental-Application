@@ -62,7 +62,7 @@ const DeliveryChallanPdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -182,26 +182,37 @@ const DeliveryChallanPdf = (props) => {
                               <td>{item.deliveredWt}</td>
                               <td>{item.packageDays}</td>
                               <td className="text-end">
-                                {parseInt(item.productValue).toLocaleString(
-                                  "en-IN"
-                                )}
+                                {new Intl.NumberFormat("en-IN", {
+                                  style: "currency",
+                                  currency: "INR",
+                                  minimumFractionDigits: 2,
+                                }).format(item.productValue)}
                               </td>
                               <td className="text-end">
-                                {Math.round(item.depositAmount).toLocaleString(
-                                  "en-IN"
-                                )}
+                                {new Intl.NumberFormat("en-IN", {
+                                  style: "currency",
+                                  currency: "INR",
+                                  minimumFractionDigits: 2,
+                                }).format(item.depositAmount)}
                               </td>
                             </tr>
                           );
                         })}
                         <tr className="text-end">
                           <th colSpan="7">TOTAL</th>
-                          <th>₹ {SumOfBasePrice().toLocaleString("en-IN")}</th>
                           <th>
-                            ₹
-                            {Math.round(SumOfDamagCharge()).toLocaleString(
-                              "en-IN"
-                            )}
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: 2,
+                            }).format(SumOfBasePrice())}
+                          </th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: 2,
+                            }).format(SumOfDamagCharge())}
                           </th>
                         </tr>
                       </tbody>
@@ -241,7 +252,11 @@ const DeliveryChallanPdf = (props) => {
                               <td>{item.txnRefNo}</td>
                               <td>{moment().format("DD-MM-YYYY")}</td>
                               <td className="text-end">
-                                {item.amount.toString().toLocaleString("en-IN")}
+                                {new Intl.NumberFormat("en-IN", {
+                                  style: "currency",
+                                  currency: "INR",
+                                  minimumFractionDigits: 2,
+                                }).format(item.amount)}
                               </td>
                             </tr>
                           );
@@ -250,10 +265,11 @@ const DeliveryChallanPdf = (props) => {
                           <tr className="text-end">
                             <th colSpan="5">TOTAL</th>
                             <th>
-                              ₹
-                              {Math.round(SumOfSaveAmount()).toLocaleString(
-                                "en-In"
-                              )}
+                              {new Intl.NumberFormat("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                                minimumFractionDigits: 2,
+                              }).format(SumOfSaveAmount())}
                             </th>
                           </tr>
                         )}

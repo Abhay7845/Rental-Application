@@ -83,7 +83,6 @@ const CashierPaymentDetails = () => {
   const [amount, setAmount] = useState(0);
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState("");
-  console.log("collectedAmount==>", collectedAmount);
 
   // TERMS AND CONDITION FILE UPLOAD
   const [printFile, setPrintFile] = useState("");

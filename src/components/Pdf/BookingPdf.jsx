@@ -13,8 +13,10 @@ const BookingPdf = (props) => {
     bookingRefID,
     regUserData,
     paymentDetails,
+    storeDetails,
   } = props;
   const { depositValue } = paymentDetails;
+  const { customerAccountNumber, customerBankName, bankIfsc } = existedUserData;
 
   const RefacotorData = addedPdts.map((data) => {
     return {
@@ -43,8 +45,8 @@ const BookingPdf = (props) => {
       rentStartDate: data.rentStartDate,
       rentalAmount: parseInt(data.rentalAmount),
       tempBookingRefNo: data.tempBookingRefNo,
-      sgst: (parseInt(data.rentalAmount) * 9) / 100,
-      csgst: (parseInt(data.rentalAmount) * 9) / 100,
+      sgst: (parseFloat(data.rentalAmount) * 9) / 100,
+      csgst: (parseFloat(data.rentalAmount) * 9) / 100,
     };
   });
   const SgstData = RefacotorData.map((item) => item.sgst);
@@ -58,13 +60,13 @@ const BookingPdf = (props) => {
     return total;
   };
 
-  const TSGST = RefacotorData.map((item) => parseInt(item.sgst));
+  const TSGST = RefacotorData.map((item) => parseFloat(item.sgst));
   const SumOfSGST = () => {
     let total = 0;
     for (let data of TSGST) total = total + data;
     return total;
   };
-  const TCGST = RefacotorData.map((item) => parseInt(item.csgst));
+  const TCGST = RefacotorData.map((item) => parseFloat(item.csgst));
   const SumOfCGST = () => {
     let total = 0;
     for (let data of TCGST) total = total + data;
@@ -81,7 +83,7 @@ const BookingPdf = (props) => {
     return total;
   };
 
-  const TAmount = savePaymetRow.map((item) => parseInt(item.amount));
+  const TAmount = savePaymetRow.map((item) => parseFloat(item.amount));
   const SumOfSaveAmount = () => {
     let total = 0;
     for (let num of TAmount) total = total + num;
@@ -138,8 +140,7 @@ const BookingPdf = (props) => {
                     <b className="text-center">
                       <img src={TitanLogo} alt="" width="45" height="45" />
                     </b>
-                    <b>Store Address:</b>
-                    <b>Bangluru, Electronic City, 560012, Karnatka</b>
+                    <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="4">
@@ -156,13 +157,13 @@ const BookingPdf = (props) => {
                 <td colSpan="3">
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
-                      <b>GST NO:-</b>
-                      <b>State:-</b>
-                      <b>Place of Supply: Bangluru</b>
+                      <b>GST NO:-{storeDetails.gstin}</b>
+                      <b>State:-{storeDetails.state}</b>
+                      <b>Place of Supply:-{storeDetails.city}</b>
                     </div>
                     <div className="d-flex flex-column space-in-pdf-two">
-                      <b>PAN:-</b>
-                      <b>State Code: 27</b>
+                      <b>PAN:-{storeDetails.pan}</b>
+                      <b>State Code:-{storeDetails.StateCode}</b>
                     </div>
                   </div>
                 </td>
@@ -395,6 +396,11 @@ const BookingPdf = (props) => {
               <tr>
                 <td colSpan="5">
                   <b>Documents to be verified:-</b>
+                  <b>
+                    {!customerAccountNumber || !customerBankName || !bankIfsc
+                      ? "Requested to bring Bank Passbook and a Cancelled Cheque while collecting the Booked Items. Without Bank Details Items will not be Issued"
+                      : ""}
+                  </b>
                 </td>
               </tr>
               <tr>

@@ -83,7 +83,7 @@ const CashierPaymentDetails = () => {
   const [amount, setAmount] = useState(0);
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState("");
-  console.log("amount==>", typeof amount, amount);
+  console.log("collectedAmount==>", collectedAmount);
 
   // TERMS AND CONDITION FILE UPLOAD
   const [printFile, setPrintFile] = useState("");
@@ -281,7 +281,7 @@ const CashierPaymentDetails = () => {
       setBookingGenNo(bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
-      setCollectedAmount(parseInt(depositValue));
+      setCollectedAmount(parseFloat(depositValue));
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
       setOutStatus("Booked_Product_Issued");
@@ -294,7 +294,7 @@ const CashierPaymentDetails = () => {
       setBookingGenNo(bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
-      setCollectedAmount(Math.round(totalBookingAmount));
+      setCollectedAmount(parseFloat(totalBookingAmount));
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
       setAmontHeading("Amount to be collected");

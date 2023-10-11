@@ -86,7 +86,7 @@ const RentalIssue = () => {
 
   const PdtItemWitewt = PdtItemWt.map((ele, i) => {
     return {
-      actualWtAtDelivery: parseFloat(ele),
+      actualWtAtDelivery: parseFloat(ele).toFixed(3),
       pdtId: parseInt(retunTableData[i].pdtId),
     };
   });
@@ -834,7 +834,7 @@ const RentalIssue = () => {
                           totalPaidAmount.totalDepositAmount
                         ).toLocaleString("en-IN")}
                       </th>
-                      <th>{SumOfActualItemWt()} g.</th>
+                      <th>{SumOfActualItemWt().toFixed(3)} g.</th>
                     </tr>
                   </tbody>
                 </table>

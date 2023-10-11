@@ -112,14 +112,40 @@ const RentalIssue = () => {
       PdtItemWiseImg.push(inputFile[key]);
     }
   }
-
+  const UpdItemWiseDetails = (productFileName, pdtIdImg) => {
+    const UpdItemWiseInputs = {
+      bookingRefId: GetReturnProduct.refId,
+      contentFor: "rentalIssue",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "userIdProof",
+      fileName: productFileName,
+      fileSize: `${pdtIdImg.size}`,
+      fileType: `${pdtIdImg.type}`,
+      fileURL: `${FetchImg}${productFileName}`,
+      updatedDate: null,
+    };
+    axios
+      .post(`${HOST_URL}/insert/image/details`, UpdItemWiseInputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          console.log("");
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UploadPdtImgItemWise = (item) => {
     // eslint-disable-next-line
     PdtItemWiseImg.map((pdtIdImg, i) => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = pdtIdImg.name.split(".");
-      const productFile = `id-${i}-${item.itemCode}-${bookingDate}-${RandomDigit}.${fileExtention[1]}`;
+      const productFile = `${RandomDigit}-${item.itemCode}_${i + 1}.${
+        fileExtention[1]
+      }`;
       formData.append("ImgName", productFile);
       formData.append("files", pdtIdImg);
       axios
@@ -128,12 +154,12 @@ const RentalIssue = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response);
           if (response.data) {
             const reader = new FileReader();
             reader.onloadend = () => {
               setProductImgFile([...productImgFile, reader.result]);
-              setProductFileName([...productFileName, productFile]);
+              productFileName[i] = productFile;
+              UpdItemWiseDetails(productFileName[i], pdtIdImg);
             };
             if (pdtIdImg) {
               reader.readAsDataURL(pdtIdImg);
@@ -160,14 +186,12 @@ const RentalIssue = () => {
       .get(`${HOST_URL}/rental/customer/details/mobileNo/${mobileNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
         }
         setLoading(false);
       })
       .then((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -460,7 +484,6 @@ const RentalIssue = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("responseCommon==>", response.data);
         if (response.data.code === "1000") {
           setRetunTableData(response.data.value);
         }
@@ -478,7 +501,6 @@ const RentalIssue = () => {
       .get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${refId}`)
       .then((res) => res)
       .then((response) => {
-        console.log("responsesum==>", response.data);
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
@@ -497,7 +519,6 @@ const RentalIssue = () => {
         )
         .then((res) => res)
         .then((response) => {
-          console.log("outstarnding==>", response.data);
           if (response.data.code === "1000") {
             setOutstandingData(parseInt(response.data.value.outStanding));
           }

@@ -214,7 +214,7 @@ const RentalIssue = () => {
   };
   const UpdCancelledChequeDetails = (imgName) => {
     const CancelledFileinp = {
-      bookingRefId: "",
+      bookingRefId: GetReturnProduct.refId,
       contentFor: "rentalIssue",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "cancelledCheue",

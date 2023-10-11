@@ -7,7 +7,7 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import Swal from "sweetalert2";
 import { addressTypeOption } from "../../Data/DataList";
-import { UploadImg } from "../../API/HostURL";
+import { UploadImg, FetchImg } from "../../API/HostURL";
 import { ImageHeaders } from "../../Data/DataList";
 import { useNavigate } from "react-router-dom";
 
@@ -32,11 +32,7 @@ const Cancellation = () => {
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const navigate = useNavigate();
   const { totalBookingAmount, totalDepositAmount } = totalPaidAmount;
-
-  console.log("GetReturnProduct==>", GetReturnProduct);
-  console.log("existedUserData==>", existedUserData);
-
-  const currentDate = moment().format("YYYY-MM-DD");
+  const { addressProofIdNo } = existedUserData;
 
   useEffect(() => {
     setLoading(true);
@@ -58,6 +54,38 @@ const Cancellation = () => {
       });
   }, [GetReturnProduct.mobileNo]);
 
+  const UploadIDDetails = (imgName) => {
+    const IdDetailsInput = {
+      bookingRefId: GetReturnProduct.refId,
+      contentFor: "rentalCancellation",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "userIdProof",
+      fileName: imgName,
+      fileSize: `${sameCustFile.size}`,
+      fileType: `${sameCustFile.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    axios
+      .post(`${HOST_URL}/insert/image/details`, IdDetailsInput)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
       alert("Please Choose File");
@@ -65,7 +93,9 @@ const Cancellation = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = sameCustFile.name.split(".");
-      const fileExtention = `${currentDate}.${fileEx[1]}`;
+      const fileExtention = `${
+        addressProofIdNo ? addressProofIdNo : sameCustIDNo
+      }.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
@@ -74,8 +104,8 @@ const Cancellation = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
+            UploadIDDetails(fileExtention);
             const reader = new FileReader();
             reader.onloadend = () => {
               setSameCustFileUrl(reader.result);
@@ -84,7 +114,6 @@ const Cancellation = () => {
             if (sameCustFile) {
               reader.readAsDataURL(sameCustFile);
             }
-            alert("Uploaded Successfully");
           }
           setLoading(false);
         })

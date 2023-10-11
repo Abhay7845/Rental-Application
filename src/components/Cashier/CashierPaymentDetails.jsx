@@ -84,6 +84,7 @@ const CashierPaymentDetails = () => {
   const [tnCFileName, setTnCFileName] = useState("");
   const [dlrChalalnFileName, setDlrChalalnFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
+  const [loanCloseFile, setLoanCloseFile] = useState("");
 
   // OTP VERIFICATION
   const [Otp, setOtp] = useState("");
@@ -658,6 +659,59 @@ const CashierPaymentDetails = () => {
         });
     }
   };
+  const UpdLoadClsDetails = (imgName) => {
+    const LoanCloserInputs = {
+      bookingRefId: bookingRefID,
+      contentFor: "cashier",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "loanClosure",
+      fileName: imgName,
+      fileSize: `${loanCloseFile.size}`,
+      fileType: `${loanCloseFile.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    axios
+      .post(`${HOST_URL}/insert/image/details`, LoanCloserInputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          alert("Uploaded Succesfully");
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+  const UploadLoanCloseFile = () => {
+    if (!loanCloseFile) {
+      alert("Please Choose File");
+    } else {
+      setLoading(true);
+      const formData = new FormData();
+      const fileEx = loanCloseFile.name.split(".");
+      const fileName = `${storeCode}-${paymentRequestFor}-${currentDate}-${RandomDigit}.${fileEx[1]}`;
+      setTnCFileName(fileName);
+      formData.append("ImgName", fileName);
+      formData.append("files", loanCloseFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          if (response.data) {
+            UpdLoadClsDetails(fileName);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
 
   const TnxStatusUpdate = (bookingId) => {
     axios
@@ -1069,14 +1123,14 @@ const CashierPaymentDetails = () => {
                   <input
                     type="file"
                     className="form-control"
-                    onChange={(e) => setPrintFile(e.target.files[0])}
+                    onChange={(e) => setLoanCloseFile(e.target.files[0])}
                   />
                 </div>
                 <div className="col-md-1">
                   <br />
                   <button
                     className="CButton mt-2 mx-1"
-                    onClick={UploadPrintFile}
+                    onClick={UploadLoanCloseFile}
                   >
                     Upload
                   </button>

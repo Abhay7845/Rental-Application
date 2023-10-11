@@ -27,32 +27,11 @@ const Cancellation = () => {
   const [sameCustIDNo, setSameCustIDNo] = useState("");
   const [sameCustFile, setSameCustFile] = useState("");
   const [sameCustomer, setSameCustomer] = useState(true);
-  const [existedUserData, setExistedUserData] = useState({});
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const navigate = useNavigate();
   const { totalBookingAmount, totalDepositAmount } = totalPaidAmount;
-  const { addressProofIdNo } = existedUserData;
-
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(
-        `${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`
-      )
-      .then((res) => res)
-      .then((response) => {
-        console.log("response==>", response.data);
-        if (response.data.code === "1000") {
-          setExistedUserData(response.data.value);
-        }
-        setLoading(false);
-      })
-      .then((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
-  }, [GetReturnProduct.mobileNo]);
+  const currentDate = moment().format("DD-MM-YYYY");
 
   const UploadIDDetails = (imgName) => {
     const IdDetailsInput = {
@@ -93,9 +72,7 @@ const Cancellation = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = sameCustFile.name.split(".");
-      const fileExtention = `${
-        addressProofIdNo ? addressProofIdNo : sameCustIDNo
-      }.${fileEx[1]}`;
+      const fileExtention = `${sameCustIDNo}-${currentDate}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios

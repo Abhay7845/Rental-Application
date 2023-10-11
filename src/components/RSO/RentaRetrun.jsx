@@ -22,6 +22,7 @@ const RentalReturn = () => {
   const [returnTableData, setReturnTableData] = useState([]);
   const [checkedQA, setCheckedQA] = useState(false);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
+
   // SAME CUSTOME UPLOAD & DETAILS/
   const [sameCustName, setSameCustName] = useState("");
   const [sameCustIDType, setSameCustIDType] = useState("");
@@ -117,7 +118,6 @@ const RentalReturn = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setReturnTableData(response.data.value);
         }
@@ -158,6 +158,39 @@ const RentalReturn = () => {
   };
 
   // UPLOAD CUSTOMER ID
+
+  const UploadIDDetails = (imgName) => {
+    const IdDetailsInput = {
+      bookingRefId: GetReturnProduct.refId,
+      contentFor: "rentalReturn",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "userIdProof",
+      fileName: imgName,
+      fileSize: `${sameCustFile.size}`,
+      fileType: `${sameCustFile.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    console.log("IdDetailsInput==>", IdDetailsInput);
+    axios
+      .post(`${HOST_URL}/insert/image/details`, IdDetailsInput)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
       alert("Please Choose File");
@@ -165,7 +198,7 @@ const RentalReturn = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = sameCustFile.name.split(".");
-      const fileExtention = `${timeDifference}-${currentDate}-${RandomDigit}.${fileEx[1]}`;
+      const fileExtention = `${sameCustIDNo}-${currentDate}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
@@ -174,8 +207,8 @@ const RentalReturn = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
+            UploadIDDetails(fileExtention);
             const reader = new FileReader();
             reader.onloadend = () => {
               setSameCustFileUrl(reader.result);
@@ -556,8 +589,8 @@ const RentalReturn = () => {
                   <label className="form-label">.</label>
                   <button
                     className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
-                    onClick={UploadSameCustIDProof}
                     disabled={sameCustomer ? true : false}
+                    onClick={UploadSameCustIDProof}
                   >
                     Upload
                   </button>

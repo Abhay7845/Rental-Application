@@ -313,7 +313,6 @@ const RentalIssue = () => {
         .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data.code === "1000") {
             FetchExistedCustDetails(mobileNo);
             alert("Account Details has been Updated Successfully");
@@ -339,7 +338,6 @@ const RentalIssue = () => {
       fileURL: `${FetchImg}${QAFilepdf}`,
       updatedDate: null,
     };
-    console.log("UpdateKarigarQAPdf==>", UpdateKarigarQAPdf);
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
@@ -394,7 +392,7 @@ const RentalIssue = () => {
   const UploadKarateMeterPdf = (karateMtr) => {
     const UpdateKaratemeterQAPdf = {
       bookingRefId: refId,
-      contentFor: "Issue",
+      contentFor: "RentalIssue",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "KarateMeterReportsPdf",
       fileName: karateMtr,
@@ -403,12 +401,10 @@ const RentalIssue = () => {
       fileURL: `${FetchImg}${karateMtr}`,
       updatedDate: null,
     };
-    console.log("UpdateKaratemeterQAPdf==>", UpdateKaratemeterQAPdf);
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKaratemeterQAPdf)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           alert("Uploaded Successfully");
           setKarateMtrFile([]);

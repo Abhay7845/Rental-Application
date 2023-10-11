@@ -37,6 +37,7 @@ const NewBooking = () => {
   const [transactionFile, setTransactionFile] = useState("");
   const [transactioUI, setTransactioUI] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
+  const [cancelledChequeFile, setCancelledChequeFile] = useState("");
 
   const paramType = !phonePanValue
     ? ""
@@ -130,7 +131,6 @@ const NewBooking = () => {
 
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
   const GetCartProductData = !CartData ? [] : CartData;
-  console.log("GetCartProductData==>", GetCartProductData);
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>
@@ -160,32 +160,65 @@ const NewBooking = () => {
 
   const TotalWithGstAmount = SumOfRentalRate() + SumOfRentalRate() * 0.18;
 
-  const UploadBankCheque = (event) => {
-    if (customerAccountNumber.length > 10) {
+  const UpdCancelledChequeDetails = (imgName) => {
+    const CancelledFileinp = {
+      bookingRefId: "",
+      contentFor: "newBooking",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "cancelledCheue",
+      fileName: imgName,
+      fileSize: `${cancelledChequeFile.size}`,
+      fileType: `${cancelledChequeFile.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    axios
+      .post(`${HOST_URL}/insert/image/details`, CancelledFileinp)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Success",
+            text: "Uploaded Successfully",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
+  const UploadBankCheque = () => {
+    if (customerAccountNumber.length < 10) {
+      alert("Please Enter Valid Bank Details");
+    } else if (!cancelledChequeFile) {
+      alert("Please Choose File");
+    } else {
       setLoading(true);
-      const file = event.target.files[0];
       const formData = new FormData();
-      const fileEx = file.name.split(".");
+      const fileEx = cancelledChequeFile.name.split(".");
       const fileExtention = `${customerAccountNumber}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
-      formData.append("files", file);
+      formData.append("files", cancelledChequeFile);
       axios
         .post(`${UploadImg}`, formData, {
           headers: ImageHeaders,
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
+            UpdCancelledChequeDetails(fileExtention);
             const reader = new FileReader();
             reader.onloadend = () => {
               setBankDetailFileName(reader.result);
               setCancelChqueFileName(fileExtention);
             };
-            if (file) {
-              reader.readAsDataURL(file);
+            if (cancelledChequeFile) {
+              reader.readAsDataURL(cancelledChequeFile);
             }
-            alert("Your Cheque Book Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -193,9 +226,6 @@ const NewBooking = () => {
           console.log("error==>", error);
           setLoading(false);
         });
-    } else {
-      alert("Please Enter Bank Details");
-      document.getElementById("chequeBook").value = "";
     }
   };
 
@@ -239,7 +269,7 @@ const NewBooking = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = tnxFile.name.split(".");
-      const fileExtention = `${phonePanValue}.${fileEx[1]}`;
+      const fileExtention = `${existedUserData.mobileNo}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", tnxFile);
       axios
@@ -472,9 +502,9 @@ const NewBooking = () => {
                 className="CButton"
                 type="button"
                 data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
+                data-bs-target="#bookingModal"
               >
-                ADD ACCOUNT
+                Add Account
               </button>
             </div>
           ) : (
@@ -583,7 +613,7 @@ const NewBooking = () => {
 
       <div
         className="modal fade"
-        id="exampleModal"
+        id="bookingModal"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -601,6 +631,7 @@ const NewBooking = () => {
               />
             </div>
             <div className="modal-body row g-3">
+              {loading === true && <Loader />}
               <div className="col-md-6">
                 <label className="form-label">Bank Name</label>
                 <input
@@ -610,7 +641,7 @@ const NewBooking = () => {
                   onChange={(e) => setCustomerBankName(e.target.value)}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-md-6">
                 <label className="form-label">Account Number</label>
                 <input
                   type="text"
@@ -629,14 +660,20 @@ const NewBooking = () => {
                   value={BanckIfcseCode}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-4">
                 <label className="form-label">Cancelled Cheque</label>
                 <input
                   type="file"
                   className="form-control"
-                  onChange={UploadBankCheque}
                   id="chequeBook"
+                  onChange={(e) => setCancelledChequeFile(e.target.files[0])}
                 />
+              </div>
+              <div className="col-md-1">
+                <br />
+                <button className="CButton mt-2" onClick={UploadBankCheque}>
+                  Upload
+                </button>
               </div>
               <div className="col-md-12 text-center">
                 {bankDetailFileName && (
@@ -656,7 +693,7 @@ const NewBooking = () => {
                 onClick={UpdateCustomerBankDetails}
                 data-bs-dismiss={customerAccountNumber && "modal"}
               >
-                SAVE UPDATE
+                Save & Update
               </button>
             </div>
           </div>

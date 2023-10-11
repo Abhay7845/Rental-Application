@@ -213,8 +213,8 @@ const DeliveryChallanPdf = (props) => {
                   {savePaymetRow.length > 0 && (
                     <table className="table table-bordered border-dark text-center">
                       <thead>
-                        <tr>
-                          <th colSpan="6">Payment Details:</th>
+                        <tr className="text-start">
+                          <th colSpan="6">Payment Details</th>
                         </tr>
                         <tr className="text-center">
                           <th>SR.No</th>

@@ -32,7 +32,7 @@ const CashierPaymentDetails = () => {
   const [paymentDetails, setPaymentDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [documentType, setDocumentType] = useState("");
-  const [collectedAmount, setCollectedAmount] = useState();
+  const [collectedAmount, setCollectedAmount] = useState(0);
   const [alertMessage, setAlertMessage] = useState();
   const [amontErrMassage, setAmontErrMassage] = useState("");
   const [regUserData, setRegUserData] = useState([]);
@@ -57,9 +57,15 @@ const CashierPaymentDetails = () => {
     productValue,
   } = paymentDetails;
   console.log("paymentDetails==>", paymentDetails);
+  console.log("totalPaidAmount==>", totalPaidAmount);
 
-  const { totalDamageCharges, totalPenaltyCharges, bookingId } =
-    totalPaidAmount;
+  const {
+    totalDamageCharges,
+    totalPenaltyCharges,
+    bookingId,
+    totalDepositAmount,
+  } = totalPaidAmount;
+  const TotalCharges = totalDamageCharges + totalPenaltyCharges;
   const GenChallanNo = `${bookingRefNo}-D`;
   const InvoiceDgt = !invoicePdfNo.invoiceNo
     ? ""
@@ -296,7 +302,13 @@ const CashierPaymentDetails = () => {
       );
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-      setCollectedAmount(Math.round(totalDepositAmountPaidWithTax));
+      if (TotalCharges > totalDepositAmount) {
+        setAmontHeading("Amount to be collected");
+        setCollectedAmount(Math.round(TotalCharges - totalDepositAmount));
+      } else if (TotalCharges <= totalDepositAmount) {
+        setAmontHeading("Amount to be Refunded");
+        setCollectedAmount(Math.round(totalDepositAmount - TotalCharges));
+      }
       setAlertMessage("Item Returned Successfully");
       setUpdateStatus("ProductReturnedSuccess");
       setBookedStatus("ProductReturnedSuccess");
@@ -319,6 +331,8 @@ const CashierPaymentDetails = () => {
     totalBookingAmount,
     totalDepositAmountPaidWithTax,
     GenInvoiceNo,
+    TotalCharges,
+    totalDepositAmount,
   ]);
 
   const AddPaymentRows = () => {

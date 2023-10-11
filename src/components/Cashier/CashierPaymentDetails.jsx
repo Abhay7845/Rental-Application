@@ -448,6 +448,7 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${UploadFileName}`,
       updatedDate: null,
     };
+    console.log("paymentUploadFile==>", paymentUploadFile);
     axios
       .post(`${HOST_URL}/insert/image/details`, paymentUploadFile)
       .then((res) => res)

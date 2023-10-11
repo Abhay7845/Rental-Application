@@ -56,8 +56,6 @@ const CashierPaymentDetails = () => {
     totalDepositAmountPaidWithTax,
     productValue,
   } = paymentDetails;
-  console.log("paymentDetails==>", paymentDetails);
-  console.log("totalPaidAmount==>", totalPaidAmount);
 
   const {
     totalDamageCharges,
@@ -82,9 +80,10 @@ const CashierPaymentDetails = () => {
   const [savePaymetRow, setSavePaymetRow] = useState([]);
   const [paymentType, setPaymentType] = useState("");
   const [tnxRefNo, setTnxRefNo] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState("");
+  console.log("amount==>", typeof amount, amount);
 
   // TERMS AND CONDITION FILE UPLOAD
   const [printFile, setPrintFile] = useState("");
@@ -1010,7 +1009,12 @@ const CashierPaymentDetails = () => {
                             type="number"
                             className="form-control"
                             placeholder="Amount"
-                            onChange={(e) => setAmount(e.target.value)}
+                            onChange={(e) => {
+                              const amoutValie = parseFloat(
+                                e.target.value
+                              ).toFixed(2);
+                              setAmount(amoutValie);
+                            }}
                           />
                         </td>
                         <td className="d-flex">
@@ -1065,7 +1069,12 @@ const CashierPaymentDetails = () => {
                     )}
                     <button
                       type="submit"
-                      className="CButton"
+                      className={
+                        TotalAmount === collectedAmount
+                          ? "CDisabled"
+                          : "CButton"
+                      }
+                      disabled={TotalAmount === collectedAmount ? true : false}
                       onClick={AddPaymentRows}
                     >
                       Add Payment

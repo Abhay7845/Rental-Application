@@ -330,7 +330,7 @@ const RentalIssue = () => {
   const UploadKarigarQAPdf = (QAFilepdf) => {
     const UpdateKarigarQAPdf = {
       bookingRefId: refId,
-      contentFor: "Issue",
+      contentFor: "rentalIssue",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "KrigarQAReportsPdf",
       fileName: QAFilepdf,
@@ -344,7 +344,6 @@ const RentalIssue = () => {
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setKarigarQAFileName(QAFilepdf);
           alert("Uploaded Successfully");
@@ -373,7 +372,6 @@ const RentalIssue = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response);
           if (response.data) {
             UploadKarigarQAPdf(QAFilepdf);
             const reader = new FileReader();

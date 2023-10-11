@@ -560,6 +560,7 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${printFileName}`,
       updatedDate: null,
     };
+    console.log("updateBookingInput==>", updateBookingInput);
     axios
       .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
       .then((res) => res)
@@ -573,7 +574,6 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
-
   // UPLOAD TNC FUNCTION
   const UploadPrintFile = () => {
     if (!printFile) {
@@ -603,7 +603,32 @@ const CashierPaymentDetails = () => {
         });
     }
   };
-  // UPLOAD TNC FUNCTION
+
+  const UploadDlvrChalanimgDetails = (imgName) => {
+    const DlvrChllanIputs = {
+      bookingRefId: bookingRefID,
+      contentFor: "cashier",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "DeliveryChllan",
+      fileName: imgName,
+      fileSize: `${deliveryChallan.size}`,
+      fileType: `${deliveryChallan.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    axios
+      .post(`${HOST_URL}/insert/image/details`, DlvrChllanIputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          alert("Uploaded Succesfully");
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UploadDeliveryChallan = () => {
     if (deliveryChallan.length === 0) {
       alert("Please Choose File");
@@ -621,8 +646,8 @@ const CashierPaymentDetails = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data) {
+            UploadDlvrChalanimgDetails(deliveryChallanFile);
             setDlrChalalnFileName(deliveryChallanFile);
-            alert("Uploaded Successfully");
           }
           setLoading(false);
         })

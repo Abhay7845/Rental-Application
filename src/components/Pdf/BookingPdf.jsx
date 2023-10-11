@@ -15,6 +15,7 @@ const BookingPdf = (props) => {
     totalPaidAmount,
   } = props;
   const { totalDepositAmount } = totalPaidAmount;
+  console.log("totalPaidAmount==>", totalPaidAmount);
 
   const RefacotorData = addedPdts.map((data) => {
     return {
@@ -107,7 +108,7 @@ const BookingPdf = (props) => {
           {`
             @media screen {
               .hide-on-screen {
-                display: none;
+                display:none;
               }
             }
              @page {
@@ -199,7 +200,7 @@ const BookingPdf = (props) => {
                   <td colSpan="5">
                     <b>ITEM DETAILS</b>
                     <div className="table">
-                      <table className="table table-bordered inner-table border-dark">
+                      <table className="table table-bordered inner-table border-dark text-center">
                         <thead>
                           <tr>
                             {BookingOrderHearders.map((heading, i) => {
@@ -221,27 +222,29 @@ const BookingPdf = (props) => {
                                     "DD-MM-YYYY"
                                   )}
                                 </th>
-                                <th>
+                                <th>{item.packageDays} Days</th>
+                                <th className="text-end">
                                   {Math.round(item.productValue).toLocaleString(
                                     "en-IN"
                                   )}
                                 </th>
-                                <th>{item.packageDays} Days</th>
-                                <th>
+                                <th className="text-end">
                                   {Math.round(item.rentalAmount).toLocaleString(
                                     "en-IN"
                                   )}
                                 </th>
-                                <th>0</th>
-                                <th>0</th>
-                                <th>
+                                <th className="text-end">0</th>
+                                <th className="text-end">0</th>
+                                <th className="text-end">
                                   {Math.round(item.rentalAmount).toLocaleString(
                                     "en-IN"
                                   )}
                                 </th>
-                                <th>{item.sgst.toLocaleString("en-IN")}</th>
+                                <th className="text-end">
+                                  {item.sgst.toLocaleString("en-IN")}
+                                </th>
                                 <th>{item.csgst.toLocaleString("en-IN")}</th>
-                                <th>
+                                <th className="text-end">
                                   {(
                                     item.rentalAmount +
                                     item.sgst +
@@ -251,10 +254,8 @@ const BookingPdf = (props) => {
                               </tr>
                             );
                           })}
-                          <tr>
-                            <th colSpan="8" className="text-end">
-                              TOTAL
-                            </th>
+                          <tr className="text-end">
+                            <th colSpan="8">TOTAL</th>
                             <th>
                               ₹{SumOfBookinCharge().toLocaleString("en-IN")}
                             </th>
@@ -277,9 +278,9 @@ const BookingPdf = (props) => {
               )}
               <tr>
                 <td colSpan="4" style={{ width: "60%" }}>
-                  <table className="table table-bordered border-dark">
+                  <table className="table table-bordered border-dark text-center">
                     <thead>
-                      <tr>
+                      <tr className="text-start">
                         <th colSpan="5">Payment Details</th>
                       </tr>
                       <tr>
@@ -298,17 +299,15 @@ const BookingPdf = (props) => {
                             <td>{item.paymentType}</td>
                             <td>{item.txnRefNo}</td>
                             <td>{moment().format("DD-MM-YYYY")}</td>
-                            <td>
+                            <td className="text-end">
                               {item.amount.toString().toLocaleString("en-IN")}
                             </td>
                           </tr>
                         );
                       })}
                       {savePaymetRow.length > 0 && (
-                        <tr>
-                          <th colSpan="4" className="text-end">
-                            TOTAL
-                          </th>
+                        <tr className="text-end">
+                          <th colSpan="4">TOTAL</th>
                           <th>₹{SumOfSaveAmount().toString()}</th>
                         </tr>
                       )}
@@ -319,8 +318,8 @@ const BookingPdf = (props) => {
               <tr>
                 <td colSpan="5">
                   <b>
-                    Approx damage protection Amount to be collected:-
-                    {Math.round(totalDepositAmount).toLocaleString("en-IN")}
+                    Approx damage protection Amount to be collected :- ₹
+                    {totalDepositAmount.toLocaleString("en-IN")}
                   </b>
                 </td>
               </tr>

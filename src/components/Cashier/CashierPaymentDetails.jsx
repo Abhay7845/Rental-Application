@@ -229,7 +229,6 @@ const CashierPaymentDetails = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         const PendingStatusData = response.data.value.filter(
           (data) =>
             data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"

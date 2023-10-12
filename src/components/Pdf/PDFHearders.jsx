@@ -58,3 +58,18 @@ export const DeliveryListHearders = [
   "BASE PRICE",
   "DAMAGE PROTECTION AMOUNT",
 ];
+
+export const AcknowledgementHeader = [
+  "SR.No",
+  "ITEMCODE",
+  "LOT NO",
+  "DESCRIPTIONS",
+  "GROSS WT",
+  "BASE PRICE",
+  "DELIVERY DATE",
+  "GROSS WT AT DELIVERY",
+  "RETURN DATE",
+  "GROSS WT AT RETURN",
+  "NUMBER OF DAYS RENTED",
+  "PHYSICAL DAMAGE (Y/N)",
+];

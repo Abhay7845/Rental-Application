@@ -14,6 +14,7 @@ import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import KarigarQAReturnPdf from "../Pdf/KarigarQAReturnPdf";
+import AcknowledgementRetunr from "../Pdf/AcknowledgementRetunr";
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,8 @@ const RentalReturn = () => {
   const [returnTableData, setReturnTableData] = useState([]);
   const [checkedQA, setCheckedQA] = useState(false);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
+  const [storeDetails, setStoreDetails] = useState({});
+  const [existedUserData, setExistedUserData] = useState({});
 
   // SAME CUSTOME UPLOAD & DETAILS/
   const [sameCustName, setSameCustName] = useState("");
@@ -53,6 +56,38 @@ const RentalReturn = () => {
     );
     return nextDate;
   };
+  console.log("GetReturnProduct==>", GetReturnProduct);
+  useEffect(() => {
+    if (GetReturnProduct.mobileNo) {
+      axios
+        .get(
+          `${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`
+        )
+        .then((res) => res)
+        .then((response) => {
+          console.log("responseexi==>", response.data);
+          if (response.data.code === "1000") {
+            setExistedUserData(response.data.value);
+          }
+        })
+        .then((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  }, [GetReturnProduct.mobileNo]);
+
+  useEffect(() => {
+    axios
+      .get(`${HOST_URL}/store/details/for/pdf/${storeCode}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setStoreDetails(response.data.value);
+        }
+      })
+      .catch((error) => console.log("error==>", error));
+  }, [storeCode]);
 
   const timeDifference = new Date() - getReturnDate();
   const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
@@ -746,14 +781,20 @@ const RentalReturn = () => {
             />
           </div>
           <div className="d-flex justify-content-end mb-4">
+            {checkedQA === true && (
+              <AcknowledgementRetunr
+                storeDetails={storeDetails}
+                refactoreDataTable={refactoreDataTable}
+                existedUserData={existedUserData}
+                GetReturnProduct={GetReturnProduct}
+              />
+            )}
             <button
               type="button"
               className="CButton"
               onClick={InsertReturnTableData}
             >
-              {checkedQA
-                ? "Print Acknowledgement & Close"
-                : "Raise Closure Request"}
+              {checkedQA ? "Acknowledgement & Close" : "Raise Closure Request"}
             </button>
           </div>
         </div>

@@ -189,7 +189,7 @@ const BookingPdf = (props) => {
                       <b>Mobile No:- +91 {existedUserData.mobileNo}</b>
                     </div>
                     <div className="d-flex flex-column">
-                      <b>Customer Profile Number:-{existedUserData.custId}</b>
+                      <b>Customer Profile No.:-{existedUserData.custId}</b>
                       <b>PAN: {existedUserData.panCardNo}</b>
                     </div>
                   </div>

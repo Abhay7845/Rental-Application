@@ -62,7 +62,7 @@ const AcknowledgementRetunr = (props) => {
           {`
           @media screen{
             .hide-on-Acknowledgementscreen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -83,7 +83,7 @@ const AcknowledgementRetunr = (props) => {
           >
             <tbody>
               <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
+                <td rowSpan="2" colSpan="2" style={{ width: "25%" }}>
                   <div className="d-flex flex-column text-center">
                     <b>
                       <img src={TitanLogo} alt="" width="140" height="75" />
@@ -112,7 +112,7 @@ const AcknowledgementRetunr = (props) => {
                 </td>
               </tr>
               <tr>
-                <td colSpan="3">
+                <td colSpan="4">
                   <div className="d-flex flex-row">
                     <div className="d-flex flex-column">
                       <b>GST NO:-{storeDetails.gstin}</b>
@@ -121,7 +121,7 @@ const AcknowledgementRetunr = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginLeft: "17%" }}
+                      style={{ marginLeft: "37%" }}
                     >
                       <b>PAN:-{storeDetails.pan}</b>
                       <b>State Code:-{storeDetails.StateCode}</b>
@@ -154,7 +154,7 @@ const AcknowledgementRetunr = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "10.5%" }}
+                      style={{ marginRight: "14%" }}
                     >
                       <b>Customer Profile No.:-{existedUserData.custId}</b>
                       <b>PAN: {existedUserData.panCardNo}</b>

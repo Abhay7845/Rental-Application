@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { ServiveInvoicePdfHeaders } from "../Pdf/PDFHearders";
 import { useReactToPrint } from "react-to-print";
-import TitanLogo from "../../Asset/Img/TitanLog.png";
+import TitanLogo from "../../Asset/Img/TitanLogo.png";
 import moment from "moment";
 
 const ServiceIvoicePdf = (props) => {
@@ -234,11 +234,11 @@ const ServiceIvoicePdf = (props) => {
             <tbody>
               <tr>
                 <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
-                  <div className="d-flex flex-column">
-                    <b className="text-center my-2">
-                      <img src={TitanLogo} alt="" width="45" height="45" />
+                  <div className="d-flex flex-column text-center">
+                    <b>
+                      <img src={TitanLogo} alt="" width="140" height="75" />
                     </b>
-                    <b>Store Address: - {storeDetails.storeAddress}</b>
+                    <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="3">

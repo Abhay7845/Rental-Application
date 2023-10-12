@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { WishListHeader } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
-import titanLogo from "../../Asset/Img/TitanLog.png";
+import titanLogo from "../../Asset/Img/TitanLogo.png";
 import axios from "axios";
 
 const PaymentTnCPdf = () => {
@@ -46,12 +46,11 @@ const PaymentTnCPdf = () => {
           <tbody>
             <tr>
               <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
-                <div className="d-flex flex-column">
-                  <b className="text-center">
-                    <img src={titanLogo} alt="" width="45" height="45" />
+                <div className="d-flex flex-column text-center">
+                  <b>
+                    <img src={titanLogo} alt="" width="140" height="75" />
                   </b>
-                  <b>Store Address:</b>
-                  <b>Bangluru, Electronic City, 560012, Karnatka</b>
+                  <b>Store Address:- {storeDetails.storeAddress}</b>
                 </div>
               </td>
               <td colSpan="3">

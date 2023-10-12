@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import TitanLogo from "../../Asset/Img/TitanLog.png";
+import TitanLogo from "../../Asset/Img/TitanLogo.png";
 import { BookingOrderHearders } from "./PDFHearders";
 import moment from "moment";
 const BookingPdf = (props) => {
@@ -136,9 +136,9 @@ const BookingPdf = (props) => {
             <tbody>
               <tr>
                 <td rowSpan="2" colSpan="1" style={{ width: "30%" }}>
-                  <div className="d-flex flex-column">
-                    <b className="text-center">
-                      <img src={TitanLogo} alt="" width="45" height="45" />
+                  <div className="d-flex flex-column text-center">
+                    <b>
+                      <img src={TitanLogo} alt="" width="140" height="75" />
                     </b>
                     <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>

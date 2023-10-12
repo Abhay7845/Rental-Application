@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
-import TitanLogo from "../../Asset/Img/TitanLog.png";
+import TitanLogo from "../../Asset/Img/TitanLogo.png";
 import { AcknowledgementHeader } from "./PDFHearders";
 import moment from "moment";
 
@@ -16,9 +16,39 @@ const AcknowledgementRetunr = (props) => {
     refactoreDataTable,
     existedUserData,
     GetReturnProduct,
+    inputRtnValues,
+    inputPhyDmg,
+    PdtItemWtRtn,
   } = props;
-  console.log("refactoreDataTable==>", refactoreDataTable);
   const { customerName, customerAddress1, customerAddress2 } = existedUserData;
+  const DateOfPic = refactoreDataTable.map((date) => date.rentStartDate);
+
+  const getReturnDate = () => {
+    const nextDate = new Date(DateOfPic[0]);
+    nextDate.setDate(
+      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected) - 1
+    );
+    return nextDate;
+  };
+  const currentDate = new Date(moment().format("YYYY-MM-DD"));
+  const rentalDate = new Date(moment(DateOfPic[0]).format("YYYY-MM-DD"));
+  const timeDifference = currentDate - rentalDate;
+  const returnedDays = Math.floor(timeDifference / (1000 * 3600 * 24));
+
+  const TdlvrWt = refactoreDataTable.map((data) =>
+    parseFloat(data.deliveredWt)
+  );
+
+  const SumOfDlvrWt = () => {
+    let total = 0;
+    for (let data of TdlvrWt) total = total + data;
+    return total;
+  };
+  const SumOfReturnWtWt = () => {
+    let total = 0;
+    for (let data of PdtItemWtRtn) total = total + parseFloat(data);
+    return total;
+  };
 
   return (
     <div>
@@ -52,9 +82,9 @@ const AcknowledgementRetunr = (props) => {
             <tbody>
               <tr>
                 <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
-                  <div className="d-flex flex-column">
-                    <b className="text-center">
-                      <img src={TitanLogo} alt="" width="45" height="45" />
+                  <div className="d-flex flex-column text-center">
+                    <b>
+                      <img src={TitanLogo} alt="" width="140" height="75" />
                     </b>
                     <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
@@ -134,7 +164,7 @@ const AcknowledgementRetunr = (props) => {
                 <td colSpan="5">
                   <b>ITEM DETAILS</b>
                   <div className="table">
-                    <table className="table table-bordered inner-table border-dark">
+                    <table className="table table-bordered inner-table border-dark text-center">
                       <thead>
                         <tr>
                           {AcknowledgementHeader.map((heading, i) => {
@@ -152,26 +182,28 @@ const AcknowledgementRetunr = (props) => {
                               <td>{item.description}</td>
                               <td>{item.grossWt}</td>
                               <td>{item.productValue}</td>
-                              <td>N/A</td>
+                              <td>
+                                {moment(item.rentStartDate).format(
+                                  "DD-MM-YYYY"
+                                )}
+                              </td>
+                              <td>
+                                {moment(getReturnDate()).format("DD-MM-YYYY")}
+                              </td>
                               <td>{item.deliveredWt}</td>
-                              <td>N/A</td>
-                              <td>45</td>
-                              <td>{item.packageDays}</td>
-                              <td>N</td>
+                              <td>{inputRtnValues[i]}</td>
+                              <td>{returnedDays}</td>
+                              <td>{inputPhyDmg[i]}</td>
                             </tr>
                           );
                         })}
                         <tr className="text-bold">
-                          <th colSpan="5" className="text-end">
+                          <th colSpan="8" className="text-end">
                             TOTAL
                           </th>
-                          <th>38765</th>
-                          <th>-</th>
-                          <th>-</th>
-                          <th>-</th>
-                          <th>-</th>
-                          <th>-</th>
-                          <th>-</th>
+                          <th>{SumOfDlvrWt()} g.</th>
+                          <th>{SumOfReturnWtWt().toFixed(3)} g.</th>
+                          <th colSpan="2" />
                         </tr>
                       </tbody>
                     </table>

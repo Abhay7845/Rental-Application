@@ -56,7 +56,6 @@ const RentalReturn = () => {
     );
     return nextDate;
   };
-  console.log("GetReturnProduct==>", GetReturnProduct);
   useEffect(() => {
     if (GetReturnProduct.mobileNo) {
       axios
@@ -787,6 +786,9 @@ const RentalReturn = () => {
                 refactoreDataTable={refactoreDataTable}
                 existedUserData={existedUserData}
                 GetReturnProduct={GetReturnProduct}
+                inputRtnValues={inputRtnValues}
+                inputPhyDmg={inputPhyDmg}
+                PdtItemWtRtn={PdtItemWtRtn}
               />
             )}
             <button

@@ -670,11 +670,35 @@ const RentalReturn = () => {
                         TOTAL
                       </th>
                       <th>{SumOfActualItemWt().toFixed(3)} g.</th>
-                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfTRentalRate().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfTPeneltyCharge().toLocaleString("en-IN")}</th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfTProductValue())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfTRentalRate())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfTPeneltyCharge())}
+                      </th>
                       <th colSpan="1" />
-                      <th>₹ {SumOfDmgCharge().toLocaleString("en-IN")}</th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfDmgCharge())}
+                      </th>
                     </tr>
                   </tbody>
                 </table>

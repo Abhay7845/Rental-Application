@@ -62,7 +62,7 @@ const AcknowledgementRetunr = (props) => {
           {`
           @media screen{
             .hide-on-Acknowledgementscreen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -149,7 +149,7 @@ const AcknowledgementRetunr = (props) => {
                           ? ""
                           : customerAddress2.toUpperCase()}
                       </b>
-                      <b>PinCode:- {existedUserData.customerCityPincode}</b>
+                      <b>Pin Code:- {existedUserData.customerCityPincode}</b>
                       <b>Mobile No:- +91 {existedUserData.mobileNo}</b>
                     </div>
                     <div
@@ -165,51 +165,47 @@ const AcknowledgementRetunr = (props) => {
               <tr>
                 <td colSpan="5">
                   <b>ITEM DETAILS</b>
-                  <div className="table">
-                    <table className="table table-bordered inner-table border-dark text-center">
-                      <thead>
-                        <tr>
-                          {AcknowledgementHeader.map((heading, i) => {
-                            return <th key={i}>{heading}</th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {refactoreDataTable.map((item, i) => {
-                          return (
-                            <tr key={i}>
-                              <td>{i + 1}</td>
-                              <td>{item.itemCode}</td>
-                              <td>{item.lotNo}</td>
-                              <td>{item.description}</td>
-                              <td>{item.grossWt}</td>
-                              <td>{item.productValue}</td>
-                              <td>
-                                {moment(item.rentStartDate).format(
-                                  "DD-MM-YYYY"
-                                )}
-                              </td>
-                              <td>
-                                {moment(getReturnDate()).format("DD-MM-YYYY")}
-                              </td>
-                              <td>{item.deliveredWt}</td>
-                              <td>{inputRtnValues[i]}</td>
-                              <td>{returnedDays}</td>
-                              <td>{inputPhyDmg[i]}</td>
-                            </tr>
-                          );
+                  <table className="table table-bordered inner-table border-dark text-center">
+                    <thead>
+                      <tr>
+                        {AcknowledgementHeader.map((heading, i) => {
+                          return <th key={i}>{heading}</th>;
                         })}
-                        <tr className="text-bold">
-                          <th colSpan="8" className="text-end">
-                            TOTAL
-                          </th>
-                          <th>{SumOfDlvrWt().toFixed(3)} g.</th>
-                          <th>{SumOfReturnWtWt().toFixed(3)} g.</th>
-                          <th colSpan="2" />
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {refactoreDataTable.map((item, i) => {
+                        return (
+                          <tr key={i}>
+                            <th>{i + 1}</th>
+                            <th>{item.itemCode}</th>
+                            <th>{item.lotNo}</th>
+                            <th>{item.description}</th>
+                            <th>{item.grossWt}</th>
+                            <th>{item.productValue}</th>
+                            <th>
+                              {moment(item.rentStartDate).format("DD-MM-YYYY")}
+                            </th>
+                            <th>
+                              {moment(getReturnDate()).format("DD-MM-YYYY")}
+                            </th>
+                            <th>{item.deliveredWt}</th>
+                            <th>{inputRtnValues[i]}</th>
+                            <th>{returnedDays}</th>
+                            <th>{inputPhyDmg[i]}</th>
+                          </tr>
+                        );
+                      })}
+                      <tr className="text-bold">
+                        <th colSpan="8" className="text-end">
+                          TOTAL
+                        </th>
+                        <th>{SumOfDlvrWt().toFixed(3)} g.</th>
+                        <th>{SumOfReturnWtWt().toFixed(3)} g.</th>
+                        <th colSpan="2" />
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
               <tr>

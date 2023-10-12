@@ -203,7 +203,7 @@ const AcknowledgementRetunr = (props) => {
                           <th colSpan="8" className="text-end">
                             TOTAL
                           </th>
-                          <th>{SumOfDlvrWt()} g.</th>
+                          <th>{SumOfDlvrWt().toFixed(3)} g.</th>
                           <th>{SumOfReturnWtWt().toFixed(3)} g.</th>
                           <th colSpan="2" />
                         </tr>

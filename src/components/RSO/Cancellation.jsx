@@ -109,7 +109,6 @@ const Cancellation = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("responsreturn==>", response.data);
         if (response.data.code === "1000") {
           setReturnTableData(response.data.value);
         }
@@ -153,7 +152,6 @@ const Cancellation = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("responsePaid==>", response.data);
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
@@ -163,8 +161,6 @@ const Cancellation = () => {
         setLoading(false);
       });
   }, [storeCode, GetReturnProduct.refId]);
-
-  console.log("sumOfamount==>", totalPaidAmount);
 
   const TProductValue = returnTableData.map((item) =>
     parseInt(item.productValue)
@@ -253,7 +249,6 @@ const Cancellation = () => {
         .post(`${HOST_URL}/cancel/booking`, CancellationInputs)
         .then((res) => res)
         .then((response) => {
-          console.log("responseCancel==>", response.data);
           if (response.data.code === "1000") {
             UpdateCancelStatus(GetReturnProduct.bookingID);
             setRsoName("");

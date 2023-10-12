@@ -107,8 +107,6 @@ const RentalReturn = () => {
       });
   }, [storeCode, refId]);
 
-  console.log("totalPaidAmount==>", totalPaidAmount);
-
   useEffect(() => {
     setLoading(true);
     axios
@@ -229,7 +227,7 @@ const RentalReturn = () => {
   const UpdateBookingFile = (fileExtention) => {
     const updateBookingInput = {
       bookingRefId: refId,
-      contentFor: "return",
+      contentFor: "rentalReturn",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "KarigarQAReport",
       fileName: fileExtention,
@@ -238,12 +236,10 @@ const RentalReturn = () => {
       fileURL: `${FetchImg}${fileExtention}`,
       updatedDate: null,
     };
-    console.log("updateBookingInput==>", updateBookingInput);
     axios
       .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
       .then((res) => res)
       .then((response) => {
-        console.log("responseUpload==>", response.data);
         if (response.data.code === "1000") {
           alert("Uploaded Successfully");
         }
@@ -351,13 +347,13 @@ const RentalReturn = () => {
         tempRefNo: data.tempBookingRefNo,
       };
     });
-    console.log("updatedBookingInputs==>", updatedInputs);
+
     axios
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          console.log("UpdatedResponse==>", response.data);
+          console.log("");
         }
         setLoading(false);
       })
@@ -366,21 +362,24 @@ const RentalReturn = () => {
         setLoading(false);
       });
   };
+
   const GetPhysicalDmg = (e) => {
     const { name, value } = e.target;
-    if (value === "FactoryQA") {
-      setCheckedQA(true);
-      UpdateBookingCalendar(GetReturnProduct.bookingID);
-    } else if (checkedQA === true) {
-      setCheckedQA(false);
-    } else {
-      setCheckedQA(false);
-    }
     setInputPhyDmg({
       ...inputPhyDmg,
       [name]: value,
     });
   };
+  useEffect(() => {
+    const FactoryQA = Object.values(inputPhyDmg);
+    if (FactoryQA.includes("FactoryQA")) {
+      UpdateBookingCalendar(GetReturnProduct.bookingID);
+      setCheckedQA(true);
+    } else if (!FactoryQA.includes("FactoryQA")) {
+      setCheckedQA(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputPhyDmg, GetReturnProduct.bookingID]);
 
   const FactoryQAStaus = checkedQA
     ? "FactoryQA_Required"

@@ -64,7 +64,6 @@ const RentalReturn = () => {
         )
         .then((res) => res)
         .then((response) => {
-          console.log("responseexi==>", response.data);
           if (response.data.code === "1000") {
             setExistedUserData(response.data.value);
           }

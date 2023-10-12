@@ -6,6 +6,7 @@ import { AcknowledgementHeader } from "./PDFHearders";
 import moment from "moment";
 
 const AcknowledgementRetunr = (props) => {
+  const storeCode = localStorage.getItem("storeCode");
   const AcknowledgementRef = useRef(null);
   const AcknowledgementPdf = useReactToPrint({
     content: () => AcknowledgementRef.current,
@@ -49,7 +50,8 @@ const AcknowledgementRetunr = (props) => {
     for (let data of PdtItemWtRtn) total = total + parseFloat(data);
     return total;
   };
-
+  const year = new Date().getFullYear();
+  const receiptNo = `${storeCode}-${year}-${GetReturnProduct.bookingID}`;
   return (
     <div>
       <div>
@@ -92,7 +94,7 @@ const AcknowledgementRetunr = (props) => {
                 <td colSpan="3">
                   <div className="d-flex flex-row">
                     <div className="d-flex flex-column">
-                      <b>Receipt No: ACGFRDGG1235</b>
+                      <b>Receipt No: {receiptNo}</b>
                       <b>Booking Ref No:-{GetReturnProduct.refId}</b>
                     </div>
                     <div className="d-flex flex-column mx-5">

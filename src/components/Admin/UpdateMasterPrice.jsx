@@ -26,9 +26,8 @@ const UpdateMasterPrice = () => {
       },
     })
       .then((res) => res)
-      .then((response) => console.log("response==>", response.data))
+      .then((response) => console.log(""))
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };

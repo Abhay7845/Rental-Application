@@ -89,7 +89,6 @@ const NewCustomer = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -121,7 +120,6 @@ const NewCustomer = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     } else if (choosePan.length === 0) {
@@ -147,7 +145,6 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => console.log(""))
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -223,7 +220,6 @@ const NewCustomer = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -255,7 +251,6 @@ const NewCustomer = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     } else if (bankChequeFile.length === 0) {
@@ -280,7 +275,6 @@ const NewCustomer = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     } else {
@@ -350,7 +344,6 @@ const NewCustomer = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -409,7 +402,6 @@ const NewCustomer = () => {
         bankIfsc: BanckIfcseCode,
         bankDetailFileName: customerAccountNumber,
       };
-      console.log("NewCustomerInputs==>");
       axios
         .post(`${HOST_URL}/rental/add/new/customer`, NewCustomerInputs)
         .then((res) => res)
@@ -429,7 +421,6 @@ const NewCustomer = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }

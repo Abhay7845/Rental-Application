@@ -21,7 +21,6 @@ const Login = (props) => {
       .post(`${HOST_URL}/rental/login/portal`, payload)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           if (response.data.value.role === "RSO") {
             localStorage.setItem("rsoRole", response.data.value.role);
@@ -47,7 +46,6 @@ const Login = (props) => {
       })
       .catch((error) => {
         showAlert("Please Enter Valid Username and Password", "danger");
-        console.log("");
         setLoading(false);
       });
   };

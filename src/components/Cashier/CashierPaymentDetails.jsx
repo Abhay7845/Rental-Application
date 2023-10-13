@@ -106,7 +106,6 @@ const CashierPaymentDetails = () => {
         }
       })
       .then((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -120,7 +119,9 @@ const CashierPaymentDetails = () => {
           setStoreDetails(response.data.value);
         }
       })
-      .catch((error) => console.log("error==>", error));
+      .catch((error) => {
+        setLoading(false);
+      });
   }, [storeCode]);
 
   const GetRegistreUserData = () => {
@@ -135,7 +136,6 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -153,7 +153,6 @@ const CashierPaymentDetails = () => {
           }
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -172,7 +171,6 @@ const CashierPaymentDetails = () => {
           }
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -188,7 +186,6 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   }, [storeCode]);
@@ -208,7 +205,6 @@ const CashierPaymentDetails = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -258,7 +254,6 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -358,17 +353,14 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
             UpdateBookingCalendar();
-            console.log("UpdateBookingCalendar--->8");
           }
           if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
             InsertOutStanding(outStatus);
-            console.log("InsertOutStanding--->9");
           }
         }
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error=>", error);
         setLoading(false);
       });
   };
@@ -414,10 +406,11 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           TnxStatusUpdate(paymentDetails.bookingId);
-          console.log("TnxStatusUpdate--->10");
         }
       })
-      .catch((error) => console.log("error=>", error));
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   const UpdateBookingCalendar = () => {
@@ -437,19 +430,18 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
             TnxStatusUpdate(paymentDetails.bookingId);
-            console.log("TnxStatusUpdate--->20");
           }
           if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
             TnxStatusUpdate(paymentDetails.bookingId);
-            console.log("TnxStatusUpdate--->2");
           }
           if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
             InsertOutStanding(outStatus);
-            console.log("InsertOutStanding--->3");
           }
         }
       })
-      .catch((error) => console.log("error==>", error));
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   const PaymentFileImage = (UploadFileName) => {
@@ -464,7 +456,6 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${UploadFileName}`,
       updatedDate: null,
     };
-    console.log("paymentUploadFile==>", paymentUploadFile);
     axios
       .post(`${HOST_URL}/insert/image/details`, paymentUploadFile)
       .then((res) => res)
@@ -474,7 +465,6 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -502,7 +492,6 @@ const CashierPaymentDetails = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -551,7 +540,6 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -577,7 +565,6 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${printFileName}`,
       updatedDate: null,
     };
-    console.log("updateBookingInput==>", updateBookingInput);
     axios
       .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
       .then((res) => res)
@@ -587,7 +574,6 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -614,7 +600,6 @@ const CashierPaymentDetails = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -641,7 +626,6 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -668,7 +652,6 @@ const CashierPaymentDetails = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -694,7 +677,6 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -721,7 +703,6 @@ const CashierPaymentDetails = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -741,11 +722,10 @@ const CashierPaymentDetails = () => {
             confirmButtonText: "OK",
           });
           ClearAllUIData();
-          console.log("TnxStatusUpdate--->4");
         }
       })
       .catch((error) => {
-        console.log("error=>", error);
+        setLoading(false);
       });
   };
 
@@ -762,12 +742,10 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          console.log("CompletePayment--->1");
           UpdateBookingCalendar();
         }
       })
       .then((error) => {
-        console.log("error=>", error);
         setLoading(false);
       });
   };
@@ -780,21 +758,17 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
             CompletePayment();
-            console.log("CompletePayment--->5");
           } else if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
             InsertInvoiceData(challanNo);
-            console.log("CompletePayment--->6");
           } else if (
             paymentRequestFor === "Payment_PendingFor_RentalIssuance"
           ) {
             InsertInvoiceData(challanNo);
-            console.log("CompletePayment--->7");
           }
         }
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error=>", error);
         setLoading(false);
       });
   };
@@ -809,7 +783,6 @@ const CashierPaymentDetails = () => {
     ) {
       if (collectedAmount === TotalAmount) {
         CallPaymentAPI();
-        console.log("CallPaymentAPI--->11");
       } else {
         alert(amontErrMassage);
       }

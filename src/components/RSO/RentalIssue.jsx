@@ -146,7 +146,6 @@ const RentalIssue = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -181,7 +180,6 @@ const RentalIssue = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     });
@@ -229,7 +227,6 @@ const RentalIssue = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -244,7 +241,6 @@ const RentalIssue = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -276,7 +272,6 @@ const RentalIssue = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -312,7 +307,6 @@ const RentalIssue = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -345,7 +339,6 @@ const RentalIssue = () => {
         bankIfsc: BanckIfcseCode,
         bankDetailFileName: cancelChqueFileName,
       };
-      console.log("UpdateCustDetails==>", UpdateCustDetails);
       axios
         .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
         .then((res) => res)
@@ -357,7 +350,6 @@ const RentalIssue = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -386,7 +378,6 @@ const RentalIssue = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -420,7 +411,6 @@ const RentalIssue = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -448,7 +438,6 @@ const RentalIssue = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -469,7 +458,6 @@ const RentalIssue = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response);
           if (response.data) {
             UploadKarateMeterPdf(karateMtr);
             const reader = new FileReader();
@@ -483,7 +471,6 @@ const RentalIssue = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -503,7 +490,6 @@ const RentalIssue = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   }, [storeCode, refId, tempBookingRefNo]);
@@ -519,7 +505,6 @@ const RentalIssue = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   }, [storeCode, refId]);
@@ -537,7 +522,6 @@ const RentalIssue = () => {
           }
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -553,7 +537,6 @@ const RentalIssue = () => {
         }
       })
       .catch((error) => {
-        console.log("error=>", error);
         setLoading(false);
       });
   }, []);
@@ -577,7 +560,7 @@ const RentalIssue = () => {
         }
       })
       .catch((error) => {
-        console.log("error=>", error);
+        setLoading(false);
       });
   };
 
@@ -626,12 +609,10 @@ const RentalIssue = () => {
           totalProductValue: totalPaidAmount.totalProductValue,
           totalRentalValue: totalPaidAmount.totalRentalValue,
         };
-        console.log("RaiseDepositValue==>", RaiseDepositValue);
         axios
           .post(`${HOST_URL}/rental/issue/api`, RaiseDepositValue)
           .then((res) => res)
           .then((response) => {
-            console.log("response=>", response);
             if (response.data.code === "1000") {
               TnxStatusUpdate(totalPaidAmount.bookingId);
               setProductFileName([]);
@@ -645,7 +626,6 @@ const RentalIssue = () => {
             setLoading(false);
           })
           .catch((error) => {
-            console.log("error=>", error);
             setLoading(false);
           });
       }

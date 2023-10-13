@@ -16,7 +16,6 @@ const Home = () => {
   const [selecttedProduct, setSelecttedProduct] = useState({});
   const storeCode = localStorage.getItem("storeCode");
   const navigate = useNavigate();
-  console.log("selecttedProduct==>", selecttedProduct);
 
   const currentDate = moment(new Date()).format("YYYY-MM-DD");
   const paramType = !phoneRefrence
@@ -85,7 +84,6 @@ const Home = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setProductData(response.data.value);
           if (response.data.value.length === 0) {
@@ -95,7 +93,6 @@ const Home = () => {
         setLoading(false);
       })
       .then((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };

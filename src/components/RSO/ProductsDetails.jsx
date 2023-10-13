@@ -59,12 +59,10 @@ const ProductsDetails = () => {
       cfaCode: avldata.cfaCode,
       locType: "SameCity",
     };
-    console.log("GetProducts==>", GetProducts);
     axios
       .post(`${HOST_URL}/rental/product/view/details`, GetProducts)
       .then((res) => res)
       .then((response) => {
-        console.log("GetProductsResponse==>", response.data);
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
         } else if (response.data.code === "1001") {
@@ -73,7 +71,6 @@ const ProductsDetails = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -88,7 +85,6 @@ const ProductsDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("error=>", error);
         setLoading(false);
       });
   };
@@ -109,12 +105,10 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
-    console.log("CheckAvaiblity==>", CheckAvaiblity);
     axios
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
-        console.log("AvlResponse==>", response.data);
         if (response.data.code === "1000") {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
@@ -258,19 +252,17 @@ const ProductsDetails = () => {
         tempBookingRefNo: tempId,
       };
     });
-    console.log("CanlendarInputs==>", CanlendarInputs);
     axios
       .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response);
         if (response.data.code === "1000") {
           Swal.fire("Added", "Your Products Added To Cart", "success");
           navigate("/booking");
         }
       })
       .catch((error) => {
-        console.log("erorr==>", error);
+        setLoading(false);
       });
   };
 
@@ -284,7 +276,6 @@ const ProductsDetails = () => {
         .post(`${HOST_URL}/add/to/cart`, goToCart)
         .then((res) => res)
         .then((response) => {
-          console.log("responseDtaa==>", response.data.value.Succes);
           if (response.data.code === "1000") {
             if (response.data.value.Succes) {
               localStorage.setItem("BookinTempId", response.data.value.Succes);
@@ -294,7 +285,6 @@ const ProductsDetails = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error=>", error);
           setLoading(false);
         });
     }

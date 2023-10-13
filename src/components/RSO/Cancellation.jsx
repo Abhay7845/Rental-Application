@@ -60,7 +60,6 @@ const Cancellation = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -95,7 +94,6 @@ const Cancellation = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -115,7 +113,6 @@ const Cancellation = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   }, [storeCode, GetReturnProduct.refId, GetReturnProduct.tempBookingRefNo]);
@@ -157,7 +154,6 @@ const Cancellation = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   }, [storeCode, GetReturnProduct.refId]);
@@ -214,7 +210,6 @@ const Cancellation = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -244,7 +239,6 @@ const Cancellation = () => {
         createdDate: null,
         updatedDate: null,
       };
-      console.log("CancellationInputs==>", CancellationInputs);
       axios
         .post(`${HOST_URL}/cancel/booking`, CancellationInputs)
         .then((res) => res)
@@ -257,7 +251,6 @@ const Cancellation = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }

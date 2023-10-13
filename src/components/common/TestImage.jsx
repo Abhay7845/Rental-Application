@@ -19,7 +19,6 @@ const TestImage = () => {
     { id: 3, name: "Row 3" },
     // Add more rows as needed
   ];
-  console.log("selectedRows==>", selectedRows);
   return (
     <div>
       <table>

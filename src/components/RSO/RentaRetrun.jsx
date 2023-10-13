@@ -70,7 +70,6 @@ const RentalReturn = () => {
           }
         })
         .then((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -85,7 +84,9 @@ const RentalReturn = () => {
           setStoreDetails(response.data.value);
         }
       })
-      .catch((error) => console.log("error==>", error));
+      .catch((error) => {
+        setLoading(false);
+      });
   }, [storeCode]);
 
   const timeDifference = new Date() - getReturnDate();
@@ -136,7 +137,6 @@ const RentalReturn = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   }, [storeCode, refId]);
@@ -149,14 +149,12 @@ const RentalReturn = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response=>", response.data);
         if (response.data.code === "1000") {
           setReturnTableData(response.data.value);
         }
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   }, [storeCode, refId, tempBookingRefNo]);
@@ -203,7 +201,6 @@ const RentalReturn = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    console.log("IdDetailsInput==>", IdDetailsInput);
     axios
       .post(`${HOST_URL}/insert/image/details`, IdDetailsInput)
       .then((res) => res)
@@ -219,7 +216,6 @@ const RentalReturn = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -253,7 +249,6 @@ const RentalReturn = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -280,7 +275,6 @@ const RentalReturn = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -301,7 +295,6 @@ const RentalReturn = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -315,7 +308,6 @@ const RentalReturn = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -407,7 +399,6 @@ const RentalReturn = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -452,7 +443,7 @@ const RentalReturn = () => {
         }
       })
       .catch((error) => {
-        console.log("error=>", error);
+        setLoading(false);
       });
   };
   const DespId = returnTableData.map((data) => data.despId);
@@ -490,7 +481,6 @@ const RentalReturn = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -535,7 +525,6 @@ const RentalReturn = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error=>", error);
           setLoading(false);
         });
     }

@@ -75,7 +75,6 @@ const NewBooking = () => {
         setLoading(false);
       })
       .then((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -94,7 +93,6 @@ const NewBooking = () => {
         setLoading(false);
       })
       .then((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -120,7 +118,9 @@ const NewBooking = () => {
             setPanImgUrl(response.data);
           }
         })
-        .catch((error) => console.log("error=>", error));
+        .catch((error) => {
+          setLoading(false);
+        });
     }
   }, [existedUserData.panCardNoFileName]);
 
@@ -185,7 +185,6 @@ const NewBooking = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -221,7 +220,6 @@ const NewBooking = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -248,7 +246,6 @@ const NewBooking = () => {
         }
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -283,7 +280,6 @@ const NewBooking = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -326,7 +322,6 @@ const NewBooking = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }
@@ -378,7 +373,6 @@ const NewBooking = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }

@@ -25,6 +25,7 @@ const RentalReturn = () => {
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [storeDetails, setStoreDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
+  const [alertWt, setAlertWt] = useState("");
 
   // SAME CUSTOME UPLOAD & DETAILS/
   const [sameCustName, setSameCustName] = useState("");
@@ -321,12 +322,26 @@ const RentalReturn = () => {
   };
 
   // CALCULATION OF ACTUAL WT AT RETURN
-  const GetActualWtAtReturl = (e) => {
+
+  const GetActualWtAtReturn = (e, grossWt) => {
     const { name, value } = e.target;
-    setInputRtnValues({
-      ...inputRtnValues,
-      [name]: value,
-    });
+    const minWt = parseFloat((grossWt * 0.9).toFixed(3));
+    const maxWt = parseFloat(parseFloat(grossWt * 1.1).toFixed(3));
+    if (minWt > parseFloat(value)) {
+      setAlertWt(
+        "Return Weight Can't be Lesser than or Greater Than (10%) Of Gross Weight."
+      );
+    } else if (maxWt < parseFloat(value)) {
+      setAlertWt(
+        "Return Weight Can't be Lesser than or Greater Than (10%) Of Gross Weight."
+      );
+    } else {
+      setAlertWt("");
+      setInputRtnValues({
+        ...inputRtnValues,
+        [name]: value,
+      });
+    }
   };
 
   const PdtItemWtRtn = [];
@@ -653,7 +668,9 @@ const RentalReturn = () => {
                               placeholder="Actual Wt at Return"
                               name={i}
                               defaultValue={inputRtnValues[i]}
-                              onChange={GetActualWtAtReturl}
+                              onChange={(e) =>
+                                GetActualWtAtReturn(e, item.grossWt)
+                              }
                             />
                           </td>
                           <td>
@@ -739,6 +756,7 @@ const RentalReturn = () => {
               </div>
             </div>
           )}
+          <b className="mt-0 text-danger">{alertWt}</b>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>

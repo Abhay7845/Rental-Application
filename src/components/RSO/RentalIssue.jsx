@@ -22,6 +22,7 @@ const RentalIssue = () => {
   const [sameCustomer, setSameCustomer] = useState(true);
   const [existedUserData, setExistedUserData] = useState({});
   const [RSOName, setRSOName] = useState("");
+  const [alertWt, setAlertWt] = useState("");
 
   // CUSTOMER BANK DETAIL FIELDS
   const [customerBankName, setCustomerBankName] = useState("");
@@ -52,7 +53,6 @@ const RentalIssue = () => {
   const [inputFile, setInputFile] = useState({});
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
   const [outstandingData, setOutstandingData] = useState({});
-  // const TDepositWithTax = totalDepositAmount + totalDepositAmount * 0.18;
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
@@ -69,12 +69,25 @@ const RentalIssue = () => {
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const navigate = useNavigate();
 
-  const GetActualWtAtDlr = (e) => {
+  const GetActualWtAtDlr = (e, grossWt) => {
     const { name, value } = e.target;
-    setInputValues({
-      ...inputValues,
-      [name]: value,
-    });
+    const minWt = parseFloat((grossWt * 0.9).toFixed(3));
+    const maxWt = parseFloat(parseFloat(grossWt * 1.1).toFixed(3));
+    if (minWt > parseFloat(value)) {
+      setAlertWt(
+        "Delivery Weight Can't be Lesser than or Greater Than (10%) Of Gross Weight."
+      );
+    } else if (maxWt < parseFloat(value)) {
+      setAlertWt(
+        "Delivery Weight Can't be Lesser than or Greater Than (10%) Of Gross Weight."
+      );
+    } else {
+      setAlertWt("");
+      setInputValues({
+        ...inputValues,
+        [name]: value,
+      });
+    }
   };
 
   const PdtItemWt = [];
@@ -806,7 +819,9 @@ const RentalIssue = () => {
                               placeholder="Actual Wt At Delivery"
                               name={i}
                               defaultValue={inputValues[i]}
-                              onChange={GetActualWtAtDlr}
+                              onChange={(e) =>
+                                GetActualWtAtDlr(e, item.grossWt)
+                              }
                             />
                           </td>
                         </tr>
@@ -841,6 +856,7 @@ const RentalIssue = () => {
               </div>
             </div>
           )}
+          <b className="mt-0 text-danger text-end">{alertWt}</b>
           <div className="table-responsive">
             <table className="table table-bordered table-hover border-dark">
               <thead className="table-dark border-light text-center">

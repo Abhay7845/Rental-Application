@@ -14,7 +14,7 @@ const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [existedUserData, setExistedUserData] = useState({});
-  const [bookingRSO, setBookingRSO] = useState("");
+  const [RSOName, setRSOName] = useState("");
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
   const regNumber = localStorage.getItem("regNumber");
@@ -305,7 +305,7 @@ const NewBooking = () => {
         createDate: bookingDate,
         updateDate: null,
         status: "Active",
-        rsoName: bookingRSO,
+        rsoName: RSOName,
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
         bankIfsc: BanckIfcseCode,
@@ -329,7 +329,7 @@ const NewBooking = () => {
 
   // BOOKING YUOR PRODUCTS
   const RaiseBookPaymentReq = () => {
-    if (!bookingRSO) {
+    if (!RSOName) {
       alert("Please Enter RSO Name");
     } else if (custType !== "New Customer" && transactionFile === "") {
       alert("Please Upload Previous Transaction File");
@@ -350,7 +350,7 @@ const NewBooking = () => {
         totalDepositAmount: SumOfDepositRate(),
         totalBookingAmount: TotalWithGstAmount,
         tncFileName: "",
-        rsoName: bookingRSO,
+        rsoName: RSOName,
         createdDate: existedUserData.createDate,
         updatedDate: existedUserData.updateDate,
         status: "Payment_PendingFor_NewBooking",
@@ -577,7 +577,7 @@ const NewBooking = () => {
               type="text"
               className="form-control"
               placeholder="RSO Name"
-              onChange={(e) => setBookingRSO(e.target.value)}
+              onChange={(e) => setRSOName(e.target.value)}
             />
           </div>
           <div className="d-flex justify-content-end mb-4">

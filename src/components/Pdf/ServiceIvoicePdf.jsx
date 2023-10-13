@@ -391,7 +391,7 @@ const ServiceIvoicePdf = (props) => {
                         <th>Payment Mode</th>
                         <th>DOC No.</th>
                         <th>Date</th>
-                        <th>Amount(Rs)</th>
+                        <th>Amount</th>
                       </tr>
                     </thead>
                     <tbody>

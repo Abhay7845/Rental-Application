@@ -148,6 +148,7 @@ const RentalReturn = () => {
       )
       .then((res) => res)
       .then((response) => {
+        console.log("response=>", response.data);
         if (response.data.code === "1000") {
           setReturnTableData(response.data.value);
         }
@@ -741,7 +742,9 @@ const RentalReturn = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Print Karigar QA Report</span>
-              <KarigarQAReturnPdf refactoreDataTable={refactoreDataTable} />
+              {returnTableData.length > 0 && (
+                <KarigarQAReturnPdf refactoreDataTable={refactoreDataTable} />
+              )}
             </h6>
           </div>
           <div className="col-md-5">

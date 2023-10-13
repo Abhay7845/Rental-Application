@@ -23,8 +23,6 @@ const NewBooking = () => {
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
 
-  console.log("existedUserData==>", existedUserData);
-
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
 
@@ -241,7 +239,6 @@ const NewBooking = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    console.log("TnxIputsDetails==>", TnxIputsDetails);
     axios
       .post(`${HOST_URL}/insert/image/details`, TnxIputsDetails)
       .then((res) => res)
@@ -272,7 +269,6 @@ const NewBooking = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data) {
             UploadTnxDetails(fileExtention);
             const reader = new FileReader();
@@ -319,12 +315,10 @@ const NewBooking = () => {
         bankIfsc: BanckIfcseCode,
         bankDetailFileName: cancelChqueFileName,
       };
-      console.log("UpdateCustDetails==>", UpdateCustDetails);
       axios
         .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data.code === "1000") {
             alert("Account Details has been Updated Successfully");
             FetchUDetailsBysearch();
@@ -367,7 +361,6 @@ const NewBooking = () => {
         status: "Payment_PendingFor_NewBooking",
         tempRefNo: bookingRefId,
       };
-      console.log("BookingInputs==>", BookingInputs);
       axios
         .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
         .then((res) => res)

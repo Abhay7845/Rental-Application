@@ -907,7 +907,9 @@ const RentalIssue = () => {
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Karigar QA Report</span>
-              <KarigarQAIssuePdf retunTableData={retunTableData} />
+              {retunTableData.length > 0 && (
+                <KarigarQAIssuePdf retunTableData={retunTableData} />
+              )}
             </h6>
           </div>
           <div className="col-md-3">

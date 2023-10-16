@@ -502,7 +502,7 @@ const ServiceIvoicePdf = (props) => {
                 <td colSpan="5" className="text-center">
                   <b>
                     The refund, if any, will be credited to your preffered Bank
-                    Account within 5 days.
+                    Account within 10 days.
                   </b>
                 </td>
               </tr>

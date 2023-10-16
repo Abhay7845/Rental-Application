@@ -321,7 +321,7 @@ const CancelationPdf = (props) => {
                   <h6>
                     <b>
                       The refund will be credited to your preffered Bank Account
-                      within 5 days.
+                      within 10 days.
                     </b>
                   </h6>
                 </td>

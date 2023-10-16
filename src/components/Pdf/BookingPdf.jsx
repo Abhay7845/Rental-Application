@@ -619,7 +619,7 @@ const BookingPdf = (props) => {
                       and quality checks. If Titan determines that the jewellery
                       returned is in the same condition as when delivered to
                       you, Titan will refund the Damage Protection Amount no
-                      earlier than 7 days from the date of receipt of the
+                      earlier than 10 days from the date of receipt of the
                       jewellery product.
                     </b>
                     <b>

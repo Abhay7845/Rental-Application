@@ -13,14 +13,6 @@ export const LoginSchema = yup.object({
   // rsoName: yup.string().required("RSO Name is required"),
 });
 
-// MASTER FILE UPLOAD
-export const FileInitialValue = {
-  masterFile: "",
-};
-export const masterSchema = yup.object({
-  masterFile: yup.string().required("File is required"),
-});
-
 // CHECK PRODUCTS  AVAIBLITY
 
 export const CheckAvaiblityInitialValue = {

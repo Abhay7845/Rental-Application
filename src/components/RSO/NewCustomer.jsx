@@ -79,13 +79,7 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: "Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
+          alert("Uploaded Successfully");
         }
       })
       .catch((error) => {
@@ -210,13 +204,7 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: "Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
+          alert("Uploaded Successfully");
         }
       })
       .catch((error) => {
@@ -665,7 +653,7 @@ const NewCustomer = () => {
             <div className="col-md-4">
               <label className="form-label">
                 {addressProofType === "aadhar"
-                  ? "Upload Aadhar*"
+                  ? "Upload Aadhar (Front/Back)*"
                   : "Upload Passport*"}
               </label>
               <input

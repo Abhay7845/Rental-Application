@@ -215,7 +215,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -269,7 +269,7 @@ const ServiceIvoicePdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginLeft: "17%" }}
+                      style={{ marginLeft: "26%" }}
                     >
                       <b className="mx-5">PAN:-{storeDetails.gstin}</b>
                       <b className="mx-5">
@@ -301,7 +301,7 @@ const ServiceIvoicePdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "10.5%" }}
+                      style={{ marginRight: "17%" }}
                     >
                       <b>Customer Profile No.:-{existedUserData.custId}</b>
                       <b>PAN: {existedUserData.panCardNo}</b>

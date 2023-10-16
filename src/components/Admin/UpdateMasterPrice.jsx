@@ -21,7 +21,7 @@ const UpdateMasterPrice = () => {
       formData.append("masterFile", uploadMasterFile);
       axios({
         method: "post",
-        url: `${HOST_URL}/rate/master/update/rentalPrice`,
+        url: `${HOST_URL}/Rental/Admin/rate/master/update/rentalPrice`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -36,6 +36,7 @@ const UpdateMasterPrice = () => {
           setLoading(false);
         })
         .catch((error) => {
+          console.log("error==>", error);
           setLoading(false);
         });
     }

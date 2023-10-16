@@ -962,11 +962,10 @@ const CashierPaymentDetails = () => {
                             onChange={(e) => setPaymentType(e.target.value)}
                           >
                             <option value="">Select Type</option>
-                            <option value="Card">Card</option>
-                            <option value="TEP">TEP</option>
-                            <option value="NEFT">NEFT</option>
                             <option value="RTGS">RTGS</option>
-                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="AIRPAY">AIRPAY</option>
+                            <option value="CC">CC</option>
+                            <option value="HDFC">HDFC</option>
                           </select>
                         </td>
                         <td>

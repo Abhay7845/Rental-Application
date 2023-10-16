@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../common/Navbar";
-import { DataList } from "../../Data/DataList";
 import AdminSideBar from "../common/AdminSideBar";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
 
@@ -28,18 +27,14 @@ const SummaryReports = () => {
                 </tr>
               </thead>
               <tbody>
-                {DataList.map((item, i) => {
-                  return (
-                    <tr key={i}>
-                      <td>IKFDSVAKFVKNRESC</td>
-                      <td>{item.name}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.email}</td>
-                      <td>{item.website}</td>
-                      <td>{item.address.city}</td>
-                    </tr>
-                  );
-                })}
+                <tr>
+                  <td>IKFDSVAKFVKNRESC</td>
+                  <td>IKFDSVAKFVKNRESC</td>
+                  <td>IKFDSVAKFVKNRESC</td>
+                  <td>IKFDSVAKFVKNRESC</td>
+                  <td>IKFDSVAKFVKNRESC</td>
+                  <td>IKFDSVAKFVKNRESC</td>
+                </tr>
               </tbody>
             </table>
           </div>

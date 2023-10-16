@@ -1,29 +1,3 @@
-export const DataList = [
-  {
-    id: 1,
-    name: "Leanne Graham",
-    username: "Bret",
-    email: "Sincere@april.biz",
-    phone: "1-770-736-8031 x56442",
-    website: "hildegard.org",
-  },
-  {
-    id: 2,
-    name: "Leanne Graham",
-    username: "Bret",
-    email: "Sincere@april.biz",
-    phone: "1-770-736-8031 x56442",
-    website: "hildegard.org",
-  },
-  {
-    id: 3,
-    name: "Leanne Graham",
-    username: "Bret",
-    email: "Sincere@april.biz",
-    phone: "1-770-736-8031 x56442",
-    website: "hildegard.org",
-  },
-];
 export const packageDayOption = [
   { value: "4", label: "4 Days" },
   { value: "8", label: "8 Days" },

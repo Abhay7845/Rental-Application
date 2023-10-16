@@ -13,7 +13,6 @@ import RentalRetrun from "./components/RSO/RentaRetrun";
 import NewCustomer from "./components/RSO/NewCustomer";
 import TestImage from "./components/common/TestImage";
 import ProductsDetails from "./components/RSO/ProductsDetails";
-import AddedCartData from "./components/common/AddedCartData";
 import SummaryReports from "./components/Admin/SummaryReports";
 import BookingVerification from "./components/Admin/BookingVerification";
 import DiscountValidation from "./components/Admin/DiscountValidation";
@@ -66,10 +65,6 @@ const App = () => {
             <Route
               path="/products/details"
               element={<ProductsDetails showAlert={showAlert} />}
-            />
-            <Route
-              path="/products/added/cart"
-              element={<AddedCartData showAlert={showAlert} />}
             />
             <Route
               path="/test/image"

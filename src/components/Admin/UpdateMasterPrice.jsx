@@ -9,13 +9,11 @@ import AdminToggelSideBar from "../common/AdminToggelSideBar";
 const UpdateMasterPrice = () => {
   const [loading, setLoading] = useState(false);
   const [uploadMasterFile, setUploadMasterFile] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
 
   const UploadMasterFile = () => {
     if (!uploadMasterFile) {
-      setErrorMsg("Please Select File");
+      alert("Please Choose File");
     } else {
-      setErrorMsg("");
       setLoading(true);
       let formData = new FormData();
       formData.append("masterFile", uploadMasterFile);
@@ -59,12 +57,11 @@ const UpdateMasterPrice = () => {
             className="DateSelect"
             onChange={(e) => setUploadMasterFile(e.target.files[0])}
           />
-          <p className="text-danger">{errorMsg}</p>
           <div className="d-flex justify-content-end mt-3">
-            <button className="CButton">VIEW</button>
-            <button className="CButton mx-2">DEACTIVATE</button>
+            <button className="CButton">View</button>
+            <button className="CButton mx-2">Deactivate</button>
             <button className="CButton" onClick={UploadMasterFile}>
-              UPLOAD
+              Upload
             </button>
           </div>
         </div>

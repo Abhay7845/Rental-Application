@@ -67,11 +67,7 @@ const CashierPaymentDetails = () => {
     (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
 
   const GenChallanNo = `${bookingRefNo}-D`;
-  const InvoiceDgt = !invoicePdfNo.invoiceNo
-    ? ""
-    : invoicePdfNo.invoiceNo.split("-");
-  const Invdigit = parseInt(InvoiceDgt[1]) + 1;
-  const GenInvoiceNo = `${storeCode}-${Invdigit}`;
+  const GenInvoiceNo = `${storeCode}-${invoicePdfNo.invoiceId + 1}`;
 
   // ADD ROW
   const [count, setCount] = useState(0);

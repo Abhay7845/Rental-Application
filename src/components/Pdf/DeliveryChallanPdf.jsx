@@ -74,7 +74,11 @@ const DeliveryChallanPdf = (props) => {
             }
           `}
         </style>
-        <div className="table-container hide-on-screen" ref={DeliveryChalanRef}>
+        <div
+          className="table-container hide-on-screen"
+          ref={DeliveryChalanRef}
+          style={{ margin: "5%", marginTop: "15%" }}
+        >
           <h6 className="text-center mb-2">
             <b>Delivery Challan Cum Damage Protection Amount</b>
           </h6>
@@ -84,7 +88,7 @@ const DeliveryChallanPdf = (props) => {
           >
             <tbody>
               <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "20%" }}>
+                <td rowSpan="2" colSpan="2" style={{ width: "13%" }}>
                   <div className="d-flex flex-column text-center">
                     <b>
                       <img src={TitanLogo} alt="" width="140" height="75" />
@@ -122,7 +126,7 @@ const DeliveryChallanPdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "14%" }}
+                      style={{ marginRight: "14.5%" }}
                     >
                       <b className="mx-5">PAN:-{storeDetails.gstin}</b>
                       <b className="mx-5">
@@ -154,7 +158,7 @@ const DeliveryChallanPdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "10.5%" }}
+                      style={{ marginRight: "12.5%" }}
                     >
                       <b>Customer Profile No.: {CutometProfileNo[0]}</b>
                       <b>PAN:-{existedUserData.panCardNo}</b>

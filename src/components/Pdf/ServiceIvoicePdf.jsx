@@ -17,11 +17,9 @@ const ServiceIvoicePdf = (props) => {
     storeDetails,
     regUserData,
     savePaymetRow,
-    paymentDetails,
     previousTnxData,
     invoiceNo,
   } = props;
-  const { totalDepositAmountPaidWithTax } = paymentDetails;
 
   const bookingDate = regUserData.map((data) => data.bookingDate);
 
@@ -202,8 +200,7 @@ const ServiceIvoicePdf = (props) => {
     return total;
   };
 
-  const TotalRefund =
-    totalDepositAmountPaidWithTax + SumOfTTotalAmount() - SumOfTTotalAmount();
+  const TotalRefund = SumOfTTPreAmount() - SumOfTTotalAmount();
 
   return (
     <div>
@@ -215,7 +212,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -442,12 +439,7 @@ const ServiceIvoicePdf = (props) => {
                     </thead>
                     <tbody>
                       <tr>
-                        <th>
-                          ₹
-                          {(
-                            totalDepositAmountPaidWithTax + SumOfTTotalAmount()
-                          ).toLocaleString("en-IN")}
-                        </th>
+                        <th>₹{SumOfTTPreAmount().toLocaleString("en-IN")}</th>
                         <th>₹{SumOfTTotalAmount().toLocaleString("en-IN")}</th>
                         <th>₹{TotalRefund.toLocaleString("en-IN")}</th>
                       </tr>

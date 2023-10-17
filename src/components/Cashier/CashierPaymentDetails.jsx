@@ -56,7 +56,6 @@ const CashierPaymentDetails = () => {
     totalDepositAmountPaidWithTax,
     productValue,
   } = paymentDetails;
-  console.log("paymentDetails==>", paymentDetails);
 
   const {
     totalDamageCharges,

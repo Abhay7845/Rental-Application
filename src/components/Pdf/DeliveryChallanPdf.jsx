@@ -71,9 +71,6 @@ const DeliveryChallanPdf = (props) => {
             .space-in-pdf {
               margin-right: 20mm; 
             }
-             .space-in-pdf-two {
-              margin-right: 28mm;
-          }
             }
           `}
         </style>
@@ -123,9 +120,14 @@ const DeliveryChallanPdf = (props) => {
                       <b>State:-{storeDetails.state}</b>
                       <b>Place of Supply:-{storeDetails.city}</b>
                     </div>
-                    <div className="d-flex flex-column space-in-pdf-two">
-                      <b>PAN:-{storeDetails.pan}</b>
-                      <b>State Code:-{storeDetails.StateCode}</b>
+                    <div
+                      className="d-flex flex-column"
+                      style={{ marginRight: "14%" }}
+                    >
+                      <b className="mx-5">PAN:-{storeDetails.gstin}</b>
+                      <b className="mx-5">
+                        State Code: {storeDetails.stateCode}
+                      </b>
                     </div>
                   </div>
                 </td>
@@ -150,7 +152,10 @@ const DeliveryChallanPdf = (props) => {
                       <b>PinCode:-{existedUserData.customerCityPincode}</b>
                       <b>Mobile No:- +91 {existedUserData.mobileNo}</b>
                     </div>
-                    <div className="d-flex flex-column">
+                    <div
+                      className="d-flex flex-column"
+                      style={{ marginRight: "10.5%" }}
+                    >
                       <b>Customer Profile No.: {CutometProfileNo[0]}</b>
                       <b>PAN:-{existedUserData.panCardNo}</b>
                     </div>
@@ -173,27 +178,27 @@ const DeliveryChallanPdf = (props) => {
                         {addedPdts.map((item, i) => {
                           return (
                             <tr key={i}>
-                              <td>{i + 1}</td>
-                              <td>{item.itemCode}</td>
-                              <td>{item.lotNo}</td>
-                              <td>{item.description}</td>
-                              <td>{item.grossWt}</td>
-                              <td>{item.deliveredWt}</td>
-                              <td>{item.packageDays}</td>
-                              <td className="text-end">
+                              <th>{i + 1}</th>
+                              <th>{item.itemCode}</th>
+                              <th>{item.lotNo}</th>
+                              <th>{item.description}</th>
+                              <th>{item.grossWt}</th>
+                              <th>{item.deliveredWt}</th>
+                              <th>{item.packageDays}</th>
+                              <th className="text-end">
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: 2,
                                 }).format(item.productValue)}
-                              </td>
-                              <td className="text-end">
+                              </th>
+                              <th className="text-end">
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: 2,
                                 }).format(item.depositAmount)}
-                              </td>
+                              </th>
                             </tr>
                           );
                         })}
@@ -240,23 +245,23 @@ const DeliveryChallanPdf = (props) => {
                         {savePaymetRow.map((item, i) => {
                           return (
                             <tr key={i}>
-                              <td>{i + 1}</td>
-                              <td>
+                              <th>{i + 1}</th>
+                              <th>
                                 {item.paymentFor ===
                                 "Payment_PendingFor_RentalIssuance"
                                   ? "Damge Protection Charge"
                                   : ""}
-                              </td>
-                              <td>{item.paymentType}</td>
-                              <td>{item.txnRefNo}</td>
-                              <td>{moment().format("DD-MM-YYYY")}</td>
-                              <td className="text-end">
+                              </th>
+                              <th>{item.paymentType}</th>
+                              <th>{item.txnRefNo}</th>
+                              <th>{moment().format("DD-MM-YYYY")}</th>
+                              <th className="text-end">
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: 2,
                                 }).format(item.amount)}
-                              </td>
+                              </th>
                             </tr>
                           );
                         })}

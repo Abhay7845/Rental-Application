@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const Logout = () => {
     localStorage.clear();
-    navigate("/JewRentalApp");
+    navigate("/UAT_RentalJewApp");
   };
 
   useEffect(() => {}, [path]);

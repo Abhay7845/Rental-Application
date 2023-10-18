@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://tanishqdigitalnpim.titan.in/JewRentalApp",
+  "homepage": "https://tanishqdigitalnpim.titan.in/UAT_RentalJewApp",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

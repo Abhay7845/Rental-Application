@@ -207,7 +207,7 @@ const BookingPdf = (props) => {
                 <div className="table">
                   <table className="table table-bordered inner-table border-dark text-center">
                     <thead>
-                      <tr style={{ fontSize: "7px" }}>
+                      <tr style={{ fontSize: "7px", fontWeight:"bold" }}>
                         {BookingOrderHearders.map((heading, i) => {
                           return <th key={i}>{heading}</th>;
                         })}
@@ -216,7 +216,7 @@ const BookingPdf = (props) => {
                     <tbody>
                       {RefacotorData.map((item, i) => {
                         return (
-                          <tr key={i} style={{ fontSize: "7px" }}>
+                          <tr key={i} style={{ fontSize: "7px", fontWeight:"bold" }}>
                             <th>{i + 1}</th>
                             <th>{item.itemCode}</th>
                             <th>{item.lotNo}</th>

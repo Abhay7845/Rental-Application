@@ -1,5 +1,5 @@
 export const HOST_URL =
-  "https://tanishqdigitaluat.titan.in:8443/RentalApplicationUAT";
+  "https://tanishqdigitalnpim.titan.in:8443/RentalApplicationUAT";
 
 // OTP  VERIFICATION URL
 export const Phoneulr1 = "http://10.10.86.11:7001/sms_v1/";

@@ -220,17 +220,21 @@ const ServiceIvoicePdf = (props) => {
             }
           `}
         </style>
-        <div className="table-container hide-on-screen" ref={ServiceInvoiceRef}>
+        <div
+          className="table-container hide-on-screen"
+          ref={ServiceInvoiceRef}
+          style={{ margin: "3.5%", marginTop: "16%" }}
+        >
           <h6 className="text-center mb-2">
             <b>SERVICE INVOICE</b>
           </h6>
           <table
             className="table table-bordered table-styles border-dark"
-            style={{ fontSize: "10px" }}
+            style={{ fontSize: "9px" }}
           >
             <tbody>
               <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
+                <td rowSpan="2" colSpan="2" style={{ width: "13%" }}>
                   <div className="d-flex flex-column text-center">
                     <b>
                       <img src={TitanLogo} alt="" width="140" height="75" />
@@ -314,42 +318,50 @@ const ServiceIvoicePdf = (props) => {
                       <thead>
                         <tr>
                           {ServiveInvoicePdfHeaders.map((heading, i) => {
-                            return <th key={i}>{heading}</th>;
+                            return (
+                              <th key={i} style={{ fontSize: "6px" }}>
+                                {heading}
+                              </th>
+                            );
                           })}
                         </tr>
                       </thead>
                       <tbody>
                         {RefacotorTableData.map((item, i) => {
                           return (
-                            <tr key={i}>
+                            <tr
+                              key={i}
+                              style={{ fontSize: "7px", fontWeight: "bold" }}
+                            >
                               <td>{i + 1}</td>
                               <td>{item.itemCode}</td>
                               <td>{item.lotNo}</td>
                               <td>{item.description}</td>
                               <td>{item.grossWt}</td>
                               <td>{item.packageDays}</td>
-                              <td>
+                              <td className="text-end">
                                 {item.productValue.toLocaleString("en-IN")}
                               </td>
-                              <td>
-                                {Math.round(item.rentalAmount).toLocaleString(
-                                  "en-IN"
-                                )}
+                              <td className="text-end">
+                                {item.rentalAmount.toLocaleString("en-IN")}
                               </td>
-                              <td>{item.lateFee}</td>
-                              <td>{item.damageCharges}</td>
-                              <td>{item.discountAmount}</td>
-                              <td>{item.totalChages}</td>
-                              <td>{item.sgst}</td>
-                              <td>{item.cgst}</td>
-                              <td>{item.totalAmount}</td>
+                              <td className="text-end">{item.lateFee}</td>
+                              <td className="text-end">{item.damageCharges}</td>
+                              <td className="text-end">
+                                {item.discountAmount}
+                              </td>
+                              <td className="text-end">{item.totalChages}</td>
+                              <td className="text-end">{item.sgst}</td>
+                              <td className="text-end">{item.cgst}</td>
+                              <td className="text-end">{item.totalAmount}</td>
                             </tr>
                           );
                         })}
-                        <tr>
-                          <th colSpan="6" className="text-end">
-                            TOTAL
-                          </th>
+                        <tr
+                          className="text-end"
+                          style={{ fontSize: "7px", fontWeight: "bold" }}
+                        >
+                          <th colSpan="6">TOTAL</th>
                           <th>₹{SumOfBasePrise().toLocaleString("en-IN")}</th>
                           <th>
                             ₹{SumOfTRentalAmont().toLocaleString("en-IN")}
@@ -377,7 +389,7 @@ const ServiceIvoicePdf = (props) => {
               </tr>
               <tr>
                 <td colSpan="4" style={{ width: "40%" }}>
-                  <table className="table table-bordered border-dark">
+                  <table className="table table-bordered border-dark text-center">
                     <thead>
                       <tr>
                         <th colSpan="6">Payment Details</th>
@@ -405,16 +417,14 @@ const ServiceIvoicePdf = (props) => {
                             <td>{item.paymentType}</td>
                             <td>{item.txnRefNo}</td>
                             <td>{moment().format("DD-MM-YYYY")}</td>
-                            <td>
+                            <td className="text-end">
                               {item.amount.toString().toLocaleString("en-IN")}
                             </td>
                           </tr>
                         );
                       })}
                       <tr>
-                        <th colSpan="5" className="text-end">
-                          TOTAL
-                        </th>
+                        <th colSpan="5">TOTAL</th>
                         <th>
                           ₹
                           {Math.round(SumOfSaveAmount()).toLocaleString(
@@ -449,7 +459,7 @@ const ServiceIvoicePdf = (props) => {
               </tr>
               <tr>
                 <td colSpan="5">
-                  <table className="table table-bordered border-dark">
+                  <table className="table table-bordered border-dark text-center">
                     <thead>
                       <tr>
                         <th colSpan="6">Previous Payment Details</th>
@@ -460,30 +470,28 @@ const ServiceIvoicePdf = (props) => {
                         <th>Payment Mode</th>
                         <th>DOC No.</th>
                         <th>Date</th>
-                        <th>Amount(Rs)</th>
+                        <th>Amount</th>
                       </tr>
                     </thead>
                     <tbody>
                       {previousTnxData.map((item, i) => {
                         return (
                           <tr key={i}>
-                            <td>{i + 1}</td>
-                            <td>Booking</td>
-                            <td>{item.paymentType}</td>
-                            <td>{item.paymentReferenceNo}</td>
-                            <td>
+                            <th>{i + 1}</th>
+                            <th>Booking</th>
+                            <th>{item.paymentType}</th>
+                            <th>{item.paymentReferenceNo}</th>
+                            <th>
                               {moment(item.createdDate).format("DD-MM-YYYY")}
-                            </td>
-                            <td>
+                            </th>
+                            <th className="text-end">
                               {parseInt(item.amount).toLocaleString("en-IN")}
-                            </td>
+                            </th>
                           </tr>
                         );
                       })}
-                      <tr>
-                        <th colSpan="5" className="text-end">
-                          TOTAL
-                        </th>
+                      <tr className="text-end">
+                        <th colSpan="5">TOTAL</th>
                         <th>₹{SumOfTTPreAmount().toLocaleString("en-IN")}</th>
                       </tr>
                     </tbody>

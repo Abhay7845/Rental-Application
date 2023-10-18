@@ -18,7 +18,7 @@ const Login = (props) => {
   const onLogin = (payload) => {
     setLoading(true);
     axios
-      .post(`${HOST_URL}/Rental/rental/login/portal`, payload)
+      .post(`${HOST_URL}/rental/login/portal`, payload)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

@@ -37,7 +37,7 @@ const App = () => {
       <Routes>
         <Route>
           <Route
-            path="/RentalApplicationUAT"
+            path="/JewRentalApp"
             element={<Login showAlert={showAlert} />}
           />
           <Route element={<PrivateScreens />}>

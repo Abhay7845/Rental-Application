@@ -7,7 +7,7 @@ const PrivateScreens = () => {
       {localStorage.getItem("rsoRole") ? (
         <Outlet />
       ) : (
-        <Navigate to="/RentalApplicationUAT" />
+        <Navigate to="/JewRentalApp" />
       )}
     </div>
   );

@@ -18,7 +18,7 @@ const Login = (props) => {
   const onLogin = (payload) => {
     setLoading(true);
     axios
-      .post(`${HOST_URL}/rental/login/portal`, payload)
+      .post(`${HOST_URL}/Rental/rental/login/portal`, payload)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -45,6 +45,7 @@ const Login = (props) => {
         setLoading(false);
       })
       .catch((error) => {
+        console.log("error==>", error);
         showAlert("Please Enter Valid Username and Password", "danger");
         setLoading(false);
       });

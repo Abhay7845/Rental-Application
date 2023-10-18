@@ -1204,7 +1204,7 @@ const CashierPaymentDetails = () => {
                       paymentDetails={paymentDetails}
                       storeDetails={storeDetails}
                       regUserData={regUserData}
-                      bookingRefID={bookingGenNo}
+                      genInvoiceNo={GenInvoiceNo}
                       totalPaidAmount={totalPaidAmount}
                     />
                   </h6>

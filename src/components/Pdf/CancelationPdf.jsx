@@ -19,6 +19,7 @@ const CancelationPdf = (props) => {
     storeDetails,
     regUserData,
     totalPaidAmount,
+    genInvoiceNo,
   } = props;
   const { totalDiscountAmount } = totalPaidAmount;
   const CutometProfileNo = addedPdts.map((data) => data.custId);
@@ -131,27 +132,24 @@ const CancelationPdf = (props) => {
             @page {
               size: A4;
             }
-            @media print{
-              .space-in-pdf{
-                margin-right: 20mm;
-              }
-              .space-in-pdf-two{
-                margin-right: 28mm;
-              }
             }
           `}
         </style>
-        <div className="table-container hide-on-screen" ref={CancelationRef}>
+        <div
+          className="table-container hide-on-screen"
+          ref={CancelationRef}
+          style={{ margin: "4%", marginTop: "14%" }}
+        >
           <h6 className="text-center mb-2">
             <b>BOOKING CANCELLATION INVOICE</b>
           </h6>
           <table
             className="table table-bordered table-styles border-dark"
-            style={{ fontSize: "10px" }}
+            style={{ fontSize: "9px" }}
           >
             <tbody>
               <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "30%" }}>
+                <td rowSpan="2" colSpan="2" style={{ width: "13%" }}>
                   <div className="d-flex flex-column text-center">
                     <b>
                       <img src={TitanLogo} alt="" width="140" height="75" />
@@ -159,13 +157,16 @@ const CancelationPdf = (props) => {
                     <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
-                <td colSpan="3">
+                <td colSpan="4">
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
-                      <b>Invoice No: ACGFRDGG1235</b>
+                      <b>Invoice No: {genInvoiceNo}</b>
                       <b>Booking Ref No:-{paymentDetails.bookingRefNo}</b>
                     </div>
-                    <div className="d-flex flex-column space-in-pdf">
+                    <div
+                      className="d-flex flex-column"
+                      style={{ marginRight: "20%" }}
+                    >
                       <b>
                         Invoice Date:-
                         {moment().format("DD-MM-YYYY")}
@@ -179,14 +180,17 @@ const CancelationPdf = (props) => {
                 </td>
               </tr>
               <tr>
-                <td colSpan="3">
+                <td colSpan="4">
                   <div className="d-flex flex-row justify-content-between">
                     <div className="d-flex flex-column">
                       <b>GST NO:-{storeDetails.gstin}</b>
                       <b>State:-{storeDetails.state}</b>
                       <b>Place of Supply:-{storeDetails.city}</b>
                     </div>
-                    <div className="d-flex flex-column space-in-pdf-two">
+                    <div
+                      className="d-flex flex-column"
+                      style={{ marginRight: "25%" }}
+                    >
                       <b>PAN:-{storeDetails.pan}</b>
                       <b>State Code:-{storeDetails.StateCode}</b>
                     </div>
@@ -213,7 +217,10 @@ const CancelationPdf = (props) => {
                       <b>PinCode:-{existedUserData.customerCityPincode}</b>
                       <b>Mobile No:- +91 {existedUserData.mobileNo}</b>
                     </div>
-                    <div className="d-flex flex-column">
+                    <div
+                      className="d-flex flex-column"
+                      style={{ marginRight: "15%" }}
+                    >
                       <b>Customer Profile No.: {CutometProfileNo[0]}</b>
                       <b>PAN:-{existedUserData.panCardNo}</b>
                     </div>
@@ -228,14 +235,21 @@ const CancelationPdf = (props) => {
                       <thead>
                         <tr>
                           {CancelPdfHeders.map((heading, i) => {
-                            return <th key={i}>{heading}</th>;
+                            return (
+                              <th
+                                key={i}
+                                style={{ fontSize: "7px", fontWeight: "bold" }}
+                              >
+                                {heading}
+                              </th>
+                            );
                           })}
                         </tr>
                       </thead>
                       <tbody>
                         {RefacotorData.map((item, i) => {
                           return (
-                            <tr key={i}>
+                            <tr key={i} style={{ fontWeight: "bold" }}>
                               <th>{i + 1}</th>
                               <th>{item.itemCode}</th>
                               <th>{item.lotNo}</th>
@@ -258,7 +272,7 @@ const CancelationPdf = (props) => {
                             </tr>
                           );
                         })}
-                        <tr className="text-end">
+                        <tr className="text-end" style={{ fontWeight: "bold" }}>
                           <th colSpan="6">TOTAL</th>
                           <th>₹{Math.round(SumOfTBasePrice()).toFixed(2)}</th>
                           <th>₹{SumOfTBookingCharge().toFixed(2)}</th>
@@ -315,7 +329,6 @@ const CancelationPdf = (props) => {
                   </div>
                 </td>
               </tr>
-
               <tr>
                 <td colSpan="5" className="text-center">
                   <h6>

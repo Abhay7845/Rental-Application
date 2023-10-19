@@ -66,10 +66,7 @@ const DeliveryChallanPdf = (props) => {
           }
             @page {
               size: A4;
-            }
-           @media print {
-            .space-in-pdf {
-              margin-right: 20mm; 
+              margin:15mm;
             }
             }
           `}
@@ -77,7 +74,7 @@ const DeliveryChallanPdf = (props) => {
         <div
           className="table-container hide-on-screen"
           ref={DeliveryChalanRef}
-          style={{ margin: "5%", marginTop: "15%" }}
+          style={{ marginTop: "9%" }}
         >
           <h6 className="text-center mb-2">
             <b>Delivery Challan Cum Damage Protection Amount</b>
@@ -102,7 +99,7 @@ const DeliveryChallanPdf = (props) => {
                       <b>Challan No:-{challanNo}</b>
                       <b>Booking Ref No:-{paymentDetails.bookingRefNo}</b>
                     </div>
-                    <div className="d-flex flex-column space-in-pdf">
+                    <div className="d-flex flex-column">
                       <b>Challan Date: {moment().format("DD-MM-YYYY")}</b>
                       <b>
                         Rental Start Date:

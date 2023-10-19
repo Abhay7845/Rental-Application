@@ -113,10 +113,7 @@ const BookingPdf = (props) => {
             }
              @page {
                 size: A4;
-              }
-            @media print {
-              .space-in-pdf {
-              margin-right: 20mm; 
+                margin:15mm;
               }
             }
           `}
@@ -124,7 +121,7 @@ const BookingPdf = (props) => {
       <div
         className="table-container hide-on-screen"
         ref={BookinRef}
-        style={{ margin: "4%", marginTop: "16%" }}
+        style={{ marginTop: "9%" }}
       >
         <h6 className="text-center mb-2">
           <b>BOOKING ORDER CONFIRMATION</b>
@@ -207,7 +204,7 @@ const BookingPdf = (props) => {
                 <div className="table">
                   <table className="table table-bordered inner-table border-dark text-center">
                     <thead>
-                      <tr style={{ fontSize: "7px", fontWeight:"bold" }}>
+                      <tr style={{ fontSize: "7px", fontWeight: "bold" }}>
                         {BookingOrderHearders.map((heading, i) => {
                           return <th key={i}>{heading}</th>;
                         })}
@@ -216,7 +213,10 @@ const BookingPdf = (props) => {
                     <tbody>
                       {RefacotorData.map((item, i) => {
                         return (
-                          <tr key={i} style={{ fontSize: "7px", fontWeight:"bold" }}>
+                          <tr
+                            key={i}
+                            style={{ fontSize: "7px", fontWeight: "bold" }}
+                          >
                             <th>{i + 1}</th>
                             <th>{item.itemCode}</th>
                             <th>{item.lotNo}</th>

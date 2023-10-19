@@ -38,6 +38,7 @@ const KarigarQAIssuePdf = (pros) => {
           }
             @page {
               size: A4;
+              margin:15mm;
             }
             }
           `}
@@ -45,7 +46,7 @@ const KarigarQAIssuePdf = (pros) => {
       <div
         ref={RetntalIssueAQRef}
         className="hide-on-screen"
-        style={{ margin: "5%", marginTop: "6%" }}
+        style={{ marginTop: "3%" }}
       >
         <div className="text-center mb-1">
           <img src={TitanLogo} alt="" width="150" height="80" />

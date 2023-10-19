@@ -35,23 +35,20 @@ const KarigarQAReturnPdf = (props) => {
             .hide-on-screen{
               display:none;
             }
-            .margin-on-ps{
-                margin: 10px;
-            }
           }
             @page {
               size: A4;
             }
-            @media print{
-              .margin-on-ps{
-                margin: 10px !important;
-              }
             }
           `}
       </style>
-      <div ref={RetntalReturnAQRef} className="margin-on-ps hide-on-screen">
-        <div className="text-center mb-2">
-          <img src={TitanLogo} alt="" width="140" height="75" />
+      <div
+        ref={RetntalReturnAQRef}
+        className="hide-on-screen"
+        style={{ margin: "5%" }}
+      >
+        <div className="text-center mb-1">
+          <img src={TitanLogo} alt="" width="150" height="80" />
         </div>
         <div className="text-center border border-dark">
           <h5>Product Quality Checklist</h5>
@@ -65,14 +62,14 @@ const KarigarQAReturnPdf = (props) => {
             >
               <tbody>
                 <tr>
-                  <td>
+                  <th>
                     <div className="d-flex flex-column">
                       <b>User Name: {storeCode}</b>
                       <b>SKU Code: {data.itemCode}</b>
                       <b>Lot Number: {data.lotNo}</b>
                     </div>
-                  </td>
-                  <td>
+                  </th>
+                  <th>
                     <div className="d-flex flex-column">
                       <b>
                         Handover Date:-
@@ -80,210 +77,210 @@ const KarigarQAReturnPdf = (props) => {
                       </b>
                       <b>RSO/Karigar Name: {storeCode}</b>
                     </div>
-                  </td>
-                  <td colSpan="2">
+                  </th>
+                  <th colSpan="2">
                     <div className="d-flex flex-column">
                       <b>Return Date:-{!returnDate ? "" : returnDate}</b>
                       <b>RSO/Karigar Name: {storeCode}</b>
                     </div>
-                  </td>
+                  </th>
                 </tr>
                 <tr>
-                  <td style={{ width: "25%" }}>
+                  <th style={{ width: "25%" }}>
                     <b>Checkpoints </b>
                     <input
                       className="form-check-input mx-4 border-dark"
                       type="checkbox"
                       style={{ height: "17px", width: "17px" }}
                     />
-                  </td>
-                  <td style={{ width: "35%" }}>
+                  </th>
+                  <th style={{ width: "35%" }}>
                     <b>Detailed Description</b>
-                  </td>
-                  <td>
+                  </th>
+                  <th>
                     <b>Handover to Customer</b>
-                  </td>
-                  <td>
+                  </th>
+                  <th>
                     <b>Return by Customer</b>
-                  </td>
+                  </th>
                 </tr>
                 <tr>
-                  <td>Matching Design as per Catalog Vs TAG </td>
-                  <td className="text-justify">
+                  <th>Matching Design as per Catalog Vs TAG </th>
+                  <th className="text-justify">
                     Check the product image in the system by entering the 14
                     digit code in the tag and ensure that the image matches the
                     product in hand
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr className="text-justify">
-                  <td>Matching TAG Weight Vs Phy Weight (Gross weight)</td>
-                  <td>Measure the gross weight of the product Vs TAG</td>
-                  <td></td>
-                  <td></td>
+                  <th>Matching TAG Weight Vs Phy Weight (Gross weight)</th>
+                  <th>Measure the gross weight of the product Vs TAG</th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>Proper falling</td>
-                  <td className="text-justify">
+                  <th>Proper falling</th>
+                  <th className="text-justify">
                     Fall, fitting and comfort should be checked by allowing the
                     customer to wear the product. Any defect & Changes should be
                     noted (Shape ,Size )
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Non Gold item presence</td>
-                  <td className="text-justify">
+                  <th>No Non Gold item presence</th>
+                  <th className="text-justify">
                     Foreign materials such as water or acid, non gold items like
                     steel pins, balls, wires etc Any dust, polishing residue etc
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Kundan Missing/ Open</td>
-                  <td>
+                  <th>No Kundan Missing/ Open</th>
+                  <th>
                     Ensure kundan not missed and available in place , Any
                     damaged kundan should capture and update
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Stone Missing</td>
-                  <td>
+                  <th>No Stone Missing</th>
+                  <th>
                     Inspect the product to ensure all stones are in place.
                     Capture missing & loose stones or bent prongs must be fixed
                     before handover
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>Marking as per Std.</td>
-                  <td>As per the marking Guideline (Momentary Jewellery )</td>
-                  <td></td>
-                  <td></td>
+                  <th>Marking as per Std.</th>
+                  <th>As per the marking Guideline (Momentary Jewellery )</th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Design /Product Damage</td>
-                  <td>
+                  <th>No Design /Product Damage</th>
+                  <th>
                     Capture any shape out or ball damage Capture bend or
                     deformation in product
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td colSpan="2">BTQ Sign:</td>
-                  <td colSpan="2">Customer Sign:</td>
+                  <th colSpan="2">BTQ Sign:</th>
+                  <th colSpan="2">Customer Sign:</th>
                 </tr>
                 <tr>
-                  <td>Product life-cycle</td>
-                  <td>
+                  <th>Product life-cycle</th>
+                  <th>
                     As per the product life-cycle Guideline (Momentary Jewellery
                     )
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Enamel Damage</td>
-                  <td>Ensure no enamel should break, Miss and damaged</td>
-                  <td></td>
-                  <td></td>
+                  <th>No Enamel Damage</th>
+                  <th>Ensure no enamel should break, Miss and damaged</th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Solder Broken</td>
-                  <td>All O rings must be soldered and should not open</td>
-                  <td></td>
-                  <td></td>
+                  <th>No Solder Broken</th>
+                  <th>All O rings must be soldered and should not open</th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Gold Item miss</td>
-                  <td>Any design part should not missed,</td>
-                  <td></td>
-                  <td></td>
+                  <th>No Gold Item miss</th>
+                  <th>Any design part should not missed,</th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Solder joint weak/Crack</td>
-                  <td>
+                  <th>No Solder joint weak/Crack</th>
+                  <th>
                     Inspect the solder joints for weak soldering & Metal crack
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>Proper Screw Function (No loose /Tight)</td>
-                  <td>
+                  <th>Proper Screw Function (No loose /Tight)</th>
+                  <th>
                     Inspect the Screw function 10 times before handover (It
                     should be proper functioning)
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>Proper Lock function (No Loose & Tight)</td>
-                  <td>
+                  <th>Proper Lock function (No Loose & Tight)</th>
+                  <th>
                     Inspect the lock function 10 times before handover (It
                     should be proper functioning)
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Sharp-edges</td>
-                  <td>
+                  <th>No Sharp-edges</th>
+                  <th>
                     Comfortness should be checked by allowing the customer to
                     wear the product and should not feel any sharpness
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Colour variation in Dori</td>
-                  <td>
+                  <th>No Colour variation in Dori</th>
+                  <th>
                     Ensure no dori should damaged & Colour variation before
                     handover
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>No Diamond Broken</td>
-                  <td>
+                  <th>No Diamond Broken</th>
+                  <th>
                     No broken stones No chipped stones Silver foil should not be
                     visible
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>Packing done as per standard</td>
-                  <td>
+                  <th>Packing done as per standard</th>
+                  <th>
                     Ensure Proper packing and updated to customer before
                     handover
-                  </td>
-                  <td></td>
-                  <td></td>
+                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td>Discoloration</td>
-                  <td>Uniform Gold Colour No discolouration of Polki/GK etc</td>
-                  <td></td>
-                  <td></td>
+                  <th>Discoloration</th>
+                  <th>Uniform Gold Colour No discolouration of Polki/GK etc</th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 <tr>
-                  <td colSpan="2">BTQ Sign:</td>
-                  <td colSpan="2">Customer Sign:</td>
+                  <th colSpan="2">BTQ Sign:</th>
+                  <th colSpan="2">Customer Sign:</th>
                 </tr>
                 <tr>
-                  <td colSpan="2" className="text-center">
+                  <th colSpan="2" className="text-center">
                     <b>Further Verification By National Service Centre ?</b>
-                  </td>
-                  <td>
+                  </th>
+                  <th>
                     YES
                     <input
                       className="form-check-input mx-2 border-dark"
@@ -294,8 +291,8 @@ const KarigarQAReturnPdf = (props) => {
                         marginTop: "-1px",
                       }}
                     />
-                  </td>
-                  <td>
+                  </th>
+                  <th>
                     NO
                     <input
                       className="form-check-input mx-2 border-dark"
@@ -306,7 +303,7 @@ const KarigarQAReturnPdf = (props) => {
                         marginTop: "-1px",
                       }}
                     />
-                  </td>
+                  </th>
                 </tr>
               </tbody>
             </table>

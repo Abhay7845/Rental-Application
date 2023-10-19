@@ -748,7 +748,7 @@ const RentalReturn = () => {
           <b className="mt-0 text-danger">{alertWt}</b>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
-              <span className="mt-1">Print Karigar QA Report</span>
+              <span className="mt-1">Karigar QA Report</span>
               {returnTableData.length > 0 && (
                 <KarigarQAReturnPdf refactoreDataTable={refactoreDataTable} />
               )}

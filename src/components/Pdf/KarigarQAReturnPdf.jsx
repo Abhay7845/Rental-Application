@@ -38,15 +38,12 @@ const KarigarQAReturnPdf = (props) => {
           }
             @page {
               size: A4;
+              margin:15mm;
             }
             }
           `}
       </style>
-      <div
-        ref={RetntalReturnAQRef}
-        className="hide-on-screen"
-        style={{ margin: "5%" }}
-      >
+      <div ref={RetntalReturnAQRef} className="hide-on-screen">
         <div className="text-center mb-1">
           <img src={TitanLogo} alt="" width="150" height="80" />
         </div>

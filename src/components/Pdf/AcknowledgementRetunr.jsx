@@ -67,13 +67,15 @@ const AcknowledgementRetunr = (props) => {
           }
             @page {
               size: A4;
+              margin:15mm;
             }
+            
           `}
         </style>
         <div
           className="table-container hide-on-Acknowledgementscreen"
           ref={AcknowledgementRef}
-          style={{ margin: "5%", marginTop: "13%" }}
+          style={{ marginTop: "10%" }}
         >
           <h6 className="text-center mb-2">
             <b>ACKNOWLEDGEMENT OF RECIEPT OF RENTED PRODUCTS</b>

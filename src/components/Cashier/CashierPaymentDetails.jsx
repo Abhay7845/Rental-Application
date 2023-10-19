@@ -296,10 +296,14 @@ const CashierPaymentDetails = () => {
       const bookingDesposit = totalBookingAmount + totalDepositAmount;
       if (TotalCharges > bookingDesposit) {
         setAmontHeading("Amount to be collected");
-        setCollectedAmount(TotalCharges - bookingDesposit);
+        setCollectedAmount(
+          parseFloat(TotalCharges - bookingDesposit).toFixed(2)
+        );
       } else if (TotalCharges <= bookingDesposit) {
         setAmontHeading("Amount to be Refunded");
-        setCollectedAmount(bookingDesposit - TotalCharges);
+        setCollectedAmount(
+          parseFloat(bookingDesposit - TotalCharges).toFixed(2)
+        );
       }
       setAlertMessage("Item Returned Successfully");
       setUpdateStatus("ProductReturnedSuccess");
@@ -364,7 +368,7 @@ const CashierPaymentDetails = () => {
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
       alert("Please Fill All Details");
-    } else if (collectedAmount < TotalAmount + parseFloat(amount)) {
+    } else if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
       alert(amontErrMassage);
     } else {
       setPaymentRowId(paymentRowId + 1);
@@ -777,7 +781,7 @@ const CashierPaymentDetails = () => {
       paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
       paymentRequestFor === "Payment_PendingFor_RentalReturn"
     ) {
-      if (collectedAmount === TotalAmount) {
+      if (parseFloat(collectedAmount) === TotalAmount) {
         CallPaymentAPI();
       } else {
         alert(amontErrMassage);
@@ -1037,11 +1041,15 @@ const CashierPaymentDetails = () => {
                     <button
                       type="submit"
                       className={
-                        TotalAmount === collectedAmount
+                        TotalAmount === parseFloat(collectedAmount)
                           ? "CDisabled"
                           : "CButton"
                       }
-                      disabled={TotalAmount === collectedAmount ? true : false}
+                      disabled={
+                        TotalAmount === parseFloat(collectedAmount)
+                          ? true
+                          : false
+                      }
                       onClick={AddPaymentRows}
                     >
                       Add Payment

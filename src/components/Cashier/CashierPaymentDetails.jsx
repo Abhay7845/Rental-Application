@@ -366,9 +366,10 @@ const CashierPaymentDetails = () => {
   };
 
   const SavePaymentRow = () => {
-    if (!fileName || !amount) {
-      alert("Please Fill All Details");
-    } else if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
+    // if (!fileName || !amount) {
+    //   alert("Please Fill All Details");
+    // } else
+    if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
       alert(amontErrMassage);
     } else {
       setPaymentRowId(paymentRowId + 1);

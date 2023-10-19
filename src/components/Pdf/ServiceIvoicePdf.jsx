@@ -217,13 +217,14 @@ const ServiceIvoicePdf = (props) => {
           }
             @page {
               size: A4;
+              margin:15mm;
             }
           `}
         </style>
         <div
           className="table-container hide-on-screen"
           ref={ServiceInvoiceRef}
-          style={{ margin: "3.5%", marginTop: "16%" }}
+          style={{ marginTop: "9%" }}
         >
           <h6 className="text-center mb-2">
             <b>SERVICE INVOICE</b>

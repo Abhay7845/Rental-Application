@@ -73,6 +73,7 @@ const AcknowledgementRetunr = (props) => {
         <div
           className="table-container hide-on-Acknowledgementscreen"
           ref={AcknowledgementRef}
+          style={{ margin: "5%", marginTop: "13%" }}
         >
           <h6 className="text-center mb-2">
             <b>ACKNOWLEDGEMENT OF RECIEPT OF RENTED PRODUCTS</b>
@@ -169,14 +170,24 @@ const AcknowledgementRetunr = (props) => {
                     <thead>
                       <tr>
                         {AcknowledgementHeader.map((heading, i) => {
-                          return <th key={i}>{heading}</th>;
+                          return (
+                            <th
+                              key={i}
+                              style={{ fontSize: "7px", fontWeight: "bold" }}
+                            >
+                              {heading}
+                            </th>
+                          );
                         })}
                       </tr>
                     </thead>
                     <tbody>
                       {refactoreDataTable.map((item, i) => {
                         return (
-                          <tr key={i}>
+                          <tr
+                            key={i}
+                            style={{ fontSize: "7px", fontWeight: "bold" }}
+                          >
                             <th>{i + 1}</th>
                             <th>{item.itemCode}</th>
                             <th>{item.lotNo}</th>
@@ -196,7 +207,7 @@ const AcknowledgementRetunr = (props) => {
                           </tr>
                         );
                       })}
-                      <tr className="text-bold">
+                      <tr style={{ fontSize: "7px", fontWeight: "bold" }}>
                         <th colSpan="8" className="text-end">
                           TOTAL
                         </th>

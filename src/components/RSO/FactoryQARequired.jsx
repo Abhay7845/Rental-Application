@@ -4,11 +4,11 @@ import "../../Style/RentalIssue.css";
 import moment from "moment";
 import axios from "axios";
 import Loader from "../common/Loader";
-import { ImageHeaders, factoryQAPage } from "../../Data/DataList";
+import { IMAGE_URL, ImageHeaders, factoryQAPage } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
-// import Swal from "sweetalert2";
-// import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const FactoryQARequired = () => {
   const [loading, setLoading] = useState(false);
@@ -17,20 +17,18 @@ const FactoryQARequired = () => {
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
 
   // UPLOAD FACTORY FILE
-  const [factoryQAFile, setFactoryQAFile] = useState([]);
+  const [factoryQAFile, setFactoryQAFile] = useState("");
   const [karigarQAFileUrl, setKarigarQAFileUrl] = useState("");
   // ACTUAL WT RETURN
   const [inputDmgValues, setInputDmgValues] = useState({});
   const [remarks, setRemarks] = useState({});
-  const [RSOName, setRSOName] = useState("");
-  console.log("RSOName==>", RSOName);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const { refId, tempBookingRefNo } = GetReturnProduct;
   const currentDate = moment(new Date()).format("DD-MM-YYYY");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -40,10 +38,8 @@ const FactoryQARequired = () => {
     return nextDate;
   };
 
-  console.log("totalPaidAmount==>", totalPaidAmount);
-
   const timeDifference = new Date() - getReturnDate();
-  const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  const DespId = returnTableData.map((data) => data.despId);
 
   const refactoreDataTable = returnTableData.map((data) => {
     return {
@@ -71,10 +67,7 @@ const FactoryQARequired = () => {
       productValue: data.productValue,
       rentStartDate: data.rentStartDate,
       rentalAmount: data.rentalAmount,
-      peneltyCharge:
-        penaltyDays <= 0
-          ? 0
-          : (parseInt(data.productValue) * penaltyDays) / 100,
+      peneltyCharge: parseFloat(data.penaltyCharges),
       tempBookingRefNo: data.tempBookingRefNo,
     };
   });
@@ -146,13 +139,14 @@ const FactoryQARequired = () => {
       bookingRefId: refId,
       contentFor: "rentalReturn",
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "KarigarQAReport",
+      documentType: "FactoryQAReport",
       fileName: fileExtention,
       fileSize: `${factoryQAFile.size}`,
       fileType: `${factoryQAFile.type}`,
       fileURL: `${FetchImg}${fileExtention}`,
       updatedDate: null,
     };
+    console.log("updateBookingInput==>", updateBookingInput);
     axios
       .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
       .then((res) => res)
@@ -227,55 +221,83 @@ const FactoryQARequired = () => {
       [name]: value,
     });
   };
-  // const UpdateBookingCalendar = (bookingID) => {
-  //   setLoading(true);
-  //   const updatedInputs = returnTableData.map((data, i) => {
-  //     return {
-  //       bookingId: bookingID,
-  //       pdtId: data.pdtId,
-  //       status: "",
-  //       storeCode: storeCode,
-  //       tempRefNo: data.tempBookingRefNo,
-  //     };
-  //   });
-  //   axios
-  //     .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
-  //     .then((res) => res)
-  //     .then((response) => {
-  //       if (response.data.code === "1000") {
-  //         console.log("");
-  //       }
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       setLoading(false);
-  //     });
-  // };
 
-  // const TnxStatusUpdate = (bookingId) => {
-  //   axios
-  //     .get(`${HOST_URL}/update/txn/status/${bookingId}""`)
-  //     .then((res) => res)
-  //     .then((response) => {
-  //       if (response.data.code === "1000") {
-  //         Swal.fire({
-  //           title: "Product Returned Successfully",
-  //           text: "Please reach out to the Cashier to complete the payment process",
-  //           icon: "success",
-  //           confirmButtonColor: "#008080",
-  //           confirmButtonText: "OK",
-  //         });
-  //         navigate("/home");
-  //         localStorage.removeItem("selecttedReturnProduct");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       setLoading(false);
-  //     });
-  // };
-  const DespId = returnTableData.map((data) => data.despId);
-  console.log("DespId==>", DespId);
+  const TnxStatusUpdate = (bookingId) => {
+    axios
+      .get(
+        `${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_RentalReturn`
+      )
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          Swal.fire({
+            title: "Factoy QA Proccess Completed Successfully",
+            text: "Please reach out to the Cashier to complete the payment proccess",
+            icon: "success",
+            confirmButtonColor: "#008080",
+            confirmButtonText: "OK",
+          });
+          navigate("/home");
+          localStorage.removeItem("selecttedReturnProduct");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
+  const UpdateSummaryData = (bookingId) => {
+    const SummaryInputs = {
+      bookingId: parseInt(bookingId),
+      updatedDate: moment().format("YYYY-MM-DD"),
+      totalDamageCharges: parseFloat(SumOfDmgCharge()),
+    };
+    console.log("SummaryInputs==>", SummaryInputs);
+    axios
+      .post(`${HOST_URL}/update/Summary/damage/charges`, SummaryInputs)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response);
+        if (response.data.code === "1000") {
+          TnxStatusUpdate(totalPaidAmount.bookingId);
+        }
+        setLoading(false);
+      })
+      .then((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
 
+  const RaisePaymentRequest = () => {
+    if (!factoryQAFile) {
+      alert("Please Uplaod Factory QA Reports");
+    } else {
+      setLoading(true);
+      const ItemWiseInpute = returnTableData.map((data, i) => {
+        return {
+          bookingId: parseInt(totalPaidAmount.bookingId),
+          despId: parseInt(DespId[0]),
+          pdtId: parseInt(data.pdtId),
+          updatedDate: moment().format("YYYY-MM-DD"),
+          damageCharges: parseFloat(data.damageCharges),
+          remarks: remarks[i],
+        };
+      });
+      console.log("ItemWiseInpute==>", ItemWiseInpute);
+      axios
+        .post(`${HOST_URL}/update/itemwise/damage/charges`, ItemWiseInpute)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            UpdateSummaryData(totalPaidAmount.bookingId);
+          }
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  };
   return (
     <div>
       {loading === true && <Loader />}
@@ -317,8 +339,18 @@ const FactoryQARequired = () => {
                   </thead>
                   <tbody>
                     {refactoreDataTable.map((item, i) => {
+                      const { itemCode } = item;
+                      const imageCode = itemCode.substring(2, 9);
+                      const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
                         <tr key={i}>
+                          <td>
+                            <img
+                              src={imageURL}
+                              className="custom-image"
+                              alt=""
+                            />
+                          </td>
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
@@ -347,7 +379,7 @@ const FactoryQARequired = () => {
                           <td>
                             <input
                               type="text"
-                              placeholder="Remarks"
+                              placeholder="Remarks(Upto 50 Characters)"
                               maxLength={50}
                               name={i}
                               onChange={GetRemarks}
@@ -357,7 +389,7 @@ const FactoryQARequired = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="5" className="text-end">
+                      <th colSpan="6" className="text-end">
                         TOTAL
                       </th>
                       <th>
@@ -417,16 +449,12 @@ const FactoryQARequired = () => {
               <img src={karigarQAFileUrl} alt="" width="180" height="85" />
             </div>
           )}
-          <div className="col-md-12">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="RSO Name"
-              onChange={(e) => setRSOName(e.target.value)}
-            />
-          </div>
           <div className="d-flex justify-content-end mb-4">
-            <button type="button" className="CButton">
+            <button
+              type="button"
+              className="CButton"
+              onClick={RaisePaymentRequest}
+            >
               Raise Payment Request
             </button>
           </div>

@@ -10,3 +10,16 @@
     color: #ffff;
     padding: 5px;
 }
+
+.custom-image {
+ height: 60px;
+  width: 100%;
+  border-radius: 1%;
+}
+
+.custom-image:hover {
+  transform: scale(4.6);
+  cursor: pointer;
+  margin-left: 70%;
+  z-index: -1;
+}

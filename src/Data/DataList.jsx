@@ -2,6 +2,8 @@ export const packageDayOption = [
   { value: "4", label: "4 Days" },
   { value: "8", label: "8 Days" },
 ];
+export const IMAGE_URL =
+  "https://jewbridge.titanjew.in/CatalogImages/api/ImageFetch/?Type=ProductImages&ImageName=";
 
 export const EmailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/g;
 export const adharRegex =
@@ -119,6 +121,7 @@ export const renatlReturnPage = [
   "DAMAGE CHARGES",
 ];
 export const factoryQAPage = [
+  "IMAGE",
   "ITEMCODE",
   "LOT No.",
   "GROSS Wt",

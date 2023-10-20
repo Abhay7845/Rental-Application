@@ -7,8 +7,8 @@ import Loader from "../common/Loader";
 import { ImageHeaders, factoryQAPage } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { useNavigate } from "react-router-dom";
 
 const FactoryQARequired = () => {
   const [loading, setLoading] = useState(false);
@@ -23,13 +23,14 @@ const FactoryQARequired = () => {
   const [inputDmgValues, setInputDmgValues] = useState({});
   const [remarks, setRemarks] = useState({});
   const [RSOName, setRSOName] = useState("");
+  console.log("RSOName==>", RSOName);
 
   const getProduct = JSON.parse(localStorage.getItem("selecttedReturnProduct"));
   const GetReturnProduct = !getProduct ? "" : getProduct;
   const { refId, tempBookingRefNo } = GetReturnProduct;
   const currentDate = moment(new Date()).format("DD-MM-YYYY");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -38,6 +39,8 @@ const FactoryQARequired = () => {
     );
     return nextDate;
   };
+
+  console.log("totalPaidAmount==>", totalPaidAmount);
 
   const timeDifference = new Date() - getReturnDate();
   const penaltyDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
@@ -217,7 +220,6 @@ const FactoryQARequired = () => {
     for (let data of PdtItemWtDmg) total = total + parseInt(data);
     return total;
   };
-  console.log("remarks==>", remarks);
   const GetRemarks = (e) => {
     const { name, value } = e.target;
     setRemarks({
@@ -225,54 +227,54 @@ const FactoryQARequired = () => {
       [name]: value,
     });
   };
-  const UpdateBookingCalendar = (bookingID) => {
-    setLoading(true);
-    const updatedInputs = returnTableData.map((data, i) => {
-      return {
-        bookingId: bookingID,
-        pdtId: data.pdtId,
-        status: "",
-        storeCode: storeCode,
-        tempRefNo: data.tempBookingRefNo,
-      };
-    });
+  // const UpdateBookingCalendar = (bookingID) => {
+  //   setLoading(true);
+  //   const updatedInputs = returnTableData.map((data, i) => {
+  //     return {
+  //       bookingId: bookingID,
+  //       pdtId: data.pdtId,
+  //       status: "",
+  //       storeCode: storeCode,
+  //       tempRefNo: data.tempBookingRefNo,
+  //     };
+  //   });
+  //   axios
+  //     .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+  //     .then((res) => res)
+  //     .then((response) => {
+  //       if (response.data.code === "1000") {
+  //         console.log("");
+  //       }
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       setLoading(false);
+  //     });
+  // };
 
-    axios
-      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          console.log("");
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-  };
-
-  const TnxStatusUpdate = (bookingId) => {
-    axios
-      .get(`${HOST_URL}/update/txn/status/${bookingId}""`)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Product Returned Successfully",
-            text: "Please reach out to the Cashier to complete the payment process",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
-          navigate("/home");
-          localStorage.removeItem("selecttedReturnProduct");
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-  };
+  // const TnxStatusUpdate = (bookingId) => {
+  //   axios
+  //     .get(`${HOST_URL}/update/txn/status/${bookingId}""`)
+  //     .then((res) => res)
+  //     .then((response) => {
+  //       if (response.data.code === "1000") {
+  //         Swal.fire({
+  //           title: "Product Returned Successfully",
+  //           text: "Please reach out to the Cashier to complete the payment process",
+  //           icon: "success",
+  //           confirmButtonColor: "#008080",
+  //           confirmButtonText: "OK",
+  //         });
+  //         navigate("/home");
+  //         localStorage.removeItem("selecttedReturnProduct");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setLoading(false);
+  //     });
+  // };
   const DespId = returnTableData.map((data) => data.despId);
+  console.log("DespId==>", DespId);
 
   return (
     <div>
@@ -346,6 +348,7 @@ const FactoryQARequired = () => {
                             <input
                               type="text"
                               placeholder="Remarks"
+                              maxLength={50}
                               name={i}
                               onChange={GetRemarks}
                             />

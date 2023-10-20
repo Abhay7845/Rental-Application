@@ -124,6 +124,13 @@ const Home = () => {
     );
     navigate("/rental/return");
   };
+  const FactoryQARequired = () => {
+    localStorage.setItem(
+      "selecttedReturnProduct",
+      JSON.stringify(selecttedProduct)
+    );
+    navigate("/factory/qa/required");
+  };
 
   return (
     <div>
@@ -207,7 +214,9 @@ const Home = () => {
             <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
               <button
                 type="button"
-                className={Status === "Booked" ? "CancelButton" : "CnDisabled"}
+                className={
+                  Status === "Booked" ? "CancelButton mx-2" : "CnDisabled mx-2"
+                }
                 disabled={Status === "Booked" ? false : true}
                 onClick={CancelProducts}
               >
@@ -217,8 +226,8 @@ const Home = () => {
                 type="button"
                 className={
                   currentDate >= rentalDate && Status === "Booked"
-                    ? "CButton mx-2"
-                    : "CDisabled mx-2"
+                    ? "CButton"
+                    : "CDisabled"
                 }
                 disabled={
                   currentDate >= rentalDate && Status === "Booked"
@@ -234,8 +243,8 @@ const Home = () => {
                 className={
                   Status === "ProductIssued" ||
                   Status === "Issued_Rental_Period"
-                    ? "CButton"
-                    : "CDisabled"
+                    ? "CButton mx-2"
+                    : "CDisabled mx-2"
                 }
                 disabled={
                   Status === "ProductIssued" ||
@@ -246,6 +255,16 @@ const Home = () => {
                 onClick={RentalRetunProducts}
               >
                 Rental Return
+              </button>
+              <button
+                type="button"
+                className={
+                  Status === "FactoryQA_Required" ? "CButton" : "CDisabled"
+                }
+                disabled={Status === "FactoryQA_Required" ? false : true}
+                onClick={FactoryQARequired}
+              >
+                Factory QA Required
               </button>
             </div>
           )}

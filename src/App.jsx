@@ -18,6 +18,7 @@ import BookingVerification from "./components/Admin/BookingVerification";
 import DiscountValidation from "./components/Admin/DiscountValidation";
 import UpdateMasterPrice from "./components/Admin/UpdateMasterPrice";
 import CashierPaymentDetails from "./components/Cashier/CashierPaymentDetails";
+import FactoryQARequired from "./components/RSO/FactoryQARequired";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -51,6 +52,10 @@ const App = () => {
               element={<NewBooking showAlert={showAlert} />}
             />
             <Route
+              path="/cancellation"
+              element={<Cancellation showAlert={showAlert} />}
+            />
+            <Route
               path="/rental/issue"
               element={<RentalIssue showAlert={showAlert} />}
             />
@@ -59,8 +64,8 @@ const App = () => {
               element={<RentalRetrun showAlert={showAlert} />}
             />
             <Route
-              path="/cancellation"
-              element={<Cancellation showAlert={showAlert} />}
+              path="/factory/qa/required"
+              element={<FactoryQARequired showAlert={showAlert} />}
             />
             <Route
               path="/products/details"

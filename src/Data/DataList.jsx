@@ -116,7 +116,19 @@ export const renatlReturnPage = [
   "RENTAL VALUE",
   "PENALTY CHARGES",
   "PHYSICAL DAMAGE",
-  "Damage CHARGES",
+  "DAMAGE CHARGES",
+];
+export const factoryQAPage = [
+  "ITEMCODE",
+  "LOT No.",
+  "GROSS Wt",
+  "ACTUAL Wt DELIVERY",
+  "ACTUAL Wt RETURN",
+  "PRODUCT VALUE",
+  "RENTAL VALUE",
+  "PENALTY CHARGES",
+  "DAMAGE CHARGES",
+  "REMARKS",
 ];
 
 export const CancelPageHeading = [

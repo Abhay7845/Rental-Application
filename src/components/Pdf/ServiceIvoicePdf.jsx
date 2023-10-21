@@ -218,13 +218,14 @@ const ServiceIvoicePdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-bottom:48mm;
             }
           `}
         </style>
         <div
           className="table-container hide-on-screen"
           ref={ServiceInvoiceRef}
-          style={{ marginTop: "9%" }}
+          style={{ marginTop: "16%" }}
         >
           <h6 className="text-center mb-2">
             <b>SERVICE INVOICE</b>
@@ -235,12 +236,11 @@ const ServiceIvoicePdf = (props) => {
           >
             <tbody>
               <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "13%" }}>
-                  <div className="d-flex flex-column text-center">
-                    <b>
-                      <img src={TitanLogo} alt="" width="140" height="75" />
+                <td rowSpan="2" colSpan="2" style={{ width: "20%" }}>
+                  <div className="text-center mt-4">
+                    <b className="mt-2">
+                      Store Address:- {storeDetails.storeAddress}
                     </b>
-                    <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="3">

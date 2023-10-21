@@ -126,7 +126,7 @@ const BookingPdf = (props) => {
              @page {
                 size: A4;
                 margin:15mm;
-                margin-bottom:45mm;
+                margin-bottom:50mm;
               }
             }
           `}
@@ -134,7 +134,7 @@ const BookingPdf = (props) => {
       <div
         className="table-container hide-on-screen"
         ref={BookinRef}
-        style={{ marginTop: "9.5%" }}
+        style={{ marginTop: "16%" }}
       >
         <div className="Front_pageStyle">
           <h6 className="text-center mb-2">
@@ -215,7 +215,10 @@ const BookingPdf = (props) => {
                 <td colSpan="5">
                   <b>ITEM DETAILS</b>
                   <div className="table">
-                    <table className="table table-bordered inner-table border-dark text-center">
+                    <table
+                      className="table table-bordered inner-table border-dark text-center"
+                      style={{ height: "75%" }}
+                    >
                       <thead>
                         <tr style={{ fontSize: "7px", fontWeight: "bold" }}>
                           {BookingOrderHearders.map((heading, i) => {
@@ -483,7 +486,7 @@ const BookingPdf = (props) => {
 
         <table
           className="table table-bordered table-styles border-dark"
-          style={{ fontSize: "10px", marginTop: "30%" }}
+          style={{ fontSize: "10px" }}
         >
           <tbody>
             <tr>

@@ -67,6 +67,7 @@ const DeliveryChallanPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-bottom:52mm;
             }
             }
           `}
@@ -74,7 +75,7 @@ const DeliveryChallanPdf = (props) => {
         <div
           className="table-container hide-on-screen"
           ref={DeliveryChalanRef}
-          style={{ marginTop: "9%" }}
+          style={{ marginTop: "16%" }}
         >
           <h6 className="text-center mb-2">
             <b>Delivery Challan Cum Damage Protection Amount</b>
@@ -86,11 +87,10 @@ const DeliveryChallanPdf = (props) => {
             <tbody>
               <tr>
                 <td rowSpan="2" colSpan="2" style={{ width: "13%" }}>
-                  <div className="d-flex flex-column text-center">
-                    <b>
-                      <img src={TitanLogo} alt="" width="140" height="75" />
+                  <div className="text-center mt-4">
+                    <b className="mt-2">
+                      Store Address:- {storeDetails.storeAddress}
                     </b>
-                    <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="3">
@@ -99,7 +99,10 @@ const DeliveryChallanPdf = (props) => {
                       <b>Challan No:-{challanNo}</b>
                       <b>Booking Ref No:-{paymentDetails.bookingRefNo}</b>
                     </div>
-                    <div className="d-flex flex-column">
+                    <div
+                      className="d-flex flex-column"
+                      style={{ marginRight: "15%" }}
+                    >
                       <b>Challan Date: {moment().format("DD-MM-YYYY")}</b>
                       <b>
                         Rental Start Date:
@@ -123,7 +126,7 @@ const DeliveryChallanPdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "14.5%" }}
+                      style={{ marginRight: "14%" }}
                     >
                       <b className="mx-5">PAN:-{storeDetails.gstin}</b>
                       <b className="mx-5">
@@ -155,7 +158,7 @@ const DeliveryChallanPdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "12.5%" }}
+                      style={{ marginRight: "13.5%" }}
                     >
                       <b>Customer Profile No.: {CutometProfileNo[0]}</b>
                       <b>PAN:-{existedUserData.panCardNo}</b>
@@ -339,7 +342,8 @@ const DeliveryChallanPdf = (props) => {
                 <td colSpan="5" className="text-center">
                   <b>
                     For terms and conditions including late fee and product
-                    handling or damage charges, please refer: T&C section
+                    handling or damage charges, please refer: T&C section in
+                    booking confirmation document.
                   </b>
                 </td>
               </tr>

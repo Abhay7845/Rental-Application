@@ -132,6 +132,7 @@ const CancelationPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-bottom:48mm;
             }
             }
           `}
@@ -139,7 +140,7 @@ const CancelationPdf = (props) => {
         <div
           className="table-container hide-on-screen"
           ref={CancelationRef}
-          style={{ marginTop: "9%" }}
+          style={{ marginTop: "16%" }}
         >
           <h6 className="text-center mb-2">
             <b>BOOKING CANCELLATION INVOICE</b>
@@ -150,12 +151,11 @@ const CancelationPdf = (props) => {
           >
             <tbody>
               <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "13%" }}>
-                  <div className="d-flex flex-column text-center">
-                    <b>
-                      <img src={TitanLogo} alt="" width="140" height="75" />
+                <td rowSpan="2" colSpan="2" style={{ width: "25%" }}>
+                  <div className="text-center mt-4">
+                    <b className="mt-2">
+                      Store Address:- {storeDetails.storeAddress}
                     </b>
-                    <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="4">
@@ -190,7 +190,7 @@ const CancelationPdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "25%" }}
+                      style={{ marginRight: "25.5%" }}
                     >
                       <b>PAN:-{storeDetails.pan}</b>
                       <b>State Code:-{storeDetails.StateCode}</b>
@@ -220,7 +220,7 @@ const CancelationPdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "15%" }}
+                      style={{ marginRight: "14.5%" }}
                     >
                       <b>Customer Profile No.: {CutometProfileNo[0]}</b>
                       <b>PAN:-{existedUserData.panCardNo}</b>

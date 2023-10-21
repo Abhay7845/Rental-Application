@@ -287,6 +287,7 @@ const CashierPaymentDetails = () => {
       setCollectedAmount(parseFloat(totalBookingAmount));
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
+      setUpdateStatus("Booked");
       setAmontHeading("Amount to be collected");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"

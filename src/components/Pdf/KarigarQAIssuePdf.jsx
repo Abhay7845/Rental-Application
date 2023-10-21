@@ -1,7 +1,6 @@
 import moment from "moment";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import TitanLogo from "../../Asset/Img/TitanLogo.png";
 
 const KarigarQAIssuePdf = (pros) => {
   const { retunTableData } = pros;
@@ -39,6 +38,7 @@ const KarigarQAIssuePdf = (pros) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-bottom:50mm;
             }
             }
           `}
@@ -46,11 +46,8 @@ const KarigarQAIssuePdf = (pros) => {
       <div
         ref={RetntalIssueAQRef}
         className="hide-on-screen"
-        style={{ marginTop: "3%" }}
+        style={{ marginTop: "16%" }}
       >
-        <div className="text-center mb-1">
-          <img src={TitanLogo} alt="" width="150" height="80" />
-        </div>
         <div className="text-center border border-dark">
           <h5>Product Quality Checklist</h5>
         </div>
@@ -59,7 +56,7 @@ const KarigarQAIssuePdf = (pros) => {
             <table
               key={i}
               className="table table-bordered border-dark"
-              style={{ fontSize: "12px" }}
+              style={{ fontSize: "11.5px" }}
             >
               <tbody>
                 <tr>

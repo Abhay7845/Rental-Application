@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
-import TitanLogo from "../../Asset/Img/TitanLogo.png";
 import { CancelPdfHeders } from "./PDFHearders";
 import moment from "moment";
 

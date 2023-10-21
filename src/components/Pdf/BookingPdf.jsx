@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import TitanLogo from "../../Asset/Img/TitanLogo.png";
 import { BookingOrderHearders } from "./PDFHearders";
 import moment from "moment";
 const BookingPdf = (props) => {

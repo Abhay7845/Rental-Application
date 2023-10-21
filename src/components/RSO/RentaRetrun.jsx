@@ -630,7 +630,6 @@ const RentalReturn = () => {
               </div>
             )}
           </div>
-
           {refactoreDataTable.length > 0 && (
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>

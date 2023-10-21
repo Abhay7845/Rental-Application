@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-
-import TitanLogo from "../../Asset/Img/TitanLogo.png";
 import { AcknowledgementHeader } from "./PDFHearders";
 import moment from "moment";
 
@@ -68,6 +66,7 @@ const AcknowledgementRetunr = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-bottom:52mm;
             }
             
           `}
@@ -75,7 +74,7 @@ const AcknowledgementRetunr = (props) => {
         <div
           className="table-container hide-on-Acknowledgementscreen"
           ref={AcknowledgementRef}
-          style={{ marginTop: "10%" }}
+          style={{ marginTop: "16%" }}
         >
           <h6 className="text-center mb-2">
             <b>ACKNOWLEDGEMENT OF RECIEPT OF RENTED PRODUCTS</b>
@@ -87,11 +86,10 @@ const AcknowledgementRetunr = (props) => {
             <tbody>
               <tr>
                 <td rowSpan="2" colSpan="2" style={{ width: "25%" }}>
-                  <div className="d-flex flex-column text-center">
-                    <b>
-                      <img src={TitanLogo} alt="" width="140" height="75" />
+                  <div className="text-center mt-4">
+                    <b className="mt-2">
+                      Store Address:- {storeDetails.storeAddress}
                     </b>
-                    <b>Store Address:- {storeDetails.storeAddress}</b>
                   </div>
                 </td>
                 <td colSpan="3">
@@ -124,7 +122,7 @@ const AcknowledgementRetunr = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginLeft: "37%" }}
+                      style={{ marginLeft: "36%" }}
                     >
                       <b>PAN:-{storeDetails.pan}</b>
                       <b>State Code:-{storeDetails.StateCode}</b>
@@ -157,7 +155,7 @@ const AcknowledgementRetunr = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "14%" }}
+                      style={{ marginRight: "9.5%" }}
                     >
                       <b>Customer Profile No.:-{existedUserData.custId}</b>
                       <b>PAN: {existedUserData.panCardNo}</b>

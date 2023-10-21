@@ -1,7 +1,6 @@
 import moment from "moment";
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import TitanLogo from "../../Asset/Img/TitanLogo.png";
 
 const KarigarQAReturnPdf = (props) => {
   const { refactoreDataTable } = props;
@@ -39,23 +38,25 @@ const KarigarQAReturnPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-bottom:50mm;
             }
             }
           `}
       </style>
-      <div ref={RetntalReturnAQRef} className="hide-on-screen">
-        <div className="text-center mb-1">
-          <img src={TitanLogo} alt="" width="150" height="80" />
-        </div>
+      <div
+        ref={RetntalReturnAQRef}
+        className="hide-on-screen"
+        style={{ marginTop: "16%" }}
+      >
         <div className="text-center border border-dark">
           <h5>Product Quality Checklist</h5>
         </div>
         {refactoreDataTable.map((data, i) => {
           return (
             <table
-              className="table table-bordered border-dark"
-              style={{ fontSize: "12px" }}
               key={i}
+              className="table table-bordered border-dark"
+              style={{ fontSize: "11.5px" }}
             >
               <tbody>
                 <tr>

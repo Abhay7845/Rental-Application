@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { ServiveInvoicePdfHeaders } from "../Pdf/PDFHearders";
 import { useReactToPrint } from "react-to-print";
-import TitanLogo from "../../Asset/Img/TitanLogo.png";
 import moment from "moment";
 
 const ServiceIvoicePdf = (props) => {

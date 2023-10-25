@@ -142,3 +142,13 @@ export const CancelPageHeading = [
   "PRODUCT_VALUE",
   "RENTAL_VALUE",
 ];
+
+export const AdminSummarHeaders = [
+  "Booking Date",
+  "Booking RefNo.",
+  "Cool Of End Date",
+  "Rental End Date",
+  "Rental Start Date",
+  "Store Code",
+  "Status",
+];

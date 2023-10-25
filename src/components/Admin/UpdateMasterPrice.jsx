@@ -43,6 +43,15 @@ const UpdateMasterPrice = () => {
           if (response.data.code === "1001") {
             setShowErrMsg(response.data.value);
           }
+          if (response.data.code === "1002") {
+            setShowErrMsg(response.data.value);
+          }
+          if (response.data.code === "1003") {
+            setShowErrMsg(response.data.value);
+          }
+          if (response.data.code === "1004") {
+            setShowErrMsg(response.data.value);
+          }
           setLoading(false);
         })
         .catch((error) => {

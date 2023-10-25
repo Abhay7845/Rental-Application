@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import AdminSideBar from "../common/AdminSideBar";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
+import { Field, Form, Formik } from "formik";
+import { ReportsInitialValue, ReportsSchema } from "../../Schema/LoginSchema";
+import ShowError from "../../Schema/ShowError";
+import axios from "axios";
+import { HOST_URL } from "../../API/HostURL";
+import Loader from "../common/Loader";
+import { AdminSummarHeaders } from "../../Data/DataList";
 
 const SummaryReports = () => {
+  const storeCode = localStorage.getItem("storeCode");
+  const [loading, setLoading] = useState(false);
+  const [summaryReports, setSummaryReports] = useState([]);
+
+  const GetSummaryReports = (payload) => {
+    setLoading(true);
+    const { fromDate, toDate } = payload;
+    axios
+      .get(`${HOST_URL}/Admin/order/summary/MAMTHA/${fromDate}/${toDate}`)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response==>", response.data);
+        if (response.data.code === "1000") {
+          setSummaryReports(response.data.value);
+        }
+        if (response.data.code === "1001") {
+          alert("Sorry! Data Not Available For Selected Date");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   return (
     <div>
+      {loading === true && <Loader />}
       <Navbar />
       <div className="DropdownForAdmin">
         <AdminToggelSideBar />
@@ -14,30 +47,69 @@ const SummaryReports = () => {
       <div className="main">
         <div className="row mx-0 mt-3">
           <h5 className="text-center">SUMMARY REPORTS</h5>
-          <div className="col-12 table-responsive mx-0">
-            <table className="table table-bordered table-hover border-dark">
-              <thead className="table-dark border-light">
-                <tr>
-                  <th>Item Code</th>
-                  <th>Image</th>
-                  <th>Std Wt</th>
-                  <th>Std UCP</th>
-                  <th>Std_Rental_Value</th>
-                  <th>Std_Deposit_Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>IKFDSVAKFVKNRESC</td>
-                  <td>IKFDSVAKFVKNRESC</td>
-                  <td>IKFDSVAKFVKNRESC</td>
-                  <td>IKFDSVAKFVKNRESC</td>
-                  <td>IKFDSVAKFVKNRESC</td>
-                  <td>IKFDSVAKFVKNRESC</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <Formik
+            initialValues={ReportsInitialValue}
+            validationSchema={ReportsSchema}
+            onSubmit={(payload) => GetSummaryReports(payload)}
+          >
+            <Form>
+              <div className="row g-2">
+                <div className="col-md-6">
+                  <label className="form-label">From Date</label>
+                  <Field
+                    type="date"
+                    className="form-control"
+                    placeholder="First name"
+                    name="fromDate"
+                  />
+                  <ShowError name="fromDate" />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">To Date</label>
+                  <Field
+                    type="date"
+                    className="form-control"
+                    placeholder="Last name"
+                    name="toDate"
+                  />
+                  <ShowError name="toDate" />
+                </div>
+              </div>
+              <div className="d-flex justify-content-end my-2">
+                <button type="submit" className="CButton">
+                  Next
+                </button>
+              </div>
+            </Form>
+          </Formik>
+          {summaryReports.length > 0 && (
+            <div className="table-responsive">
+              <table className="table table-bordered border-dark text-center">
+                <thead className="table-dark border-light">
+                  <tr>
+                    {AdminSummarHeaders.map((heading, i) => {
+                      return <td key={i}>{heading}</td>;
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {summaryReports.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td>{item.bookingDate}</td>
+                        <td>{item.bookingRefNo}</td>
+                        <td>{item.coolOffEndDate}</td>
+                        <td>{item.rentalEndDate}</td>
+                        <td>{item.rentalStartDate}</td>
+                        <td>{item.storeCode}</td>
+                        <td>{item.status}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

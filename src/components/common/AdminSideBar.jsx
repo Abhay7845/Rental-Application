@@ -6,7 +6,7 @@ const AdminSideBar = () => {
   return (
     <div>
       <div className="AdminSidebarStyle">
-        <ul className="mt-4">
+        <ul className="mt-3">
           <Link to="/admin/update/master/price" className="NavigationStyle">
             UPDATE ITEM PRICE MASTER
           </Link>

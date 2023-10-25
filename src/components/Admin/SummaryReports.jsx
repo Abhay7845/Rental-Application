@@ -11,15 +11,14 @@ import Loader from "../common/Loader";
 import { AdminSummarHeaders } from "../../Data/DataList";
 
 const SummaryReports = () => {
-  const storeCode = localStorage.getItem("storeCode");
   const [loading, setLoading] = useState(false);
   const [summaryReports, setSummaryReports] = useState([]);
 
   const GetSummaryReports = (payload) => {
     setLoading(true);
-    const { fromDate, toDate } = payload;
+    const { fromDate, toDate, storeCode } = payload;
     axios
-      .get(`${HOST_URL}/Admin/order/summary/MAMTHA/${fromDate}/${toDate}`)
+      .get(`${HOST_URL}/Admin/order/summary/${storeCode}/${fromDate}/${toDate}`)
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
@@ -54,25 +53,28 @@ const SummaryReports = () => {
           >
             <Form>
               <div className="row g-2">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <label className="form-label">From Date</label>
-                  <Field
-                    type="date"
-                    className="form-control"
-                    placeholder="First name"
-                    name="fromDate"
-                  />
+                  <Field type="date" className="form-control" name="fromDate" />
                   <ShowError name="fromDate" />
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <label className="form-label">To Date</label>
-                  <Field
-                    type="date"
-                    className="form-control"
-                    placeholder="Last name"
-                    name="toDate"
-                  />
+                  <Field type="date" className="form-control" name="toDate" />
                   <ShowError name="toDate" />
+                </div>
+                <div className="col-md-4">
+                  <label className="form-label">Store Code</label>
+                  <Field
+                    as="select"
+                    className="form-control"
+                    placeholder="Store Code"
+                    name="storeCode"
+                  >
+                    <option value="">Select</option>
+                    <option value="MAMTHA">MAMTHA</option>
+                  </Field>
+                  <ShowError name="storeCode" />
                 </div>
               </div>
               <div className="d-flex justify-content-end my-2">
@@ -96,12 +98,12 @@ const SummaryReports = () => {
                   {summaryReports.map((item, i) => {
                     return (
                       <tr key={i}>
+                        <td>{item.storeCode}</td>
                         <td>{item.bookingDate}</td>
                         <td>{item.bookingRefNo}</td>
-                        <td>{item.coolOffEndDate}</td>
-                        <td>{item.rentalEndDate}</td>
                         <td>{item.rentalStartDate}</td>
-                        <td>{item.storeCode}</td>
+                        <td>{item.rentalEndDate}</td>
+                        <td>{item.coolOffEndDate}</td>
                         <td>{item.status}</td>
                       </tr>
                     );

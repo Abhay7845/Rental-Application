@@ -144,11 +144,11 @@ export const CancelPageHeading = [
 ];
 
 export const AdminSummarHeaders = [
+  "Store Code",
   "Booking Date",
   "Booking RefNo.",
-  "Cool Of End Date",
-  "Rental End Date",
   "Rental Start Date",
-  "Store Code",
+  "Rental End Date",
+  "Cool Of End Date",
   "Status",
 ];

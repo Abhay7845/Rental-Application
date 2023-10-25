@@ -32,9 +32,11 @@ export const CheckAvaiblitySchema = yup.object({
 export const ReportsInitialValue = {
   fromDate: "",
   toDate: "",
+  storeCode: "",
 };
 
 export const ReportsSchema = yup.object({
   fromDate: yup.string().required("From Date is required"),
   toDate: yup.string().required("To Date is required"),
+  storeCode: yup.string().required("Store Code is required"),
 });

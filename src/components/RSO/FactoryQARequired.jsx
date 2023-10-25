@@ -251,12 +251,10 @@ const FactoryQARequired = () => {
       updatedDate: moment().format("YYYY-MM-DD"),
       totalDamageCharges: parseFloat(SumOfDmgCharge()),
     };
-    console.log("SummaryInputs==>", SummaryInputs);
     axios
       .post(`${HOST_URL}/update/Summary/damage/charges`, SummaryInputs)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response);
         if (response.data.code === "1000") {
           TnxStatusUpdate(totalPaidAmount.bookingId);
         }
@@ -280,7 +278,7 @@ const FactoryQARequired = () => {
           pdtId: parseInt(data.pdtId),
           updatedDate: moment().format("YYYY-MM-DD"),
           damageCharges: parseFloat(data.damageCharges),
-          remarks: remarks[i],
+          remarks: remarks[i] === undefined ? "" : remarks[i],
         };
       });
       console.log("ItemWiseInpute==>", ItemWiseInpute);
@@ -293,7 +291,6 @@ const FactoryQARequired = () => {
           }
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }

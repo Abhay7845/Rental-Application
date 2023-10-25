@@ -1,5 +1,5 @@
 export const HOST_URL =
-  "https://tanishqdigitalnpim.titan.in:8443/RentalApplicationUAT/Rental";
+  "https://tanishqdigitalnpim.titan.in:8443/RentalApplication/Rental";
 
 export const UploadImg = "https://jewbridge.titanjew.in/NPD/api/Docfetch/";
 export const FetchImg =

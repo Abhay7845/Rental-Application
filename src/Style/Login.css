@@ -15,7 +15,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* background-image: url("../Asset/Img/tanishqLogo.jpg"); */
+  background-image: url("../Asset/Img/tanishqLogo.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -27,7 +27,6 @@
   background-color: #ffff;
   border-radius: 1px;
   border-radius: 3px;
-  border: 2px solid #c1c4c5;
 }
 
 @media screen and (max-width: 980px) {

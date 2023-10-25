@@ -21,6 +21,8 @@ const ServiceIvoicePdf = (props) => {
   } = props;
 
   const bookingDate = regUserData.map((data) => data.bookingDate);
+  const PaymentDetails = [...previousTnxData, ...savePaymetRow];
+  console.log("PaymentDetails==>", PaymentDetails);
 
   const RefacotorData = addedPdts.map((data) => {
     return {
@@ -192,7 +194,7 @@ const ServiceIvoicePdf = (props) => {
     return total;
   };
 
-  const TAmount = savePaymetRow.map((item) => parseInt(item.amount));
+  const TAmount = PaymentDetails.map((item) => parseInt(item.amount));
   const SumOfSaveAmount = () => {
     let total = 0;
     for (let num of TAmount) total = total + num;
@@ -211,7 +213,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -404,7 +406,7 @@ const ServiceIvoicePdf = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {savePaymetRow.map((item, i) => {
+                      {PaymentDetails.map((item, i) => {
                         return (
                           <tr key={i}>
                             <td>{i + 1}</td>
@@ -418,18 +420,19 @@ const ServiceIvoicePdf = (props) => {
                             <td>{item.txnRefNo}</td>
                             <td>{moment().format("DD-MM-YYYY")}</td>
                             <td className="text-end">
-                              {item.amount.toString().toLocaleString("en-IN")}
+                              {parseInt(item.amount)}
                             </td>
                           </tr>
                         );
                       })}
-                      <tr>
+                      <tr className="text-end">
                         <th colSpan="5">TOTAL</th>
                         <th>
-                          ₹
-                          {Math.round(SumOfSaveAmount()).toLocaleString(
-                            "en-In"
-                          )}
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: false,
+                          }).format(SumOfSaveAmount())}
                         </th>
                       </tr>
                     </tbody>
@@ -452,47 +455,6 @@ const ServiceIvoicePdf = (props) => {
                         <th>₹{SumOfTTPreAmount().toLocaleString("en-IN")}</th>
                         <th>₹{SumOfTTotalAmount().toLocaleString("en-IN")}</th>
                         <th>₹{TotalRefund.toLocaleString("en-IN")}</th>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5">
-                  <table className="table table-bordered border-dark text-center">
-                    <thead>
-                      <tr>
-                        <th colSpan="6">Previous Payment Details</th>
-                      </tr>
-                      <tr>
-                        <th>Sr.No</th>
-                        <th>Payment Type</th>
-                        <th>Payment Mode</th>
-                        <th>DOC No.</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {previousTnxData.map((item, i) => {
-                        return (
-                          <tr key={i}>
-                            <th>{i + 1}</th>
-                            <th>Booking</th>
-                            <th>{item.paymentType}</th>
-                            <th>{item.paymentReferenceNo}</th>
-                            <th>
-                              {moment(item.createdDate).format("DD-MM-YYYY")}
-                            </th>
-                            <th className="text-end">
-                              {parseInt(item.amount).toLocaleString("en-IN")}
-                            </th>
-                          </tr>
-                        );
-                      })}
-                      <tr className="text-end">
-                        <th colSpan="5">TOTAL</th>
-                        <th>₹{SumOfTTPreAmount().toLocaleString("en-IN")}</th>
                       </tr>
                     </tbody>
                   </table>

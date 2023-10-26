@@ -187,21 +187,16 @@ const ServiceIvoicePdf = (props) => {
     for (let num of TTotalAmount) total = total + num;
     return total;
   };
-  const TPreAmount = previousTnxData.map((data) => parseInt(data.amount));
-  const SumOfTTPreAmount = () => {
-    let total = 0;
-    for (let num of TPreAmount) total = total + num;
-    return total;
-  };
 
-  const TAmount = PaymentDetails.map((item) => parseInt(item.amount));
+  const TAmount = PaymentDetails.map((item) => parseFloat(item.amount));
+  console.log("TAmount==>", TAmount);
   const SumOfSaveAmount = () => {
     let total = 0;
     for (let num of TAmount) total = total + num;
     return total;
   };
 
-  const TotalRefund = SumOfTTPreAmount() - SumOfTTotalAmount();
+  const TotalRefund = SumOfSaveAmount() - SumOfTTotalAmount();
 
   return (
     <div>
@@ -213,7 +208,7 @@ const ServiceIvoicePdf = (props) => {
           {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -453,7 +448,13 @@ const ServiceIvoicePdf = (props) => {
                             <td>
                               {item.paymentFor ===
                               "Payment_PendingFor_RentalReturn"
-                                ? "Damge Protection Charge"
+                                ? "Additional Charge"
+                                : item.paymentFor ===
+                                  "Payment_PendingFor_NewBooking"
+                                ? "Booking Amount"
+                                : item.paymentFor ===
+                                  "Payment_PendingFor_RentalIssuance"
+                                ? "Damage Protection Charge"
                                 : ""}
                             </td>
                             <td>{item.paymentType}</td>
@@ -497,7 +498,7 @@ const ServiceIvoicePdf = (props) => {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: 2,
-                          }).format(SumOfTTPreAmount())}
+                          }).format(SumOfSaveAmount())}
                         </th>
                         <th>
                           {new Intl.NumberFormat("en-IN", {
@@ -574,7 +575,8 @@ const ServiceIvoicePdf = (props) => {
                 <td colSpan="5" className="text-center">
                   <b>
                     For terms and conditions including late fee and product
-                    handling or damage charges, please refer: T&C section
+                    handling or damage charges, please refer: T&C section in
+                    booking confirmation document.
                   </b>
                 </td>
               </tr>

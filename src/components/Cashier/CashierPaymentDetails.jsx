@@ -276,7 +276,7 @@ const CashierPaymentDetails = () => {
       setBookedStatus("Issued_Rental_Period");
       setOutStatus("Booked_Product_Issued");
       setInvoiceNo("");
-      setAmontHeading("Amount to be collected");
+      setAmontHeading("Amount to be Collected");
       setChallanNo(GenChallanNo);
       setAmontErrMassage(
         "Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment"
@@ -288,7 +288,7 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
       setUpdateStatus("Booked");
-      setAmontHeading("Amount to be collected");
+      setAmontHeading("Amount to be Collected");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
       );
@@ -296,7 +296,7 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       const bookingDesposit = totalBookingAmount + totalDepositAmount;
       if (TotalCharges > bookingDesposit) {
-        setAmontHeading("Amount to be collected");
+        setAmontHeading("Amount to be Collected");
         setCollectedAmount(
           parseFloat(TotalCharges - bookingDesposit).toFixed(2)
         );
@@ -904,7 +904,7 @@ const CashierPaymentDetails = () => {
                 }).format(collectedAmount)}
               </h6>
             </div>
-            {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
+            {amontHeading !== "Amount to be Refunded" && (
               <div className="col-12 table-responsive mx-0">
                 <table className="table table-bordered table-hover border-dark text-center">
                   <thead className="table-dark border-light">
@@ -1014,7 +1014,7 @@ const CashierPaymentDetails = () => {
                 </table>
               </div>
             )}
-            {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
+            {amontHeading !== "Amount to be Refunded" && (
               <div className="d-flex justify-content-end mt-0">
                 {addPaymentRows.length > 0 ? (
                   <div className="d-flex justify-content-between w-100">

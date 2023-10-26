@@ -295,7 +295,8 @@ const AcknowledgementRetunr = (props) => {
                 <td colSpan="5" className="text-center">
                   <b>
                     For terms and conditions including late fee and product
-                    handling or damage charges, please refer: T&C section
+                    handling or damage charges, please refer: T&C section in
+                    booking confirmation document.
                   </b>
                 </td>
               </tr>

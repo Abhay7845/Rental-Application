@@ -32,7 +32,7 @@ const KarigarQAIssuePdf = (pros) => {
         {`
           @media screen{
             .hide-on-screen{
-              display:block;
+              display:none;
             }
           }
             @page {
@@ -60,31 +60,31 @@ const KarigarQAIssuePdf = (pros) => {
             >
               <tbody>
                 <tr>
-                  <th>
+                  <th style={{ width: "30%" }}>
                     <div className="d-flex flex-column">
-                      <b>User Name: {storeCode}</b>
-                      <b>SKU Code: {data.itemCode}</b>
-                      <b>Lot Number: {data.lotNo}</b>
+                      <b>User Name:- {storeCode}</b>
+                      <b>SKU Code:- {data.itemCode}</b>
+                      <b>Lot Number:- {data.lotNo}</b>
                     </div>
                   </th>
                   <th>
                     <div className="d-flex flex-column">
                       <b>
-                        Handover Date:-
+                        Handover Date:-{" "}
                         {moment(data.rentStartDate).format("DD-MM-YYYY")}
                       </b>
-                      <b>RSO/Karigar Name: {storeCode}</b>
+                      <b>RSO/Karigar Name:- {storeCode}</b>
                     </div>
                   </th>
                   <th colSpan="2">
                     <div className="d-flex flex-column">
-                      <b>Return Date:-{!returnDate ? "" : returnDate}</b>
-                      <b>RSO/Karigar Name: {storeCode}</b>
+                      <b>Return Date:- {!returnDate ? "" : returnDate}</b>
+                      <b>RSO/Karigar Name:- {storeCode}</b>
                     </div>
                   </th>
                 </tr>
                 <tr>
-                  <th style={{ width: "25%" }}>
+                  <th style={{ width: "30%" }}>
                     <b>Checkpoints </b>
                     <input
                       className="form-check-input mx-4 border-dark"

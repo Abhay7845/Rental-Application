@@ -318,13 +318,9 @@ const ServiceIvoicePdf = (props) => {
                   <div className="table">
                     <table className="table table-bordered inner-table border-dark text-center">
                       <thead>
-                        <tr>
+                        <tr style={{ fontSize: "7px", fontWeight: "bold" }}>
                           {ServiveInvoicePdfHeaders.map((heading, i) => {
-                            return (
-                              <th key={i} style={{ fontSize: "6px" }}>
-                                {heading}
-                              </th>
-                            );
+                            return <th key={i}>{heading}</th>;
                           })}
                         </tr>
                       </thead>
@@ -333,7 +329,7 @@ const ServiceIvoicePdf = (props) => {
                           return (
                             <tr
                               key={i}
-                              style={{ fontSize: "7px", fontWeight: "bold" }}
+                              style={{ fontSize: "6.5px", fontWeight: "bold" }}
                             >
                               <td>{i + 1}</td>
                               <td>{item.itemCode}</td>
@@ -364,24 +360,68 @@ const ServiceIvoicePdf = (props) => {
                           style={{ fontSize: "7px", fontWeight: "bold" }}
                         >
                           <th colSpan="6">TOTAL</th>
-                          <th>₹{SumOfBasePrise().toLocaleString("en-IN")}</th>
                           <th>
-                            ₹{SumOfTRentalAmont().toLocaleString("en-IN")}
-                          </th>
-                          <th>₹{SumOfTLateFee().toLocaleString("en-IN")}</th>
-                          <th>
-                            ₹{SumOfTDamageCharges().toLocaleString("en-IN")}
-                          </th>
-                          <th>
-                            ₹{SumOfTDiscountAmount().toLocaleString("en-IN")}
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: false,
+                            }).format(SumOfBasePrise())}
                           </th>
                           <th>
-                            ₹{SumOfTTotalChages().toLocaleString("en-IN")}
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: false,
+                            }).format(SumOfTRentalAmont())}
                           </th>
-                          <th>₹{SumOfTSgst().toLocaleString("en-IN")}</th>
-                          <th>₹{SumOfTCgst().toLocaleString("en-IN")}</th>
                           <th>
-                            ₹{SumOfTTotalAmount().toLocaleString("en-IN")}
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: false,
+                            }).format(SumOfTLateFee())}
+                          </th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: false,
+                            }).format(SumOfTDamageCharges())}
+                          </th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: false,
+                            }).format(SumOfTDiscountAmount())}
+                          </th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: false,
+                            }).format(SumOfTTotalChages())}
+                          </th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: 2,
+                            }).format(SumOfTSgst())}
+                          </th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: 2,
+                            }).format(SumOfTCgst())}
+                          </th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: 2,
+                            }).format(SumOfTTotalAmount())}
                           </th>
                         </tr>
                       </tbody>
@@ -452,9 +492,27 @@ const ServiceIvoicePdf = (props) => {
                     </thead>
                     <tbody>
                       <tr>
-                        <th>₹{SumOfTTPreAmount().toLocaleString("en-IN")}</th>
-                        <th>₹{SumOfTTotalAmount().toLocaleString("en-IN")}</th>
-                        <th>₹{TotalRefund.toLocaleString("en-IN")}</th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: 2,
+                          }).format(SumOfTTPreAmount())}
+                        </th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: 2,
+                          }).format(SumOfTTotalAmount())}
+                        </th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: 2,
+                          }).format(TotalRefund)}
+                        </th>
                       </tr>
                     </tbody>
                   </table>

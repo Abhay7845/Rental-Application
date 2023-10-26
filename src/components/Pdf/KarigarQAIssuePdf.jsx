@@ -32,7 +32,7 @@ const KarigarQAIssuePdf = (pros) => {
         {`
           @media screen{
             .hide-on-screen{
-              display:none;
+              display:block;
             }
           }
             @page {
@@ -56,7 +56,7 @@ const KarigarQAIssuePdf = (pros) => {
             <table
               key={i}
               className="table table-bordered border-dark"
-              style={{ fontSize: "11.5px" }}
+              style={{ fontSize: "11.3px" }}
             >
               <tbody>
                 <tr>

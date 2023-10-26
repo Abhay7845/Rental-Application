@@ -22,7 +22,6 @@ const ServiceIvoicePdf = (props) => {
 
   const bookingDate = regUserData.map((data) => data.bookingDate);
   const PaymentDetails = [...previousTnxData, ...savePaymetRow];
-  console.log("PaymentDetails==>", PaymentDetails);
 
   const RefacotorData = addedPdts.map((data) => {
     return {
@@ -189,7 +188,6 @@ const ServiceIvoicePdf = (props) => {
   };
 
   const TAmount = PaymentDetails.map((item) => parseFloat(item.amount));
-  console.log("TAmount==>", TAmount);
   const SumOfSaveAmount = () => {
     let total = 0;
     for (let num of TAmount) total = total + num;
@@ -444,8 +442,8 @@ const ServiceIvoicePdf = (props) => {
                       {PaymentDetails.map((item, i) => {
                         return (
                           <tr key={i}>
-                            <td>{i + 1}</td>
-                            <td>
+                            <th>{i + 1}</th>
+                            <th>
                               {item.paymentFor ===
                               "Payment_PendingFor_RentalReturn"
                                 ? "Additional Charge"
@@ -456,13 +454,13 @@ const ServiceIvoicePdf = (props) => {
                                   "Payment_PendingFor_RentalIssuance"
                                 ? "Damage Protection Charge"
                                 : ""}
-                            </td>
-                            <td>{item.paymentType}</td>
-                            <td>{item.txnRefNo}</td>
-                            <td>{moment().format("DD-MM-YYYY")}</td>
-                            <td className="text-end">
+                            </th>
+                            <th>{item.paymentType}</th>
+                            <th>{item.txnRefNo}</th>
+                            <th>{moment().format("DD-MM-YYYY")}</th>
+                            <th className="text-end">
                               {parseInt(item.amount)}
-                            </td>
+                            </th>
                           </tr>
                         );
                       })}

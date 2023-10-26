@@ -26,7 +26,7 @@ const SummaryReports = () => {
           setSummaryReports(response.data.value);
         }
         if (response.data.code === "1001") {
-          alert("Sorry! Data Not Available For Selected Date");
+          alert("Sorry! Data Not Available For Entered Inputs");
         }
         setLoading(false);
       })
@@ -66,14 +66,11 @@ const SummaryReports = () => {
                 <div className="col-md-4">
                   <label className="form-label">Store Code</label>
                   <Field
-                    as="select"
+                    type="text"
                     className="form-control"
                     placeholder="Store Code"
                     name="storeCode"
-                  >
-                    <option value="">Select</option>
-                    <option value="MAMTHA">MAMTHA</option>
-                  </Field>
+                  />
                   <ShowError name="storeCode" />
                 </div>
               </div>

@@ -785,7 +785,11 @@ const CashierPaymentDetails = () => {
       if (parseFloat(collectedAmount) === TotalAmount) {
         CallPaymentAPI();
       } else {
-        alert(amontErrMassage);
+        if (amontHeading === "Amount to be Refunded") {
+          CallPaymentAPI();
+        } else {
+          alert(amontErrMassage);
+        }
       }
     }
   };

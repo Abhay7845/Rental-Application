@@ -126,8 +126,8 @@ const BookingPdf = (props) => {
                 size: A4;
                 margin-left:15mm;
                 margin-right:15mm;
-                margin-bottom:49mm;
-                margin-top:46mm;
+                margin-bottom:50mm;
+                margin-top:50mm;
               }
             }
           `}

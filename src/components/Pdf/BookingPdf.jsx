@@ -124,17 +124,15 @@ const BookingPdf = (props) => {
             }
              @page {
                 size: A4;
-                margin:15mm;
-                margin-bottom:50mm;
+                margin-left:15mm;
+                margin-right:15mm;
+                margin-bottom:49mm;
+                margin-top:46mm;
               }
             }
           `}
       </style>
-      <div
-        className="table-container hide-on-screen"
-        ref={BookinRef}
-        style={{ marginTop: "16%" }}
-      >
+      <div className="table-container hide-on-screen" ref={BookinRef}>
         <div className="Front_pageStyle">
           <h6 className="text-center mb-2">
             <b>BOOKING ORDER CONFIRMATION</b>
@@ -482,7 +480,6 @@ const BookingPdf = (props) => {
             </tbody>
           </table>
         </div>
-
         <table
           className="table table-bordered table-styles border-dark"
           style={{ fontSize: "10px" }}
@@ -492,7 +489,7 @@ const BookingPdf = (props) => {
               <td colSpan="5">
                 <div className="d-flex flex-column">
                   <b>RENTAL JEWELLERY</b>
-                  <b> TERMS AND CONDITIONS</b>
+                  <b>TERMS AND CONDITIONS</b>
                   <b>
                     Titan Company Limited, a company incorporated under the
                     Companies Act, 1956 having its corporate office at
@@ -505,7 +502,7 @@ const BookingPdf = (props) => {
                     binding agreement between you and Titan and is deemed to be
                     executed in Bengaluru. Please read them carefully.
                   </b>
-                  <b> 1. Jewellery Rental Booking</b>
+                  <b>1. Jewellery Rental Booking</b>
                   <b>
                     1.1. Subject to these Terms, you may avail the jewellery
                     rental service of Titan by booking for the same in advance

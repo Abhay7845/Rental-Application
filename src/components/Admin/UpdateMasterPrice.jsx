@@ -6,11 +6,30 @@ import axios from "axios";
 import Loader from "../common/Loader";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import Swal from "sweetalert2";
+import { ItemsPriceHeader } from "../../Data/DataList";
+import { DataGrid } from "@mui/x-data-grid";
+import TableDataDownload from "./TableDataDownload";
 
 const UpdateMasterPrice = () => {
   const [loading, setLoading] = useState(false);
   const [uploadMasterFile, setUploadMasterFile] = useState("");
+  const [storeCodeValue, setStoreCodeValue] = useState("");
+  const [rows, setRows] = useState([]);
+  const [cols, setCols] = useState([]);
   const [showErrMsg, setShowErrMsg] = useState("");
+
+  const GetItemPriceMaster = () => {
+    axios
+      .get(`${HOST_URL}/Admin/view/item/price/master/${storeCodeValue}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setRows(response.data.value);
+          setCols(ItemsPriceHeader);
+        }
+      });
+  };
+  console.log("rows==>", rows);
 
   const UploadMasterFile = () => {
     if (!uploadMasterFile) {
@@ -61,6 +80,14 @@ const UpdateMasterPrice = () => {
     }
   };
 
+  const columns = cols.map((element) => {
+    return {
+      field: element,
+      flex: 1,
+    };
+  });
+  console.log("columns==>", columns);
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -80,11 +107,69 @@ const UpdateMasterPrice = () => {
           />
           <p className="text-danger">{showErrMsg}</p>
           <div className="d-flex justify-content-end mt-3">
-            <button className="CButton">View</button>
+            <button
+              className="CButton"
+              data-bs-toggle="modal"
+              data-bs-target="#ViewPriceMaster"
+            >
+              View
+            </button>
             <button className="CButton mx-2">Deactivate</button>
             <button className="CButton" onClick={UploadMasterFile}>
               Upload
             </button>
+          </div>
+        </div>
+
+        {/*VIEW PRICE PASTER MODAL*/}
+        <div
+          className="modal fade"
+          id="ViewPriceMaster"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="d-flex justify-content-end mx-3 mt-2">
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                />
+              </div>
+              <div className="modal-body">
+                <div className="row">
+                  <div className="col-11">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Store Code"
+                      onChange={(e) => setStoreCodeValue(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-1 d-flex justify-content-end">
+                    <button className="CButton" onClick={GetItemPriceMaster}>
+                      Get
+                    </button>
+                  </div>
+                </div>
+                {rows.length > 0 && (
+                  <div className="mx-2 my-4">
+                    <DataGrid
+                      columns={columns}
+                      rows={rows}
+                      autoHeight={true}
+                      pageSize={50}
+                      components={{
+                        Toolbar: TableDataDownload,
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

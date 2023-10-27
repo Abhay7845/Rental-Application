@@ -829,7 +829,6 @@ const CashierPaymentDetails = () => {
             Search
           </button>
         </div>
-
         {getPaymentData.length > 0 && (
           <div className="table-responsive">
             <table className="table table-bordered border-dark text-center">

@@ -199,7 +199,12 @@ const ServiceIvoicePdf = (props) => {
   return (
     <div>
       <div>
-        <button onClick={ServiceInvoicePDF} className="CButton">
+        <button
+          onClick={ServiceInvoicePDF}
+          className="CButton"
+          // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
+          // disabled={savePaymetRow.length > 0 ? false : true}
+        >
           Print
         </button>
         <style>

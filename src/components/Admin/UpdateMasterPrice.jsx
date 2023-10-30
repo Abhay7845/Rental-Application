@@ -19,21 +19,25 @@ const UpdateMasterPrice = () => {
   const [showErrMsg, setShowErrMsg] = useState("");
 
   const GetItemPriceMaster = () => {
-    setLoading(true);
-    axios
-      .get(`${HOST_URL}/Admin/view/item/price/master/${storeCodeValue}`)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          setRows(response.data.value);
-          setCols(response.data.cols);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-        setLoading(false);
-      });
+    if (storeCodeValue) {
+      setLoading(true);
+      axios
+        .get(`${HOST_URL}/Admin/view/item/price/master/${storeCodeValue}`)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            setRows(response.data.value);
+            setCols(response.data.cols);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    } else {
+      alert("Please Enter Store Code");
+    }
   };
 
   const UploadMasterFile = () => {
@@ -91,7 +95,9 @@ const UpdateMasterPrice = () => {
       flex: 1,
     };
   });
-  console.log("columns==>", columns);
+  const DeactivateItemsData = () => {
+    console.log("DeactivateItemsData");
+  };
 
   return (
     <div>
@@ -119,7 +125,13 @@ const UpdateMasterPrice = () => {
             >
               View
             </button>
-            <button className="CButton mx-2">Deactivate</button>
+            <button
+              className={rows.length > 0 ? "CButton mx-2" : "CDisabled mx-2"}
+              disabled={rows.length > 0 ? false : true}
+              onClick={DeactivateItemsData}
+            >
+              Deactivate
+            </button>
             <button className="CButton" onClick={UploadMasterFile}>
               Upload
             </button>
@@ -134,7 +146,7 @@ const UpdateMasterPrice = () => {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog modal-xl">
+          <div className="modal-dialog modal-fullscreen">
             <div className="modal-content">
               <div className="d-flex justify-content-end mx-3 mt-2">
                 <button
@@ -157,7 +169,7 @@ const UpdateMasterPrice = () => {
                   </div>
                   <div className="col-1 d-flex justify-content-end">
                     <button className="CButton" onClick={GetItemPriceMaster}>
-                      Get
+                      Get_Item
                     </button>
                   </div>
                 </div>

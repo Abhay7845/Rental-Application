@@ -152,16 +152,3 @@ export const AdminSummarHeaders = [
   "Cool Of End Date",
   "Status",
 ];
-
-export const ItemsPriceHeader = [
-  "createdDate",
-  "date",
-  "itemCode",
-  "itemPriceId",
-  "lotNo",
-  "pdtId",
-  "status",
-  "storeCode",
-  "updatedDate",
-  "value",
-];

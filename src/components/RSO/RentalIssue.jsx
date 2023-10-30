@@ -90,6 +90,8 @@ const RentalIssue = () => {
     }
   };
 
+  console.log("GetReturnProduct==>", GetReturnProduct.status);
+
   const PdtItemWt = [];
   for (const key in inputValues) {
     if (inputValues.hasOwnProperty(key)) {
@@ -484,6 +486,7 @@ const RentalIssue = () => {
       )
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setRetunTableData(response.data.value);
         }

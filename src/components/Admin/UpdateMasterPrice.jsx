@@ -19,17 +19,22 @@ const UpdateMasterPrice = () => {
   const [showErrMsg, setShowErrMsg] = useState("");
 
   const GetItemPriceMaster = () => {
+    setLoading(true);
     axios
       .get(`${HOST_URL}/Admin/view/item/price/master/${storeCodeValue}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
           setRows(response.data.value);
-          setCols(ItemsPriceHeader);
+          setCols(response.data.cols);
         }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
       });
   };
-  console.log("rows==>", rows);
 
   const UploadMasterFile = () => {
     if (!uploadMasterFile) {
@@ -140,6 +145,7 @@ const UpdateMasterPrice = () => {
                 />
               </div>
               <div className="modal-body">
+                {loading === true && <Loader />}
                 <div className="row">
                   <div className="col-11">
                     <input

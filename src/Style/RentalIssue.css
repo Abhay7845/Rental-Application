@@ -5,21 +5,21 @@
   border-radius: 3px;
 }
 
-.bookingHeading{
+.bookingHeading {
   background-color: #008080;
-    color: #ffff;
-    padding: 5px;
+  color: #ffff;
+  padding: 5px;
 }
 
 .custom-image {
- height: 60px;
+  height: 60px;
   width: 100%;
   border-radius: 1%;
 }
 
 .custom-image:hover {
-  transform: scale(4.6);
+  transform: scale(3.3);
   cursor: pointer;
-  margin-left: 70%;
+  margin-left: 100%;
   z-index: -1;
 }

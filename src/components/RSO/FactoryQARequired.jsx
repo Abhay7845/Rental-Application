@@ -67,7 +67,7 @@ const FactoryQARequired = () => {
       productValue: data.productValue,
       rentStartDate: data.rentStartDate,
       rentalAmount: data.rentalAmount,
-      peneltyCharge: parseFloat(data.penaltyCharges),
+      peneltyCharge: parseFloat(!data.penaltyCharges ? 0 : data.penaltyCharges),
       tempBookingRefNo: data.tempBookingRefNo,
     };
   });
@@ -95,7 +95,6 @@ const FactoryQARequired = () => {
       )
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setReturnTableData(response.data.value);
         }
@@ -128,6 +127,7 @@ const FactoryQARequired = () => {
   const TPenaltyRate = refactoreDataTable.map((item) =>
     parseInt(item.peneltyCharge)
   );
+
   const SumOfTPeneltyCharge = () => {
     let total = 0;
     for (let data of TPenaltyRate) total = total + data;

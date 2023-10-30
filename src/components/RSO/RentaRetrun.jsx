@@ -26,6 +26,9 @@ const RentalReturn = () => {
   const [storeDetails, setStoreDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [alertWt, setAlertWt] = useState("");
+  const [successAlrt, setSuccessAlrt] = useState(
+    "Product Returned Successfully"
+  );
 
   // SAME CUSTOME UPLOAD & DETAILS/
   const [sameCustName, setSameCustName] = useState("");
@@ -414,9 +417,11 @@ const RentalReturn = () => {
     const FactoryQA = Object.values(inputPhyDmg);
     if (FactoryQA.includes("FactoryQA")) {
       UpdateBookingCalendar(GetReturnProduct.bookingID);
+      setSuccessAlrt("Product will be sent for Factory QA");
       setCheckedQA(true);
     } else if (!FactoryQA.includes("FactoryQA")) {
       setCheckedQA(false);
+      setSuccessAlrt("Product Returned Successfully");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputPhyDmg, GetReturnProduct.bookingID]);
@@ -432,8 +437,8 @@ const RentalReturn = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           Swal.fire({
-            title: "Product Returned Successfully",
-            text: "Please reach out to the Cashier to complete the payment process",
+            title: successAlrt,
+            text: "Please reach out to the Cashier to complete the payment process.",
             icon: "success",
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",

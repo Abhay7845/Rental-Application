@@ -132,7 +132,11 @@ const UpdateMasterPrice = () => {
             >
               Deactivate
             </button>
-            <button className="CButton" onClick={UploadMasterFile}>
+            <button
+              className={rows.length > 0 ? "CButton" : "CDisabled"}
+              disabled={rows.length > 0 ? false : true}
+              onClick={UploadMasterFile}
+            >
               Upload
             </button>
           </div>

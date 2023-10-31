@@ -12,7 +12,7 @@ const AdminSideBar = () => {
           </Link>
           <hr style={{ color: "#ffff" }} />
           <Link to="/admin/discount/validation" className="NavigationStyle">
-            DISCOUNT APPROVEL
+            DISCOUNT APPROVAL
           </Link>
           <hr style={{ color: "#ffff" }} />
           <Link to="/admin/booking/verification" className="NavigationStyle">

@@ -84,6 +84,7 @@ const UpdateMasterPrice = () => {
         .then((response) => {
           if (response.data.code === "1000") {
             setShowErrMsg("");
+            setUpdBtn(false);
             Swal.fire({
               title: "Success",
               text: response.data.value,

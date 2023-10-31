@@ -6,7 +6,6 @@ import axios from "axios";
 import Loader from "../common/Loader";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import Swal from "sweetalert2";
-import { ItemsPriceHeader } from "../../Data/DataList";
 import { DataGrid } from "@mui/x-data-grid";
 import TableDataDownload from "./TableDataDownload";
 
@@ -17,6 +16,7 @@ const UpdateMasterPrice = () => {
   const [rows, setRows] = useState([]);
   const [cols, setCols] = useState([]);
   const [showErrMsg, setShowErrMsg] = useState("");
+  const [updBtn, setUpdBtn] = useState(false);
 
   const GetItemPriceMaster = () => {
     if (storeCodeValue) {
@@ -29,6 +29,9 @@ const UpdateMasterPrice = () => {
             setRows(response.data.value);
             setCols(response.data.cols);
           }
+          if (response.data.code === "1001") {
+            alert("Data not available for this Store Code");
+          }
           setLoading(false);
         })
         .catch((error) => {
@@ -40,6 +43,28 @@ const UpdateMasterPrice = () => {
     }
   };
 
+  const ItemPriceId = rows.map((id) => id.itemPriceId);
+  const DeactivateItemsData = () => {
+    setLoading(true);
+    const ActivatePayload = {
+      storeCode: storeCodeValue,
+      itemPriceId: ItemPriceId,
+    };
+    console.log("ActivatePayload==>", ActivatePayload);
+    axios
+      .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setUpdBtn(true);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+        setLoading(false);
+      });
+  };
   const UploadMasterFile = () => {
     if (!uploadMasterFile) {
       alert("Please Choose File");
@@ -57,7 +82,6 @@ const UpdateMasterPrice = () => {
       })
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data);
           if (response.data.code === "1000") {
             setShowErrMsg("");
             Swal.fire({
@@ -95,9 +119,6 @@ const UpdateMasterPrice = () => {
       flex: 1,
     };
   });
-  const DeactivateItemsData = () => {
-    console.log("DeactivateItemsData");
-  };
 
   return (
     <div>
@@ -126,15 +147,17 @@ const UpdateMasterPrice = () => {
               View
             </button>
             <button
-              className={rows.length > 0 ? "CButton mx-2" : "CDisabled mx-2"}
-              disabled={rows.length > 0 ? false : true}
+              className={
+                ItemPriceId.length > 0 ? "CButton mx-2" : "CDisabled mx-2"
+              }
+              disabled={ItemPriceId.length > 0 ? false : true}
               onClick={DeactivateItemsData}
             >
               Deactivate
             </button>
             <button
-              className={rows.length > 0 ? "CButton" : "CDisabled"}
-              disabled={rows.length > 0 ? false : true}
+              className={updBtn ? "CButton" : "CDisabled"}
+              disabled={updBtn ? false : true}
               onClick={UploadMasterFile}
             >
               Upload
@@ -168,7 +191,11 @@ const UpdateMasterPrice = () => {
                       type="text"
                       className="form-control"
                       placeholder="Enter Store Code"
-                      onChange={(e) => setStoreCodeValue(e.target.value)}
+                      value={storeCodeValue}
+                      onChange={(e) => {
+                        const value = e.target.value.toUpperCase();
+                        setStoreCodeValue(value);
+                      }}
                     />
                   </div>
                   <div className="col-1 d-flex justify-content-end">

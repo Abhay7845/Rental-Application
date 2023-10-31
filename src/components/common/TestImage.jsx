@@ -1,47 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ImageHeaders } from "../../Data/DataList";
+import { UploadImg, FetchImg } from "../../API/HostURL";
+import axios from "axios";
 
 const TestImage = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [sameCustFile, setSameCustFile] = useState([]);
+  const [sameCutIDFileName, setSameCutIDFileName] = useState("");
+  const [panImageUrl, setPanImgUrl] = useState("");
 
-  const handleCheckboxChange = (event, id) => {
-    if (event.target.checked) {
-      // Checkbox is checked, add the row ID to the selectedRows array
-      setSelectedRows([...selectedRows, id]);
+  const UploadSameCustIDProof = () => {
+    if (sameCustFile.length === 0) {
+      alert("Please Choose File");
     } else {
-      // Checkbox is unchecked, remove the row ID from selectedRows array
-      setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
+      const formData = new FormData();
+      const fileEx = sameCustFile.name.split(".");
+      const fileExtention = `1234gbvfgtyh.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", sameCustFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setSameCutIDFileName(fileExtention);
+            };
+            if (sameCustFile) {
+              reader.readAsDataURL(sameCustFile);
+            }
+          }
+        })
+        .catch((error) => console.log(error));
     }
   };
 
-  const tableData = [
-    { id: 1, name: "Row 1" },
-    { id: 2, name: "Row 2" },
-    { id: 3, name: "Row 3" },
-    // Add more rows as needed
-  ];
+  useEffect(() => {
+    if (sameCutIDFileName) {
+      axios
+        .get(`${FetchImg}${sameCutIDFileName}`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data) {
+            setPanImgUrl(response.data);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
+  }, [sameCutIDFileName]);
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Select</th>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((row) => (
-            <tr key={row.id}>
-              <td>
-                <input
-                  type="checkbox"
-                  onChange={(event) => handleCheckboxChange(event, row.id)}
-                />
-              </td>
-              <td>{row.name}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <input
+        type="file"
+        id="sameCust"
+        className="form-control"
+        accept=".jpeg, .png"
+        onChange={(e) => setSameCustFile(e.target.files[0])}
+      />
+      <button onClick={UploadSameCustIDProof}>upload</button>
+      <img
+        src={`data:image/jpeg;base64,${panImageUrl}`}
+        alt=""
+        width="180"
+        height="85"
+      />
     </div>
   );
 };

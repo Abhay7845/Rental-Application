@@ -129,9 +129,9 @@ const UpdateMasterPrice = () => {
       </div>
       <AdminSideBar />
       <div className="main">
-        <h5 className="text-center mt-2">UPDATE ITEM PRICE MASTER</h5>
+        <h5 className="text-center my-4">UPDATE ITEM PRICE MASTER</h5>
         <div className="mx-1">
-          <b className="p-1">Master File</b>
+          <label className="form-label">Master File</label>
           <input
             type="file"
             className="DateSelect"

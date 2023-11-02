@@ -38,7 +38,7 @@ const KarigarQAReturnPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-top:52mm;
+              margin-top:51mm;
               margin-bottom:52mm;
             }
             }

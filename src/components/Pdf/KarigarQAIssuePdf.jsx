@@ -38,8 +38,8 @@ const KarigarQAIssuePdf = (pros) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-top:52mm;
-              margin-bottom:50mm;
+              margin-top:51mm;
+              margin-bottom:52mm;
             }
             }
           `}

@@ -71,7 +71,9 @@ export const WishListHeader = [
   "GROSS. WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
+  "RENTAL VALUE WITH(18%)TAX",
   "DAMAGE PROTECTION AMOUNT",
+  "AVAILABILITY",
 ];
 
 export const AddedTocCart = [
@@ -81,6 +83,7 @@ export const AddedTocCart = [
   "GROSS WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
+  "RENTAL VALUE WITH(18%)TAX",
   "DAMAGE PROTECTION AMOUNT",
 ];
 

@@ -540,7 +540,6 @@ const NewBooking = () => {
                       {AddedTocCart.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}
-                      <td>RENTAL VALUE WITH(18%)TAX</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -569,11 +568,13 @@ const NewBooking = () => {
                             {Math.round(item.rentValue).toLocaleString("en-IN")}
                           </td>
                           <td>
+                            {parseFloat(item.rentValue * 1.18).toFixed(2)}
+                          </td>
+                          <td>
                             {Math.round(item.depositValue).toLocaleString(
                               "en-IN"
                             )}
                           </td>
-                          <td>{parseFloat(item.rentValue) * 1.18}</td>
                         </tr>
                       );
                     })}
@@ -599,15 +600,15 @@ const NewBooking = () => {
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
-                          minimumFractionDigits: false,
-                        }).format(SumOfDepositRate())}
+                          minimumFractionDigits: 2,
+                        }).format(SumOfRentalRateWithTx())}
                       </th>
                       <th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
-                          minimumFractionDigits: 2,
-                        }).format(SumOfRentalRateWithTx())}
+                          minimumFractionDigits: false,
+                        }).format(SumOfDepositRate())}
                       </th>
                     </tr>
                   </tbody>

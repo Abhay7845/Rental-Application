@@ -211,6 +211,12 @@ const ProductsDetails = () => {
     for (let data of TRentalRate) total = total + data;
     return total;
   };
+  const TRentalRateWithTx = goToCart.map((item) => item.rentValue * 1.18);
+  const SumOfRentalRateWithTx = () => {
+    let total = 0;
+    for (let data of TRentalRateWithTx) total = total + data;
+    return total;
+  };
 
   // TOTAL COST OF DEPOSIT RATE
   const TDepositRate = goToCart.map((item) => item.depositValue);
@@ -379,7 +385,6 @@ const ProductsDetails = () => {
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
                 })}
-                <td>AVAILABILITY</td>
               </tr>
             </thead>
             {GetProductData.length > 0 && (
@@ -424,6 +429,7 @@ const ProductsDetails = () => {
                       <td>
                         {Math.round(data.rentalRate).toLocaleString("en-IN")}
                       </td>
+                      <td>{parseFloat(data.rentalRate * 1.18).toFixed(2)}</td>
                       <td>
                         {Math.round(data.depositRate).toLocaleString("en-IN")}
                       </td>
@@ -482,6 +488,7 @@ const ProductsDetails = () => {
                         <td>
                           {Math.round(item.rentValue).toLocaleString("en-IN")}
                         </td>
+                        <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
                         <td>
                           <span style={{ marginLeft: "20%" }}>
                             {Math.round(item.depositValue).toLocaleString(
@@ -500,12 +507,37 @@ const ProductsDetails = () => {
                     );
                   })}
                   <tr className="text-bold">
-                    <th colSpan="3" className="text-end">
+                    <th colSpan="4" className="text-end">
                       TOTAL
                     </th>
-                    <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
-                    <th>₹ {SumOfDepositRate().toLocaleString("en-IN")}</th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfTProductValue())}
+                    </th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfRentalRate())}
+                    </th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: 2,
+                      }).format(SumOfRentalRateWithTx())}
+                    </th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfDepositRate())}
+                    </th>
                   </tr>
                 </tbody>
               </table>

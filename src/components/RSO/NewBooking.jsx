@@ -146,10 +146,18 @@ const NewBooking = () => {
   };
   // TOTAL COST OF  RENTAL RATE
   const TRentalRate = GetCartProductData.map((item) => item.rentValue);
-
   const SumOfRentalRate = () => {
     let total = 0;
     for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+  const TRentalRateWithTx = GetCartProductData.map(
+    (item) => item.rentValue * 1.18
+  );
+
+  const SumOfRentalRateWithTx = () => {
+    let total = 0;
+    for (let data of TRentalRateWithTx) total = total + data;
     return total;
   };
 
@@ -532,6 +540,7 @@ const NewBooking = () => {
                       {AddedTocCart.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}
+                      <td>RENTAL VALUE WITH(18%)TAX</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -564,16 +573,42 @@ const NewBooking = () => {
                               "en-IN"
                             )}
                           </td>
+                          <td>{parseFloat(item.rentValue) * 1.18}</td>
                         </tr>
                       );
                     })}
                     <tr>
-                      <th colSpan="3" className="text-end">
+                      <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
-                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfDepositRate().toLocaleString("en-IN")}</th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfTProductValue())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfRentalRate())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfDepositRate())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: 2,
+                        }).format(SumOfRentalRateWithTx())}
+                      </th>
                     </tr>
                   </tbody>
                 </table>

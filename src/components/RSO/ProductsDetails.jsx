@@ -19,6 +19,7 @@ import {
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import ShowError from "../../Schema/ShowError";
+import { IMAGE_URL } from "../../Data/DataList";
 
 const ProductsDetails = () => {
   const [payload, setPayload] = useState({});
@@ -378,12 +379,15 @@ const ProductsDetails = () => {
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
                 })}
-                <td>Availability</td>
+                <td>AVAILABILITY</td>
               </tr>
             </thead>
             {GetProductData.length > 0 && (
               <tbody>
                 {GetProductData.map((data, i) => {
+                  const { itemCode } = data;
+                  const imageCode = itemCode.substring(2, 9);
+                  const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                   return (
                     <tr
                       key={i}
@@ -406,6 +410,9 @@ const ProductsDetails = () => {
                           }
                           onClick={(e) => SelectedProducts(e, data)}
                         />
+                      </td>
+                      <td>
+                        <img src={imageURL} className="custom-image" alt="" />
                       </td>
                       <td>{data.itemCode}</td>
                       <td>{data.lotNo}</td>
@@ -456,8 +463,14 @@ const ProductsDetails = () => {
                 </thead>
                 <tbody>
                   {goToCart.map((item, i) => {
+                    const { itemCode } = item;
+                    const imageCode = itemCode.substring(2, 9);
+                    const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                     return (
                       <tr key={i}>
+                        <td>
+                          <img src={imageURL} className="custom-image" alt="" />
+                        </td>
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>

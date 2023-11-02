@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
-import { AddedTocCart, ImageHeaders, phonePan } from "../../Data/DataList";
+import {
+  AddedTocCart,
+  ImageHeaders,
+  phonePan,
+  IMAGE_URL,
+} from "../../Data/DataList";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
@@ -531,8 +536,18 @@ const NewBooking = () => {
                   </thead>
                   <tbody>
                     {GetCartProductData.map((item, i) => {
+                      const { itemCode } = item;
+                      const imageCode = itemCode.substring(2, 9);
+                      const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
                         <tr key={i}>
+                          <td>
+                            <img
+                              src={imageURL}
+                              className="custom-image"
+                              alt=""
+                            />
+                          </td>
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>

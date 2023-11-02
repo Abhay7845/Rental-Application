@@ -120,3 +120,16 @@ tr:hover .DeleteRow {
   width: 100%;
   z-index: 1;
 }
+
+.custom-image {
+  height: 60px;
+  width: 100%;
+  border-radius: 1%;
+}
+
+.custom-image:hover {
+  transform: scale(3.3);
+  cursor: pointer;
+  margin-left: 100%;
+  z-index: -1;
+}

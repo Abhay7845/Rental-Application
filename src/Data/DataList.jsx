@@ -63,23 +63,25 @@ export const constomerType = [
   },
 ];
 
-export const AddedTocCart = [
-  "ITEMCODE",
-  "LOT NO.",
-  "GROSS WT.",
-  "PRODUCT VALUE",
-  "RENTAL VALUE",
-  "DAMAGE_PROTECTION_AMOUNT",
-];
-
 export const WishListHeader = [
+  "IMAGE",
   "ITEMCODE",
   "LOT NO.",
   "DESCRIPTION",
   "GROSS. WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
-  "DAMAGE_PROTECTION_AMOUNT",
+  "DAMAGE PROTECTION AMOUNT",
+];
+
+export const AddedTocCart = [
+  "IMAGE",
+  "ITEMCODE",
+  "LOT NO.",
+  "GROSS WT.",
+  "PRODUCT VALUE",
+  "RENTAL VALUE",
+  "DAMAGE PROTECTION AMOUNT",
 ];
 
 export const PaymentHeading1 = [
@@ -100,6 +102,7 @@ export const PaymentHeading2 = [
 ];
 
 export const rentalIssuePage = [
+  "IMAGE",
   "ITEMCODE",
   "LOT No.",
   "GROSS Wt",
@@ -109,6 +112,7 @@ export const rentalIssuePage = [
   "ACTUAL Wt At DELIVERY",
 ];
 export const renatlReturnPage = [
+  "IMAGE",
   "ITEMCODE",
   "LOT No.",
   "GROSS Wt",
@@ -135,6 +139,7 @@ export const factoryQAPage = [
 ];
 
 export const CancelPageHeading = [
+  "IMAGE",
   "ITEMCODE",
   "LOT NO.",
   "RENT_START_DATE",

@@ -8,6 +8,7 @@ import {
   renatlReturnPage,
   addressTypeOption,
   ImageHeaders,
+  IMAGE_URL,
 } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
@@ -672,8 +673,18 @@ const RentalReturn = () => {
                   </thead>
                   <tbody>
                     {refactoreDataTable.map((item, i) => {
+                      const { itemCode } = item;
+                      const imageCode = itemCode.substring(2, 9);
+                      const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
                         <tr key={i}>
+                          <td>
+                            <img
+                              src={imageURL}
+                              className="custom-image"
+                              alt=""
+                            />
+                          </td>
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
@@ -733,7 +744,7 @@ const RentalReturn = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="4" className="text-end">
+                      <th colSpan="5" className="text-end">
                         TOTAL
                       </th>
                       <th>{SumOfActualItemWt().toFixed(3)} g.</th>

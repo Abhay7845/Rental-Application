@@ -8,7 +8,7 @@ import Loader from "../common/Loader";
 import Swal from "sweetalert2";
 import { addressTypeOption } from "../../Data/DataList";
 import { UploadImg, FetchImg } from "../../API/HostURL";
-import { ImageHeaders } from "../../Data/DataList";
+import { ImageHeaders, IMAGE_URL } from "../../Data/DataList";
 import { useNavigate } from "react-router-dom";
 
 const Cancellation = () => {
@@ -392,8 +392,14 @@ const Cancellation = () => {
                 </thead>
                 <tbody>
                   {returnTableData.map((item, i) => {
+                    const { itemCode } = item;
+                    const imageCode = itemCode.substring(2, 9);
+                    const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                     return (
                       <tr key={i}>
+                        <td>
+                          <img src={imageURL} className="custom-image" alt="" />
+                        </td>
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>
@@ -416,17 +422,28 @@ const Cancellation = () => {
                     );
                   })}
                   <tr>
-                    <th colSpan="4" className="text-end">
+                    <th colSpan="5" className="text-end">
                       TOTAL
                     </th>
-                    <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfTProductValue())}
+                    </th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfRentalRate())}
+                    </th>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Cancellation Charges</h6>
           </div>
@@ -468,12 +485,26 @@ const Cancellation = () => {
                 <tbody>
                   <tr>
                     <th>
-                      ₹{parseFloat(totalBookingAmount).toLocaleString("en-IN")}
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: 2,
+                      }).format(totalBookingAmount)}
                     </th>
                     <th>
-                      ₹{parseFloat(afterDiscount).toLocaleString("en-IN")}
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: 2,
+                      }).format(afterDiscount)}
                     </th>
-                    <th>₹{parseFloat(netRefund).toLocaleString("en-IN")}</th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: 2,
+                      }).format(netRefund)}
+                    </th>
                   </tr>
                 </tbody>
               </table>

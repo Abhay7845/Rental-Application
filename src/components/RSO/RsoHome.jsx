@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
+// import { IMAGE_URL } from "../../Data/DataList";
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");

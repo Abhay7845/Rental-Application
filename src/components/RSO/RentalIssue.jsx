@@ -5,6 +5,7 @@ import {
   ImageHeaders,
   rentalIssuePage,
   addressTypeOption,
+  IMAGE_URL,
 } from "../../Data/DataList";
 import moment from "moment";
 import axios from "axios";
@@ -775,8 +776,18 @@ const RentalIssue = () => {
                   </thead>
                   <tbody>
                     {retunTableData.map((item, i) => {
+                      const { itemCode } = item;
+                      const imageCode = itemCode.substring(2, 9);
+                      const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
                         <tr key={i}>
+                          <td>
+                            <img
+                              src={imageURL}
+                              className="custom-image"
+                              alt=""
+                            />
+                          </td>
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
@@ -811,26 +822,29 @@ const RentalIssue = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="3" className="text-end">
+                      <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
                       <th>
-                        ₹
-                        {Math.round(
-                          totalPaidAmount.totalProductValue
-                        ).toLocaleString("en-IN")}
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(totalPaidAmount.totalProductValue)}
                       </th>
                       <th>
-                        ₹
-                        {Math.round(
-                          totalPaidAmount.totalRentalValue
-                        ).toLocaleString("en-IN")}
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(totalPaidAmount.totalRentalValue)}
                       </th>
                       <th>
-                        ₹
-                        {Math.round(
-                          totalPaidAmount.totalDepositAmount
-                        ).toLocaleString("en-IN")}
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(totalPaidAmount.totalDepositAmount)}
                       </th>
                       <th>{SumOfActualItemWt().toFixed(3)} g.</th>
                     </tr>
@@ -841,17 +855,24 @@ const RentalIssue = () => {
           )}
           <b className="mt-0 text-danger text-end">{alertWt}</b>
           <div className="table-responsive">
-            <table className="table table-bordered table-hover border-dark">
-              <thead className="table-dark border-light text-center">
+            <table className="table table-bordered table-hover border-dark text-center">
+              <thead className="table-dark border-light">
                 <tr>
+                  <th>Image</th>
                   <th>Item Code</th>
                   <th>Upload Product Images</th>
                 </tr>
               </thead>
               <tbody>
                 {retunTableData.map((item, i) => {
+                  const { itemCode } = item;
+                  const imageCode = itemCode.substring(2, 9);
+                  const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                   return (
                     <tr key={i}>
+                      <td>
+                        <img src={imageURL} className="custom-image" alt="" />
+                      </td>
                       <td>{item.itemCode}</td>
                       <td className="d-flex justify-content-between">
                         <input

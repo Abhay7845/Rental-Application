@@ -38,16 +38,13 @@ const KarigarQAReturnPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-top:52mm;
               margin-bottom:50mm;
             }
             }
           `}
       </style>
-      <div
-        ref={RetntalReturnAQRef}
-        className="hide-on-screen"
-        style={{ marginTop: "16%" }}
-      >
+      <div ref={RetntalReturnAQRef} className="hide-on-screen">
         <div className="text-center border border-dark">
           <h5>Product Quality Checklist</h5>
         </div>

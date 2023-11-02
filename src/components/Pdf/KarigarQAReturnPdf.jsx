@@ -39,7 +39,7 @@ const KarigarQAReturnPdf = (props) => {
               size: A4;
               margin:15mm;
               margin-top:52mm;
-              margin-bottom:50mm;
+              margin-bottom:52mm;
             }
             }
           `}

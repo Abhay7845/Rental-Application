@@ -10,6 +10,7 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import {
   AdminSummarHeaders,
+  CustomerBankDlsHeaders,
   CustomerDlsHeaders,
   OrderSummaryDlsHeaders,
   PaymentDlsHeaders,
@@ -147,7 +148,7 @@ const SummaryReports = () => {
             </div>
             <div className="modal-body">
               <div className="table-responsive">
-                <div className="d-flex justify-content-between mx-0">
+                <div className="d-flex justify-content-between mx-1">
                   <b>Booking Ref No. :- {rowWiseDetails.bookingRefNo}</b>
                   <b>Phone No. :- N/A</b>
                   <b>Custome Name :- N/A</b>
@@ -310,6 +311,23 @@ const SummaryReports = () => {
                                 <td>Item Code</td>
                                 <td>Item Code</td>
                                 <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table className="table table-bordered border-dark text-center">
+                            <thead className="table-dark border-light">
+                              <tr>
+                                {CustomerBankDlsHeaders.map((heading, i) => {
+                                  return <td key={i}>{heading}</td>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
                                 <td>Item Code</td>
                                 <td>Item Code</td>
                                 <td>Item Code</td>

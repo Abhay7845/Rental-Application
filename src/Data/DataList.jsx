@@ -202,3 +202,9 @@ export const CustomerDlsHeaders = [
   "PAN File",
   "Address Proof File",
 ];
+export const CustomerBankDlsHeaders = [
+  "Bank Name",
+  "Account Number",
+  "IFSC Code",
+  "Bank File",
+];

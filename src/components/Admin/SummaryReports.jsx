@@ -315,6 +315,7 @@ const SummaryReports = () => {
                                 <td>Item Code</td>
                                 <td>Item Code</td>
                                 <td>Item Code</td>
+                                <td>Item Code</td>
                               </tr>
                             </tbody>
                           </table>

@@ -200,6 +200,7 @@ export const CustomerDlsHeaders = [
   "E-Mail ID",
   "PAN No.",
   "PAN File",
+  "Address Proof ID No.",
   "Address Proof File",
 ];
 export const CustomerBankDlsHeaders = [

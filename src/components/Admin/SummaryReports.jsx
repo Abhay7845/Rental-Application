@@ -8,7 +8,14 @@ import ShowError from "../../Schema/ShowError";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
-import { AdminSummarHeaders } from "../../Data/DataList";
+import {
+  AdminSummarHeaders,
+  CustomerDlsHeaders,
+  OrderSummaryDlsHeaders,
+  PaymentDlsHeaders,
+  ProductDlsHeaders,
+} from "../../Data/DataList";
+import { BsXLg } from "react-icons/bs";
 
 const SummaryReports = () => {
   const [loading, setLoading] = useState(false);
@@ -126,24 +133,26 @@ const SummaryReports = () => {
       <div className="modal fade" id="openSummaryDetails">
         <div className="modal-dialog modal-fullscreen">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Modal title</h5>
-              <button
-                type="button"
-                className="btn-close"
+            <div
+              className="modal-header"
+              style={{ backgroundColor: "#008080", color: "#ffff" }}
+            >
+              <h5 className="modal-title">ORDER DETAILS</h5>
+              <BsXLg
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                size={25}
+                cursor="pointer"
               />
             </div>
             <div className="modal-body">
               <div className="table-responsive">
-                <h5 className="text-center">ORDER DETAILS</h5>
-                <div className="d-flex justify-content-between my-4 mx-1">
-                  <b>Booking Ref No. :- 123ACVDF45654</b>
-                  <b>Phone No. :- 9123437177</b>
-                  <b>Custome Name :- Abhay Kumar</b>
+                <div className="d-flex justify-content-between mx-0">
+                  <b>Booking Ref No. :- {rowWiseDetails.bookingRefNo}</b>
+                  <b>Phone No. :- N/A</b>
+                  <b>Custome Name :- N/A</b>
                 </div>
-                <div className="accordion accordion-flush">
+                <div className="accordion accordion-flush mt-4">
                   <div style={{ border: "1px solid gray" }}>
                     <h2 className="accordion-header">
                       <button
@@ -160,9 +169,28 @@ const SummaryReports = () => {
                       className="accordion-collapse collapse"
                     >
                       <div className="accordion-body">
-                        Placeholder content for this accordion, which is
-                        intended to demonstrate the class. This is the first
-                        item's accordion body.
+                        <div className="table-responsive">
+                          <table className="table table-bordered border-dark text-center">
+                            <thead className="table-dark border-light">
+                              <tr>
+                                {ProductDlsHeaders.map((heading, i) => {
+                                  return <td key={i}>{heading}</td>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -182,9 +210,33 @@ const SummaryReports = () => {
                       className="accordion-collapse collapse"
                     >
                       <div className="accordion-body">
-                        Placeholder content for this accordion, which is
-                        intended to demonstrate the class. This is the first
-                        item's accordion body.
+                        <div className="table-responsive">
+                          <table className="table table-bordered border-dark text-center">
+                            <thead className="table-dark border-light">
+                              <tr>
+                                {OrderSummaryDlsHeaders.map((heading, i) => {
+                                  return <td key={i}>{heading}</td>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -204,9 +256,27 @@ const SummaryReports = () => {
                       className="accordion-collapse collapse"
                     >
                       <div className="accordion-body">
-                        Placeholder content for this accordion, which is
-                        intended to demonstrate the class. This is the first
-                        item's accordion body.
+                        <div className="table-responsive">
+                          <table className="table table-bordered border-dark text-center">
+                            <thead className="table-dark border-light">
+                              <tr>
+                                {PaymentDlsHeaders.map((heading, i) => {
+                                  return <td key={i}>{heading}</td>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -226,9 +296,28 @@ const SummaryReports = () => {
                       className="accordion-collapse collapse"
                     >
                       <div className="accordion-body">
-                        Placeholder content for this accordion, which is
-                        intended to demonstrate the class. This is the first
-                        item's accordion body.
+                        <div className="table-responsive">
+                          <table className="table table-bordered border-dark text-center">
+                            <thead className="table-dark border-light">
+                              <tr>
+                                {CustomerDlsHeaders.map((heading, i) => {
+                                  return <td key={i}>{heading}</td>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                                <td>Item Code</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

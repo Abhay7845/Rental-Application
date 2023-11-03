@@ -161,3 +161,44 @@ export const AdminSummarHeaders = [
   "Status",
   "View",
 ];
+export const ProductDlsHeaders = [
+  "Item Code",
+  "Lot No.",
+  "Gross Wt.",
+  "Product Value",
+  "Rental Value",
+  "Rental Value With(18%)Tax",
+  "Deposit Value",
+];
+export const OrderSummaryDlsHeaders = [
+  "Item Code",
+  "Actual Wt. at Delivery",
+  "Actual Wt. at Return",
+  "Booking Amount",
+  "Despatch Date",
+  "Deposit Amount",
+  "Return Date",
+  "Penalty Amount",
+  "Damage Charge",
+  "Collection Charge",
+  "Descount Amount",
+  "Refund Amount",
+];
+
+export const PaymentDlsHeaders = [
+  "Payment For",
+  "Payment Type",
+  "Creadit Not Ref No.",
+  "Amount",
+  "Payment Doc File",
+  "Creadit Date",
+];
+export const CustomerDlsHeaders = [
+  "Customet Name",
+  "Phone No.",
+  "Customer Address",
+  "E-Mail ID",
+  "PAN No.",
+  "PAN File",
+  "Address Proof File",
+];

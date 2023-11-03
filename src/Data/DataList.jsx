@@ -159,4 +159,5 @@ export const AdminSummarHeaders = [
   "Rental End Date",
   "Cool Of End Date",
   "Status",
+  "View",
 ];

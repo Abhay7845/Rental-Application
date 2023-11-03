@@ -165,7 +165,6 @@ const UpdateMasterPrice = () => {
             </button>
           </div>
         </div>
-
         {/*VIEW PRICE PASTER MODAL*/}
         <div
           className="modal fade"

@@ -13,6 +13,8 @@ import { AdminSummarHeaders } from "../../Data/DataList";
 const SummaryReports = () => {
   const [loading, setLoading] = useState(false);
   const [summaryReports, setSummaryReports] = useState([]);
+  const [rowWiseDetails, setRowWiseDetails] = useState({});
+  console.log("rowWiseDetails==>", rowWiseDetails);
 
   const GetSummaryReports = (payload) => {
     setLoading(true);
@@ -101,6 +103,16 @@ const SummaryReports = () => {
                         <td>{item.rentalEndDate}</td>
                         <td>{item.coolOffEndDate}</td>
                         <td>{item.status}</td>
+                        <td>
+                          <button
+                            className="CButton"
+                            data-bs-toggle="modal"
+                            data-bs-target="#openSummaryDetails"
+                            onClick={() => setRowWiseDetails(item)}
+                          >
+                            View
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
@@ -108,6 +120,122 @@ const SummaryReports = () => {
               </table>
             </div>
           )}
+        </div>
+      </div>
+      {/*VIE DETAILS MODAL */}
+      <div className="modal fade" id="openSummaryDetails">
+        <div className="modal-dialog modal-fullscreen">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Modal title</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <div className="table-responsive">
+                <h5 className="text-center">ORDER DETAILS</h5>
+                <div className="d-flex justify-content-between my-4 mx-1">
+                  <b>Booking Ref No. :- 123ACVDF45654</b>
+                  <b>Phone No. :- 9123437177</b>
+                  <b>Custome Name :- Abhay Kumar</b>
+                </div>
+                <div className="accordion accordion-flush">
+                  <div style={{ border: "1px solid gray" }}>
+                    <h2 className="accordion-header">
+                      <button
+                        className="accordion-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne"
+                        aria-expanded="false"
+                      >
+                        PRODUCT DETAILS
+                      </button>
+                    </h2>
+                    <div
+                      id="flush-collapseOne"
+                      className="accordion-collapse collapse"
+                    >
+                      <div className="accordion-body">
+                        Placeholder content for this accordion, which is
+                        intended to demonstrate the class. This is the first
+                        item's accordion body.
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ border: "1px solid gray" }}>
+                    <h2 className="accordion-header">
+                      <button
+                        className="accordion-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo"
+                        aria-expanded="false"
+                      >
+                        ORDER SUMMARY
+                      </button>
+                    </h2>
+                    <div
+                      id="flush-collapseTwo"
+                      className="accordion-collapse collapse"
+                    >
+                      <div className="accordion-body">
+                        Placeholder content for this accordion, which is
+                        intended to demonstrate the class. This is the first
+                        item's accordion body.
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ border: "1px solid gray" }}>
+                    <h2 className="accordion-header">
+                      <button
+                        className="accordion-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseThree"
+                        aria-expanded="false"
+                      >
+                        PAYMENT DETAILS
+                      </button>
+                    </h2>
+                    <div
+                      id="flush-collapseThree"
+                      className="accordion-collapse collapse"
+                    >
+                      <div className="accordion-body">
+                        Placeholder content for this accordion, which is
+                        intended to demonstrate the class. This is the first
+                        item's accordion body.
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ border: "1px solid gray" }}>
+                    <h2 className="accordion-header">
+                      <button
+                        className="accordion-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseFour"
+                        aria-expanded="false"
+                      >
+                        CUSTOMER DETAILS
+                      </button>
+                    </h2>
+                    <div
+                      id="flush-collapseFour"
+                      className="accordion-collapse collapse"
+                    >
+                      <div className="accordion-body">
+                        Placeholder content for this accordion, which is
+                        intended to demonstrate the class. This is the first
+                        item's accordion body.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

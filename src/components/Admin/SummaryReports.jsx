@@ -22,7 +22,7 @@ import moment from "moment";
 
 const SummaryReports = () => {
   const [loading, setLoading] = useState(false);
-  const [orderData, setOrderData] = useState([]);
+  const [orderData, setOrderData] = useState({});
   const [summaryReports, setSummaryReports] = useState([]);
   const [commonTableData, setCommonTableData] = useState([]);
   const [previousTnxData, setPreviousTnxData] = useState([]);
@@ -209,7 +209,7 @@ const SummaryReports = () => {
                         <td>
                           <button
                             className="CButton"
-                            data-bs-toggle="modal"
+                            data-bs-toggle={item.bookingRefNo ? "modal" : ""}
                             data-bs-target="#openSummaryDetails"
                             onClick={() => GetRowWiseDetails(item)}
                           >

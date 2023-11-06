@@ -98,7 +98,7 @@ export const PaymentHeading1 = [
 export const PaymentHeading2 = [
   "PAYMENT_FOR",
   "PAYMENT_MODE(*)",
-  "PAYMENT_REF_NO.(*)",
+  "CREDIT NOTE REF NO.(*)",
   "AMOUNT(*)",
   "FILE(*)",
   "DELETE",
@@ -159,7 +159,7 @@ export const AdminSummarHeaders = [
   "Rental End Date",
   "Cool Of End Date",
   "Status",
-  "View",
+  "View Booking Details",
 ];
 export const ProductDlsHeaders = [
   "Item Code",
@@ -181,25 +181,25 @@ export const OrderSummaryDlsHeaders = [
   "Penalty Amount",
   "Damage Charge",
   "Collection Charge",
-  "Descount Amount",
+  "Discount Amount",
   "Refund Amount",
 ];
 
 export const PaymentDlsHeaders = [
   "Payment For",
   "Payment Type",
-  "Creadit Not Ref No.",
+  "Credit Note Ref No.",
   "Amount",
   "Payment Doc File",
-  "Creadit Date",
+  "Credit Date",
 ];
 export const CustomerDlsHeaders = [
   "Customet Name",
   "Phone No.",
-  "Customer Address",
   "E-Mail ID",
   "PAN No.",
   "PAN File",
+  "Customer Address",
   "Address Proof ID No.",
   "Address Proof File",
 ];

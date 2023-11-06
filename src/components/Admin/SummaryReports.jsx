@@ -27,13 +27,11 @@ const SummaryReports = () => {
   const [commonTableData, setCommonTableData] = useState([]);
   const [previousTnxData, setPreviousTnxData] = useState([]);
   const [totalPaidAmount, setTotalPaidAmount] = useState({});
+  const [existedUser, setExistedUser] = useState({});
   const cutName = commonTableData.map((name) => name.customerName);
   const cutPhone = commonTableData.map((name) => name.mobileNo);
   const customerName = cutName[0];
   const customerPhone = cutPhone[0];
-
-  console.log("commonTableData==>", commonTableData);
-  console.log("previousTnxData==>", previousTnxData);
 
   const ShowAlertForRefNo = () => {
     Swal.fire({
@@ -45,6 +43,23 @@ const SummaryReports = () => {
     });
   };
 
+  useEffect(() => {
+    if (customerPhone) {
+      setLoading(true);
+      axios
+        .get(`${HOST_URL}/rental/customer/details/mobileNo/${customerPhone}`)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            setExistedUser(response.data.value);
+          }
+          setLoading(false);
+        })
+        .then((error) => {
+          setLoading(false);
+        });
+    }
+  }, [customerPhone]);
   const GetSummaryReports = (payload) => {
     setLoading(true);
     const { fromDate, toDate, storeCode } = payload;
@@ -449,14 +464,19 @@ const SummaryReports = () => {
                             </thead>
                             <tbody>
                               <tr>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
+                                <td>{existedUser.customerName}</td>
+                                <td>{existedUser.mobileNo}</td>
+                                <td>{existedUser.emailId}</td>
+                                <td>{existedUser.panCardNo}</td>
+                                <td>{existedUser.panCardNoFileName}</td>
+                                <td>
+                                  {existedUser.customerCity},
+                                  {existedUser.customerAddress1},
+                                  {existedUser.customerAddress2},
+                                  {existedUser.customerCityPincode}
+                                </td>
+                                <td>{existedUser.addressProofIdNo}</td>
+                                <td>{existedUser.addressProofFileName}</td>
                               </tr>
                             </tbody>
                           </table>
@@ -470,10 +490,10 @@ const SummaryReports = () => {
                             </thead>
                             <tbody>
                               <tr>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
-                                <td>Item Code</td>
+                                <td>{existedUser.customerBankName}</td>
+                                <td>{existedUser.customerAccountNumber}</td>
+                                <td>{existedUser.bankIfsc}</td>
+                                <td>{existedUser.bankDetailFileName}</td>
                               </tr>
                             </tbody>
                           </table>

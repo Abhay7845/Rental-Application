@@ -19,6 +19,7 @@ import {
 import { BsXLg } from "react-icons/bs";
 import Swal from "sweetalert2";
 import moment from "moment";
+import AdminSummaryPdf from "../Pdf/AdminSummaryPdf";
 
 const SummaryReports = () => {
   const [loading, setLoading] = useState(false);
@@ -32,11 +33,13 @@ const SummaryReports = () => {
   const cutPhone = commonTableData.map((name) => name.mobileNo);
   const customerName = cutName[0];
   const customerPhone = cutPhone[0];
+  console.log("commonTableData==>", commonTableData);
+  console.log("totalPaidAmount==>", totalPaidAmount);
 
   const ShowAlertForRefNo = () => {
     Swal.fire({
-      title: "Order Booking is Not Yet Completed",
-      text: "Hence: Order Details is not Available",
+      title: "Order Booking is Not Completed Yet!",
+      text: "Hence: Order Details is not Available!",
       icon: "warning",
       confirmButtonColor: "#008080",
       confirmButtonText: "OK",
@@ -234,12 +237,21 @@ const SummaryReports = () => {
               style={{ backgroundColor: "#008080", color: "#ffff" }}
             >
               <h5 className="modal-title">ORDER DETAILS</h5>
-              <BsXLg
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                size={25}
-                cursor="pointer"
-              />
+              <div className="d-flex">
+                <AdminSummaryPdf
+                  orderData={orderData}
+                  commonTableData={commonTableData}
+                  previousTnxData={previousTnxData}
+                  existedUser={existedUser}
+                  totalPaidAmount={totalPaidAmount}
+                />
+                <BsXLg
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  size={25}
+                  cursor="pointer"
+                />
+              </div>
             </div>
             <div className="modal-body">
               {loading === true && <Loader />}
@@ -357,23 +369,92 @@ const SummaryReports = () => {
                             </thead>
                             <tbody>
                               {commonTableData.map((item, i) => {
+                                const { penaltyCharges, damageCharges } = item;
                                 return (
                                   <tr key={i}>
                                     <td>{item.itemCode}</td>
                                     <td>{item.deliveredWt}</td>
                                     <td>{item.actualWtReturn}</td>
-                                    <td>{item.itemCode}</td>
-                                    <td>{item.itemCode}</td>
+                                    <td>
+                                      {parseFloat(
+                                        item.rentalAmount * 1.18
+                                      ).toFixed(2)}
+                                    </td>
                                     <td>{parseInt(item.depositAmount)}</td>
-                                    <td>{item.itemCode}</td>
-                                    <td>{item.penaltyCharges}</td>
-                                    <td>{item.damageCharges}</td>
+                                    <td>
+                                      {penaltyCharges === ""
+                                        ? 0
+                                        : penaltyCharges}
+                                    </td>
+                                    <td>
+                                      {damageCharges === "" ? 0 : damageCharges}
+                                    </td>
                                     <td>{item.itemCode}</td>
                                     <td>{item.itemCode}</td>
                                     <td>{item.itemCode}</td>
                                   </tr>
                                 );
                               })}
+                              <tr>
+                                <th colSpan="3" className="text-end">
+                                  TOTAL
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: false,
+                                  }).format(totalPaidAmount.totalBookingAmount)}
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: false,
+                                  }).format(totalPaidAmount.totalDepositAmount)}
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: false,
+                                  }).format(
+                                    totalPaidAmount.totalPenaltyCharges
+                                  )}
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: false,
+                                  }).format(totalPaidAmount.totalDamageCharges)}
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: false,
+                                  }).format(
+                                    totalPaidAmount.cancellationCharges
+                                  )}
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: false,
+                                  }).format(
+                                    totalPaidAmount.totalDiscountAmount
+                                  )}
+                                </th>
+                                <th>
+                                  {new Intl.NumberFormat("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                    minimumFractionDigits: false,
+                                  }).format(0)}
+                                </th>
+                              </tr>
                             </tbody>
                           </table>
                         </div>

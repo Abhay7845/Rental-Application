@@ -174,13 +174,13 @@ export const OrderSummaryDlsHeaders = [
   "Item Code",
   "Actual Wt. at Delivery",
   "Actual Wt. at Return",
-  "Booking Amount",
-  "Despatch Date",
+  "Booking Amount(With Tax)",
+  // "Despatch Date",
   "Deposit Amount",
-  "Return Date",
+  // "Return Date",
   "Penalty Amount",
   "Damage Charge",
-  "Collection Charge",
+  "Cancellation Chargs",
   "Discount Amount",
   "Refund Amount",
 ];
@@ -194,7 +194,7 @@ export const PaymentDlsHeaders = [
   "Credit Date",
 ];
 export const CustomerDlsHeaders = [
-  "Customet Name",
+  "Customer Name",
   "Phone No.",
   "E-Mail ID",
   "PAN No.",

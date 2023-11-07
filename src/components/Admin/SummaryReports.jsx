@@ -25,6 +25,7 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import AdminSummaryPdf from "../Pdf/AdminSummaryPdf";
 import { Modal, Box } from "@mui/material";
+import ImageFilePriveiw from "./ImageFilePriveiw";
 
 const SummaryReports = () => {
   const [loading, setLoading] = useState(false);
@@ -39,8 +40,6 @@ const SummaryReports = () => {
   const cutPhone = commonTableData.map((name) => name.mobileNo);
   const customerName = cutName[0];
   const customerPhone = cutPhone[0];
-  console.log("commonTableData==>", commonTableData);
-  console.log("totalPaidAmount==>", totalPaidAmount);
 
   const ShowAlertForRefNo = () => {
     Swal.fire({
@@ -600,7 +599,18 @@ const SummaryReports = () => {
                     aria-describedby="modal-modal-description"
                   >
                     <Box sx={FilePopStyle}>
-                      <p>Hello</p>
+                      <ImageFilePriveiw
+                        previousTnxData={previousTnxData}
+                        existedUser={existedUser}
+                      />
+                      <div className="d-flex justify-content-end my-3">
+                        <button
+                          className="CButton"
+                          onClick={() => setOpen(false)}
+                        >
+                          Close
+                        </button>
+                      </div>
                     </Box>
                   </Modal>
                 </div>

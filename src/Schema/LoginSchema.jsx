@@ -40,3 +40,13 @@ export const ReportsSchema = yup.object({
   toDate: yup.string().required("To Date is required"),
   storeCode: yup.string().required("Store Code is required"),
 });
+
+export const FilePopStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "90%",
+  bgcolor: "background.paper",
+  p: 2,
+};

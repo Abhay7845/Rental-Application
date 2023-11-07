@@ -3,7 +3,11 @@ import Navbar from "../common/Navbar";
 import AdminSideBar from "../common/AdminSideBar";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import { Field, Form, Formik } from "formik";
-import { ReportsInitialValue, ReportsSchema } from "../../Schema/LoginSchema";
+import {
+  ReportsInitialValue,
+  ReportsSchema,
+  FilePopStyle,
+} from "../../Schema/LoginSchema";
 import ShowError from "../../Schema/ShowError";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
@@ -20,9 +24,11 @@ import { BsXLg } from "react-icons/bs";
 import Swal from "sweetalert2";
 import moment from "moment";
 import AdminSummaryPdf from "../Pdf/AdminSummaryPdf";
+import { Modal, Box } from "@mui/material";
 
 const SummaryReports = () => {
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const [orderData, setOrderData] = useState({});
   const [summaryReports, setSummaryReports] = useState([]);
   const [commonTableData, setCommonTableData] = useState([]);
@@ -582,6 +588,21 @@ const SummaryReports = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="d-flex justify-content-end my-3">
+                    <button className="CButton" onClick={() => setOpen(true)}>
+                      Preview
+                    </button>
+                  </div>
+                  <Modal
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={FilePopStyle}>
+                      <p>Hello</p>
+                    </Box>
+                  </Modal>
                 </div>
               </div>
             </div>

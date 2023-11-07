@@ -1,278 +1,77 @@
-import React from "react";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React, { useState, useEffect } from "react";
+import { ImageHeaders } from "../../Data/DataList";
+import { UploadImg, FetchImg } from "../../API/HostURL";
+import axios from "axios";
 
 const TestImage = () => {
+  const [sameCustFile, setSameCustFile] = useState([]);
+  const [sameCutIDFileName, setSameCutIDFileName] = useState("");
+  const [panImageUrl, setPanImgUrl] = useState("");
+
+  const UploadSameCustIDProof = () => {
+    if (sameCustFile.length === 0) {
+      alert("Please Choose File");
+    } else {
+      const formData = new FormData();
+      const fileEx = sameCustFile.name.split(".");
+      const fileExtention = `1234gbvfgtyh.${fileEx[1]}`;
+      formData.append("ImgName", fileExtention);
+      formData.append("files", sameCustFile);
+      axios
+        .post(`${UploadImg}`, formData, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setSameCutIDFileName(fileExtention);
+            };
+            if (sameCustFile) {
+              reader.readAsDataURL(sameCustFile);
+            }
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
+  useEffect(() => {
+    if (sameCutIDFileName) {
+      axios
+        .get(`${FetchImg}${sameCutIDFileName}`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data) {
+            setPanImgUrl(response.data);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
+  }, [sameCutIDFileName]);
   return (
     <div>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>PRODUCT DETAILS</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="table-responsive">
-            <table className="table table-bordered border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  {ProductDlsHeaders.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {commonTableData.map((item, i) => {
-                  return (
-                    <tr key={i}>
-                      <td>{item.itemCode}</td>
-                      <td>{item.lotNo}</td>
-                      <td>{item.grossWt}</td>
-                      <td>{item.productValue}</td>
-                      <td>{parseInt(item.rentalAmount)}</td>
-                      <td>{parseFloat(item.rentalAmount * 1.18).toFixed(2)}</td>
-                      <td>{parseInt(item.depositAmount)}</td>
-                    </tr>
-                  );
-                })}
-                <tr>
-                  <th colSpan="3" />
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalProductValue)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalRentalValue)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: 2,
-                    }).format(totalPaidAmount.totalBookingAmount)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalDepositAmount)}
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>ORDER SUMMARY</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="table-responsive">
-            <table className="table table-bordered border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  {OrderSummaryDlsHeaders.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {commonTableData.map((item, i) => {
-                  const { penaltyCharges, damageCharges } = item;
-                  return (
-                    <tr key={i}>
-                      <td>{item.itemCode}</td>
-                      <td>{item.deliveredWt}</td>
-                      <td>{item.actualWtReturn}</td>
-                      <td>{parseFloat(item.rentalAmount * 1.18).toFixed(2)}</td>
-                      <td>{parseInt(item.depositAmount)}</td>
-                      <td>{penaltyCharges === "" ? 0 : penaltyCharges}</td>
-                      <td>{damageCharges === "" ? 0 : damageCharges}</td>
-                      <td>{item.itemCode}</td>
-                      <td>{item.itemCode}</td>
-                      <td>{item.itemCode}</td>
-                    </tr>
-                  );
-                })}
-                <tr>
-                  <th colSpan="3" className="text-end">
-                    TOTAL
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalBookingAmount)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalDepositAmount)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalPenaltyCharges)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalDamageCharges)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.cancellationCharges)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(totalPaidAmount.totalDiscountAmount)}
-                  </th>
-                  <th>
-                    {new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: "INR",
-                      minimumFractionDigits: false,
-                    }).format(0)}
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3a-content"
-          id="panel3a-header"
-        >
-          <Typography>PAYMENT DETAILS</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="table-responsive">
-            <table className="table table-bordered border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  {PaymentDlsHeaders.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {previousTnxData.map((item, i) => {
-                  return (
-                    <tr key={i}>
-                      <th>
-                        {item.paymentFor === "Payment_PendingFor_RentalReturn"
-                          ? "Additional Charge"
-                          : item.paymentFor === "Payment_PendingFor_NewBooking"
-                          ? "Booking Amount"
-                          : item.paymentFor ===
-                            "Payment_PendingFor_RentalIssuance"
-                          ? "Damage Protection Charge"
-                          : ""}
-                      </th>
-                      <th>{item.paymentType}</th>
-                      <th>{item.txnRefNo}</th>
-                      <th className="text-end">{parseInt(item.amount)}</th>
-                      <th>{item.paymentDocFileName}</th>
-                      <th>{moment().format("DD-MM-YYYY")}</th>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel4a-content"
-          id="panel4a-header"
-        >
-          <Typography>CUSTOMER DETAILS</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="table-responsive">
-            <table className="table table-bordered border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  {CustomerDlsHeaders.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{existedUser.customerName}</td>
-                  <td>{existedUser.mobileNo}</td>
-                  <td>{existedUser.emailId}</td>
-                  <td>{existedUser.panCardNo}</td>
-                  <td>{existedUser.panCardNoFileName}</td>
-                  <td>
-                    {existedUser.customerCity},{existedUser.customerAddress1},
-                    {existedUser.customerAddress2},
-                    {existedUser.customerCityPincode}
-                  </td>
-                  <td>{existedUser.addressProofIdNo}</td>
-                  <td>{existedUser.addressProofFileName}</td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  {CustomerBankDlsHeaders.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{existedUser.customerBankName}</td>
-                  <td>{existedUser.customerAccountNumber}</td>
-                  <td>{existedUser.bankIfsc}</td>
-                  <td>{existedUser.bankDetailFileName}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </AccordionDetails>
-      </Accordion>
+      <input
+        type="file"
+        id="sameCust"
+        className="form-control"
+        accept=".jpeg, .png"
+        onChange={(e) => setSameCustFile(e.target.files[0])}
+      />
+      <button onClick={UploadSameCustIDProof}>upload</button>
+      <img
+        src={`data:image/jpeg;base64,${panImageUrl}`}
+        alt=""
+        width="180"
+        height="85"
+      />
     </div>
   );
 };

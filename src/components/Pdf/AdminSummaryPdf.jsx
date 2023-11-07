@@ -33,7 +33,7 @@ const AdminSummaryPdf = (props) => {
         className="CButton mx-2"
         style={{ marginTop: "-15px" }}
       >
-        Print
+        Download PDF
       </button>
       <style>
         {`

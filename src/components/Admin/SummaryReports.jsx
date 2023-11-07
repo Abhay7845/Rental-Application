@@ -228,7 +228,7 @@ const SummaryReports = () => {
           )}
         </div>
       </div>
-      {/*VIE DETAILS MODAL */}
+      {/*VIEW DETAILS MODAL */}
       <div className="modal fade" id="openSummaryDetails">
         <div className="modal-dialog modal-fullscreen">
           <div className="modal-content">

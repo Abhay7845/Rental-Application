@@ -7,7 +7,6 @@ import PrivateScreens from "./components/common/PrivateScreens";
 import NewBooking from "./components/RSO/NewBooking";
 import RentalIssue from "./components/RSO/RentalIssue";
 import "./App.css";
-import "react-calendar/dist/Calendar.css";
 import Cancellation from "./components/RSO/Cancellation";
 import RentalRetrun from "./components/RSO/RentaRetrun";
 import NewCustomer from "./components/RSO/NewCustomer";

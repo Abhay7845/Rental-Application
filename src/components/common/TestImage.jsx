@@ -37,7 +37,7 @@ const TestImage = () => {
         .catch((error) => console.log(error));
     }
   };
-
+  console.log("sameCutIDFileName==>", sameCutIDFileName);
   useEffect(() => {
     if (sameCutIDFileName) {
       axios

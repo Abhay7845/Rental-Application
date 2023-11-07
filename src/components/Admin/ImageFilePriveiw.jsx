@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ImageFileHeaders, ImageHeaders } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import { FetchImg } from "../../API/HostURL";
@@ -10,22 +10,71 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
   const PrintImagePdf = useReactToPrint({
     content: () => PrintImageRef.current,
   });
+  const [addressFile, setAddressFile] = useState("");
+  const [bankFile, setBankFile] = useState("");
+  const [panFile, setPanFile] = useState("");
+  const [paymentDocFile, setPaymentDocFile] = useState("");
 
+  // FETCH ADDRESS FILE URL
   useEffect(() => {
     if (existedUser.addressProofFileName) {
       axios
-        .get(`${FetchImg}${existedUser.addressProofFileName}`, {
+        .get(`${FetchImg}1234gbvfgtyh.png`, {
           headers: ImageHeaders,
         })
         .then((res) => res)
-        .then((response) => {
-          console.log(response.data);
-        })
+        .then((response) => setAddressFile(response.data))
         .catch((error) => {
           console.log("error==>", error);
         });
     }
   }, [existedUser.addressProofFileName]);
+
+  // FETCH BANK FILE URL
+  useEffect(() => {
+    if (existedUser.bankDetailFileName) {
+      axios
+        .get(`${FetchImg}1234gbvfgtyh.png`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => setBankFile(response.data))
+        .catch((error) => {
+          console.log("error==>", error);
+        });
+    }
+  }, [existedUser.bankDetailFileName]);
+
+  // FETCH PAN FILE URL
+  useEffect(() => {
+    if (existedUser.panCardNoFileName) {
+      axios
+        .get(`${FetchImg}1234gbvfgtyh.png`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => setPanFile(response.data))
+        .catch((error) => {
+          console.log("error==>", error);
+        });
+    }
+  }, [existedUser.panCardNoFileName]);
+
+  // FETCH PAMENT DOC FILE URL
+  useEffect(() => {
+    if (docFile[0]) {
+      axios
+        .get(`${FetchImg}1234gbvfgtyh.png`, {
+          headers: ImageHeaders,
+        })
+        .then((res) => res)
+        .then((response) => setPaymentDocFile(response.data))
+        .catch((error) => {
+          console.log("error==>", error);
+          setLoading(false);
+        });
+    }
+  }, [docFile[0]]);
   return (
     <div>
       <div className="d-flex justify-content-end my-2">
@@ -47,10 +96,54 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
           </thead>
           <tbody>
             <tr>
-              <td>{existedUser.addressProofFileName}</td>
-              <td>{existedUser.bankDetailFileName}</td>
-              <td>{existedUser.panCardNoFileName}</td>
-              <td>{docFile[0]}</td>
+              <td>
+                {addressFile ? (
+                  <img
+                    src={`data:image/jpeg;base64,${addressFile}`}
+                    width="180"
+                    height="85"
+                    alt="addressFile"
+                  />
+                ) : (
+                  <b>Loading...</b>
+                )}
+              </td>
+              <td>
+                {bankFile ? (
+                  <img
+                    src={`data:image/jpeg;base64,${bankFile}`}
+                    width="180"
+                    height="85"
+                    alt="addressFile"
+                  />
+                ) : (
+                  <b>Loading...</b>
+                )}
+              </td>
+              <td>
+                {panFile ? (
+                  <img
+                    src={`data:image/jpeg;base64,${panFile}`}
+                    width="180"
+                    height="85"
+                    alt="panFile"
+                  />
+                ) : (
+                  <b>Loading...</b>
+                )}
+              </td>
+              <td>
+                {paymentDocFile ? (
+                  <img
+                    src={`data:image/jpeg;base64,${paymentDocFile}`}
+                    width="180"
+                    height="85"
+                    alt="paymentDocFile"
+                  />
+                ) : (
+                  <b>Loading...</b>
+                )}
+              </td>
             </tr>
           </tbody>
         </table>

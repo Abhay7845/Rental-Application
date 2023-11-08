@@ -46,7 +46,7 @@ const AdminSummaryPdf = (props) => {
               size: A4;
               margin:15mm;
               margin-top:40mm;
-              margin-top:40mm;
+              margin-top:40mm; 
             }
           `}
       </style>

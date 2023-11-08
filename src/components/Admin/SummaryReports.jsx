@@ -561,12 +561,7 @@ const SummaryReports = () => {
                         Preview
                       </button>
                     </div>
-                    <Modal
-                      open={open}
-                      onClose={() => setOpen(false)}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
+                    <Modal open={open} onClose={() => setOpen(false)}>
                       <Box sx={FilePopStyle}>
                         <ImageFilePriveiw
                           previousTnxData={previousTnxData}

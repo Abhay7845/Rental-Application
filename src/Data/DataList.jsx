@@ -209,9 +209,3 @@ export const CustomerBankDlsHeaders = [
   "IFSC Code",
   "Bank File",
 ];
-export const ImageFileHeaders = [
-  "Address File",
-  "Bank File",
-  "PAN File",
-  "Payment Doc File",
-];

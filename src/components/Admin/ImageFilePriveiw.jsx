@@ -1,91 +1,58 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ImageFileHeaders, ImageHeaders } from "../../Data/DataList";
+import { ImageHeaders } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
-import { FetchImg } from "../../API/HostURL";
+import { FetchImg, HOST_URL } from "../../API/HostURL";
 import axios from "axios";
 
 const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
-  const docFile = previousTnxData.map((file) => file.paymentDocFileName);
   const PrintImageRef = useRef(null);
   const PrintImagePdf = useReactToPrint({
     content: () => PrintImageRef.current,
   });
-  const [addressFile, setAddressFile] = useState("");
-  const [bankFile, setBankFile] = useState("");
-  const [panFile, setPanFile] = useState("");
-  const [paymentDocFile, setPaymentDocFile] = useState("");
+  const [uploadedImgData, setUploadedImgData] = useState([]);
 
-  // FETCH ADDRESS FILE URL
-  useEffect(() => {
-    if (existedUser.addressProofFileName) {
-      axios
-        .get(`${FetchImg}1234gbvfgtyh.png`, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => setAddressFile(response.data))
-        .catch((error) => {
-          console.log("error==>", error);
-        });
-    }
-  }, [existedUser.addressProofFileName]);
+  const [showImage, setShowImage] = useState("");
 
-  // FETCH BANK FILE URL
   useEffect(() => {
-    if (existedUser.bankDetailFileName) {
-      axios
-        .get(`${FetchImg}${existedUser.bankDetailFileName}`, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => setBankFile(response.data))
-        .catch((error) => {
-          console.log("error==>", error);
-        });
-    }
-  }, [existedUser.bankDetailFileName]);
+    axios
+      .get(`${HOST_URL}/Admin/get/document/list/SIM-R-2023-11-03-746787`, {
+        headers: ImageHeaders,
+      })
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setUploadedImgData(response.data.value);
+        }
+      })
+      .catch((error) => {
+        console.log("error==>", error);
+      });
+  }, []);
+  const FetchUploadedImage = (imgUrl) => {
+    axios
+      .get(`${FetchImg}${imgUrl}`, {
+        headers: ImageHeaders,
+      })
+      .then((res) => res)
+      .then((response) => setShowImage(response.data))
+      .catch((error) => {
+        console.log("error==>", error);
+      });
+  };
 
-  // FETCH PAN FILE URL
-  useEffect(() => {
-    if (existedUser.panCardNoFileName) {
-      axios
-        .get(`${FetchImg}${existedUser.panCardNoFileNam}`, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => setPanFile(response.data))
-        .catch((error) => {
-          console.log("error==>", error);
-        });
-    }
-  }, [existedUser.panCardNoFileName]);
-
-  // FETCH PAMENT DOC FILE URL
-  useEffect(() => {
-    if (docFile[0]) {
-      axios
-        .get(`${FetchImg}${docFile[0]}`, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => setPaymentDocFile(response.data))
-        .catch((error) => {
-          console.log("error==>", error);
-        });
-    }
-  }, [docFile[0]]);
   return (
     <div>
       <div className="d-flex justify-content-end my-2">
         <button
-          className={
-            addressFile && bankFile && panFile && paymentDocFile
-              ? "CButton"
-              : "CDisabled"
-          }
-          disabled={
-            addressFile && bankFile && panFile && paymentDocFile ? false : true
-          }
+          className="CButton"
+          // className={
+          //   addressFile && bankFile && panFile && paymentDocFile
+          //     ? "CButton"
+          //     : "CDisabled"
+          // }
+          // disabled={
+          //   addressFile && bankFile && panFile && paymentDocFile ? false : true
+          // }
           onClick={PrintImagePdf}
         >
           Print
@@ -98,62 +65,31 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
         >
           <thead className="table-dark border-light">
             <tr>
-              {ImageFileHeaders.map((heading, i) => {
-                return <td key={i}>{heading}</td>;
-              })}
+              <td>Image</td>
+              <td>Details</td>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                {addressFile ? (
-                  <img
-                    src={`data:image/jpeg;base64,${addressFile}`}
-                    width="180"
-                    height="85"
-                    alt="Not Found"
-                  />
-                ) : (
-                  <b>Loading...</b>
-                )}
-              </td>
-              <td>
-                {bankFile ? (
-                  <img
-                    src={`data:image/jpeg;base64,${bankFile}`}
-                    width="180"
-                    height="85"
-                    alt="Not Found"
-                  />
-                ) : (
-                  <b>Loading...</b>
-                )}
-              </td>
-              <td>
-                {panFile ? (
-                  <img
-                    src={`data:image/jpeg;base64,${panFile}`}
-                    width="180"
-                    height="85"
-                    alt="Not Found"
-                  />
-                ) : (
-                  <b>Loading...</b>
-                )}
-              </td>
-              <td>
-                {paymentDocFile ? (
-                  <img
-                    src={`data:image/jpeg;base64,${paymentDocFile}`}
-                    width="180"
-                    height="85"
-                    alt="Not Found"
-                  />
-                ) : (
-                  <b>Loading...</b>
-                )}
-              </td>
-            </tr>
+            {uploadedImgData.map((item, i) => {
+              return (
+                <tr key={i}>
+                  <td>
+                    {FetchUploadedImage("1234gbvfgtyh.png")}
+                    {showImage ? (
+                      <img
+                        src={`data:image/jpeg;base64,${showImage}`}
+                        width="180"
+                        height="85"
+                        alt="Not Found"
+                      />
+                    ) : (
+                      <b>Loading...</b>
+                    )}
+                  </td>
+                  <td>{item.documentType.toUpperCase()}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

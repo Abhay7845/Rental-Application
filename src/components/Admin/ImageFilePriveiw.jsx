@@ -40,6 +40,12 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
       });
   };
 
+  // const handleDownload = (fileName, fileUrl) => {
+  //   const link = document.createElement("a");
+  //   link.href = fileUrl;
+  //   link.download = fileName; // Rename the downloaded file if needed
+  //   link.click();
+  // };
   return (
     <div>
       <div className="d-flex justify-content-between my-2">

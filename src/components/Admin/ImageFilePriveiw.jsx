@@ -10,7 +10,6 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
     content: () => PrintImageRef.current,
   });
   const [uploadedImgData, setUploadedImgData] = useState([]);
-
   const [showImage, setShowImage] = useState("");
 
   useEffect(() => {

@@ -26,11 +26,10 @@ import moment from "moment";
 import AdminSummaryPdf from "../Pdf/AdminSummaryPdf";
 import {
   Modal,
-  Box,
+  DialogContent,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ImageFilePriveiw from "./ImageFilePriveiw";
@@ -562,7 +561,7 @@ const SummaryReports = () => {
                       </button>
                     </div>
                     <Modal open={open} onClose={() => setOpen(false)}>
-                      <Box sx={FilePopStyle}>
+                      <DialogContent sx={FilePopStyle}>
                         <ImageFilePriveiw
                           previousTnxData={previousTnxData}
                           existedUser={existedUser}
@@ -575,7 +574,7 @@ const SummaryReports = () => {
                             Close
                           </button>
                         </div>
-                      </Box>
+                      </DialogContent>
                     </Modal>
                   </div>
                 </div>

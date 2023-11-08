@@ -81,6 +81,7 @@ const SummaryReports = () => {
       .get(`${HOST_URL}/Admin/order/summary/${storeCode}/${fromDate}/${toDate}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setSummaryReports(response.data.value);
         }
@@ -214,11 +215,17 @@ const SummaryReports = () => {
                     return (
                       <tr key={i}>
                         <td>{item.storeCode}</td>
-                        <td>{item.bookingDate}</td>
+                        <td>{moment(item.bookingDate).format("DD-MM-YYYY")}</td>
                         <td>{item.bookingRefNo}</td>
-                        <td>{item.rentalStartDate}</td>
-                        <td>{item.rentalEndDate}</td>
-                        <td>{item.coolOffEndDate}</td>
+                        <td>
+                          {moment(item.rentalStartDate).format("DD-MM-YYYY")}
+                        </td>
+                        <td>
+                          {moment(item.rentalEndDate).format("DD-MM-YYYY")}
+                        </td>
+                        <td>
+                          {moment(item.coolOffEndDate).format("DD-MM-YYYY")}
+                        </td>
                         <td>{item.status}</td>
                         <td>
                           <button
@@ -470,7 +477,7 @@ const SummaryReports = () => {
                             {previousTnxData.map((item, i) => {
                               return (
                                 <tr key={i}>
-                                  <th>
+                                  <td>
                                     {item.paymentFor ===
                                     "Payment_PendingFor_RentalReturn"
                                       ? "Additional Charge"
@@ -481,14 +488,14 @@ const SummaryReports = () => {
                                         "Payment_PendingFor_RentalIssuance"
                                       ? "Damage Protection Charge"
                                       : ""}
-                                  </th>
-                                  <th>{item.paymentType}</th>
-                                  <th>{item.txnRefNo}</th>
-                                  <th className="text-end">
+                                  </td>
+                                  <td>{item.paymentType}</td>
+                                  <td>{item.txnRefNo}</td>
+                                  <td className="text-end">
                                     {parseInt(item.amount)}
-                                  </th>
-                                  <th>{item.paymentDocFileName}</th>
-                                  <th>{moment().format("DD-MM-YYYY")}</th>
+                                  </td>
+                                  <td>{item.paymentDocFileName}</td>
+                                  <td>{moment().format("DD-MM-YYYY")}</td>
                                 </tr>
                               );
                             })}

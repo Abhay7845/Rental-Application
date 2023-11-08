@@ -209,7 +209,7 @@ const AdminSummaryPdf = (props) => {
             {previousTnxData.map((item, i) => {
               return (
                 <tr key={i}>
-                  <th>
+                  <td>
                     {item.paymentFor === "Payment_PendingFor_RentalReturn"
                       ? "Additional Charge"
                       : item.paymentFor === "Payment_PendingFor_NewBooking"
@@ -217,12 +217,12 @@ const AdminSummaryPdf = (props) => {
                       : item.paymentFor === "Payment_PendingFor_RentalIssuance"
                       ? "Damage Protection Charge"
                       : ""}
-                  </th>
-                  <th>{item.paymentType}</th>
-                  <th>{item.txnRefNo}</th>
-                  <th className="text-end">{parseInt(item.amount)}</th>
-                  <th>{item.paymentDocFileName}</th>
-                  <th>{moment().format("DD-MM-YYYY")}</th>
+                  </td>
+                  <td>{item.paymentType}</td>
+                  <td>{item.txnRefNo}</td>
+                  <td className="text-end">{parseInt(item.amount)}</td>
+                  <td>{item.paymentDocFileName}</td>
+                  <td>{moment().format("DD-MM-YYYY")}</td>
                 </tr>
               );
             })}

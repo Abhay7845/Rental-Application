@@ -561,20 +561,16 @@ const SummaryReports = () => {
                       </button>
                     </div>
                     <Modal open={open} onClose={() => setOpen(false)}>
-                      <DialogContent sx={FilePopStyle}>
+                      <div
+                        style={FilePopStyle}
+                        className="scrollable-container"
+                      >
                         <ImageFilePriveiw
                           previousTnxData={previousTnxData}
                           existedUser={existedUser}
+                          Close={() => setOpen(false)}
                         />
-                        <div className="d-flex justify-content-end my-3">
-                          <button
-                            className="CButton"
-                            onClick={() => setOpen(false)}
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </DialogContent>
+                      </div>
                     </Modal>
                   </div>
                 </div>

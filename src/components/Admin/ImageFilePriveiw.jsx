@@ -4,7 +4,7 @@ import { useReactToPrint } from "react-to-print";
 import { FetchImg, HOST_URL } from "../../API/HostURL";
 import axios from "axios";
 
-const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
+const ImageFilePriveiw = ({ previousTnxData, Close }) => {
   const PrintImageRef = useRef(null);
   const PrintImagePdf = useReactToPrint({
     content: () => PrintImageRef.current,
@@ -42,19 +42,11 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
   return (
     <div>
       <div className="d-flex justify-content-end my-2">
-        <button
-          className="CButton"
-          // className={
-          //   addressFile && bankFile && panFile && paymentDocFile
-          //     ? "CButton"
-          //     : "CDisabled"
-          // }
-          // disabled={
-          //   addressFile && bankFile && panFile && paymentDocFile ? false : true
-          // }
-          onClick={PrintImagePdf}
-        >
+        <button className="CButton mx-2" onClick={PrintImagePdf}>
           Print
+        </button>
+        <button className="CButton" onClick={Close}>
+          Close
         </button>
       </div>
       <div className="table-responsive">

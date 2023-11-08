@@ -133,3 +133,11 @@ tr:hover .DeleteRow {
   margin-left: 100%;
   z-index: -1;
 }
+
+.scrollable-container {
+  width: 50vw;
+  height: 95vh;
+  overflow: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}

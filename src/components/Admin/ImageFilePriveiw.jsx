@@ -62,7 +62,8 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
           <thead className="table-dark border-light">
             <tr>
               <td>Image</td>
-              <td>Image Details</td>
+              <td>Document Type</td>
+              <td>Content For</td>
             </tr>
           </thead>
           <tbody>
@@ -82,7 +83,12 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
                       <b>Loading...</b>
                     )}
                   </td>
-                  <td>{item.documentType.toUpperCase()}</td>
+                  <td style={{ fontSize: "10px", fontWeight: "bold" }}>
+                    {item.documentType.toUpperCase()}
+                  </td>
+                  <td style={{ fontSize: "10px", fontWeight: "bold" }}>
+                    {item.contentFor.toUpperCase()}
+                  </td>
                 </tr>
               );
             })}

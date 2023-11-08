@@ -77,7 +77,17 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
   return (
     <div>
       <div className="d-flex justify-content-end my-2">
-        <button className="CButton" onClick={PrintImagePdf}>
+        <button
+          className={
+            addressFile && bankFile && panFile && paymentDocFile
+              ? "CButton"
+              : "CDisabled"
+          }
+          disabled={
+            addressFile && bankFile && panFile && paymentDocFile ? false : true
+          }
+          onClick={PrintImagePdf}
+        >
           Print
         </button>
       </div>

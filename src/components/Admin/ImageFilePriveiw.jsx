@@ -111,7 +111,7 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
                     src={`data:image/jpeg;base64,${addressFile}`}
                     width="180"
                     height="85"
-                    alt="addressFile"
+                    alt="Not Found"
                   />
                 ) : (
                   <b>Loading...</b>
@@ -123,7 +123,7 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
                     src={`data:image/jpeg;base64,${bankFile}`}
                     width="180"
                     height="85"
-                    alt="addressFile"
+                    alt="Not Found"
                   />
                 ) : (
                   <b>Loading...</b>
@@ -135,7 +135,7 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
                     src={`data:image/jpeg;base64,${panFile}`}
                     width="180"
                     height="85"
-                    alt="panFile"
+                    alt="Not Found"
                   />
                 ) : (
                   <b>Loading...</b>
@@ -147,7 +147,7 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
                     src={`data:image/jpeg;base64,${paymentDocFile}`}
                     width="180"
                     height="85"
-                    alt="paymentDocFile"
+                    alt="Not Found"
                   />
                 ) : (
                   <b>Loading...</b>

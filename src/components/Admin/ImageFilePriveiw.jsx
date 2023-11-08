@@ -34,7 +34,7 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
   useEffect(() => {
     if (existedUser.bankDetailFileName) {
       axios
-        .get(`${FetchImg}1234gbvfgtyh.png`, {
+        .get(`${FetchImg}${existedUser.bankDetailFileName}`, {
           headers: ImageHeaders,
         })
         .then((res) => res)
@@ -49,7 +49,7 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
   useEffect(() => {
     if (existedUser.panCardNoFileName) {
       axios
-        .get(`${FetchImg}1234gbvfgtyh.png`, {
+        .get(`${FetchImg}${existedUser.panCardNoFileNam}`, {
           headers: ImageHeaders,
         })
         .then((res) => res)
@@ -64,14 +64,13 @@ const ImageFilePriveiw = ({ previousTnxData, existedUser }) => {
   useEffect(() => {
     if (docFile[0]) {
       axios
-        .get(`${FetchImg}1234gbvfgtyh.png`, {
+        .get(`${FetchImg}${docFile[0]}`, {
           headers: ImageHeaders,
         })
         .then((res) => res)
         .then((response) => setPaymentDocFile(response.data))
         .catch((error) => {
           console.log("error==>", error);
-          setLoading(false);
         });
     }
   }, [docFile[0]]);

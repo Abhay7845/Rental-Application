@@ -3,6 +3,7 @@ import { ImageHeaders } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import { FetchImg, HOST_URL } from "../../API/HostURL";
 import axios from "axios";
+import { BsXLg } from "react-icons/bs";
 
 const ImageFilePriveiw = ({ previousTnxData, Close }) => {
   const PrintImageRef = useRef(null);
@@ -41,13 +42,11 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
 
   return (
     <div>
-      <div className="d-flex justify-content-end my-2">
-        <button className="CButton mx-2" onClick={PrintImagePdf}>
-          Print
+      <div className="d-flex justify-content-between my-2">
+        <button className="CButton" onClick={PrintImagePdf}>
+          Print Pdf
         </button>
-        <button className="CButton" onClick={Close}>
-          Close
-        </button>
+        <BsXLg onClick={Close} size={22} cursor="pointer" color="#fff" />
       </div>
       <div className="table-responsive">
         <table
@@ -57,7 +56,7 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
           <thead className="table-dark border-light">
             <tr>
               <td>Image</td>
-              <td>Details</td>
+              <td>Image Details</td>
             </tr>
           </thead>
           <tbody>

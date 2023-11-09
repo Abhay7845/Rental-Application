@@ -555,7 +555,7 @@ const CashierPaymentDetails = () => {
 
   const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
-      bookingRefId: !bookingGenNo ? bookingRefID : bookingGenNo,
+      bookingRefId: bookingRefNo,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: !documentType ? dlrChalalnFileName : documentType,
@@ -607,7 +607,7 @@ const CashierPaymentDetails = () => {
 
   const UploadDlvrChalanimgDetails = (imgName) => {
     const DlvrChllanIputs = {
-      bookingRefId: bookingRefID,
+      bookingRefId: bookingRefNo,
       contentFor: "cashier",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "DeliveryChllan",
@@ -658,7 +658,7 @@ const CashierPaymentDetails = () => {
   };
   const UpdLoadClsDetails = (imgName) => {
     const LoanCloserInputs = {
-      bookingRefId: bookingRefID,
+      bookingRefId: bookingRefNo,
       contentFor: "cashier",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "loanClosure",

@@ -12,10 +12,12 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
   });
   const [uploadedImgData, setUploadedImgData] = useState([]);
   const [showImage, setShowImage] = useState("");
+  const imageUrl = uploadedImgData.map((url) => url.fileUrl);
+  console.log("imageUrl==>", imageUrl);
 
   useEffect(() => {
     axios
-      .get(`${HOST_URL}/Admin/get/document/list/SIM-R-2023-11-03-746787`, {
+      .get(`${HOST_URL}/Admin/get/document/list/MAMTHA-R-2023-11-09-635809`, {
         headers: ImageHeaders,
       })
       .then((res) => res)
@@ -30,7 +32,7 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
   }, []);
   const FetchUploadedImage = (imgUrl) => {
     axios
-      .get(`${FetchImg}${imgUrl}`, {
+      .get(imgUrl, {
         headers: ImageHeaders,
       })
       .then((res) => res)
@@ -71,7 +73,7 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
               return (
                 <tr key={i}>
                   <td>
-                    {FetchUploadedImage("1234gbvfgtyh.png")}
+                    {FetchUploadedImage(item.fileUrl)}
                     {showImage ? (
                       <img
                         src={`data:image/jpeg;base64,${showImage}`}

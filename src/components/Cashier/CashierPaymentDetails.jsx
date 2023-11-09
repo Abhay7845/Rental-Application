@@ -21,9 +21,6 @@ import ServiceIvoicePdf from "../Pdf/ServiceIvoicePdf";
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
   const storeCode = localStorage.getItem("storeCode");
-  const currentDate = moment().format("YYYY-MM-DD");
-  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
-  const bookingRefID = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [bookingGenNo, setBookingGenNo] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [getPaymentData, setGetPaymentData] = useState([]);
@@ -45,6 +42,10 @@ const CashierPaymentDetails = () => {
   const [invoicePdfNo, setInvoicePdfNo] = useState({});
   const [outStatus, setOutStatus] = useState("");
   const [amontHeading, setAmontHeading] = useState("");
+  const currentDate = moment().format("YYYY-MM-DD");
+  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+  const booking_Id = `${storeCode}-R-${currentDate}-${RandomDigit}`;
+  const [bookingRefID, setBookingRefID] = useState(booking_Id);
 
   const {
     paymentRequestFor,
@@ -84,7 +85,6 @@ const CashierPaymentDetails = () => {
   const [printFile, setPrintFile] = useState("");
   const [deliveryChallan, setDeliveryChallan] = useState([]);
   const [tnCFileName, setTnCFileName] = useState("");
-  const [dlrChalalnFileName, setDlrChalalnFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
   const [loanCloseFile, setLoanCloseFile] = useState("");
 
@@ -448,7 +448,7 @@ const CashierPaymentDetails = () => {
   const PaymentFileImage = (UploadFileName) => {
     const paymentUploadFile = {
       bookingRefId: !bookingGenNo ? bookingRefID : bookingGenNo,
-      contentFor: "newBooking",
+      contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: "PaymentDocument",
       fileName: UploadFileName,
@@ -514,10 +514,10 @@ const CashierPaymentDetails = () => {
       setDocumentType("tncDocument");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
-      setDocumentType("KarigarQAReport");
+      setDocumentType("LoanDocument");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-      setDocumentType("LoanClosureDocument");
+      setDocumentType("ServiceInvoice");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       setDocumentType("CancellationInvoice");
@@ -558,7 +558,10 @@ const CashierPaymentDetails = () => {
 
   const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
-      bookingRefId: bookingRefNo,
+      bookingRefId:
+        paymentRequestFor === "Payment_PendingFor_NewBooking"
+          ? bookingRefID
+          : bookingRefNo,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: documentType,
@@ -611,9 +614,9 @@ const CashierPaymentDetails = () => {
   const UploadDlvrChalanimgDetails = (imgName) => {
     const DlvrChllanIputs = {
       bookingRefId: bookingRefNo,
-      contentFor: "cashier",
+      contentFor: paymentRequestFor,
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "DeliveryChllan",
+      documentType: "DeliveryChallan",
       fileName: imgName,
       fileSize: `${deliveryChallan.size}`,
       fileType: `${deliveryChallan.type}`,
@@ -650,7 +653,6 @@ const CashierPaymentDetails = () => {
         .then((response) => {
           if (response.data) {
             UploadDlvrChalanimgDetails(deliveryChallanFile);
-            setDlrChalalnFileName(deliveryChallanFile);
           }
           setLoading(false);
         })
@@ -662,9 +664,9 @@ const CashierPaymentDetails = () => {
   const UpdLoadClsDetails = (imgName) => {
     const LoanCloserInputs = {
       bookingRefId: bookingRefNo,
-      contentFor: "cashier",
+      contentFor: paymentRequestFor,
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "loanClosure",
+      documentType: "LoanClosureDocument",
       fileName: imgName,
       fileSize: `${loanCloseFile.size}`,
       fileType: `${loanCloseFile.type}`,

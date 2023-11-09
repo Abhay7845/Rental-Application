@@ -199,7 +199,7 @@ const RentalReturn = () => {
   const UploadIDDetails = (imgName) => {
     const IdDetailsInput = {
       bookingRefId: GetReturnProduct.refId,
-      contentFor: "rentalReturn",
+      contentFor: "RentalReturn",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "userIdProof",
       fileName: imgName,
@@ -264,7 +264,7 @@ const RentalReturn = () => {
   const UpdateBookingFile = (fileExtention) => {
     const updateBookingInput = {
       bookingRefId: refId,
-      contentFor: "rentalReturn",
+      contentFor: "RentalReturn",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "KarigarQAReport",
       fileName: fileExtention,

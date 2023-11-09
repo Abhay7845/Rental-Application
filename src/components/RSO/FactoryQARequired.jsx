@@ -69,6 +69,7 @@ const FactoryQARequired = () => {
       rentalAmount: data.rentalAmount,
       peneltyCharge: parseFloat(!data.penaltyCharges ? 0 : data.penaltyCharges),
       tempBookingRefNo: data.tempBookingRefNo,
+      damageCharges: data.damageCharges,
     };
   });
 
@@ -95,6 +96,7 @@ const FactoryQARequired = () => {
       )
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setReturnTableData(response.data.value);
         }
@@ -137,7 +139,7 @@ const FactoryQARequired = () => {
   const UpdateBookingFile = (fileExtention) => {
     const updateBookingInput = {
       bookingRefId: refId,
-      contentFor: "rentalReturn",
+      contentFor: "FactoryQA",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "FactoryQAReport",
       fileName: fileExtention,
@@ -146,7 +148,6 @@ const FactoryQARequired = () => {
       fileURL: `${FetchImg}${fileExtention}`,
       updatedDate: null,
     };
-    console.log("updateBookingInput==>", updateBookingInput);
     axios
       .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
       .then((res) => res)
@@ -366,10 +367,13 @@ const FactoryQARequired = () => {
                           <td>{item.peneltyCharge.toLocaleString("en-IN")}</td>
                           <td>
                             <input
-                              type="number"
-                              className="w-100"
+                              type="text"
+                              className="text-center w-100"
                               placeholder="Damage Charge"
                               name={i}
+                              defaultValue={parseFloat(
+                                item.damageCharges
+                              ).toFixed(2)}
                               onChange={GetActualWtOfDamage}
                             />
                           </td>

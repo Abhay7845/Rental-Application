@@ -129,9 +129,9 @@ const RentalIssue = () => {
   const UpdItemWiseDetails = (productFileName, pdtIdImg) => {
     const UpdItemWiseInputs = {
       bookingRefId: GetReturnProduct.refId,
-      contentFor: "rentalIssue",
+      contentFor: "RentalIssue",
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "userIdProof",
+      documentType: "ProductImage",
       fileName: productFileName,
       fileSize: `${pdtIdImg.size}`,
       fileType: `${pdtIdImg.type}`,
@@ -249,7 +249,7 @@ const RentalIssue = () => {
   const UpdCancelledChequeDetails = (imgName) => {
     const CancelledFileinp = {
       bookingRefId: GetReturnProduct.refId,
-      contentFor: "rentalIssue",
+      contentFor: "RentalIssue",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "cancelledCheue",
       fileName: imgName,
@@ -359,7 +359,7 @@ const RentalIssue = () => {
   const UploadKarigarQAPdf = (QAFilepdf) => {
     const UpdateKarigarQAPdf = {
       bookingRefId: refId,
-      contentFor: "rentalIssue",
+      contentFor: "RentalIssue",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "KrigarQAReportsPdf",
       fileName: QAFilepdf,

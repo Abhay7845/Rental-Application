@@ -13,7 +13,7 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
   const [uploadedImgData, setUploadedImgData] = useState([]);
   const [showImage, setShowImage] = useState("");
   const imageUrl = uploadedImgData.map((url) => url.fileUrl);
-  console.log("imageUrl==>", imageUrl);
+  console.log("showImage==>", showImage);
 
   useEffect(() => {
     axios
@@ -30,17 +30,24 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
         console.log("error==>", error);
       });
   }, []);
+
   const FetchUploadedImage = (imgUrl) => {
     axios
       .get(imgUrl, {
         headers: ImageHeaders,
       })
       .then((res) => res)
-      .then((response) => setShowImage(response.data))
+      .then((response) => setShowImage([...showImage, response.data]))
       .catch((error) => {
         console.log("error==>", error);
       });
   };
+
+  for (let i = 0; i < imageUrl.length; i++) {
+    if (imageUrl.length != imageUrl.length + 1) {
+      FetchUploadedImage(imageUrl[i]);
+    }
+  }
 
   // const handleDownload = (fileName, fileUrl) => {
   //   const link = document.createElement("a");
@@ -68,12 +75,11 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
               <td>Content For</td>
             </tr>
           </thead>
-          <tbody>
+          {/*<tbody>
             {uploadedImgData.map((item, i) => {
               return (
                 <tr key={i}>
                   <td>
-                    {FetchUploadedImage(item.fileUrl)}
                     {showImage ? (
                       <img
                         src={`data:image/jpeg;base64,${showImage}`}
@@ -94,7 +100,7 @@ const ImageFilePriveiw = ({ previousTnxData, Close }) => {
                 </tr>
               );
             })}
-          </tbody>
+          </tbody>*/}
         </table>
       </div>
     </div>

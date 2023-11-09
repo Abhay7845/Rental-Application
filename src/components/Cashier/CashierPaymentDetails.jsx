@@ -519,6 +519,9 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       setDocumentType("LoanClosureDocument");
     }
+    if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+      setDocumentType("CancellationInvoice");
+    }
   }, [paymentRequestFor]);
 
   // VERIFY OTP
@@ -558,7 +561,7 @@ const CashierPaymentDetails = () => {
       bookingRefId: bookingRefNo,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
-      documentType: !documentType ? dlrChalalnFileName : documentType,
+      documentType: documentType,
       fileName: printFileName,
       fileSize: `${printFile.size}`,
       fileType: `${printFile.type}`,

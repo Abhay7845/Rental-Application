@@ -533,8 +533,7 @@ const CashierPaymentDetails = () => {
           setOtp(response.data.otp);
           alert(
             `OTP has been sent your Register XXXX${paymentDetails.mobileNo.substring(
-              6,
-              10
+              6
             )}`
           );
         }

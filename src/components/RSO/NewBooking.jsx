@@ -27,6 +27,7 @@ const NewBooking = () => {
   const packageDays = localStorage.getItem("packageDays");
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
+  const RandomD = Math.floor(100000 + Math.random() * 900000);
 
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -204,7 +205,7 @@ const NewBooking = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = cancelledChequeFile.name.split(".");
-      const fileExtention = `${customerAccountNumber}.${fileEx[1]}`;
+      const fileExtention = `${customerAccountNumber}_${RandomD}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", cancelledChequeFile);
       axios
@@ -234,7 +235,7 @@ const NewBooking = () => {
 
   const UploadTnxDetails = (imgName) => {
     const TnxIputsDetails = {
-      bookingRefId: "",
+      bookingRefId: bookingRefId,
       contentFor: "newBooking",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "tnxPreviousFile",
@@ -264,7 +265,7 @@ const NewBooking = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = tnxFile.name.split(".");
-      const fileExtention = `${existedUserData.mobileNo}.${fileEx[1]}`;
+      const fileExtention = `${existedUserData.mobileNo}_${RandomD}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", tnxFile);
       axios

@@ -38,16 +38,17 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
         headers: ImageHeaders,
       })
       .then((res) => res)
-      .then((response) => setShowImage([...showImage, response.data]))
+      .then((response) => {
+        console.log("response==>", response.data);
+        setShowImage([...showImage, response.data]);
+      })
       .catch((error) => {
         console.log("error==>", error);
       });
   };
 
   for (let i = 0; i < imageUrl.length; i++) {
-    if (imageUrl.length != imageUrl.length + 1) {
-      FetchUploadedImage(imageUrl[i]);
-    }
+    FetchUploadedImage(imageUrl[i]);
   }
 
   // const handleDownload = (fileName, fileUrl) => {
@@ -76,14 +77,14 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
               <td>Content For</td>
             </tr>
           </thead>
-          {/*<tbody>
+          <tbody>
             {uploadedImgData.map((item, i) => {
               return (
                 <tr key={i}>
                   <td>
                     {showImage ? (
                       <img
-                        src={`data:image/jpeg;base64,${showImage}`}
+                        src={`data:image/jpeg;base64,${showImage[i]}`}
                         width="180"
                         height="85"
                         alt="Not Found"
@@ -101,7 +102,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
                 </tr>
               );
             })}
-          </tbody>*/}
+          </tbody>
         </table>
       </div>
     </div>

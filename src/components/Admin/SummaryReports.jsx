@@ -572,8 +572,7 @@ const SummaryReports = () => {
                         className="scrollable-container"
                       >
                         <ImageFilePriveiw
-                          previousTnxData={previousTnxData}
-                          existedUser={existedUser}
+                          orderData={orderData}
                           Close={() => setOpen(false)}
                         />
                       </div>

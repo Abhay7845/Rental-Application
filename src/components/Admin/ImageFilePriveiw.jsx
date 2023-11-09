@@ -1,23 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ImageHeaders } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
-import { FetchImg, HOST_URL } from "../../API/HostURL";
+import { HOST_URL } from "../../API/HostURL";
 import axios from "axios";
 import { BsXLg } from "react-icons/bs";
 
-const ImageFilePriveiw = ({ previousTnxData, Close }) => {
+const ImageFilePriveiw = ({ orderData, Close }) => {
   const PrintImageRef = useRef(null);
   const PrintImagePdf = useReactToPrint({
     content: () => PrintImageRef.current,
   });
   const [uploadedImgData, setUploadedImgData] = useState([]);
   const [showImage, setShowImage] = useState("");
+  const { bookingRefNo } = orderData;
+
   const imageUrl = uploadedImgData.map((url) => url.fileUrl);
-  console.log("showImage==>", showImage);
 
   useEffect(() => {
     axios
-      .get(`${HOST_URL}/Admin/get/document/list/MAMTHA-R-2023-11-09-635809`, {
+      .get(`${HOST_URL}/Admin/get/document/list/${bookingRefNo}`, {
         headers: ImageHeaders,
       })
       .then((res) => res)

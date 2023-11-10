@@ -19,6 +19,7 @@ const UpdateMasterPrice = () => {
   const [updBtn, setUpdBtn] = useState(false);
   const [selectRows, setSelectRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const ItemPriceId = rows.map((id) => id.itemPriceId);
 
   const GetItemPriceMaster = () => {
     if (storeCodeValue) {
@@ -45,15 +46,11 @@ const UpdateMasterPrice = () => {
     }
   };
 
-  const ItemPriceId = rows.map((id) => id.itemPriceId);
-  console.log("selectRows==>", selectRows);
-  // const selectedPriceId = selectRows.length > 0 ? selectRows : ItemPriceId;
-  // console.log("selectedPriceId==>", selectedPriceId);
   const DeactivateItemsData = () => {
     setLoading(true);
     const ActivatePayload = {
       storeCode: storeCodeValue,
-      itemPriceId: ItemPriceId,
+      itemPriceId: selectRows,
     };
     axios
       .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
@@ -65,7 +62,6 @@ const UpdateMasterPrice = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };

@@ -103,6 +103,8 @@ const SummaryReports = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setPreviousTnxData(response.data.value);
+        } else if (response.data.code === "1001") {
+          setPreviousTnxData([]);
         }
       })
       .catch((error) => {
@@ -129,12 +131,12 @@ const SummaryReports = () => {
 
   const GetRowWiseDetails = (data) => {
     setOrderData(data);
-    const { storeCode, bookingRefNo } = data;
+    const { storeCode, bookingRefNo, tempBookingRefNo } = data;
     if (bookingRefNo) {
       setLoading(true);
       axios
         .get(
-          `${HOST_URL}/fetch/table/common/data/${storeCode}/${bookingRefNo}/MAMTemp2023-11-02-1547`
+          `${HOST_URL}/fetch/table/common/data/${storeCode}/${bookingRefNo}/${tempBookingRefNo}`
         )
         .then((res) => res)
         .then((response) => {
@@ -274,7 +276,10 @@ const SummaryReports = () => {
               <div className="table-responsive">
                 <div className="d-flex justify-content-between mx-1">
                   <b>Booking Ref No. :- {orderData.bookingRefNo}</b>
-                  <b>Custome Name :- {customerName}</b>
+                  <b>
+                    Custome Name :-
+                    {!customerName ? "" : customerName.toUpperCase()}
+                  </b>
                   <b>Phone No. :- {customerPhone}</b>
                 </div>
                 <div className="mt-4" style={{ border: "1.4px solid #c1c4c5" }}>

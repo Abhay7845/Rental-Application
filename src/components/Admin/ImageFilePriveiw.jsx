@@ -27,7 +27,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
           setUploadedImgData(response.data.value);
         }
       })
-      .catch(error);
+      .catch((error) => {});
   }, []);
 
   const FetchUploadedImage = (imgUrl) => {

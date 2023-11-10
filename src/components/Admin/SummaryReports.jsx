@@ -130,12 +130,12 @@ const SummaryReports = () => {
 
   const GetRowWiseDetails = (data) => {
     setOrderData(data);
-    const { storeCode, bookingRefNo } = data;
+    const { storeCode, bookingRefNo, tempBookingRefNo } = data;
     if (bookingRefNo) {
       setLoading(true);
       axios
         .get(
-          `${HOST_URL}/fetch/table/common/data/${storeCode}/${bookingRefNo}/MAMTemp2023-11-02-1547`
+          `${HOST_URL}/fetch/table/common/data/${storeCode}/${bookingRefNo}/${tempBookingRefNo}`
         )
         .then((res) => res)
         .then((response) => {

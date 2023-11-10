@@ -39,7 +39,6 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
       })
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         setShowImage([...showImage, response.data]);
       })
       .catch((error) => {

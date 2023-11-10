@@ -81,7 +81,6 @@ const SummaryReports = () => {
       .get(`${HOST_URL}/Admin/order/summary/${storeCode}/${fromDate}/${toDate}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setSummaryReports(response.data.value);
         }
@@ -390,9 +389,6 @@ const SummaryReports = () => {
                                   <td>
                                     {damageCharges === "" ? 0 : damageCharges}
                                   </td>
-                                  <td>{item.itemCode}</td>
-                                  <td>{item.itemCode}</td>
-                                  <td>{item.itemCode}</td>
                                 </tr>
                               );
                             })}
@@ -428,6 +424,19 @@ const SummaryReports = () => {
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalDamageCharges)}
                               </th>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <table className="table table-bordered border-dark text-center">
+                          <thead className="table-dark border-light">
+                            <tr>
+                              <td>Cancellation Charge</td>
+                              <td>Discount Amount</td>
+                              <td>Refund Amount</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
                               <th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",

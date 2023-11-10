@@ -174,15 +174,10 @@ export const OrderSummaryDlsHeaders = [
   "Item Code",
   "Actual Wt. at Delivery",
   "Actual Wt. at Return",
-  "Booking Amount(With Tax)",
-  // "Despatch Date",
+  "Booking Amount(With 18% Tax)",
   "Deposit Amount",
-  // "Return Date",
   "Penalty Amount",
   "Damage Charge",
-  "Cancellation Chargs",
-  "Discount Amount",
-  "Refund Amount",
 ];
 
 export const PaymentDlsHeaders = [

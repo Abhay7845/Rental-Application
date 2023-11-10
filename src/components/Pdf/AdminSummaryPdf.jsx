@@ -46,7 +46,7 @@ const AdminSummaryPdf = (props) => {
               size: A4;
               margin:15mm;
               margin-top:40mm;
-              margin-top:40mm; 
+              margin-bottom:40mm; 
             }
           `}
       </style>
@@ -134,9 +134,6 @@ const AdminSummaryPdf = (props) => {
                   <td>{parseInt(item.depositAmount)}</td>
                   <td>{penaltyCharges === "" ? 0 : penaltyCharges}</td>
                   <td>{damageCharges === "" ? 0 : damageCharges}</td>
-                  <td>{item.itemCode}</td>
-                  <td>{item.itemCode}</td>
-                  <td>{item.itemCode}</td>
                 </tr>
               );
             })}
@@ -172,6 +169,19 @@ const AdminSummaryPdf = (props) => {
                   minimumFractionDigits: false,
                 }).format(totalPaidAmount.totalDamageCharges)}
               </th>
+            </tr>
+          </tbody>
+        </table>
+        <table className="table table-bordered border-dark text-center">
+          <thead className="table-dark border-light">
+            <tr>
+              <td>Cancellation Charge</td>
+              <td>Discount Amount</td>
+              <td>Refund Amount</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
               <th>
                 {new Intl.NumberFormat("en-IN", {
                   style: "currency",

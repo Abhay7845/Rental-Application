@@ -134,8 +134,8 @@ const UpdateMasterPrice = () => {
     let fieldRes;
     if (element === "value") {
       fieldRes = {
-        field: "Select And Deactivate",
-        headerName: "Select And Deactivate",
+        field: "Select",
+        headerName: "Select",
         renderCell: (params) => {
           return (
             <input

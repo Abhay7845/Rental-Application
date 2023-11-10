@@ -141,11 +141,7 @@ const RentalIssue = () => {
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdItemWiseInputs)
       .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          console.log("");
-        }
-      })
+      .then((response) => {})
       .catch((error) => {
         setLoading(false);
       });

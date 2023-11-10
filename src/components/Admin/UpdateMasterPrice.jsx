@@ -35,7 +35,6 @@ const UpdateMasterPrice = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     } else {
@@ -50,7 +49,6 @@ const UpdateMasterPrice = () => {
       storeCode: storeCodeValue,
       itemPriceId: ItemPriceId,
     };
-    console.log("ActivatePayload==>", ActivatePayload);
     axios
       .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
       .then((res) => res)
@@ -61,7 +59,6 @@ const UpdateMasterPrice = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -108,7 +105,6 @@ const UpdateMasterPrice = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.log("error==>", error);
           setLoading(false);
         });
     }

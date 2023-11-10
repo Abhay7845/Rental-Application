@@ -261,7 +261,6 @@ const FactoryQARequired = () => {
         setLoading(false);
       })
       .then((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -281,7 +280,6 @@ const FactoryQARequired = () => {
           remarks: remarks[i] === undefined ? "" : remarks[i],
         };
       });
-      console.log("ItemWiseInpute==>", ItemWiseInpute);
       axios
         .post(`${HOST_URL}/update/itemwise/damage/charges`, ItemWiseInpute)
         .then((res) => res)

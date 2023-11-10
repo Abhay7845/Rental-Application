@@ -27,9 +27,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
           setUploadedImgData(response.data.value);
         }
       })
-      .catch((error) => {
-        console.log("error==>", error);
-      });
+      .catch(error);
   }, []);
 
   const FetchUploadedImage = (imgUrl) => {
@@ -41,9 +39,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
       .then((response) => {
         setShowImage([...showImage, response.data]);
       })
-      .catch((error) => {
-        console.log("error==>", error);
-      });
+      .catch((error) => {});
   };
 
   for (let i = 0; i < imageUrl.length; i++) {

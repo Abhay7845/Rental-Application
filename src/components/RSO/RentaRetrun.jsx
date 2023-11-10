@@ -400,9 +400,6 @@ const RentalReturn = () => {
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
       .then((response) => {
-        if (response.data.code === "1000") {
-          console.log("");
-        }
         setLoading(false);
       })
       .catch((error) => {

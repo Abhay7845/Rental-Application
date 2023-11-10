@@ -23,7 +23,6 @@ const TestImage = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log(response.data);
           if (response.data) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -34,10 +33,9 @@ const TestImage = () => {
             }
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {});
     }
   };
-  console.log("sameCutIDFileName==>", sameCutIDFileName);
   useEffect(() => {
     if (sameCutIDFileName) {
       axios
@@ -46,7 +44,6 @@ const TestImage = () => {
         })
         .then((res) => res)
         .then((response) => {
-          console.log(response.data);
           if (response.data) {
             setPanImgUrl(response.data);
           }

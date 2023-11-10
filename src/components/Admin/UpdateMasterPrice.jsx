@@ -127,7 +127,7 @@ const UpdateMasterPrice = () => {
     } else {
       setSelectRows(ItemPriceId);
     }
-    setSelectAll((prevSelectAll) => !prevSelectAll);
+    setSelectAll(!selectAll);
   };
 
   const columns = cols.map((element) => {

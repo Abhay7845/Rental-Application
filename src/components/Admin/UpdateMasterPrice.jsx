@@ -17,6 +17,8 @@ const UpdateMasterPrice = () => {
   const [cols, setCols] = useState([]);
   const [showErrMsg, setShowErrMsg] = useState("");
   const [updBtn, setUpdBtn] = useState(false);
+  const [selectRows, setSelectRows] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
 
   const GetItemPriceMaster = () => {
     if (storeCodeValue) {
@@ -44,13 +46,15 @@ const UpdateMasterPrice = () => {
   };
 
   const ItemPriceId = rows.map((id) => id.itemPriceId);
+  console.log("selectRows==>", selectRows);
+  // const selectedPriceId = selectRows.length > 0 ? selectRows : ItemPriceId;
+  // console.log("selectedPriceId==>", selectedPriceId);
   const DeactivateItemsData = () => {
     setLoading(true);
     const ActivatePayload = {
       storeCode: storeCodeValue,
       itemPriceId: ItemPriceId,
     };
-    console.log("ActivatePayload==>", ActivatePayload);
     axios
       .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
       .then((res) => res)
@@ -114,11 +118,47 @@ const UpdateMasterPrice = () => {
     }
   };
 
+  const OnSelectRow = (rowId) => {
+    const isSelected = selectRows.includes(rowId);
+    setSelectRows((prevId) =>
+      isSelected ? prevId.filter((id) => id !== rowId) : [...prevId, rowId]
+    );
+  };
+
+  const OnSelectAll = () => {
+    if (selectAll) {
+      setSelectRows([]);
+    } else {
+      setSelectRows(ItemPriceId);
+    }
+    setSelectAll((prevSelectAll) => !prevSelectAll);
+  };
+
   const columns = cols.map((element) => {
-    return {
-      field: element,
-      flex: 1,
-    };
+    let fieldRes;
+    if (element === "value") {
+      fieldRes = {
+        field: "Select And Deactivate",
+        headerName: "Select And Deactivate",
+        renderCell: (params) => {
+          return (
+            <input
+              className="form-check-input border-dark"
+              type="checkbox"
+              checked={selectRows.includes(params.row.itemPriceId)}
+              onChange={() => OnSelectRow(params.row.itemPriceId)}
+            />
+          );
+        },
+      };
+    } else {
+      fieldRes = {
+        field: element,
+        sortable: false,
+        flex: 1,
+      };
+    }
+    return fieldRes;
   });
 
   return (
@@ -141,20 +181,11 @@ const UpdateMasterPrice = () => {
           <p className="text-danger">{showErrMsg}</p>
           <div className="d-flex justify-content-end mt-3">
             <button
-              className="CButton"
+              className="CButton mx-2"
               data-bs-toggle="modal"
               data-bs-target="#ViewPriceMaster"
             >
               View
-            </button>
-            <button
-              className={
-                ItemPriceId.length > 0 ? "CButton mx-2" : "CDisabled mx-2"
-              }
-              disabled={ItemPriceId.length > 0 ? false : true}
-              onClick={DeactivateItemsData}
-            >
-              Deactivate
             </button>
             <button
               className={updBtn ? "CButton" : "CDisabled"}
@@ -206,11 +237,33 @@ const UpdateMasterPrice = () => {
                 </div>
                 {rows.length > 0 && (
                   <div className="mx-2 my-4">
+                    <div className="d-flex justify-content-between mb-2">
+                      <div>
+                        <b>Select All</b>
+                        <input
+                          type="checkbox"
+                          className="form-check-input border-dark mx-2"
+                          checked={selectAll}
+                          onChange={OnSelectAll}
+                        />
+                      </div>
+                      <button
+                        className={
+                          selectRows.length > 0
+                            ? "CButton mx-2"
+                            : "CDisabled mx-2"
+                        }
+                        disabled={selectRows.length > 0 ? false : true}
+                        onClick={DeactivateItemsData}
+                      >
+                        Deactivate
+                      </button>
+                    </div>
                     <DataGrid
                       columns={columns}
                       rows={rows}
                       autoHeight={true}
-                      pageSize={50}
+                      pageSize={[10, 15, 20]}
                       components={{
                         Toolbar: TableDataDownload,
                       }}

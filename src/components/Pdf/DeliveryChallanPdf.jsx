@@ -53,7 +53,12 @@ const DeliveryChallanPdf = (props) => {
   return (
     <div>
       <div>
-        <button onClick={DeliveryChalanPDF} className="CButton">
+        <button
+          onClick={DeliveryChalanPDF}
+          className="CButton"
+          // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
+          // disabled={savePaymetRow.length > 0 ? false : true}
+        >
           Print
         </button>
         <style>

@@ -8,6 +8,7 @@ import {
   renatlReturnPage,
   addressTypeOption,
   ImageHeaders,
+  IMAGE_URL,
 } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
@@ -26,6 +27,12 @@ const RentalReturn = () => {
   const [storeDetails, setStoreDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [alertWt, setAlertWt] = useState("");
+  const [successAlrt, setSuccessAlrt] = useState(
+    "Product Returned Successfully"
+  );
+  const [smlAlert, setSmlAlert] = useState(
+    "Please reach out to the Cashier to complete the payment process"
+  );
 
   // SAME CUSTOME UPLOAD & DETAILS/
   const [sameCustName, setSameCustName] = useState("");
@@ -192,7 +199,7 @@ const RentalReturn = () => {
   const UploadIDDetails = (imgName) => {
     const IdDetailsInput = {
       bookingRefId: GetReturnProduct.refId,
-      contentFor: "rentalReturn",
+      contentFor: "RentalReturn",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "userIdProof",
       fileName: imgName,
@@ -257,7 +264,7 @@ const RentalReturn = () => {
   const UpdateBookingFile = (fileExtention) => {
     const updateBookingInput = {
       bookingRefId: refId,
-      contentFor: "rentalReturn",
+      contentFor: "RentalReturn",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "KarigarQAReport",
       fileName: fileExtention,
@@ -410,13 +417,18 @@ const RentalReturn = () => {
       [name]: value,
     });
   };
+  const FactoryQA = Object.values(inputPhyDmg);
   useEffect(() => {
-    const FactoryQA = Object.values(inputPhyDmg);
     if (FactoryQA.includes("FactoryQA")) {
-      UpdateBookingCalendar(GetReturnProduct.bookingID);
+      setSuccessAlrt("Product will be sent for Factory QA");
+      setSmlAlert("We will contact you with further updates shortly");
       setCheckedQA(true);
     } else if (!FactoryQA.includes("FactoryQA")) {
       setCheckedQA(false);
+      setSuccessAlrt("Product Returned Successfully");
+      setSmlAlert(
+        "Please reach out to the Cashier to complete the payment process"
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputPhyDmg, GetReturnProduct.bookingID]);
@@ -432,8 +444,8 @@ const RentalReturn = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           Swal.fire({
-            title: "Product Returned Successfully",
-            text: "Please reach out to the Cashier to complete the payment process",
+            title: successAlrt,
+            text: smlAlert,
             icon: "success",
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
@@ -485,48 +497,65 @@ const RentalReturn = () => {
       });
   };
 
-  const InsertReturnTableData = () => {
-    if (!RSOName || karigarQAFile.length === 0 || inputRtnValues.length === 0) {
-      alert("Please Enter Actual wt Return, Upload Print File & RSO Name");
-    } else {
-      setLoading(true);
-      const InsertTableInputs = returnTableData.map((data, i) => {
-        return {
-          bookingId: totalPaidAmount.bookingId,
-          despId: data.despId === "" ? "0" : data.despId,
-          pdtId: data.pdtId,
-          actualWtAtDelivery: data.deliveredWt === "" ? 0 : data.deliveredWt,
-          actualWtAtReturn: inputRtnValues[i],
-          rentalStartDate: moment(data.rentStartDate).format("YYYY-MM-DD"),
-          packageDays: data.packageDays,
-          rentalReturnDate: moment(getReturnDate()).format("YYYY-MM-DD"),
-          totalRentalDays: 0,
-          itemPriceID: data.itemPriceId,
-          rateId: data.rateId,
-          productValue: parseFloat(data.productValue),
-          rentValue: parseFloat(data.rentalAmount),
-          penaltyValue:
-            penaltyDays <= 0
-              ? 0
-              : ((parseInt(data.productValue) * 2) / 100) * penaltyDays,
-          tempBookingRefNo: data.tempBookingRefNo,
-          damageCharges: parseFloat(inputDmgValues[i]),
-          createdDate: null,
-          updatedDate: null,
-        };
+  const InsertReturnTableData = (inputRtnValues) => {
+    setLoading(true);
+    const InsertTableInputs = returnTableData.map((data, i) => {
+      return {
+        bookingId: totalPaidAmount.bookingId,
+        despId: data.despId === "" ? "0" : data.despId,
+        pdtId: data.pdtId,
+        actualWtAtDelivery: data.deliveredWt === "" ? 0 : data.deliveredWt,
+        actualWtAtReturn: inputRtnValues[i],
+        rentalStartDate: moment(data.rentStartDate).format("YYYY-MM-DD"),
+        packageDays: data.packageDays,
+        rentalReturnDate: moment(getReturnDate()).format("YYYY-MM-DD"),
+        totalRentalDays: 0,
+        itemPriceID: data.itemPriceId,
+        rateId: data.rateId,
+        productValue: parseFloat(data.productValue),
+        rentValue: parseFloat(data.rentalAmount),
+        penaltyValue:
+          penaltyDays <= 0
+            ? 0
+            : ((parseInt(data.productValue) * 2) / 100) * penaltyDays,
+        tempBookingRefNo: data.tempBookingRefNo,
+        damageCharges: parseFloat(inputDmgValues[i]),
+        createdDate: null,
+        updatedDate: null,
+      };
+    });
+    axios
+      .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          RaiseClouseRequest(DespId[0]);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
       });
-      axios
-        .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
-        .then((res) => res)
-        .then((response) => {
-          if (response.data.code === "1000") {
-            RaiseClouseRequest(DespId[0]);
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
+  };
+
+  const ValidateInsertData = () => {
+    if (FactoryQA.includes("FactoryQA")) {
+      if (!RSOName || karigarQAFile.length === 0) {
+        alert("Please Upload Print File & Enter RSO Name");
+      } else {
+        InsertReturnTableData(inputRtnValues);
+        UpdateBookingCalendar(GetReturnProduct.bookingID);
+      }
+    } else if (!FactoryQA.includes("FactoryQA")) {
+      if (
+        !RSOName ||
+        karigarQAFile.length === 0 ||
+        inputRtnValues.length === 0
+      ) {
+        alert("Please Enter Actual wt Return, Upload Print File & RSO Name");
+      } else {
+        InsertReturnTableData(inputRtnValues);
+      }
     }
   };
 
@@ -644,8 +673,18 @@ const RentalReturn = () => {
                   </thead>
                   <tbody>
                     {refactoreDataTable.map((item, i) => {
+                      const { itemCode } = item;
+                      const imageCode = itemCode.substring(2, 9);
+                      const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
                         <tr key={i}>
+                          <td>
+                            <img
+                              src={imageURL}
+                              className="custom-image"
+                              alt=""
+                            />
+                          </td>
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
@@ -705,7 +744,7 @@ const RentalReturn = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="4" className="text-end">
+                      <th colSpan="5" className="text-end">
                         TOTAL
                       </th>
                       <th>{SumOfActualItemWt().toFixed(3)} g.</th>
@@ -802,7 +841,7 @@ const RentalReturn = () => {
             <button
               type="button"
               className="CButton"
-              onClick={InsertReturnTableData}
+              onClick={ValidateInsertData}
             >
               {checkedQA ? "Acknowledgement & Close" : "Raise Closure Request"}
             </button>

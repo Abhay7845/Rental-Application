@@ -63,23 +63,28 @@ export const constomerType = [
   },
 ];
 
-export const AddedTocCart = [
-  "ITEMCODE",
-  "LOT NO.",
-  "GROSS WT.",
-  "PRODUCT VALUE",
-  "RENTAL VALUE",
-  "DAMAGE_PROTECTION_AMOUNT",
-];
-
 export const WishListHeader = [
+  "IMAGE",
   "ITEMCODE",
   "LOT NO.",
   "DESCRIPTION",
   "GROSS. WT.",
   "PRODUCT VALUE",
   "RENTAL VALUE",
-  "DAMAGE_PROTECTION_AMOUNT",
+  "RENTAL VALUE WITH(18%)TAX",
+  "DAMAGE PROTECTION AMOUNT",
+  "AVAILABILITY",
+];
+
+export const AddedTocCart = [
+  "IMAGE",
+  "ITEMCODE",
+  "LOT NO.",
+  "GROSS WT.",
+  "PRODUCT VALUE",
+  "RENTAL VALUE",
+  "RENTAL VALUE WITH(18%)TAX",
+  "DAMAGE PROTECTION AMOUNT",
 ];
 
 export const PaymentHeading1 = [
@@ -93,13 +98,14 @@ export const PaymentHeading1 = [
 export const PaymentHeading2 = [
   "PAYMENT_FOR",
   "PAYMENT_MODE(*)",
-  "PAYMENT_REF_NO.(*)",
+  "CREDIT NOTE REF NO.(*)",
   "AMOUNT(*)",
   "FILE(*)",
   "DELETE",
 ];
 
 export const rentalIssuePage = [
+  "IMAGE",
   "ITEMCODE",
   "LOT No.",
   "GROSS Wt",
@@ -109,6 +115,7 @@ export const rentalIssuePage = [
   "ACTUAL Wt At DELIVERY",
 ];
 export const renatlReturnPage = [
+  "IMAGE",
   "ITEMCODE",
   "LOT No.",
   "GROSS Wt",
@@ -135,10 +142,65 @@ export const factoryQAPage = [
 ];
 
 export const CancelPageHeading = [
+  "IMAGE",
   "ITEMCODE",
   "LOT NO.",
   "RENT_START_DATE",
   "PACKAGE_DAYS",
   "PRODUCT_VALUE",
   "RENTAL_VALUE",
+];
+
+export const AdminSummarHeaders = [
+  "Store Code",
+  "Booking Date",
+  "Booking RefNo.",
+  "Rental Start Date",
+  "Rental End Date",
+  "Cool Of End Date",
+  "Status",
+  "View Booking Details",
+];
+export const ProductDlsHeaders = [
+  "Item Code",
+  "Lot No.",
+  "Gross Wt.",
+  "Product Value",
+  "Rental Value",
+  "Rental Value With(18%)Tax",
+  "Deposit Value",
+];
+export const OrderSummaryDlsHeaders = [
+  "Item Code",
+  "Actual Wt. at Delivery",
+  "Actual Wt. at Return",
+  "Booking Amount(With 18% Tax)",
+  "Deposit Amount",
+  "Penalty Amount",
+  "Damage Charge",
+];
+
+export const PaymentDlsHeaders = [
+  "Payment For",
+  "Payment Type",
+  "Credit Note Ref No.",
+  "Amount",
+  "Payment Doc File",
+  "Credit Date",
+];
+export const CustomerDlsHeaders = [
+  "Customer Name",
+  "Phone No.",
+  "E-Mail ID",
+  "PAN No.",
+  "PAN File",
+  "Customer Address",
+  "Address Proof ID No.",
+  "Address Proof File",
+];
+export const CustomerBankDlsHeaders = [
+  "Bank Name",
+  "Account Number",
+  "IFSC Code",
+  "Bank File",
 ];

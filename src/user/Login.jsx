@@ -4,10 +4,10 @@ import { Field, Form, Formik } from "formik";
 import { LoginInitialValue, LoginSchema } from "../Schema/LoginSchema";
 import image from "../Asset/Img/Tanishq_LogoBlack.png";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
-import ShowError from "../Schema/ShowEroor";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { HOST_URL } from "../API/HostURL";
+import ShowError from "../Schema/ShowError";
 
 const Login = (props) => {
   const { showAlert } = props;

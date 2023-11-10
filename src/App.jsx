@@ -7,7 +7,6 @@ import PrivateScreens from "./components/common/PrivateScreens";
 import NewBooking from "./components/RSO/NewBooking";
 import RentalIssue from "./components/RSO/RentalIssue";
 import "./App.css";
-import "react-calendar/dist/Calendar.css";
 import Cancellation from "./components/RSO/Cancellation";
 import RentalRetrun from "./components/RSO/RentaRetrun";
 import NewCustomer from "./components/RSO/NewCustomer";
@@ -15,10 +14,10 @@ import TestImage from "./components/common/TestImage";
 import ProductsDetails from "./components/RSO/ProductsDetails";
 import SummaryReports from "./components/Admin/SummaryReports";
 import BookingVerification from "./components/Admin/BookingVerification";
-import DiscountValidation from "./components/Admin/DiscountValidation";
 import UpdateMasterPrice from "./components/Admin/UpdateMasterPrice";
 import CashierPaymentDetails from "./components/Cashier/CashierPaymentDetails";
 import FactoryQARequired from "./components/RSO/FactoryQARequired";
+import DiscountApproval from "./components/Admin/DiscountApproval";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -86,7 +85,7 @@ const App = () => {
             />
             <Route
               path="/admin/discount/validation"
-              element={<DiscountValidation showAlert={showAlert} />}
+              element={<DiscountApproval showAlert={showAlert} />}
             />
             <Route
               path="/admin/booking/verification"

@@ -21,9 +21,6 @@ import ServiceIvoicePdf from "../Pdf/ServiceIvoicePdf";
 const CashierPaymentDetails = () => {
   const [loading, setLoading] = useState(false);
   const storeCode = localStorage.getItem("storeCode");
-  const currentDate = moment().format("YYYY-MM-DD");
-  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
-  const bookingRefID = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [bookingGenNo, setBookingGenNo] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [getPaymentData, setGetPaymentData] = useState([]);
@@ -45,6 +42,10 @@ const CashierPaymentDetails = () => {
   const [invoicePdfNo, setInvoicePdfNo] = useState({});
   const [outStatus, setOutStatus] = useState("");
   const [amontHeading, setAmontHeading] = useState("");
+  const currentDate = moment().format("YYYY-MM-DD");
+  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+  const booking_Id = `${storeCode}-R-${currentDate}-${RandomDigit}`;
+  const [bookingRefID, setBookingRefID] = useState(booking_Id);
 
   const {
     paymentRequestFor,
@@ -84,7 +85,6 @@ const CashierPaymentDetails = () => {
   const [printFile, setPrintFile] = useState("");
   const [deliveryChallan, setDeliveryChallan] = useState([]);
   const [tnCFileName, setTnCFileName] = useState("");
-  const [dlrChalalnFileName, setDlrChalalnFileName] = useState("");
   const [cashierName, setCashierName] = useState("");
   const [loanCloseFile, setLoanCloseFile] = useState("");
 
@@ -276,7 +276,7 @@ const CashierPaymentDetails = () => {
       setBookedStatus("Issued_Rental_Period");
       setOutStatus("Booked_Product_Issued");
       setInvoiceNo("");
-      setAmontHeading("Amount to be collected");
+      setAmontHeading("Amount to be Collected");
       setChallanNo(GenChallanNo);
       setAmontErrMassage(
         "Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment"
@@ -288,7 +288,7 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Payment Submited Successfully & Order Booked");
       setBookedStatus("Booked");
       setUpdateStatus("Booked");
-      setAmontHeading("Amount to be collected");
+      setAmontHeading("Amount to be Collected");
       setAmontErrMassage(
         "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
       );
@@ -296,7 +296,7 @@ const CashierPaymentDetails = () => {
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       const bookingDesposit = totalBookingAmount + totalDepositAmount;
       if (TotalCharges > bookingDesposit) {
-        setAmontHeading("Amount to be collected");
+        setAmontHeading("Amount to be Collected");
         setCollectedAmount(
           parseFloat(TotalCharges - bookingDesposit).toFixed(2)
         );
@@ -367,10 +367,9 @@ const CashierPaymentDetails = () => {
   };
 
   const SavePaymentRow = () => {
-    // if (!fileName || !amount) {
-    //   alert("Please Fill All Details");
-    // } else
-    if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
+    if (!fileName || !amount) {
+      alert("Please Fill All Details");
+    } else if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
       alert(amontErrMassage);
     } else {
       setPaymentRowId(paymentRowId + 1);
@@ -449,7 +448,7 @@ const CashierPaymentDetails = () => {
   const PaymentFileImage = (UploadFileName) => {
     const paymentUploadFile = {
       bookingRefId: !bookingGenNo ? bookingRefID : bookingGenNo,
-      contentFor: "newBooking",
+      contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: "PaymentDocument",
       fileName: UploadFileName,
@@ -515,10 +514,13 @@ const CashierPaymentDetails = () => {
       setDocumentType("tncDocument");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
-      setDocumentType("KarigarQAReport");
+      setDocumentType("LoanDocument");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-      setDocumentType("LoanClosureDocument");
+      setDocumentType("ServiceInvoice");
+    }
+    if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+      setDocumentType("CancellationInvoice");
     }
   }, [paymentRequestFor]);
 
@@ -534,8 +536,7 @@ const CashierPaymentDetails = () => {
           setOtp(response.data.otp);
           alert(
             `OTP has been sent your Register XXXX${paymentDetails.mobileNo.substring(
-              6,
-              10
+              6
             )}`
           );
         }
@@ -557,10 +558,13 @@ const CashierPaymentDetails = () => {
 
   const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
-      bookingRefId: !bookingGenNo ? bookingRefID : bookingGenNo,
+      bookingRefId:
+        paymentRequestFor === "Payment_PendingFor_NewBooking"
+          ? bookingRefID
+          : bookingRefNo,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
-      documentType: !documentType ? dlrChalalnFileName : documentType,
+      documentType: documentType,
       fileName: printFileName,
       fileSize: `${printFile.size}`,
       fileType: `${printFile.type}`,
@@ -609,10 +613,10 @@ const CashierPaymentDetails = () => {
 
   const UploadDlvrChalanimgDetails = (imgName) => {
     const DlvrChllanIputs = {
-      bookingRefId: bookingRefID,
-      contentFor: "cashier",
+      bookingRefId: bookingRefNo,
+      contentFor: paymentRequestFor,
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "DeliveryChllan",
+      documentType: "DeliveryChallan",
       fileName: imgName,
       fileSize: `${deliveryChallan.size}`,
       fileType: `${deliveryChallan.type}`,
@@ -649,7 +653,6 @@ const CashierPaymentDetails = () => {
         .then((response) => {
           if (response.data) {
             UploadDlvrChalanimgDetails(deliveryChallanFile);
-            setDlrChalalnFileName(deliveryChallanFile);
           }
           setLoading(false);
         })
@@ -660,10 +663,10 @@ const CashierPaymentDetails = () => {
   };
   const UpdLoadClsDetails = (imgName) => {
     const LoanCloserInputs = {
-      bookingRefId: bookingRefID,
-      contentFor: "cashier",
+      bookingRefId: bookingRefNo,
+      contentFor: paymentRequestFor,
       createdDate: moment().format("YYYY-MM-DD"),
-      documentType: "loanClosure",
+      documentType: "LoanClosureDocument",
       fileName: imgName,
       fileSize: `${loanCloseFile.size}`,
       fileType: `${loanCloseFile.type}`,
@@ -786,7 +789,11 @@ const CashierPaymentDetails = () => {
       if (parseFloat(collectedAmount) === TotalAmount) {
         CallPaymentAPI();
       } else {
-        alert(amontErrMassage);
+        if (amontHeading === "Amount to be Refunded") {
+          CallPaymentAPI();
+        } else {
+          alert(amontErrMassage);
+        }
       }
     }
   };
@@ -826,7 +833,6 @@ const CashierPaymentDetails = () => {
             Search
           </button>
         </div>
-
         {getPaymentData.length > 0 && (
           <div className="table-responsive">
             <table className="table table-bordered border-dark text-center">
@@ -904,7 +910,7 @@ const CashierPaymentDetails = () => {
                 }).format(collectedAmount)}
               </h6>
             </div>
-            {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
+            {amontHeading !== "Amount to be Refunded" && (
               <div className="col-12 table-responsive mx-0">
                 <table className="table table-bordered table-hover border-dark text-center">
                   <thead className="table-dark border-light">
@@ -1014,7 +1020,7 @@ const CashierPaymentDetails = () => {
                 </table>
               </div>
             )}
-            {paymentRequestFor !== "Payment_PendingFor_RentalCancellation" && (
+            {amontHeading !== "Amount to be Refunded" && (
               <div className="d-flex justify-content-end mt-0">
                 {addPaymentRows.length > 0 ? (
                   <div className="d-flex justify-content-between w-100">

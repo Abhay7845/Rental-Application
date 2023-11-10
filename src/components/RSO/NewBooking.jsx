@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
-import { AddedTocCart, ImageHeaders, phonePan } from "../../Data/DataList";
+import {
+  AddedTocCart,
+  ImageHeaders,
+  phonePan,
+  IMAGE_URL,
+} from "../../Data/DataList";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
@@ -22,6 +27,7 @@ const NewBooking = () => {
   const packageDays = localStorage.getItem("packageDays");
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
+  const RandomD = Math.floor(100000 + Math.random() * 900000);
 
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -141,10 +147,18 @@ const NewBooking = () => {
   };
   // TOTAL COST OF  RENTAL RATE
   const TRentalRate = GetCartProductData.map((item) => item.rentValue);
-
   const SumOfRentalRate = () => {
     let total = 0;
     for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+  const TRentalRateWithTx = GetCartProductData.map(
+    (item) => item.rentValue * 1.18
+  );
+
+  const SumOfRentalRateWithTx = () => {
+    let total = 0;
+    for (let data of TRentalRateWithTx) total = total + data;
     return total;
   };
 
@@ -191,7 +205,7 @@ const NewBooking = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = cancelledChequeFile.name.split(".");
-      const fileExtention = `${customerAccountNumber}.${fileEx[1]}`;
+      const fileExtention = `${customerAccountNumber}_${RandomD}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", cancelledChequeFile);
       axios
@@ -221,7 +235,7 @@ const NewBooking = () => {
 
   const UploadTnxDetails = (imgName) => {
     const TnxIputsDetails = {
-      bookingRefId: "",
+      bookingRefId: bookingRefId,
       contentFor: "newBooking",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "tnxPreviousFile",
@@ -251,7 +265,7 @@ const NewBooking = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = tnxFile.name.split(".");
-      const fileExtention = `${existedUserData.mobileNo}.${fileEx[1]}`;
+      const fileExtention = `${existedUserData.mobileNo}_${RandomD}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", tnxFile);
       axios
@@ -531,8 +545,18 @@ const NewBooking = () => {
                   </thead>
                   <tbody>
                     {GetCartProductData.map((item, i) => {
+                      const { itemCode } = item;
+                      const imageCode = itemCode.substring(2, 9);
+                      const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
                         <tr key={i}>
+                          <td>
+                            <img
+                              src={imageURL}
+                              className="custom-image"
+                              alt=""
+                            />
+                          </td>
                           <td>{item.itemCode}</td>
                           <td>{item.lotNo}</td>
                           <td>{item.grossWt}</td>
@@ -545,6 +569,9 @@ const NewBooking = () => {
                             {Math.round(item.rentValue).toLocaleString("en-IN")}
                           </td>
                           <td>
+                            {parseFloat(item.rentValue * 1.18).toFixed(2)}
+                          </td>
+                          <td>
                             {Math.round(item.depositValue).toLocaleString(
                               "en-IN"
                             )}
@@ -553,12 +580,37 @@ const NewBooking = () => {
                       );
                     })}
                     <tr>
-                      <th colSpan="3" className="text-end">
+                      <th colSpan="4" className="text-end">
                         TOTAL
                       </th>
-                      <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
-                      <th>₹ {SumOfDepositRate().toLocaleString("en-IN")}</th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfTProductValue())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfRentalRate())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: 2,
+                        }).format(SumOfRentalRateWithTx())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfDepositRate())}
+                      </th>
                     </tr>
                   </tbody>
                 </table>

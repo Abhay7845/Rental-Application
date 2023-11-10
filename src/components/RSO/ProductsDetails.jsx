@@ -16,9 +16,10 @@ import {
   CheckAvaiblityInitialValue,
   CheckAvaiblitySchema,
 } from "../../Schema/LoginSchema";
-import ShowError from "../../Schema/ShowEroor";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import ShowError from "../../Schema/ShowError";
+import { IMAGE_URL } from "../../Data/DataList";
 
 const ProductsDetails = () => {
   const [payload, setPayload] = useState({});
@@ -210,6 +211,12 @@ const ProductsDetails = () => {
     for (let data of TRentalRate) total = total + data;
     return total;
   };
+  const TRentalRateWithTx = goToCart.map((item) => item.rentValue * 1.18);
+  const SumOfRentalRateWithTx = () => {
+    let total = 0;
+    for (let data of TRentalRateWithTx) total = total + data;
+    return total;
+  };
 
   // TOTAL COST OF DEPOSIT RATE
   const TDepositRate = goToCart.map((item) => item.depositValue);
@@ -378,12 +385,14 @@ const ProductsDetails = () => {
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
                 })}
-                <td>Availability</td>
               </tr>
             </thead>
             {GetProductData.length > 0 && (
               <tbody>
                 {GetProductData.map((data, i) => {
+                  const { itemCode } = data;
+                  const imageCode = itemCode.substring(2, 9);
+                  const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                   return (
                     <tr
                       key={i}
@@ -407,6 +416,9 @@ const ProductsDetails = () => {
                           onClick={(e) => SelectedProducts(e, data)}
                         />
                       </td>
+                      <td>
+                        <img src={imageURL} className="custom-image" alt="" />
+                      </td>
                       <td>{data.itemCode}</td>
                       <td>{data.lotNo}</td>
                       <td>{data.description}</td>
@@ -417,6 +429,7 @@ const ProductsDetails = () => {
                       <td>
                         {Math.round(data.rentalRate).toLocaleString("en-IN")}
                       </td>
+                      <td>{parseFloat(data.rentalRate * 1.18).toFixed(2)}</td>
                       <td>
                         {Math.round(data.depositRate).toLocaleString("en-IN")}
                       </td>
@@ -456,8 +469,14 @@ const ProductsDetails = () => {
                 </thead>
                 <tbody>
                   {goToCart.map((item, i) => {
+                    const { itemCode } = item;
+                    const imageCode = itemCode.substring(2, 9);
+                    const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                     return (
                       <tr key={i}>
+                        <td>
+                          <img src={imageURL} className="custom-image" alt="" />
+                        </td>
                         <td>{item.itemCode}</td>
                         <td>{item.lotNo}</td>
                         <td>{item.grossWt}</td>
@@ -469,6 +488,7 @@ const ProductsDetails = () => {
                         <td>
                           {Math.round(item.rentValue).toLocaleString("en-IN")}
                         </td>
+                        <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
                         <td>
                           <span style={{ marginLeft: "20%" }}>
                             {Math.round(item.depositValue).toLocaleString(
@@ -487,12 +507,37 @@ const ProductsDetails = () => {
                     );
                   })}
                   <tr className="text-bold">
-                    <th colSpan="3" className="text-end">
+                    <th colSpan="4" className="text-end">
                       TOTAL
                     </th>
-                    <th>₹ {SumOfTProductValue().toLocaleString("en-IN")}</th>
-                    <th>₹ {SumOfRentalRate().toLocaleString("en-IN")}</th>
-                    <th>₹ {SumOfDepositRate().toLocaleString("en-IN")}</th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfTProductValue())}
+                    </th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfRentalRate())}
+                    </th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: 2,
+                      }).format(SumOfRentalRateWithTx())}
+                    </th>
+                    <th>
+                      {new Intl.NumberFormat("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        minimumFractionDigits: false,
+                      }).format(SumOfDepositRate())}
+                    </th>
                   </tr>
                 </tbody>
               </table>

@@ -38,16 +38,13 @@ const KarigarQAReturnPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-bottom:50mm;
+              margin-top:51mm;
+              margin-bottom:52mm;
             }
             }
           `}
       </style>
-      <div
-        ref={RetntalReturnAQRef}
-        className="hide-on-screen"
-        style={{ marginTop: "16%" }}
-      >
+      <div ref={RetntalReturnAQRef} className="hide-on-screen">
         <div className="text-center border border-dark">
           <h5>Product Quality Checklist</h5>
         </div>
@@ -56,35 +53,35 @@ const KarigarQAReturnPdf = (props) => {
             <table
               key={i}
               className="table table-bordered border-dark"
-              style={{ fontSize: "11.5px" }}
+              style={{ fontSize: "11.3px" }}
             >
               <tbody>
                 <tr>
-                  <th>
+                  <th style={{ width: "30%" }}>
                     <div className="d-flex flex-column">
-                      <b>User Name: {storeCode}</b>
-                      <b>SKU Code: {data.itemCode}</b>
-                      <b>Lot Number: {data.lotNo}</b>
+                      <b>User Name:- {storeCode}</b>
+                      <b>SKU Code:- {data.itemCode}</b>
+                      <b>Lot Number:- {data.lotNo}</b>
                     </div>
                   </th>
                   <th>
                     <div className="d-flex flex-column">
                       <b>
-                        Handover Date:-
+                        Handover Date:-{" "}
                         {moment(data.rentStartDate).format("DD-MM-YYYY")}
                       </b>
-                      <b>RSO/Karigar Name: {storeCode}</b>
+                      <b>RSO/Karigar Name:- {storeCode}</b>
                     </div>
                   </th>
                   <th colSpan="2">
                     <div className="d-flex flex-column">
-                      <b>Return Date:-{!returnDate ? "" : returnDate}</b>
-                      <b>RSO/Karigar Name: {storeCode}</b>
+                      <b>Return Date:- {!returnDate ? "" : returnDate}</b>
+                      <b>RSO/Karigar Name:- {storeCode}</b>
                     </div>
                   </th>
                 </tr>
                 <tr>
-                  <th style={{ width: "25%" }}>
+                  <th style={{ width: "30%" }}>
                     <b>Checkpoints </b>
                     <input
                       className="form-check-input mx-4 border-dark"

@@ -207,37 +207,42 @@ const AdminSummaryPdf = (props) => {
           </tbody>
         </table>
         <h6 className="mt-4">PAYMENT DETAILS</h6>
-        <table className="table table-bordered border-dark text-center">
-          <thead className="table-dark border-light">
-            <tr>
-              {PaymentDlsHeaders.map((heading, i) => {
-                return <td key={i}>{heading}</td>;
+        {previousTnxData.length > 0 ? (
+          <table className="table table-bordered border-dark text-center">
+            <thead className="table-dark border-light">
+              <tr>
+                {PaymentDlsHeaders.map((heading, i) => {
+                  return <td key={i}>{heading}</td>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {previousTnxData.map((item, i) => {
+                return (
+                  <tr key={i}>
+                    <td>
+                      {item.paymentFor === "Payment_PendingFor_RentalReturn"
+                        ? "Additional Charge"
+                        : item.paymentFor === "Payment_PendingFor_NewBooking"
+                        ? "Booking Amount"
+                        : item.paymentFor ===
+                          "Payment_PendingFor_RentalIssuance"
+                        ? "Damage Protection Charge"
+                        : ""}
+                    </td>
+                    <td>{item.paymentType}</td>
+                    <td>{item.txnRefNo}</td>
+                    <td className="text-end">{parseInt(item.amount)}</td>
+                    <td>{item.paymentDocFileName}</td>
+                    <td>{moment().format("DD-MM-YYYY")}</td>
+                  </tr>
+                );
               })}
-            </tr>
-          </thead>
-          <tbody>
-            {previousTnxData.map((item, i) => {
-              return (
-                <tr key={i}>
-                  <td>
-                    {item.paymentFor === "Payment_PendingFor_RentalReturn"
-                      ? "Additional Charge"
-                      : item.paymentFor === "Payment_PendingFor_NewBooking"
-                      ? "Booking Amount"
-                      : item.paymentFor === "Payment_PendingFor_RentalIssuance"
-                      ? "Damage Protection Charge"
-                      : ""}
-                  </td>
-                  <td>{item.paymentType}</td>
-                  <td>{item.txnRefNo}</td>
-                  <td className="text-end">{parseInt(item.amount)}</td>
-                  <td>{item.paymentDocFileName}</td>
-                  <td>{moment().format("DD-MM-YYYY")}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        ) : (
+          <b>Payment Details Are Not Available!</b>
+        )}
         <h6 className="mt-4">CUSTOMER DETAILS</h6>
         <table className="table table-bordered border-dark text-center">
           <thead className="table-dark border-light">

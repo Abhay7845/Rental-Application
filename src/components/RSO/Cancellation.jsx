@@ -267,7 +267,7 @@ const Cancellation = () => {
             <h6>{GetReturnProduct.refId}</h6>
           </div>
           <div className="col-2">
-            <label className="form-label">Renatl Start Date</label>
+            <label className="form-label">Rental Start Date</label>
             <h6>{moment(GetReturnProduct.bookingDate).format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-2">

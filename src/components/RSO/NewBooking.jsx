@@ -136,6 +136,7 @@ const NewBooking = () => {
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
   const GetCartProductData = !CartData ? [] : CartData;
   const rentalStrDate = GetCartProductData.map((item) => item.rentalStartDate);
+  console.log("rentalStrDate==>", rentalStrDate);
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>
@@ -475,7 +476,10 @@ const NewBooking = () => {
           </div>
           <div className="col-4">
             <label className="form-label">RENTAL START DATE</label>
-            <h6>{moment(rentalStrDate[0]).format("DD-MM-YYYY")}</h6>
+            <h6>
+              {rentalStrDate.length > 0 &&
+                moment(rentalStrDate[0]).format("DD-MM-YYYY")}
+            </h6>
           </div>
           <div className="col-4">
             <label className="form-label">PACKAGE DAYS</label>

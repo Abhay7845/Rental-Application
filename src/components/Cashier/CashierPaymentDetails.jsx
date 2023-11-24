@@ -921,7 +921,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-4 mt-0">
+            <div className="col-md-6">
               <label className="form-label">
                 <b>{amontHeading}</b>
               </label>
@@ -931,6 +931,18 @@ const CashierPaymentDetails = () => {
                   currency: "INR",
                   minimumFractionDigits: 2,
                 }).format(collectedAmount)}
+              </h6>
+            </div>
+            <div className="col-md-4">
+              <label className="form-label">
+                <b>With Tax (18%)</b>
+              </label>
+              <h6>
+                {new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                  minimumFractionDigits: 2,
+                }).format(collectedAmount * 1.18)}
               </h6>
             </div>
             {amontHeading !== "Amount to be Refunded" && (
@@ -1125,7 +1137,6 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-
             {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
@@ -1182,7 +1193,6 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-
             {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
@@ -1263,7 +1273,6 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-
             <div className="col-md-5">
               <input
                 type="text"

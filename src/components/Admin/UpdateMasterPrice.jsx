@@ -21,6 +21,16 @@ const UpdateMasterPrice = () => {
   const [selectAll, setSelectAll] = useState(false);
   const ItemPriceId = rows.map((id) => id.itemPriceId);
 
+  const ShowAlertDeactivate = (count) => {
+    Swal.fire({
+      title: "Price Deactivation Successful",
+      text: `For the ${count} Items selected`,
+      icon: "success",
+      confirmButtonColor: "#008080",
+      confirmButtonText: "OK",
+    });
+  };
+
   const GetItemPriceMaster = () => {
     if (storeCodeValue) {
       setLoading(true);
@@ -56,7 +66,10 @@ const UpdateMasterPrice = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
+          ShowAlertDeactivate(response.data.value.count);
           setUpdBtn(true);
+          setStoreCodeValue("");
+          setSelectRows([]);
         }
         setLoading(false);
       })
@@ -175,11 +188,24 @@ const UpdateMasterPrice = () => {
           <p className="text-danger">{showErrMsg}</p>
           <div className="d-flex justify-content-end mt-3">
             <button
-              className="CButton mx-2"
+              className="CButton"
               data-bs-toggle="modal"
               data-bs-target="#ViewPriceMaster"
+              onClick={() => {
+                setSelectRows([]);
+                setSelectAll(false);
+              }}
             >
               View
+            </button>
+            <button
+              className={
+                selectRows.length > 0 ? "CButton mx-2" : "CDisabled mx-2"
+              }
+              disabled={selectRows.length > 0 ? false : true}
+              onClick={DeactivateItemsData}
+            >
+              Deactivate
             </button>
             <button
               className={updBtn ? "CButton" : "CDisabled"}
@@ -206,6 +232,7 @@ const UpdateMasterPrice = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  onClick={() => setRows([])}
                 />
               </div>
               <div className="modal-body">
@@ -231,27 +258,14 @@ const UpdateMasterPrice = () => {
                 </div>
                 {rows.length > 0 && (
                   <div className="mx-2 my-4">
-                    <div className="d-flex justify-content-between mb-2">
-                      <div>
-                        <b>Select All</b>
-                        <input
-                          type="checkbox"
-                          className="form-check-input border-dark mx-2"
-                          checked={selectAll}
-                          onChange={OnSelectAll}
-                        />
-                      </div>
-                      <button
-                        className={
-                          selectRows.length > 0
-                            ? "CButton mx-2"
-                            : "CDisabled mx-2"
-                        }
-                        disabled={selectRows.length > 0 ? false : true}
-                        onClick={DeactivateItemsData}
-                      >
-                        Deactivate
-                      </button>
+                    <div className="d-flex justify-content-end">
+                      <b>Select All</b>
+                      <input
+                        type="checkbox"
+                        className="form-check-input border-dark mx-2"
+                        checked={selectAll}
+                        onChange={OnSelectAll}
+                      />
                     </div>
                     <DataGrid
                       columns={columns}

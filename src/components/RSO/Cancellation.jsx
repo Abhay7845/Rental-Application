@@ -229,12 +229,12 @@ const Cancellation = () => {
         customerIdNo: sameCustomer ? "" : sameCustIDNo,
         customerIdFileName: sameCustomer ? "" : sameCutIDFileName,
         cancellationReason: cancellationReason,
-        cancellationCharges: parseFloat(cancelCharge),
+        cancelationCharges: parseFloat(cancelCharge),
         discountAmount: parseFloat(discountAmount),
         rentalCharges: parseFloat(SumOfRentalRate()),
         bookingAmountPaid: parseFloat(totalBookingAmount),
         depositAmountPaid: parseFloat(totalDepositAmount),
-        netRefundAmount: parseFloat(netRefund),
+        netRefundAmount: parseFloat(parseFloat(netRefund).toFixed(2)),
         rsoName: rsoName,
         createdDate: null,
         updatedDate: null,
@@ -267,12 +267,12 @@ const Cancellation = () => {
             <h6>{GetReturnProduct.refId}</h6>
           </div>
           <div className="col-2">
-            <label className="form-label">Renatl Start Date</label>
-            <h6>{moment(GetReturnProduct.bookingDate).format("YYYY-MM-DD")}</h6>
+            <label className="form-label">Rental Start Date</label>
+            <h6>{moment(GetReturnProduct.bookingDate).format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Rental End Date</label>
-            <h6>{moment(getReturnDate()).format("YYYY-MM-DD")}</h6>
+            <h6>{moment(getReturnDate()).format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-2">
             <label className="form-label">Rental Package</label>
@@ -280,7 +280,7 @@ const Cancellation = () => {
           </div>
           <div className="col-3">
             <label className="form-label">Current Date</label>
-            <h6>{moment().format("YYYY-MM-DD")}</h6>
+            <h6>{moment().format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-3">
             <label className="form-label">Customer Name</label>

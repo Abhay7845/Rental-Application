@@ -380,8 +380,8 @@ const ProductsDetails = () => {
         <div className="col-12 table-responsive">
           <table className="table table-bordered table-hover border-dark text-center">
             <thead className="table-dark border-light">
-              <tr>
-                <td>SELECT</td>
+              <tr style={{ fontSize: "14px" }}>
+                <td>Select</td>
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
                 })}

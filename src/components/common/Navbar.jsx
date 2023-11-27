@@ -60,7 +60,7 @@ const Navbar = () => {
         )}
         <div className="d-flex">
           <Link className="nav-link navbarLink" to="/your/wishlist">
-            <BiSolidCart size={30} />
+            <BiSolidCart size={30} className="mt-2" />
             <span className="badge">7</span>
           </Link>
           <span className="navbarLink mx-4 mt-0 text-center">

@@ -921,7 +921,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-6">
+            <div className="col-md-4">
               <label className="form-label">
                 <b>{amontHeading}</b>
               </label>
@@ -931,18 +931,6 @@ const CashierPaymentDetails = () => {
                   currency: "INR",
                   minimumFractionDigits: 2,
                 }).format(collectedAmount)}
-              </h6>
-            </div>
-            <div className="col-md-4">
-              <label className="form-label">
-                <b>With Tax (18%)</b>
-              </label>
-              <h6>
-                {new Intl.NumberFormat("en-IN", {
-                  style: "currency",
-                  currency: "INR",
-                  minimumFractionDigits: 2,
-                }).format(collectedAmount * 1.18)}
               </h6>
             </div>
             {amontHeading !== "Amount to be Refunded" && (

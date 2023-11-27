@@ -447,7 +447,7 @@ const Cancellation = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Cancellation Charges</h6>
           </div>
-          <div className="col-md--4">
+          <div className="col-md-4">
             <label className="form-label">Total Cancellation Charges</label>
             <input
               type="text"
@@ -458,7 +458,9 @@ const Cancellation = () => {
             />
           </div>
           <div className="col-md-4">
-            <label className="form-label">Cancellation Charges With(18%)</label>
+            <label className="form-label">
+              Cancellation Charges With(18%)Tax
+            </label>
             <input
               type="text"
               className="form-control"

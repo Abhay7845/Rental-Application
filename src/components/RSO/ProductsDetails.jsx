@@ -29,13 +29,9 @@ const ProductsDetails = () => {
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
 
-  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
-
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
-  const tempId = `TempId-${storeCode}-${toDayDate}-${RandomDigit}`;
-  const [tempBookingId, setTempBookingId] = useState(tempId);
 
   const GetProductDetails = (payload, avldata) => {
     const GetProducts = {
@@ -136,7 +132,7 @@ const ProductsDetails = () => {
       rentalStartDate: payload.bookingDate,
       status: "Added To Cart",
       storeCode: storeCode,
-      tempBookingRefId: tempBookingId,
+      tempBookingRefId: "",
       updatedDate: null,
       createdDate: null,
     };
@@ -172,7 +168,12 @@ const ProductsDetails = () => {
     axios
       .post(`${HOST_URL}/pre/booking/add/to/cart`, addtoWishList)
       .then((res) => res)
-      .then((response) => console.log("response==>", response.data))
+      .then((response) => {
+        if (response.data.code === "1000") {
+          localStorage.setItem("BookinTempId", response.data.value.Succes);
+          console.log("response==>", response.data);
+        }
+      })
       .catch((error) => console.log("error==>", error));
   };
 

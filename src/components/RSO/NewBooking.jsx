@@ -482,10 +482,11 @@ const NewBooking = () => {
             <h6>{packageDays} Days</h6>
           </div>
           {!existedUserData.customerBankName ||
-          !existedUserData.customerAccountNumber ? (
+          !existedUserData.customerAccountNumber ||
+          !existedUserData.bankIfsc ? (
             <div className="col-4">
               <span className="form-label text-danger">
-                <b>PLEASE ADD YOUR BANK DETAILS</b>
+                <b>Please Add Your Bank Details</b>
               </span>
               <br />
               <button

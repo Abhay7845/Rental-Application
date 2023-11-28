@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../common/Navbar";
 import {
-  AddedTocCart,
   WishListHeader,
   constomerType,
   packageDayOption,
@@ -22,34 +21,21 @@ import ShowError from "../../Schema/ShowError";
 import { IMAGE_URL } from "../../Data/DataList";
 
 const ProductsDetails = () => {
+  const storeCode = localStorage.getItem("storeCode");
+  const navigate = useNavigate();
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState([]);
-  const [goToCart, setGoToCart] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
-  const [thresholdLimit, setThresholdLimit] = useState("");
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
-  const [selectedId, setSelectedId] = useState("");
 
-  const storeCode = localStorage.getItem("storeCode");
-  const navigate = useNavigate();
+  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
-
-  const ReturnEndDate = () => {
-    const nextDate = new Date(payload.bookingDate);
-    nextDate.setDate(nextDate.getDate() + (parseInt(payload.packageDays) - 1));
-    return nextDate;
-  };
-  const rentalEndDate = moment(ReturnEndDate()).format("YYYY-MM-DD");
-  const CoolOfDate = () => {
-    const nextDate = new Date(rentalEndDate);
-    nextDate.setDate(nextDate.getDate() + 5);
-    return nextDate;
-  };
-
-  const coolOfDate = moment(CoolOfDate()).format("YYYY-MM-DD");
+  const tempId = `TempId-${storeCode}-${toDayDate}-${RandomDigit}`;
+  const [tempBookingId, setTempBookingId] = useState(tempId);
 
   const GetProductDetails = (payload, avldata) => {
     const GetProducts = {
@@ -70,20 +56,6 @@ const ProductsDetails = () => {
           alert("Data Not Found");
         }
         setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-  };
-
-  const CheckThresholdMilimt = (payload) => {
-    axios
-      .get(`${HOST_URL}/get/threshold/value/${payload.customerType}`)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          setThresholdLimit(parseInt(response.data.value.limit));
-        }
       })
       .catch((error) => {
         setLoading(false);
@@ -147,30 +119,28 @@ const ProductsDetails = () => {
   });
 
   const SelectedProducts = (e, product) => {
-    setSelectedId(product.pdtID);
-
     const AddToWishListOBj = {
-      bookingId: 0,
-      itemCode: product.itemCode,
       cfa: product.cfa,
-      lotNo: product.lotNo,
+      depositValue: product.depositRate,
       grossWt: product.grossWt,
+      itemCode: product.itemCode,
+      itemPriceId: product.itemPriceId,
+      lotNo: product.lotNo,
       netWt: product.netWt,
-      pdtId: product.pdtID,
-      rentalStartDate: payload.bookingDate,
       packageDays: parseInt(payload.packageDays),
-      itemPriceId: parseInt(product.itemPriceId),
-      rateId: product.rateId,
-      productValue: parseInt(product.productValue),
-      rentValue: parseInt(product.rentalRate),
-      depositValue: parseInt(product.depositRate),
-      createdDate: null,
-      updatedDate: null,
-      status: "Added To Cart",
-      tempBookingRefId: "",
       paymentRequestFor: "NewBooking",
+      pdtId: parseInt(product.pdtID),
+      productValue: product.productValue,
+      rateId: parseInt(product.rateId),
+      rentValue: parseInt(product.rentalRate),
+      rentalStartDate: payload.bookingDate,
+      status: "Added To Cart",
       storeCode: storeCode,
+      tempBookingRefId: tempBookingId,
+      updatedDate: null,
+      createdDate: null,
     };
+    console.log("AddToWishListOBj==>", AddToWishListOBj);
     if (e.target.checked) {
       setAddtoWishList([...addtoWishList, AddToWishListOBj]);
     } else {
@@ -180,54 +150,8 @@ const ProductsDetails = () => {
       setAddtoWishList(selectedData);
     }
   };
-  const AddToWishList = () => {
-    const avlId = goToCart.map((id) => id.pdtId);
-    if (avlId.includes(selectedId)) {
-      alert("Product Is Already Added to the Wishlist");
-    } else {
-      setGoToCart([...goToCart, ...addtoWishList]);
-      setProductDetails([]);
-      setAddtoWishList([]);
-    }
-  };
-
-  const DeleteWishListRow = (pdtId) => {
-    const updatedData = goToCart.filter((rowId) => rowId.pdtId !== pdtId);
-    setGoToCart(updatedData);
-  };
-
-  // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = goToCart.map((item) => parseInt(item.productValue));
-  const SumOfTProductValue = () => {
-    let total = 0;
-    for (let data of TProductValue) total = total + data;
-    return total;
-  };
-  // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = goToCart.map((item) => item.rentValue);
-
-  const SumOfRentalRate = () => {
-    let total = 0;
-    for (let data of TRentalRate) total = total + data;
-    return total;
-  };
-  const TRentalRateWithTx = goToCart.map((item) => item.rentValue * 1.18);
-  const SumOfRentalRateWithTx = () => {
-    let total = 0;
-    for (let data of TRentalRateWithTx) total = total + data;
-    return total;
-  };
-
-  // TOTAL COST OF DEPOSIT RATE
-  const TDepositRate = goToCart.map((item) => item.depositValue);
-  const SumOfDepositRate = () => {
-    let total = 0;
-    for (let data of TDepositRate) total = total + data;
-    return total;
-  };
 
   // DISABLES AFTER TWO MONTHS  DATES
-
   const getReturnDate = () => {
     const nextDate = new Date();
     nextDate.setDate(nextDate.getDate() + parseInt(90));
@@ -237,64 +161,19 @@ const ProductsDetails = () => {
   const GoForCancel = () => {
     setProductDetails([]);
     setAddtoWishList([]);
-    setGoToCart([]);
     payload.bookingDate = "";
     payload.packageDays = "";
     payload.customerType = "";
+    payload.itemCode = "";
   };
 
-  const InsertTableCalendar = (tempId) => {
-    const CanlendarInputs = goToCart.map((data) => {
-      return {
-        pdtId: data.pdtId,
-        bookingId: "",
-        bookingDate: payload.bookingDate,
-        createdDate: null,
-        updatedDate: null,
-        status: "Blocked",
-        packageDays: parseInt(payload.packageDays),
-        rentalEndDate: rentalEndDate,
-        storeCode: storeCode,
-        coolOfDate: coolOfDate,
-        tempBookingRefNo: tempId,
-      };
-    });
+  const AddtoWishList = () => {
+    console.log("addtoWishList==>", addtoWishList);
     axios
-      .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
+      .post(`${HOST_URL}/pre/booking/add/to/cart`, addtoWishList)
       .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          Swal.fire("Added", "Your Products Added To Cart", "success");
-          navigate("/booking");
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-  };
-
-  const ContinueToBooking = () => {
-    if (thresholdLimit < parseInt(SumOfTProductValue())) {
-      alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
-    } else {
-      setLoading(true);
-      localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
-      axios
-        .post(`${HOST_URL}/add/to/cart`, goToCart)
-        .then((res) => res)
-        .then((response) => {
-          if (response.data.code === "1000") {
-            if (response.data.value.Succes) {
-              localStorage.setItem("BookinTempId", response.data.value.Succes);
-              InsertTableCalendar(response.data.value.Succes);
-            }
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
-    }
+      .then((response) => console.log("response==>", response.data))
+      .catch((error) => console.log("error==>", error));
   };
 
   return (
@@ -380,7 +259,7 @@ const ProductsDetails = () => {
         <div className="col-12 table-responsive">
           <table className="table table-bordered table-hover border-dark text-center">
             <thead className="table-dark border-light">
-              <tr style={{ fontSize: "14px" }}>
+              <tr style={{ fontSize: "15px" }}>
                 <td>Select</td>
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
@@ -450,110 +329,11 @@ const ProductsDetails = () => {
           <button
             className={addtoWishList.length > 0 ? "CButton" : "CDisabled"}
             disabled={addtoWishList.length > 0 ? false : true}
-            onClick={AddToWishList}
+            onClick={AddtoWishList}
           >
             Add To WishList
           </button>
         </div>
-        {goToCart.length > 0 && (
-          <div className="col-12">
-            <h6 className="bookingHeading">Your WishListed Products</h6>
-            <div className="col-12 table-responsive">
-              <table className="table table-bordered table-hover border-dark text-center">
-                <thead className="table-dark border-light">
-                  <tr>
-                    {AddedTocCart.map((heading, i) => {
-                      return <td key={i}>{heading}</td>;
-                    })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {goToCart.map((item, i) => {
-                    const { itemCode } = item;
-                    const imageCode = itemCode.substring(2, 9);
-                    const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
-                    return (
-                      <tr key={i}>
-                        <td>
-                          <img src={imageURL} className="custom-image" alt="" />
-                        </td>
-                        <td>{item.itemCode}</td>
-                        <td>{item.lotNo}</td>
-                        <td>{item.grossWt}</td>
-                        <td>
-                          {Math.round(item.productValue).toLocaleString(
-                            "en-IN"
-                          )}
-                        </td>
-                        <td>
-                          {Math.round(item.rentValue).toLocaleString("en-IN")}
-                        </td>
-                        <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
-                        <td>
-                          <span style={{ marginLeft: "20%" }}>
-                            {Math.round(item.depositValue).toLocaleString(
-                              "en-IN"
-                            )}
-                          </span>
-                          <BsFillTrashFill
-                            className="DeleteRow"
-                            style={{
-                              marginLeft: "15%",
-                            }}
-                            onClick={() => DeleteWishListRow(item.pdtId)}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  <tr className="text-bold">
-                    <th colSpan="4" className="text-end">
-                      TOTAL
-                    </th>
-                    <th>
-                      {new Intl.NumberFormat("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                        minimumFractionDigits: false,
-                      }).format(SumOfTProductValue())}
-                    </th>
-                    <th>
-                      {new Intl.NumberFormat("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                        minimumFractionDigits: false,
-                      }).format(SumOfRentalRate())}
-                    </th>
-                    <th>
-                      {new Intl.NumberFormat("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                        minimumFractionDigits: 2,
-                      }).format(SumOfRentalRateWithTx())}
-                    </th>
-                    <th>
-                      {new Intl.NumberFormat("en-IN", {
-                        style: "currency",
-                        currency: "INR",
-                        minimumFractionDigits: false,
-                      }).format(SumOfDepositRate())}
-                    </th>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-        {goToCart.length > 0 && (
-          <div className="d-flex justify-content-end mt-0 mb-3">
-            <button className="CancelButton mx-2" onClick={GoForCancel}>
-              Cancel
-            </button>
-            <button className="CButton" onClick={ContinueToBooking}>
-              Continue To Booking
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

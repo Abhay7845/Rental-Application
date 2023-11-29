@@ -137,7 +137,7 @@ const NewCustomer = () => {
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
-      .then((response) => console.log(""))
+      .then((response) => {})
       .catch((error) => {
         setLoading(false);
       });

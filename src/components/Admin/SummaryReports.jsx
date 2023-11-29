@@ -90,7 +90,6 @@ const SummaryReports = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
         setLoading(false);
       });
   };
@@ -104,6 +103,8 @@ const SummaryReports = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setPreviousTnxData(response.data.value);
+        } else if (response.data.code === "1001") {
+          setPreviousTnxData([]);
         }
       })
       .catch((error) => {
@@ -275,7 +276,10 @@ const SummaryReports = () => {
               <div className="table-responsive">
                 <div className="d-flex justify-content-between mx-1">
                   <b>Booking Ref No. :- {orderData.bookingRefNo}</b>
-                  <b>Custome Name :- {customerName}</b>
+                  <b>
+                    Custome Name :-
+                    {!customerName ? "" : customerName.toUpperCase()}
+                  </b>
                   <b>Phone No. :- {customerPhone}</b>
                 </div>
                 <div className="mt-4" style={{ border: "1.4px solid #c1c4c5" }}>
@@ -473,44 +477,50 @@ const SummaryReports = () => {
                       <h6>PAYMENT DETAILS</h6>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <div className="table-responsive">
-                        <table className="table table-bordered border-dark text-center">
-                          <thead className="table-dark border-light">
-                            <tr>
-                              {PaymentDlsHeaders.map((heading, i) => {
-                                return <td key={i}>{heading}</td>;
+                      {previousTnxData.length > 0 ? (
+                        <div className="table-responsive">
+                          <table className="table table-bordered border-dark text-center">
+                            <thead className="table-dark border-light">
+                              <tr>
+                                {PaymentDlsHeaders.map((heading, i) => {
+                                  return <td key={i}>{heading}</td>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {previousTnxData.map((item, i) => {
+                                return (
+                                  <tr key={i}>
+                                    <td>
+                                      {item.paymentFor ===
+                                      "Payment_PendingFor_RentalReturn"
+                                        ? "Additional Charge"
+                                        : item.paymentFor ===
+                                          "Payment_PendingFor_NewBooking"
+                                        ? "Booking Amount"
+                                        : item.paymentFor ===
+                                          "Payment_PendingFor_RentalIssuance"
+                                        ? "Damage Protection Charge"
+                                        : ""}
+                                    </td>
+                                    <td>{item.paymentType}</td>
+                                    <td>{item.txnRefNo}</td>
+                                    <td className="text-end">
+                                      {parseInt(item.amount)}
+                                    </td>
+                                    <td>{item.paymentDocFileName}</td>
+                                    <td>{moment().format("DD-MM-YYYY")}</td>
+                                  </tr>
+                                );
                               })}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {previousTnxData.map((item, i) => {
-                              return (
-                                <tr key={i}>
-                                  <td>
-                                    {item.paymentFor ===
-                                    "Payment_PendingFor_RentalReturn"
-                                      ? "Additional Charge"
-                                      : item.paymentFor ===
-                                        "Payment_PendingFor_NewBooking"
-                                      ? "Booking Amount"
-                                      : item.paymentFor ===
-                                        "Payment_PendingFor_RentalIssuance"
-                                      ? "Damage Protection Charge"
-                                      : ""}
-                                  </td>
-                                  <td>{item.paymentType}</td>
-                                  <td>{item.txnRefNo}</td>
-                                  <td className="text-end">
-                                    {parseInt(item.amount)}
-                                  </td>
-                                  <td>{item.paymentDocFileName}</td>
-                                  <td>{moment().format("DD-MM-YYYY")}</td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
+                            </tbody>
+                          </table>
+                        </div>
+                      ) : (
+                        <b className="text-danger">
+                          Payment Details Are Not Available!
+                        </b>
+                      )}
                     </AccordionDetails>
                   </Accordion>
                   <Accordion>

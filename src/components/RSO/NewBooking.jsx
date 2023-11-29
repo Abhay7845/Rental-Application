@@ -137,6 +137,7 @@ const NewBooking = () => {
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
   const GetCartProductData = !CartData ? [] : CartData;
   const rentalStrDate = GetCartProductData.map((item) => item.rentalStartDate);
+  console.log("rentalStrDate==>", rentalStrDate);
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>

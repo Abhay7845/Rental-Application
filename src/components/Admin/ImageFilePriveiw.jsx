@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ImageHeaders } from "../../Data/DataList";
 import { useReactToPrint } from "react-to-print";
 import { HOST_URL } from "../../API/HostURL";
 import axios from "axios";
 import { BsXLg } from "react-icons/bs";
+import Loader from "../common/Loader";
 
 const ImageFilePriveiw = ({ orderData, Close }) => {
   const PrintImageRef = useRef(null);
@@ -11,44 +11,24 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
     content: () => PrintImageRef.current,
   });
   const [uploadedImgData, setUploadedImgData] = useState([]);
-  const [showImage, setShowImage] = useState("");
+  const [loading, setLoading] = useState(false);
   const { bookingRefNo } = orderData;
 
-  const imageUrl = uploadedImgData.map((url) => url.fileUrl);
-
   useEffect(() => {
+    setLoading(true);
     axios
-      .get(`${HOST_URL}/Admin/get/document/list/${bookingRefNo}`, {
-        headers: ImageHeaders,
-      })
+      .get(`${HOST_URL}/Admin/get/document/list/${bookingRefNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
           setUploadedImgData(response.data.value);
         }
+        setLoading(false);
       })
       .catch((error) => {
-        console.log("error==>", error);
+        setLoading(false);
       });
-  }, []);
-
-  const FetchUploadedImage = (imgUrl) => {
-    axios
-      .get(imgUrl, {
-        headers: ImageHeaders,
-      })
-      .then((res) => res)
-      .then((response) => {
-        setShowImage([...showImage, response.data]);
-      })
-      .catch((error) => {
-        console.log("error==>", error);
-      });
-  };
-
-  for (let i = 0; i < imageUrl.length; i++) {
-    FetchUploadedImage(imageUrl[i]);
-  }
+  }, [bookingRefNo]);
 
   // const handleDownload = (fileName, fileUrl) => {
   //   const link = document.createElement("a");
@@ -58,17 +38,15 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
   // };
   return (
     <div>
+      {loading === true && <Loader />}
       <div className="d-flex justify-content-between my-2">
         <button className="CButton" onClick={PrintImagePdf}>
           Print Pdf
         </button>
         <BsXLg onClick={Close} size={22} cursor="pointer" color="#fff" />
       </div>
-      <div className="table-responsive">
-        <table
-          className="table table-bordered border-dark text-center"
-          ref={PrintImageRef}
-        >
+      <div className="table-responsive" ref={PrintImageRef}>
+        <table className="table table-bordered border-dark text-center">
           <thead className="table-dark border-light">
             <tr>
               <td>Image</td>
@@ -81,16 +59,12 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
               return (
                 <tr key={i}>
                   <td>
-                    {showImage ? (
-                      <img
-                        src={`data:image/jpeg;base64,${showImage[i]}`}
-                        width="180"
-                        height="85"
-                        alt="Not Found"
-                      />
-                    ) : (
-                      <b>Loading...</b>
-                    )}
+                    <img
+                      src={item.fileUrl}
+                      width="180"
+                      height="85"
+                      alt="Not Found"
+                    />
                   </td>
                   <td style={{ fontSize: "10px", fontWeight: "bold" }}>
                     {item.documentType.toUpperCase()}

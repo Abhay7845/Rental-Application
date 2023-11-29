@@ -167,14 +167,14 @@ const Home = () => {
           <div className="table-responsive mx-2">
             <table className="table table-bordered table-hover border-dark text-center">
               <thead className="table-dark border-light">
-                <tr>
-                  <th className="text-center">Select</th>
-                  <th>Customer Name</th>
-                  <th>Booking Ref No.</th>
-                  <th>Phone No.</th>
-                  <th>Package Days</th>
-                  <th>Rental_Date</th>
-                  <th>Status</th>
+                <tr style={{ fontSize: "15px" }}>
+                  <td>Select</td>
+                  <td>Customer Name</td>
+                  <td>Booking Ref No.</td>
+                  <td>Phone No.</td>
+                  <td>Package Days</td>
+                  <td>Rental Date</td>
+                  <td>Status</td>
                 </tr>
               </thead>
               <tbody>

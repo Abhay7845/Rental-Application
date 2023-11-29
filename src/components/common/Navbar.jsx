@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../../Style/Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { BiLogIn } from "react-icons/bi";
+import { BiLogIn, BiSolidCart } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 import moment from "moment";
 
@@ -59,12 +59,16 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          <b className="navbarLink mx-4 mt-0 text-center">
+          <Link className="nav-link navbarLink" to="/your/wishlist">
+            <BiSolidCart size={30} className="mt-2" />
+            <span className="badge">7</span>
+          </Link>
+          <span className="navbarLink mx-4 mt-0 text-center">
             {storeCode.toUpperCase()}
             <br />
             {currentDate.toUpperCase()},<span className="mx-2">{CTime}</span>
-          </b>
-          <b className="navbarLink mt-2">{UserName.toUpperCase()}</b>
+          </span>
+          <span className="navbarLink mt-2">{UserName.toUpperCase()}</span>
           <BiLogIn className="lououtBtn mt-1 mx-2" onClick={Logout} />
         </div>
       </div>

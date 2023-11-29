@@ -64,16 +64,16 @@ export const constomerType = [
 ];
 
 export const WishListHeader = [
-  "IMAGE",
-  "ITEMCODE",
-  "LOT NO.",
-  "DESCRIPTION",
-  "GROSS. WT.",
-  "PRODUCT VALUE",
-  "RENTAL VALUE",
-  "RENTAL VALUE WITH(18%)TAX",
-  "DAMAGE PROTECTION AMOUNT",
-  "AVAILABILITY",
+  "Image",
+  "Itemcode",
+  "Lot No.",
+  "Description",
+  "Gross. Wt.",
+  "Product Value",
+  "Rental Value",
+  "Rental Value With(18%)Tax",
+  "Damage Protection Amount",
+  "Availability",
 ];
 
 export const AddedTocCart = [

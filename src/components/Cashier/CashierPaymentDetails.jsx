@@ -57,6 +57,7 @@ const CashierPaymentDetails = () => {
     totalDepositAmountPaidWithTax,
     productValue,
   } = paymentDetails;
+  console.log("paymentDetails==>", paymentDetails);
 
   const {
     totalDamageCharges,
@@ -69,6 +70,13 @@ const CashierPaymentDetails = () => {
 
   const GenChallanNo = `${bookingRefNo}-D`;
   const GenInvoiceNo = `${storeCode}-${invoicePdfNo.invoiceId + 1}`;
+  const rentalStrDate = addedPdts.map((date) => date.rentStartDate);
+  const packageDays = addedPdts.map((date) => date.packageDays);
+  const getReturnDate = () => {
+    const nextDate = new Date(rentalStrDate[0]);
+    nextDate.setDate(nextDate.getDate() + parseInt(packageDays[0] - 1));
+    return nextDate;
+  };
 
   // ADD ROW
   const [count, setCount] = useState(0);
@@ -853,9 +861,6 @@ const CashierPaymentDetails = () => {
                           type="radio"
                           name="select"
                           onClick={() => OnSelectRow(data)}
-                          // disabled={
-                          //   paymentDetails.id !== data.id ? true : false
-                          // }
                         />
                       </td>
                       <td>{data.customerName}</td>
@@ -878,18 +883,36 @@ const CashierPaymentDetails = () => {
           </div>
         )}
         {paymentDetails.bookingId && (
-          <div className="row g-3 mt-3 mx-0">
+          <div className="row g-3 mt-1 mx-0">
+            <div class="row my-2">
+              <div class="col">
+                <label className="form-label">
+                  <b>
+                    Rental Start Date :-
+                    {moment(rentalStrDate[0]).format("DD-MM-YYYY")}
+                  </b>
+                </label>
+              </div>
+              <div class="col">
+                <label className="form-label">
+                  <b>
+                    Rental End Date :-
+                    {moment(getReturnDate()).format("DD-MM-YYYY")}
+                  </b>
+                </label>
+              </div>
+            </div>
             {paymentRequestFor !== "Payment_PendingFor_RentalReturn" ? (
               ""
             ) : (
               <div className="d-flex col-md-8 mt-0">
-                <div className="col-md-5 mt-0">
+                <div className="col-md-4 mt-0">
                   <label className="form-label">
                     <b>Damage Charges</b>
                   </label>
                   <h6>₹ {totalDamageCharges}</h6>
                 </div>
-                <div className="col-md-5 mt-0">
+                <div className="col-md-4 mt-0">
                   <label className="form-label">
                     <b>Penalty Charges</b>
                   </label>
@@ -897,7 +920,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-4 mt-0">
+            <div className="col-md-4">
               <label className="form-label">
                 <b>{amontHeading}</b>
               </label>
@@ -1101,7 +1124,6 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-
             {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
@@ -1158,7 +1180,6 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-
             {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
               <div className="row g-2 mx-0">
                 <div className="col-12 mb-0">
@@ -1239,7 +1260,6 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-
             <div className="col-md-5">
               <input
                 type="text"

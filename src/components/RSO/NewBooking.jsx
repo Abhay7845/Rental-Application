@@ -36,6 +36,7 @@ const NewBooking = () => {
   const [customerBankName, setCustomerBankName] = useState("");
   const [customerAccountNumber, setCustomerAccountNumber] = useState("");
   const [bankIfsc, setBankIfsc] = useState("");
+  const [customerNameAsBank, setCustomerNameAsBank] = useState("");
   const [bankDetailFileName, setBankDetailFileName] = useState("");
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const [transactionFile, setTransactionFile] = useState("");
@@ -295,7 +296,12 @@ const NewBooking = () => {
     }
   };
   const UpdateCustomerBankDetails = () => {
-    if (!customerBankName || !customerAccountNumber) {
+    if (
+      !customerBankName ||
+      !customerAccountNumber ||
+      !customerNameAsBank ||
+      !cancelChqueFileName
+    ) {
       alert("Please Enter All Details");
     } else {
       setLoading(true);
@@ -486,10 +492,11 @@ const NewBooking = () => {
             <h6>{packageDays} Days</h6>
           </div>
           {!existedUserData.customerBankName ||
-          !existedUserData.customerAccountNumber ? (
+          !existedUserData.customerAccountNumber ||
+          !existedUserData.bankIfsc ? (
             <div className="col-4">
               <span className="form-label text-danger">
-                <b>PLEASE ADD YOUR BANK DETAILS</b>
+                <b>Please Add Your Bank Details</b>
               </span>
               <br />
               <button
@@ -665,7 +672,9 @@ const NewBooking = () => {
             <div className="modal-body row g-3">
               {loading === true && <Loader />}
               <div className="col-md-6">
-                <label className="form-label">Bank Name</label>
+                <label className="form-label">
+                  Bank Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -674,7 +683,9 @@ const NewBooking = () => {
                 />
               </div>
               <div className="col-md-6">
-                <label className="form-label">Account Number</label>
+                <label className="form-label">
+                  Account Number <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -683,7 +694,21 @@ const NewBooking = () => {
                 />
               </div>
               <div className="col-md-6">
-                <label className="form-label">IFSC CODE</label>
+                <label className="form-label">
+                  Customer Name(As Per Bank A/c)
+                  <span className="text-danger"> *</span>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Customer Name(As Per Bank A/c)"
+                  onChange={(e) => setCustomerNameAsBank(e.target.value)}
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">
+                  IFSC CODE <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -692,8 +717,10 @@ const NewBooking = () => {
                   value={BanckIfcseCode}
                 />
               </div>
-              <div className="col-md-4">
-                <label className="form-label">Cancelled Cheque</label>
+              <div className="col-md-10">
+                <label className="form-label">
+                  Cancelled Cheque <span className="text-danger">*</span>
+                </label>
                 <input
                   type="file"
                   className="form-control"
@@ -701,7 +728,7 @@ const NewBooking = () => {
                   onChange={(e) => setCancelledChequeFile(e.target.files[0])}
                 />
               </div>
-              <div className="col-md-1">
+              <div className="col-2">
                 <br />
                 <button className="CButton mt-2" onClick={UploadBankCheque}>
                   Upload
@@ -718,7 +745,10 @@ const NewBooking = () => {
                 )}
               </div>
             </div>
-            <div className="d-flex justify-content-end mx-2 mb-2">
+            <div className="d-flex justify-content-between mx-3 mb-3">
+              <span className="text-danger">
+                Please fill the all marks(*) are given field.
+              </span>
               <button
                 type="button"
                 className="CButton"

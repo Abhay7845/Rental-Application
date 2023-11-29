@@ -25,9 +25,8 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
         }
         setLoading(false);
       })
-<<<<<<< HEAD
       .catch((error) => {});
-  }, []);
+  };
 
   const FetchUploadedImage = (imgUrl) => {
     axios
@@ -38,12 +37,9 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
       .then((response) => {
         setShowImage([...showImage, response.data]);
       })
-      .catch((error) => {});
-=======
       .catch((error) => {
         setLoading(false);
       });
->>>>>>> 6e24dd3845b63822bf817bfd8702464288e66da3
   };
 
   useEffect(() => {

@@ -10,7 +10,6 @@ import "./App.css";
 import Cancellation from "./components/RSO/Cancellation";
 import RentalRetrun from "./components/RSO/RentaRetrun";
 import NewCustomer from "./components/RSO/NewCustomer";
-import TestImage from "./components/common/TestImage";
 import ProductsDetails from "./components/RSO/ProductsDetails";
 import SummaryReports from "./components/Admin/SummaryReports";
 import BookingVerification from "./components/Admin/BookingVerification";
@@ -75,10 +74,7 @@ const App = () => {
               path="/your/wishlist"
               element={<YourWishList showAlert={showAlert} />}
             />
-            <Route
-              path="/test/image"
-              element={<TestImage showAlert={showAlert} />}
-            />
+            <Route path="/test/image" />
             {/* ADMIN COMPONENTS */}
             <Route
               path="/admin/update/master/price"

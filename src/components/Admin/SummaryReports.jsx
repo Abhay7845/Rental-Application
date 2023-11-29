@@ -295,7 +295,7 @@ const SummaryReports = () => {
                       <div className="table-responsive">
                         <table className="table table-bordered border-dark text-center">
                           <thead className="table-dark border-light">
-                            <tr>
+                            <tr style={{ fontSize: "15px" }}>
                               {ProductDlsHeaders.map((heading, i) => {
                                 return <td key={i}>{heading}</td>;
                               })}
@@ -367,7 +367,7 @@ const SummaryReports = () => {
                       <div className="table-responsive">
                         <table className="table table-bordered border-dark text-center">
                           <thead className="table-dark border-light">
-                            <tr>
+                            <tr style={{ fontSize: "15px" }}>
                               {OrderSummaryDlsHeaders.map((heading, i) => {
                                 return <td key={i}>{heading}</td>;
                               })}
@@ -433,7 +433,7 @@ const SummaryReports = () => {
                         </table>
                         <table className="table table-bordered border-dark text-center">
                           <thead className="table-dark border-light">
-                            <tr>
+                            <tr style={{ fontSize: "15px" }}>
                               <td>Cancellation Charge</td>
                               <td>Discount Amount</td>
                               <td>Refund Amount</td>
@@ -481,7 +481,7 @@ const SummaryReports = () => {
                         <div className="table-responsive">
                           <table className="table table-bordered border-dark text-center">
                             <thead className="table-dark border-light">
-                              <tr>
+                              <tr style={{ fontSize: "15px" }}>
                                 {PaymentDlsHeaders.map((heading, i) => {
                                   return <td key={i}>{heading}</td>;
                                 })}
@@ -535,7 +535,7 @@ const SummaryReports = () => {
                       <div className="table-responsive">
                         <table className="table table-bordered border-dark text-center">
                           <thead className="table-dark border-light">
-                            <tr>
+                            <tr style={{ fontSize: "15px" }}>
                               {CustomerDlsHeaders.map((heading, i) => {
                                 return <td key={i}>{heading}</td>;
                               })}
@@ -568,7 +568,7 @@ const SummaryReports = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
+                            <tr style={{ fontSize: "15px" }}>
                               <td>{existedUser.customerBankName}</td>
                               <td>{existedUser.customerAccountNumber}</td>
                               <td>{existedUser.bankIfsc}</td>

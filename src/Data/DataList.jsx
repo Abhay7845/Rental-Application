@@ -172,8 +172,8 @@ export const ProductDlsHeaders = [
 ];
 export const OrderSummaryDlsHeaders = [
   "Item Code",
-  "Actual Wt. at Delivery",
-  "Actual Wt. at Return",
+  "Actual Wt at Delivery",
+  "Actual Wt at Return",
   "Booking Amount(With 18% Tax)",
   "Deposit Amount",
   "Penalty Amount",

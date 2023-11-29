@@ -28,20 +28,6 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
       .catch((error) => {});
   };
 
-  const FetchUploadedImage = (imgUrl) => {
-    axios
-      .get(imgUrl, {
-        headers: ImageHeaders,
-      })
-      .then((res) => res)
-      .then((response) => {
-        setShowImage([...showImage, response.data]);
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
     FetchImageDocList(bookingRefNo);
   }, [bookingRefNo]);

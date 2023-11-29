@@ -384,7 +384,7 @@ const Cancellation = () => {
             <div className="table-responsive">
               <table className="table table-bordered table-hover border-dark text-center">
                 <thead className="table-dark border-light">
-                  <tr>
+                  <tr style={{ fontSize: "15px" }}>
                     {CancelPageHeading.map((headers, i) => {
                       return <td key={i}>{headers}</td>;
                     })}
@@ -488,10 +488,10 @@ const Cancellation = () => {
             <div className="table-responsive">
               <table className="table table-bordered border-dark text-center">
                 <thead className="table-dark border-light">
-                  <tr>
-                    <td>Total_Booking_Paid</td>
-                    <td>Net_Cancellation_Charges</td>
-                    <td>Total_Refund_Amount</td>
+                  <tr style={{ fontSize: "15px" }}>
+                    <td>Total Booking Paid</td>
+                    <td>Net Cancellation Charges</td>
+                    <td>Total Refund Amount</td>
                   </tr>
                 </thead>
                 <tbody>

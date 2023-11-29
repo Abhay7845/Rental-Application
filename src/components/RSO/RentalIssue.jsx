@@ -771,7 +771,7 @@ const RentalIssue = () => {
               <div className="table-responsive">
                 <table className="table table-bordered table-hover border-dark text-center">
                   <thead className="table-dark border-light">
-                    <tr>
+                    <tr style={{ fontSize: "15px" }}>
                       {rentalIssuePage.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}
@@ -861,9 +861,9 @@ const RentalIssue = () => {
             <table className="table table-bordered table-hover border-dark text-center">
               <thead className="table-dark border-light">
                 <tr>
-                  <th>Image</th>
-                  <th>Item Code</th>
-                  <th>Upload Product Images</th>
+                  <td>Image</td>
+                  <td>Item Code</td>
+                  <td>Upload Product Images</td>
                 </tr>
               </thead>
               <tbody>

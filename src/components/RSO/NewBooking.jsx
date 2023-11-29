@@ -548,7 +548,7 @@ const NewBooking = () => {
                   className="table table-bordered table-hover border-dark text-center"
                 >
                   <thead className="table-dark border-light">
-                    <tr>
+                    <tr style={{ fontSize: "15px" }}>
                       {AddedTocCart.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}

@@ -665,7 +665,7 @@ const RentalReturn = () => {
               <div className="table-responsive">
                 <table className="table table-bordered table-hover border-dark text-center">
                   <thead className="table-dark border-light">
-                    <tr>
+                    <tr style={{ fontSize: "15px" }}>
                       {renatlReturnPage.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}

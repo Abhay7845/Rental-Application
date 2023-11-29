@@ -33,8 +33,9 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
   // const handleDownload = (fileName, fileUrl) => {
   //   const link = document.createElement("a");
   //   link.href = fileUrl;
-  //   link.download = fileName; // Rename the downloaded file if needed
+  //   link.download = fileName;
   //   link.click();
+  //   document.body.removeChild(link);
   // };
   return (
     <div>

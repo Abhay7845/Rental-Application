@@ -14,10 +14,10 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
   const [loading, setLoading] = useState(false);
   const { bookingRefNo } = orderData;
 
-  useEffect(() => {
+  const FetchImageDocList = (bookingRef) => {
     setLoading(true);
     axios
-      .get(`${HOST_URL}/Admin/get/document/list/${bookingRefNo}`)
+      .get(`${HOST_URL}/Admin/get/document/list/${bookingRef}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -28,6 +28,10 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
       .catch((error) => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    FetchImageDocList(bookingRefNo);
   }, [bookingRefNo]);
 
   // const handleDownload = (fileName, fileUrl) => {

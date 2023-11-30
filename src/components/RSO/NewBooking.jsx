@@ -324,6 +324,7 @@ const NewBooking = () => {
         rsoName: RSOName,
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
+        customerNameasPerAccount: customerNameAsBank,
         bankIfsc: BanckIfcseCode,
         bankDetailFileName: cancelChqueFileName,
       };

@@ -32,6 +32,7 @@ const NewCustomer = () => {
   const [bankIfsc, setBankIfsc] = useState("");
   const [bankDetailFileName, setBankDetailFileName] = useState("");
   const [bankChequeFile, setBankChequeFile] = useState("");
+  const [customerNameAsBank, setCustomerNameAsBank] = useState("");
   // ADDRESS PROOF
   const [choosePan, setChoosePan] = useState("");
   const [adderessProof, setAdderessProof] = useState([]);
@@ -387,6 +388,7 @@ const NewCustomer = () => {
         rsoName: rsoName,
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
+        customerNameasPerAccount: customerNameAsBank,
         bankIfsc: BanckIfcseCode,
         bankDetailFileName: customerAccountNumber,
       };
@@ -723,6 +725,16 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="Account Number"
               onChange={(e) => setCustomerAccountNumber(e.target.value)}
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Customer Name(As Per Bank A/c)</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Customer Name(As Per Bank A/c)"
+              onChange={(e) => setCustomerNameAsBank(e.target.value)}
+              value={BanckIfcseCode}
             />
           </div>
           <div className="col-md-4">

@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://tanishqdigitalnpim.titan.in/JewRentalApp",
+  "homepage": "https://tanishqdigitalnpim.titan.in/UAT_RentalJewApp",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",

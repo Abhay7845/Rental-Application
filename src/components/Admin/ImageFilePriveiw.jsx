@@ -39,7 +39,6 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
   //   link.click();
   //   document.body.removeChild(link);
   // };
-  // const column = ["fileUrl", "documentType", "contentFor"];
 
   return (
     <div>

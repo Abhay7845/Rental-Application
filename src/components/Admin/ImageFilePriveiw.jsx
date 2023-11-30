@@ -65,8 +65,8 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
                   <td>
                     <img
                       src={item.fileUrl}
-                      width="180"
-                      height="85"
+                      width="140"
+                      height="65"
                       alt="Not Found"
                     />
                   </td>

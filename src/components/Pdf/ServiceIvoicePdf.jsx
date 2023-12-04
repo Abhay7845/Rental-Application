@@ -94,22 +94,20 @@ const ServiceIvoicePdf = (props) => {
       ).toLocaleString("en-IN"),
       sgst: parseFloat(
         (
-          ((data.rentalAmount +
+          (data.rentalAmount +
             data.lateFee +
             data.damageCharges -
             data.discountAmount) *
-            9) /
-          100
+          0.09
         ).toLocaleString("en-IN")
       ),
       cgst: parseFloat(
         (
-          ((data.rentalAmount +
+          (data.rentalAmount +
             data.lateFee +
             data.damageCharges -
             data.discountAmount) *
-            9) /
-          100
+          0.09
         ).toLocaleString("en-IN")
       ),
       totalAmount: (
@@ -121,7 +119,6 @@ const ServiceIvoicePdf = (props) => {
       ).toLocaleString("en-IN"),
     };
   });
-
   const TBasePrise = RefacotorTableData.map((data) => data.productValue);
   const SumOfBasePrise = () => {
     let total = 0;

@@ -8,6 +8,7 @@ import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import TableDataDownload from "./TableDataDownload";
+import moment from "moment";
 
 const UpdateMasterPrice = () => {
   const [loading, setLoading] = useState(false);
@@ -17,8 +18,6 @@ const UpdateMasterPrice = () => {
   const [cols, setCols] = useState([]);
   const [showErrMsg, setShowErrMsg] = useState("");
   const [updBtn, setUpdBtn] = useState(false);
-  const [selectRows, setSelectRows] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
   const ItemPriceId = rows.map((id) => id.itemPriceId);
 
   const ShowAlertDeactivate = (count) => {
@@ -59,7 +58,7 @@ const UpdateMasterPrice = () => {
     setLoading(true);
     const ActivatePayload = {
       storeCode: storeCodeValue,
-      itemPriceId: selectRows,
+      itemPriceId: ItemPriceId,
     };
     axios
       .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
@@ -69,7 +68,7 @@ const UpdateMasterPrice = () => {
           ShowAlertDeactivate(response.data.value.count);
           setUpdBtn(true);
           setStoreCodeValue("");
-          setSelectRows([]);
+          setRows([]);
         }
         setLoading(false);
       })
@@ -125,49 +124,26 @@ const UpdateMasterPrice = () => {
     }
   };
 
-  const OnSelectRow = (rowId) => {
-    const isSelected = selectRows.includes(rowId);
-    setSelectRows((prevId) =>
-      isSelected ? prevId.filter((id) => id !== rowId) : [...prevId, rowId]
-    );
-  };
-
-  const OnSelectAll = () => {
-    if (selectAll) {
-      setSelectRows([]);
-    } else {
-      setSelectRows(ItemPriceId);
-    }
-    setSelectAll(!selectAll);
-  };
-
   const columns = cols.map((element) => {
     let fieldRes;
-    if (element === "value") {
+    if (element === "updatedDate") {
       fieldRes = {
-        field: "Select",
-        headerName: "Select",
+        field: "updatedDate",
+        headerName: "updatedDate",
         renderCell: (params) => {
           return (
-            <input
-              className="form-check-input border-dark"
-              type="checkbox"
-              checked={selectRows.includes(params.row.itemPriceId)}
-              onChange={() => OnSelectRow(params.row.itemPriceId)}
-            />
+            <span>{moment(params.row.updatedDate).format("DD-MM-YYYY")}</span>
           );
         },
       };
     } else {
       fieldRes = {
         field: element,
-        sortable: false,
         flex: 1,
       };
     }
     return fieldRes;
   });
-
   return (
     <div>
       {loading === true && <Loader />}
@@ -191,18 +167,13 @@ const UpdateMasterPrice = () => {
               className="CButton"
               data-bs-toggle="modal"
               data-bs-target="#ViewPriceMaster"
-              onClick={() => {
-                setSelectRows([]);
-                setSelectAll(false);
-              }}
+              onClick={() => setRows([])}
             >
               View
             </button>
             <button
-              className={
-                selectRows.length > 0 ? "CButton mx-2" : "CDisabled mx-2"
-              }
-              disabled={selectRows.length > 0 ? false : true}
+              className={rows.length > 0 ? "CButton mx-2" : "CDisabled mx-2"}
+              disabled={rows.length > 0 ? false : true}
               onClick={DeactivateItemsData}
             >
               Deactivate
@@ -232,7 +203,7 @@ const UpdateMasterPrice = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={() => setRows([])}
+                  onClick={() => setCols([])}
                 />
               </div>
               <div className="modal-body">
@@ -256,22 +227,12 @@ const UpdateMasterPrice = () => {
                     </button>
                   </div>
                 </div>
-                {rows.length > 0 && (
+                {cols.length > 0 && (
                   <div className="mx-2 my-4">
-                    <div className="d-flex justify-content-end">
-                      <b>Select All</b>
-                      <input
-                        type="checkbox"
-                        className="form-check-input border-dark mx-2"
-                        checked={selectAll}
-                        onChange={OnSelectAll}
-                      />
-                    </div>
                     <DataGrid
                       columns={columns}
                       rows={rows}
                       autoHeight={true}
-                      pageSize={[10, 15, 20]}
                       components={{
                         Toolbar: TableDataDownload,
                       }}

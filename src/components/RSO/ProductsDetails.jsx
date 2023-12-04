@@ -33,6 +33,19 @@ const ProductsDetails = () => {
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
 
+  const ReturnEndDate = () => {
+    const nextDate = new Date(payload.bookingDate);
+    nextDate.setDate(nextDate.getDate() + (parseInt(payload.packageDays) - 1));
+    return nextDate;
+  };
+  const rentalEndDate = moment(ReturnEndDate()).format("YYYY-MM-DD");
+  const CoolOfDate = () => {
+    const nextDate = new Date(rentalEndDate);
+    nextDate.setDate(nextDate.getDate() + 5);
+    return nextDate;
+  };
+  const coolOfDate = moment(CoolOfDate()).format("YYYY-MM-DD");
+
   const GetProductDetails = (payload, avldata) => {
     const GetProducts = {
       storeCode: storeCode,
@@ -162,16 +175,47 @@ const ProductsDetails = () => {
     payload.customerType = "";
     payload.itemCode = "";
   };
-
+  const InsertTableCalendar = (tempId) => {
+    console.log("tempId==>", tempId);
+    const CanlendarInputs = addtoWishList.map((data) => {
+      return {
+        pdtId: data.pdtId,
+        bookingId: "",
+        bookingDate: payload.bookingDate,
+        createdDate: null,
+        updatedDate: null,
+        status: "Blocked",
+        packageDays: parseInt(payload.packageDays),
+        rentalEndDate: rentalEndDate,
+        storeCode: storeCode,
+        coolOfDate: coolOfDate,
+        tempBookingRefNo: tempId,
+      };
+    });
+    console.log("CanlendarInputs==>", CanlendarInputs);
+    axios
+      .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
+      .then((res) => res)
+      .then((response) => {
+        console.log("response2==>", response.data);
+        if (response.data.code === "1000") {
+          Swal.fire("Added", "Your Products Added To Cart", "success");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
   const AddtoWishList = () => {
     console.log("addtoWishList==>", addtoWishList);
     axios
       .post(`${HOST_URL}/pre/booking/add/to/cart`, addtoWishList)
       .then((res) => res)
       .then((response) => {
+        console.log("response1==>", response.data);
         if (response.data.code === "1000") {
+          InsertTableCalendar(response.data.value.Succes);
           localStorage.setItem("BookinTempId", response.data.value.Succes);
-          console.log("response==>", response.data);
         }
       })
       .catch((error) => console.log("error==>", error));

@@ -884,39 +884,47 @@ const CashierPaymentDetails = () => {
         )}
         {paymentDetails.bookingId && (
           <div className="row g-3 mt-1 mx-0">
-            <div class="row my-2">
-              <div class="col">
-                <label className="form-label">
-                  <b>
-                    Rental Start Date :-
-                    {moment(rentalStrDate[0]).format("DD-MM-YYYY")}
-                  </b>
-                </label>
-              </div>
-              <div class="col">
-                <label className="form-label">
-                  <b>
-                    Rental End Date :-
-                    {moment(getReturnDate()).format("DD-MM-YYYY")}
-                  </b>
-                </label>
-              </div>
+            <div className="d-flex justify-content-between">
+              <label className="form-label">
+                <b>
+                  Rental Start Date :-
+                  {moment(rentalStrDate[0]).format("DD-MM-YYYY")}
+                </b>
+              </label>
+              <label className="form-label">
+                <b>
+                  Rental End Date :-
+                  {moment(getReturnDate()).format("DD-MM-YYYY")}
+                </b>
+              </label>
             </div>
             {paymentRequestFor !== "Payment_PendingFor_RentalReturn" ? (
               ""
             ) : (
-              <div className="d-flex col-md-8 mt-0">
-                <div className="col-md-4 mt-0">
+              <div className="d-flex col-md-8">
+                <div className="col-md-6 mt-0">
                   <label className="form-label">
                     <b>Damage Charges</b>
                   </label>
-                  <h6>₹ {totalDamageCharges}</h6>
+                  <h6>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(totalDamageCharges)}
+                  </h6>
                 </div>
-                <div className="col-md-4 mt-0">
+                <div className="col-md-6 mt-0">
                   <label className="form-label">
                     <b>Penalty Charges</b>
                   </label>
-                  <h6>₹ {totalPenaltyCharges}</h6>
+                  <h6>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(totalPenaltyCharges)}
+                  </h6>
                 </div>
               </div>
             )}

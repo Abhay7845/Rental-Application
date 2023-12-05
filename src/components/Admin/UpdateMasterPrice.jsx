@@ -126,7 +126,25 @@ const UpdateMasterPrice = () => {
 
   const columns = cols.map((element) => {
     let fieldRes;
-    if (element === "updatedDate") {
+    if (element === "createdDate") {
+      fieldRes = {
+        field: "createdDate",
+        headerName: "createdDate",
+        renderCell: (params) => {
+          return (
+            <span>{moment(params.row.createdDate).format("DD-MM-YYYY")}</span>
+          );
+        },
+      };
+    } else if (element === "date") {
+      fieldRes = {
+        field: "date",
+        headerName: "date",
+        renderCell: (params) => {
+          return <span>{moment(params.row.date).format("DD-MM-YYYY")}</span>;
+        },
+      };
+    } else if (element === "updatedDate") {
       fieldRes = {
         field: "updatedDate",
         headerName: "updatedDate",

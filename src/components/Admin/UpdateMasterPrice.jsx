@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../common/Navbar";
 import AdminSideBar from "../common/AdminSideBar";
 import { HOST_URL } from "../../API/HostURL";
@@ -19,12 +19,12 @@ const UpdateMasterPrice = () => {
   const [cols, setCols] = useState([]);
   const [excelData, setExcelData] = useState([]);
   const [showErrMsg, setShowErrMsg] = useState("");
-  const ItemPriceId = excelData.map((id) => id.ItemPriceID);
+  const ItemPriceId = excelData.map((id) => id.itemPriceid);
 
   const ShowAlertDeactivate = (count) => {
     Swal.fire({
-      title: "Price Id Deactivation Successful",
-      text: `${count} Items Deactivated`,
+      title: "Price Updation Successful",
+      text: `For ${count} Products`,
       icon: "success",
       confirmButtonColor: "#008080",
       confirmButtonText: "OK",
@@ -107,27 +107,31 @@ const UpdateMasterPrice = () => {
         setLoading(false);
       });
   };
-
   const DeactivateItemsData = () => {
-    setLoading(true);
-    const ActivatePayload = {
-      storeCode: storeCodeValue,
-      itemPriceId: ItemPriceId,
-    };
-
-    axios
-      .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          UploadMasterFile(uploadMasterFile, response.data.value.count);
-          setStoreCodeValue("");
-          setRows([]);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
+    if (ItemPriceId[0] === undefined) {
+      alert(
+        `Please Check Excel File Item PriceId Column and Correct It "itemPriceId" !`
+      );
+    } else {
+      setLoading(true);
+      const ActivatePayload = {
+        storeCode: storeCodeValue,
+        itemPriceId: ItemPriceId,
+      };
+      axios
+        .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            UploadMasterFile(uploadMasterFile, response.data.value.count);
+            setStoreCodeValue("");
+            setRows([]);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
   };
   const columns = cols.map((element) => {
     let fieldRes;

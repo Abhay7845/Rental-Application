@@ -18,6 +18,7 @@ import CashierPaymentDetails from "./components/Cashier/CashierPaymentDetails";
 import FactoryQARequired from "./components/RSO/FactoryQARequired";
 import DiscountApproval from "./components/Admin/DiscountApproval";
 import YourWishList from "./components/RSO/YourWishList";
+import TestComponets from "./components/common/TestComponets";
 
 const App = () => {
   const [alert, setAlert] = useState(null);
@@ -74,7 +75,10 @@ const App = () => {
               path="/your/wishlist"
               element={<YourWishList showAlert={showAlert} />}
             />
-            <Route path="/test/image" />
+            <Route
+              path="/test/conponents"
+              element={<TestComponets showAlert={showAlert} />}
+            />
             {/* ADMIN COMPONENTS */}
             <Route
               path="/admin/update/master/price"

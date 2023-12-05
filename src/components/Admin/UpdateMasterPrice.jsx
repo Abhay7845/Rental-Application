@@ -3,6 +3,7 @@ import Navbar from "../common/Navbar";
 import AdminSideBar from "../common/AdminSideBar";
 import { HOST_URL } from "../../API/HostURL";
 import axios from "axios";
+import * as XLSX from "xlsx";
 import Loader from "../common/Loader";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import Swal from "sweetalert2";
@@ -16,14 +17,14 @@ const UpdateMasterPrice = () => {
   const [storeCodeValue, setStoreCodeValue] = useState("");
   const [rows, setRows] = useState([]);
   const [cols, setCols] = useState([]);
+  const [excelData, setExcelData] = useState([]);
   const [showErrMsg, setShowErrMsg] = useState("");
-  const [updBtn, setUpdBtn] = useState(false);
-  const ItemPriceId = rows.map((id) => id.itemPriceId);
+  const ItemPriceId = excelData.map((id) => id.ItemPriceID);
 
   const ShowAlertDeactivate = (count) => {
     Swal.fire({
-      title: "Price Deactivation Successful",
-      text: `For the ${count} Items selected`,
+      title: "Price Id Deactivation Successful",
+      text: `${count} Items Deactivated`,
       icon: "success",
       confirmButtonColor: "#008080",
       confirmButtonText: "OK",
@@ -54,21 +55,51 @@ const UpdateMasterPrice = () => {
     }
   };
 
-  const DeactivateItemsData = () => {
-    setLoading(true);
-    const ActivatePayload = {
-      storeCode: storeCodeValue,
-      itemPriceId: ItemPriceId,
+  const ChooseExcelFileUplload = (event) => {
+    const file = event.target.files[0];
+    setUploadMasterFile(file);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = e.target.result;
+      const workbook = XLSX.read(data, { type: "binary" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(sheet, { raw: false });
+      setExcelData(jsonData);
     };
-    axios
-      .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
+    reader.readAsBinaryString(file);
+  };
+
+  const UploadMasterFile = (uploadMasterFile, count) => {
+    let formData = new FormData();
+    formData.append("masterFile", uploadMasterFile);
+    axios({
+      method: "post",
+      url: `${HOST_URL}/Admin/rate/master/update/rentalPrice`,
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          ShowAlertDeactivate(response.data.value.count);
-          setUpdBtn(true);
-          setStoreCodeValue("");
-          setRows([]);
+          ShowAlertDeactivate(count);
+          setShowErrMsg("");
+          setExcelData([]);
+          document.getElementById("ecxelFile").value = "";
+        }
+        if (response.data.code === "1001") {
+          setShowErrMsg(response.data.value);
+        }
+        if (response.data.code === "1002") {
+          setShowErrMsg(response.data.value);
+        }
+        if (response.data.code === "1003") {
+          setShowErrMsg(response.data.value);
+        }
+        if (response.data.code === "1004") {
+          setShowErrMsg(response.data.value);
         }
         setLoading(false);
       })
@@ -76,54 +107,28 @@ const UpdateMasterPrice = () => {
         setLoading(false);
       });
   };
-  const UploadMasterFile = () => {
-    if (!uploadMasterFile) {
-      alert("Please Choose File");
-    } else {
-      setLoading(true);
-      let formData = new FormData();
-      formData.append("masterFile", uploadMasterFile);
-      axios({
-        method: "post",
-        url: `${HOST_URL}/Admin/rate/master/update/rentalPrice`,
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-        .then((res) => res)
-        .then((response) => {
-          if (response.data.code === "1000") {
-            setShowErrMsg("");
-            setUpdBtn(false);
-            Swal.fire({
-              title: "Success",
-              text: response.data.value,
-              icon: "success",
-              confirmButtonColor: "#008080",
-              confirmButtonText: "OK",
-            });
-          }
-          if (response.data.code === "1001") {
-            setShowErrMsg(response.data.value);
-          }
-          if (response.data.code === "1002") {
-            setShowErrMsg(response.data.value);
-          }
-          if (response.data.code === "1003") {
-            setShowErrMsg(response.data.value);
-          }
-          if (response.data.code === "1004") {
-            setShowErrMsg(response.data.value);
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
-    }
-  };
 
+  const DeactivateItemsData = () => {
+    setLoading(true);
+    const ActivatePayload = {
+      storeCode: storeCodeValue,
+      itemPriceId: ItemPriceId,
+    };
+
+    axios
+      .post(`${HOST_URL}/update/item/price/master/status`, ActivatePayload)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          UploadMasterFile(uploadMasterFile, response.data.value.count);
+          setStoreCodeValue("");
+          setRows([]);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
   const columns = cols.map((element) => {
     let fieldRes;
     if (element === "createdDate") {
@@ -176,13 +181,14 @@ const UpdateMasterPrice = () => {
           <label className="form-label">Master File</label>
           <input
             type="file"
+            id="ecxelFile"
             className="DateSelect"
-            onChange={(e) => setUploadMasterFile(e.target.files[0])}
+            onChange={ChooseExcelFileUplload}
           />
           <p className="text-danger">{showErrMsg}</p>
           <div className="d-flex justify-content-end mt-3">
             <button
-              className="CButton"
+              className="CButton mx-2"
               data-bs-toggle="modal"
               data-bs-target="#ViewPriceMaster"
               onClick={() => setRows([])}
@@ -190,16 +196,9 @@ const UpdateMasterPrice = () => {
               View
             </button>
             <button
-              className={rows.length > 0 ? "CButton mx-2" : "CDisabled mx-2"}
-              disabled={rows.length > 0 ? false : true}
+              className={ItemPriceId.length > 0 ? "CButton" : "CDisabled"}
+              disabled={ItemPriceId.length > 0 ? false : true}
               onClick={DeactivateItemsData}
-            >
-              Deactivate
-            </button>
-            <button
-              className={updBtn ? "CButton" : "CDisabled"}
-              disabled={updBtn ? false : true}
-              onClick={UploadMasterFile}
             >
               Upload
             </button>

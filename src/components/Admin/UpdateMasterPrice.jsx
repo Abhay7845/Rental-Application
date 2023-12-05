@@ -110,7 +110,7 @@ const UpdateMasterPrice = () => {
   const DeactivateItemsData = () => {
     if (ItemPriceId[0] === undefined) {
       alert(
-        `Please Check Excel File Item PriceId Column and Correct It "itemPriceId" !`
+        `"Item PriceId Column" InCorrect/Not Found. Column Name Should be "itemPriceid"`
       );
     } else {
       setLoading(true);

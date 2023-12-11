@@ -21,7 +21,7 @@ const YourWishList = () => {
           <input
             type="type"
             className="form-control"
-            placeholder="Search Customer By Phone"
+            placeholder="Search Product By Phone No"
             maxLength={10}
             value={phoneNo}
             onChange={(e) => {

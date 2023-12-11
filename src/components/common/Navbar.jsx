@@ -19,7 +19,7 @@ const Navbar = () => {
     navigate("/UAT_RentalJewApp");
   };
 
-  useEffect(() => {}, [path]);
+  useEffect(() => { }, [path]);
   const currentDate = moment().format("ll");
 
   const ShowTime = () => {
@@ -38,9 +38,8 @@ const Navbar = () => {
           <ul className="navbar-nav me-auto d-flex flex-row">
             <li className="nav-item navbarLink">
               <Link
-                className={`nav-link navbarLink  ${
-                  path === "/home" && "active"
-                }`}
+                className={`nav-link navbarLink  ${path === "/home" && "active"
+                  }`}
                 to="/home"
               >
                 Search Booking
@@ -48,9 +47,8 @@ const Navbar = () => {
             </li>
             <li className="nav-item mx-2">
               <Link
-                className={`nav-link navbarLink  ${
-                  path === "/products/details" && "active"
-                }`}
+                className={`nav-link navbarLink  ${path === "/products/details" && "active"
+                  }`}
                 to="/products/details"
               >
                 Search Products
@@ -59,10 +57,10 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          <Link className="nav-link navbarLink" to="/your/wishlist">
+          {UserName.toUpperCase() === "RSO" && <Link className="nav-link navbarLink" to="/your/wishlist">
             <BiSolidCart size={30} className="mt-2" />
             <span className="badge">7</span>
-          </Link>
+          </Link>}
           <span className="navbarLink mx-4 mt-0 text-center">
             {storeCode.toUpperCase()}
             <br />

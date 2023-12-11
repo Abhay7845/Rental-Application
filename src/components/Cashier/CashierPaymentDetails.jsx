@@ -901,8 +901,8 @@ const CashierPaymentDetails = () => {
             {paymentRequestFor !== "Payment_PendingFor_RentalReturn" ? (
               ""
             ) : (
-              <div className="d-flex col-md-8">
-                <div className="col-md-6 mt-0">
+              <div className="d-flex col-md-6 justify-content-around">
+                <div className="col-md-3 mt-0">
                   <label className="form-label">
                     <b>Damage Charges</b>
                   </label>
@@ -914,7 +914,7 @@ const CashierPaymentDetails = () => {
                     }).format(totalDamageCharges)}
                   </h6>
                 </div>
-                <div className="col-md-6 mt-0">
+                <div className="col-md-3 mt-0">
                   <label className="form-label">
                     <b>Penalty Charges</b>
                   </label>
@@ -928,7 +928,19 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-4">
+            <div className="col-md-3">
+              <label className="form-label">
+                <b>Discount Amount</b>
+              </label>
+              <h6>
+                {new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                  minimumFractionDigits: 2,
+                }).format(0)}
+              </h6>
+            </div>
+            <div className="col-md-3">
               <label className="form-label">
                 <b>{amontHeading}</b>
               </label>
@@ -940,6 +952,7 @@ const CashierPaymentDetails = () => {
                 }).format(collectedAmount)}
               </h6>
             </div>
+
             {amontHeading !== "Amount to be Refunded" && (
               <div className="col-12 table-responsive mx-0">
                 <table className="table table-bordered table-hover border-dark text-center">
@@ -1304,8 +1317,8 @@ const CashierPaymentDetails = () => {
               <button className="CButton" onClick={SubmitPaymentDetails}>
                 {paymentRequestFor ===
                   "Payment_PendingFor_RentalCancellation" && (
-                  <span>Cancel Booking</span>
-                )}
+                    <span>Cancel Booking</span>
+                  )}
                 {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
                   <span>Complete Product Delivery</span>
                 )}

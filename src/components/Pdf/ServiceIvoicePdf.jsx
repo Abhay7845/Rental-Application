@@ -88,9 +88,9 @@ const ServiceIvoicePdf = (props) => {
       discountAmount: 0,
       totalChages: Math.round(
         data.rentalAmount +
-          data.lateFee +
-          data.damageCharges -
-          data.discountAmount
+        data.lateFee +
+        data.damageCharges -
+        data.discountAmount
       ).toLocaleString("en-IN"),
       sgst: parseFloat(
         (
@@ -199,8 +199,8 @@ const ServiceIvoicePdf = (props) => {
         <button
           onClick={ServiceInvoicePDF}
           className="CButton"
-          // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
-          // disabled={savePaymetRow.length > 0 ? false : true}
+        // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
+        // disabled={savePaymetRow.length > 0 ? false : true}
         >
           Print
         </button>
@@ -447,15 +447,15 @@ const ServiceIvoicePdf = (props) => {
                             <th>{i + 1}</th>
                             <th>
                               {item.paymentFor ===
-                              "Payment_PendingFor_RentalReturn"
+                                "Payment_PendingFor_RentalReturn"
                                 ? "Additional Charge"
                                 : item.paymentFor ===
                                   "Payment_PendingFor_NewBooking"
-                                ? "Booking Amount"
-                                : item.paymentFor ===
-                                  "Payment_PendingFor_RentalIssuance"
-                                ? "Damage Protection Charge"
-                                : ""}
+                                  ? "Booking Amount"
+                                  : item.paymentFor ===
+                                    "Payment_PendingFor_RentalIssuance"
+                                    ? "Damage Protection Charge"
+                                    : ""}
                             </th>
                             <th>{item.paymentType}</th>
                             <th>{item.txnRefNo}</th>

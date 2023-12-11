@@ -28,6 +28,7 @@ const NewBooking = () => {
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
+  console.log("bookingRefId==>", bookingRefId)
 
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -47,8 +48,8 @@ const NewBooking = () => {
   const paramType = !phonePanValue
     ? ""
     : phonePanValue[0].match(phonePan)
-    ? "pancard"
-    : "mobileNo";
+      ? "pancard"
+      : "mobileNo";
 
   const CheckUserRegistered = () => {
     Swal.fire({
@@ -137,7 +138,6 @@ const NewBooking = () => {
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
   const GetCartProductData = !CartData ? [] : CartData;
   const rentalStrDate = GetCartProductData.map((item) => item.rentalStartDate);
-  console.log("rentalStrDate==>", rentalStrDate);
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = GetCartProductData.map((item) =>
@@ -420,9 +420,8 @@ const NewBooking = () => {
           <div className="col-md-1 d-flex justify-content-end">
             <button
               type="button"
-              className={`${
-                phonePanValue.length < 10 ? "CDisabled" : "CButton"
-              }`}
+              className={`${phonePanValue.length < 10 ? "CDisabled" : "CButton"
+                }`}
               disabled={phonePanValue.length < 10 ? true : false}
               onClick={FetchUDetailsBysearch}
             >
@@ -493,8 +492,8 @@ const NewBooking = () => {
             <h6>{packageDays} Days</h6>
           </div>
           {!existedUserData.customerBankName ||
-          !existedUserData.customerAccountNumber ||
-          !existedUserData.bankIfsc ? (
+            !existedUserData.customerAccountNumber ||
+            !existedUserData.bankIfsc ? (
             <div className="col-4">
               <span className="form-label text-danger">
                 <b>Please Add Your Bank Details</b>

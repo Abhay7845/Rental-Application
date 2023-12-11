@@ -186,8 +186,7 @@ const Cancellation = () => {
   } else if (numberDays > 14) {
     cancelCharge = 0; // 100% charge
   }
-
-  const afterDiscount = cancelCharge - discountAmount;
+  const afterDiscount = cancelCharge * 1.18 - discountAmount;
   const netRefund = totalBookingAmount - afterDiscount;
 
   const UpdateCancelStatus = (bookingID) => {
@@ -229,7 +228,7 @@ const Cancellation = () => {
         customerIdNo: sameCustomer ? "" : sameCustIDNo,
         customerIdFileName: sameCustomer ? "" : sameCutIDFileName,
         cancellationReason: cancellationReason,
-        cancelationCharges: parseFloat(cancelCharge),
+        cancelationCharges: parseFloat(cancelCharge) * 1.18,
         discountAmount: parseFloat(discountAmount),
         rentalCharges: parseFloat(SumOfRentalRate()),
         bookingAmountPaid: parseFloat(totalBookingAmount),

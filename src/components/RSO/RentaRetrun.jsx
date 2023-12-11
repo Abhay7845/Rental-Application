@@ -781,6 +781,42 @@ const RentalReturn = () => {
             </div>
           )}
           <b className="mt-0 text-danger">{alertWt}</b>
+          <div className="col-12">
+            <h6 className="bookingHeading mb-0">Discount Charges</h6>
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Total Booking Amount Paid</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Total Booking Amount Paid"
+              // value={cancelCharge}
+              disabled
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Discount On Rental Charges</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Discount On Rental Charges"
+              // value={cancelCharge * 1.18}
+            />
+          </div>
+          <div className="col-md-4">
+            <label className="form-label">Rental Charges After Discount</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Rental Charges After Discount"
+              // value={discountAmount}
+              // onChange={(e) => {
+              //   let discount = e.target.value.replace(/[^0-9.]/g, "");
+              //   setDiscountAmount(discount);
+              // }}
+              disabled
+            />
+          </div>
           <div className="col-12 mb-0">
             <h6 className="bookingHeading d-flex justify-content-between">
               <span className="mt-1">Karigar QA Report</span>

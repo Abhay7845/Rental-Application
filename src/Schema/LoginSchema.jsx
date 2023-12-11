@@ -13,6 +13,7 @@ export const LoginSchema = yup.object({
 
 // CHECK PRODUCTS  AVAIBLITY
 export const CheckAvaiblityInitialValue = {
+  phone: "",
   itemCode: "",
   bookingDate: "",
   packageDays: "",
@@ -20,6 +21,13 @@ export const CheckAvaiblityInitialValue = {
 };
 
 export const CheckAvaiblitySchema = yup.object({
+  phone: yup
+    .string()
+    .required("Phone Number is required")
+    .matches(
+      /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+      "Not Valid Phone Number"
+    ),
   itemCode: yup
     .string()
     .required("Item Code is required")

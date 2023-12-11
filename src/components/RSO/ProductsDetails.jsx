@@ -170,6 +170,7 @@ const ProductsDetails = () => {
   const GoForCancel = () => {
     setProductDetails([]);
     setAddtoWishList([]);
+    payload.phone = "";
     payload.bookingDate = "";
     payload.packageDays = "";
     payload.customerType = "";
@@ -232,7 +233,18 @@ const ProductsDetails = () => {
           onSubmit={(payload) => CheckAvaiblity(payload)}
         >
           <Form className="row g-2 mx-0">
-            <div className="col-md-3">
+            <div className="col-md-4">
+              <label className="form-label">Phone Number</label>
+              <Field
+                type="text"
+                name="phone"
+                placeholder="Enter Phone Number"
+                className="form-control"
+                disabled={payload.phone ? true : false}
+              />
+              <ShowError name="phone" />
+            </div>
+            <div className="col-md-4">
               <label className="form-label">Rental Start Date</label>
               <Field
                 type="date"
@@ -244,7 +256,7 @@ const ProductsDetails = () => {
               />
               <ShowError name="bookingDate" />
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4">
               <label className="form-label">Package Days</label>
               <Field
                 as="select"
@@ -263,7 +275,7 @@ const ProductsDetails = () => {
               </Field>
               <ShowError name="packageDays" />
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4">
               <label className="form-label">Customer Type</label>
               <Field
                 className="form-control"
@@ -282,7 +294,7 @@ const ProductsDetails = () => {
               </Field>
               <ShowError name="customerType" />
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4">
               <label className="form-label">Item Code</label>
               <Field
                 type="text"
@@ -292,8 +304,9 @@ const ProductsDetails = () => {
               />
               <ShowError name="itemCode" />
             </div>
-            <div className="col-md-12">
-              <div className="d-flex justify-content-end">
+            <div className="col-md-4">
+              <br />
+              <div className="mt-2">
                 <button type="sumit" className="CButton">
                   Check Availability
                 </button>

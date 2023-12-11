@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../common/Navbar";
+import moment from "moment";
 
 const YourWishList = () => {
   const [phoneNo, setPhoneNo] = useState("");
+  const bookingDate = moment().format("DD-MM-YYYY");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+  const [tempRefId, setTempRefId] = useState("")
+  useEffect(() => {
+    const tempId = `${phoneNo}-${bookingDate}-${RandomDigit}`;
+    setTempRefId(tempId);
+  }, [phoneNo])
 
-  console.log("RandomDigit==>", RandomDigit)
-  console.log("phoneNo==>", phoneNo)
+  console.log("tempRefId==>", tempRefId);
   return (
     <div>
       <Navbar />

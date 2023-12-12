@@ -181,6 +181,7 @@ const ProductsDetails = () => {
     const CanlendarInputs = addtoWishList.map((data) => {
       return {
         pdtId: data.pdtId,
+        storeCode: storeCode,
         bookingId: "",
         bookingDate: payload.bookingDate,
         createdDate: null,
@@ -334,11 +335,10 @@ const ProductsDetails = () => {
                     <tr
                       key={i}
                       style={{
-                        pointerEvents: `${
-                          AvlProduct[i] === "Product_Not_Available"
+                        pointerEvents: `${AvlProduct[i] === "Product_Not_Available"
                             ? "none"
                             : ""
-                        }`,
+                          }`,
                       }}
                     >
                       <td className="text-center">

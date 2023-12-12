@@ -58,10 +58,10 @@ const Navbar = () => {
         )}
         <div className="d-flex">
           {UserName.toUpperCase() === "RSO" && <Link className="nav-link navbarLink" to="/your/wishlist">
-            <BiSolidCart size={30} className="mt-2" />
+            <BiSolidCart size={28} className="mt-3" />
             <span className="badge">7</span>
           </Link>}
-          <span className="navbarLink mx-4 mt-0 text-center">
+          <span className="navbarLink mx-4 mt-0 text-center" style={{ fontSize: "14px" }}>
             {storeCode.toUpperCase()}
             <br />
             {currentDate.toUpperCase()},<span className="mx-2">{CTime}</span>

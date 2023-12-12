@@ -27,6 +27,7 @@ const RentalReturn = () => {
   const [storeDetails, setStoreDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [alertWt, setAlertWt] = useState("");
+  const [discountAfter, setDiscountAfter] = useState(0)
   const [successAlrt, setSuccessAlrt] = useState(
     "Product Returned Successfully"
   );
@@ -132,7 +133,6 @@ const RentalReturn = () => {
       tempBookingRefNo: data.tempBookingRefNo,
     };
   });
-
   // TOTAL PAID BOOKING AMONT
   useEffect(() => {
     axios
@@ -456,6 +456,7 @@ const RentalReturn = () => {
       });
   };
   const DespId = returnTableData.map((data) => data.despId);
+  const rentChargeAftrDis = totalPaidAmount.totalRentalValue - discountAfter;
 
   const RaiseClouseRequest = (despId) => {
     const RetnaReturnInputs = {
@@ -479,6 +480,7 @@ const RentalReturn = () => {
       totalDepositPaid: parseFloat(totalPaidAmount.totalDepositAmount),
       totalPenaltyCharges: parseFloat(SumOfTPeneltyCharge()),
       totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
+      discountOnRentalCharges: parseFloat(discountAfter),
       updatedDate: null,
     };
     axios
@@ -729,7 +731,7 @@ const RentalReturn = () => {
                               name={i}
                               value={
                                 inputPhyDmg[i] === "NO" ||
-                                inputPhyDmg[i] === "FactoryQA"
+                                  inputPhyDmg[i] === "FactoryQA"
                                   ? (inputDmgValues[i] = 0)
                                   : inputDmgValues[i]
                               }
@@ -790,7 +792,7 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Total Booking Amount Paid"
-              // value={cancelCharge}
+              defaultValue={totalPaidAmount.totalBookingAmount}
               disabled
             />
           </div>
@@ -800,7 +802,11 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Discount On Rental Charges"
-              // value={cancelCharge * 1.18}
+              value={discountAfter}
+              onChange={(e) => {
+                const discountVal = e.target.value.replace(/\D/g, "");
+                setDiscountAfter(discountVal)
+              }}
             />
           </div>
           <div className="col-md-4">
@@ -809,11 +815,7 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Rental Charges After Discount"
-              // value={discountAmount}
-              // onChange={(e) => {
-              //   let discount = e.target.value.replace(/[^0-9.]/g, "");
-              //   setDiscountAmount(discount);
-              // }}
+              value={rentChargeAftrDis}
               disabled
             />
           </div>

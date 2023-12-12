@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
+import axios from "axios";
+import { HOST_URL } from "../../API/HostURL";
 
 const YourWishList = () => {
+  const storeCode = localStorage.getItem("storeCode");
   const [phoneNo, setPhoneNo] = useState("");
-  const bookingDate = moment().format("DD-MM-YYYY");
-  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
-  const [tempRefId, setTempRefId] = useState("")
+  const GetAddToCartData = (storeCode) => {
+    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => console.log("response==>", response.data)).catch(error => console.log("error==>", error))
+  }
   useEffect(() => {
-    const tempId = `${phoneNo}-${bookingDate}-${RandomDigit}`;
-    setTempRefId(tempId);
-  }, [phoneNo])
+    GetAddToCartData(storeCode)
+  }, [storeCode])
 
-  console.log("tempRefId==>", tempRefId);
   return (
     <div>
       <Navbar />

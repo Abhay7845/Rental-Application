@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../common/Navbar";
 import {
   WishListHeader,
@@ -22,16 +22,22 @@ import { IMAGE_URL } from "../../Data/DataList";
 
 const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
+  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
+  const [digit, setDigit] = useState(RandomDigit)
   const navigate = useNavigate();
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
+  const tempId = `${payload.phone}-${payload.bookingDate}-${digit}`;
+  console.log("tempId==>", tempId)
+
 
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
   const currentDate = new Date();
   const toDayDate = moment(currentDate).format("YYYY-MM-DD");
+
 
   const ReturnEndDate = () => {
     const nextDate = new Date(payload.bookingDate);
@@ -137,7 +143,7 @@ const ProductsDetails = () => {
       lotNo: product.lotNo,
       netWt: product.netWt,
       packageDays: parseInt(payload.packageDays),
-      paymentRequestFor: "NewBooking",
+      paymentRequestFor: "NewBooking_Cart",
       pdtId: parseInt(product.pdtID),
       productValue: product.productValue,
       rateId: parseInt(product.rateId),
@@ -145,7 +151,7 @@ const ProductsDetails = () => {
       rentalStartDate: payload.bookingDate,
       status: "Added To Cart",
       storeCode: storeCode,
-      tempBookingRefId: "",
+      tempBookingRefId: tempId,
       updatedDate: null,
       createdDate: null,
     };
@@ -184,14 +190,14 @@ const ProductsDetails = () => {
         storeCode: storeCode,
         bookingId: "",
         bookingDate: payload.bookingDate,
-        createdDate: null,
-        updatedDate: null,
         status: "Blocked",
         packageDays: parseInt(payload.packageDays),
         rentalEndDate: rentalEndDate,
         storeCode: storeCode,
         coolOfDate: coolOfDate,
         tempBookingRefNo: tempId,
+        createdDate: null,
+        updatedDate: null,
       };
     });
     console.log("CanlendarInputs==>", CanlendarInputs);
@@ -336,8 +342,8 @@ const ProductsDetails = () => {
                       key={i}
                       style={{
                         pointerEvents: `${AvlProduct[i] === "Product_Not_Available"
-                            ? "none"
-                            : ""
+                          ? "none"
+                          : ""
                           }`,
                       }}
                     >
@@ -389,7 +395,7 @@ const ProductsDetails = () => {
             disabled={addtoWishList.length > 0 ? false : true}
             onClick={AddtoWishList}
           >
-            Add To WishList
+            Add To Cart
           </button>
         </div>
       </div>

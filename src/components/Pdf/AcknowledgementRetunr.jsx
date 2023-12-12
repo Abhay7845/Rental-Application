@@ -65,6 +65,7 @@ const AcknowledgementRetunr = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-top:52mm;
               margin-bottom:52mm;
             }
             

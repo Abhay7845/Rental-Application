@@ -56,8 +56,8 @@ const DeliveryChallanPdf = (props) => {
         <button
           onClick={DeliveryChalanPDF}
           className="CButton"
-          // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
-          // disabled={savePaymetRow.length > 0 ? false : true}
+        // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
+        // disabled={savePaymetRow.length > 0 ? false : true}
         >
           Print
         </button>
@@ -71,6 +71,7 @@ const DeliveryChallanPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-top:50mm;
               margin-bottom:52mm;
             }
             }
@@ -256,7 +257,7 @@ const DeliveryChallanPdf = (props) => {
                               <th>{i + 1}</th>
                               <th>
                                 {item.paymentFor ===
-                                "Payment_PendingFor_RentalIssuance"
+                                  "Payment_PendingFor_RentalIssuance"
                                   ? "Damge Protection Charge"
                                   : ""}
                               </th>

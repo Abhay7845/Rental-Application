@@ -12,12 +12,12 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
   });
   const [uploadedImgData, setUploadedImgData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { bookingRefNo } = orderData;
+  const { tempBookingRefNo } = orderData;
 
-  const FetchImageDocList = (bookingRef) => {
+  const FetchImageDocList = (tempBookingRefNo) => {
     setLoading(true);
     axios
-      .get(`${HOST_URL}/Admin/get/document/list/${bookingRef}`)
+      .get(`${HOST_URL}/Admin/get/document/list/${tempBookingRefNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -25,12 +25,12 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
         }
         setLoading(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   useEffect(() => {
-    FetchImageDocList(bookingRefNo);
-  }, [bookingRefNo]);
+    FetchImageDocList(tempBookingRefNo);
+  }, [tempBookingRefNo]);
 
   // const handleDownload = (fileName, fileUrl) => {
   //   const link = document.createElement("a");

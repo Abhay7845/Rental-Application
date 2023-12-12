@@ -215,6 +215,7 @@ const ServiceIvoicePdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
+              margin-top:50mm;
               margin-bottom:48mm;
             }
           `}

@@ -45,7 +45,7 @@ const AdminSummaryPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-top:40mm;
+              margin-top:50mm;
               margin-bottom:40mm; 
             }
           `}
@@ -224,11 +224,11 @@ const AdminSummaryPdf = (props) => {
                       {item.paymentFor === "Payment_PendingFor_RentalReturn"
                         ? "Additional Charge"
                         : item.paymentFor === "Payment_PendingFor_NewBooking"
-                        ? "Booking Amount"
-                        : item.paymentFor ===
-                          "Payment_PendingFor_RentalIssuance"
-                        ? "Damage Protection Charge"
-                        : ""}
+                          ? "Booking Amount"
+                          : item.paymentFor ===
+                            "Payment_PendingFor_RentalIssuance"
+                            ? "Damage Protection Charge"
+                            : ""}
                     </td>
                     <td>{item.paymentType}</td>
                     <td>{item.txnRefNo}</td>

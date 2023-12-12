@@ -132,6 +132,7 @@ const CancelationPdf = (props) => {
               size: A4;
               margin:15mm;
               margin-bottom:48mm;
+              margin-top:50mm;
             }
             }
           `}
@@ -139,7 +140,6 @@ const CancelationPdf = (props) => {
         <div
           className="table-container hide-on-screen"
           ref={CancelationRef}
-          style={{ marginTop: "16%" }}
         >
           <h6 className="text-center mb-2">
             <b>BOOKING CANCELLATION INVOICE</b>

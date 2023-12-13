@@ -87,8 +87,11 @@ const YourWishList = () => {
   }
 
   const OnSelectProduct = (row) => {
-    if (pdtSelected.includes(row)) {
-      setPdtSelected([...pdtSelected, row])
+    console.log("row==>", row.rateId)
+    if (pdtSelected.includes(row.rateId)) {
+      const checkedData = pdtSelected.filter(data => data.rateId !== row.rateId)
+      console.log("checkedData==>", checkedData)
+      // setPdtSelected(checkedData)
     } else {
       setPdtSelected([...pdtSelected, row])
     }
@@ -147,7 +150,7 @@ const YourWishList = () => {
                         <input
                           className="form-check-input mx-2 border-dark"
                           type="checkbox"
-                          checked={pdtSelected.includes(item)}
+                          checked={pdtSelected.includes(item.rateId)}
                           onChange={() => OnSelectProduct(item)}
                         />
                       </td>

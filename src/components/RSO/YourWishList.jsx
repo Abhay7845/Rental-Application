@@ -63,6 +63,13 @@ const YourWishList = () => {
     for (let data of TDepositRate) total = total + data;
     return total;
   };
+
+
+  const DeleteRow = (data) => {
+    console.log("data==>", data)
+  }
+
+
   return (
     <div>
       <Navbar />
@@ -94,92 +101,99 @@ const YourWishList = () => {
             Search
           </button>
         </div>
-        {addedProducts.length > 0 && <div className="col-12 table-responsive">
-          <table className="table table-bordered table-hover border-dark text-center">
-            <thead className="table-dark border-light">
-              <tr>
-                {AddedToCartHeaders.map((heading, i) => {
-                  return <td key={i}>{heading}</td>;
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {addedProducts.map((item, i) => {
-                const { itemCode } = item;
-                const imageCode = itemCode.substring(2, 9);
-                const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
-                return (
-                  <tr key={i}>
-                    <td>
-                      <img src={imageURL} className="custom-image" alt="" />
-                    </td>
-                    <td>{item.itemCode}</td>
-                    <td>{item.lotNo}</td>
-                    <td>{item.grossWt}</td>
-                    <td>
-                      {Math.round(item.productValue).toLocaleString(
-                        "en-IN"
-                      )}
-                    </td>
-                    <td>
-                      {Math.round(item.rentValue).toLocaleString("en-IN")}
-                    </td>
-                    <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
-                    <td>
-                      <span style={{ marginLeft: "20%" }}>
-                        {Math.round(item.depositValue).toLocaleString(
+        {addedProducts.length > 0 &&
+          <div className="col-12 table-responsive">
+            <table className="table table-bordered table-hover border-dark text-center">
+              <thead className="table-dark border-light">
+                <tr>
+                  {AddedToCartHeaders.map((heading, i) => {
+                    return <td key={i}>{heading}</td>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {addedProducts.map((item, i) => {
+                  const { itemCode } = item;
+                  const imageCode = itemCode.substring(2, 9);
+                  const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
+                  return (
+                    <tr key={i}>
+                      <td>
+                        <img src={imageURL} className="custom-image" alt="" />
+                      </td>
+                      <td>{item.itemCode}</td>
+                      <td>{item.lotNo}</td>
+                      <td>{item.grossWt}</td>
+                      <td>
+                        {Math.round(item.productValue).toLocaleString(
                           "en-IN"
                         )}
-                      </span>
-                      <BsFillTrashFill
-                        className="DeleteRow"
-                        style={{
-                          marginLeft: "15%",
-                        }}
-                        onClick={() => DeleteWishListRow(item.pdtId)}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr className="text-bold">
-                <th colSpan="4" className="text-end">
-                  TOTAL
-                </th>
-                <th>
-                  {new Intl.NumberFormat("en-IN", {
-                    style: "currency",
-                    currency: "INR",
-                    minimumFractionDigits: false,
-                  }).format(SumOfTProductValue())}
-                </th>
-                <th>
-                  {new Intl.NumberFormat("en-IN", {
-                    style: "currency",
-                    currency: "INR",
-                    minimumFractionDigits: false,
-                  }).format(SumOfRentalRate())}
-                </th>
-                <th>
-                  {new Intl.NumberFormat("en-IN", {
-                    style: "currency",
-                    currency: "INR",
-                    minimumFractionDigits: 2,
-                  }).format(SumOfRentalRateWithTx())}
-                </th>
-                <th>
-                  {new Intl.NumberFormat("en-IN", {
-                    style: "currency",
-                    currency: "INR",
-                    minimumFractionDigits: false,
-                  }).format(SumOfDepositRate())}
-                </th>
-              </tr>
-            </tbody>
-          </table>
-        </div>}
+                      </td>
+                      <td>
+                        {Math.round(item.rentValue).toLocaleString("en-IN")}
+                      </td>
+                      <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
+                      <td>
+                        <span style={{ marginLeft: "20%" }}>
+                          {Math.round(item.depositValue).toLocaleString(
+                            "en-IN"
+                          )}
+                        </span>
+                        <BsFillTrashFill
+                          className="DeleteRow"
+                          style={{
+                            marginLeft: "15%",
+                          }}
+                          onClick={() => DeleteRow(item)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr className="text-bold">
+                  <th colSpan="4" className="text-end">
+                    TOTAL
+                  </th>
+                  <th>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(SumOfTProductValue())}
+                  </th>
+                  <th>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(SumOfRentalRate())}
+                  </th>
+                  <th>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: 2,
+                    }).format(SumOfRentalRateWithTx())}
+                  </th>
+                  <th>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(SumOfDepositRate())}
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>}
+        {addedProducts.length > 0 && (
+          <div className="d-flex justify-content-end mt-0 mb-3">
+            <button className="CButton">
+              Continue To Booking
+            </button>
+          </div>
+        )}
       </div>
-
     </div>
   );
 };

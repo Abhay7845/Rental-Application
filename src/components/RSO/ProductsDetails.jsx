@@ -9,7 +9,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
-import { BsFillTrashFill } from "react-icons/bs";
 import { Field, Form, Formik } from "formik";
 import {
   CheckAvaiblityInitialValue,
@@ -228,6 +227,20 @@ const ProductsDetails = () => {
       })
       .catch((error) => console.log("error==>", error));
   };
+
+  // FETCH ADDED PRODUCTS TO CART
+  const GetAddToCartData = (storeCode) => {
+    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        localStorage.setItem("addedCart", response.data.value.length)
+      }
+    }).catch(error => {
+      console.log("error==>", error)
+    })
+  }
+  useEffect(() => {
+    GetAddToCartData(storeCode)
+  }, [storeCode])
 
   return (
     <div>

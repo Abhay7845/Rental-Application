@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
 import {
-  AddedTocCart,
+  AddedToCartHeaders,
   ImageHeaders,
   phonePan,
   IMAGE_URL,
@@ -549,7 +549,7 @@ const NewBooking = () => {
                 >
                   <thead className="table-dark border-light">
                     <tr style={{ fontSize: "15px" }}>
-                      {AddedTocCart.map((heading, i) => {
+                      {AddedToCartHeaders.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}
                     </tr>

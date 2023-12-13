@@ -10,6 +10,7 @@ const Navbar = () => {
   let time = new Date().toLocaleTimeString();
   const UserName = localStorage.getItem("rsoRole");
   const storeCode = localStorage.getItem("storeCode");
+  const cartList = localStorage.getItem("addedCart")
   const [CTime, setCTime] = useState(time);
   const navigate = useNavigate();
   const path = useLocation().pathname;
@@ -59,7 +60,7 @@ const Navbar = () => {
         <div className="d-flex">
           {UserName.toUpperCase() === "RSO" && <Link className="nav-link navbarLink" to="/your/wishlist">
             <BiSolidCart size={28} className="mt-3" />
-            <span className="badge">7</span>
+            <span className="badge">{cartList}</span>
           </Link>}
           <span className="navbarLink mx-4 mt-0 text-center" style={{ fontSize: "14px" }}>
             {storeCode.toUpperCase()}

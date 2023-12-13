@@ -76,7 +76,7 @@ export const WishListHeader = [
   "Availability",
 ];
 
-export const AddedTocCart = [
+export const AddedToCartHeaders = [
   "Image",
   "Item Code",
   "Lot No.",

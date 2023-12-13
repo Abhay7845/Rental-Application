@@ -30,6 +30,14 @@ const YourWishList = () => {
   useEffect(() => {
     GetAddToCartData(storeCode)
   }, [storeCode])
+  const GetProductByPhone = () => {
+    const searchData = addedProducts.filter(data => data.tempBookingRef.substring(0, 10) === phoneNo)
+    if (searchData.length > 0) {
+      setAddedProducts(searchData)
+    } else {
+      alert("Products Not Found")
+    }
+  }
 
   // TOTAL COST OF PRODUCT VALUE
   const TProductValue = addedProducts.map((item) => parseInt(item.productValue));
@@ -66,7 +74,15 @@ const YourWishList = () => {
 
 
   const DeleteRow = (data) => {
+    const { pdtId, tempBookingRef } = data;
     console.log("data==>", data)
+    axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        console.log("response==>", response.data)
+      }
+    }).catch(error => {
+      console.log("error==>", error)
+    })
   }
 
 
@@ -93,10 +109,10 @@ const YourWishList = () => {
           <button
             type="button"
             className="CButton"
-          // className={`${phonePanValue.length < 10 ? "CDisabled" : "CButton"
-          //   }`}
-          // disabled={phonePanValue.length < 10 ? true : false}
-          // onClick={FetchUDetailsBysearch}
+            // className={`${phonePanValue.length < 10 ? "CDisabled" : "CButton"
+            //   }`}
+            // disabled={phonePanValue.length < 10 ? true : false}
+            onClick={GetProductByPhone}
           >
             Search
           </button>
@@ -109,6 +125,7 @@ const YourWishList = () => {
                   {AddedToCartHeaders.map((heading, i) => {
                     return <td key={i}>{heading}</td>;
                   })}
+                  <td>Delete</td>
                 </tr>
               </thead>
               <tbody>
@@ -134,17 +151,15 @@ const YourWishList = () => {
                       </td>
                       <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
                       <td>
-                        <span style={{ marginLeft: "20%" }}>
-                          {Math.round(item.depositValue).toLocaleString(
-                            "en-IN"
-                          )}
-                        </span>
+                        {Math.round(item.depositValue).toLocaleString(
+                          "en-IN"
+                        )}
+                      </td>
+                      <td>
                         <BsFillTrashFill
-                          className="DeleteRow"
-                          style={{
-                            marginLeft: "15%",
-                          }}
+                          className="text-danger"
                           onClick={() => DeleteRow(item)}
+                          cursor="pointer"
                         />
                       </td>
                     </tr>
@@ -175,13 +190,14 @@ const YourWishList = () => {
                       minimumFractionDigits: 2,
                     }).format(SumOfRentalRateWithTx())}
                   </th>
-                  <th>
+                  <th >
                     {new Intl.NumberFormat("en-IN", {
                       style: "currency",
                       currency: "INR",
                       minimumFractionDigits: false,
                     }).format(SumOfDepositRate())}
                   </th>
+                  <th />
                 </tr>
               </tbody>
             </table>

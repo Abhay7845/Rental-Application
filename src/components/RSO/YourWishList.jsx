@@ -108,10 +108,8 @@ const YourWishList = () => {
         <div className="col-1 d-flex justify-content-end">
           <button
             type="button"
-            className="CButton"
-            // className={`${phonePanValue.length < 10 ? "CDisabled" : "CButton"
-            //   }`}
-            // disabled={phonePanValue.length < 10 ? true : false}
+            className={phoneNo.length < 10 ? "CDisabled" : "CButton"}
+            disabled={phoneNo.length < 10 ? true : false}
             onClick={GetProductByPhone}
           >
             Search
@@ -122,6 +120,7 @@ const YourWishList = () => {
             <table className="table table-bordered table-hover border-dark text-center">
               <thead className="table-dark border-light">
                 <tr>
+                  <td>Select</td>
                   {AddedToCartHeaders.map((heading, i) => {
                     return <td key={i}>{heading}</td>;
                   })}
@@ -135,6 +134,11 @@ const YourWishList = () => {
                   const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                   return (
                     <tr key={i}>
+                      <td>
+                        <input
+                          className="form-check-input mx-2 border-dark"
+                          type="checkbox" />
+                      </td>
                       <td>
                         <img src={imageURL} className="custom-image" alt="" />
                       </td>
@@ -166,7 +170,7 @@ const YourWishList = () => {
                   );
                 })}
                 <tr className="text-bold">
-                  <th colSpan="4" className="text-end">
+                  <th colSpan="5" className="text-end">
                     TOTAL
                   </th>
                   <th>

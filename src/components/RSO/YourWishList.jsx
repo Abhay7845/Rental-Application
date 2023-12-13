@@ -11,6 +11,7 @@ const YourWishList = () => {
   const [loading, setLoading] = useState(false);
   const [phoneNo, setPhoneNo] = useState("");
   const [addedProducts, setAddedProducts] = useState([]);
+  const [pdtSelected, setPdtSelected] = useState([])
 
   const GetAddToCartData = (storeCode) => {
     setLoading(true)
@@ -85,6 +86,14 @@ const YourWishList = () => {
     })
   }
 
+  const OnSelectProduct = (row) => {
+    if (pdtSelected.includes(row)) {
+      setPdtSelected([...pdtSelected, row])
+    } else {
+      setPdtSelected([...pdtSelected, row])
+    }
+  }
+  console.log("pdtSelected==>", pdtSelected)
 
   return (
     <div>
@@ -137,7 +146,10 @@ const YourWishList = () => {
                       <td>
                         <input
                           className="form-check-input mx-2 border-dark"
-                          type="checkbox" />
+                          type="checkbox"
+                          checked={pdtSelected.includes(item)}
+                          onChange={() => OnSelectProduct(item)}
+                        />
                       </td>
                       <td>
                         <img src={imageURL} className="custom-image" alt="" />

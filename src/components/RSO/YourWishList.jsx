@@ -15,7 +15,6 @@ const YourWishList = () => {
   const [addedProducts, setAddedProducts] = useState([]);
   const [pdtSelected, setPdtSelected] = useState([])
   const GetAddToCartData = (storeCode) => {
-    setLoading(true)
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         setAddedProducts(response.data.value)
@@ -25,15 +24,18 @@ const YourWishList = () => {
         const cartPdt = response.data.value;
         localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
-      setLoading(false)
     }).catch(error => {
       console.log("error==>", error)
       setLoading(false)
     })
   }
   useEffect(() => {
-    GetAddToCartData(storeCode)
-  }, [storeCode])
+    if (phoneNo.length >= 9) {
+      GetAddToCartData(storeCode)
+    } else {
+      GetAddToCartData(storeCode)
+    }
+  }, [storeCode, phoneNo])
   const GetProductByPhone = () => {
     const searchData = addedProducts.filter(data => data.tempBookingRef.substring(0, 10) === phoneNo)
     if (searchData.length > 0) {

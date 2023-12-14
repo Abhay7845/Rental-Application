@@ -118,6 +118,29 @@ const YourWishList = () => {
   }
   console.log("pdtSelected==>", pdtSelected)
 
+  // const ContinueToBooking = () => {
+  //   if (thresholdLimit < parseInt(SumOfTProductValue())) {
+  //     alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
+  //   } else {
+  //     setLoading(true);
+  //     localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
+  //     axios
+  //       .post(`${HOST_URL}/add/to/cart`, goToCart)
+  //       .then((res) => res)
+  //       .then((response) => {
+  //         if (response.data.code === "1000") {
+  //           if (response.data.value.Succes) {
+  //             localStorage.setItem("BookinTempId", response.data.value.Succes);
+  //             InsertTableCalendar(response.data.value.Succes);
+  //           }
+  //         }
+  //         setLoading(false);
+  //       })
+  //       .catch((error) => {
+  //         setLoading(false);
+  //       });
+  //   }
+  // };
   return (
     <div>
       <Navbar />

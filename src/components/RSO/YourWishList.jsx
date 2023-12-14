@@ -44,7 +44,7 @@ const YourWishList = () => {
   }
 
   // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = addedProducts.map((item) => parseInt(item.productValue));
+  const TProductValue = pdtSelected.map((item) => parseInt(item.productValue));
   const SumOfTProductValue = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
@@ -52,7 +52,7 @@ const YourWishList = () => {
   };
 
   // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = addedProducts.map((item) => item.rentValue);
+  const TRentalRate = pdtSelected.map((item) => item.rentValue);
   const SumOfRentalRate = () => {
     let total = 0;
     for (let data of TRentalRate) total = total + data;
@@ -61,7 +61,7 @@ const YourWishList = () => {
 
 
   // TOTAL RENTAL RATE WITH TAX
-  const TRentalRateWithTx = addedProducts.map((item) => item.rentValue * 1.18);
+  const TRentalRateWithTx = pdtSelected.map((item) => item.rentValue * 1.18);
   const SumOfRentalRateWithTx = () => {
     let total = 0;
     for (let data of TRentalRateWithTx) total = total + data;
@@ -69,7 +69,7 @@ const YourWishList = () => {
   };
 
   // TOTAL COST OF DEPOSIT RATE
-  const TDepositRate = addedProducts.map((item) => item.depositValue);
+  const TDepositRate = pdtSelected.map((item) => item.depositValue);
   const SumOfDepositRate = () => {
     let total = 0;
     for (let data of TDepositRate) total = total + data;
@@ -106,7 +106,7 @@ const YourWishList = () => {
     })
   }
   const sameDatePdt = pdtSelected.map(date => moment(date.rentalStartDate).format("DD-MM-YYYY"))
-  console.log("sameDatePdt==>", sameDatePdt)
+  console.log("sameDatePdt==>", sameDatePdt);
   const OnSelectProduct = (e, row) => {
     if (e.target.checked) {
       setPdtSelected([...pdtSelected, row])
@@ -114,11 +114,10 @@ const YourWishList = () => {
       const selectedData = pdtSelected.filter(
         (id) => id.pdtId !== row.pdtId
       );
-      setPdtSelected(selectedData)
+      setPdtSelected(selectedData);
     }
-    const sameDate = moment(row.rentalStartDate).format("DD-MM-YYYY")
   }
-  console.log("pdtSelected==>", pdtSelected)
+  console.log("pdtSelected==>", pdtSelected);
 
   // const ContinueToBooking = () => {
   //   if (thresholdLimit < parseInt(SumOfTProductValue())) {
@@ -143,6 +142,7 @@ const YourWishList = () => {
   //       });
   //   }
   // };
+
   return (
     <div>
       <Navbar />

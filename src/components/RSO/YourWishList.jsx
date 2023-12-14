@@ -14,6 +14,7 @@ const YourWishList = () => {
   const [phoneNo, setPhoneNo] = useState("");
   const [addedProducts, setAddedProducts] = useState([]);
   const [pdtSelected, setPdtSelected] = useState([])
+  const [disPhoneFile, setDisPhoneFile] = useState(false)
   const GetAddToCartData = (storeCode) => {
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
@@ -30,18 +31,15 @@ const YourWishList = () => {
     })
   }
   useEffect(() => {
-    if (phoneNo.length >= 9) {
-      GetAddToCartData(storeCode)
-    } else {
-      GetAddToCartData(storeCode)
-    }
+    GetAddToCartData(storeCode)
   }, [storeCode, phoneNo])
   const GetProductByPhone = () => {
+    setDisPhoneFile(true);
     const searchData = addedProducts.filter(data => data.tempBookingRef.substring(0, 10) === phoneNo)
     if (searchData.length > 0) {
       setAddedProducts(searchData)
     } else {
-      alert("Products Not Found")
+      alert("Invalid Phone Number");
     }
   }
 
@@ -125,13 +123,14 @@ const YourWishList = () => {
       <Navbar />
       {loading === true && <Loader />}
       <div className="row g-3 mx-0 mt-2">
-        <div className="col-11">
+        <div className="col-10">
           <input
             type="type"
             className="form-control"
             placeholder="Search Product By Phone No"
             maxLength={10}
             value={phoneNo}
+            disabled={disPhoneFile}
             onChange={(e) => {
               const phoneVal = e.target.value.replace(/\D/g, "");
               setPhoneNo(phoneVal)
@@ -139,14 +138,24 @@ const YourWishList = () => {
             }
           />
         </div>
-        <div className="col-1 d-flex justify-content-end">
+        <div className="col-2 d-flex justify-content-end">
           <button
             type="button"
-            className={phoneNo.length < 10 ? "CDisabled" : "CButton"}
+            className={phoneNo.length < 10 ? "CDisabled mx-2" : "CButton mx-2"}
             disabled={phoneNo.length < 10 ? true : false}
             onClick={GetProductByPhone}
           >
             Search
+          </button>
+          <button
+            type="button"
+            className="CancelButton"
+            onClick={() => {
+              setDisPhoneFile(false);
+              setPhoneNo("")
+            }}
+          >
+            Reset
           </button>
         </div>
         {addedProducts.length > 0 &&

@@ -242,7 +242,7 @@ const YourWishList = () => {
                   );
                 })}
                 <tr className="text-bold">
-                  <th colSpan="5" className="text-end">
+                  <th colSpan="6" className="text-end">
                     TOTAL
                   </th>
                   <th>

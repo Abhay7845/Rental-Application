@@ -21,16 +21,13 @@ import { IMAGE_URL } from "../../Data/DataList";
 
 const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
-  const RandomDigit = Math.floor(100000 + Math.random() * 900000);
-  const [digit, setDigit] = useState(RandomDigit)
   const navigate = useNavigate();
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState([]);
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
-  const tempId = `${payload.phone}-${payload.bookingDate}-${digit}`;
-  console.log("tempId==>", tempId)
+  const tempId = `${payload.phone}-${payload.bookingDate}`;
 
 
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
@@ -181,6 +178,19 @@ const ProductsDetails = () => {
     payload.customerType = "";
     payload.itemCode = "";
   };
+  // FETCH ADDED PRODUCTS TO CART
+  const GetAddToCartData = (storeCode) => {
+    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        localStorage.setItem("addedCart", response.data.value.length)
+      } if (response.data.code === "1001") {
+        const cartPdt = response.data.value;
+        localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
+      }
+    }).catch(error => {
+      console.log("error==>", error)
+    })
+  }
   const InsertTableCalendar = (tempId) => {
     console.log("tempId==>", tempId);
     const CanlendarInputs = addtoWishList.map((data) => {
@@ -207,6 +217,7 @@ const ProductsDetails = () => {
         console.log("response2==>", response.data);
         if (response.data.code === "1000") {
           Swal.fire("Added", "Your Products Added To Cart", "success");
+          GoForCancel()
         }
       })
       .catch((error) => {
@@ -223,21 +234,13 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           InsertTableCalendar(response.data.value.Succes);
           localStorage.setItem("BookinTempId", response.data.value.Succes);
+          GetAddToCartData(storeCode)
         }
       })
       .catch((error) => console.log("error==>", error));
   };
 
-  // FETCH ADDED PRODUCTS TO CART
-  const GetAddToCartData = (storeCode) => {
-    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
-      if (response.data.code === "1000") {
-        localStorage.setItem("addedCart", response.data.value.length)
-      }
-    }).catch(error => {
-      console.log("error==>", error)
-    })
-  }
+
   useEffect(() => {
     GetAddToCartData(storeCode)
   }, [storeCode])

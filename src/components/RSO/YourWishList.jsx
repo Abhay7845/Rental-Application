@@ -5,6 +5,8 @@ import { HOST_URL } from "../../API/HostURL";
 import { AddedToCartHeaders, IMAGE_URL } from "../../Data/DataList";
 import { BsFillTrashFill } from "react-icons/bs";
 import Loader from "../common/Loader";
+import Swal from "sweetalert2";
+import moment from "moment";
 
 const YourWishList = () => {
   const storeCode = localStorage.getItem("storeCode");
@@ -12,7 +14,6 @@ const YourWishList = () => {
   const [phoneNo, setPhoneNo] = useState("");
   const [addedProducts, setAddedProducts] = useState([]);
   const [pdtSelected, setPdtSelected] = useState([])
-
   const GetAddToCartData = (storeCode) => {
     setLoading(true)
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
@@ -21,6 +22,8 @@ const YourWishList = () => {
         localStorage.setItem("addedCart", response.data.value.length)
       } else if (response.data.code === "1001") {
         setAddedProducts([])
+        const cartPdt = response.data.value;
+        localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
       setLoading(false)
     }).catch(error => {
@@ -73,16 +76,33 @@ const YourWishList = () => {
     return total;
   };
 
-
-  const DeleteRow = (data) => {
+  const DeleteIteamCanlendar = (data) => {
     const { pdtId, tempBookingRef } = data;
-    console.log("data==>", data)
+    axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        GetAddToCartData(storeCode)
+        Swal.fire({
+          title: "Success",
+          text: "Product Removed From Your Cart Successfully!",
+          icon: "success",
+          confirmButtonColor: "#008080",
+          confirmButtonText: "OK",
+        });
+      }
+    }).catch(error => console.log("error=>", error))
+  }
+
+  const DeleteProduct = (data) => {
+    setLoading(true);
+    const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
-        console.log("response==>", response.data)
+        DeleteIteamCanlendar(data)
       }
+      setLoading(false);
     }).catch(error => {
-      console.log("error==>", error)
+      console.log("error==>", error);
+      setLoading(false);
     })
   }
 
@@ -133,6 +153,7 @@ const YourWishList = () => {
               <thead className="table-dark border-light">
                 <tr>
                   <td>Select</td>
+                  <td>Rental Start Date</td>
                   {AddedToCartHeaders.map((heading, i) => {
                     return <td key={i}>{heading}</td>;
                   })}
@@ -154,6 +175,7 @@ const YourWishList = () => {
                           onChange={() => OnSelectProduct(item)}
                         />
                       </td>
+                      <td>{moment(item.rentalStartDate).format("DD-MM-YYYY")}</td>
                       <td>
                         <img src={imageURL} className="custom-image" alt="" />
                       </td>
@@ -177,7 +199,7 @@ const YourWishList = () => {
                       <td>
                         <BsFillTrashFill
                           className="text-danger"
-                          onClick={() => DeleteRow(item)}
+                          onClick={() => DeleteProduct(item)}
                           cursor="pointer"
                         />
                       </td>

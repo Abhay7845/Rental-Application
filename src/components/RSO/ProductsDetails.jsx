@@ -148,7 +148,6 @@ const ProductsDetails = () => {
       updatedDate: null,
       createdDate: null,
     };
-    console.log("AddToWishListOBj==>", AddToWishListOBj);
     if (e.target.checked) {
       setAddtoWishList([...addtoWishList, AddToWishListOBj]);
     } else {

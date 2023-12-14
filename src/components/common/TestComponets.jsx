@@ -1,33 +1,53 @@
 import React, { useState } from "react";
-import * as XLSX from "xlsx";
+
 
 const TestComponets = () => {
-  const [excelData, setExcelData] = useState(null);
 
-  const ChooseExcelFileUplload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const data = e.target.result;
-      const workbook = XLSX.read(data, { type: "binary" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(sheet, { raw: false });
-      setExcelData(jsonData);
-    };
-    reader.readAsBinaryString(file);
+  // Use state to manage checkbox states for each row
+  const [checkboxes, setCheckboxes] = useState({});
+
+  // Handle checkbox change for a specific row
+  const handleCheckboxChange = (rowId) => {
+    setCheckboxes((prevCheckboxes) => ({
+      ...prevCheckboxes,
+      [rowId]: !prevCheckboxes[rowId], // Toggle the checkbox state for the specific row
+    }));
   };
+  console.log("checkboxes==>", checkboxes)
+  // Sample data for the table
+  const tableData = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' },
+  ];
 
-  console.log("excelData==>", excelData);
+
   return (
     <div>
-      <input type="file" onChange={ChooseExcelFileUplload} />
-      {excelData && (
-        <div>
-          <h3>Excel Data:</h3>
-          <pre>{JSON.stringify(excelData, null, 2)}</pre>
-        </div>
-      )}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Checkbox</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((item) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={checkboxes[item.id] || false}
+                  onChange={() => handleCheckboxChange(item.id)}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

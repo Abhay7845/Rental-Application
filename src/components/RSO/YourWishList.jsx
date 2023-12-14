@@ -105,16 +105,18 @@ const YourWishList = () => {
       setLoading(false);
     })
   }
-
-  const OnSelectProduct = (row) => {
-    console.log("row==>", row.rateId)
-    if (pdtSelected.includes(row.rateId)) {
-      const checkedData = pdtSelected.filter(data => data.rateId !== row.rateId)
-      console.log("checkedData==>", checkedData)
-      // setPdtSelected(checkedData)
-    } else {
+  const sameDatePdt = pdtSelected.map(date => moment(date.rentalStartDate).format("DD-MM-YYYY"))
+  console.log("sameDatePdt==>", sameDatePdt)
+  const OnSelectProduct = (e, row) => {
+    if (e.target.checked) {
       setPdtSelected([...pdtSelected, row])
+    } else {
+      const selectedData = pdtSelected.filter(
+        (id) => id.pdtId !== row.pdtId
+      );
+      setPdtSelected(selectedData)
     }
+    const sameDate = moment(row.rentalStartDate).format("DD-MM-YYYY")
   }
   console.log("pdtSelected==>", pdtSelected)
 
@@ -205,8 +207,7 @@ const YourWishList = () => {
                         <input
                           className="form-check-input mx-2 border-dark"
                           type="checkbox"
-                          checked={pdtSelected.includes(item.rateId)}
-                          onChange={() => OnSelectProduct(item)}
+                          onChange={(e) => OnSelectProduct(e, item)}
                         />
                       </td>
                       <td>{moment(item.rentalStartDate).format("DD-MM-YYYY")}</td>

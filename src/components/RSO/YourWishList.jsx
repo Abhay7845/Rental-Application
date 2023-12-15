@@ -43,6 +43,7 @@ const YourWishList = () => {
       setAddedProducts(searchData)
     } else {
       alert("Invalid Phone Number");
+      setDisPhoneFile(false);
     }
   }
 

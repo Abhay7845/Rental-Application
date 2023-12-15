@@ -220,6 +220,7 @@ const ProductsDetails = () => {
       });
   };
   const AddtoWishList = () => {
+    setLoading(true)
     axios
       .post(`${HOST_URL}/pre/booking/add/to/cart`, addtoWishList)
       .then((res) => res)
@@ -228,6 +229,7 @@ const ProductsDetails = () => {
           InsertTableCalendar(response.data.value.Succes);
           GetAddToCartData(storeCode)
         }
+        setLoading(false)
       })
       .catch((error) => setLoading(false));
   };

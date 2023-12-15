@@ -212,6 +212,7 @@ const ProductsDetails = () => {
           Swal.fire("Success", "Product Added To Cart Successfuly", "success");
           setAddtoWishList([]);
           setProductDetails([])
+          payload.itemCode = "";
         }
       })
       .catch((error) => {
@@ -225,7 +226,6 @@ const ProductsDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           InsertTableCalendar(response.data.value.Succes);
-          localStorage.setItem("BookinTempId", response.data.value.Succes);
           GetAddToCartData(storeCode)
         }
       })

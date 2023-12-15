@@ -15,6 +15,9 @@ const YourWishList = () => {
   const [addedProducts, setAddedProducts] = useState([]);
   const [pdtSelected, setPdtSelected] = useState([])
   const [disPhoneFile, setDisPhoneFile] = useState(false)
+  const [thresholdLimit, setThresholdLimit] = useState(0);
+
+
   const GetAddToCartData = (storeCode) => {
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
@@ -89,7 +92,7 @@ const YourWishList = () => {
           confirmButtonText: "OK",
         });
       }
-    }).catch(error => console.log("error=>", error))
+    }).catch(error => setLoading(false))
   }
 
   const DeleteProduct = (data) => {
@@ -101,12 +104,10 @@ const YourWishList = () => {
       }
       setLoading(false);
     }).catch(error => {
-      console.log("error==>", error);
       setLoading(false);
     })
   }
   const sameDatePdt = pdtSelected.map(date => moment(date.rentalStartDate).format("DD-MM-YYYY"))
-  console.log("sameDatePdt==>", sameDatePdt);
   const OnSelectProduct = (e, row) => {
     if (e.target.checked) {
       setPdtSelected([...pdtSelected, row])
@@ -119,29 +120,99 @@ const YourWishList = () => {
   }
   console.log("pdtSelected==>", pdtSelected);
 
-  // const ContinueToBooking = () => {
-  //   if (thresholdLimit < parseInt(SumOfTProductValue())) {
-  //     alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
-  //   } else {
-  //     setLoading(true);
-  //     localStorage.setItem("itemsCartDetails", JSON.stringify(goToCart));
-  //     axios
-  //       .post(`${HOST_URL}/add/to/cart`, goToCart)
-  //       .then((res) => res)
-  //       .then((response) => {
-  //         if (response.data.code === "1000") {
-  //           if (response.data.value.Succes) {
-  //             localStorage.setItem("BookinTempId", response.data.value.Succes);
-  //             InsertTableCalendar(response.data.value.Succes);
-  //           }
-  //         }
-  //         setLoading(false);
-  //       })
-  //       .catch((error) => {
-  //         setLoading(false);
-  //       });
-  //   }
+  const custType = pdtSelected.map(date => date.customerType);
+
+  const CheckThresholdMilimt = (custType) => {
+    setLoading(true)
+    axios
+      .get(`${HOST_URL}/get/threshold/value/${custType}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setThresholdLimit(parseInt(response.data.value.limit));
+        }
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
+  useEffect(() => {
+    if (pdtSelected.length > 0) {
+      CheckThresholdMilimt(custType[0])
+    }
+  }, [pdtSelected.length])
+
+  // const UpdateBookingCalendar = (bookingID) => {
+  //   setLoading(true);
+  //   const updatedInputs = returnTableData.map((data, i) => {
+  //     return {
+  //       bookingId: "",
+  //       pdtId: data.pdtId,
+  //       status: inputPhyDmg[i] === "FactoryQA" && "In_Factory_QA",
+  //       storeCode: storeCode,
+  //       tempRefNo: data.tempBookingRefNo,
+  //     };
+  //   });
+  //   axios
+  //     .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+  //     .then((res) => res)
+  //     .then((response) => {
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       setLoading(false);
+  //     });
   // };
+  const bookingPyaload = pdtSelected.map(product => {
+    return {
+      bookingId: 0,
+      itemCode: product.itemCode,
+      cfa: product.cfa,
+      lotNo: product.lotNo,
+      grossWt: product.grossWt,
+      netWt: product.netWt,
+      pdtId: product.pdtId,
+      rentalStartDate: product.rentalStartDate,
+      packageDays: parseInt(product.packageDays),
+      itemPriceId: parseInt(product.itemPriceId),
+      rateId: product.rateId,
+      productValue: parseInt(product.productValue),
+      rentValue: parseInt(product.rentValue),
+      depositValue: parseInt(product.depositValue),
+      createdDate: null,
+      updatedDate: null,
+      status: "Added To Cart",
+      tempBookingRefId: product.tempBookingRef,
+      paymentRequestFor: "NewBooking",
+      storeCode: storeCode,
+    }
+  })
+  console.log("bookingPyaload==>", bookingPyaload)
+
+  const ContinueToBooking = () => {
+    if (thresholdLimit < parseInt(SumOfTProductValue())) {
+      alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
+    } else {
+      setLoading(true);
+      axios
+        .post(`${HOST_URL}/add/to/cart`, pdtSelected)
+        .then((res) => res)
+        .then((response) => {
+          console.log("response==>", response.data)
+          if (response.data.code === "1000") {
+            if (response.data.value.Succes) {
+              localStorage.setItem("BookinTempId", response.data.value.Succes);
+              // UpdateBookingCalendar(response.data.value.Succes);
+            }
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
+  };
 
   return (
     <div>
@@ -183,6 +254,7 @@ const YourWishList = () => {
             Reset
           </button>
         </div>
+        <b className="text-danger"><strong>Note:-</strong> You can only select same Rental Start Date's for One Booking</b>
         {addedProducts.length > 0 &&
           <div className="col-12 table-responsive">
             <table className="table table-bordered table-hover border-dark text-center">
@@ -208,6 +280,7 @@ const YourWishList = () => {
                           className="form-check-input mx-2 border-dark"
                           type="checkbox"
                           onChange={(e) => OnSelectProduct(e, item)}
+                          disabled={sameDatePdt.length > 0 && (sameDatePdt.includes(moment(item.rentalStartDate).format("DD-MM-YYYY")) ? false : true)}
                         />
                       </td>
                       <td>{moment(item.rentalStartDate).format("DD-MM-YYYY")}</td>
@@ -280,7 +353,10 @@ const YourWishList = () => {
           </div>}
         {addedProducts.length > 0 && (
           <div className="d-flex justify-content-end mt-0 mb-3">
-            <button className="CButton">
+            <button className={pdtSelected.length > 0 ? "CButton" : "CDisabled"}
+              disabled={pdtSelected.length > 0 ? false : true}
+              onClick={ContinueToBooking}
+            >
               Continue To Booking
             </button>
           </div>

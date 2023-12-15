@@ -184,7 +184,7 @@ const ProductsDetails = () => {
         localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
     }).catch(error => {
-      console.log("error==>", error)
+      setLoading(false)
     })
   }
   const InsertTableCalendar = (tempId) => {
@@ -229,7 +229,7 @@ const ProductsDetails = () => {
           GetAddToCartData(storeCode)
         }
       })
-      .catch((error) => console.log("error==>", error));
+      .catch((error) => setLoading(false));
   };
 
   useEffect(() => {

@@ -254,7 +254,7 @@ const YourWishList = () => {
             Reset
           </button>
         </div>
-        <b className="text-danger"><strong>Note:-</strong> You can only select same Rental Start Date's for One Booking</b>
+        <b className="text-danger"><strong>Note:-</strong> You can only select same Rental Start Date's for One Booking.</b>
         {addedProducts.length > 0 &&
           <div className="col-12 table-responsive">
             <table className="table table-bordered table-hover border-dark text-center">

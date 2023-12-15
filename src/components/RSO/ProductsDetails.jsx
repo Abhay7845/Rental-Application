@@ -142,7 +142,7 @@ const ProductsDetails = () => {
       rateId: parseInt(product.rateId),
       rentValue: parseInt(product.rentalRate),
       rentalStartDate: payload.bookingDate,
-      status: "Added To Cart",
+      status: "Booked",
       storeCode: storeCode,
       tempBookingRefId: tempId,
       updatedDate: null,

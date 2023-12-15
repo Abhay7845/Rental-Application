@@ -7,6 +7,7 @@ import { BsFillTrashFill } from "react-icons/bs";
 import Loader from "../common/Loader";
 import Swal from "sweetalert2";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const YourWishList = () => {
   const storeCode = localStorage.getItem("storeCode");
@@ -16,6 +17,7 @@ const YourWishList = () => {
   const [pdtSelected, setPdtSelected] = useState([])
   const [disPhoneFile, setDisPhoneFile] = useState(false)
   const [thresholdLimit, setThresholdLimit] = useState(0);
+  const navigate = useNavigate();
 
 
   const GetAddToCartData = (storeCode) => {
@@ -29,7 +31,6 @@ const YourWishList = () => {
         localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
     }).catch(error => {
-      console.log("error==>", error)
       setLoading(false)
     })
   }
@@ -124,7 +125,6 @@ const YourWishList = () => {
   console.log("pdtSelected==>", pdtSelected);
 
   const custType = pdtSelected.map(date => date.customerType);
-
   const CheckThresholdMilimt = (custType) => {
     setLoading(true)
     axios
@@ -146,27 +146,7 @@ const YourWishList = () => {
     }
   }, [pdtSelected.length])
 
-  // const UpdateBookingCalendar = (bookingID) => {
-  //   setLoading(true);
-  //   const updatedInputs = returnTableData.map((data, i) => {
-  //     return {
-  //       bookingId: "",
-  //       pdtId: data.pdtId,
-  //       status: inputPhyDmg[i] === "FactoryQA" && "In_Factory_QA",
-  //       storeCode: storeCode,
-  //       tempRefNo: data.tempBookingRefNo,
-  //     };
-  //   });
-  //   axios
-  //     .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
-  //     .then((res) => res)
-  //     .then((response) => {
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       setLoading(false);
-  //     });
-  // };
+
   const bookingPyaload = pdtSelected.map(product => {
     return {
       bookingId: 0,
@@ -176,7 +156,7 @@ const YourWishList = () => {
       grossWt: product.grossWt,
       netWt: product.netWt,
       pdtId: product.pdtId,
-      rentalStartDate: product.rentalStartDate,
+      rentalStartDate: moment(product.rentalStartDate).format("YYYY-MM-DD"),
       packageDays: parseInt(product.packageDays),
       itemPriceId: parseInt(product.itemPriceId),
       rateId: product.rateId,
@@ -185,28 +165,48 @@ const YourWishList = () => {
       depositValue: parseInt(product.depositValue),
       createdDate: null,
       updatedDate: null,
-      status: "Added To Cart",
+      status: "Booked",
       tempBookingRefId: product.tempBookingRef,
       paymentRequestFor: "NewBooking",
       storeCode: storeCode,
     }
   })
-  console.log("bookingPyaload==>", bookingPyaload)
 
+  const UpdateBookingCalendar = (tempId) => {
+    const updatedInputs = pdtSelected.map((data) => {
+      return {
+        bookingId: "",
+        pdtId: data.pdtId,
+        status: "Booked",
+        storeCode: storeCode,
+        tempRefNo: tempId,
+      };
+    });
+    axios
+      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          GetAddToCartData(storeCode)
+          navigate("/booking")
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
   const ContinueToBooking = () => {
     if (thresholdLimit < parseInt(SumOfTProductValue())) {
       alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
     } else {
       setLoading(true);
       axios
-        .post(`${HOST_URL}/add/to/cart`, pdtSelected)
+        .post(`${HOST_URL}/add/to/cart`, bookingPyaload)
         .then((res) => res)
         .then((response) => {
-          console.log("response==>", response.data)
           if (response.data.code === "1000") {
             if (response.data.value.Succes) {
-              localStorage.setItem("BookinTempId", response.data.value.Succes);
-              // UpdateBookingCalendar(response.data.value.Succes);
+              UpdateBookingCalendar(response.data.value.Succes);
             }
           }
           setLoading(false);

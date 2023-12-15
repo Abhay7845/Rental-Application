@@ -101,12 +101,14 @@ const YourWishList = () => {
     axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         DeleteIteamCanlendar(data)
+        setPdtSelected([])
       }
       setLoading(false);
     }).catch(error => {
       setLoading(false);
     })
   }
+
   const sameDatePdt = pdtSelected.map(date => moment(date.rentalStartDate).format("DD-MM-YYYY"))
   const OnSelectProduct = (e, row) => {
     if (e.target.checked) {

@@ -133,8 +133,22 @@ const NewBooking = () => {
 
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("DD-MM-YYYY");
+  const GetAddToCartData = (storeCode) => {
+    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
+      console.log("response==>", response.data)
+      if (response.data.code === "1000") {
+        console.log("response==>", response.data)
+      }
+    }).catch(error => {
+      setLoading(false)
+    })
+  }
+  useEffect(() => {
+    GetAddToCartData(storeCode)
+  }, [storeCode])
 
   const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
+  console.log("CartData==>", CartData)
   const GetCartProductData = !CartData ? [] : CartData;
   const rentalStrDate = GetCartProductData.map((item) => item.rentalStartDate);
 

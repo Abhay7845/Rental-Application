@@ -37,6 +37,7 @@ const YourWishList = () => {
   useEffect(() => {
     GetAddToCartData(storeCode)
   }, [storeCode, phoneNo])
+
   const GetProductByPhone = () => {
     setDisPhoneFile(true);
     const searchData = addedProducts.filter(data => data.tempBookingRef.substring(0, 10) === phoneNo)

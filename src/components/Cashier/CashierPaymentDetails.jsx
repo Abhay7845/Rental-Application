@@ -57,13 +57,13 @@ const CashierPaymentDetails = () => {
     totalDepositAmountPaidWithTax,
     productValue,
   } = paymentDetails;
-  console.log("paymentDetails==>", paymentDetails);
 
   const {
     totalDamageCharges,
     totalPenaltyCharges,
     bookingId,
     totalDepositAmount,
+    totalDiscountAmount,
   } = totalPaidAmount;
   const TotalCharges =
     (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
@@ -306,12 +306,12 @@ const CashierPaymentDetails = () => {
       if (TotalCharges > bookingDesposit) {
         setAmontHeading("Amount to be Collected");
         setCollectedAmount(
-          parseFloat(TotalCharges - bookingDesposit).toFixed(2)
+          parseFloat(TotalCharges - bookingDesposit - discountAmount).toFixed(2)
         );
       } else if (TotalCharges <= bookingDesposit) {
         setAmontHeading("Amount to be Refunded");
         setCollectedAmount(
-          parseFloat(bookingDesposit - TotalCharges).toFixed(2)
+          parseFloat(bookingDesposit - TotalCharges + discountAmount).toFixed(2)
         );
       }
       setAlertMessage("Item Returned Successfully");
@@ -761,6 +761,7 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+
   const CallPaymentAPI = () => {
     setLoading(true);
     axios
@@ -937,7 +938,7 @@ const CashierPaymentDetails = () => {
                   style: "currency",
                   currency: "INR",
                   minimumFractionDigits: 2,
-                }).format(0)}
+                }).format(totalDiscountAmount)}
               </h6>
             </div>
             <div className="col-md-3">

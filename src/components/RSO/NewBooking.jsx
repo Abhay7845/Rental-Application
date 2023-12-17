@@ -43,6 +43,7 @@ const NewBooking = () => {
   const [transactioUI, setTransactioUI] = useState("");
   const BanckIfcseCode = bankIfsc.toUpperCase();
   const [cancelledChequeFile, setCancelledChequeFile] = useState("");
+  const [getCartProductData, setGetCartProductData] = useState([])
 
   const paramType = !phonePanValue
     ? ""
@@ -133,27 +134,22 @@ const NewBooking = () => {
 
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("DD-MM-YYYY");
-  const GetAddToCartData = (storeCode) => {
-    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
-      console.log("response==>", response.data)
+  const GetAddToCartData = (bookingRefId) => {
+    axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
-        console.log("response==>", response.data)
+        setGetCartProductData(response.data.value)
       }
     }).catch(error => {
       setLoading(false)
     })
   }
   useEffect(() => {
-    GetAddToCartData(storeCode)
-  }, [storeCode])
+    GetAddToCartData(bookingRefId)
+  }, [bookingRefId])
 
-  const CartData = JSON.parse(localStorage.getItem("itemsCartDetails"));
-  console.log("CartData==>", CartData)
-  const GetCartProductData = !CartData ? [] : CartData;
-  const rentalStrDate = GetCartProductData.map((item) => item.rentalStartDate);
-
+  const rentalStrDate = getCartProductData.map((item) => item.rentalStartDate);
   // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = GetCartProductData.map((item) =>
+  const TProductValue = getCartProductData.map((item) =>
     parseInt(item.productValue)
   );
   const SumOfTProductValue = () => {
@@ -161,17 +157,20 @@ const NewBooking = () => {
     for (let data of TProductValue) total = total + data;
     return total;
   };
+
   // TOTAL COST OF  RENTAL RATE
-  const TRentalRate = GetCartProductData.map((item) => item.rentValue);
+  const TRentalRate = getCartProductData.map((item) => item.rentValue);
   const SumOfRentalRate = () => {
     let total = 0;
     for (let data of TRentalRate) total = total + data;
     return total;
   };
-  const TRentalRateWithTx = GetCartProductData.map(
+
+  // TOTAL RENTAL WITH TAX
+
+  const TRentalRateWithTx = getCartProductData.map(
     (item) => item.rentValue * 1.18
   );
-
   const SumOfRentalRateWithTx = () => {
     let total = 0;
     for (let data of TRentalRateWithTx) total = total + data;
@@ -179,7 +178,7 @@ const NewBooking = () => {
   };
 
   // TOTAL COST OF DEPOSIT RATE
-  const TDepositRate = GetCartProductData.map((item) => item.depositValue);
+  const TDepositRate = getCartProductData.map((item) => item.depositValue);
   const SumOfDepositRate = () => {
     let total = 0;
     for (let data of TDepositRate) total = total + data;
@@ -555,7 +554,7 @@ const NewBooking = () => {
           </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
-            {GetCartProductData.length > 0 && (
+            {getCartProductData.length > 0 && (
               <div className="table-responsive">
                 <table
                   id="item-details-table"
@@ -569,7 +568,7 @@ const NewBooking = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {GetCartProductData.map((item, i) => {
+                    {getCartProductData.map((item, i) => {
                       const { itemCode } = item;
                       const imageCode = itemCode.substring(2, 9);
                       const imageURL = `${IMAGE_URL}${imageCode}.jpg`;

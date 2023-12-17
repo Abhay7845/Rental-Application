@@ -123,7 +123,6 @@ const YourWishList = () => {
       setPdtSelected(selectedData);
     }
   }
-  console.log("pdtSelected==>", pdtSelected);
 
   const custType = pdtSelected.map(date => date.customerType);
   const CheckThresholdMilimt = (custType) => {
@@ -207,7 +206,11 @@ const YourWishList = () => {
         .then((response) => {
           if (response.data.code === "1000") {
             if (response.data.value.Succes) {
-              UpdateBookingCalendar(response.data.value.Succes);
+              const bookingTempId = response.data.value.Succes
+              UpdateBookingCalendar(bookingTempId);
+              const phoneNomber = bookingTempId.substring(0, 10)
+              localStorage.setItem("BookinTempId", response.data.value.Succes)
+              localStorage.setItem("regNumber", phoneNomber)
             }
           }
           setLoading(false);

@@ -404,8 +404,7 @@ const NewBooking = () => {
               "Please Go to Cashier to Complete the Payment",
               "success"
             );
-            localStorage.removeItem("itemsCartDetails");
-            navigate("/products/details");
+            navigate("/home");
           }
 
           setLoading(false);

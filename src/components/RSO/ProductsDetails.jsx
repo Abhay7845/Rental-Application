@@ -20,6 +20,7 @@ import { IMAGE_URL } from "../../Data/DataList";
 
 const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
+  const cartList = localStorage.getItem("addedCart")
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState([]);
@@ -177,6 +178,7 @@ const ProductsDetails = () => {
   // FETCH ADDED PRODUCTS TO CART
   const GetAddToCartData = (storeCode) => {
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
+      console.log("responseCart==>", response.data)
       if (response.data.code === "1000") {
         localStorage.setItem("addedCart", response.data.value.length)
       } if (response.data.code === "1001") {
@@ -208,6 +210,7 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
       .then((res) => res)
       .then((response) => {
+        console.log("response123==>", response.data)
         if (response.data.code === "1000") {
           Swal.fire("Success", "Product Added To Cart Successfuly", "success");
           setAddtoWishList([]);
@@ -225,6 +228,7 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/pre/booking/add/to/cart`, addtoWishList)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>4567==>", response.data)
         if (response.data.code === "1000") {
           InsertTableCalendar(response.data.value.Succes);
           GetAddToCartData(storeCode)
@@ -236,7 +240,7 @@ const ProductsDetails = () => {
 
   useEffect(() => {
     GetAddToCartData(storeCode)
-  }, [storeCode])
+  }, [storeCode, cartList])
 
   return (
     <div>

@@ -63,12 +63,11 @@ const NewBooking = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         navigate("/new/customer");
-        localStorage.setItem("serachBookingNo", phonePanValue);
+        localStorage.setItem("serachBookingNo", phonePanValue ? phonePanValue : regNumber);
       }
     });
   };
-
-  const FetchUDetailsBysearch = () => {
+  const FetchUDetailsBysearch = (phonePanValue) => {
     setLoading(true);
     axios
       .get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
@@ -86,7 +85,7 @@ const NewBooking = () => {
         setLoading(false);
       });
   };
-  const FetchUDetailsOnlOad = () => {
+  const FetchUDetailsOnlOad = (regNumber) => {
     setLoading(true);
     axios
       .get(`${HOST_URL}/rental/customer/details/mobileNo/${regNumber}`)
@@ -104,12 +103,22 @@ const NewBooking = () => {
         setLoading(false);
       });
   };
+  const SerachInfoUserDetails = () => {
+    if (regNumber) {
+      FetchUDetailsOnlOad(regNumber)
+    } else if (phonePanValue) {
+      FetchUDetailsBysearch(phonePanValue)
+    } else {
+      alert("Please Enter Your Phone Number!")
+    }
+  }
+
 
   useEffect(() => {
     if (regNumber) {
-      FetchUDetailsOnlOad();
+      FetchUDetailsOnlOad(regNumber);
     } else if (phonePanValue) {
-      FetchUDetailsBysearch();
+      FetchUDetailsBysearch(phonePanValue);
     }
   }, []);
 
@@ -346,7 +355,7 @@ const NewBooking = () => {
         .then((response) => {
           if (response.data.code === "1000") {
             alert("Account Details has been Updated Successfully");
-            FetchUDetailsBysearch();
+            FetchUDetailsBysearch(phonePanValue);
           }
           setLoading(false);
         })
@@ -424,18 +433,17 @@ const NewBooking = () => {
               type="type"
               className="form-control"
               placeholder="Search Customer By Phone or PAN"
-              value={phonePanValue.toUpperCase()}
               maxLength={10}
+              value={phonePanValue ? phonePanValue : regNumber}
               onChange={(e) => setPhonePanValue(e.target.value)}
+              disabled={regNumber ? true : false}
             />
           </div>
           <div className="col-md-1 d-flex justify-content-end">
             <button
               type="button"
-              className={`${phonePanValue.length < 10 ? "CDisabled" : "CButton"
-                }`}
-              disabled={phonePanValue.length < 10 ? true : false}
-              onClick={FetchUDetailsBysearch}
+              className="CButton"
+              onClick={SerachInfoUserDetails}
             >
               Search
             </button>

@@ -119,7 +119,6 @@ const ServiceIvoicePdf = (props) => {
       ).toLocaleString("en-IN"),
     };
   });
-  console.log("RefacotorData==>", RefacotorData)
   const TBasePrise = RefacotorTableData.map((data) => data.productValue);
   const SumOfBasePrise = () => {
     let total = 0;

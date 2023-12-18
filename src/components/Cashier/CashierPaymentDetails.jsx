@@ -58,15 +58,18 @@ const CashierPaymentDetails = () => {
     productValue,
   } = paymentDetails;
 
+
   const {
     totalDamageCharges,
     totalPenaltyCharges,
     bookingId,
     totalDepositAmount,
     totalDiscountAmount,
+    discountOnRentalCharges
   } = totalPaidAmount;
   const TotalCharges =
     (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
+
 
   const GenChallanNo = `${bookingRefNo}-D`;
   const GenInvoiceNo = `${storeCode}-${invoicePdfNo.invoiceId + 1}`;
@@ -306,12 +309,12 @@ const CashierPaymentDetails = () => {
       if (TotalCharges > bookingDesposit) {
         setAmontHeading("Amount to be Collected");
         setCollectedAmount(
-          parseFloat(TotalCharges - bookingDesposit - discountAmount).toFixed(2)
+          parseFloat(TotalCharges - bookingDesposit - discountOnRentalCharges).toFixed(2)
         );
       } else if (TotalCharges <= bookingDesposit) {
         setAmontHeading("Amount to be Refunded");
         setCollectedAmount(
-          parseFloat(bookingDesposit - TotalCharges + discountAmount).toFixed(2)
+          parseFloat(bookingDesposit - TotalCharges + discountOnRentalCharges).toFixed(2)
         );
       }
       setAlertMessage("Item Returned Successfully");
@@ -936,7 +939,7 @@ const CashierPaymentDetails = () => {
                       style: "currency",
                       currency: "INR",
                       minimumFractionDigits: 2,
-                    }).format(totalDiscountAmount)}
+                    }).format(discountOnRentalCharges)}
                   </h6>
                 </div>
               </div>

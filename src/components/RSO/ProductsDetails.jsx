@@ -27,6 +27,8 @@ const ProductsDetails = () => {
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
   const tempId = `${payload.phone}-${payload.bookingDate}`;
+  console.log("payload==>", payload)
+  console.log("tempId==>", tempId)
 
 
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
@@ -59,6 +61,7 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/rental/product/view/details`, GetProducts)
       .then((res) => res)
       .then((response) => {
+        console.log("response2==>", response.data)
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
         } else if (response.data.code === "1001") {
@@ -91,6 +94,7 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
+        console.log("response1==>", response.data)
         if (response.data.code === "1000") {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
@@ -259,7 +263,7 @@ const ProductsDetails = () => {
                 className="form-control"
                 disabled={payload.phone ? true : false}
               />
-              <ShowError name="phone" />
+              {/* <ShowError name="phone" /> */}
             </div>
             <div className="col-md-4">
               <label className="form-label">Rental Start Date</label>
@@ -335,7 +339,7 @@ const ProductsDetails = () => {
           <table className="table table-bordered table-hover border-dark text-center">
             <thead className="table-dark border-light">
               <tr style={{ fontSize: "15px" }}>
-                <td>Select</td>
+                {payload.phone && <td>Select</td>}
                 {WishListHeader.map((heading, i) => {
                   return <td key={i}>{heading}</td>;
                 })}
@@ -357,18 +361,19 @@ const ProductsDetails = () => {
                           }`,
                       }}
                     >
-                      <td className="text-center">
-                        <input
-                          className="form-check-input border-dark"
-                          type="checkbox"
-                          disabled={
-                            AvlProduct[i] === "Product_Not_Available"
-                              ? true
-                              : false
-                          }
-                          onClick={(e) => SelectedProducts(e, data)}
-                        />
-                      </td>
+                      {payload.phone &&
+                        <td className="text-center">
+                          <input
+                            className="form-check-input border-dark"
+                            type="checkbox"
+                            disabled={
+                              AvlProduct[i] === "Product_Not_Available"
+                                ? true
+                                : false
+                            }
+                            onClick={(e) => SelectedProducts(e, data)}
+                          />
+                        </td>}
                       <td>
                         <img src={imageURL} className="custom-image" alt="" />
                       </td>
@@ -401,8 +406,8 @@ const ProductsDetails = () => {
             </button>
           )}
           <button
-            className={addtoWishList.length > 0 ? "CButton" : "CDisabled"}
-            disabled={addtoWishList.length > 0 ? false : true}
+            className={payload.phone && addtoWishList.length > 0 ? "CButton" : "CDisabled"}
+            disabled={payload.phone && addtoWishList.length > 0 ? false : true}
             onClick={AddtoWishList}
           >
             Add To Cart

@@ -27,7 +27,8 @@ const RentalReturn = () => {
   const [storeDetails, setStoreDetails] = useState({});
   const [existedUserData, setExistedUserData] = useState({});
   const [alertWt, setAlertWt] = useState("");
-  const [discountAfter, setDiscountAfter] = useState(0)
+  const [discountAmtOnRental, setDiscountAmtOnRental] = useState(0)
+  const [discountAlert, setDiscountAlert] = useState("");
   const [successAlrt, setSuccessAlrt] = useState(
     "Product Returned Successfully"
   );
@@ -35,10 +36,12 @@ const RentalReturn = () => {
     "Please reach out to the Cashier to complete the payment process"
   );
 
-  // SAME CUSTOME UPLOAD & DETAILS/
+
+  // SAME CUSTOME UPLOAD & DETAILS
   const [sameCustName, setSameCustName] = useState("");
   const [sameCustIDType, setSameCustIDType] = useState("");
   const [sameCustIDNo, setSameCustIDNo] = useState("");
+  const [numberDays, setNumberDays] = useState("");
   const [sameCustFile, setSameCustFile] = useState([]);
   const [sameCutIDFileName, setSameCutIDFileName] = useState("");
   const [sameCustFileUrl, setSameCustFileUrl] = useState("");
@@ -57,6 +60,7 @@ const RentalReturn = () => {
   const currentDate = moment(new Date()).format("DD-MM-YYYY");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const navigate = useNavigate();
+
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
@@ -165,6 +169,23 @@ const RentalReturn = () => {
         setLoading(false);
       });
   }, [storeCode, refId, tempBookingRefNo]);
+
+
+  useEffect(() => {
+    const rentalDate = new Date(
+      moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")
+    );
+    const currentDate = new Date(moment().format("YYYY-MM-DD"));
+    if (rentalDate < currentDate) {
+      const timeDifference = rentalDate - currentDate;
+      const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+      setNumberDays(daysDifference);
+    } else if (rentalDate > currentDate) {
+      const timeDifference = rentalDate - currentDate;
+      const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      setNumberDays(daysDifference);
+    }
+  }, [GetReturnProduct.rentalDate]);
 
   // TOTAL COST OF  CALCULATION
   const TProductValue = refactoreDataTable.map((item) =>
@@ -456,7 +477,7 @@ const RentalReturn = () => {
       });
   };
   const DespId = returnTableData.map((data) => data.despId);
-  const rentChargeAftrDis = totalPaidAmount.totalRentalValue - discountAfter;
+  const rentChargeAftrDis = totalPaidAmount.totalBookingAmount - discountAmtOnRental;
 
   const RaiseClouseRequest = (despId) => {
     const RetnaReturnInputs = {
@@ -480,9 +501,11 @@ const RentalReturn = () => {
       totalDepositPaid: parseFloat(totalPaidAmount.totalDepositAmount),
       totalPenaltyCharges: parseFloat(SumOfTPeneltyCharge()),
       totalRentaLAmount: parseFloat(totalPaidAmount.totalRentalValue),
-      discountOnRentalCharges: parseFloat(discountAfter),
+      discountOnRentalCharges: parseFloat(discountAmtOnRental),
       updatedDate: null,
     };
+    console.log("RetnaReturnInputs==>", RetnaReturnInputs)
+
     axios
       .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
       .then((res) => res)
@@ -497,44 +520,49 @@ const RentalReturn = () => {
   };
 
   const InsertReturnTableData = (inputRtnValues) => {
-    setLoading(true);
-    const InsertTableInputs = returnTableData.map((data, i) => {
-      return {
-        bookingId: totalPaidAmount.bookingId,
-        despId: data.despId === "" ? "0" : data.despId,
-        pdtId: data.pdtId,
-        actualWtAtDelivery: data.deliveredWt === "" ? 0 : data.deliveredWt,
-        actualWtAtReturn: inputRtnValues[i],
-        rentalStartDate: moment(data.rentStartDate).format("YYYY-MM-DD"),
-        packageDays: data.packageDays,
-        rentalReturnDate: moment(getReturnDate()).format("YYYY-MM-DD"),
-        totalRentalDays: 0,
-        itemPriceID: data.itemPriceId,
-        rateId: data.rateId,
-        productValue: parseFloat(data.productValue),
-        rentValue: parseFloat(data.rentalAmount),
-        penaltyValue:
-          penaltyDays <= 0
-            ? 0
-            : ((parseInt(data.productValue) * 2) / 100) * penaltyDays,
-        tempBookingRefNo: data.tempBookingRefNo,
-        damageCharges: parseFloat(inputDmgValues[i]),
-        createdDate: null,
-        updatedDate: null,
-      };
-    });
-    axios
-      .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          RaiseClouseRequest(DespId[0]);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
+    if (totalPaidAmount.totalBookingAmount <= discountAmtOnRental) {
+      setDiscountAlert("Discount Amount Can't Be Greater Than Paid Amount")
+    } else {
+      setLoading(true);
+      const InsertTableInputs = returnTableData.map((data, i) => {
+        return {
+          bookingId: totalPaidAmount.bookingId,
+          despId: data.despId === "" ? "0" : data.despId,
+          pdtId: data.pdtId,
+          actualWtAtDelivery: data.deliveredWt === "" ? 0 : data.deliveredWt,
+          actualWtAtReturn: inputRtnValues[i],
+          rentalStartDate: moment(data.rentStartDate).format("YYYY-MM-DD"),
+          packageDays: data.packageDays,
+          rentalReturnDate: moment(getReturnDate()).format("YYYY-MM-DD"),
+          totalRentalDays: numberDays.toString(),
+          itemPriceID: data.itemPriceId,
+          rateId: data.rateId,
+          productValue: parseFloat(data.productValue),
+          rentValue: parseFloat(data.rentalAmount),
+          penaltyValue:
+            penaltyDays <= 0
+              ? 0
+              : ((parseInt(data.productValue) * 2) / 100) * penaltyDays,
+          tempBookingRefNo: data.tempBookingRefNo,
+          damageCharges: parseFloat(inputDmgValues[i]),
+          createdDate: null,
+          updatedDate: null,
+        };
       });
+      console.log("InsertTableInputs==>", InsertTableInputs)
+      axios
+        .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            RaiseClouseRequest(DespId[0]);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
   };
 
   const ValidateInsertData = () => {
@@ -802,12 +830,20 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Discount On Rental Charges"
-              value={discountAfter}
+              defaultValue={discountAmtOnRental ? discountAmtOnRental : 0}
               onChange={(e) => {
-                const discountVal = e.target.value.replace(/\D/g, "");
-                setDiscountAfter(discountVal)
+                const discountVal = e.target.value.replace(/[^0-9.]/g, '');
+                const disAmount = parseFloat(discountVal).toFixed(2);
+                if (totalPaidAmount.totalBookingAmount >= parseFloat(disAmount)) {
+                  setDiscountAmtOnRental(parseFloat(discountVal))
+                  setDiscountAlert("")
+                } else {
+                  setDiscountAlert("Discount Amount Can't Be Greater Than Paid Amount")
+                  setDiscountAmtOnRental(parseFloat(discountVal))
+                }
               }}
             />
+            <span className="text-danger">{discountAlert}</span>
           </div>
           <div className="col-md-4">
             <label className="form-label">Rental Charges After Discount</label>
@@ -815,7 +851,7 @@ const RentalReturn = () => {
               type="text"
               className="form-control"
               placeholder="Rental Charges After Discount"
-              value={rentChargeAftrDis}
+              value={rentChargeAftrDis ? parseFloat(rentChargeAftrDis).toFixed(2) : 0}
               disabled
             />
           </div>

@@ -927,20 +927,20 @@ const CashierPaymentDetails = () => {
                     }).format(totalPenaltyCharges)}
                   </h6>
                 </div>
+                <div className="col-md-3">
+                  <label className="form-label">
+                    <b>Discount Amount</b>
+                  </label>
+                  <h6>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: 2,
+                    }).format(totalDiscountAmount)}
+                  </h6>
+                </div>
               </div>
             )}
-            <div className="col-md-3">
-              <label className="form-label">
-                <b>Discount Amount</b>
-              </label>
-              <h6>
-                {new Intl.NumberFormat("en-IN", {
-                  style: "currency",
-                  currency: "INR",
-                  minimumFractionDigits: 2,
-                }).format(totalDiscountAmount)}
-              </h6>
-            </div>
             <div className="col-md-3">
               <label className="form-label">
                 <b>{amontHeading}</b>

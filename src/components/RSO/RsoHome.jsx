@@ -21,8 +21,8 @@ const Home = () => {
   const paramType = !phoneRefrence
     ? ""
     : phoneRefrence[0].match(phonePan)
-    ? "BookingRefNo"
-    : "Mobile_No";
+      ? "BookingRefNo"
+      : "Mobile_No";
 
   const CheckBookingDetails = () => {
     Swal.fire({
@@ -147,9 +147,8 @@ const Home = () => {
             onChange={(e) => setPhoneRefrence(e.target.value)}
           />
           <button
-            className={`${
-              phoneRefrence.length < 10 ? "DisableSearch" : "searchButton"
-            }`}
+            className={`${phoneRefrence.length < 10 ? "DisableSearch" : "searchButton"
+              }`}
             onClick={GetBookingDetails}
             disabled={phoneRefrence.length < 10 ? true : false}
           >
@@ -202,7 +201,7 @@ const Home = () => {
             </table>
           </div>
           {statusPending === "Payment_PendingFor" ||
-          Status === "Cancellation_After_Booking" ? (
+            Status === "Cancellation_After_Booking" ? (
             <div>
               {ShowPending()}
               <span>
@@ -242,13 +241,13 @@ const Home = () => {
                 type="button"
                 className={
                   Status === "ProductIssued" ||
-                  Status === "Issued_Rental_Period"
+                    Status === "Issued_Rental_Period"
                     ? "CButton mx-2"
                     : "CDisabled mx-2"
                 }
                 disabled={
                   Status === "ProductIssued" ||
-                  Status === "Issued_Rental_Period"
+                    Status === "Issued_Rental_Period"
                     ? false
                     : true
                 }

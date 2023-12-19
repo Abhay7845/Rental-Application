@@ -27,8 +27,6 @@ const ProductsDetails = () => {
   const [addtoWishList, setAddtoWishList] = useState([]);
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
   const tempId = `${payload.phone}-${payload.bookingDate}`;
-  console.log("payload==>", payload)
-  console.log("tempId==>", tempId)
 
 
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);

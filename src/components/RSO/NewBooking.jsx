@@ -28,6 +28,7 @@ const NewBooking = () => {
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
+  console.log("existedUserData==>", existedUserData)
 
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -542,6 +543,7 @@ const NewBooking = () => {
                 </label>
                 <input
                   type="file"
+                  accept=".png, .jpeg"
                   className="form-control"
                   onChange={(e) => setTnxFile(e.target.files[0])}
                 />
@@ -742,6 +744,7 @@ const NewBooking = () => {
                 </label>
                 <input
                   type="file"
+                  accept=".png, .jpeg"
                   className="form-control"
                   id="chequeBook"
                   onChange={(e) => setCancelledChequeFile(e.target.files[0])}

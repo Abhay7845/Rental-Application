@@ -23,6 +23,7 @@ const NewCustomer = () => {
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
   const phoneNo = localStorage.getItem("serachBookingNo");
+  const storeCode = localStorage.getItem("storeCode");
   const phoneNumber = !phoneNo ? "" : phoneNo;
   const navigate = useNavigate();
 
@@ -59,13 +60,29 @@ const NewCustomer = () => {
   // UPLOAD FILE NAME STATE
   const [PanCardFileName, setPanCardFileName] = useState("");
   const [AddressFileName, setAddressFileName] = useState([]);
+  const [addedCart, setAddedCart] = useState([])
   const PANNumber = panNumber.toUpperCase();
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
 
+  const BokingTempId = addedCart.map(item => item.tempBookingRef)
+
+  const GetAddToCartData = (storeCode) => {
+    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        setAddedCart(response.data.value)
+      }
+    }).catch(error => {
+      setLoading(false)
+    })
+  }
+  useEffect(() => {
+    GetAddToCartData(storeCode)
+  }, [storeCode])
+
   const UploadPanDetails = (imgName) => {
-    const UpdateKarigarQAPdf = {
-      bookingRefId: "",
+    const UplaodPanDetails = {
+      bookingRefId: BokingTempId[0],
       contentFor: "customerCreation",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "panCard",
@@ -76,7 +93,7 @@ const NewCustomer = () => {
       updatedDate: null,
     };
     axios
-      .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
+      .post(`${HOST_URL}/insert/image/details`, UplaodPanDetails)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -102,11 +119,11 @@ const NewCustomer = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data) {
+            UploadPanDetails(panCardFileName);
             setPanCardFileName(panCardFileName);
             const reader = new FileReader();
             reader.onloadend = () => {
               setPanFile(reader.result);
-              UploadPanDetails(panCardFileName);
             };
             if (choosePan) {
               reader.readAsDataURL(choosePan);
@@ -125,7 +142,7 @@ const NewCustomer = () => {
   };
   const UploadAddressDetails = (imgName, imgData) => {
     const UpdateKarigarQAPdf = {
-      bookingRefId: "",
+      bookingRefId: BokingTempId[0],
       contentFor: "customerCreation",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "addressProof",
@@ -138,7 +155,7 @@ const NewCustomer = () => {
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
-      .then((response) => {})
+      .then((response) => { })
       .catch((error) => {
         setLoading(false);
       });
@@ -174,23 +191,21 @@ const NewCustomer = () => {
       }
     } else if (adderessProof.length === 0) {
       alert(
-        `Please Choose  ${
-          addressProofType === "aadhar" ? "Aadhar File" : "Passport File"
+        `Please Choose  ${addressProofType === "aadhar" ? "Aadhar File" : "Passport File"
         }`
       );
     } else {
       alert(
-        `Please Enter First  ${
-          addressProofType === "aadhar"
-            ? "Valid Aadhar Number"
-            : "Valid Passport Number"
+        `Please Enter First  ${addressProofType === "aadhar"
+          ? "Valid Aadhar Number"
+          : "Valid Passport Number"
         }`
       );
     }
   };
   const UploadChequeDetails = (imgName) => {
     const UpdateKarigarQAPdf = {
-      bookingRefId: "",
+      bookingRefId: BokingTempId[0],
       contentFor: "customerCreation",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "cnacelledCheque",
@@ -590,6 +605,7 @@ const NewCustomer = () => {
             <label className="form-label">Upload PAN*</label>
             <input
               type="file"
+              accept=".png, .jpeg"
               className="form-control"
               id="panProof"
               onChange={(e) => setChoosePan(e.target.files[0])}
@@ -660,6 +676,7 @@ const NewCustomer = () => {
               </label>
               <input
                 type="file"
+                accept=".png, .jpeg"
                 className="form-control"
                 id="addressProof"
                 multiple
@@ -752,6 +769,7 @@ const NewCustomer = () => {
               <label className="form-label">Cancelled Cheque</label>
               <input
                 type="file"
+                accept=".png, .jpeg"
                 className="form-control"
                 onChange={(e) => setBankChequeFile(e.target.files[0])}
                 id="chequeBook"

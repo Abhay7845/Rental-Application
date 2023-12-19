@@ -406,8 +406,8 @@ const ProductsDetails = () => {
             </button>
           )}
           <button
-            className={payload.phone && addtoWishList.length > 0 ? "CButton" : "CDisabled"}
-            disabled={payload.phone && addtoWishList.length > 0 ? false : true}
+            className={addtoWishList.length > 0 ? "CButton" : "CDisabled"}
+            disabled={addtoWishList.length > 0 ? false : true}
             onClick={AddtoWishList}
           >
             Add To Cart

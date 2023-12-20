@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../common/Navbar";
 import {
+  AddedToCartHeaders,
   WishListHeader,
   constomerType,
   packageDayOption,
@@ -17,10 +18,13 @@ import {
 import moment from "moment";
 import ShowError from "../../Schema/ShowError";
 import { IMAGE_URL } from "../../Data/DataList";
+import { BsFillTrashFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
-  const cartList = localStorage.getItem("addedCart")
+  const navigate = useNavigate();
+
   const [payload, setPayload] = useState({});
   const [loading, setLoading] = useState(false);
   const [productDetails, setProductDetails] = useState([]);
@@ -28,6 +32,13 @@ const ProductsDetails = () => {
   const [chekeAvaiblity, setChekeAvaiblity] = useState([]);
   const tempId = `${payload.phone}-${payload.bookingDate}`;
 
+  // ADDED PRODUCT TO CART STATS 
+  const [addedProducts, setAddedProducts] = useState([]);
+  const [pdtSelected, setPdtSelected] = useState([]);
+  const [phoneNo, setPhoneNo] = useState("");
+  const [disPhoneFile, setDisPhoneFile] = useState(false);
+  const [thresholdLimit, setThresholdLimit] = useState(0);
+  console.log("thresholdLimit==>", thresholdLimit)
 
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
   const currentDate = new Date();
@@ -59,7 +70,6 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/rental/product/view/details`, GetProducts)
       .then((res) => res)
       .then((response) => {
-        console.log("response2==>", response.data)
         if (response.data.code === "1000") {
           setProductDetails(response.data.value);
         } else if (response.data.code === "1001") {
@@ -73,8 +83,6 @@ const ProductsDetails = () => {
   };
 
   const CheckAvaiblity = (payload) => {
-    localStorage.setItem("custType", payload.customerType);
-    localStorage.setItem("packageDays", payload.packageDays);
     setPayload(payload);
     setLoading(true);
     const CheckAvaiblity = {
@@ -92,7 +100,6 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
-        console.log("response1==>", response.data)
         if (response.data.code === "1000") {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
@@ -179,13 +186,18 @@ const ProductsDetails = () => {
   };
   // FETCH ADDED PRODUCTS TO CART
   const GetAddToCartData = (storeCode) => {
+    setLoading(true)
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
+      console.log("item/view==>", response.data)
       if (response.data.code === "1000") {
+        setAddedProducts(response.data.value)
         localStorage.setItem("addedCart", response.data.value.length)
       } else if (response.data.code === "1001") {
+        setAddedProducts([])
         const cartPdt = response.data.value;
         localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
+      setLoading(false);
     }).catch(error => {
       setLoading(false)
     })
@@ -211,7 +223,6 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
       .then((res) => res)
       .then((response) => {
-        console.log("reponde==>", response.data)
         if (response.data.code === "1000") {
           GetAddToCartData(storeCode)
           Swal.fire("Success", "Product Added To Cart Successfuly", "success");
@@ -240,8 +251,192 @@ const ProductsDetails = () => {
 
   useEffect(() => {
     GetAddToCartData(storeCode)
-  }, [storeCode, cartList])
+  }, [storeCode])
 
+  const custType = pdtSelected.map(date => date.customerType);
+  const CheckThresholdMilimt = (custType) => {
+    setLoading(true)
+    axios
+      .get(`${HOST_URL}/get/threshold/value/${custType}`)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          setThresholdLimit(parseInt(response.data.value.limit));
+        }
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (pdtSelected.length > 0) {
+      CheckThresholdMilimt(custType[0])
+    }
+  }, [pdtSelected.length])
+
+  // <---------------------------ADDEDD TO CART FUNCTIONALITY------------------------------------> 
+
+  const GetProductByPhone = () => {
+    setDisPhoneFile(true);
+    const searchData = addedProducts.filter(data => data.tempBookingRef.substring(0, 10) === phoneNo)
+    if (searchData.length > 0) {
+      setAddedProducts(searchData)
+    } else {
+      alert("Invalid Phone Number");
+      setDisPhoneFile(false);
+    }
+  }
+  const sameDatePdt = pdtSelected.map(date => moment(date.rentalStartDate).format("DD-MM-YYYY"))
+  const OnSelectProduct = (e, row) => {
+    if (e.target.checked) {
+      setPdtSelected([...pdtSelected, row])
+    } else {
+      const selectedData = pdtSelected.filter(
+        (id) => id.pdtId !== row.pdtId
+      );
+      setPdtSelected(selectedData);
+    }
+  }
+
+  const DeleteIteamCanlendar = (data) => {
+    const { pdtId, tempBookingRef } = data;
+    axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        GetAddToCartData(storeCode)
+        Swal.fire({
+          title: "Success",
+          text: "Product Removed From Your Cart!",
+          icon: "success",
+          confirmButtonColor: "#008080",
+          confirmButtonText: "OK",
+        });
+      }
+    }).catch(error => setLoading(false))
+  }
+
+  const DeleteProduct = (data) => {
+    setLoading(true);
+    const { pdtId, tempBookingRef } = data;
+    axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        DeleteIteamCanlendar(data)
+        setPdtSelected([])
+      }
+      setLoading(false);
+    }).catch(error => {
+      setLoading(false);
+    })
+  }
+
+  // TOTAL COST OF PRODUCT VALUE
+  const TProductValue = pdtSelected.map((item) => parseInt(item.productValue));
+  const SumOfTProductValue = () => {
+    let total = 0;
+    for (let data of TProductValue) total = total + data;
+    return total;
+  };
+
+  // TOTAL COST OF  RENTAL RATE
+  const TRentalRate = pdtSelected.map((item) => item.rentValue);
+  const SumOfRentalRate = () => {
+    let total = 0;
+    for (let data of TRentalRate) total = total + data;
+    return total;
+  };
+
+
+  // TOTAL RENTAL RATE WITH TAX
+  const TRentalRateWithTx = pdtSelected.map((item) => item.rentValue * 1.18);
+  const SumOfRentalRateWithTx = () => {
+    let total = 0;
+    for (let data of TRentalRateWithTx) total = total + data;
+    return total;
+  };
+
+  // TOTAL COST OF DEPOSIT RATE
+  const TDepositRate = pdtSelected.map((item) => item.depositValue);
+  const SumOfDepositRate = () => {
+    let total = 0;
+    for (let data of TDepositRate) total = total + data;
+    return total;
+  };
+
+  const UpdateBookingCalendar = (tempId) => {
+    const updatedInputs = pdtSelected.map((data) => {
+      return {
+        bookingId: "",
+        pdtId: data.pdtId,
+        status: "Booked",
+        storeCode: storeCode,
+        tempRefNo: tempId,
+      };
+    });
+    axios
+      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+      .then((res) => res)
+      .then((response) => {
+        console.log("booking/calendar==>", response.data)
+        if (response.data.code === "1000") {
+          GetAddToCartData(storeCode)
+          navigate("/booking")
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
+  const bookingPyaload = pdtSelected.map(product => {
+    return {
+      bookingId: 0,
+      itemCode: product.itemCode,
+      cfa: product.cfa,
+      lotNo: product.lotNo,
+      grossWt: product.grossWt,
+      netWt: product.netWt,
+      pdtId: product.pdtId,
+      rentalStartDate: moment(product.rentalStartDate).format("YYYY-MM-DD"),
+      packageDays: parseInt(product.packageDays),
+      itemPriceId: parseInt(product.itemPriceId),
+      rateId: product.rateId,
+      productValue: parseInt(product.productValue),
+      rentValue: parseInt(product.rentValue),
+      depositValue: parseInt(product.depositValue),
+      createdDate: null,
+      updatedDate: null,
+      status: "Booked",
+      tempBookingRefId: product.tempBookingRef,
+      paymentRequestFor: "NewBooking",
+      storeCode: storeCode,
+    }
+  })
+
+  const ContinueToBooking = () => {
+    if (thresholdLimit < parseInt(SumOfTProductValue())) {
+      alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
+    } else {
+      setLoading(true);
+      axios
+        .post(`${HOST_URL}/add/to/cart`, bookingPyaload)
+        .then((res) => res)
+        .then((response) => {
+          console.log("add/to/cart==>", response.data)
+          if (response.data.code === "1000") {
+            if (response.data.value.Succes) {
+              const bookingTempId = response.data.value.Succes
+              UpdateBookingCalendar(bookingTempId);
+              const phoneNomber = bookingTempId.substring(0, 10)
+              localStorage.setItem("regNumber", phoneNomber)
+            }
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -413,6 +608,154 @@ const ProductsDetails = () => {
           </button>
         </div>
       </div>
+
+      {/* <---------------------------ADDEDD TO CART ELEMENTS------------------------------------>  */}
+
+      {addedProducts.length > 0 &&
+        <div className="row g-3 mx-0 mt-4">
+          <div className="col-12">
+            <h6 className="bookingHeading">Added To Cart Products Details</h6>
+          </div>
+          <div className="col-10">
+            <input
+              type="type"
+              className="form-control"
+              placeholder="Search Product By Phone No"
+              maxLength={10}
+              value={phoneNo}
+              disabled={disPhoneFile}
+              onChange={(e) => {
+                const phoneVal = e.target.value.replace(/\D/g, "");
+                setPhoneNo(phoneVal)
+              }
+              }
+            />
+          </div>
+          <div className="col-2 d-flex justify-content-end">
+            <button
+              type="button"
+              className={phoneNo.length < 10 ? "CDisabled mx-2" : "CButton mx-2"}
+              disabled={phoneNo.length < 10 ? true : false}
+              onClick={GetProductByPhone}
+            >
+              Search
+            </button>
+            <button
+              type="button"
+              className="CancelButton"
+              onClick={() => {
+                setDisPhoneFile(false);
+                setPhoneNo("")
+              }}
+            >
+              Reset
+            </button>
+          </div>
+          <b className="text-danger"><strong>Note:-</strong> You can only select same Rental Start Date's for One Booking.</b>
+          <div className="col-12 table-responsive">
+            <table className="table table-bordered table-hover border-dark text-center">
+              <thead className="table-dark border-light">
+                <tr>
+                  <td>Select</td>
+                  <td>Rental Start Date</td>
+                  {AddedToCartHeaders.map((heading, i) => {
+                    return <td key={i}>{heading}</td>;
+                  })}
+                  <td>Delete</td>
+                </tr>
+              </thead>
+              <tbody>
+                {addedProducts.map((item, i) => {
+                  const { itemCode } = item;
+                  const imageCode = itemCode.substring(2, 9);
+                  const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
+                  return (
+                    <tr key={i}>
+                      <td>
+                        <input
+                          className="form-check-input mx-2 border-dark"
+                          type="checkbox"
+                          onChange={(e) => OnSelectProduct(e, item)}
+                          disabled={sameDatePdt.length > 0 && (sameDatePdt.includes(moment(item.rentalStartDate).format("DD-MM-YYYY")) ? false : true)}
+                        />
+                      </td>
+                      <td>{moment(item.rentalStartDate).format("DD-MM-YYYY")}</td>
+                      <td>
+                        <img src={imageURL} className="custom-image" alt="" />
+                      </td>
+                      <td>{item.itemCode}</td>
+                      <td>{item.lotNo}</td>
+                      <td>{item.grossWt}</td>
+                      <td>
+                        {Math.round(item.productValue).toLocaleString(
+                          "en-IN"
+                        )}
+                      </td>
+                      <td>
+                        {Math.round(item.rentValue).toLocaleString("en-IN")}
+                      </td>
+                      <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
+                      <td>
+                        {Math.round(item.depositValue).toLocaleString(
+                          "en-IN"
+                        )}
+                      </td>
+                      <td>
+                        <BsFillTrashFill
+                          className="text-danger"
+                          onClick={() => DeleteProduct(item)}
+                          cursor="pointer"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr className="text-bold">
+                  <th colSpan="6" className="text-end">
+                    TOTAL
+                  </th>
+                  <th>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(SumOfTProductValue())}
+                  </th>
+                  <th>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(SumOfRentalRate())}
+                  </th>
+                  <th>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: 2,
+                    }).format(SumOfRentalRateWithTx())}
+                  </th>
+                  <th >
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                      minimumFractionDigits: false,
+                    }).format(SumOfDepositRate())}
+                  </th>
+                  <th />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="d-flex justify-content-end mt-0 mb-3">
+            <button className={pdtSelected.length > 0 ? "CButton" : "CDisabled"}
+              disabled={pdtSelected.length > 0 ? false : true}
+              onClick={ContinueToBooking}
+            >
+              Continue To Booking
+            </button>
+          </div>
+        </div>}
     </div>
   );
 };

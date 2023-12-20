@@ -24,9 +24,7 @@ const NewBooking = () => {
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
   const regNumber = localStorage.getItem("regNumber");
-  const custType = localStorage.getItem("custType");
-  const packageDays = localStorage.getItem("packageDays");
-  const bookingRefId = localStorage.getItem("BookinTempId");
+  console.log("regNumber==>", regNumber)
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
 
@@ -45,6 +43,14 @@ const NewBooking = () => {
   const BanckIfcseCode = bankIfsc.toUpperCase();
   const [cancelledChequeFile, setCancelledChequeFile] = useState("");
   const [getCartProductData, setGetCartProductData] = useState([])
+
+
+  const customerType = getCartProductData.map(item => item.customerType)
+  const custType = customerType[0]
+  const packageDays = getCartProductData.map(item => item.packageDays)
+  const tempBookId = getCartProductData.map(item => item.tempBookingRef)
+  const bookingRefId = tempBookId[0]
+
 
   const paramType = !phonePanValue
     ? ""
@@ -555,7 +561,7 @@ const NewBooking = () => {
           </div>
           <div className="col-4">
             <label className="form-label">PACKAGE DAYS</label>
-            <h6>{packageDays} Days</h6>
+            {packageDays.length > 0 && <h6>{packageDays[0]} Days</h6>}
           </div>
           {!existedUserData.customerBankName ||
             !existedUserData.customerAccountNumber ||

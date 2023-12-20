@@ -899,7 +899,7 @@ const RentalReturn = () => {
           )}
           <div className="col-md-12 d-flex">
             <b className="mt-4">Factory QA Required ?</b>
-            <input type="checkbox" className="mx-3 mt-4" checked={checkedQA} />
+            <input type="checkbox" className="mx-3 mt-4" checked={checkedQA} readOnly />
           </div>
           <div className="col-md-12">
             <input

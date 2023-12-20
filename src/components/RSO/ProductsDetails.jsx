@@ -38,7 +38,6 @@ const ProductsDetails = () => {
   const [phoneNo, setPhoneNo] = useState("");
   const [disPhoneFile, setDisPhoneFile] = useState(false);
   const [thresholdLimit, setThresholdLimit] = useState(0);
-  console.log("thresholdLimit==>", thresholdLimit)
 
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
   const currentDate = new Date();
@@ -71,7 +70,7 @@ const ProductsDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          setProductDetails(response.data.value);
+          setProductDetails(response.data.value); f
         } else if (response.data.code === "1001") {
           alert("Data Not Found");
         }

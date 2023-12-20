@@ -36,7 +36,6 @@ const RentalReturn = () => {
     "Please reach out to the Cashier to complete the payment process"
   );
 
-
   // SAME CUSTOME UPLOAD & DETAILS
   const [sameCustName, setSameCustName] = useState("");
   const [sameCustIDType, setSameCustIDType] = useState("");
@@ -477,7 +476,7 @@ const RentalReturn = () => {
       });
   };
   const DespId = returnTableData.map((data) => data.despId);
-  const rentChargeAftrDis = totalPaidAmount.totalBookingAmount - discountAmtOnRental;
+  const rentChargeAftrDis = totalPaidAmount.totalRentalValue - discountAmtOnRental;
 
   const RaiseClouseRequest = (despId) => {
     const RetnaReturnInputs = {
@@ -519,7 +518,7 @@ const RentalReturn = () => {
 
   const InsertReturnTableData = (inputRtnValues) => {
     if (totalPaidAmount.totalBookingAmount <= discountAmtOnRental) {
-      setDiscountAlert("Discount Amount Can't Be Greater Than Paid Amount")
+      setDiscountAlert("Discount Amount Can't Be Greater Than Total Rental Value")
     } else {
       setLoading(true);
       const InsertTableInputs = returnTableData.map((data, i) => {
@@ -811,23 +810,21 @@ const RentalReturn = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Discount Charges</h6>
           </div>
-          <div className="col-md-4">
-            <label className="form-label">Total Booking Amount Paid</label>
+          <div className="col-md-3">
+            <label className="form-label">Total Rental Value</label>
             <input
               type="text"
               className="form-control"
-              placeholder="Total Booking Amount Paid"
-              defaultValue={totalPaidAmount.totalBookingAmount}
+              value={totalPaidAmount.totalRentalValue}
               disabled
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Discount On Rental Charges</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
-              placeholder="Discount On Rental Charges"
-              defaultValue={discountAmtOnRental ? discountAmtOnRental : 0}
+              value={discountAmtOnRental}
               onChange={(e) => {
                 const discountVal = e.target.value.replace(/[^0-9.]/g, '');
                 const disAmount = parseFloat(discountVal).toFixed(2);
@@ -835,20 +832,38 @@ const RentalReturn = () => {
                   setDiscountAmtOnRental(parseFloat(discountVal))
                   setDiscountAlert("")
                 } else {
-                  setDiscountAlert("Discount Amount Can't Be Greater Than Paid Amount")
+                  setDiscountAlert("Discount Amount Can't Be Greater Than Total Rental Value")
                   setDiscountAmtOnRental(parseFloat(discountVal))
                 }
               }}
             />
             <span className="text-danger">{discountAlert}</span>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Rental Charges After Discount</label>
             <input
               type="text"
               className="form-control"
-              placeholder="Rental Charges After Discount"
               value={rentChargeAftrDis ? parseFloat(rentChargeAftrDis).toFixed(2) : 0}
+              disabled
+            />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Revised Rental Charges(With 18% Tax)</label>
+            <input
+              type="text"
+              className="form-control"
+              value={discountAmtOnRental ? rentChargeAftrDis * 1.18 : 0}
+              disabled
+            />
+          </div>
+          <div className="col-md-12">
+            <label className="form-label">Booking Amount Paid(With Tax)</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Total Booking Amount Paid"
+              defaultValue={totalPaidAmount.totalBookingAmount}
               disabled
             />
           </div>

@@ -402,13 +402,6 @@ const NewBooking = () => {
     axios.get(`${HOST_URL}/delete/item/from/booking/table/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         GetAddToCartData(bookingRefId)
-        Swal.fire({
-          title: "Success",
-          text: "Products Deleted Successfully!",
-          icon: "success",
-          confirmButtonColor: "#008080",
-          confirmButtonText: "OK",
-        });
       }
     }).catch(error => setLoading(false))
   }
@@ -427,6 +420,7 @@ const NewBooking = () => {
   }
 
   const DeleteProductBookingPage = (data) => {
+    console.log("data==>", data)
     setLoading(true);
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {

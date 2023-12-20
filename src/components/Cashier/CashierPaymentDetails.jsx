@@ -57,8 +57,6 @@ const CashierPaymentDetails = () => {
     totalDepositAmountPaidWithTax,
     productValue,
   } = paymentDetails;
-  console.log("paymentDetails==>", paymentDetails)
-
 
   const {
     totalDamageCharges,
@@ -1027,7 +1025,8 @@ const CashierPaymentDetails = () => {
                           <input
                             className="form-control"
                             placeholder="Payment Ref No."
-                            onChange={(e) => setTnxRefNo(e.target.value)}
+                            value={tnxRefNo}
+                            onChange={(e) => setTnxRefNo(e.target.value.toUpperCase())}
                           />
                         </td>
                         <td>
@@ -1046,6 +1045,7 @@ const CashierPaymentDetails = () => {
                         <td className="d-flex">
                           <input
                             type="file"
+                            accept=".png, .jpeg"
                             onChange={(e) => setFileUpload(e.target.files[0])}
                           />
                           <button

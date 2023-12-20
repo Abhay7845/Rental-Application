@@ -294,6 +294,7 @@ const ProductsDetails = () => {
   }
 
   const DeleteProduct = (data) => {
+    console.log("data==>", data)
     setLoading(true);
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {

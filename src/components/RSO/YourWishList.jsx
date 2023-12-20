@@ -140,7 +140,6 @@ const YourWishList = () => {
         setLoading(false);
       });
   };
-
   useEffect(() => {
     if (pdtSelected.length > 0) {
       CheckThresholdMilimt(custType[0])
@@ -210,6 +209,7 @@ const YourWishList = () => {
               const bookingTempId = response.data.value.Succes
               UpdateBookingCalendar(bookingTempId);
               const phoneNomber = bookingTempId.substring(0, 10)
+              localStorage.setItem("BookinTempId", response.data.value.Succes)
               localStorage.setItem("regNumber", phoneNomber)
             }
           }

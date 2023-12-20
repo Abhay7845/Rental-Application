@@ -24,6 +24,7 @@ const NewBooking = () => {
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
   const regNumber = localStorage.getItem("regNumber");
+  const bookingRefId = localStorage.getItem("BookinTempId");
   console.log("regNumber==>", regNumber)
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
@@ -48,8 +49,6 @@ const NewBooking = () => {
   const customerType = getCartProductData.map(item => item.customerType)
   const custType = customerType[0]
   const packageDays = getCartProductData.map(item => item.packageDays)
-  const tempBookId = getCartProductData.map(item => item.tempBookingRef)
-  const bookingRefId = tempBookId[0]
 
 
   const paramType = !phonePanValue
@@ -149,6 +148,7 @@ const NewBooking = () => {
   const bookingDate = moment(currentDate).format("DD-MM-YYYY");
 
   const GetAddToCartData = (bookingRefId) => {
+    console.log("bookingRefId==>", bookingRefId)
     axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
       console.log("responseAddCart==>", response.data)
       if (response.data.code === "1000") {

@@ -427,6 +427,7 @@ const ProductsDetails = () => {
               const bookingTempId = response.data.value.Succes
               UpdateBookingCalendar(bookingTempId);
               const phoneNomber = bookingTempId.substring(0, 10)
+              localStorage.setItem("BookinTempId", response.data.value.Succes)
               localStorage.setItem("regNumber", phoneNomber)
             }
           }

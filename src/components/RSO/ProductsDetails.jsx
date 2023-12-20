@@ -255,10 +255,7 @@ const ProductsDetails = () => {
         }
         setLoading(false)
       })
-      .catch((error) => {
-        console.log("error==>", error)
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   useEffect(() => {

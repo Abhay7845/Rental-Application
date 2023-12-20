@@ -888,11 +888,11 @@ const CashierPaymentDetails = () => {
         )}
         {paymentDetails.bookingId && (
           <div className="row g-3 mt-1 mx-0">
-            <div className="d-flex justify-content-between">
-              <label className="form-label">
+            <div className="col-md-6">
+              <label className="form-label" style={{ marginRight: "10px" }}>
                 <b>
                   Rental Start Date :-
-                  {moment(rentalStrDate[0]).format("DD-MM-YYYY")}
+                  {moment(rentalStrDate[0]).format("DD-MM-YYYY")},
                 </b>
               </label>
               <label className="form-label">
@@ -944,7 +944,7 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-3">
+            <div className="col-md-6">
               <label className="form-label">
                 <b>{amontHeading}</b>
               </label>

@@ -14,6 +14,7 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { FetchImg, UploadImg } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
+import { BsFillTrashFill } from "react-icons/bs";
 
 const NewBooking = () => {
   const [phonePanValue, setPhonePanValue] = useState("");
@@ -28,7 +29,6 @@ const NewBooking = () => {
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
-  console.log("existedUserData==>", existedUserData)
 
   // FETCH CUSOMER UPLPAD IMAGE
   const [panImageUrl, setPanImgUrl] = useState("");
@@ -113,8 +113,6 @@ const NewBooking = () => {
       alert("Please Enter Your Phone Number!")
     }
   }
-
-
   useEffect(() => {
     if (regNumber) {
       FetchUDetailsOnlOad(regNumber);
@@ -141,13 +139,19 @@ const NewBooking = () => {
         });
     }
   }, [existedUserData.panCardNoFileName]);
-
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("DD-MM-YYYY");
+
   const GetAddToCartData = (bookingRefId) => {
     axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
+      console.log("responseAddCart==>", response.data)
       if (response.data.code === "1000") {
         setGetCartProductData(response.data.value)
+        localStorage.setItem("addedCart", response.data.value.length)
+      } else if (response.data.code === "1001") {
+        setGetCartProductData([])
+        const cartPdt = response.data.value;
+        localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
     }).catch(error => {
       setLoading(false)
@@ -415,7 +419,49 @@ const NewBooking = () => {
         });
     }
   };
+  const DeleteProductBookingTable = (data) => {
+    const { pdtId, tempBookingRef } = data;
+    axios.get(`${HOST_URL}/delete/item/from/booking/table/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      console.log("response/booking/table==>", response.data)
+      if (response.data.code === "1000") {
+        GetAddToCartData(bookingRefId)
+        Swal.fire({
+          title: "Success",
+          text: "Products Deleted Successfully!",
+          icon: "success",
+          confirmButtonColor: "#008080",
+          confirmButtonText: "OK",
+        });
+      }
+    }).catch(error => console.log(eror => console.log("error==>", error)))
+  }
 
+  const DeleteProductFromCart = (data) => {
+    setLoading(true);
+    const { pdtId, tempBookingRef } = data;
+    axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      console.log("deleteFronCart==>", response.data)
+      if (response.data.code === "1000") {
+        DeleteProductBookingTable(data)
+      }
+      setLoading(false);
+    }).catch(error => {
+      setLoading(false);
+    })
+  }
+
+
+  const DeleteProductBookingPage = (data) => {
+    setLoading(true);
+    const { pdtId, tempBookingRef } = data;
+    axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      console.log("deleteCalendar==>", response.data)
+      if (response.data.code === "1000") {
+        DeleteProductFromCart(data)
+      }
+      setLoading(false);
+    }).catch(error => setLoading(false))
+  }
   return (
     <div>
       {loading === true && <Loader />}
@@ -574,6 +620,7 @@ const NewBooking = () => {
                       {AddedToCartHeaders.map((heading, i) => {
                         return <td key={i}>{heading}</td>;
                       })}
+                      <td>Delete</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -608,6 +655,13 @@ const NewBooking = () => {
                             {Math.round(item.depositValue).toLocaleString(
                               "en-IN"
                             )}
+                          </td>
+                          <td>
+                            <BsFillTrashFill
+                              className="text-danger"
+                              onClick={() => DeleteProductBookingPage(item)}
+                              cursor="pointer"
+                            />
                           </td>
                         </tr>
                       );
@@ -644,6 +698,7 @@ const NewBooking = () => {
                           minimumFractionDigits: false,
                         }).format(SumOfDepositRate())}
                       </th>
+                      <th colSpan="1" />
                     </tr>
                   </tbody>
                 </table>
@@ -662,7 +717,7 @@ const NewBooking = () => {
           <div className="d-flex justify-content-end mb-4">
             <button
               type="button"
-              className="CButton mx-2"
+              className="CButton"
               onClick={RaiseBookPaymentReq}
             >
               Raise Payment Request
@@ -670,7 +725,6 @@ const NewBooking = () => {
           </div>
         </div>
       </div>
-
       <div
         className="modal fade"
         id="bookingModal"

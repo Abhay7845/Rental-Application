@@ -182,7 +182,7 @@ const ProductsDetails = () => {
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         localStorage.setItem("addedCart", response.data.value.length)
-      } if (response.data.code === "1001") {
+      } else if (response.data.code === "1001") {
         const cartPdt = response.data.value;
         localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
@@ -211,7 +211,9 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
       .then((res) => res)
       .then((response) => {
+        console.log("reponde==>", response.data)
         if (response.data.code === "1000") {
+          GetAddToCartData(storeCode)
           Swal.fire("Success", "Product Added To Cart Successfuly", "success");
           setAddtoWishList([]);
           setProductDetails([])
@@ -230,7 +232,6 @@ const ProductsDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           InsertTableCalendar(response.data.value.Succes);
-          GetAddToCartData(storeCode)
         }
         setLoading(false)
       })

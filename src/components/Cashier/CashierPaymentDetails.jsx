@@ -57,6 +57,7 @@ const CashierPaymentDetails = () => {
     totalDepositAmountPaidWithTax,
     productValue,
   } = paymentDetails;
+  console.log("paymentDetails==>", paymentDetails)
 
 
   const {
@@ -64,7 +65,6 @@ const CashierPaymentDetails = () => {
     totalPenaltyCharges,
     bookingId,
     totalDepositAmount,
-    totalDiscountAmount,
     discountOnRentalCharges
   } = totalPaidAmount;
   const TotalCharges =

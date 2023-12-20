@@ -35,8 +35,6 @@ const ProductsDetails = () => {
   // ADDED PRODUCT TO CART STATS 
   const [addedProducts, setAddedProducts] = useState([]);
   const [pdtSelected, setPdtSelected] = useState([]);
-  const [phoneNo, setPhoneNo] = useState("");
-  const [disPhoneFile, setDisPhoneFile] = useState(false);
   const [thresholdLimit, setThresholdLimit] = useState(0);
 
   const AvlProduct = chekeAvaiblity.map((value) => value.productStatus);
@@ -102,7 +100,6 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
-          CheckThresholdMilimt(payload);
         } else if (response.data.code === "1001") {
           alert("Selected Product is not Available in the Store");
         }
@@ -190,11 +187,6 @@ const ProductsDetails = () => {
       console.log("item/view==>", response.data)
       if (response.data.code === "1000") {
         setAddedProducts(response.data.value)
-        localStorage.setItem("addedCart", response.data.value.length)
-      } else if (response.data.code === "1001") {
-        setAddedProducts([])
-        const cartPdt = response.data.value;
-        localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
       setLoading(false);
     }).catch(error => {
@@ -224,7 +216,6 @@ const ProductsDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           GetAddToCartData(storeCode)
-          Swal.fire("Success", "Product Added To Cart Successfuly", "success");
           setAddtoWishList([]);
           setProductDetails([])
           payload.itemCode = "";
@@ -265,6 +256,7 @@ const ProductsDetails = () => {
         setLoading(false)
       })
       .catch((error) => {
+        console.log("error==>", error)
         setLoading(false);
       });
   };
@@ -277,17 +269,6 @@ const ProductsDetails = () => {
 
   // <---------------------------ADDEDD TO CART FUNCTIONALITY------------------------------------> 
 
-  const GetProductByPhone = () => {
-    setDisPhoneFile(true);
-    const searchData = addedProducts.filter(data => data.tempBookingRef.substring(0, 10) === phoneNo)
-    if (searchData.length > 0) {
-      setAddedProducts(searchData)
-    } else {
-      alert("Invalid Phone Number");
-      setDisPhoneFile(false);
-    }
-  }
-  const sameDatePdt = pdtSelected.map(date => moment(date.rentalStartDate).format("DD-MM-YYYY"))
   const OnSelectProduct = (e, row) => {
     if (e.target.checked) {
       setPdtSelected([...pdtSelected, row])
@@ -539,60 +520,59 @@ const ProductsDetails = () => {
                 })}
               </tr>
             </thead>
-            {GetProductData.length > 0 && (
-              <tbody>
-                {GetProductData.map((data, i) => {
-                  const { itemCode } = data;
-                  const imageCode = itemCode.substring(2, 9);
-                  const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
-                  return (
-                    <tr
-                      key={i}
-                      style={{
-                        pointerEvents: `${AvlProduct[i] === "Product_Not_Available"
-                          ? "none"
-                          : ""
-                          }`,
-                      }}
-                    >
-                      {payload.phone &&
-                        <td className="text-center">
-                          <input
-                            className="form-check-input border-dark"
-                            type="checkbox"
-                            disabled={
-                              AvlProduct[i] === "Product_Not_Available"
-                                ? true
-                                : false
-                            }
-                            onClick={(e) => SelectedProducts(e, data)}
-                          />
-                        </td>}
-                      <td>
-                        <img src={imageURL} className="custom-image" alt="" />
-                      </td>
-                      <td>{data.itemCode}</td>
-                      <td>{data.lotNo}</td>
-                      <td>{data.description}</td>
-                      <td>{data.grossWt}</td>
-                      <td>
-                        {Math.round(data.productValue).toLocaleString("en-IN")}
-                      </td>
-                      <td>
-                        {Math.round(data.rentalRate).toLocaleString("en-IN")}
-                      </td>
-                      <td>{parseFloat(data.rentalRate * 1.18).toFixed(2)}</td>
-                      <td>
-                        {Math.round(data.depositRate).toLocaleString("en-IN")}
-                      </td>
-                      <td>{AvlProduct[i]}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            )}
+            <tbody>
+              {GetProductData.map((data, i) => {
+                const { itemCode } = data;
+                const imageCode = itemCode.substring(2, 9);
+                const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
+                return (
+                  <tr
+                    key={i}
+                    style={{
+                      pointerEvents: `${AvlProduct[i] === "Product_Not_Available"
+                        ? "none"
+                        : ""
+                        }`,
+                    }}
+                  >
+                    {payload.phone &&
+                      <td className="text-center">
+                        <input
+                          className="form-check-input border-dark"
+                          type="checkbox"
+                          disabled={
+                            AvlProduct[i] === "Product_Not_Available"
+                              ? true
+                              : false
+                          }
+                          onClick={(e) => SelectedProducts(e, data)}
+                        />
+                      </td>}
+                    <td>
+                      <img src={imageURL} className="custom-image" alt="" />
+                    </td>
+                    <td>{data.itemCode}</td>
+                    <td>{data.lotNo}</td>
+                    <td>{data.description}</td>
+                    <td>{data.grossWt}</td>
+                    <td>
+                      {Math.round(data.productValue).toLocaleString("en-IN")}
+                    </td>
+                    <td>
+                      {Math.round(data.rentalRate).toLocaleString("en-IN")}
+                    </td>
+                    <td>{parseFloat(data.rentalRate * 1.18).toFixed(2)}</td>
+                    <td>
+                      {Math.round(data.depositRate).toLocaleString("en-IN")}
+                    </td>
+                    <td>{AvlProduct[i]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
+
         <div className="d-flex justify-content-end mt-0">
           {productDetails.length > 0 && (
             <button className="CancelButton mx-2" onClick={GoForCancel}>
@@ -614,44 +594,8 @@ const ProductsDetails = () => {
       {addedProducts.length > 0 &&
         <div className="row g-3 mx-0 mt-4">
           <div className="col-12">
-            <h6 className="bookingHeading">Added To Cart Products Details</h6>
+            <h6 className="bookingHeading">Products In Cart</h6>
           </div>
-          <div className="col-10">
-            <input
-              type="type"
-              className="form-control"
-              placeholder="Search Product By Phone No"
-              maxLength={10}
-              value={phoneNo}
-              disabled={disPhoneFile}
-              onChange={(e) => {
-                const phoneVal = e.target.value.replace(/\D/g, "");
-                setPhoneNo(phoneVal)
-              }
-              }
-            />
-          </div>
-          <div className="col-2 d-flex justify-content-end">
-            <button
-              type="button"
-              className={phoneNo.length < 10 ? "CDisabled mx-2" : "CButton mx-2"}
-              disabled={phoneNo.length < 10 ? true : false}
-              onClick={GetProductByPhone}
-            >
-              Search
-            </button>
-            <button
-              type="button"
-              className="CancelButton"
-              onClick={() => {
-                setDisPhoneFile(false);
-                setPhoneNo("")
-              }}
-            >
-              Reset
-            </button>
-          </div>
-          <b className="text-danger"><strong>Note:-</strong> You can only select same Rental Start Date's for One Booking.</b>
           <div className="col-12 table-responsive">
             <table className="table table-bordered table-hover border-dark text-center">
               <thead className="table-dark border-light">
@@ -676,7 +620,6 @@ const ProductsDetails = () => {
                           className="form-check-input mx-2 border-dark"
                           type="checkbox"
                           onChange={(e) => OnSelectProduct(e, item)}
-                          disabled={sameDatePdt.length > 0 && (sameDatePdt.includes(moment(item.rentalStartDate).format("DD-MM-YYYY")) ? false : true)}
                         />
                       </td>
                       <td>{moment(item.rentalStartDate).format("DD-MM-YYYY")}</td>

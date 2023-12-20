@@ -128,11 +128,8 @@ const NewBooking = () => {
     axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         setGetCartProductData(response.data.value)
-        localStorage.setItem("addedCart", response.data.value.length)
       } else if (response.data.code === "1001") {
         setGetCartProductData([])
-        const cartPdt = response.data.value;
-        localStorage.setItem("addedCart", cartPdt === "data not found" ? 0 : cartPdt)
       }
     }).catch(error => {
       setLoading(false)

@@ -96,7 +96,7 @@ export const PaymentHeading1 = [
   "Damage Protection Amount",
 ];
 export const PaymentHeading2 = [
-  "Payment Foe",
+  "Payment For",
   "Payment Mode(*)",
   "Credit Note Ref No.(*)",
   "Amount(*)",

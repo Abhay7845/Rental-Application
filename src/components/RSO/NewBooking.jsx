@@ -25,12 +25,9 @@ const NewBooking = () => {
   const storeCode = localStorage.getItem("storeCode");
   const regNumber = localStorage.getItem("regNumber");
   const bookingRefId = localStorage.getItem("BookinTempId");
-  console.log("regNumber==>", regNumber)
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
 
-  // FETCH CUSOMER UPLPAD IMAGE
-  const [panImageUrl, setPanImgUrl] = useState("");
 
   // CUSTOMER BANK DETAIL FIELDS
   const [customerBankName, setCustomerBankName] = useState("");
@@ -44,7 +41,6 @@ const NewBooking = () => {
   const BanckIfcseCode = bankIfsc.toUpperCase();
   const [cancelledChequeFile, setCancelledChequeFile] = useState("");
   const [getCartProductData, setGetCartProductData] = useState([])
-
 
   const customerType = getCartProductData.map(item => item.customerType)
   const custType = customerType[0]
@@ -126,31 +122,10 @@ const NewBooking = () => {
     }
   }, []);
 
-  // FETCH DOCUMENTS IMAGE
-  useEffect(() => {
-    if (existedUserData.panCardNoFileName) {
-      axios
-        .get(`${FetchImg}${existedUserData.panCardNoFileName}`, {
-          headers: ImageHeaders,
-        })
-        .then((res) => res)
-        .then((response) => {
-          if (response.data) {
-            setPanImgUrl(response.data);
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
-    }
-  }, [existedUserData.panCardNoFileName]);
   const currentDate = new Date();
   const bookingDate = moment(currentDate).format("DD-MM-YYYY");
-
   const GetAddToCartData = (bookingRefId) => {
-    console.log("bookingRefId==>", bookingRefId)
     axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
-      console.log("responseAddCart==>", response.data)
       if (response.data.code === "1000") {
         setGetCartProductData(response.data.value)
         localStorage.setItem("addedCart", response.data.value.length)
@@ -428,7 +403,6 @@ const NewBooking = () => {
   const DeleteProductBookingTable = (data) => {
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/from/booking/table/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
-      console.log("response/booking/table==>", response.data)
       if (response.data.code === "1000") {
         GetAddToCartData(bookingRefId)
         Swal.fire({
@@ -439,14 +413,13 @@ const NewBooking = () => {
           confirmButtonText: "OK",
         });
       }
-    }).catch(error => console.log(eror => console.log("error==>", error)))
+    }).catch(error => setLoading(false))
   }
 
   const DeleteProductFromCart = (data) => {
     setLoading(true);
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
-      console.log("deleteFronCart==>", response.data)
       if (response.data.code === "1000") {
         DeleteProductBookingTable(data)
       }
@@ -456,18 +429,17 @@ const NewBooking = () => {
     })
   }
 
-
   const DeleteProductBookingPage = (data) => {
     setLoading(true);
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
-      console.log("deleteCalendar==>", response.data)
       if (response.data.code === "1000") {
         DeleteProductFromCart(data)
       }
       setLoading(false);
     }).catch(error => setLoading(false))
   }
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -543,14 +515,12 @@ const NewBooking = () => {
             <h6>{existedUserData.addressProofIdNo}</h6>
           </div>
           <div className="col-md-4">
-            {panImageUrl && (
-              <img
-                src={`data:image/jpeg;base64,${panImageUrl}`}
-                alt=""
-                width="180"
-                height="85"
-              />
-            )}
+            <img
+              src={`${FetchImg}${existedUserData.panCardNoFileName}`}
+              alt=""
+              width="180"
+              height="85"
+            />
           </div>
           <div className="col-4">
             <label className="form-label">RENTAL START DATE</label>

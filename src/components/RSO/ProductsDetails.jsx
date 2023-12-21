@@ -184,7 +184,6 @@ const ProductsDetails = () => {
   const GetAddToCartData = (storeCode) => {
     setLoading(true)
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
-      console.log("item/view==>", response.data)
       if (response.data.code === "1000") {
         setAddedProducts(response.data.value)
       }
@@ -294,7 +293,6 @@ const ProductsDetails = () => {
   }
 
   const DeleteProduct = (data) => {
-    console.log("data==>", data)
     setLoading(true);
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/from/cart/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
@@ -355,7 +353,6 @@ const ProductsDetails = () => {
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
       .then((response) => {
-        console.log("booking/calendar==>", response.data)
         if (response.data.code === "1000") {
           GetAddToCartData(storeCode)
           navigate("/booking")
@@ -399,7 +396,6 @@ const ProductsDetails = () => {
         .post(`${HOST_URL}/add/to/cart`, bookingPyaload)
         .then((res) => res)
         .then((response) => {
-          console.log("add/to/cart==>", response.data)
           if (response.data.code === "1000") {
             if (response.data.value.Succes) {
               const bookingTempId = response.data.value.Succes

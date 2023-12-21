@@ -63,7 +63,7 @@ const CashierPaymentDetails = () => {
     totalPenaltyCharges,
     bookingId,
     totalDepositAmount,
-    discountOnRentalCharges
+    discountOnRentalCharges,
   } = totalPaidAmount;
   const TotalCharges =
     (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
@@ -188,6 +188,8 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setInvoicePdfNo(response.data.value);
+        } else if (response.data.code === "1001") {
+          setInvoicePdfNo({ invoiceId: 0 });
         }
       })
       .catch((error) => {
@@ -307,12 +309,12 @@ const CashierPaymentDetails = () => {
       if (TotalCharges > bookingDesposit) {
         setAmontHeading("Amount to be Collected");
         setCollectedAmount(
-          parseFloat(TotalCharges - bookingDesposit - discountOnRentalCharges).toFixed(2)
+          parseFloat(TotalCharges - bookingDesposit - discountOnRentalCharges * 1.18).toFixed(2)
         );
       } else if (TotalCharges <= bookingDesposit) {
         setAmontHeading("Amount to be Refunded");
         setCollectedAmount(
-          parseFloat(bookingDesposit - TotalCharges + discountOnRentalCharges).toFixed(2)
+          parseFloat(bookingDesposit - TotalCharges + discountOnRentalCharges * 1.18).toFixed(2)
         );
       }
       setAlertMessage("Item Returned Successfully");
@@ -1162,7 +1164,7 @@ const CashierPaymentDetails = () => {
                         bookingRefID={bookingGenNo}
                         storeDetails={storeDetails}
                         regUserData={regUserData}
-                        paymentDetails={paymentDetails}
+                        discount={discountOnRentalCharges}
                         previousTnxData={previousTnxData}
                         invoiceNo={invoiceNo}
                       />

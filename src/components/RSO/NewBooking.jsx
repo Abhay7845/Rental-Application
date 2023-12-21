@@ -420,7 +420,6 @@ const NewBooking = () => {
   }
 
   const DeleteProductBookingPage = (data) => {
-    console.log("data==>", data)
     setLoading(true);
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {

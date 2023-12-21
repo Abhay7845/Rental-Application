@@ -18,11 +18,11 @@ const ServiceIvoicePdf = (props) => {
     savePaymetRow,
     previousTnxData,
     invoiceNo,
+    discount
   } = props;
 
   const bookingDate = regUserData.map((data) => data.bookingDate);
   const PaymentDetails = [...previousTnxData, ...savePaymetRow];
-
   const RefacotorData = addedPdts.map((data) => {
     return {
       actualWtReturn: data.actualWtReturn,
@@ -53,7 +53,7 @@ const ServiceIvoicePdf = (props) => {
       lateFee: data.penaltyCharges === "" ? 0 : parseInt(data.penaltyCharges),
       damageCharges:
         data.damageCharges === "" ? 0 : parseInt(data.damageCharges),
-      discountAmount: 0,
+      discountAmount: discount / addedPdts.length,
     };
   });
   const RefacotorTableData = RefacotorData.map((data) => {
@@ -85,7 +85,7 @@ const ServiceIvoicePdf = (props) => {
       tempBookingRefNo: data.tempBookingRefNo,
       lateFee: data.lateFee,
       damageCharges: data.damageCharges,
-      discountAmount: 0,
+      discountAmount: data.discountAmount,
       totalChages: Math.round(
         data.rentalAmount +
         data.lateFee +
@@ -151,6 +151,13 @@ const ServiceIvoicePdf = (props) => {
     for (let num of TDiscountAmount) total = total + num;
     return total;
   };
+  const TRevisedAmount = RefacotorTableData.map((data) => data.revisedamout);
+  const SumOfTRevisedAmount = () => {
+    let total = 0;
+    for (let num of TRevisedAmount) total = total + num;
+    return total;
+  };
+
 
   const TTotalChages = RefacotorTableData.map((data) =>
     parseInt(data.totalChages.replace(/,/g, ""))
@@ -214,7 +221,7 @@ const ServiceIvoicePdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-top:50mm;
+              margin-top:35mm;
               margin-bottom:48mm;
             }
           `}
@@ -268,7 +275,7 @@ const ServiceIvoicePdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginLeft: "26%" }}
+                      style={{ marginLeft: "25%" }}
                     >
                       <b className="mx-5">PAN:-{storeDetails.gstin}</b>
                       <b className="mx-5">
@@ -300,7 +307,7 @@ const ServiceIvoicePdf = (props) => {
                     </div>
                     <div
                       className="d-flex flex-column"
-                      style={{ marginRight: "17%" }}
+                      style={{ marginRight: "21%" }}
                     >
                       <b>Customer Profile No.:-{existedUserData.custId}</b>
                       <b>PAN: {existedUserData.panCardNo}</b>
@@ -341,9 +348,7 @@ const ServiceIvoicePdf = (props) => {
                               </td>
                               <td className="text-end">{item.lateFee}</td>
                               <td className="text-end">{item.damageCharges}</td>
-                              <td className="text-end">
-                                {item.discountAmount}
-                              </td>
+                              <td className="text-end">{item.discountAmount}</td>
                               <td className="text-end">{item.totalChages}</td>
                               <td className="text-end">{item.sgst}</td>
                               <td className="text-end">{item.cgst}</td>

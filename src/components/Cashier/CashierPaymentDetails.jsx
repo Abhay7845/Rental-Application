@@ -905,7 +905,7 @@ const CashierPaymentDetails = () => {
             {paymentRequestFor !== "Payment_PendingFor_RentalReturn" ? (
               ""
             ) : (
-              <div className="d-flex col-md-8 justify-content-around">
+              <div className="d-flex col-md-10 justify-content-between">
                 <div className="col-md-3 mt-0">
                   <label className="form-label">
                     <b>Damage Charges</b>

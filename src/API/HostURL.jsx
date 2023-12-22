@@ -10,8 +10,6 @@
 // "homepage": "https://tanishqdigitalnpim.titan.in/JewRentalApp",
 
 
-
-
 // UAT URL
 export const HOST_URL =
   "https://tanishqdigitalnpim.titan.in:8443/RentalApplicationUAT/Rental";

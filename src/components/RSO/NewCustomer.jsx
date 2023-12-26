@@ -37,7 +37,7 @@ const NewCustomer = () => {
   // ADDRESS PROOF
   const [choosePan, setChoosePan] = useState("");
   const [adderessProof, setAdderessProof] = useState([]);
-  const BanckIfcseCode = bankIfsc.toUpperCase();
+
 
   // EMAIL ADDRESS  OTP VALIDATION
   const [secEmailCount, setSecEmailCount] = useState(90);
@@ -404,7 +404,7 @@ const NewCustomer = () => {
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
         customerNameasPerAccount: customerNameAsBank,
-        bankIfsc: BanckIfcseCode,
+        bankIfsc: bankIfsc,
         bankDetailFileName: customerAccountNumber,
       };
       axios
@@ -732,7 +732,8 @@ const NewCustomer = () => {
               type="text"
               className="form-control"
               placeholder="Bank Name"
-              onChange={(e) => setCustomerBankName(e.target.value)}
+              value={customerBankName}
+              onChange={(e) => setCustomerBankName(e.target.value.toUpperCase())}
             />
           </div>
           <div className="col-md-4">
@@ -741,7 +742,11 @@ const NewCustomer = () => {
               type="text"
               className="form-control"
               placeholder="Account Number"
-              onChange={(e) => setCustomerAccountNumber(e.target.value)}
+              value={customerAccountNumber}
+              onChange={(e) => {
+                const phoneVAl = e.target.value.replace(/[^0-9]/g, '')
+                setCustomerAccountNumber(phoneVAl)
+              }}
             />
           </div>
           <div className="col-md-4">
@@ -751,7 +756,7 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="Customer Name(As Per Bank A/c)"
               onChange={(e) => setCustomerNameAsBank(e.target.value)}
-              value={BanckIfcseCode}
+              value={customerNameAsBank}
             />
           </div>
           <div className="col-md-4">
@@ -760,8 +765,8 @@ const NewCustomer = () => {
               type="text"
               className="form-control"
               placeholder="IFSC CODE"
-              onChange={(e) => setBankIfsc(e.target.value)}
-              value={BanckIfcseCode}
+              onChange={(e) => setBankIfsc(e.target.value.toUpperCase())}
+              value={bankIfsc}
             />
           </div>
           <div className="col-md-4 d-flex">

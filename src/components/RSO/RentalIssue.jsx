@@ -33,7 +33,6 @@ const RentalIssue = () => {
   const [bankDetailFileName, setBankDetailFileName] = useState("");
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const [cancelledChequeFile, setCancelledChequeFile] = useState("");
-  const BanckIfcseCode = bankIfsc.toUpperCase();
   const [retunTableData, setRetunTableData] = useState([]);
   const [productFileName, setProductFileName] = useState([]);
   const [karigarQAFile, setKarigarQAFile] = useState([]);
@@ -339,7 +338,7 @@ const RentalIssue = () => {
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
         customerNameasPerAccount: customerNameAsBank,
-        bankIfsc: BanckIfcseCode,
+        bankIfsc: bankIfsc,
         bankDetailFileName: cancelChqueFileName,
       };
       axios
@@ -1009,7 +1008,8 @@ const RentalIssue = () => {
                   type="text"
                   className="form-control"
                   placeholder="Bank Name"
-                  onChange={(e) => setCustomerBankName(e.target.value)}
+                  value={customerBankName}
+                  onChange={(e) => setCustomerBankName(e.target.value.toUpperCase())}
                 />
               </div>
               <div className="col-md-6">
@@ -1047,8 +1047,8 @@ const RentalIssue = () => {
                   type="text"
                   className="form-control"
                   placeholder="IFSC CODE"
-                  onChange={(e) => setBankIfsc(e.target.value)}
-                  value={BanckIfcseCode}
+                  onChange={(e) => setBankIfsc(e.target.value.toUpperCase())}
+                  value={bankIfsc}
                 />
               </div>
               <div className="col-md-10">

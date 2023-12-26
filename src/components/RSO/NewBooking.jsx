@@ -38,7 +38,6 @@ const NewBooking = () => {
   const [cancelChqueFileName, setCancelChqueFileName] = useState("");
   const [transactionFile, setTransactionFile] = useState("");
   const [transactioUI, setTransactioUI] = useState("");
-  const BanckIfcseCode = bankIfsc.toUpperCase();
   const [cancelledChequeFile, setCancelledChequeFile] = useState("");
   const [getCartProductData, setGetCartProductData] = useState([])
 
@@ -329,7 +328,7 @@ const NewBooking = () => {
         customerBankName: customerBankName,
         customerAccountNumber: customerAccountNumber,
         customerNameasPerAccount: customerNameAsBank,
-        bankIfsc: BanckIfcseCode,
+        bankIfsc: bankIfsc,
         bankDetailFileName: cancelChqueFileName,
       };
       axios
@@ -747,7 +746,8 @@ const NewBooking = () => {
                   type="text"
                   className="form-control"
                   placeholder="Customer Name(As Per Bank A/c)"
-                  onChange={(e) => setCustomerNameAsBank(e.target.value)}
+                  value={customerNameAsBank}
+                  onChange={(e) => setCustomerNameAsBank(e.target.value.toUpperCase())}
                 />
               </div>
               <div className="col-md-6">
@@ -758,8 +758,8 @@ const NewBooking = () => {
                   type="text"
                   className="form-control"
                   placeholder="IFSC CODE"
-                  onChange={(e) => setBankIfsc(e.target.value)}
-                  value={BanckIfcseCode}
+                  onChange={(e) => setBankIfsc(e.target.value.toUpperCase())}
+                  value={bankIfsc}
                 />
               </div>
               <div className="col-md-10">

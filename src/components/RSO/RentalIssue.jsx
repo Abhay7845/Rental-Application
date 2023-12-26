@@ -142,7 +142,7 @@ const RentalIssue = () => {
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdItemWiseInputs)
       .then((res) => res)
-      .then((response) => {})
+      .then((response) => { })
       .catch((error) => {
         setLoading(false);
       });
@@ -153,9 +153,8 @@ const RentalIssue = () => {
       setLoading(true);
       const formData = new FormData();
       const fileExtention = pdtIdImg.name.split(".");
-      const productFile = `${RandomDigit}-${item.itemCode}_${i + 1}.${
-        fileExtention[1]
-      }`;
+      const productFile = `${RandomDigit}-${item.itemCode}_${i + 1}.${fileExtention[1]
+        }`;
       formData.append("ImgName", productFile);
       formData.append("files", pdtIdImg);
       axios
@@ -736,9 +735,9 @@ const RentalIssue = () => {
             )}
           </div>
           {!existedUserData.customerBankName ||
-          !existedUserData.customerAccountNumber ||
-          !existedUserData.bankIfsc ||
-          !existedUserData.bankDetailFileName ? (
+            !existedUserData.customerAccountNumber ||
+            !existedUserData.bankIfsc ||
+            !existedUserData.bankDetailFileName ? (
             <div className="col-12">
               <div className="d-flex justify-content-between">
                 <label className="form-label text-danger">
@@ -1021,7 +1020,11 @@ const RentalIssue = () => {
                   type="text"
                   className="form-control"
                   placeholder="Account Number"
-                  onChange={(e) => setCustomerAccountNumber(e.target.value)}
+                  value={customerAccountNumber}
+                  onChange={(e) => {
+                    const phoneVAl = e.target.value.replace(/[^0-9]/g, '')
+                    setCustomerAccountNumber(phoneVAl)
+                  }}
                 />
               </div>
               <div className="col-md-6">

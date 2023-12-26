@@ -731,7 +731,11 @@ const NewBooking = () => {
                   type="text"
                   className="form-control"
                   placeholder="Account Number"
-                  onChange={(e) => setCustomerAccountNumber(e.target.value)}
+                  value={customerAccountNumber}
+                  onChange={(e) => {
+                    const phoneVAl = e.target.value.replace(/[^0-9]/g, '')
+                    setCustomerAccountNumber(phoneVAl)
+                  }}
                 />
               </div>
               <div className="col-md-6">

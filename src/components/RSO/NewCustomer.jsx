@@ -12,6 +12,8 @@ import Loader from "../common/Loader";
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const NewCustomer = () => {
   // PHONE NUMBER OTP VALIDATION
@@ -97,7 +99,7 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -135,9 +137,9 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else if (choosePan.length === 0) {
-      alert("Please Choose PAN");
+      toast.error("Please Choose PAN", { theme: "colored" });
     } else {
-      alert("Please Enter Valid PAN Number");
+      toast.error("Please Enter Valid PAN Number", { theme: "colored" });
     }
   };
   const UploadAddressDetails = (imgName, imgData) => {
@@ -190,16 +192,16 @@ const NewCustomer = () => {
           });
       }
     } else if (adderessProof.length === 0) {
-      alert(
+      toast.error(
         `Please Choose  ${addressProofType === "aadhar" ? "Aadhar File" : "Passport File"
-        }`
+        }`, { theme: "colored" }
       );
     } else {
-      alert(
+      toast.error(
         `Please Enter First  ${addressProofType === "aadhar"
           ? "Valid Aadhar Number"
           : "Valid Passport Number"
-        }`
+        }`, { theme: "colored" }
       );
     }
   };
@@ -220,7 +222,7 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -258,9 +260,9 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else if (bankChequeFile.length === 0) {
-      alert("Please Choose Cancelled Cheque");
+      toast.error("Please Choose Cancelled Cheque", { theme: "colored" });
     } else {
-      alert("Please Enter Bank Details First");
+      toast.warn("Please Enter Bank Details First", { theme: "colored" });
     }
   };
 
@@ -274,7 +276,7 @@ const NewCustomer = () => {
           if (response.data.code === "1000") {
             setPhoneOtp(response.data.otp);
             setSecPhoneCount(60);
-            alert("OTP has been sent your Mobile Number");
+            toast.success("OTP has been sent your Mobile Number", { theme: "colored" });
           }
           setLoading(false);
         })
@@ -282,17 +284,17 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else {
-      alert("Please Enter Phone Number");
+      toast.error("Please Enter Phone Number", { theme: "colored" });
     }
   };
 
   const VerifyPhoneOTP = () => {
     setLoading(true);
     if (phoneOtp === parseInt(enterPhoneOtp)) {
-      alert("Your Phone OTP Verified Successfully");
+      toast.success("Your Phone OTP Verified Successfully", { theme: "colored" });
       setPhoneVerified(true);
     } else {
-      alert("Invalid OTP");
+      toast.error("Invalid OTP", { theme: "colored" });
     }
     setLoading(false);
   };
@@ -327,9 +329,9 @@ const NewCustomer = () => {
   // EMAIL OTP VERIFICATION FUNCTION
   const GetEmailOtp = () => {
     if (!emailId) {
-      alert("Please Enter Email");
+      toast.error("Please Enter Email", { theme: "colored" });
     } else if (!emailId.match(EmailRegex)) {
-      alert("Please Enter Valid Email Id");
+      toast.error("Please Enter Valid Email Id", { theme: "colored" });
     } else {
       setLoading(true);
       const EmailInput = {
@@ -342,7 +344,7 @@ const NewCustomer = () => {
         .then((response) => {
           if ((response.data.code = "1000")) {
             setEmailOtp(response.data.otp);
-            alert("OTP has been sent on your Email");
+            toast.success("OTP has been sent on your Email", { theme: "colored" });
           }
           setSecEmailCount(60);
           setLoading(false);
@@ -356,10 +358,10 @@ const NewCustomer = () => {
   const VerifyEmailOTP = () => {
     setLoading(true);
     if (emailOtp === parseInt(enterEmailOtp)) {
-      alert("Your Email OTP Verified Successfully");
+      toast.success("Your Email OTP Verified Successfully", { theme: "colored" });
       setEmailVerified(true);
     } else {
-      alert("Invalid OTP");
+      toast.error("Invalid OTP", { theme: "colored" });
     }
     setLoading(false);
   };
@@ -379,9 +381,9 @@ const NewCustomer = () => {
       !addressFile ||
       !rsoName
     ) {
-      alert("Please Fill All Form Details");
+      toast.error("Please Fill All Form Details", { theme: "colored" });
     } else if (phoneVerified === false) {
-      alert("Please Complete Phone Number Verification");
+      toast.error("Please Complete Phone Number Verification", { theme: "colored" });
     } else {
       setLoading(true);
       const NewCustomerInputs = {
@@ -435,6 +437,7 @@ const NewCustomer = () => {
     <div>
       {loading === true && <Loader />}
       <Navbar />
+      <ToastContainer />
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading d-flex justify-content-between">
           <b>New Customer Details</b>
@@ -733,7 +736,11 @@ const NewCustomer = () => {
               className="form-control"
               placeholder="Bank Name"
               value={customerBankName}
-              onChange={(e) => setCustomerBankName(e.target.value.toUpperCase())}
+              onChange={(e) => {
+                let bankVal = e.target.value.replace(/[^a-zA-Z]/g, '');
+                setCustomerBankName(bankVal.toUpperCase())
+              }
+              }
             />
           </div>
           <div className="col-md-4">

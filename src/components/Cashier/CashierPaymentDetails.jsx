@@ -766,7 +766,7 @@ const CashierPaymentDetails = () => {
       });
   };
 
-  const CallPaymentAPI = () => {
+  const CallPaymentAPI = (paymentRequestFor) => {
     setLoading(true);
     axios
       .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
@@ -789,7 +789,7 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
-  const SubmitPayment = () => {
+  const SubmitPayment = (paymentRequestFor) => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       UpdateBookingCalendar();
     }
@@ -799,10 +799,10 @@ const CashierPaymentDetails = () => {
       paymentRequestFor === "Payment_PendingFor_RentalReturn"
     ) {
       if (parseFloat(collectedAmount) === TotalAmount) {
-        CallPaymentAPI();
+        CallPaymentAPI(paymentRequestFor);
       } else {
         if (amontHeading === "Amount to be Refunded") {
-          CallPaymentAPI();
+          CallPaymentAPI(paymentRequestFor);
         } else {
           toast.error(amontErrMassage, { theme: "colored" });
         }
@@ -816,9 +816,9 @@ const CashierPaymentDetails = () => {
     } else if (!tnCFileName) {
       toast.error("Please Upload Print File/PDF", { theme: "colored" });
     } else if (!verifiedOtp) {
-      toast.success("Please Verify OTP", { theme: "colored" });
+      toast.error("Please Verify Phone OTP", { theme: "colored" });
     } else {
-      SubmitPayment();
+      SubmitPayment(paymentRequestFor);
     }
   };
   return (
@@ -1144,6 +1144,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
+                      // accept=".png, .jpeg"
                       onChange={(e) => setPrintFile(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadPrintFile}>

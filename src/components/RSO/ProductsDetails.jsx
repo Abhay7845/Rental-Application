@@ -71,7 +71,7 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           setProductDetails(response.data.value); f
         } else if (response.data.code === "1001") {
-          alert("Data Not Found");
+          toast.error("Data Not Found", { theme: "colored" });
         }
         setLoading(false);
       })
@@ -102,7 +102,7 @@ const ProductsDetails = () => {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
         } else if (response.data.code === "1001") {
-          alert("Selected Product is not Available in the Store");
+          toast.warn("Selected Product is not Available in the Store", { theme: "colored", });
         }
         setLoading(false);
         payload.itemCode = "";
@@ -216,7 +216,7 @@ const ProductsDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           GetAddToCartData(storeCode)
-          toast("Product Added To Cart")
+          toast.success("Product Added To Cart", { theme: "colored" })
           setAddtoWishList([]);
           setProductDetails([])
           payload.itemCode = "";
@@ -391,7 +391,7 @@ const ProductsDetails = () => {
 
   const ContinueToBooking = () => {
     if (thresholdLimit < parseInt(SumOfTProductValue())) {
-      alert(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
+      toast(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
     } else {
       setLoading(true);
       axios

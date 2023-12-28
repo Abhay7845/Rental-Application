@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
-import {
-  EmailRegex,
-  ImageHeaders,
-  addressTypeOption,
-  panRegex,
-} from "../../Data/DataList";
+import { EmailRegex, addressTypeOption, panRegex, } from "../../Data/DataList";
 import axios from "axios";
 import { HOST_URL, UploadImg, FetchImg } from "../../API/HostURL";
 import Loader from "../common/Loader";
@@ -115,9 +110,7 @@ const NewCustomer = () => {
       formData.append("ImgName", panCardFileName);
       formData.append("files", choosePan);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(`${UploadImg}`, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -172,9 +165,7 @@ const NewCustomer = () => {
         formData.append("ImgName", fileName);
         formData.append("files", adderessProof[i]);
         axios
-          .post(`${UploadImg}`, formData, {
-            headers: ImageHeaders,
-          })
+          .post(`${UploadImg}`, formData)
           .then((res) => res)
           .then((response) => {
             if (response.data) {
@@ -231,7 +222,7 @@ const NewCustomer = () => {
   };
 
   const UploadBankCheque = () => {
-    if (customerAccountNumber.length > 10) {
+    if (customerAccountNumber.length >= 3) {
       setLoading(true);
       const formData = new FormData();
       const fileEx = bankChequeFile.name.split(".");
@@ -239,9 +230,7 @@ const NewCustomer = () => {
       formData.append("ImgName", fileName);
       formData.append("files", bankChequeFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(`${UploadImg}`, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

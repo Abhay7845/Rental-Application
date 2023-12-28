@@ -3,6 +3,7 @@ import Navbar from "../common/Navbar";
 import AdminSideBar from "../common/AdminSideBar";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import { Field, Form, Formik } from "formik";
+import { ToastContainer, toast } from 'react-toastify';
 import {
   ReportsInitialValue,
   ReportsSchema,
@@ -85,7 +86,7 @@ const SummaryReports = () => {
           setSummaryReports(response.data.value);
         }
         if (response.data.code === "1001") {
-          alert("Sorry! Data Not Available For Entered Inputs");
+          toast.warn("Sorry! Data Not Available For Selected Date & Store Code", { theme: "colored" });
         }
         setLoading(false);
       })
@@ -156,6 +157,7 @@ const SummaryReports = () => {
 
   return (
     <div>
+      <ToastContainer />
       {loading === true && <Loader />}
       <Navbar />
       <div className="DropdownForAdmin">
@@ -493,15 +495,15 @@ const SummaryReports = () => {
                                   <tr key={i}>
                                     <td>
                                       {item.paymentFor ===
-                                      "Payment_PendingFor_RentalReturn"
+                                        "Payment_PendingFor_RentalReturn"
                                         ? "Additional Charge"
                                         : item.paymentFor ===
                                           "Payment_PendingFor_NewBooking"
-                                        ? "Booking Amount"
-                                        : item.paymentFor ===
-                                          "Payment_PendingFor_RentalIssuance"
-                                        ? "Damage Protection Charge"
-                                        : ""}
+                                          ? "Booking Amount"
+                                          : item.paymentFor ===
+                                            "Payment_PendingFor_RentalIssuance"
+                                            ? "Damage Protection Charge"
+                                            : ""}
                                     </td>
                                     <td>{item.paymentType}</td>
                                     <td>{item.txnRefNo}</td>

@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import TableDataDownload from "./TableDataDownload";
 import moment from "moment";
+import { ToastContainer, toast } from 'react-toastify';
 
 const UpdateMasterPrice = () => {
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ const UpdateMasterPrice = () => {
             setCols(response.data.cols);
           }
           if (response.data.code === "1001") {
-            alert("Data not available for this Store Code");
+            toast.warn("Data not available for this Store Code", { theme: "colored", position: "bottom-right", });
           }
           setLoading(false);
         })
@@ -51,7 +52,7 @@ const UpdateMasterPrice = () => {
           setLoading(false);
         });
     } else {
-      alert("Please Enter Store Code");
+      toast.error("Please Enter Store Code", { theme: "colored", position: "bottom-right", });
     }
   };
 
@@ -109,8 +110,8 @@ const UpdateMasterPrice = () => {
   };
   const DeactivateItemsData = () => {
     if (ItemPriceId[0] === undefined) {
-      alert(
-        `"Item PriceId Column" InCorrect/Not Found. Column Name Should be "itemPriceid"`
+      toast.warn(
+        `"Item PriceId Column" InCorrect/Not Found. Column Name Should be "itemPriceid"`, { theme: "colored" }
       );
     } else {
       setLoading(true);
@@ -173,6 +174,7 @@ const UpdateMasterPrice = () => {
   });
   return (
     <div>
+      <ToastContainer />
       {loading === true && <Loader />}
       <Navbar />
       <div className="DropdownForAdmin">

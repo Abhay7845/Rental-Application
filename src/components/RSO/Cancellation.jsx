@@ -10,6 +10,8 @@ import { addressTypeOption } from "../../Data/DataList";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import { ImageHeaders, IMAGE_URL } from "../../Data/DataList";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const Cancellation = () => {
   const [loading, setLoading] = useState(false);
@@ -51,13 +53,7 @@ const Cancellation = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: "Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
+          toast.success("Uploaded Successfully", { theme: "colored" })
         }
       })
       .catch((error) => {
@@ -67,7 +63,7 @@ const Cancellation = () => {
 
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -76,9 +72,7 @@ const Cancellation = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(`${UploadImg}`, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -216,9 +210,9 @@ const Cancellation = () => {
 
   const RaiseCancelBookingRequest = () => {
     if (!rsoName || !cancellationReason) {
-      alert("Please Choose Cancellation Reason & RSO Name");
+      toast.error("Please Choose Cancellation Reason & Enetr RSO Name", { theme: "colored" });
     } else if (cancelCharge < discountAmount) {
-      alert("Discount amount can't be Greater than Cancellation Charges");
+      toast.error("Discount amount can't be Greater than Cancellation Charges", { theme: "colored" });
     } else {
       setLoading(true);
       const CancellationInputs = {
@@ -257,8 +251,9 @@ const Cancellation = () => {
   };
   return (
     <div>
-      {loading === true && <Loader />}
       <Navbar />
+      <ToastContainer />
+      {loading === true && <Loader />}
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3">
@@ -346,6 +341,7 @@ const Cancellation = () => {
                     type="file"
                     id="sameCust"
                     className="form-control"
+                    accept=".png, .jpeg"
                     onChange={(e) => setSameCustFile(e.target.files[0])}
                     disabled={sameCustomer ? true : false}
                   />

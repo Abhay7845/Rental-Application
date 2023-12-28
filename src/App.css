@@ -13,6 +13,7 @@
 .CButton:hover {
   background-color: #025a5a;
 }
+
 .CDisabled {
   padding: 7.5px;
   padding-left: 20px;
@@ -38,6 +39,7 @@
   font-size: 14px;
   cursor: not-allowed;
 }
+
 .CancelButton {
   padding: 7.5px;
   padding-left: 20px;
@@ -53,6 +55,7 @@
 .CancelButton:hover {
   background-color: #ba1818;
 }
+
 /* SELECT DATE */
 .DateSelect {
   width: 100%;
@@ -76,6 +79,7 @@
   cursor: pointer;
   opacity: -1;
 }
+
 tr:hover .DeleteRow {
   opacity: 1;
 }
@@ -84,6 +88,7 @@ tr:hover .DeleteRow {
   width: 20px;
   height: 20px;
 }
+
 .imageStyle:hover {
   position: absolute;
   width: 250px;
@@ -112,14 +117,6 @@ tr:hover .DeleteRow {
   cursor: pointer;
 }
 
-/* AlertStyle CSS */
-.alertStyle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1;
-}
 
 .custom-image {
   height: 60px;

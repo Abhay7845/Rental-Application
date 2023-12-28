@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { HOST_URL } from "../API/HostURL";
 import ShowError from "../Schema/ShowError";
+import { ToastContainer, toast } from 'react-toastify';
 
-const Login = (props) => {
-  const { showAlert } = props;
+
+const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -41,15 +42,15 @@ const Login = (props) => {
               navigate("/cashier/payment");
             }
           } else if (response.data.value.validityStatus === "Invalid user") {
-            showAlert("Please Enter Valid Username and Password", "danger");
+            toast.error("Please Enter Valid Username and Password", { theme: "colored" });
           }
         } else if (response.data.code === "1001") {
-          showAlert("Please Enter Valid Username and Password", "danger");
+          toast.error("Please Enter Valid Username and Password", { theme: "colored" });
         }
         setLoading(false);
       })
       .catch((error) => {
-        showAlert("Please Enter Valid Username and Password", "danger");
+        toast.error("Please Enter Valid Username and Password", { theme: "colored" });
         setLoading(false);
       });
   };
@@ -64,6 +65,7 @@ const Login = (props) => {
 
   return (
     <div>
+      <ToastContainer />
       <div className="col RegisterLeftRight">
         <div className="Form_style">
           <div className="text-center" style={{ color: "#832729" }}>

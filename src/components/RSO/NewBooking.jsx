@@ -4,7 +4,6 @@ import Navbar from "../common/Navbar";
 import moment from "moment";
 import {
   AddedToCartHeaders,
-  ImageHeaders,
   phonePan,
   IMAGE_URL,
 } from "../../Data/DataList";

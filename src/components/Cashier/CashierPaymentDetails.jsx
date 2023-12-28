@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
+import { ToastContainer, toast } from 'react-toastify';
 import {
   ImageHeaders,
   PaymentHeading1,
@@ -379,9 +380,9 @@ const CashierPaymentDetails = () => {
 
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
-      alert("Please Fill All Details");
+      toast.error("Please Fill All Details", { theme: "colored" });
     } else if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
-      alert(amontErrMassage);
+      toast.error(amontErrMassage, { theme: "colored" });
     } else {
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
@@ -473,7 +474,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -483,7 +484,7 @@ const CashierPaymentDetails = () => {
 
   const UploadPaymentFile = () => {
     if (fileUpload.length === 0) {
-      alert("Please Upload Payment Receipt");
+      toast.error("Please Upload Payment Receipt", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -544,10 +545,10 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
-          alert(
-            `OTP has been sent your Register XXXX${paymentDetails.mobileNo.substring(
+          toast.success(
+            `OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(
               6
-            )}`
+            )}`, { theme: "colored" }
           );
         }
         setLoading(false);
@@ -559,10 +560,10 @@ const CashierPaymentDetails = () => {
 
   const VerifyOTP = () => {
     if (parseInt(Otp) === parseInt(inputOtp)) {
-      alert("OTP verified successfully");
+      toast.success("OTP verified successfully", { theme: "colored" });
       setVerifiedOtp(true);
     } else {
-      alert("Invalid OTP");
+      toast.error("Invalid OTP", { theme: "colored" });
     }
   };
 
@@ -586,7 +587,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -595,7 +596,7 @@ const CashierPaymentDetails = () => {
   };
   const UploadPrintFile = () => {
     if (!printFile) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -638,7 +639,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Succesfully");
+          toast.success("Uploaded Succesfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -647,7 +648,7 @@ const CashierPaymentDetails = () => {
   };
   const UploadDeliveryChallan = () => {
     if (deliveryChallan.length === 0) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -688,7 +689,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Succesfully");
+          toast.success("Uploaded Succesfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -697,7 +698,7 @@ const CashierPaymentDetails = () => {
   };
   const UploadLoanCloseFile = () => {
     if (!loanCloseFile) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -803,7 +804,7 @@ const CashierPaymentDetails = () => {
         if (amontHeading === "Amount to be Refunded") {
           CallPaymentAPI();
         } else {
-          alert(amontErrMassage);
+          toast.error(amontErrMassage, { theme: "colored" });
         }
       }
     }
@@ -811,11 +812,11 @@ const CashierPaymentDetails = () => {
 
   const SubmitPaymentDetails = () => {
     if (!cashierName) {
-      alert("Please Enter Cashier Name");
+      toast.error("Please Enter Cashier Name", { theme: "colored" });
     } else if (!tnCFileName) {
-      alert("Please Upload Print File/PDF");
+      toast.error("Please Upload Print File/PDF", { theme: "colored" });
     } else if (!verifiedOtp) {
-      alert("Please Verify OTP");
+      toast.success("Please Verify OTP", { theme: "colored" });
     } else {
       SubmitPayment();
     }
@@ -823,6 +824,7 @@ const CashierPaymentDetails = () => {
   return (
     <div>
       <Navbar />
+      <ToastContainer />
       {loading === true && <Loader />}
       <div className="row g-3 mt-3 mx-0">
         <div className="col-md-10">

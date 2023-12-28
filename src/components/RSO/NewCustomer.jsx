@@ -20,7 +20,7 @@ const NewCustomer = () => {
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
   const phoneNo = localStorage.getItem("serachBookingNo");
-  const storeCode = localStorage.getItem("storeCode");
+  const bookingRefId = localStorage.getItem("BookinTempId");
   const phoneNumber = !phoneNo ? "" : phoneNo;
   const navigate = useNavigate();
 
@@ -34,7 +34,6 @@ const NewCustomer = () => {
   // ADDRESS PROOF
   const [choosePan, setChoosePan] = useState("");
   const [adderessProof, setAdderessProof] = useState([]);
-
 
   // EMAIL ADDRESS  OTP VALIDATION
   const [secEmailCount, setSecEmailCount] = useState(90);
@@ -62,24 +61,9 @@ const NewCustomer = () => {
   const currentDate = new Date();
   const RegDate = moment(currentDate).format("YYYY-MM-DD");
 
-  const BokingTempId = addedCart.map(item => item.tempBookingRef)
-
-  const GetAddToCartData = (storeCode) => {
-    axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
-      if (response.data.code === "1000") {
-        setAddedCart(response.data.value)
-      }
-    }).catch(error => {
-      setLoading(false)
-    })
-  }
-  useEffect(() => {
-    GetAddToCartData(storeCode)
-  }, [storeCode])
-
   const UploadPanDetails = (imgName) => {
     const UplaodPanDetails = {
-      bookingRefId: BokingTempId[0],
+      bookingRefId: bookingRefId,
       contentFor: "customerCreation",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "panCard",
@@ -137,7 +121,7 @@ const NewCustomer = () => {
   };
   const UploadAddressDetails = (imgName, imgData) => {
     const UpdateKarigarQAPdf = {
-      bookingRefId: BokingTempId[0],
+      bookingRefId: bookingRefId,
       contentFor: "customerCreation",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "addressProof",
@@ -150,7 +134,11 @@ const NewCustomer = () => {
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdateKarigarQAPdf)
       .then((res) => res)
-      .then((response) => { })
+      .then((response) => {
+        if (response.data.code === "1000") {
+          toast.success("Uploaded Successfully", { theme: "colored" })
+        }
+      })
       .catch((error) => {
         setLoading(false);
       });
@@ -198,7 +186,7 @@ const NewCustomer = () => {
   };
   const UploadChequeDetails = (imgName) => {
     const UpdateKarigarQAPdf = {
-      bookingRefId: BokingTempId[0],
+      bookingRefId: bookingRefId,
       contentFor: "customerCreation",
       createdDate: moment().format("YYYY-MM-DD"),
       documentType: "cnacelledCheque",

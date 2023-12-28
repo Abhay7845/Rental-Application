@@ -283,13 +283,7 @@ const ProductsDetails = () => {
     axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         GetAddToCartData(storeCode)
-        Swal.fire({
-          title: "Success",
-          text: "Product Removed From Your Cart!",
-          icon: "success",
-          confirmButtonColor: "#008080",
-          confirmButtonText: "OK",
-        });
+        toast.success("Product Removed From Your Cart!", { theme: "colored" })
       }
     }).catch(error => setLoading(false))
   }

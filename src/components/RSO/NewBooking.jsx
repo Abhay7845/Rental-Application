@@ -8,6 +8,7 @@ import {
   phonePan,
   IMAGE_URL,
 } from "../../Data/DataList";
+import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
@@ -92,6 +93,7 @@ const NewBooking = () => {
       .get(`${HOST_URL}/rental/customer/details/mobileNo/${regNumber}`)
       .then((res) => res)
       .then((response) => {
+        console.log("userResponse==>", response.data)
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
         } else if (response.data.code === "1001") {
@@ -110,7 +112,7 @@ const NewBooking = () => {
     } else if (phonePanValue) {
       FetchUDetailsBysearch(phonePanValue)
     } else {
-      alert("Please Enter Your Phone Number!")
+      toast.error("Please Enter Your Phone Number!", { theme: "colored" })
     }
   }
   useEffect(() => {
@@ -195,7 +197,7 @@ const NewBooking = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -203,10 +205,10 @@ const NewBooking = () => {
       });
   };
   const UploadBankCheque = () => {
-    if (customerAccountNumber.length < 10) {
-      alert("Please Enter Valid Bank Details");
+    if (customerAccountNumber.length < 3) {
+      toast.error("Please Enter Valid Bank Details", { theme: "colored" });
     } else if (!cancelledChequeFile) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -215,9 +217,7 @@ const NewBooking = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", cancelledChequeFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(`${UploadImg}`, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -256,7 +256,7 @@ const NewBooking = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -266,7 +266,7 @@ const NewBooking = () => {
 
   const UploadPreTransaction = () => {
     if (tnxFile.length === 0) {
-      alert("Please Upload Transaction File");
+      toast.error("Please Upload Transaction File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -305,7 +305,7 @@ const NewBooking = () => {
       !customerNameAsBank ||
       !cancelChqueFileName
     ) {
-      alert("Please Enter All Details");
+      toast.error("Please Enter All Details", { theme: "colored" });
     } else {
       setLoading(true);
       const UpdateCustDetails = {
@@ -331,12 +331,14 @@ const NewBooking = () => {
         bankIfsc: bankIfsc,
         bankDetailFileName: cancelChqueFileName,
       };
+      console.log("UpdateCustDetails==>", UpdateCustDetails)
       axios
         .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
         .then((res) => res)
         .then((response) => {
+          console.log("responseBank==>", response.data)
           if (response.data.code === "1000") {
-            alert("Account Details has been Updated Successfully");
+            toast.success("Account Details has been Updated Successfully", { theme: "colored" });
             FetchUDetailsBysearch(phonePanValue);
           }
           setLoading(false);
@@ -350,9 +352,9 @@ const NewBooking = () => {
   // BOOKING YUOR PRODUCTS
   const RaiseBookPaymentReq = () => {
     if (!RSOName) {
-      alert("Please Enter RSO Name");
+      toast.error("Please Enter RSO Name", { theme: "colored" });
     } else if (custType !== "New Customer" && transactionFile === "") {
-      alert("Please Upload Previous Transaction File");
+      toast.error("Please Upload Previous Transaction File", { theme: "colored" });
     } else {
       setLoading(true);
       const BookingInputs = {
@@ -401,6 +403,7 @@ const NewBooking = () => {
     axios.get(`${HOST_URL}/delete/item/from/booking/table/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         GetAddToCartData(bookingRefId)
+        toast.success("Product Deleted Successully", { theme: "colored" })
       }
     }).catch(error => setLoading(false))
   }
@@ -431,8 +434,9 @@ const NewBooking = () => {
 
   return (
     <div>
-      {loading === true && <Loader />}
       <Navbar />
+      <ToastContainer />
+      {loading === true && <Loader />}
       <div className="mt-4 mx-2">
         <div className="col-12">
           <h6 className="bookingHeading mx-2">Booking Details</h6>
@@ -719,7 +723,11 @@ const NewBooking = () => {
                   type="text"
                   className="form-control"
                   placeholder="Bank Name"
-                  onChange={(e) => setCustomerBankName(e.target.value)}
+                  value={customerBankName}
+                  onChange={(e) => {
+                    let bankVal = e.target.value.replace(/[^a-zA-Z]/g, '');
+                    setCustomerBankName(bankVal.toUpperCase())
+                  }}
                 />
               </div>
               <div className="col-md-6">

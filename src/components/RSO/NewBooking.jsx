@@ -93,7 +93,6 @@ const NewBooking = () => {
       .get(`${HOST_URL}/rental/customer/details/mobileNo/${regNumber}`)
       .then((res) => res)
       .then((response) => {
-        console.log("userResponse==>", response.data)
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
         } else if (response.data.code === "1001") {
@@ -275,9 +274,7 @@ const NewBooking = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", tnxFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(`${UploadImg}`, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -331,12 +328,10 @@ const NewBooking = () => {
         bankIfsc: bankIfsc,
         bankDetailFileName: cancelChqueFileName,
       };
-      console.log("UpdateCustDetails==>", UpdateCustDetails)
       axios
         .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
         .then((res) => res)
         .then((response) => {
-          console.log("responseBank==>", response.data)
           if (response.data.code === "1000") {
             toast.success("Account Details has been Updated Successfully", { theme: "colored" });
             FetchUDetailsBysearch(phonePanValue);
@@ -403,7 +398,7 @@ const NewBooking = () => {
     axios.get(`${HOST_URL}/delete/item/from/booking/table/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         GetAddToCartData(bookingRefId)
-        toast.success("Product Deleted Successully", { theme: "colored" })
+        toast.success("Product Deleted Successfully", { theme: "colored" })
       }
     }).catch(error => setLoading(false))
   }

@@ -6,6 +6,7 @@ import {
   constomerType,
   packageDayOption,
 } from "../../Data/DataList";
+import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
@@ -215,6 +216,7 @@ const ProductsDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           GetAddToCartData(storeCode)
+          toast("Product Added To Cart")
           setAddtoWishList([]);
           setProductDetails([])
           payload.itemCode = "";
@@ -415,6 +417,7 @@ const ProductsDetails = () => {
   return (
     <div>
       <Navbar />
+      <ToastContainer />
       {loading === true && <Loader />}
       <div className="row g-3 mx-0 mt-3">
         <Formik

@@ -5,11 +5,7 @@ import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { toast } from 'react-toastify';
-import {
-  ImageHeaders,
-  PaymentHeading1,
-  PaymentHeading2,
-} from "../../Data/DataList";
+import { PaymentHeading1, PaymentHeading2 } from "../../Data/DataList";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment/moment";
@@ -494,9 +490,7 @@ const CashierPaymentDetails = () => {
       formData.append("ImgName", UploadFileName);
       formData.append("files", fileUpload);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -606,9 +600,7 @@ const CashierPaymentDetails = () => {
       formData.append("ImgName", printFileName);
       formData.append("files", printFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -657,9 +649,7 @@ const CashierPaymentDetails = () => {
       formData.append("ImgName", deliveryChallanFile);
       formData.append("files", deliveryChallan);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -708,9 +698,7 @@ const CashierPaymentDetails = () => {
       formData.append("ImgName", fileName);
       formData.append("files", loanCloseFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

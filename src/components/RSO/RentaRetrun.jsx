@@ -16,6 +16,8 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import KarigarQAReturnPdf from "../Pdf/KarigarQAReturnPdf";
 import AcknowledgementRetunr from "../Pdf/AcknowledgementRetunr";
+import { toast } from 'react-toastify';
+
 
 const RentalReturn = () => {
   const [loading, setLoading] = useState(false);
@@ -233,13 +235,7 @@ const RentalReturn = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: "Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
+          toast.success("Uploaded Successfuly", { theme: "colored" })
         }
       })
       .catch((error) => {
@@ -248,7 +244,7 @@ const RentalReturn = () => {
   };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -298,7 +294,7 @@ const RentalReturn = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -308,7 +304,7 @@ const RentalReturn = () => {
   // UPLOAD KARIGAR QA REPORT ID
   const karigarAQFile = () => {
     if (karigarQAFile.length === 0) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -564,7 +560,7 @@ const RentalReturn = () => {
   const ValidateInsertData = () => {
     if (FactoryQA.includes("FactoryQA")) {
       if (!RSOName || karigarQAFile.length === 0) {
-        alert("Please Upload Print File & Enter RSO Name");
+        toast.error("Please Upload Print File & Enter RSO Name", { theme: "colored" });
       } else {
         InsertReturnTableData(inputRtnValues);
         UpdateBookingCalendar(GetReturnProduct.bookingID);
@@ -575,7 +571,7 @@ const RentalReturn = () => {
         karigarQAFile.length === 0 ||
         inputRtnValues.length === 0
       ) {
-        alert("Please Enter Actual wt Return, Upload Print File & RSO Name");
+        toast.error("Please Enter Actual wt Return, Upload Print File & RSO Name", { theme: "colored" });
       } else {
         InsertReturnTableData(inputRtnValues);
       }

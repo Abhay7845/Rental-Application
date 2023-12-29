@@ -142,7 +142,11 @@ const RentalIssue = () => {
     axios
       .post(`${HOST_URL}/insert/image/details`, UpdItemWiseInputs)
       .then((res) => res)
-      .then((response) => { })
+      .then((response) => {
+        if (response.data.code === "1000") {
+          toast.success("Uploaded Successfuly", { theme: "colored" })
+        }
+      })
       .catch((error) => {
         setLoading(false);
       });
@@ -208,14 +212,38 @@ const RentalIssue = () => {
     FetchExistedCustDetails(mobileNo);
   }, [mobileNo]);
 
+  const UploadIDDetails = (imgName) => {
+    const IdDetailsInput = {
+      bookingRefId: GetReturnProduct.refId,
+      contentFor: "rentalCancellation",
+      createdDate: moment().format("YYYY-MM-DD"),
+      documentType: "userIdProof",
+      fileName: imgName,
+      fileSize: `${sameCustFile.size}`,
+      fileType: `${sameCustFile.type}`,
+      fileURL: `${FetchImg}${imgName}`,
+      updatedDate: null,
+    };
+    axios
+      .post(`${HOST_URL}/insert/image/details`, IdDetailsInput)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          toast.success("Uploaded Successfully", { theme: "colored" })
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
       const fileEx = sameCustFile.name.split(".");
-      const fileExtention = `${customerAccountNumber}${currentDate}.${fileEx[1]}`;
+      const fileExtention = `${sameCustIDNo}-${bookingDate}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
@@ -225,6 +253,7 @@ const RentalIssue = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data) {
+            UploadIDDetails(fileExtention);
             const reader = new FileReader();
             reader.onloadend = () => {
               setSameCustFileUrl(reader.result);
@@ -233,7 +262,6 @@ const RentalIssue = () => {
             if (sameCustFile) {
               reader.readAsDataURL(sameCustFile);
             }
-            alert("Uploaded Successfully");
           }
           setLoading(false);
         })
@@ -259,13 +287,7 @@ const RentalIssue = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          Swal.fire({
-            title: "Success",
-            text: "Uploaded Successfully",
-            icon: "success",
-            confirmButtonColor: "#008080",
-            confirmButtonText: "OK",
-          });
+          toast.success("Uploaded Successfully", { theme: "colored" })
         }
       })
       .catch((error) => {
@@ -281,7 +303,7 @@ const RentalIssue = () => {
       setLoading(true);
       const formData = new FormData();
       const fileEx = cancelledChequeFile.name.split(".");
-      const fileExtention = `${customerAccountNumber}.${fileEx[1]}`;
+      const fileExtention = `${customerAccountNumber}-${bookingDate}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", cancelledChequeFile);
       axios
@@ -316,7 +338,7 @@ const RentalIssue = () => {
       !customerNameAsBank ||
       !cancelChqueFileName
     ) {
-      alert("Please Enter All Details");
+      toast.error("Please Enter All Details", { theme: "colored" });
     } else {
       setLoading(true);
       const UpdateCustDetails = {
@@ -348,7 +370,7 @@ const RentalIssue = () => {
         .then((response) => {
           if (response.data.code === "1000") {
             FetchExistedCustDetails(mobileNo);
-            alert("Account Details has been Updated Successfully");
+            toast.success("Account Details has been Updated Successfully", { theme: "colored" });
           }
           setLoading(false);
         })
@@ -376,7 +398,7 @@ const RentalIssue = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setKarigarQAFileName(QAFilepdf);
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
           setKarigarQAFile([]);
         }
       })
@@ -387,7 +409,7 @@ const RentalIssue = () => {
 
   const UploadKarigarQA = () => {
     if (karigarQAFile.length === 0) {
-      alert("Please Upload Karigar QA Report");
+      toast.error("Please Upload Karigar QA Report", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -436,7 +458,7 @@ const RentalIssue = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
           setKarateMtrFile([]);
         }
       })
@@ -446,7 +468,7 @@ const RentalIssue = () => {
   };
   const UploadKarateMtr = () => {
     if (karateMtrFile.length === 0) {
-      alert("Please Upload Karate Meter Report");
+      toast.error("Please Upload Karate Meter Report", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -575,7 +597,7 @@ const RentalIssue = () => {
       inputValues.length === 0 ||
       productFileName.length <= 0
     ) {
-      alert("Please Enter Product Actual Wt, Uplaod Files & RSO Name");
+      toast.error("Please Enter Product Actual Wt, Uplaod Files & RSO Name", { theme: "colored" });
     } else if (
       !existedUserData.customerAccountNumber ||
       !existedUserData.bankIfsc
@@ -589,7 +611,7 @@ const RentalIssue = () => {
       });
     } else {
       if (thresholdLimit < outstandingData) {
-        alert(thresholdmsg);
+        toast.warn(thresholdmsg, { theme: 'colored' });
       } else {
         setLoading(true);
         const RaiseDepositValue = {
@@ -716,6 +738,7 @@ const RentalIssue = () => {
                   <input
                     type="file"
                     id="sameCust"
+                    accept=".png, .jpeg"
                     className="form-control"
                     onChange={(e) => setSameCustFile(e.target.files[0])}
                     disabled={sameCustomer ? true : false}
@@ -1010,7 +1033,10 @@ const RentalIssue = () => {
                   className="form-control"
                   placeholder="Bank Name"
                   value={customerBankName}
-                  onChange={(e) => setCustomerBankName(e.target.value.toUpperCase())}
+                  onChange={(e) => {
+                    let bankVal = e.target.value.replace(/[^a-zA-Z]/g, '');
+                    setCustomerBankName(bankVal.toUpperCase())
+                  }}
                 />
               </div>
               <div className="col-md-6">
@@ -1059,6 +1085,7 @@ const RentalIssue = () => {
                 <input
                   type="file"
                   className="form-control"
+                  accept=".png, .jpeg"
                   onChange={(e) => setCancelledChequeFile(e.target.files[0])}
                   id="chequeBook"
                 />

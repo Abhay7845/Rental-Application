@@ -157,7 +157,6 @@ const SummaryReports = () => {
 
   return (
     <div>
-      <ToastContainer />
       {loading === true && <Loader />}
       <Navbar />
       <div className="DropdownForAdmin">

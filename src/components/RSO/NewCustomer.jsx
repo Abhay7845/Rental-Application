@@ -94,7 +94,7 @@ const NewCustomer = () => {
       formData.append("ImgName", panCardFileName);
       formData.append("files", choosePan);
       axios
-        .post(`${UploadImg}`, formData)
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -153,7 +153,7 @@ const NewCustomer = () => {
         formData.append("ImgName", fileName);
         formData.append("files", adderessProof[i]);
         axios
-          .post(`${UploadImg}`, formData)
+          .post(UploadImg, formData)
           .then((res) => res)
           .then((response) => {
             if (response.data) {
@@ -218,7 +218,7 @@ const NewCustomer = () => {
       formData.append("ImgName", fileName);
       formData.append("files", bankChequeFile);
       axios
-        .post(`${UploadImg}`, formData)
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

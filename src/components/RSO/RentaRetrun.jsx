@@ -4,12 +4,7 @@ import "../../Style/RentalIssue.css";
 import moment from "moment";
 import axios from "axios";
 import Loader from "../common/Loader";
-import {
-  renatlReturnPage,
-  addressTypeOption,
-  ImageHeaders,
-  IMAGE_URL,
-} from "../../Data/DataList";
+import { renatlReturnPage, addressTypeOption, IMAGE_URL, } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
@@ -253,9 +248,7 @@ const RentalReturn = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -313,9 +306,7 @@ const RentalReturn = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", karigarQAFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

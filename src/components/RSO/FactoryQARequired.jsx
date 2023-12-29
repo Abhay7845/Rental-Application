@@ -4,7 +4,7 @@ import "../../Style/RentalIssue.css";
 import moment from "moment";
 import axios from "axios";
 import Loader from "../common/Loader";
-import { IMAGE_URL, ImageHeaders, factoryQAPage } from "../../Data/DataList";
+import { IMAGE_URL, factoryQAPage } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
@@ -171,9 +171,7 @@ const FactoryQARequired = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", factoryQAFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

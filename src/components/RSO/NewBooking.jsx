@@ -215,7 +215,7 @@ const NewBooking = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", cancelledChequeFile);
       axios
-        .post(`${UploadImg}`, formData)
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -273,7 +273,7 @@ const NewBooking = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", tnxFile);
       axios
-        .post(`${UploadImg}`, formData)
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

@@ -72,7 +72,7 @@ const Cancellation = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
-        .post(`${UploadImg}`, formData)
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

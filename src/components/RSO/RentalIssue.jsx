@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
-import {
-  ImageHeaders,
-  rentalIssuePage,
-  addressTypeOption,
-  IMAGE_URL,
-} from "../../Data/DataList";
+import { rentalIssuePage, addressTypeOption, IMAGE_URL } from "../../Data/DataList";
 import { toast } from 'react-toastify';
 import moment from "moment";
 import axios from "axios";
@@ -162,9 +157,7 @@ const RentalIssue = () => {
       formData.append("ImgName", productFile);
       formData.append("files", pdtIdImg);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -247,9 +240,7 @@ const RentalIssue = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -307,9 +298,7 @@ const RentalIssue = () => {
       formData.append("ImgName", fileExtention);
       formData.append("files", cancelledChequeFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -418,9 +407,7 @@ const RentalIssue = () => {
       formData.append("ImgName", QAFilepdf);
       formData.append("files", karigarQAFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -478,9 +465,7 @@ const RentalIssue = () => {
       formData.append("ImgName", karateMtr);
       formData.append("files", karateMtrFile);
       axios
-        .post(`${UploadImg}`, formData, {
-          headers: ImageHeaders,
-        })
+        .post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {

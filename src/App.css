@@ -73,15 +73,12 @@
 
 .DeleteRow {
   color: #d30e0e;
-  font-size: 15px;
-  margin-top: 3px;
-  margin-right: 4px;
   cursor: pointer;
-  opacity: -1;
 }
 
-tr:hover .DeleteRow {
-  opacity: 1;
+.DeleteRSelect {
+  color: #ea4848;
+  cursor: not-allowed;
 }
 
 .imageStyle {

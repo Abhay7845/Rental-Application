@@ -20,6 +20,7 @@ import ShowError from "../../Schema/ShowError";
 import { IMAGE_URL } from "../../Data/DataList";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import Tippy from "@tippyjs/react";
 
 const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
@@ -70,7 +71,7 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           setProductDetails(response.data.value); f
         } else if (response.data.code === "1001") {
-          toast.error("Data Not Found", { theme: "colored" });
+          toast.warn("Data Not Found", { theme: "colored" });
         }
         setLoading(false);
       })
@@ -634,9 +635,8 @@ const ProductsDetails = () => {
                       </td>
                       <td>
                         <BsFillTrashFill
-                          className="text-danger"
+                          className="DeleteRow"
                           onClick={() => DeleteProduct(item)}
-                          cursor="pointer"
                         />
                       </td>
                     </tr>

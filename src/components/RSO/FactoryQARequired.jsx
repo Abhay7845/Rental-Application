@@ -9,6 +9,8 @@ import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+
 
 const FactoryQARequired = () => {
   const [loading, setLoading] = useState(false);
@@ -152,7 +154,7 @@ const FactoryQARequired = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          alert("Uploaded Successfully");
+          toast.success("Uploaded Successfully", { theme: "colored" });
         }
       })
       .catch((error) => {
@@ -162,7 +164,7 @@ const FactoryQARequired = () => {
   // UPLOAD KARIGAR QA REPORT ID
   const FactoryAQFile = () => {
     if (factoryQAFile.length === 0) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -265,7 +267,7 @@ const FactoryQARequired = () => {
 
   const RaisePaymentRequest = () => {
     if (!factoryQAFile) {
-      alert("Please Uplaod Factory QA Reports");
+      toast.error("Please Uplaod Factory QA Reports", { theme: "colored" });
     } else {
       setLoading(true);
       const ItemWiseInpute = returnTableData.map((data, i) => {
@@ -429,6 +431,7 @@ const FactoryQARequired = () => {
             </label>
             <input
               type="file"
+              accept=".png, .jpeg"
               id="KarigrQAid"
               className="form-control"
               onChange={(e) => setFactoryQAFile(e.target.files[0])}

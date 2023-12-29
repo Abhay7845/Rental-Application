@@ -184,7 +184,6 @@ const ProductsDetails = () => {
   const GetAddToCartData = (storeCode) => {
     setLoading(true)
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
-      console.log("responseCart==>", response.data)
       if (response.data.code === "1000") {
         setAddedProducts(response.data.value)
       } else if (response.data.code === "1001") {
@@ -282,9 +281,7 @@ const ProductsDetails = () => {
 
   const DeleteIteamCanlendar = (data) => {
     const { pdtId, tempBookingRef } = data;
-    console.log("data==>", data)
     axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
-      console.log("response==>", response.data)
       if (response.data.code === "1000") {
         GetAddToCartData(storeCode)
         toast.success("Product Removed From Your Cart!", { theme: "colored", autoClose: 1000 })

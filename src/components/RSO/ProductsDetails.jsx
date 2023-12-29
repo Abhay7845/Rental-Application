@@ -20,7 +20,6 @@ import ShowError from "../../Schema/ShowError";
 import { IMAGE_URL } from "../../Data/DataList";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import Tippy from "@tippyjs/react";
 
 const ProductsDetails = () => {
   const storeCode = localStorage.getItem("storeCode");
@@ -71,7 +70,7 @@ const ProductsDetails = () => {
         if (response.data.code === "1000") {
           setProductDetails(response.data.value); f
         } else if (response.data.code === "1001") {
-          toast.warn("Data Not Found", { theme: "colored" });
+          toast.warn("Data Not Found", { theme: "colored", autoClose: 2000 });
         }
         setLoading(false);
       })
@@ -102,7 +101,7 @@ const ProductsDetails = () => {
           GetProductDetails(payload, response.data.value[0]);
           setChekeAvaiblity(response.data.value);
         } else if (response.data.code === "1001") {
-          toast.warn("Selected Product is not Available in the Store", { theme: "colored", });
+          toast.warn("Selected Product is not Available in the Store", { theme: "colored", autoClose: 2000 });
         }
         setLoading(false);
         payload.itemCode = "";
@@ -185,8 +184,11 @@ const ProductsDetails = () => {
   const GetAddToCartData = (storeCode) => {
     setLoading(true)
     axios.get(`${HOST_URL}/store/cart/item/view/${storeCode}`).then(res => res).then(response => {
+      console.log("responseCart==>", response.data)
       if (response.data.code === "1000") {
         setAddedProducts(response.data.value)
+      } else if (response.data.code === "1001") {
+        setAddedProducts([])
       }
       setLoading(false);
     }).catch(error => {
@@ -216,7 +218,7 @@ const ProductsDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           GetAddToCartData(storeCode)
-          toast.success("Product Added To Cart", { theme: "colored" })
+          toast.success("Product Added To Cart", { theme: "colored", autoClose: 1000 })
           setAddtoWishList([]);
           setProductDetails([])
           payload.itemCode = "";
@@ -280,10 +282,12 @@ const ProductsDetails = () => {
 
   const DeleteIteamCanlendar = (data) => {
     const { pdtId, tempBookingRef } = data;
+    console.log("data==>", data)
     axios.get(`${HOST_URL}/delete/item/booking/calendar/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
+      console.log("response==>", response.data)
       if (response.data.code === "1000") {
         GetAddToCartData(storeCode)
-        toast.success("Product Removed From Your Cart!", { theme: "colored" })
+        toast.success("Product Removed From Your Cart!", { theme: "colored", autoClose: 1000 })
       }
     }).catch(error => setLoading(false))
   }

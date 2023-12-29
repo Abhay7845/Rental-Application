@@ -41,15 +41,15 @@ const Login = () => {
               navigate("/cashier/payment");
             }
           } else if (response.data.value.validityStatus === "Invalid user") {
-            toast.error("Please Enter Valid Username and Password", { theme: "colored" });
+            toast.error("Please Enter Valid Username and Password", { theme: "colored", autoClose: 3000 });
           }
         } else if (response.data.code === "1001") {
-          toast.error("Please Enter Valid Username and Password", { theme: "colored" });
+          toast.error("Please Enter Valid Username and Password", { theme: "colored", autoClose: 3000 });
         }
         setLoading(false);
       })
       .catch((error) => {
-        toast.error("Please Enter Valid Username and Password", { theme: "colored" });
+        toast.error("Please Enter Valid Username and Password", { theme: "colored", autoClose: 3000 });
         setLoading(false);
       });
   };

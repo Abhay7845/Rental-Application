@@ -139,7 +139,7 @@ const RentalIssue = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfuly", { theme: "colored" })
+          toast.success("Uploaded Successfuly", { theme: "colored", autoClose: 1000 })
         }
       })
       .catch((error) => {
@@ -222,7 +222,7 @@ const RentalIssue = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" })
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
       .catch((error) => {
@@ -231,7 +231,7 @@ const RentalIssue = () => {
   };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -278,7 +278,7 @@ const RentalIssue = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" })
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
       .catch((error) => {
@@ -287,9 +287,9 @@ const RentalIssue = () => {
   };
   const UploadBankCheque = () => {
     if (customerAccountNumber.length < 10) {
-      toast.error("Please Enter Valid Bank Details", { theme: "colored" });
+      toast.error("Please Enter Valid Bank Details", { theme: "colored", autoClose: 3000 });
     } else if (!cancelledChequeFile) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -327,7 +327,7 @@ const RentalIssue = () => {
       !customerNameAsBank ||
       !cancelChqueFileName
     ) {
-      toast.error("Please Enter All Details", { theme: "colored" });
+      toast.error("Please Enter All Details", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const UpdateCustDetails = {
@@ -359,7 +359,7 @@ const RentalIssue = () => {
         .then((response) => {
           if (response.data.code === "1000") {
             FetchExistedCustDetails(mobileNo);
-            toast.success("Account Details has been Updated Successfully", { theme: "colored" });
+            toast.success("Account Details has been Updated Successfully", { theme: "colored", autoClose: 1000 });
           }
           setLoading(false);
         })
@@ -387,7 +387,7 @@ const RentalIssue = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setKarigarQAFileName(QAFilepdf);
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
           setKarigarQAFile([]);
         }
       })
@@ -398,7 +398,7 @@ const RentalIssue = () => {
 
   const UploadKarigarQA = () => {
     if (karigarQAFile.length === 0) {
-      toast.error("Please Upload Karigar QA Report", { theme: "colored" });
+      toast.error("Please Upload Karigar QA Report", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -445,7 +445,7 @@ const RentalIssue = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
           setKarateMtrFile([]);
         }
       })
@@ -455,7 +455,7 @@ const RentalIssue = () => {
   };
   const UploadKarateMtr = () => {
     if (karateMtrFile.length === 0) {
-      toast.error("Please Upload Karate Meter Report", { theme: "colored" });
+      toast.error("Please Upload Karate Meter Report", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -582,7 +582,7 @@ const RentalIssue = () => {
       inputValues.length === 0 ||
       productFileName.length <= 0
     ) {
-      toast.error("Please Enter Product Actual Wt, Uplaod Files & RSO Name", { theme: "colored" });
+      toast.error("Please Enter Product Actual Wt, Uplaod Files & RSO Name", { theme: "colored", autoClose: 3000 });
     } else if (
       !existedUserData.customerAccountNumber ||
       !existedUserData.bankIfsc
@@ -596,7 +596,7 @@ const RentalIssue = () => {
       });
     } else {
       if (thresholdLimit < outstandingData) {
-        toast.warn(thresholdmsg, { theme: 'colored' });
+        toast.warn(thresholdmsg, { theme: 'colored', autoClose: 2000 });
       } else {
         setLoading(true);
         const RaiseDepositValue = {

@@ -376,9 +376,9 @@ const CashierPaymentDetails = () => {
 
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
-      toast.error("Please Fill All Details", { theme: "colored" });
+      toast.error("Please Fill All Details", { theme: "colored", autoClose: 3000 });
     } else if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
-      toast.error(amontErrMassage, { theme: "colored" });
+      toast.error(amontErrMassage, { theme: "colored", autoClose: 3000 });
     } else {
       setPaymentRowId(paymentRowId + 1);
       const savePaymentDetails = {
@@ -470,7 +470,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -480,7 +480,7 @@ const CashierPaymentDetails = () => {
 
   const UploadPaymentFile = () => {
     if (fileUpload.length === 0) {
-      toast.error("Please Upload Payment Receipt", { theme: "colored" });
+      toast.error("Please Upload Payment Receipt", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -542,7 +542,7 @@ const CashierPaymentDetails = () => {
           toast.success(
             `OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(
               6
-            )}`, { theme: "colored" }
+            )}`, { theme: "colored", autoClose: 1000 }
           );
         }
         setLoading(false);
@@ -554,10 +554,10 @@ const CashierPaymentDetails = () => {
 
   const VerifyOTP = () => {
     if (parseInt(Otp) === parseInt(inputOtp)) {
-      toast.success("OTP verified successfully", { theme: "colored" });
+      toast.success("OTP verified successfully", { theme: "colored", autoClose: 1000 });
       setVerifiedOtp(true);
     } else {
-      toast.error("Invalid OTP", { theme: "colored" });
+      toast.error("Invalid OTP", { theme: "colored", autoClose: 3000 });
     }
   };
 
@@ -581,7 +581,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -590,7 +590,7 @@ const CashierPaymentDetails = () => {
   };
   const UploadPrintFile = () => {
     if (!printFile) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -631,7 +631,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Succesfully", { theme: "colored" });
+          toast.success("Uploaded Succesfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -640,7 +640,7 @@ const CashierPaymentDetails = () => {
   };
   const UploadDeliveryChallan = () => {
     if (deliveryChallan.length === 0) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -679,7 +679,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Succesfully", { theme: "colored" });
+          toast.success("Uploaded Succesfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -688,7 +688,7 @@ const CashierPaymentDetails = () => {
   };
   const UploadLoanCloseFile = () => {
     if (!loanCloseFile) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -792,7 +792,7 @@ const CashierPaymentDetails = () => {
         if (amontHeading === "Amount to be Refunded") {
           CallPaymentAPI(paymentRequestFor);
         } else {
-          toast.error(amontErrMassage, { theme: "colored" });
+          toast.error(amontErrMassage, { theme: "colored", autoClose: 3000 });
         }
       }
     }
@@ -800,11 +800,11 @@ const CashierPaymentDetails = () => {
 
   const SubmitPaymentDetails = () => {
     if (!cashierName) {
-      toast.error("Please Enter Cashier Name", { theme: "colored" });
+      toast.error("Please Enter Cashier Name", { theme: "colored", autoClose: 3000 });
     } else if (!tnCFileName) {
-      toast.error("Please Upload Print File/PDF", { theme: "colored" });
+      toast.error("Please Upload Print File/PDF", { theme: "colored", autoClose: 3000 });
     } else if (!verifiedOtp) {
-      toast.error("Please Verify Phone OTP", { theme: "colored" });
+      toast.error("Please Verify Phone OTP", { theme: "colored", autoClose: 3000 });
     } else {
       SubmitPayment(paymentRequestFor);
     }

@@ -110,7 +110,7 @@ const NewBooking = () => {
     } else if (phonePanValue) {
       FetchUDetailsBysearch(phonePanValue)
     } else {
-      toast.error("Please Enter Your Phone Number!", { theme: "colored" })
+      toast.error("Please Enter Your Phone Number!", { theme: "colored", autoClose: 3000 })
     }
   }
   useEffect(() => {
@@ -195,7 +195,7 @@ const NewBooking = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -204,9 +204,9 @@ const NewBooking = () => {
   };
   const UploadBankCheque = () => {
     if (customerAccountNumber.length < 3) {
-      toast.error("Please Enter Valid Bank Details", { theme: "colored" });
+      toast.error("Please Enter Valid Bank Details", { theme: "colored", autoClose: 3000 });
     } else if (!cancelledChequeFile) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -254,7 +254,7 @@ const NewBooking = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -264,7 +264,7 @@ const NewBooking = () => {
 
   const UploadPreTransaction = () => {
     if (tnxFile.length === 0) {
-      toast.error("Please Upload Transaction File", { theme: "colored" });
+      toast.error("Please Upload Transaction File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -301,7 +301,7 @@ const NewBooking = () => {
       !customerNameAsBank ||
       !cancelChqueFileName
     ) {
-      toast.error("Please Enter All Details", { theme: "colored" });
+      toast.error("Please Enter All Details", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const UpdateCustDetails = {
@@ -332,7 +332,7 @@ const NewBooking = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
-            toast.success("Account Details has been Updated Successfully", { theme: "colored" });
+            toast.success("Account Details has been Updated Successfully", { theme: "colored", autoClose: 1000 });
             FetchUDetailsBysearch(phonePanValue);
           }
           setLoading(false);
@@ -346,9 +346,9 @@ const NewBooking = () => {
   // BOOKING YUOR PRODUCTS
   const RaiseBookPaymentReq = () => {
     if (!RSOName) {
-      toast.error("Please Enter RSO Name", { theme: "colored" });
+      toast.error("Please Enter RSO Name", { theme: "colored", autoClose: 3000 });
     } else if (custType !== "New Customer" && transactionFile === "") {
-      toast.error("Please Upload Previous Transaction File", { theme: "colored" });
+      toast.error("Please Upload Previous Transaction File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const BookingInputs = {
@@ -397,7 +397,7 @@ const NewBooking = () => {
     axios.get(`${HOST_URL}/delete/item/from/booking/table/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
         GetAddToCartData(bookingRefId)
-        toast.success("Product Deleted Successfully", { theme: "colored" })
+        toast.success("Product Deleted Successfully", { theme: "colored", autoClose: 1000 })
       }
     }).catch(error => setLoading(false))
   }

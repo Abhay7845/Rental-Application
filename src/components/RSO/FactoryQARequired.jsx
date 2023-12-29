@@ -154,7 +154,7 @@ const FactoryQARequired = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -164,7 +164,7 @@ const FactoryQARequired = () => {
   // UPLOAD KARIGAR QA REPORT ID
   const FactoryAQFile = () => {
     if (factoryQAFile.length === 0) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -267,7 +267,7 @@ const FactoryQARequired = () => {
 
   const RaisePaymentRequest = () => {
     if (!factoryQAFile) {
-      toast.error("Please Uplaod Factory QA Reports", { theme: "colored" });
+      toast.error("Please Uplaod Factory QA Reports", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const ItemWiseInpute = returnTableData.map((data, i) => {

@@ -230,7 +230,7 @@ const RentalReturn = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfuly", { theme: "colored" })
+          toast.success("Uploaded Successfuly", { theme: "colored", autoClose: 1000 })
         }
       })
       .catch((error) => {
@@ -239,7 +239,7 @@ const RentalReturn = () => {
   };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -287,7 +287,7 @@ const RentalReturn = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -297,7 +297,7 @@ const RentalReturn = () => {
   // UPLOAD KARIGAR QA REPORT ID
   const karigarAQFile = () => {
     if (karigarQAFile.length === 0) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -551,7 +551,7 @@ const RentalReturn = () => {
   const ValidateInsertData = () => {
     if (FactoryQA.includes("FactoryQA")) {
       if (!RSOName || karigarQAFile.length === 0) {
-        toast.error("Please Upload Print File & Enter RSO Name", { theme: "colored" });
+        toast.error("Please Upload Print File & Enter RSO Name", { theme: "colored", autoClose: 3000 });
       } else {
         InsertReturnTableData(inputRtnValues);
         UpdateBookingCalendar(GetReturnProduct.bookingID);
@@ -562,7 +562,7 @@ const RentalReturn = () => {
         karigarQAFile.length === 0 ||
         inputRtnValues.length === 0
       ) {
-        toast.error("Please Enter Actual wt Return, Upload Print File & RSO Name", { theme: "colored" });
+        toast.error("Please Enter Actual wt Return, Upload Print File & RSO Name", { theme: "colored", autoClose: 3000 });
       } else {
         InsertReturnTableData(inputRtnValues);
       }

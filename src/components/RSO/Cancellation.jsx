@@ -53,7 +53,7 @@ const Cancellation = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" })
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
       .catch((error) => {
@@ -63,7 +63,7 @@ const Cancellation = () => {
 
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
-      toast.error("Please Choose File", { theme: "colored" });
+      toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -210,9 +210,9 @@ const Cancellation = () => {
 
   const RaiseCancelBookingRequest = () => {
     if (!rsoName || !cancellationReason) {
-      toast.error("Please Choose Cancellation Reason & Enetr RSO Name", { theme: "colored" });
+      toast.error("Please Choose Cancellation Reason & Enetr RSO Name", { theme: "colored", autoClose: 3000 });
     } else if (cancelCharge < discountAmount) {
-      toast.error("Discount amount can't be Greater than Cancellation Charges", { theme: "colored" });
+      toast.error("Discount amount can't be Greater than Cancellation Charges", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const CancellationInputs = {

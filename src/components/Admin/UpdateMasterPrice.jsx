@@ -44,7 +44,7 @@ const UpdateMasterPrice = () => {
             setCols(response.data.cols);
           }
           if (response.data.code === "1001") {
-            toast.warn("Data not available for this Store Code", { theme: "colored", position: "bottom-right", });
+            toast.warn("Data not available for this Store Code", { theme: "colored", position: "bottom-right", autoClose: 2000 });
           }
           setLoading(false);
         })
@@ -52,7 +52,7 @@ const UpdateMasterPrice = () => {
           setLoading(false);
         });
     } else {
-      toast.error("Please Enter Store Code", { theme: "colored", position: "bottom-right", });
+      toast.error("Please Enter Store Code", { theme: "colored", position: "bottom-right", autoClose: 3000 });
     }
   };
 
@@ -111,7 +111,7 @@ const UpdateMasterPrice = () => {
   const DeactivateItemsData = () => {
     if (ItemPriceId[0] === undefined) {
       toast.warn(
-        `"Item PriceId Column" InCorrect/Not Found. Column Name Should be "itemPriceid"`, { theme: "colored" }
+        `"Item PriceId Column" InCorrect/Not Found. Column Name Should be "itemPriceid"`, { theme: "colored", autoClose: 2000 }
       );
     } else {
       setLoading(true);

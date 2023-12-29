@@ -221,7 +221,7 @@ const ServiceIvoicePdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-top:35mm;
+              margin-top:30mm;
               margin-bottom:48mm;
             }
           `}
@@ -467,7 +467,7 @@ const ServiceIvoicePdf = (props) => {
                             <th>{item.txnRefNo}</th>
                             <th>{moment().format("DD-MM-YYYY")}</th>
                             <th className="text-end">
-                              {parseInt(item.amount)}
+                              {parseFloat(item.amount)}
                             </th>
                           </tr>
                         );

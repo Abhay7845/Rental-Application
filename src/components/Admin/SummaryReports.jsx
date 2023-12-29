@@ -86,7 +86,7 @@ const SummaryReports = () => {
           setSummaryReports(response.data.value);
         }
         if (response.data.code === "1001") {
-          toast.warn("Sorry! Data Not Available For Selected Date & Store Code", { theme: "colored" });
+          toast.warn("Sorry! Data Not Available For Selected Date & Store Code", { theme: "colored", autoClose: 2000 });
         }
         setLoading(false);
       })

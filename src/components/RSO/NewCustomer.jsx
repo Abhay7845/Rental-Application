@@ -78,7 +78,7 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -114,9 +114,9 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else if (choosePan.length === 0) {
-      toast.error("Please Choose PAN", { theme: "colored" });
+      toast.error("Please Choose PAN", { theme: "colored", autoClose: 3000 });
     } else {
-      toast.error("Please Enter Valid PAN Number", { theme: "colored" });
+      toast.error("Please Enter Valid PAN Number", { theme: "colored", autoClose: 3000 });
     }
   };
   const UploadAddressDetails = (imgName, imgData) => {
@@ -136,7 +136,7 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" })
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
       .catch((error) => {
@@ -173,14 +173,14 @@ const NewCustomer = () => {
     } else if (adderessProof.length === 0) {
       toast.error(
         `Please Choose  ${addressProofType === "aadhar" ? "Aadhar File" : "Passport File"
-        }`, { theme: "colored" }
+        }`, { theme: "colored", autoClose: 3000 }
       );
     } else {
       toast.error(
         `Please Enter First  ${addressProofType === "aadhar"
           ? "Valid Aadhar Number"
           : "Valid Passport Number"
-        }`, { theme: "colored" }
+        }`, { theme: "colored", autoClose: 3000 }
       );
     }
   };
@@ -201,7 +201,7 @@ const NewCustomer = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          toast.success("Uploaded Successfully", { theme: "colored" });
+          toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
       .catch((error) => {
@@ -237,9 +237,9 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else if (bankChequeFile.length === 0) {
-      toast.error("Please Choose Cancelled Cheque", { theme: "colored" });
+      toast.error("Please Choose Cancelled Cheque", { theme: "colored", autoClose: 3000 });
     } else {
-      toast.warn("Please Enter Bank Details First", { theme: "colored" });
+      toast.warn("Please Enter Bank Details First", { theme: "colored", autoClose: 2000 });
     }
   };
 
@@ -253,7 +253,7 @@ const NewCustomer = () => {
           if (response.data.code === "1000") {
             setPhoneOtp(response.data.otp);
             setSecPhoneCount(60);
-            toast.success("OTP has been sent your Mobile Number", { theme: "colored" });
+            toast.success("OTP has been sent your Mobile Number", { theme: "colored", autoClose: 1000 });
           }
           setLoading(false);
         })
@@ -261,17 +261,17 @@ const NewCustomer = () => {
           setLoading(false);
         });
     } else {
-      toast.error("Please Enter Phone Number", { theme: "colored" });
+      toast.error("Please Enter Phone Number", { theme: "colored", autoClose: 3000 });
     }
   };
 
   const VerifyPhoneOTP = () => {
     setLoading(true);
     if (phoneOtp === parseInt(enterPhoneOtp)) {
-      toast.success("Your Phone OTP Verified Successfully", { theme: "colored" });
+      toast.success("Your Phone OTP Verified Successfully", { theme: "colored", autoClose: 1000 });
       setPhoneVerified(true);
     } else {
-      toast.error("Invalid OTP", { theme: "colored" });
+      toast.error("Invalid OTP", { theme: "colored", autoClose: 3000 });
     }
     setLoading(false);
   };
@@ -306,9 +306,9 @@ const NewCustomer = () => {
   // EMAIL OTP VERIFICATION FUNCTION
   const GetEmailOtp = () => {
     if (!emailId) {
-      toast.error("Please Enter Email", { theme: "colored" });
+      toast.error("Please Enter Email", { theme: "colored", autoClose: 3000 });
     } else if (!emailId.match(EmailRegex)) {
-      toast.error("Please Enter Valid Email Id", { theme: "colored" });
+      toast.error("Please Enter Valid Email Id", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const EmailInput = {
@@ -321,7 +321,7 @@ const NewCustomer = () => {
         .then((response) => {
           if ((response.data.code = "1000")) {
             setEmailOtp(response.data.otp);
-            toast.success("OTP has been sent on your Email", { theme: "colored" });
+            toast.success("OTP has been sent on your Email", { theme: "colored", autoClose: 1000 });
           }
           setSecEmailCount(60);
           setLoading(false);
@@ -335,10 +335,10 @@ const NewCustomer = () => {
   const VerifyEmailOTP = () => {
     setLoading(true);
     if (emailOtp === parseInt(enterEmailOtp)) {
-      toast.success("Your Email OTP Verified Successfully", { theme: "colored" });
+      toast.success("Your Email OTP Verified Successfully", { theme: "colored", autoClose: 1000 });
       setEmailVerified(true);
     } else {
-      toast.error("Invalid OTP", { theme: "colored" });
+      toast.error("Invalid OTP", { theme: "colored", autoClose: 3000 });
     }
     setLoading(false);
   };
@@ -360,7 +360,7 @@ const NewCustomer = () => {
     ) {
       toast.error("Please Fill All Form Details", { theme: "colored" });
     } else if (phoneVerified === false) {
-      toast.error("Please Complete Phone Number Verification", { theme: "colored" });
+      toast.error("Please Complete Phone Number Verification", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const NewCustomerInputs = {

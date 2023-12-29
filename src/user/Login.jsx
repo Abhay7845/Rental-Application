@@ -8,8 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { HOST_URL } from "../API/HostURL";
 import ShowError from "../Schema/ShowError";
-import { ToastContainer, toast } from 'react-toastify';
-
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -65,7 +64,6 @@ const Login = () => {
 
   return (
     <div>
-      <ToastContainer />
       <div className="col RegisterLeftRight">
         <div className="Form_style">
           <div className="text-center" style={{ color: "#832729" }}>

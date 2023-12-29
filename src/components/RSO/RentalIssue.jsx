@@ -7,6 +7,7 @@ import {
   addressTypeOption,
   IMAGE_URL,
 } from "../../Data/DataList";
+import { toast } from 'react-toastify';
 import moment from "moment";
 import axios from "axios";
 import { HOST_URL, thresholdmsg } from "../../API/HostURL";
@@ -273,9 +274,9 @@ const RentalIssue = () => {
   };
   const UploadBankCheque = () => {
     if (customerAccountNumber.length < 10) {
-      alert("Please Enter Valid Bank Details");
+      toast.error("Please Enter Valid Bank Details", { theme: "colored" });
     } else if (!cancelledChequeFile) {
-      alert("Please Choose File");
+      toast.error("Please Choose File", { theme: "colored" });
     } else {
       setLoading(true);
       const formData = new FormData();

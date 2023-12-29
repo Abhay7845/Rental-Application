@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import TableDataDownload from "./TableDataDownload";
 import moment from "moment";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const UpdateMasterPrice = () => {
   const [loading, setLoading] = useState(false);
@@ -174,7 +174,6 @@ const UpdateMasterPrice = () => {
   });
   return (
     <div>
-      <ToastContainer />
       {loading === true && <Loader />}
       <Navbar />
       <div className="DropdownForAdmin">

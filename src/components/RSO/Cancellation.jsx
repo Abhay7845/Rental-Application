@@ -8,9 +8,9 @@ import Loader from "../common/Loader";
 import Swal from "sweetalert2";
 import { addressTypeOption } from "../../Data/DataList";
 import { UploadImg, FetchImg } from "../../API/HostURL";
-import { ImageHeaders, IMAGE_URL } from "../../Data/DataList";
+import { IMAGE_URL } from "../../Data/DataList";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const Cancellation = () => {
@@ -252,7 +252,6 @@ const Cancellation = () => {
   return (
     <div>
       <Navbar />
-      <ToastContainer />
       {loading === true && <Loader />}
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>

@@ -6,9 +6,8 @@ import {
   constomerType,
   packageDayOption,
 } from "../../Data/DataList";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axios from "axios";
-import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { Field, Form, Formik } from "formik";
@@ -411,7 +410,6 @@ const ProductsDetails = () => {
   return (
     <div>
       <Navbar />
-      <ToastContainer />
       {loading === true && <Loader />}
       <div className="row g-3 mx-0 mt-3">
         <Formik

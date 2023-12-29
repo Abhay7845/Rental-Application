@@ -6,6 +6,7 @@ import PrivateScreens from "./components/common/PrivateScreens";
 import NewBooking from "./components/RSO/NewBooking";
 import RentalIssue from "./components/RSO/RentalIssue";
 import "./App.css";
+import { ToastContainer } from 'react-toastify';
 import Cancellation from "./components/RSO/Cancellation";
 import RentalRetrun from "./components/RSO/RentaRetrun";
 import NewCustomer from "./components/RSO/NewCustomer";
@@ -21,6 +22,7 @@ import TestComponets from "./components/common/TestComponets";
 const App = () => {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route>
           <Route

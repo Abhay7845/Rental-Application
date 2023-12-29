@@ -7,7 +7,7 @@ import {
   phonePan,
   IMAGE_URL,
 } from "../../Data/DataList";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
@@ -429,7 +429,6 @@ const NewBooking = () => {
   return (
     <div>
       <Navbar />
-      <ToastContainer />
       {loading === true && <Loader />}
       <div className="mt-4 mx-2">
         <div className="col-12">

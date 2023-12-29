@@ -7,7 +7,7 @@ import Loader from "../common/Loader";
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const NewCustomer = () => {
@@ -414,7 +414,6 @@ const NewCustomer = () => {
     <div>
       {loading === true && <Loader />}
       <Navbar />
-      <ToastContainer />
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading d-flex justify-content-between">
           <b>New Customer Details</b>

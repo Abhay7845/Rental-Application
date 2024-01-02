@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../../Style/Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { BiLogIn, BiSearchAlt2 } from "react-icons/bi";
+import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 import moment from "moment";
 

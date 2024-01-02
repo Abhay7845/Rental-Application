@@ -556,7 +556,7 @@ const ProductsDetails = () => {
                     <td>
                       {Math.round(data.depositRate).toLocaleString("en-IN")}
                     </td>
-                    <td>{AvlProduct[i]}</td>
+                    <td className={AvlProduct[i] === "Product_Available" ? "text-success" : "text-danger"}>{AvlProduct[i]}</td>
                   </tr>
                 );
               })}

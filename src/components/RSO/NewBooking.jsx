@@ -501,12 +501,12 @@ const NewBooking = () => {
             <h6>{existedUserData.addressProofIdNo}</h6>
           </div>
           <div className="col-md-4">
-            <img
+            {existedUserData.panCardNoFileName && <img
               src={`${FetchImg}${existedUserData.panCardNoFileName}`}
               alt=""
               width="180"
               height="85"
-            />
+            />}
           </div>
           <div className="col-4">
             <label className="form-label">RENTAL START DATE</label>

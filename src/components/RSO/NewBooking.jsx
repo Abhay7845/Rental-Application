@@ -377,14 +377,15 @@ const NewBooking = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
-            Swal.fire(
-              "Payment Request Raised",
-              "Please Go to Cashier to Complete the Payment",
-              "success"
-            );
+            Swal.fire({
+              title: "Payment Request Raised",
+              text: "Please Go to Cashier to Complete the Payment",
+              icon: "success",
+              confirmButtonColor: "#008080",
+              confirmButtonText: "OK",
+            });
             navigate("/home");
           }
-
           setLoading(false);
         })
         .catch((error) => {
@@ -425,6 +426,9 @@ const NewBooking = () => {
       setLoading(false);
     }).catch(error => setLoading(false))
   }
+
+
+
 
   return (
     <div>

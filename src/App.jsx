@@ -8,7 +8,7 @@ import RentalIssue from "./components/RSO/RentalIssue";
 import "./App.css";
 import { ToastContainer } from 'react-toastify';
 import Cancellation from "./components/RSO/Cancellation";
-import RentalRetrun from "./components/RSO/RentaRetrun";
+import RentalRetrun from "./components/RSO/RentalRetrun";
 import NewCustomer from "./components/RSO/NewCustomer";
 import ProductsDetails from "./components/RSO/ProductsDetails";
 import SummaryReports from "./components/Admin/SummaryReports";

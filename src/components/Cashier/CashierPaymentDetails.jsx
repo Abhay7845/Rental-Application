@@ -858,7 +858,7 @@ const CashierPaymentDetails = () => {
                       </td>
                       <td>{data.customerName}</td>
                       <td>{data.mobileNo}</td>
-                      <td>{data.paymentRequestFor.replace(/_/g, " ")}</td>
+                      <td>{data.paymentRequestFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
                       <td>
                         {Math.round(data.productValue).toLocaleString("en-IN")}
                       </td>
@@ -960,7 +960,7 @@ const CashierPaymentDetails = () => {
                     {savePaymetRow.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td>{item.paymentFor.replace(/_/g, " ")}</td>
+                          <td>{item.paymentFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
                           <td>{item.paymentType}</td>
                           <td>{item.txnRefNo}</td>
                           <td>
@@ -999,7 +999,7 @@ const CashierPaymentDetails = () => {
                     )}
                     {addPaymentRows.length > 0 && (
                       <tr>
-                        <td>{paymentRequestFor.replace(/_/g, " ")}</td>
+                        <td>{paymentRequestFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
                         <td>
                           <select
                             className="form-control"

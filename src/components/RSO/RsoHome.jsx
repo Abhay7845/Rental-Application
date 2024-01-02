@@ -193,7 +193,7 @@ const Home = () => {
                       <td>{item.mobileNo}</td>
                       <td>{item.packageSelected}</td>
                       <td>{moment(item.rentalDate).format("DD-MM-YYYY")}</td>
-                      <td>{item.status.replace(/_/g, " ")}</td>
+                      <td>{item.status.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
                     </tr>
                   );
                 })}

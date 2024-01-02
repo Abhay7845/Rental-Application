@@ -227,7 +227,7 @@ const SummaryReports = () => {
                         <td>
                           {moment(item.coolOffEndDate).format("DD-MM-YYYY")}
                         </td>
-                        <td>{item.status}</td>
+                        <td>{item.status.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
                         <td>
                           <button
                             className="CButton"

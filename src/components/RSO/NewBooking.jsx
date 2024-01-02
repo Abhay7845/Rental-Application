@@ -264,7 +264,7 @@ const NewBooking = () => {
 
   const UploadPreTransaction = () => {
     if (tnxFile.length === 0) {
-      toast.error("Please Upload Transaction File", { theme: "colored", autoClose: 3000 });
+      toast.error("Please Choose Transaction File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const formData = new FormData();
@@ -547,7 +547,7 @@ const NewBooking = () => {
             <div className="d-flex">
               <div className="col-md-4">
                 <label className="form-label">
-                  Upload Previous Transaction File
+                  Previous Transaction File
                 </label>
                 <input
                   type="file"

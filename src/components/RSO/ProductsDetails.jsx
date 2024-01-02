@@ -564,7 +564,7 @@ const ProductsDetails = () => {
           </table>
         </div>
 
-        <div className="d-flex justify-content-end mt-0">
+        <div className="d-flex justify-content-end mb-3">
           {productDetails.length > 0 && (
             <button className="CancelButton mx-2" onClick={GoForCancel}>
               Reset

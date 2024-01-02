@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../../Style/Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { BiLogIn, BiSolidCart } from "react-icons/bi";
+import { BiLogIn, BiSearchAlt2 } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 import moment from "moment";
 
@@ -57,11 +57,7 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          {/* {UserName.toUpperCase() === "RSO" && <div>
-            <BiSolidCart size={28} className="text-light mt-3" />
-            <span className="badge">{cartList ? cartList : 0}</span>
-          </div>} */}
-          <span className="navbarLink mx-4 mt-0 text-center" style={{ fontSize: "14px" }}>
+          <span className="navbarLink timeShowStyle">
             {storeCode.toUpperCase()}
             <br />
             {currentDate.toUpperCase()},<span className="mx-2">{CTime}</span>

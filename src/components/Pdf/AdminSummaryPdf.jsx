@@ -51,7 +51,7 @@ const AdminSummaryPdf = (props) => {
           `}
       </style>
       <div ref={summaryReptPdf} className="hide_on_pop_up_window">
-        <h6 className="my-3">ORDER DETAILS</h6>
+        <h3 className="my-4 text-center">ORDER DETAILS</h3>
         <div className="d-flex justify-content-between mx-1">
           <b>Booking Ref No. :- {orderData.bookingRefNo}</b>
           <b>Custome Name :- {customerName}</b>

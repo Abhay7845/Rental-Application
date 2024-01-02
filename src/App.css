@@ -135,3 +135,9 @@
   border: 1px solid #ccc;
   padding: 10px;
 }
+
+@media screen and (max-width:1000px) {
+  .scrollable-container {
+    width: 90vw;
+  }
+}

@@ -88,22 +88,19 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
           </tbody>
         </table>
       </div>
-      <div className="mx-3">
-        <Modal open={zoopImg} onClose={() => setZoopImg(false)}>
-          <div
-            style={FilePopStyle}
-            className="scrollable-container"
-          >
-            <BsXLg onClick={() => setZoopImg(false)} size={28} cursor="pointer" color="#fff" />
-            <img
-              src={zoopImgUrl}
-              alt="Not Found"
-              height="100%"
-              width="99%"
-            />
-          </div>
-        </Modal>
-      </div>
+      <Modal open={zoopImg} onClose={() => setZoopImg(false)}>
+        <div
+          style={FilePopStyle}
+          className="scrollable-container"
+        >
+          <BsXLg onClick={() => setZoopImg(false)} size={28} className="CloseZoomImage" />
+          <img
+            src={zoopImgUrl}
+            className="img-fluid w-100"
+            alt="Not Found"
+          />
+        </div>
+      </Modal>
     </div>
   );
 };

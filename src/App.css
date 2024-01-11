@@ -129,7 +129,7 @@
 }
 
 .scrollable-container {
-  width: 50vw;
+  width: 70vw;
   height: 95vh;
   overflow: auto;
   border: 1px solid #ccc;
@@ -140,4 +140,11 @@
   .scrollable-container {
     width: 90vw;
   }
+}
+
+.CloseZoomImage {
+  position: relative;
+  color: #fff;
+  float: right;
+  cursor: pointer;
 }

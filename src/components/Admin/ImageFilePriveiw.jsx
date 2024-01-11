@@ -4,6 +4,8 @@ import { HOST_URL } from "../../API/HostURL";
 import axios from "axios";
 import { BsXLg } from "react-icons/bs";
 import Loader from "../common/Loader";
+import { FilePopStyle } from "../../Schema/LoginSchema";
+import { Modal } from "@mui/material";
 
 const ImageFilePriveiw = ({ orderData, Close }) => {
   const PrintImageRef = useRef(null);
@@ -12,8 +14,9 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
   });
   const [uploadedImgData, setUploadedImgData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [zoopImg, setZoopImg] = useState(false);
+  const [zoopImgUrl, setZoopImgUrl] = useState("");
   const { tempBookingRefNo } = orderData;
-
   const FetchImageDocList = (tempBookingRefNo) => {
     setLoading(true);
     axios
@@ -65,8 +68,11 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
                   <td>
                     <img
                       src={item.fileUrl}
-                      width="140"
-                      height="65"
+                      onClick={() => {
+                        setZoopImg(true);
+                        setZoopImgUrl(item.fileUrl)
+                      }}
+                      style={{ width: 140, height: 65, cursor: "pointer" }}
                       alt="Not Found"
                     />
                   </td>
@@ -81,6 +87,22 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
             })}
           </tbody>
         </table>
+      </div>
+      <div className="mx-3">
+        <Modal open={zoopImg} onClose={() => setZoopImg(false)}>
+          <div
+            style={FilePopStyle}
+            className="scrollable-container"
+          >
+            <BsXLg onClick={() => setZoopImg(false)} size={28} cursor="pointer" color="#fff" />
+            <img
+              src={zoopImgUrl}
+              alt="Not Found"
+              height="100%"
+              width="99%"
+            />
+          </div>
+        </Modal>
       </div>
     </div>
   );

@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import { phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+
 
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
@@ -164,41 +166,41 @@ const Home = () => {
         <div>
           <h4 className="text-center my-3">Booking Details</h4>
           <div className="table-responsive mx-2">
-            <table className="table table-bordered table-hover border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr style={{ fontSize: "15px" }}>
-                  <td>Select</td>
-                  <td>Customer Name</td>
-                  <td>Booking Ref No.</td>
-                  <td>Phone No.</td>
-                  <td>Package Days</td>
-                  <td>Rental Date</td>
-                  <td>Status</td>
-                </tr>
-              </thead>
-              <tbody>
+            <Table className="table table-bordered table-hover border-dark text-center">
+              <Thead className="table-dark border-light">
+                <Tr style={{ fontSize: "15px" }}>
+                  <Th>Select</Th>
+                  <Th>Customer Name</Th>
+                  <Th>Booking Ref No.</Th>
+                  <Th>Phone No.</Th>
+                  <Th>Package Days</Th>
+                  <Th>Rental Date</Th>
+                  <Th>Status</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
                 {productData.map((item, i) => {
                   return (
-                    <tr key={i}>
-                      <td className="text-center border-dark">
+                    <Tr key={i}>
+                      <Td className="text-center border-dark">
                         <input
                           className="form-check-input border-dark"
                           type="radio"
                           name="select"
                           onClick={() => OnSelectRow(item)}
                         />
-                      </td>
-                      <td>{item.customerName}</td>
-                      <td>{item.refId}</td>
-                      <td>{item.mobileNo}</td>
-                      <td>{item.packageSelected}</td>
-                      <td>{moment(item.rentalDate).format("DD-MM-YYYY")}</td>
-                      <td>{item.status.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
-                    </tr>
+                      </Td>
+                      <Td>{item.customerName}</Td>
+                      <Td>{item.refId}</Td>
+                      <Td>{item.mobileNo}</Td>
+                      <Td>{item.packageSelected}</Td>
+                      <Td>{moment(item.rentalDate).format("DD-MM-YYYY")}</Td>
+                      <Td>{item.status.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                    </Tr>
                   );
                 })}
-              </tbody>
-            </table>
+              </Tbody>
+            </Table>
           </div>
           {statusPending === "Payment_PendingFor" ||
             Status === "Cancellation_After_Booking" ? (

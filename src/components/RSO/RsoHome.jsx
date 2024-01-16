@@ -4,7 +4,7 @@ import "../../Style/Home.css";
 import axios from "axios";
 import moment from "moment";
 import Swal from "sweetalert2";
-import { phonePan } from "../../Data/DataList";
+import { homePageTHeadrs, phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
@@ -168,14 +168,12 @@ const Home = () => {
           <div className="table-responsive mx-2">
             <Table className="table table-bordered table-hover border-dark text-center">
               <Thead className="table-dark border-light">
-                <Tr style={{ fontSize: "15px" }}>
-                  <Th>Select</Th>
-                  <Th>Customer Name</Th>
-                  <Th>Booking Ref No.</Th>
-                  <Th>Phone No.</Th>
-                  <Th>Package Days</Th>
-                  <Th>Rental Date</Th>
-                  <Th>Status</Th>
+                <Tr>
+                  {homePageTHeadrs.map((headers, i) => {
+                    return (
+                      <Th key={i}>{headers}</Th>
+                    )
+                  })}
                 </Tr>
               </Thead>
               <Tbody>

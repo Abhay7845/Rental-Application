@@ -62,6 +62,15 @@ export const constomerType = [
     label: "New Customer",
   },
 ];
+export const homePageTHeadrs = [
+  "Select",
+  "Customer Name",
+  "Booking Ref No.",
+  "Phone No.",
+  "Package Days",
+  "Rental Date",
+  "Status"
+];
 
 export const WishListHeader = [
   "Image",

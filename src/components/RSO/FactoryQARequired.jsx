@@ -5,6 +5,7 @@ import moment from "moment";
 import axios from "axios";
 import Loader from "../common/Loader";
 import { IMAGE_URL, factoryQAPage } from "../../Data/DataList";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
@@ -300,148 +301,146 @@ const FactoryQARequired = () => {
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3 mb-4">
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Booking Ref No</label>
             <h6>{refId}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Renatl Start Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("DD-MM-YYYY")}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Rental End Date</label>
             <h6>{moment(getReturnDate()).format("DD-MM-YYYY")}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Customer Name</label>
             <h6>{GetReturnProduct.customerName}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Phone Number</label>
             <h6>{GetReturnProduct.mobileNo}</h6>
           </div>
           {refactoreDataTable.length > 0 && (
-            <div className="col-12">
+            <div className="col-md-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark text-center">
-                  <thead className="table-dark border-light">
-                    <tr style={{ fontSize: "15pxs" }}>
+                <Table className="table table-bordered table-hover border-dark text-center">
+                  <Thead className="table-dark border-light">
+                    <Tr style={{ fontSize: "15px" }}>
                       {factoryQAPage.map((heading, i) => {
-                        return <td key={i}>{heading}</td>;
+                        return <Th key={i}>{heading}</Th>;
                       })}
-                    </tr>
-                  </thead>
-                  <tbody>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
                     {refactoreDataTable.map((item, i) => {
                       const { itemCode } = item;
                       const imageCode = itemCode.substring(2, 9);
                       const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
-                        <tr key={i}>
-                          <td>
+                        <Tr key={i}>
+                          <Td>
                             <img
                               src={imageURL}
                               className="custom-image"
                               alt=""
                             />
-                          </td>
-                          <td>{item.itemCode}</td>
-                          <td>{item.lotNo}</td>
-                          <td>{item.grossWt}</td>
-                          <td>{item.deliveredWt}</td>
-                          <td>{item.actualWtReturn}</td>
-                          <td>
+                          </Td>
+                          <Td>{item.itemCode}</Td>
+                          <Td>{item.lotNo}</Td>
+                          <Td>{item.grossWt}</Td>
+                          <Td>{item.deliveredWt}</Td>
+                          <Td>{item.actualWtReturn}</Td>
+                          <Td className="text-end">
                             {Math.round(item.productValue).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {Math.round(item.rentalAmount).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>{item.peneltyCharge.toLocaleString("en-IN")}</td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">{item.peneltyCharge.toLocaleString("en-IN")}</Td>
+                          <Td>
                             <input
                               type="text"
                               className="text-center w-100"
                               placeholder="Damage Charge"
                               name={i}
-                              defaultValue={parseFloat(
-                                item.damageCharges
-                              ).toFixed(2)}
+                              value={inputDmgValues[i]}
                               onChange={GetActualWtOfDamage}
                             />
-                          </td>
-                          <td>
+                          </Td>
+                          <Td>
                             <input
                               type="text"
+                              className="w-100"
                               placeholder="Remarks(Upto 50 Characters)"
                               maxLength={50}
                               name={i}
                               onChange={GetRemarks}
                             />
-                          </td>
-                        </tr>
+                          </Td>
+                        </Tr>
                       );
                     })}
-                    <tr>
-                      <th colSpan="6" className="text-end">
+                    <Tr className="text-end">
+                      <Th colSpan="6" >
                         TOTAL
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfTProductValue())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfTRentalRate())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfTPeneltyCharge())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfDmgCharge())}
-                      </th>
-                      <th colSpan="1" />
-                    </tr>
-                  </tbody>
-                </table>
+                      </Th>
+                      <Th colSpan="1" />
+                    </Tr>
+                  </Tbody>
+                </Table>
               </div>
             </div>
           )}
-          <div className="col-md-5">
+          <div className="col-md-6">
             <label className="form-label">
               Upload Signed Factory QA Report
             </label>
-            <input
-              type="file"
-              accept=".png, .jpeg"
-              id="KarigrQAid"
-              className="form-control"
-              onChange={(e) => setFactoryQAFile(e.target.files[0])}
-            />
-          </div>
-          <div className="col-md-2">
-            <br />
-            <button className="CButton mt-2" onClick={FactoryAQFile}>
-              Upload
-            </button>
+            <div className="d-flex">
+              <input
+                type="file"
+                accept=".png, .jpeg"
+                id="KarigrQAid"
+                className="form-control"
+                onChange={(e) => setFactoryQAFile(e.target.files[0])}
+              />
+              <button className="CButton mx-1" onClick={FactoryAQFile}>
+                Upload
+              </button>
+            </div>
           </div>
           {karigarQAFileUrl && (
             <div className="col-md-3">

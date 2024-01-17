@@ -4,6 +4,7 @@ import AdminSideBar from "../common/AdminSideBar";
 import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import { Field, Form, Formik } from "formik";
 import { toast } from 'react-toastify';
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import {
   ReportsInitialValue,
   ReportsSchema,
@@ -294,65 +295,65 @@ const SummaryReports = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <div className="table-responsive">
-                        <table className="table table-bordered border-dark text-center">
-                          <thead className="table-dark border-light">
-                            <tr style={{ fontSize: "15px" }}>
+                        <Table className="table table-bordered border-dark text-center">
+                          <Thead className="table-dark border-light">
+                            <Tr style={{ fontSize: "15px" }}>
                               {ProductDlsHeaders.map((heading, i) => {
-                                return <td key={i}>{heading}</td>;
+                                return <Th key={i}>{heading}</Th>;
                               })}
-                            </tr>
-                          </thead>
-                          <tbody>
+                            </Tr>
+                          </Thead>
+                          <Tbody>
                             {commonTableData.map((item, i) => {
                               return (
-                                <tr key={i}>
-                                  <td>{item.itemCode}</td>
-                                  <td>{item.lotNo}</td>
-                                  <td>{item.grossWt}</td>
-                                  <td>{item.productValue}</td>
-                                  <td>{parseInt(item.rentalAmount)}</td>
-                                  <td>
+                                <Tr key={i}>
+                                  <Td>{item.itemCode}</Td>
+                                  <Td>{item.lotNo}</Td>
+                                  <Td>{item.grossWt}</Td>
+                                  <Td className="text-end">{item.productValue}</Td>
+                                  <Td className="text-end">{parseInt(item.rentalAmount)}</Td>
+                                  <Td className="text-end">
                                     {parseFloat(
                                       item.rentalAmount * 1.18
                                     ).toFixed(2)}
-                                  </td>
-                                  <td>{parseInt(item.depositAmount)}</td>
-                                </tr>
+                                  </Td>
+                                  <Td className="text-end">{parseInt(item.depositAmount)}</Td>
+                                </Tr>
                               );
                             })}
-                            <tr>
-                              <th colSpan="3" />
-                              <th>
+                            <Tr className="text-end">
+                              <Th colSpan="3">TOTAL</Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalProductValue)}
-                              </th>
-                              <th>
+                              </Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalRentalValue)}
-                              </th>
-                              <th>
+                              </Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: 2,
                                 }).format(totalPaidAmount.totalBookingAmount)}
-                              </th>
-                              <th>
+                              </Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalDepositAmount)}
-                              </th>
-                            </tr>
-                          </tbody>
-                        </table>
+                              </Th>
+                            </Tr>
+                          </Tbody>
+                        </Table>
                       </div>
                     </AccordionDetails>
                   </Accordion>

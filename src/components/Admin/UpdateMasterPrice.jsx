@@ -231,7 +231,7 @@ const UpdateMasterPrice = () => {
               <div className="modal-body">
                 {loading === true && <Loader />}
                 <div className="row">
-                  <div className="col-11">
+                  <div className="col-12 d-flex">
                     <input
                       type="text"
                       className="form-control"
@@ -242,9 +242,7 @@ const UpdateMasterPrice = () => {
                         setStoreCodeValue(value);
                       }}
                     />
-                  </div>
-                  <div className="col-1 d-flex justify-content-end">
-                    <button className="CButton" onClick={GetItemPriceMaster}>
+                    <button className="CButton mx-1" onClick={GetItemPriceMaster}>
                       Get_Item
                     </button>
                   </div>

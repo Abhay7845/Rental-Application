@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import { CancelPageHeading, CancellationReason } from "../../Data/DataList";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import moment from "moment";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
@@ -256,31 +257,31 @@ const Cancellation = () => {
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3">
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Booking Ref No</label>
             <h6>{GetReturnProduct.refId}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Rental Start Date</label>
             <h6>{moment(GetReturnProduct.bookingDate).format("DD-MM-YYYY")}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Rental End Date</label>
             <h6>{moment(getReturnDate()).format("DD-MM-YYYY")}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Rental Package</label>
             <h6>{GetReturnProduct.packageSelected} Days</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Current Date</label>
             <h6>{moment().format("DD-MM-YYYY")}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Customer Name</label>
             <h6>{GetReturnProduct.customerName}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Phone Number</label>
             <h6>{GetReturnProduct.mobileNo}</h6>
           </div>
@@ -333,9 +334,9 @@ const Cancellation = () => {
             {sameCustFileUrl ? (
               <img src={sameCustFileUrl} alt="" width="180" height="85" />
             ) : (
-              <div className="d-flex">
-                <div>
-                  <label className="form-label">Upload ID</label>
+              <div>
+                <label className="form-label">Upload ID</label>
+                <div className="d-flex">
                   <input
                     type="file"
                     id="sameCust"
@@ -344,9 +345,6 @@ const Cancellation = () => {
                     onChange={(e) => setSameCustFile(e.target.files[0])}
                     disabled={sameCustomer ? true : false}
                   />
-                </div>
-                <div>
-                  <label className="form-label">.</label>
                   <button
                     className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
                     onClick={UploadSameCustIDProof}
@@ -377,66 +375,66 @@ const Cancellation = () => {
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
             <div className="table-responsive">
-              <table className="table table-bordered table-hover border-dark text-center">
-                <thead className="table-dark border-light">
-                  <tr style={{ fontSize: "15px" }}>
+              <Table className="table table-bordered table-hover border-dark text-center">
+                <Thead className="table-dark border-light">
+                  <Tr style={{ fontSize: "15px" }}>
                     {CancelPageHeading.map((headers, i) => {
-                      return <td key={i}>{headers}</td>;
+                      return <Th key={i}>{headers}</Th>;
                     })}
-                  </tr>
-                </thead>
-                <tbody>
+                  </Tr>
+                </Thead>
+                <Tbody>
                   {returnTableData.map((item, i) => {
                     const { itemCode } = item;
                     const imageCode = itemCode.substring(2, 9);
                     const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                     return (
-                      <tr key={i}>
-                        <td>
+                      <Tr key={i}>
+                        <Td>
                           <img src={imageURL} className="custom-image" alt="" />
-                        </td>
-                        <td>{item.itemCode}</td>
-                        <td>{item.lotNo}</td>
-                        <td>
+                        </Td>
+                        <Td>{item.itemCode}</Td>
+                        <Td>{item.lotNo}</Td>
+                        <Td>
                           {moment(item.rentStartDate).format("DD-MM-YYYY")}
-                        </td>
-                        <td>
+                        </Td>
+                        <Td>
                           {Math.round(item.packageDays).toLocaleString("en-IN")}
-                        </td>
-                        <td>
+                        </Td>
+                        <Td className="text-end">
                           {Math.round(item.productValue).toLocaleString(
                             "en-IN"
                           )}
-                        </td>
-                        <td>
+                        </Td>
+                        <Td className="text-end">
                           {Math.round(item.rentalAmount).toLocaleString(
                             "en-IN"
                           )}
-                        </td>
-                      </tr>
+                        </Td>
+                      </Tr>
                     );
                   })}
-                  <tr>
-                    <th colSpan="5" className="text-end">
+                  <Tr className="text-end">
+                    <Th colSpan="5" >
                       TOTAL
-                    </th>
-                    <th>
+                    </Th>
+                    <Th>
                       {new Intl.NumberFormat("en-IN", {
                         style: "currency",
                         currency: "INR",
                         minimumFractionDigits: false,
                       }).format(SumOfTProductValue())}
-                    </th>
-                    <th>
+                    </Th>
+                    <Th>
                       {new Intl.NumberFormat("en-IN", {
                         style: "currency",
                         currency: "INR",
                         minimumFractionDigits: false,
                       }).format(SumOfRentalRate())}
-                    </th>
-                  </tr>
-                </tbody>
-              </table>
+                    </Th>
+                  </Tr>
+                </Tbody>
+              </Table>
             </div>
           </div>
           <div className="col-12">

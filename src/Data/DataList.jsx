@@ -120,8 +120,8 @@ export const rentalIssuePage = [
   "Gross Wt",
   "Product Value",
   "Rental Value",
-  "Damage Protection Amount",
-  "Actual Wt At Delivery",
+  "Damage Protection",
+  "Actual Wt At Dlvr",
 ];
 export const renatlReturnPage = [
   "Image",

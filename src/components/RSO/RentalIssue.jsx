@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import "../../Style/RentalIssue.css";
 import { rentalIssuePage, addressTypeOption, IMAGE_URL } from "../../Data/DataList";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { toast } from 'react-toastify';
 import moment from "moment";
 import axios from "axios";
@@ -770,47 +771,47 @@ const RentalIssue = () => {
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark text-center">
-                  <thead className="table-dark border-light">
-                    <tr style={{ fontSize: "15px" }}>
+                <Table className="table table-bordered table-hover border-dark text-center">
+                  <Thead className="table-dark border-light">
+                    <Tr style={{ fontSize: "15px" }}>
                       {rentalIssuePage.map((heading, i) => {
-                        return <td key={i}>{heading}</td>;
+                        return <Th key={i}>{heading}</Th>;
                       })}
-                    </tr>
-                  </thead>
-                  <tbody>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
                     {retunTableData.map((item, i) => {
                       const { itemCode } = item;
                       const imageCode = itemCode.substring(2, 9);
                       const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
-                        <tr key={i}>
-                          <td>
+                        <Tr key={i}>
+                          <Td>
                             <img
                               src={imageURL}
                               className="custom-image"
                               alt=""
                             />
-                          </td>
-                          <td>{item.itemCode}</td>
-                          <td>{item.lotNo}</td>
-                          <td>{item.grossWt}</td>
-                          <td>
+                          </Td>
+                          <Td>{item.itemCode}</Td>
+                          <Td>{item.lotNo}</Td>
+                          <Td>{item.grossWt}</Td>
+                          <Td className="text-end">
                             {Math.round(item.productValue).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {Math.round(item.rentalAmount).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {Math.round(item.depositAmount).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td>
                             <input
                               type="number"
                               className="w-100 text-center"
@@ -821,64 +822,64 @@ const RentalIssue = () => {
                                 GetActualWtAtDlr(e, item.grossWt)
                               }
                             />
-                          </td>
-                        </tr>
+                          </Td>
+                        </Tr>
                       );
                     })}
-                    <tr>
-                      <th colSpan="4" className="text-end">
+                    <Tr className="text-end">
+                      <Th colSpan="4" >
                         TOTAL
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(totalPaidAmount.totalProductValue)}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(totalPaidAmount.totalRentalValue)}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(totalPaidAmount.totalDepositAmount)}
-                      </th>
-                      <th>{SumOfActualItemWt().toFixed(3)} g.</th>
-                    </tr>
-                  </tbody>
-                </table>
+                      </Th>
+                      <Th>{SumOfActualItemWt().toFixed(3)} g.</Th>
+                    </Tr>
+                  </Tbody>
+                </Table>
               </div>
             </div>
           )}
           <b className="mt-0 text-danger text-end">{alertWt}</b>
           <div className="table-responsive">
-            <table className="table table-bordered table-hover border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  <td>Image</td>
-                  <td>Item Code</td>
-                  <td>Upload Product Images</td>
-                </tr>
-              </thead>
-              <tbody>
+            <Table className="table table-bordered table-hover border-dark text-center">
+              <Thead className="table-dark border-light">
+                <Tr>
+                  <Th>Image</Th>
+                  <Th>Item Code</Th>
+                  <Th>Product Images</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
                 {retunTableData.map((item, i) => {
                   const { itemCode } = item;
                   const imageCode = itemCode.substring(2, 9);
                   const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                   return (
-                    <tr key={i}>
-                      <td>
+                    <Tr key={i}>
+                      <Td>
                         <img src={imageURL} className="custom-image" alt="" />
-                      </td>
-                      <td>{item.itemCode}</td>
-                      <td className="d-flex justify-content-between">
+                      </Td>
+                      <Td>{item.itemCode}</Td>
+                      <Td className="d-flex justify-content-between">
                         <input
                           type="file"
                           id="prodcutFile"
@@ -893,12 +894,12 @@ const RentalIssue = () => {
                         >
                           Upload
                         </button>
-                      </td>
-                    </tr>
+                      </Td>
+                    </Tr>
                   );
                 })}
-              </tbody>
-            </table>
+              </Tbody>
+            </Table>
           </div>
           {productImgFile.length > 0 && (
             <div className="d-flex justify-content-end mt-0">

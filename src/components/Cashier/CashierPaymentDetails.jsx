@@ -6,6 +6,7 @@ import { HOST_URL } from "../../API/HostURL";
 import Loader from "../common/Loader";
 import { toast } from 'react-toastify';
 import { PaymentHeading1, PaymentHeading2 } from "../../Data/DataList";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import { BsFillTrashFill } from "react-icons/bs";
 import moment from "moment/moment";
@@ -214,7 +215,7 @@ const CashierPaymentDetails = () => {
     }
   }, [storeCode, paymentDetails.tempBookingRef]);
 
-  const ClearAllUIData = () => {
+  const ClearAllUIData = (paymentRequestFor) => {
     GetPyamentDetials();
     setPaymentDetails({});
     setGetPaymentData([]);
@@ -226,6 +227,9 @@ const CashierPaymentDetails = () => {
     setCollectedAmount(0);
     setVerifiedOtp(false);
     setOtp("");
+    if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
+      setBookingRefID(booking_Id)
+    }
   };
   const GetPyamentDetials = () => {
     setLoading(true);
@@ -725,7 +729,7 @@ const CashierPaymentDetails = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
-          ClearAllUIData();
+          ClearAllUIData(paymentRequestFor);
         }
       })
       .catch((error) => {
@@ -835,44 +839,44 @@ const CashierPaymentDetails = () => {
         </div>
         {getPaymentData.length > 0 && (
           <div className="table-responsive">
-            <table className="table table-bordered border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  <td>SELECT</td>
+            <Table className="table table-bordered border-dark text-center">
+              <Thead className="table-dark border-light">
+                <Tr>
+                  <Th>SELECT</Th>
                   {PaymentHeading1.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
+                    return <Td key={i}>{heading}</Td>;
                   })}
-                </tr>
-              </thead>
-              <tbody>
+                </Tr>
+              </Thead>
+              <Tbody>
                 {getPaymentData.map((data, i) => {
                   return (
-                    <tr key={i}>
-                      <td className="text-center">
+                    <Tr key={i}>
+                      <Td className="text-center">
                         <input
                           className="form-check-input border-dark"
                           type="radio"
                           name="select"
                           onClick={() => OnSelectRow(data)}
                         />
-                      </td>
-                      <td>{data.customerName}</td>
-                      <td>{data.mobileNo}</td>
-                      <td>{data.paymentRequestFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
-                      <td>
+                      </Td>
+                      <Td>{data.customerName}</Td>
+                      <Td>{data.mobileNo}</Td>
+                      <Td>{data.paymentRequestFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                      <Td>
                         {Math.round(data.productValue).toLocaleString("en-IN")}
-                      </td>
-                      <td>
+                      </Td>
+                      <Td>
                         {Math.round(data.rentValue).toLocaleString("en-IN")}
-                      </td>
-                      <td>
+                      </Td>
+                      <Td>
                         {Math.round(data.depositValue).toLocaleString("en-IN")}
-                      </td>
-                    </tr>
+                      </Td>
+                    </Tr>
                   );
                 })}
-              </tbody>
-            </table>
+              </Tbody>
+            </Table>
           </div>
         )}
         {paymentDetails.bookingId && (
@@ -948,59 +952,59 @@ const CashierPaymentDetails = () => {
 
             {amontHeading !== "Amount to be Refunded" && (
               <div className="col-12 table-responsive mx-0">
-                <table className="table table-bordered table-hover border-dark text-center">
-                  <thead className="table-dark border-light">
-                    <tr>
+                <Table className="table table-bordered table-hover border-dark text-center">
+                  <Thead className="table-dark border-light">
+                    <Tr>
                       {PaymentHeading2.map((heading, i) => {
-                        return <td key={i}>{heading}</td>;
+                        return <Th key={i}>{heading}</Th>;
                       })}
-                    </tr>
-                  </thead>
-                  <tbody>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
                     {savePaymetRow.map((item, i) => {
                       return (
-                        <tr key={i}>
-                          <td>{item.paymentFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
-                          <td>{item.paymentType}</td>
-                          <td>{item.txnRefNo}</td>
-                          <td>
+                        <Tr key={i}>
+                          <Td>{item.paymentFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                          <Td>{item.paymentType}</Td>
+                          <Td>{item.txnRefNo}</Td>
+                          <Td className="text-end">
                             {new Intl.NumberFormat("en-IN", {
                               style: "currency",
                               currency: "INR",
                               minimumFractionDigits: 2,
                             }).format(item.amount)}
-                          </td>
-                          <td className="d-flex justify-content-between">
+                          </Td>
+                          <Td className="d-flex justify-content-between">
                             {item.fileName}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td>
                             <BsFillTrashFill
                               onClick={() => DeletePaymentRow(item.id)}
                               style={{ cursor: "pointer", color: "red" }}
                             />
-                          </td>
-                        </tr>
+                          </Td>
+                        </Tr>
                       );
                     })}
                     {savePaymetRow.length > 0 && (
-                      <tr>
-                        <th colSpan="3" className="text-end">
+                      <Tr className="text-end">
+                        <Th colSpan="3">
                           TOTAL
-                        </th>
-                        <th>
+                        </Th>
+                        <Th>
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: 2,
                           }).format(TotalAmount)}
-                        </th>
-                        <td colSpan="2" />
-                      </tr>
+                        </Th>
+                        <Th colSpan="2" />
+                      </Tr>
                     )}
                     {addPaymentRows.length > 0 && (
-                      <tr>
-                        <td>{paymentRequestFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
-                        <td>
+                      <Tr>
+                        <Td>{paymentRequestFor.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                        <Td>
                           <select
                             className="form-control"
                             onChange={(e) => setPaymentType(e.target.value)}
@@ -1011,16 +1015,16 @@ const CashierPaymentDetails = () => {
                             <option value="CC">CC</option>
                             <option value="HDFC">HDFC</option>
                           </select>
-                        </td>
-                        <td>
+                        </Td>
+                        <Td>
                           <input
                             className="form-control"
                             placeholder="Payment Ref No."
                             value={tnxRefNo}
                             onChange={(e) => setTnxRefNo(e.target.value.toUpperCase())}
                           />
-                        </td>
-                        <td>
+                        </Td>
+                        <Td>
                           <input
                             type="number"
                             className="form-control"
@@ -1032,8 +1036,8 @@ const CashierPaymentDetails = () => {
                               setAmount(amoutValie);
                             }}
                           />
-                        </td>
-                        <td className="d-flex">
+                        </Td>
+                        <Td className="d-flex">
                           <input
                             type="file"
                             accept=".png, .jpeg"
@@ -1045,17 +1049,17 @@ const CashierPaymentDetails = () => {
                           >
                             Upload
                           </button>
-                        </td>
-                        <td>
+                        </Td>
+                        <Td>
                           <BsFillTrashFill
                             onClick={() => setAddPaymentRows([])}
                             style={{ cursor: "pointer", color: "red" }}
                           />
-                        </td>
-                      </tr>
+                        </Td>
+                      </Tr>
                     )}
-                  </tbody>
-                </table>
+                  </Tbody>
+                </Table>
               </div>
             )}
             {amontHeading !== "Amount to be Refunded" && (

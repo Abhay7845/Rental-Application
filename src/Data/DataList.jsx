@@ -102,7 +102,7 @@ export const PaymentHeading1 = [
   "Payment Request For",
   "Product Value",
   "Rent Value",
-  "Damage Protection Amount",
+  "Damage Protection",
 ];
 export const PaymentHeading2 = [
   "Payment For",

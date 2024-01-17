@@ -861,7 +861,7 @@ const RentalReturn = () => {
               )}
             </h6>
           </div>
-          <div className="col-md-5">
+          <div className="col-md-12">
             <label className="form-label">
               Upload Signed Karigar QA Report
             </label>

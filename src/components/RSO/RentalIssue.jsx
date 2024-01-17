@@ -1063,21 +1063,20 @@ const RentalIssue = () => {
                 <label className="form-label">
                   Cancelled Cheque <span className="text-danger">*</span>
                 </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  accept=".png, .jpeg"
-                  onChange={(e) => setCancelledChequeFile(e.target.files[0])}
-                  id="chequeBook"
-                />
+                <div className="d-flex">
+                  <input
+                    type="file"
+                    className="form-control"
+                    accept=".png, .jpeg"
+                    onChange={(e) => setCancelledChequeFile(e.target.files[0])}
+                    id="chequeBook"
+                  />
+                  <button className="CButton mx-1" onClick={UploadBankCheque}>
+                    Upload
+                  </button>
+                </div>
               </div>
-              <div className="col-md-1">
-                <br />
-                <button className="CButton mt-2" onClick={UploadBankCheque}>
-                  Upload
-                </button>
-              </div>
-              <div className="col-md-12 text-center">
+              <div className="col-md-12">
                 {bankDetailFileName && (
                   <img
                     src={bankDetailFileName}

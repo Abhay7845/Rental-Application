@@ -428,9 +428,6 @@ const NewBooking = () => {
     }).catch(error => setLoading(false))
   }
 
-
-
-
   return (
     <div>
       <Navbar />
@@ -443,7 +440,7 @@ const NewBooking = () => {
           <div className="col-md-3">
             <b>BOOKING DATE : {bookingDate}</b>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-8 d-flex">
             <input
               type="type"
               className="form-control"
@@ -453,11 +450,9 @@ const NewBooking = () => {
               onChange={(e) => setPhonePanValue(e.target.value)}
               disabled={regNumber ? true : false}
             />
-          </div>
-          <div className="col-md-1 d-flex justify-content-end">
             <button
               type="button"
-              className="CButton"
+              className="CButton mx-1"
               onClick={SerachInfoUserDetails}
             >
               Search
@@ -771,21 +766,20 @@ const NewBooking = () => {
                 <label className="form-label">
                   Cancelled Cheque <span className="text-danger">*</span>
                 </label>
-                <input
-                  type="file"
-                  accept=".png, .jpeg"
-                  className="form-control"
-                  id="chequeBook"
-                  onChange={(e) => setCancelledChequeFile(e.target.files[0])}
-                />
+                <div className="d-flex">
+                  <input
+                    type="file"
+                    accept=".png, .jpeg"
+                    className="form-control"
+                    id="chequeBook"
+                    onChange={(e) => setCancelledChequeFile(e.target.files[0])}
+                  />
+                  <button className="CButton mx-1" onClick={UploadBankCheque}>
+                    Upload
+                  </button>
+                </div>
               </div>
-              <div className="col-2">
-                <br />
-                <button className="CButton mt-2" onClick={UploadBankCheque}>
-                  Upload
-                </button>
-              </div>
-              <div className="col-md-12 text-center">
+              <div className="col-md-12">
                 {bankDetailFileName && (
                   <img
                     src={bankDetailFileName}

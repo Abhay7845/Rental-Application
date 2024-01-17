@@ -582,21 +582,20 @@ const NewCustomer = () => {
           </div>
           <div className="col-md-4">
             <label className="form-label">Upload PAN*</label>
-            <input
-              type="file"
-              accept=".png, .jpeg"
-              className="form-control"
-              id="panProof"
-              onChange={(e) => setChoosePan(e.target.files[0])}
-            />
+            <div className="d-flex">
+              <input
+                type="file"
+                accept=".png, .jpeg"
+                className="form-control"
+                id="panProof"
+                onChange={(e) => setChoosePan(e.target.files[0])}
+              />
+              <button className="CButton mx-1" onClick={UploadPanFile}>
+                Upload
+              </button>
+            </div>
           </div>
-          <div className="col-md-1">
-            <br />
-            <button className="CButton mt-2" onClick={UploadPanFile}>
-              Upload
-            </button>
-          </div>
-          <div className="col-md-3 text-center">
+          <div className="col-md-3">
             {panFile && <img src={panFile} alt="panfile" height="100px" />}
           </div>
           <div className="col-md-4">
@@ -647,31 +646,30 @@ const NewCustomer = () => {
             </div>
           )}
           {addressProofType && (
-            <div className="col-md-4">
+            <div className="col-md-5">
               <label className="form-label">
                 {addressProofType === "aadhar"
                   ? "Upload Aadhar (Front/Back)*"
                   : "Upload Passport*"}
               </label>
-              <input
-                type="file"
-                accept=".png, .jpeg"
-                className="form-control"
-                id="addressProof"
-                multiple
-                onChange={(e) => setAdderessProof(Array.from(e.target.files))}
-              />
+              <div className="d-flex">
+                <input
+                  type="file"
+                  accept=".png, .jpeg"
+                  className="form-control"
+                  id="addressProof"
+                  multiple
+                  onChange={(e) => setAdderessProof(Array.from(e.target.files))}
+                />
+                {addressProofType && (
+                  <button className="CButton mx-1" onClick={UploadAddressProof}>
+                    Upload
+                  </button>
+                )}
+              </div>
             </div>
           )}
-          {addressProofType && (
-            <div className="col-md-1">
-              <br />
-              <button className="CButton mt-2" onClick={UploadAddressProof}>
-                Upload
-              </button>
-            </div>
-          )}
-          <div className="col-12 text-center">
+          <div className="col-12">
             {addressFile.length > 0 &&
               addressFile.map((ulr, i) => {
                 return (
@@ -752,9 +750,9 @@ const NewCustomer = () => {
               value={bankIfsc}
             />
           </div>
-          <div className="col-md-4 d-flex">
-            <div>
-              <label className="form-label">Cancelled Cheque</label>
+          <div className="col-md-5">
+            <label className="form-label">Cancelled Cheque</label>
+            <div className="d-flex">
               <input
                 type="file"
                 accept=".png, .jpeg"
@@ -762,15 +760,12 @@ const NewCustomer = () => {
                 onChange={(e) => setBankChequeFile(e.target.files[0])}
                 id="chequeBook"
               />
-            </div>
-            <div>
-              <br />
-              <button className="CButton mx-2 mt-2" onClick={UploadBankCheque}>
+              <button className="CButton mx-1" onClick={UploadBankCheque}>
                 Upload
               </button>
             </div>
           </div>
-          <div className="col-md-4 text-center">
+          <div className="col-md-3">
             {bankDetailFileName && (
               <img
                 src={bankDetailFileName}

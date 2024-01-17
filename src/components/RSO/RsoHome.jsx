@@ -210,7 +210,7 @@ const Home = () => {
               </span>
             </div>
           ) : (
-            <div className="d-flex justify-content-end mx-2 mt-2 mb-4">
+            <div className="d-flex justify-content-end mx-2 mb-4">
               <button
                 type="button"
                 className={

@@ -1167,37 +1167,35 @@ const CashierPaymentDetails = () => {
                 </div>
                 <div className="col-md-5">
                   <label className="form-label">Upload Service Invoice</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={(e) => setPrintFile(e.target.files[0])}
-                  />
-                </div>
-                <div className="col-md-1">
-                  <br />
-                  <button
-                    className="CButton mt-2 mx-1"
-                    onClick={UploadPrintFile}
-                  >
-                    Upload
-                  </button>
+                  <div className="d-flex">
+                    <input
+                      type="file"
+                      className="form-control"
+                      onChange={(e) => setPrintFile(e.target.files[0])}
+                    />
+                    <button
+                      className="CButton mx-1"
+                      onClick={UploadPrintFile}
+                    >
+                      Upload
+                    </button>
+                  </div>
                 </div>
                 <div className="col-md-5">
                   <label className="form-label">Loan Closure Document</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={(e) => setLoanCloseFile(e.target.files[0])}
-                  />
-                </div>
-                <div className="col-md-1">
-                  <br />
-                  <button
-                    className="CButton mt-2 mx-1"
-                    onClick={UploadLoanCloseFile}
-                  >
-                    Upload
-                  </button>
+                  <div className="d-flex">
+                    <input
+                      type="file"
+                      className="form-control"
+                      onChange={(e) => setLoanCloseFile(e.target.files[0])}
+                    />
+                    <button
+                      className="CButton mx-1"
+                      onClick={UploadLoanCloseFile}
+                    >
+                      Upload
+                    </button>
+                  </div>
                 </div>
               </div>
             )}

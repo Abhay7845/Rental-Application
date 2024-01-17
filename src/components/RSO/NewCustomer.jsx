@@ -19,7 +19,7 @@ const NewCustomer = () => {
   const [phoneOtp, setPhoneOtp] = useState("");
   const [enterPhoneOtp, setEnterPhoneOtp] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(false);
-  const phoneNo = localStorage.getItem("serachBookingNo");
+  const phoneNo = localStorage.getItem("searchBookingNo");
   const bookingRefId = localStorage.getItem("BookinTempId");
   const phoneNumber = !phoneNo ? "" : phoneNo;
   const navigate = useNavigate();

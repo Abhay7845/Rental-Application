@@ -65,7 +65,7 @@ const NewBooking = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         navigate("/new/customer");
-        localStorage.setItem("serachBookingNo", phonePanValue ? phonePanValue : regNumber);
+        localStorage.setItem("searchBookingNo", phonePanValue ? phonePanValue : regNumber);
       }
     });
   };

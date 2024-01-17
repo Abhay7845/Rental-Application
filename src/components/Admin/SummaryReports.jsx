@@ -481,19 +481,19 @@ const SummaryReports = () => {
                     <AccordionDetails>
                       {previousTnxData.length > 0 ? (
                         <div className="table-responsive">
-                          <table className="table table-bordered border-dark text-center">
-                            <thead className="table-dark border-light">
-                              <tr style={{ fontSize: "15px" }}>
+                          <Table className="table table-bordered border-dark text-center">
+                            <Thead className="table-dark border-light">
+                              <Tr style={{ fontSize: "15px" }}>
                                 {PaymentDlsHeaders.map((heading, i) => {
-                                  return <td key={i}>{heading}</td>;
+                                  return <Th key={i}>{heading}</Th>;
                                 })}
-                              </tr>
-                            </thead>
-                            <tbody>
+                              </Tr>
+                            </Thead>
+                            <Tbody>
                               {previousTnxData.map((item, i) => {
                                 return (
-                                  <tr key={i}>
-                                    <td>
+                                  <Tr key={i}>
+                                    <Td>
                                       {item.paymentFor ===
                                         "Payment_PendingFor_RentalReturn"
                                         ? "Additional Charge"
@@ -504,19 +504,19 @@ const SummaryReports = () => {
                                             "Payment_PendingFor_RentalIssuance"
                                             ? "Damage Protection Charge"
                                             : ""}
-                                    </td>
-                                    <td>{item.paymentType}</td>
-                                    <td>{item.txnRefNo}</td>
-                                    <td className="text-end">
+                                    </Td>
+                                    <Td>{item.paymentType}</Td>
+                                    <Td>{item.txnRefNo}</Td>
+                                    <Td className="text-end">
                                       {parseInt(item.amount)}
-                                    </td>
-                                    <td>{item.paymentDocFileName}</td>
-                                    <td>{moment().format("DD-MM-YYYY")}</td>
-                                  </tr>
+                                    </Td>
+                                    <Td>{item.paymentDocFileName}</Td>
+                                    <Td>{moment().format("DD-MM-YYYY")}</Td>
+                                  </Tr>
                                 );
                               })}
-                            </tbody>
-                          </table>
+                            </Tbody>
+                          </Table>
                         </div>
                       ) : (
                         <b className="text-danger">
@@ -535,49 +535,49 @@ const SummaryReports = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <div className="table-responsive">
-                        <table className="table table-bordered border-dark text-center">
-                          <thead className="table-dark border-light">
-                            <tr style={{ fontSize: "15px" }}>
+                        <Table className="table table-bordered border-dark text-center">
+                          <Thead className="table-dark border-light">
+                            <Tr style={{ fontSize: "15px" }}>
                               {CustomerDlsHeaders.map((heading, i) => {
-                                return <td key={i}>{heading}</td>;
+                                return <Th key={i}>{heading}</Th>;
                               })}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{existedUser.customerName}</td>
-                              <td>{existedUser.mobileNo}</td>
-                              <td>{existedUser.emailId}</td>
-                              <td>{existedUser.panCardNo}</td>
-                              <td>{existedUser.panCardNoFileName}</td>
-                              <td>
+                            </Tr>
+                          </Thead>
+                          <Tbody>
+                            <Tr>
+                              <Td>{existedUser.customerName}</Td>
+                              <Td>{existedUser.mobileNo}</Td>
+                              <Td>{existedUser.emailId}</Td>
+                              <Td>{existedUser.panCardNo}</Td>
+                              <Td>{existedUser.panCardNoFileName}</Td>
+                              <Td>
                                 {existedUser.customerCity},
                                 {existedUser.customerAddress1},
                                 {existedUser.customerAddress2},
                                 {existedUser.customerCityPincode}
-                              </td>
-                              <td>{existedUser.addressProofIdNo}</td>
-                              <td>{existedUser.addressProofFileName}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <table className="table table-bordered border-dark text-center">
-                          <thead className="table-dark border-light">
-                            <tr>
+                              </Td>
+                              <Td>{existedUser.addressProofIdNo}</Td>
+                              <Td>{existedUser.addressProofFileName}</Td>
+                            </Tr>
+                          </Tbody>
+                        </Table>
+                        <Table className="table table-bordered border-dark text-center">
+                          <Thead className="table-dark border-light">
+                            <Tr>
                               {CustomerBankDlsHeaders.map((heading, i) => {
-                                return <td key={i}>{heading}</td>;
+                                return <Th key={i}>{heading}</Th>;
                               })}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr style={{ fontSize: "15px" }}>
-                              <td>{existedUser.customerBankName}</td>
-                              <td>{existedUser.customerAccountNumber}</td>
-                              <td>{existedUser.bankIfsc}</td>
-                              <td>{existedUser.bankDetailFileName}</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                            </Tr>
+                          </Thead>
+                          <Tbody>
+                            <Tr style={{ fontSize: "15px" }}>
+                              <Td>{existedUser.customerBankName}</Td>
+                              <Td>{existedUser.customerAccountNumber}</Td>
+                              <Td>{existedUser.bankIfsc}</Td>
+                              <Td>{existedUser.bankDetailFileName}</Td>
+                            </Tr>
+                          </Tbody>
+                        </Table>
                       </div>
                     </AccordionDetails>
                   </Accordion>

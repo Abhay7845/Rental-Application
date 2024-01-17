@@ -648,23 +648,23 @@ const RentalIssue = () => {
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3 mb-4">
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Booking Ref No</label>
             <h6>{refId}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Rental Start Date</label>
             <h6>{moment(rentalDate).format("DD-MM- YYYY")}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Rental end Date</label>
             <h6>{moment(getReturnDate()).format("DD-MM- YYYY")}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Customer Name</label>
             <h6>{customerName}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Phone Number</label>
             <h6>{mobileNo}</h6>
           </div>
@@ -717,9 +717,9 @@ const RentalIssue = () => {
             {sameCustFileUrl ? (
               <img src={sameCustFileUrl} alt="" width="180" height="85" />
             ) : (
-              <div className="d-flex">
-                <div>
-                  <label className="form-label">Upload ID</label>
+              <div>
+                <label className="form-label">Upload ID</label>
+                <div className="d-flex">
                   <input
                     type="file"
                     id="sameCust"
@@ -728,9 +728,6 @@ const RentalIssue = () => {
                     onChange={(e) => setSameCustFile(e.target.files[0])}
                     disabled={sameCustomer ? true : false}
                   />
-                </div>
-                <div>
-                  <label className="form-label">.</label>
                   <button
                     className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
                     onClick={UploadSameCustIDProof}
@@ -923,42 +920,40 @@ const RentalIssue = () => {
               )}
             </h6>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-4">
             <label className="form-label">Upload Karigar QA Report</label>
-            <input
-              type="file"
-              id="QAfile"
-              className="form-control"
-              multiple
-              onChange={(e) => setKarigarQAFile(e.target.files[0])}
-            />
-          </div>
-          <div className="col-md-1">
-            <br />
-            <button className="CButton mt-2" onClick={UploadKarigarQA}>
-              Upload
-            </button>
+            <div className="d-flex">
+              <input
+                type="file"
+                id="QAfile"
+                className="form-control"
+                multiple
+                onChange={(e) => setKarigarQAFile(e.target.files[0])}
+              />
+              <button className="CButton mx-1" onClick={UploadKarigarQA}>
+                Upload
+              </button>
+            </div>
           </div>
           <div className="col-md-2">
             {karigarQAUrl && (
               <img src={karigarQAUrl} alt="Preview" height="70" width="140" />
             )}
           </div>
-          <div className="col-md-3">
+          <div className="col-md-4">
             <label className="form-label">Upload Karat Meter Report</label>
-            <input
-              type="file"
-              id="karetfile"
-              multiple
-              className="form-control"
-              onChange={(e) => setKarateMtrFile(e.target.files[0])}
-            />
-          </div>
-          <div className="col-md-1">
-            <br />
-            <button className="CButton mt-2" onClick={UploadKarateMtr}>
-              Upload
-            </button>
+            <div className="d-flex">
+              <input
+                type="file"
+                id="karetfile"
+                multiple
+                className="form-control"
+                onChange={(e) => setKarateMtrFile(e.target.files[0])}
+              />
+              <button className="CButton mx-1" onClick={UploadKarateMtr}>
+                Upload
+              </button>
+            </div>
           </div>
           <div className="col-md-2">
             {karetMtrUrl && (

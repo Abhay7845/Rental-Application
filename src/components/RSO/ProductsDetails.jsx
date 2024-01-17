@@ -15,6 +15,7 @@ import {
   CheckAvaiblityInitialValue,
   CheckAvaiblitySchema,
 } from "../../Schema/LoginSchema";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import moment from "moment";
 import ShowError from "../../Schema/ShowError";
 import { IMAGE_URL } from "../../Data/DataList";
@@ -502,22 +503,22 @@ const ProductsDetails = () => {
           </Form>
         </Formik>
         <div className="col-12 table-responsive">
-          <table className="table table-bordered table-hover border-dark text-center">
-            <thead className="table-dark border-light">
-              <tr style={{ fontSize: "15px" }}>
-                {payload.phone && <td>Select</td>}
+          <Table className="table table-bordered table-hover border-dark text-center">
+            <Thead className="table-dark border-light">
+              <Tr style={{ fontSize: "15px" }}>
+                {payload.phone && <Th>Select</Th>}
                 {WishListHeader.map((heading, i) => {
-                  return <td key={i}>{heading}</td>;
+                  return <Th key={i}>{heading}</Th>;
                 })}
-              </tr>
-            </thead>
-            <tbody>
+              </Tr>
+            </Thead>
+            <Tbody>
               {GetProductData.map((data, i) => {
                 const { itemCode } = data;
                 const imageCode = itemCode.substring(2, 9);
                 const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                 return (
-                  <tr
+                  <Tr
                     key={i}
                     style={{
                       pointerEvents: `${AvlProduct[i] === "Product_Not_Available"
@@ -527,7 +528,7 @@ const ProductsDetails = () => {
                     }}
                   >
                     {payload.phone &&
-                      <td className="text-center">
+                      <Td className="text-center">
                         <input
                           className="form-check-input border-dark"
                           type="checkbox"
@@ -538,32 +539,31 @@ const ProductsDetails = () => {
                           }
                           onClick={(e) => SelectedProducts(e, data)}
                         />
-                      </td>}
-                    <td>
+                      </Td>}
+                    <Td>
                       <img src={imageURL} className="custom-image" alt="" />
-                    </td>
-                    <td>{data.itemCode}</td>
-                    <td>{data.lotNo}</td>
-                    <td>{data.description}</td>
-                    <td>{data.grossWt}</td>
-                    <td>
+                    </Td>
+                    <Td>{data.itemCode}</Td>
+                    <Td>{data.lotNo}</Td>
+                    <Td>{data.description}</Td>
+                    <Td>{data.grossWt}</Td>
+                    <Td>
                       {Math.round(data.productValue).toLocaleString("en-IN")}
-                    </td>
-                    <td>
+                    </Td>
+                    <Td>
                       {Math.round(data.rentalRate).toLocaleString("en-IN")}
-                    </td>
-                    <td>{parseFloat(data.rentalRate * 1.18).toFixed(2)}</td>
-                    <td>
+                    </Td>
+                    <Td>{parseFloat(data.rentalRate * 1.18).toFixed(2)}</Td>
+                    <Td>
                       {Math.round(data.depositRate).toLocaleString("en-IN")}
-                    </td>
-                    <td className={AvlProduct[i] === "Product_Available" ? "text-success" : "text-danger"}>{AvlProduct[i]}</td>
-                  </tr>
+                    </Td>
+                    <Td className={AvlProduct[i] === "Product_Available" ? "text-success" : "text-danger"}>{AvlProduct[i]}</Td>
+                  </Tr>
                 );
               })}
-            </tbody>
-          </table>
+            </Tbody>
+          </Table>
         </div>
-
         <div className="d-flex justify-content-end mb-3">
           {productDetails.length > 0 && (
             <button className="CancelButton mx-2" onClick={GoForCancel}>

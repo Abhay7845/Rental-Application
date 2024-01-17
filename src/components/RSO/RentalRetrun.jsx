@@ -646,9 +646,9 @@ const RentalReturn = () => {
             {sameCustFileUrl ? (
               <img src={sameCustFileUrl} alt="" width="180" height="85" />
             ) : (
-              <div className="d-flex">
-                <div>
-                  <label className="form-label">Upload ID</label>
+              <div>
+                <label className="form-label">Upload ID</label>
+                <div className="d-flex">
                   <input
                     type="file"
                     id="sameCust"
@@ -656,9 +656,6 @@ const RentalReturn = () => {
                     onChange={(e) => setSameCustFile(e.target.files[0])}
                     disabled={sameCustomer ? true : false}
                   />
-                </div>
-                <div>
-                  <label className="form-label">.</label>
                   <button
                     className={sameCustomer ? "CDisabled mx-1" : "CButton mx-1"}
                     disabled={sameCustomer ? true : false}
@@ -868,18 +865,17 @@ const RentalReturn = () => {
             <label className="form-label">
               Upload Signed Karigar QA Report
             </label>
-            <input
-              type="file"
-              id="KarigrQAid"
-              className="form-control"
-              onChange={(e) => setKarigarQAFile(e.target.files[0])}
-            />
-          </div>
-          <div className="col-md-2">
-            <br />
-            <button className="CButton mt-2" onClick={karigarAQFile}>
-              Upload
-            </button>
+            <div className="d-flex">
+              <input
+                type="file"
+                id="KarigrQAid"
+                className="form-control"
+                onChange={(e) => setKarigarQAFile(e.target.files[0])}
+              />
+              <button className="CButton mx-2" onClick={karigarAQFile}>
+                Upload
+              </button>
+            </div>
           </div>
           {karigarQAFileUrl && (
             <div className="col-md-3">

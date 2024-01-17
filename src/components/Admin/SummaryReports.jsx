@@ -367,72 +367,72 @@ const SummaryReports = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <div className="table-responsive">
-                        <table className="table table-bordered border-dark text-center">
-                          <thead className="table-dark border-light">
-                            <tr style={{ fontSize: "15px" }}>
+                        <Table className="table table-bordered border-dark text-center">
+                          <Thead className="table-dark border-light">
+                            <Tr style={{ fontSize: "15px" }}>
                               {OrderSummaryDlsHeaders.map((heading, i) => {
-                                return <td key={i}>{heading}</td>;
+                                return <Th key={i}>{heading}</Th>;
                               })}
-                            </tr>
-                          </thead>
-                          <tbody>
+                            </Tr>
+                          </Thead>
+                          <Tbody>
                             {commonTableData.map((item, i) => {
                               const { penaltyCharges, damageCharges } = item;
                               return (
-                                <tr key={i}>
-                                  <td>{item.itemCode}</td>
-                                  <td>{item.deliveredWt}</td>
-                                  <td>{item.actualWtReturn}</td>
-                                  <td>
+                                <Tr key={i}>
+                                  <Td>{item.itemCode}</Td>
+                                  <Td>{item.deliveredWt}</Td>
+                                  <Td>{item.actualWtReturn}</Td>
+                                  <Td className="text-end">
                                     {parseFloat(
                                       item.rentalAmount * 1.18
                                     ).toFixed(2)}
-                                  </td>
-                                  <td>{parseInt(item.depositAmount)}</td>
-                                  <td>
+                                  </Td>
+                                  <Td>{parseInt(item.depositAmount)}</Td>
+                                  <Td className="text-end">
                                     {penaltyCharges === "" ? 0 : penaltyCharges}
-                                  </td>
-                                  <td>
+                                  </Td>
+                                  <Td className="text-end">
                                     {damageCharges === "" ? 0 : damageCharges}
-                                  </td>
-                                </tr>
+                                  </Td>
+                                </Tr>
                               );
                             })}
-                            <tr>
-                              <th colSpan="3" className="text-end">
+                            <Tr className="text-end">
+                              <Th colSpan="3" >
                                 TOTAL
-                              </th>
-                              <th>
+                              </Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalBookingAmount)}
-                              </th>
-                              <th>
+                              </Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalDepositAmount)}
-                              </th>
-                              <th>
+                              </Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalPenaltyCharges)}
-                              </th>
-                              <th>
+                              </Th>
+                              <Th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
                                 }).format(totalPaidAmount.totalDamageCharges)}
-                              </th>
-                            </tr>
-                          </tbody>
-                        </table>
+                              </Th>
+                            </Tr>
+                          </Tbody>
+                        </Table>
                         <table className="table table-bordered border-dark text-center">
                           <thead className="table-dark border-light">
                             <tr style={{ fontSize: "15px" }}>

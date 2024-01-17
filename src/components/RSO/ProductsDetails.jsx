@@ -588,97 +588,97 @@ const ProductsDetails = () => {
             <h6 className="bookingHeading">Products In Cart</h6>
           </div>
           <div className="col-12 table-responsive">
-            <table className="table table-bordered table-hover border-dark text-center">
-              <thead className="table-dark border-light">
-                <tr>
-                  <td>Select</td>
-                  <td>Rental Start Date</td>
+            <Table className="table table-bordered table-hover border-dark text-center">
+              <Thead className="table-dark border-light">
+                <Tr>
+                  <Th>Select</Th>
+                  <Th>Rental Start Date</Th>
                   {AddedToCartHeaders.map((heading, i) => {
-                    return <td key={i}>{heading}</td>;
+                    return <Th key={i}>{heading}</Th>;
                   })}
-                  <td>Delete</td>
-                </tr>
-              </thead>
-              <tbody>
+                  <Th>Delete</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
                 {addedProducts.map((item, i) => {
                   const { itemCode } = item;
                   const imageCode = itemCode.substring(2, 9);
                   const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                   return (
-                    <tr key={i}>
-                      <td>
+                    <Tr key={i}>
+                      <Td>
                         <input
                           className="form-check-input mx-2 border-dark"
                           type="checkbox"
                           onChange={(e) => OnSelectProduct(e, item)}
                         />
-                      </td>
-                      <td>{moment(item.rentalStartDate).format("DD-MM-YYYY")}</td>
-                      <td>
-                        <img src={imageURL} className="custom-image" alt="" />
-                      </td>
-                      <td>{item.itemCode}</td>
-                      <td>{item.lotNo}</td>
-                      <td>{item.grossWt}</td>
-                      <td>
+                      </Td>
+                      <Td>{moment(item.rentalStartDate).format("DD-MM-YYYY")}</Td>
+                      <Td>
+                        <img src={imageURL} className="custom-image" alt="imageURL" />
+                      </Td>
+                      <Td>{item.itemCode}</Td>
+                      <Td>{item.lotNo}</Td>
+                      <Td>{item.grossWt}</Td>
+                      <Td className="text-end">
                         {Math.round(item.productValue).toLocaleString(
                           "en-IN"
                         )}
-                      </td>
-                      <td>
+                      </Td>
+                      <Td className="text-end">
                         {Math.round(item.rentValue).toLocaleString("en-IN")}
-                      </td>
-                      <td>{parseFloat(item.rentValue * 1.18).toFixed(2)}</td>
-                      <td>
+                      </Td>
+                      <Td className="text-end">{parseFloat(item.rentValue * 1.18).toFixed(2)}</Td>
+                      <Td className="text-end">
                         {Math.round(item.depositValue).toLocaleString(
                           "en-IN"
                         )}
-                      </td>
-                      <td>
+                      </Td>
+                      <Td>
                         <BsFillTrashFill
                           className="DeleteRow"
                           onClick={() => DeleteProduct(item)}
                         />
-                      </td>
-                    </tr>
+                      </Td>
+                    </Tr>
                   );
                 })}
-                <tr className="text-bold">
-                  <th colSpan="6" className="text-end">
+                <Tr className="text-bold text-end">
+                  <Th colSpan="6">
                     TOTAL
-                  </th>
-                  <th>
+                  </Th>
+                  <Th>
                     {new Intl.NumberFormat("en-IN", {
                       style: "currency",
                       currency: "INR",
                       minimumFractionDigits: false,
                     }).format(SumOfTProductValue())}
-                  </th>
-                  <th>
+                  </Th>
+                  <Th>
                     {new Intl.NumberFormat("en-IN", {
                       style: "currency",
                       currency: "INR",
                       minimumFractionDigits: false,
                     }).format(SumOfRentalRate())}
-                  </th>
-                  <th>
+                  </Th>
+                  <Th>
                     {new Intl.NumberFormat("en-IN", {
                       style: "currency",
                       currency: "INR",
                       minimumFractionDigits: 2,
                     }).format(SumOfRentalRateWithTx())}
-                  </th>
-                  <th >
+                  </Th>
+                  <Th >
                     {new Intl.NumberFormat("en-IN", {
                       style: "currency",
                       currency: "INR",
                       minimumFractionDigits: false,
                     }).format(SumOfDepositRate())}
-                  </th>
-                  <th />
-                </tr>
-              </tbody>
-            </table>
+                  </Th>
+                  <Th />
+                </Tr>
+              </Tbody>
+            </Table>
           </div>
           <div className="d-flex justify-content-end mt-0 mb-3">
             <button className={pdtSelected.length > 0 ? "CButton" : "CDisabled"}

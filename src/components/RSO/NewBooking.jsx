@@ -8,6 +8,7 @@ import {
   IMAGE_URL,
 } from "../../Data/DataList";
 import { toast } from 'react-toastify';
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { HOST_URL } from "../../API/HostURL";
@@ -465,42 +466,42 @@ const NewBooking = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Details</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">CUSTOMER NAME</label>
             <h6>{existedUserData.customerName}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">PHONE NUMBER</label>
             <h6>{existedUserData.mobileNo}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">EMAIL</label>
             <h6>{existedUserData.emailId}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">CUSTOMER TYPE</label>
             <h6>{custType}</h6>
           </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Address</h6>
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <label className="form-label">CITY</label>
             <h6>{existedUserData.customerCity}</h6>
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <label className="form-label">ADDRESS LINE-1</label>
             <h6>{existedUserData.customerAddress1}</h6>
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <label className="form-label">ADDRESS LINE-2</label>
             <h6>{existedUserData.customerAddress2}</h6>
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <label className="form-label">PIN CODE</label>
             <h6>{existedUserData.customerCityPincode}</h6>
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <label className="form-label">ID NUMBER</label>
             <h6>{existedUserData.addressProofIdNo}</h6>
           </div>
@@ -512,21 +513,21 @@ const NewBooking = () => {
               height="85"
             />}
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <label className="form-label">RENTAL START DATE</label>
             <h6>
               {rentalStrDate.length > 0 &&
                 moment(rentalStrDate[0]).format("DD-MM-YYYY")}
             </h6>
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <label className="form-label">PACKAGE DAYS</label>
             {packageDays.length > 0 && <h6>{packageDays[0]} Days</h6>}
           </div>
           {!existedUserData.customerBankName ||
             !existedUserData.customerAccountNumber ||
             !existedUserData.bankIfsc ? (
-            <div className="col-4">
+            <div className="col-md-4">
               <span className="form-label text-danger">
                 <b>Please Add Your Bank Details</b>
               </span>
@@ -541,133 +542,132 @@ const NewBooking = () => {
               </button>
             </div>
           ) : (
-            <div className="col-4">
+            <div className="col-md-4">
               <label className="form-label text-success">
                 <b>BANK DETAILS ARE AVAILABLE</b>
               </label>
             </div>
           )}
           {custType !== "New Customer" && (
-            <div className="d-flex">
-              <div className="col-md-4">
+            <div className="row d-flex mt-3">
+              <div className="col-md-5">
                 <label className="form-label">
                   Previous Transaction File
                 </label>
-                <input
-                  type="file"
-                  accept=".png, .jpeg"
-                  className="form-control"
-                  onChange={(e) => setTnxFile(e.target.files[0])}
-                />
+                <div className="d-flex justify-content-between">
+                  <input
+                    type="file"
+                    accept=".png, .jpeg"
+                    className="form-control"
+                    onChange={(e) => setTnxFile(e.target.files[0])}
+                  />
+                  <button className="CButton mx-2" onClick={UploadPreTransaction}>
+                    Upload
+                  </button>
+                </div>
               </div>
-              <div className="col-md-2 mt-2 mx-2">
-                <br />
-                <button className="CButton" onClick={UploadPreTransaction}>
-                  Upload
-                </button>
+              <div className="col-md-3 text-center mt-3">
+                {transactioUI && (
+                  <img src={transactioUI} alt="" width="180" height="85" />
+                )}
               </div>
             </div>
           )}
-          <div className="col-md-3 text-center">
-            {transactioUI && (
-              <img src={transactioUI} alt="" width="180" height="85" />
-            )}
-          </div>
           <div className="col-12">
             <h6 className="bookingHeading">Item Details</h6>
             {getCartProductData.length > 0 && (
               <div className="table-responsive">
-                <table
+                <Table
                   id="item-details-table"
                   className="table table-bordered table-hover border-dark text-center"
                 >
-                  <thead className="table-dark border-light">
-                    <tr style={{ fontSize: "15px" }}>
+                  <Thead className="table-dark border-light">
+                    <Tr style={{ fontSize: "15px" }}>
                       {AddedToCartHeaders.map((heading, i) => {
-                        return <td key={i}>{heading}</td>;
+                        return <Th key={i}>{heading}</Th>;
                       })}
-                      <td>Delete</td>
-                    </tr>
-                  </thead>
-                  <tbody>
+                      <Th>Delete</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
                     {getCartProductData.map((item, i) => {
                       const { itemCode } = item;
                       const imageCode = itemCode.substring(2, 9);
                       const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
-                        <tr key={i}>
-                          <td>
+                        <Tr key={i}>
+                          <Td>
                             <img
                               src={imageURL}
                               className="custom-image"
                               alt=""
                             />
-                          </td>
-                          <td>{item.itemCode}</td>
-                          <td>{item.lotNo}</td>
-                          <td>{item.grossWt}</td>
-                          <td>
+                          </Td>
+                          <Td>{item.itemCode}</Td>
+                          <Td>{item.lotNo}</Td>
+                          <Td>{item.grossWt}</Td>
+                          <Td className="text-end">
                             {Math.round(item.productValue).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {Math.round(item.rentValue).toLocaleString("en-IN")}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {parseFloat(item.rentValue * 1.18).toFixed(2)}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {Math.round(item.depositValue).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td>
                             <BsFillTrashFill
                               className="text-danger"
                               onClick={() => DeleteProductBookingPage(item)}
                               cursor="pointer"
                             />
-                          </td>
-                        </tr>
+                          </Td>
+                        </Tr>
                       );
                     })}
-                    <tr>
-                      <th colSpan="4" className="text-end">
+                    <Tr className="text-end">
+                      <Th colSpan="4" >
                         TOTAL
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfTProductValue())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfRentalRate())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: 2,
                         }).format(SumOfRentalRateWithTx())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfDepositRate())}
-                      </th>
-                      <th colSpan="1" />
-                    </tr>
-                  </tbody>
-                </table>
+                      </Th>
+                      <Th colSpan="1" />
+                    </Tr>
+                  </Tbody>
+                </Table>
               </div>
             )}
           </div>

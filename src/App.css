@@ -41,6 +41,42 @@
   cursor: not-allowed;
 }
 
+@media screen and (max-width:587px) {
+  .CDisabled {
+    padding: 5px;
+    font-size: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+@media screen and (max-width:587px) {
+  .CnDisabled {
+    padding: 3px;
+    font-size: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+@media screen and (max-width:587px) {
+  .CButton {
+    padding: 3px;
+    font-size: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+@media screen and (max-width:587px) {
+  .CancelButton {
+    padding: 3px;
+    font-size: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
 .CancelButton {
   padding: 7.5px;
   padding-left: 20px;

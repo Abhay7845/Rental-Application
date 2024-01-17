@@ -1127,7 +1127,7 @@ const CashierPaymentDetails = () => {
                     )}
                   </h6>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <label className="form-label">
                     Upload Acknowledged Booking Receipt
                   </label>
@@ -1165,7 +1165,7 @@ const CashierPaymentDetails = () => {
                     )}
                   </h6>
                 </div>
-                <div className="col-md-5">
+                <div className="col-md-6">
                   <label className="form-label">Upload Service Invoice</label>
                   <div className="d-flex">
                     <input
@@ -1181,7 +1181,7 @@ const CashierPaymentDetails = () => {
                     </button>
                   </div>
                 </div>
-                <div className="col-md-5">
+                <div className="col-md-6">
                   <label className="form-label">Loan Closure Document</label>
                   <div className="d-flex">
                     <input
@@ -1218,32 +1218,38 @@ const CashierPaymentDetails = () => {
                     )}
                   </h6>
                 </div>
-                <div className="input-group">
-                  <div className="input-group-text">Loan Document Upload</div>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={(e) => setPrintFile(e.target.files[0])}
-                  />
-                  <button className="CButton mx-1" onClick={UploadPrintFile}>
-                    Upload
-                  </button>
-                </div>
-                <div className="input-group">
-                  <div className="input-group-text">
-                    Acknowledged Delivery Challan
+                <div className="col-md-6">
+                  <label className="form-label">
+                    Loan Document Upload
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="file"
+                      className="form-control"
+                      // accept=".png, .jpeg"
+                      onChange={(e) => setPrintFile(e.target.files[0])}
+                    />
+                    <button className="CButton mx-1" onClick={UploadPrintFile}>
+                      Upload
+                    </button>
                   </div>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={(e) => setDeliveryChallan(e.target.files[0])}
-                  />
-                  <button
-                    className="CButton mx-1"
-                    onClick={UploadDeliveryChallan}
-                  >
-                    Upload
-                  </button>
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">
+                    Acknowledged Delivery Challan
+
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="file"
+                      className="form-control"
+                      // accept=".png, .jpeg"
+                      onChange={(e) => setDeliveryChallan(e.target.files[0])}
+                    />
+                    <button className="CButton mx-1" onClick={UploadDeliveryChallan}>
+                      Upload
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -1264,18 +1270,20 @@ const CashierPaymentDetails = () => {
                     />
                   </h6>
                 </div>
-                <div className="input-group">
-                  <div className="input-group-text">
+                <div className="col-md-12">
+                  <label className="form-label">
                     Upload Cancellation Invoice
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="file"
+                      className="form-control"
+                      onChange={(e) => setPrintFile(e.target.files[0])}
+                    />
+                    <button className="CButton mx-1" onClick={UploadPrintFile}>
+                      Upload
+                    </button>
                   </div>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={(e) => setPrintFile(e.target.files[0])}
-                  />
-                  <button className="CButton" onClick={UploadPrintFile}>
-                    Upload
-                  </button>
                 </div>
               </div>
             )}

@@ -5,6 +5,7 @@ import moment from "moment";
 import axios from "axios";
 import Loader from "../common/Loader";
 import { renatlReturnPage, addressTypeOption, IMAGE_URL, } from "../../Data/DataList";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { HOST_URL } from "../../API/HostURL";
 import { UploadImg, FetchImg } from "../../API/HostURL";
 import Swal from "sweetalert2";
@@ -576,23 +577,23 @@ const RentalReturn = () => {
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3 mb-4">
-          <div className="col-3">
+          <div className="co-md-3">
             <label className="form-label">Booking Ref No</label>
             <h6>{refId}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Renatl Start Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("DD-MM-YYYY")}</h6>
           </div>
-          <div className="col-3">
+          <div className="col-md-3">
             <label className="form-label">Rental End Date</label>
             <h6>{moment(getReturnDate()).format("DD-MM-YYYY")}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Customer Name</label>
             <h6>{GetReturnProduct.customerName}</h6>
           </div>
-          <div className="col-2">
+          <div className="col-md-2">
             <label className="form-label">Phone Number</label>
             <h6>{GetReturnProduct.mobileNo}</h6>
           </div>
@@ -673,35 +674,36 @@ const RentalReturn = () => {
             <div className="col-12">
               <h6 className="bookingHeading">Item Details</h6>
               <div className="table-responsive">
-                <table className="table table-bordered table-hover border-dark text-center">
-                  <thead className="table-dark border-light">
-                    <tr style={{ fontSize: "15px" }}>
+                <Table className="table table-bordered table-hover border-dark text-center">
+                  <Thead className="table-dark border-light">
+                    <Tr style={{ fontSize: "15px" }}>
                       {renatlReturnPage.map((heading, i) => {
-                        return <td key={i}>{heading}</td>;
+                        return <Th key={i}>{heading}</Th>;
                       })}
-                    </tr>
-                  </thead>
-                  <tbody>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
                     {refactoreDataTable.map((item, i) => {
                       const { itemCode } = item;
                       const imageCode = itemCode.substring(2, 9);
                       const imageURL = `${IMAGE_URL}${imageCode}.jpg`;
                       return (
-                        <tr key={i}>
-                          <td>
+                        <Tr key={i}>
+                          <Td>
                             <img
                               src={imageURL}
                               className="custom-image"
                               alt=""
                             />
-                          </td>
-                          <td>{item.itemCode}</td>
-                          <td>{item.lotNo}</td>
-                          <td>{item.grossWt}</td>
-                          <td>{item.deliveredWt}</td>
-                          <td>
+                          </Td>
+                          <Td>{item.itemCode}</Td>
+                          <Td>{item.lotNo}</Td>
+                          <Td>{item.grossWt}</Td>
+                          <Td>{item.deliveredWt}</Td>
+                          <Td>
                             <input
                               type="number"
+                              className="w-100"
                               placeholder="Actual Wt at Return"
                               name={i}
                               defaultValue={inputRtnValues[i]}
@@ -709,19 +711,19 @@ const RentalReturn = () => {
                                 GetActualWtAtReturn(e, item.grossWt)
                               }
                             />
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {Math.round(item.productValue).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">
                             {Math.round(item.rentalAmount).toLocaleString(
                               "en-IN"
                             )}
-                          </td>
-                          <td>{item.peneltyCharge.toLocaleString("en-IN")}</td>
-                          <td>
+                          </Td>
+                          <Td className="text-end">{item.peneltyCharge.toLocaleString("en-IN")}</Td>
+                          <Td>
                             <select
                               className="w-100"
                               name={i}
@@ -733,8 +735,8 @@ const RentalReturn = () => {
                               <option value="YES">Yes</option>
                               <option value="FactoryQA">Factory QA</option>
                             </select>
-                          </td>
-                          <td>
+                          </Td>
+                          <Td>
                             <input
                               type="number"
                               className="w-100"
@@ -749,47 +751,47 @@ const RentalReturn = () => {
                               onChange={GetActualWtOfDamage}
                               disabled={inputPhyDmg[i] === "NO" ? true : false}
                             />
-                          </td>
-                        </tr>
+                          </Td>
+                        </Tr>
                       );
                     })}
-                    <tr>
-                      <th colSpan="5" className="text-end">
+                    <Tr className="text-end">
+                      <Th colSpan="5">
                         TOTAL
-                      </th>
-                      <th>{SumOfActualItemWt().toFixed(3)} g.</th>
-                      <th>
+                      </Th>
+                      <Th>{SumOfActualItemWt().toFixed(3)} g.</Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfTProductValue())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfTRentalRate())}
-                      </th>
-                      <th>
+                      </Th>
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfTPeneltyCharge())}
-                      </th>
-                      <th colSpan="1" />
-                      <th>
+                      </Th>
+                      <Th colSpan="1" />
+                      <Th>
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
                           minimumFractionDigits: false,
                         }).format(SumOfDmgCharge())}
-                      </th>
-                    </tr>
-                  </tbody>
-                </table>
+                      </Th>
+                    </Tr>
+                  </Tbody>
+                </Table>
               </div>
             </div>
           )}

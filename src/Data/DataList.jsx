@@ -81,7 +81,7 @@ export const WishListHeader = [
   "Product Value",
   "Rental Value",
   "Rental Value With(18%)Tax",
-  "Damage Protection Amount",
+  "Damage Protection",
   "Availability",
 ];
 

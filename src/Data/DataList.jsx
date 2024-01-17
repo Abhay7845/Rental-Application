@@ -168,7 +168,7 @@ export const AdminSummarHeaders = [
   "Rental End Date",
   "Cool Of End Date",
   "Status",
-  "View Booking Details",
+  "View Booking",
 ];
 export const ProductDlsHeaders = [
   "Item Code",

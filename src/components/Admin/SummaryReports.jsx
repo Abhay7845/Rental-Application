@@ -204,32 +204,32 @@ const SummaryReports = () => {
           </Formik>
           {summaryReports.length > 0 && (
             <div className="table-responsive">
-              <table className="table table-bordered border-dark text-center">
-                <thead className="table-dark border-light">
-                  <tr>
+              <Table className="table table-bordered border-dark text-center">
+                <Thead className="table-dark border-light">
+                  <Tr>
                     {AdminSummarHeaders.map((heading, i) => {
-                      return <td key={i}>{heading}</td>;
+                      return <Th key={i}>{heading}</Th>;
                     })}
-                  </tr>
-                </thead>
-                <tbody>
+                  </Tr>
+                </Thead>
+                <Tbody>
                   {summaryReports.map((item, i) => {
                     return (
-                      <tr key={i}>
-                        <td>{item.storeCode}</td>
-                        <td>{moment(item.bookingDate).format("DD-MM-YYYY")}</td>
-                        <td>{item.bookingRefNo}</td>
-                        <td>
+                      <Tr key={i}>
+                        <Td>{item.storeCode}</Td>
+                        <Td>{moment(item.bookingDate).format("DD-MM-YYYY")}</Td>
+                        <Td>{item.bookingRefNo}</Td>
+                        <Td>
                           {moment(item.rentalStartDate).format("DD-MM-YYYY")}
-                        </td>
-                        <td>
+                        </Td>
+                        <Td>
                           {moment(item.rentalEndDate).format("DD-MM-YYYY")}
-                        </td>
-                        <td>
+                        </Td>
+                        <Td>
                           {moment(item.coolOffEndDate).format("DD-MM-YYYY")}
-                        </td>
-                        <td>{item.status.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</td>
-                        <td>
+                        </Td>
+                        <Td>{item.status.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                        <Td>
                           <button
                             className="CButton"
                             data-bs-toggle={item.bookingRefNo ? "modal" : ""}
@@ -238,12 +238,12 @@ const SummaryReports = () => {
                           >
                             View
                           </button>
-                        </td>
-                      </tr>
+                        </Td>
+                      </Tr>
                     );
                   })}
-                </tbody>
-              </table>
+                </Tbody>
+              </Table>
             </div>
           )}
         </div>
@@ -275,14 +275,20 @@ const SummaryReports = () => {
             </div>
             <div className="modal-body">
               {loading === true && <Loader />}
-              <div className="table-responsive">
-                <div className="d-flex justify-content-between mx-1">
-                  <b>Booking Ref No. :- {orderData.bookingRefNo}</b>
-                  <b>
+              <div className="table-responsive mt-4">
+                <div className="row g-3 mx-0">
+                  <div className="col-md-4">
+                    Booking Ref No. :- <b>{orderData.bookingRefNo}</b>
+                  </div>
+                  <div className="col-md-4">
                     Custome Name :-
-                    {!customerName ? "" : customerName.toUpperCase()}
-                  </b>
-                  <b>Phone No. :- {customerPhone}</b>
+                    <b>
+                      {!customerName ? "" : customerName.toUpperCase()}
+                    </b>
+                  </div>
+                  <div className="col-md-4">
+                    Phone No. :- <b>{customerPhone}</b>
+                  </div>
                 </div>
                 <div className="mt-4" style={{ border: "1.4px solid #c1c4c5" }}>
                   <Accordion>

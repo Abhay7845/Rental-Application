@@ -189,7 +189,7 @@ const Home = () => {
                         />
                       </Td>
                       <Td>{item.customerName}</Td>
-                      <Td>{item.refId}</Td>
+                      <Td>{item.refId ? item.refId : "N/A"}</Td>
                       <Td>{item.mobileNo}</Td>
                       <Td>{item.packageSelected}</Td>
                       <Td>{moment(item.rentalDate).format("DD-MM-YYYY")}</Td>

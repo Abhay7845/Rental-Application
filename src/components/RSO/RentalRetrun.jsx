@@ -360,10 +360,11 @@ const RentalReturn = () => {
 
   const PdtItemWitewt = PdtItemWtRtn.map((ele, i) => {
     return {
-      actualWtAtReturn: parseFloat(ele).toFixed(3),
+      actualWtAtReturn: parseFloat(parseFloat(ele).toFixed(3)),
       pdtId: parseInt(refactoreDataTable[i].pdtId),
     };
   });
+
 
   // TOTAL ACTUAL WT OF RETURN
   const SumOfActualItemWt = () => {

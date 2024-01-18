@@ -97,7 +97,7 @@ const RentalIssue = () => {
 
   const PdtItemWitewt = PdtItemWt.map((ele, i) => {
     return {
-      actualWtAtDelivery: parseFloat(ele).toFixed(3),
+      actualWtAtDelivery: parseFloat(parseFloat(ele).toFixed(3)),
       pdtId: parseInt(retunTableData[i].pdtId),
     };
   });

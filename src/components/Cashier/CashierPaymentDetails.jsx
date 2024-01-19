@@ -267,7 +267,7 @@ const CashierPaymentDetails = () => {
       });
   };
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key.toUpperCase() === 'ENTER') {
       if (searchValue.length < 10) {
         toast.error("Please Enter Valid Phone & Refrence Number", { theme: "colored", autoClose: 3000 });
       } else {

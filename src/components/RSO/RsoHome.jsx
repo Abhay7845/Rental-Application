@@ -100,7 +100,7 @@ const Home = () => {
       });
   };
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key.toUpperCase() === 'ENTER') {
       if (phoneRefrence.length < 10) {
         toast.error("Please Enter Valid Phone Number", { theme: "colored", autoClose: 3000 });
       } else {

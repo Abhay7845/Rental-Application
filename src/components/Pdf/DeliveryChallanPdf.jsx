@@ -71,7 +71,7 @@ const DeliveryChallanPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-top:50mm;
+              margin-top:35mm;
               margin-bottom:52mm;
             }
             }

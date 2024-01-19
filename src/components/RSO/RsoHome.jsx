@@ -8,6 +8,7 @@ import { homePageTHeadrs, phonePan } from "../../Data/DataList";
 import { HOST_URL } from "../../API/HostURL";
 import { useNavigate } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import { toast } from "react-toastify";
 
 
 const Home = () => {
@@ -78,7 +79,7 @@ const Home = () => {
   const rentalDate = moment(new Date(selecttedProduct.rentalDate)).format(
     "YYYY-MM-DD"
   );
-  const GetBookingDetails = () => {
+  const GetBookingDetails = (phoneRefrence) => {
     setLoading(true);
     axios
       .get(
@@ -98,6 +99,15 @@ const Home = () => {
         setLoading(false);
       });
   };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      if (phoneRefrence.length < 10) {
+        toast.error("Please Enter Valid Phone Number", { theme: "colored", autoClose: 3000 });
+      } else {
+        GetBookingDetails(phoneRefrence);
+      }
+    }
+  }
 
   const OnSelectRow = (data) => {
     setSelecttedProduct(data);
@@ -145,13 +155,14 @@ const Home = () => {
             className="searchStyle"
             placeholder="Search by Customer Phone Number or Refrence No."
             value={phoneRefrence.toUpperCase()}
+            onKeyDown={handleKeyPress}
             maxLength={30}
             onChange={(e) => setPhoneRefrence(e.target.value)}
           />
           <button
             className={`${phoneRefrence.length < 10 ? "DisableSearch" : "searchButton"
               }`}
-            onClick={GetBookingDetails}
+            onClick={() => GetBookingDetails(phoneRefrence)}
             disabled={phoneRefrence.length < 10 ? true : false}
           >
             {loading ? (

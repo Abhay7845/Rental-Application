@@ -217,7 +217,7 @@ const CashierPaymentDetails = () => {
   }, [storeCode, paymentDetails.tempBookingRef]);
 
   const ClearAllUIData = (paymentRequestFor) => {
-    GetPyamentDetials();
+    GetPyamentDetials(searchValue);
     setPaymentDetails({});
     setGetPaymentData([]);
     setSavePaymetRow([]);
@@ -232,7 +232,7 @@ const CashierPaymentDetails = () => {
       setBookingRefID(booking_Id)
     }
   };
-  const GetPyamentDetials = () => {
+  const GetPyamentDetials = (searchValue) => {
     setLoading(true);
     axios
       .get(
@@ -266,6 +266,15 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      if (searchValue.length < 10) {
+        toast.error("Please Enter Valid Phone Number", { theme: "colored", autoClose: 3000 });
+      } else {
+        GetPyamentDetials(searchValue);
+      }
+    }
+  }
 
   const OnSelectRow = (seletedData) => {
     setPaymentDetails(seletedData);
@@ -855,13 +864,14 @@ const CashierPaymentDetails = () => {
             className="form-control"
             placeholder="Search By Customer Phone Number"
             maxLength={10}
+            onKeyDown={handleKeyPress}
             onChange={(e) => setSearchValue(e.target.value)}
           />
           <button
             type="button"
             className={searchValue.length < 10 ? "CDisabled mx-1" : "CButton mx-1"}
             disabled={searchValue.length < 10 ? true : false}
-            onClick={GetPyamentDetials}
+            onClick={() => GetPyamentDetials(searchValue)}
           >
             Search
           </button>

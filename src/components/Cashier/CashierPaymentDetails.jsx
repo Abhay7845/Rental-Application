@@ -269,7 +269,7 @@ const CashierPaymentDetails = () => {
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       if (searchValue.length < 10) {
-        toast.error("Please Enter Valid Phone Number", { theme: "colored", autoClose: 3000 });
+        toast.error("Please Enter Valid Phone & Refrence Number", { theme: "colored", autoClose: 3000 });
       } else {
         GetPyamentDetials(searchValue);
       }

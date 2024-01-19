@@ -578,12 +578,12 @@ const RentalReturn = () => {
       <div className="mt-4 mx-2">
         <h6 className="bookingHeading">Booking Details</h6>
         <div className="row g-3 mb-4">
-          <div className="co-md-3">
+          <div className="col-md-3">
             <label className="form-label">Booking Ref No</label>
             <h6>{refId}</h6>
           </div>
           <div className="col-md-2">
-            <label className="form-label">Renatl Start Date</label>
+            <label className="form-label">Rental Start Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-md-3">

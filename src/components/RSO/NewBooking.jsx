@@ -547,7 +547,7 @@ const NewBooking = () => {
             <div className="row d-flex mt-3">
               <div className="col-md-5">
                 <label className="form-label">
-                  Previous Transaction File
+                  Previous Transaction File<span className="text-danger">*</span>
                 </label>
                 <div className="d-flex justify-content-between">
                   <input
@@ -667,7 +667,7 @@ const NewBooking = () => {
             )}
           </div>
           <div className="col-md-12">
-            <label className="form-label">RSO Name</label>
+            <label className="form-label">RSO Name<span className="text-danger">*</span></label>
             <input
               type="text"
               className="form-control"

@@ -357,7 +357,7 @@ const Cancellation = () => {
             )}
           </div>
           <div className="col-md-12">
-            <label className="form-label">Reason For Cancellation</label>
+            <label className="form-label">Reason For Cancellation<span className="text-danger">*</span></label>
             <select
               className="form-control"
               value={cancellationReason}
@@ -517,7 +517,7 @@ const Cancellation = () => {
           </div>
         </div>
         <div className="col-12">
-          <label className="form-label">RSO Name</label>
+          <label className="form-label">RSO Name<span className="text-danger">*</span></label>
           <input
             type="text"
             className="form-control"

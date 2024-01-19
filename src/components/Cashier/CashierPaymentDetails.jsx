@@ -359,8 +359,7 @@ const CashierPaymentDetails = () => {
     };
   });
 
-  const UpdateBookingCalendar = (updatedInputs) => {
-    setLoading(true);
+  const UpdateBookingCalendar = (updatedInputs, paymentRequestFor) => {
     axios
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
@@ -368,11 +367,9 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
             TnxStatusUpdate(paymentDetails.bookingId);
-          }
-          if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+          } else if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
             TnxStatusUpdate(paymentDetails.bookingId);
-          }
-          if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
+          } else if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
             InsertOutStanding(outStatus);
           }
         }
@@ -382,7 +379,6 @@ const CashierPaymentDetails = () => {
       });
   };
   const InsertInvoiceData = (challanNo) => {
-    setLoading(true);
     const InvoiceInputs = {
       bookingId: bookingId,
       bookingRefNo: bookingRefNo,
@@ -752,8 +748,8 @@ const CashierPaymentDetails = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
-          ClearAllUIData(paymentRequestFor);
         }
+        ClearAllUIData(paymentRequestFor);
         setLoading(false);
       })
       .catch((error) => {
@@ -782,7 +778,6 @@ const CashierPaymentDetails = () => {
   };
 
   const CallPaymentAPI = (paymentRequestFor) => {
-    setLoading(true);
     axios
       .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
       .then((res) => res)
@@ -792,9 +787,7 @@ const CashierPaymentDetails = () => {
             CompletePayment(submitPaymentData);
           } else if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
             InsertInvoiceData(challanNo);
-          } else if (
-            paymentRequestFor === "Payment_PendingFor_RentalIssuance"
-          ) {
+          } else if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
             InsertInvoiceData(challanNo);
           }
         }
@@ -805,15 +798,14 @@ const CashierPaymentDetails = () => {
   };
   const SubmitPayment = (paymentRequestFor) => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
-      UpdateBookingCalendar(updatedInputs);
-    }
-    if (
+      UpdateBookingCalendar(updatedInputs, paymentRequestFor);
+    } else if (
       paymentRequestFor === "Payment_PendingFor_NewBooking" ||
       paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
       paymentRequestFor === "Payment_PendingFor_RentalReturn"
     ) {
       if (parseFloat(collectedAmount) <= TotalAmount) {
-        CallPaymentAPI(paymentRequestFor)
+        CallPaymentAPI(paymentRequestFor);
       } else {
         if (amontHeading === "Amount to be Refunded") {
           CallPaymentAPI(paymentRequestFor);

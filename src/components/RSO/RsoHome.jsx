@@ -260,7 +260,7 @@ const Home = () => {
                 className={
                   Status === "FactoryQA_Required" ? "CButton" : "CDisabled"
                 }
-                disabled={Status === "FactoryQA_Required" ? false : true}
+                // disabled={Status === "FactoryQA_Required" ? false : true}
                 onClick={FactoryQARequired}
               >
                 Factory QA Required

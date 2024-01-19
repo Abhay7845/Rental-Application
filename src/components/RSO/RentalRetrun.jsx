@@ -864,7 +864,7 @@ const RentalReturn = () => {
           </div>
           <div className="col-md-12">
             <label className="form-label">
-              Upload Signed Karigar QA Report
+              Upload Signed Karigar QA Report<span className="text-danger">*</span>
             </label>
             <div className="d-flex">
               <input
@@ -888,6 +888,7 @@ const RentalReturn = () => {
             <input type="checkbox" className="mx-3 mt-4" checked={checkedQA} readOnly />
           </div>
           <div className="col-md-12">
+            <label className="form-label">RSO Name<span className="text-danger">*</span></label>
             <input
               type="text"
               className="form-control"

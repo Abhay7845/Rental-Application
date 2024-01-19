@@ -744,14 +744,15 @@ const RentalIssue = () => {
             !existedUserData.customerAccountNumber ||
             !existedUserData.bankIfsc ||
             !existedUserData.bankDetailFileName ? (
-            <div className="col-12">
-              <div className="d-flex justify-content-between">
+            <div className="col-12 d-flex">
+              <div className="col-md-10">
                 <label className="form-label text-danger">
                   <b>PLEASE ADD YOUR BANK DETAILS</b>
                 </label>
-                <br />
+              </div>
+              <div className="col-md-2">
                 <button
-                  className="CButton"
+                  className="CButton mx-2"
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#AddBankModal"
@@ -922,7 +923,7 @@ const RentalIssue = () => {
             </h6>
           </div>
           <div className="col-md-4">
-            <label className="form-label">Upload Karigar QA Report</label>
+            <label className="form-label">Upload Karigar QA Report<span className="text-danger">*</span></label>
             <div className="d-flex">
               <input
                 type="file"
@@ -942,7 +943,7 @@ const RentalIssue = () => {
             )}
           </div>
           <div className="col-md-4">
-            <label className="form-label">Upload Karat Meter Report</label>
+            <label className="form-label">Upload Karat Meter Report<span className="text-danger">*</span></label>
             <div className="d-flex">
               <input
                 type="file"
@@ -962,7 +963,7 @@ const RentalIssue = () => {
             )}
           </div>
           <div className="col-12">
-            <label className="form-label">RSO Name</label>
+            <label className="form-label">RSO Name<span className="text-danger">*</span></label>
             <input
               type="text"
               className="form-control"

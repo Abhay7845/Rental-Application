@@ -425,9 +425,9 @@ const FactoryQARequired = () => {
               </div>
             </div>
           )}
-          <div className="col-md-6">
+          <div className="col-md-12">
             <label className="form-label">
-              Upload Signed Factory QA Report
+              Upload Signed Factory QA Report<span className="text-danger">*</span>
             </label>
             <div className="d-flex">
               <input

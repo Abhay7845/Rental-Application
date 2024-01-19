@@ -469,7 +469,7 @@ const NewCustomer = () => {
                     Verify OTP
                   </button>
                   <button
-                    className={`${secPhoneCount > 0 ? "CDisabled" : "CButton"}`}
+                    className={secPhoneCount > 0 ? "CDisabled" : "CButton"}
                     disabled={secPhoneCount > 0 ? true : false}
                     onClick={GetPhoneOtp}
                   >
@@ -518,7 +518,7 @@ const NewCustomer = () => {
                     Verify OTP
                   </button>
                   <button
-                    className={`${secEmailCount > 0 ? "CDisabled" : "CButton"}`}
+                    className={secEmailCount > 0 ? "CDisabled" : "CButton"}
                     disabled={secEmailCount > 0 ? true : false}
                     onClick={GetEmailOtp}
                   >

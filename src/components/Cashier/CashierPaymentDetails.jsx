@@ -97,6 +97,7 @@ const CashierPaymentDetails = () => {
 
   // OTP VERIFICATION
   const [Otp, setOtp] = useState("");
+  const [secPhoneCount, setSecPhoneCount] = useState(0);
   const [inputOtp, setInputOtp] = useState("");
   const [verifiedOtp, setVerifiedOtp] = useState(false);
   const FetchUserDetails = (phoneNo) => {
@@ -559,7 +560,6 @@ const CashierPaymentDetails = () => {
       .get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data)
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
           toast.success(
@@ -567,6 +567,7 @@ const CashierPaymentDetails = () => {
               6
             )}`, { theme: "colored", autoClose: 1000 }
           );
+          setSecPhoneCount(60);
         }
         setLoading(false);
       })
@@ -824,9 +825,25 @@ const CashierPaymentDetails = () => {
     } else if (!verifiedOtp) {
       toast.error("Please Verify Phone OTP", { theme: "colored", autoClose: 3000 });
     } else {
+      setSecPhoneCount(0);
       SubmitPayment(paymentRequestFor);
     }
   };
+
+  // INTERVAL FOR   PHONE OTP
+  useEffect(() => {
+    const intervelPhone = setInterval(() => {
+      if (secPhoneCount === 0) {
+        clearInterval(intervelPhone);
+      } else {
+        setSecPhoneCount(secPhoneCount - 1);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(intervelPhone);
+    };
+  }, [secPhoneCount]);
+
   return (
     <div>
       <Navbar />
@@ -1309,15 +1326,18 @@ const CashierPaymentDetails = () => {
                   placeholder="Cashier Name"
                   onChange={(e) => setCashierName(e.target.value)}
                 />
-                <button className="CButton mx-1" onClick={GetPhoneOTP}>
+                <button
+                  className={secPhoneCount > 0 ? "CDisabled mx-1" : "CButton mx-1"}
+                  disabled={secPhoneCount > 0 ? true : false}
+                  onClick={GetPhoneOTP}>
                   GET_OTP
                 </button>
               </div>
             </div>
             {Otp && (
               <div className="col-md-6">
-                <label className="form-label">
-                  Verify OTP<span className="text-danger">*</span>
+                <label className="form-label d-flex justify-content-between">
+                  <span>Verify OTP<span className="text-danger">*</span></span>{secPhoneCount > 0 && <span className="mx-5">Resend OTP In Seconds-{secPhoneCount}</span>}
                 </label>
                 {!verifiedOtp ? (
                   <div className="d-flex">
@@ -1337,19 +1357,19 @@ const CashierPaymentDetails = () => {
               </div>
             )}
             <div className="col-12 d-flex justify-content-end mb-4">
-              <button className="CButton" onClick={SubmitPaymentDetails}>
+              <button className={paymentRequestFor === "Payment_PendingFor_RentalCancellation" ? "CancelButton" : "CButton"} onClick={SubmitPaymentDetails}>
                 {paymentRequestFor ===
                   "Payment_PendingFor_RentalCancellation" && (
-                    <span>Cancel Booking</span>
+                    <span>CANCEL BOOKING</span>
                   )}
                 {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
-                  <span>Complete Product Delivery</span>
+                  <span>COMPLETE PRODUCT DELEIVERY</span>
                 )}
                 {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (
-                  <span>Close Booking</span>
+                  <span>CLOSE BOOKING</span>
                 )}
                 {paymentRequestFor === "Payment_PendingFor_NewBooking" && (
-                  <span>Complete Booking</span>
+                  <span>COMPLETE BOOKING</span>
                 )}
               </button>
             </div>

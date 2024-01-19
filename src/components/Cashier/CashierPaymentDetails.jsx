@@ -760,15 +760,14 @@ const CashierPaymentDetails = () => {
         setLoading(false);
       });
   };
-
-  const CompletePayment = () => {
-    const submitPaymentData = {
-      bookingRefNo: !bookingGenNo ? bookingRefID : bookingGenNo,
-      cashierName: cashierName,
-      status: bookedStatus,
-      tempRefNo: paymentDetails.tempBookingRef,
-      tncFileName: tnCFileName,
-    };
+  const submitPaymentData = {
+    bookingRefNo: !bookingGenNo ? bookingRefID : bookingGenNo,
+    cashierName: cashierName,
+    status: bookedStatus,
+    tempRefNo: paymentDetails.tempBookingRef,
+    tncFileName: tnCFileName,
+  };
+  const CompletePayment = (submitPaymentData) => {
     axios
       .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
       .then((res) => res)
@@ -790,7 +789,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
-            CompletePayment();
+            CompletePayment(submitPaymentData);
           } else if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
             InsertInvoiceData(challanNo);
           } else if (
@@ -799,7 +798,6 @@ const CashierPaymentDetails = () => {
             InsertInvoiceData(challanNo);
           }
         }
-        setLoading(false);
       })
       .catch((error) => {
         setLoading(false);

@@ -818,7 +818,7 @@ const CashierPaymentDetails = () => {
       <Navbar />
       {loading === true && <Loader />}
       <div className="row g-3 mt-3 mx-0">
-        <div className="col-md-10">
+        <div className="col-md-12 d-flex">
           <input
             type="type"
             className="form-control"
@@ -826,11 +826,9 @@ const CashierPaymentDetails = () => {
             maxLength={10}
             onChange={(e) => setSearchValue(e.target.value)}
           />
-        </div>
-        <div className="col-md-2 d-flex justify-content-end">
           <button
             type="button"
-            className={`${searchValue.length < 10 ? "CDisabled" : "CButton"}`}
+            className={searchValue.length < 10 ? "CDisabled mx-1" : "CButton mx-1"}
             disabled={searchValue.length < 10 ? true : false}
             onClick={GetPyamentDetials}
           >

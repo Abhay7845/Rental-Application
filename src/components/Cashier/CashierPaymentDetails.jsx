@@ -349,6 +349,37 @@ const CashierPaymentDetails = () => {
     setAddPaymentRows([...addPaymentRows, count + 1]);
   };
 
+  const updatedInputs = addedPdts.map((data) => {
+    return {
+      bookingId: paymentDetails.bookingId,
+      pdtId: data.pdtId,
+      status: updateStatus,
+      storeCode: storeCode,
+      tempRefNo: data.tempBookingRefNo,
+    };
+  });
+
+  const UpdateBookingCalendar = (updatedInputs) => {
+    axios
+      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+      .then((res) => res)
+      .then((response) => {
+        if (response.data.code === "1000") {
+          if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
+            TnxStatusUpdate(paymentDetails.bookingId);
+          }
+          if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+            TnxStatusUpdate(paymentDetails.bookingId);
+          }
+          if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
+            InsertOutStanding(outStatus);
+          }
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
   const InsertInvoiceData = (challanNo) => {
     setLoading(true);
     const InvoiceInputs = {
@@ -365,7 +396,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-            UpdateBookingCalendar();
+            UpdateBookingCalendar(updatedInputs);
           }
           if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
             InsertOutStanding(outStatus);
@@ -381,6 +412,24 @@ const CashierPaymentDetails = () => {
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
       toast.error("Please Fill All Details", { theme: "colored", autoClose: 3000 });
+    } else if (paymentRequestFor === "Payment_PendingFor_RentalIssuance" && parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
+      setPaymentRowId(paymentRowId + 1);
+      const savePaymentDetails = {
+        id: paymentRowId,
+        amount: parseFloat(amount),
+        bookingRefId: parseInt(paymentDetails.bookingId),
+        createDate: null,
+        fileName: fileName,
+        paymentFor: paymentRequestFor,
+        paymentType: paymentType,
+        txnRefNo: tnxRefNo,
+        tempRefNo: paymentDetails.tempBookingRef,
+        status: "Completed",
+      };
+      setSavePaymetRow([...savePaymetRow, savePaymentDetails]);
+      setAddPaymentRows([]);
+      setFileName("");
+      setTnxRefNo("")
     } else if (parseFloat(collectedAmount) < TotalAmount + parseFloat(amount)) {
       toast.error(amontErrMassage, { theme: "colored", autoClose: 3000 });
     } else {
@@ -400,6 +449,7 @@ const CashierPaymentDetails = () => {
       setSavePaymetRow([...savePaymetRow, savePaymentDetails]);
       setAddPaymentRows([]);
       setFileName("");
+      setTnxRefNo("")
     }
   };
 
@@ -426,36 +476,7 @@ const CashierPaymentDetails = () => {
       });
   };
 
-  const UpdateBookingCalendar = () => {
-    const updatedInputs = addedPdts.map((data) => {
-      return {
-        bookingId: paymentDetails.bookingId,
-        pdtId: data.pdtId,
-        status: updateStatus,
-        storeCode: storeCode,
-        tempRefNo: data.tempBookingRefNo,
-      };
-    });
-    axios
-      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
-      .then((res) => res)
-      .then((response) => {
-        if (response.data.code === "1000") {
-          if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
-            TnxStatusUpdate(paymentDetails.bookingId);
-          }
-          if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
-            TnxStatusUpdate(paymentDetails.bookingId);
-          }
-          if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-            InsertOutStanding(outStatus);
-          }
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
-  };
+
 
   const PaymentFileImage = (UploadFileName) => {
     const paymentUploadFile = {
@@ -750,7 +771,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          UpdateBookingCalendar();
+          UpdateBookingCalendar(updatedInputs);
         }
       })
       .then((error) => {
@@ -783,15 +804,15 @@ const CashierPaymentDetails = () => {
   };
   const SubmitPayment = (paymentRequestFor) => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
-      UpdateBookingCalendar();
+      UpdateBookingCalendar(updatedInputs);
     }
     if (
       paymentRequestFor === "Payment_PendingFor_NewBooking" ||
       paymentRequestFor === "Payment_PendingFor_RentalIssuance" ||
       paymentRequestFor === "Payment_PendingFor_RentalReturn"
     ) {
-      if (parseFloat(collectedAmount) === TotalAmount) {
-        CallPaymentAPI(paymentRequestFor);
+      if (parseFloat(collectedAmount) <= TotalAmount) {
+        CallPaymentAPI(paymentRequestFor)
       } else {
         if (amontHeading === "Amount to be Refunded") {
           CallPaymentAPI(paymentRequestFor);
@@ -1127,7 +1148,7 @@ const CashierPaymentDetails = () => {
                 </div>
                 <div className="col-md-12">
                   <label className="form-label">
-                    Upload Acknowledged Booking Receipt<sapn className="text-danger">*</sapn>
+                    Upload Acknowledged Booking Receipt<span className="text-danger">*</span>
                   </label>
                   <div className="d-flex">
                     <input

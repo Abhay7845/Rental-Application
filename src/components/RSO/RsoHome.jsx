@@ -214,7 +214,7 @@ const Home = () => {
           {statusPending === "Payment_PendingFor" ||
             Status === "Cancellation_After_Booking" ? (
             <div>
-              {ShowPending()}
+              {phoneRefrence.length >= 10 && ShowPending()}
               <span>
                 {Status === "Cancellation_After_Booking" &&
                   ShowCancellationAlert()}

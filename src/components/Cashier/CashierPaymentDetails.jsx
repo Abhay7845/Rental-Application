@@ -360,6 +360,7 @@ const CashierPaymentDetails = () => {
   });
 
   const UpdateBookingCalendar = (updatedInputs) => {
+    setLoading(true);
     axios
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
@@ -375,6 +376,7 @@ const CashierPaymentDetails = () => {
             InsertOutStanding(outStatus);
           }
         }
+        setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
@@ -562,6 +564,7 @@ const CashierPaymentDetails = () => {
       .get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data)
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
           toast.success(

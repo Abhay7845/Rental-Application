@@ -1284,27 +1284,33 @@ const CashierPaymentDetails = () => {
                 </div>
               </div>
             )}
-            <div className="col-md-5">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Cashier Name*"
-                onChange={(e) => setCashierName(e.target.value)}
-              />
-            </div>
-            <div className="col-md-1">
-              <button className="CButton" onClick={GetPhoneOTP}>
-                GET_OTP
-              </button>
+            <div className="col-md-6">
+              <label className="form-label">
+                Cashier Name<span className="text-danger">*</span>
+              </label>
+              <div className="d-flex">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Cashier Name"
+                  onChange={(e) => setCashierName(e.target.value)}
+                />
+                <button className="CButton mx-1" onClick={GetPhoneOTP}>
+                  GET_OTP
+                </button>
+              </div>
             </div>
             {Otp && (
               <div className="col-md-6">
+                <label className="form-label">
+                  Verify OTP<span className="text-danger">*</span>
+                </label>
                 {!verifiedOtp ? (
                   <div className="d-flex">
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="OTP"
+                      placeholder="Enter OTP"
                       onChange={(e) => setInputOtp(e.target.value)}
                     />
                     <button className="CButton mx-2" onClick={VerifyOTP}>

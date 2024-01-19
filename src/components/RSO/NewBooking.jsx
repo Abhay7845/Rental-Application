@@ -348,7 +348,7 @@ const NewBooking = () => {
   const RaiseBookPaymentReq = () => {
     if (!RSOName) {
       toast.error("Please Enter RSO Name", { theme: "colored", autoClose: 3000 });
-    } else if (custType !== "New Customer" && transactionFile === "") {
+    } else if (custType !== "NewRental_OnlyCustomer" && transactionFile === "") {
       toast.error("Please Upload Previous Transaction File", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
@@ -475,7 +475,7 @@ const NewBooking = () => {
           </div>
           <div className="col-md-3">
             <label className="form-label">CUSTOMER TYPE</label>
-            <h6>{custType}</h6>
+            <h6>{!custType ? "" : custType.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</h6>
           </div>
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Customer Address</h6>
@@ -543,7 +543,7 @@ const NewBooking = () => {
               </label>
             </div>
           )}
-          {custType !== "New Customer" && (
+          {custType !== "NewRental_OnlyCustomer" && (
             <div className="row d-flex mt-3">
               <div className="col-md-5">
                 <label className="form-label">

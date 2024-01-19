@@ -1127,7 +1127,7 @@ const CashierPaymentDetails = () => {
                 </div>
                 <div className="col-md-12">
                   <label className="form-label">
-                    Upload Acknowledged Booking Receipt
+                    Upload Acknowledged Booking Receipt<sapn className="text-danger">*</sapn>
                   </label>
                   <div className="d-flex">
                     <input
@@ -1164,7 +1164,7 @@ const CashierPaymentDetails = () => {
                   </h6>
                 </div>
                 <div className="col-md-6">
-                  <label className="form-label">Upload Service Invoice</label>
+                  <label className="form-label">Upload Service Invoice<span className="text-danger">*</span></label>
                   <div className="d-flex">
                     <input
                       type="file"
@@ -1180,7 +1180,7 @@ const CashierPaymentDetails = () => {
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <label className="form-label">Loan Closure Document</label>
+                  <label className="form-label">Loan Closure Document <span className="text-danger">*</span></label>
                   <div className="d-flex">
                     <input
                       type="file"
@@ -1218,7 +1218,7 @@ const CashierPaymentDetails = () => {
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">
-                    Loan Document Upload
+                    Loan Document Upload<span className="text-danger">*</span>
                   </label>
                   <div className="d-flex">
                     <input
@@ -1234,8 +1234,7 @@ const CashierPaymentDetails = () => {
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">
-                    Acknowledged Delivery Challan
-
+                    Acknowledged Delivery Challan<span className="text-danger">*</span>
                   </label>
                   <div className="d-flex">
                     <input
@@ -1270,7 +1269,7 @@ const CashierPaymentDetails = () => {
                 </div>
                 <div className="col-md-12">
                   <label className="form-label">
-                    Upload Cancellation Invoice
+                    Upload Cancellation Invoice<span className="text-danger">*</span>
                   </label>
                   <div className="d-flex">
                     <input
@@ -1289,7 +1288,7 @@ const CashierPaymentDetails = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Cashier Name"
+                placeholder="Cashier Name*"
                 onChange={(e) => setCashierName(e.target.value)}
               />
             </div>

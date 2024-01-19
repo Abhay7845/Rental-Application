@@ -127,7 +127,7 @@ const CashierPaymentDetails = () => {
       });
   }, [storeCode]);
 
-  const GetRegistreUserData = () => {
+  const GetRegistreUserData = (storeCode) => {
     axios
       .get(
         `${HOST_URL}/get/booking/details/${storeCode}/Mobile_No/${searchValue}`
@@ -246,7 +246,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           setGetPaymentData(PendingStatusData);
           FetchUserDetails(searchValue);
-          GetRegistreUserData();
+          GetRegistreUserData(storeCode);
         }
         if (response.data.code === "1001") {
           setGetPaymentData({});
@@ -273,7 +273,7 @@ const CashierPaymentDetails = () => {
   useEffect(() => {
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       setCollectedAmount(parseFloat(refundValue));
-      setAlertMessage("Booking Successfully Cancelled");
+      setAlertMessage("Booking Cancelled Successfully");
       setBookedStatus("Cancellation_After_Booking");
       setUpdateStatus("BookingCancelled");
       setAmontHeading("Amount to be Refunded");
@@ -376,7 +376,6 @@ const CashierPaymentDetails = () => {
             InsertOutStanding(outStatus);
           }
         }
-        setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
@@ -755,6 +754,7 @@ const CashierPaymentDetails = () => {
           });
           ClearAllUIData(paymentRequestFor);
         }
+        setLoading(false);
       })
       .catch((error) => {
         setLoading(false);

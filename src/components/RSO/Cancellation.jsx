@@ -36,7 +36,6 @@ const Cancellation = () => {
   const { totalBookingAmount, totalDepositAmount } = totalPaidAmount;
   const currentDate = moment().format("DD-MM-YYYY");
 
-
   const UploadIDDetails = (imgName) => {
     const IdDetailsInput = {
       bookingRefId: GetReturnProduct.refId,

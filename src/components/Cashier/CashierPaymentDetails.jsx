@@ -784,7 +784,6 @@ const CashierPaymentDetails = () => {
   };
 
   const CallPaymentAPI = (paymentRequestFor) => {
-
     axios
       .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
       .then((res) => res)
@@ -836,7 +835,7 @@ const CashierPaymentDetails = () => {
     }
   };
 
-  // INTERVAL FOR   PHONE OTP
+  // INTERVAL FOR   PHONE OTP VERIFICATION TIME
   useEffect(() => {
     const intervelPhone = setInterval(() => {
       if (secPhoneCount === 0) {

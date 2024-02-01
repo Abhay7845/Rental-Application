@@ -27,12 +27,8 @@ const RentalReturn = () => {
   const [alertWt, setAlertWt] = useState("");
   const [discountAmtOnRental, setDiscountAmtOnRental] = useState(0)
   const [discountAlert, setDiscountAlert] = useState("");
-  const [successAlrt, setSuccessAlrt] = useState(
-    "Product Returned Successfully"
-  );
-  const [smlAlert, setSmlAlert] = useState(
-    "Please reach out to the Cashier to complete the payment process"
-  );
+  const [successAlrt, setSuccessAlrt] = useState("Product Returned Successfully");
+  const [smlAlert, setSmlAlert] = useState("Please reach out to the Cashier to complete the payment process");
 
   // SAME CUSTOME UPLOAD & DETAILS
   const [sameCustName, setSameCustName] = useState("");
@@ -68,10 +64,7 @@ const RentalReturn = () => {
   };
   useEffect(() => {
     if (GetReturnProduct.mobileNo) {
-      axios
-        .get(
-          `${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`
-        )
+      axios.get(`${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -134,6 +127,7 @@ const RentalReturn = () => {
       tempBookingRefNo: data.tempBookingRefNo,
     };
   });
+
   // TOTAL PAID BOOKING AMONT
   useEffect(() => {
     axios
@@ -168,17 +162,16 @@ const RentalReturn = () => {
   }, [storeCode, refId, tempBookingRefNo]);
 
 
+  const rentalDate = new Date(moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD"));
+  const toDayDate = new Date(moment().format("YYYY-MM-DD"));
+
   useEffect(() => {
-    const rentalDate = new Date(
-      moment(GetReturnProduct.rentalDate).format("YYYY-MM-DD")
-    );
-    const currentDate = new Date(moment().format("YYYY-MM-DD"));
-    if (rentalDate < currentDate) {
-      const timeDifference = rentalDate - currentDate;
+    if (rentalDate < toDayDate) {
+      const timeDifference = toDayDate - rentalDate;
       const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
       setNumberDays(daysDifference);
-    } else if (rentalDate > currentDate) {
-      const timeDifference = rentalDate - currentDate;
+    } else if (rentalDate > toDayDate) {
+      const timeDifference = rentalDate - toDayDate;
       const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
       setNumberDays(daysDifference);
     }
@@ -213,7 +206,6 @@ const RentalReturn = () => {
   };
 
   // UPLOAD CUSTOMER ID
-
   const UploadIDDetails = (imgName) => {
     const IdDetailsInput = {
       bookingRefId: GetReturnProduct.refId,
@@ -295,6 +287,7 @@ const RentalReturn = () => {
         setLoading(false);
       });
   };
+
   // UPLOAD KARIGAR QA REPORT ID
   const karigarAQFile = () => {
     if (karigarQAFile.length === 0) {
@@ -329,7 +322,6 @@ const RentalReturn = () => {
   };
 
   // CALCULATION OF ACTUAL WT AT RETURN
-
   const GetActualWtAtReturn = (e, grossWt) => {
     const { name, value } = e.target;
     const minWt = parseFloat((grossWt * 0.9).toFixed(3));
@@ -339,9 +331,7 @@ const RentalReturn = () => {
         "Return Weight Can't be Lesser than or Greater Than (10%) Of Gross Weight."
       );
     } else if (maxWt < parseFloat(value)) {
-      setAlertWt(
-        "Return Weight Can't be Lesser than or Greater Than (10%) Of Gross Weight."
-      );
+      setAlertWt("Return Weight Can't be Lesser than or Greater Than (10%) Of Gross Weight.");
     } else {
       setAlertWt("");
       setInputRtnValues({
@@ -404,7 +394,6 @@ const RentalReturn = () => {
         tempRefNo: data.tempBookingRefNo,
       };
     });
-
     axios
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
@@ -439,9 +428,7 @@ const RentalReturn = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputPhyDmg, GetReturnProduct.bookingID]);
 
-  const FactoryQAStaus = checkedQA
-    ? "FactoryQA_Required"
-    : "Payment_PendingFor_RentalReturn";
+  const FactoryQAStaus = checkedQA ? "FactoryQA_Required" : "Payment_PendingFor_RentalReturn";
 
   const TnxStatusUpdate = (bookingId) => {
     axios
@@ -492,6 +479,7 @@ const RentalReturn = () => {
       discountOnRentalCharges: parseFloat(discountAmtOnRental),
       updatedDate: null,
     };
+    console.log("RetnaReturnInputs==>", RetnaReturnInputs)
     axios
       .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
       .then((res) => res)
@@ -515,8 +503,8 @@ const RentalReturn = () => {
           bookingId: totalPaidAmount.bookingId,
           despId: data.despId === "" ? "0" : data.despId,
           pdtId: data.pdtId,
-          actualWtAtDelivery: data.deliveredWt === "" ? 0 : data.deliveredWt,
-          actualWtAtReturn: inputRtnValues[i],
+          actualWtAtDelivery: data.deliveredWt === "" ? 0 : parseFloat(data.deliveredWt),
+          actualWtAtReturn: parseFloat(inputRtnValues[i]),
           rentalStartDate: moment(data.rentStartDate).format("YYYY-MM-DD"),
           packageDays: data.packageDays,
           rentalReturnDate: moment(getReturnDate()).format("YYYY-MM-DD"),
@@ -535,6 +523,7 @@ const RentalReturn = () => {
           updatedDate: null,
         };
       });
+      console.log("InsertTableInputs==>", InsertTableInputs);
       axios
         .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
         .then((res) => res)
@@ -544,9 +533,7 @@ const RentalReturn = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -705,9 +692,7 @@ const RentalReturn = () => {
                               placeholder="Actual Wt at Return"
                               name={i}
                               defaultValue={inputRtnValues[i]}
-                              onChange={(e) =>
-                                GetActualWtAtReturn(e, item.grossWt)
-                              }
+                              onChange={(e) => GetActualWtAtReturn(e, item.grossWt)}
                             />
                           </Td>
                           <Td className="text-end">

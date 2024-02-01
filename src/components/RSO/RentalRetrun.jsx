@@ -167,7 +167,7 @@ const RentalReturn = () => {
 
   useEffect(() => {
     if (rentalDate < toDayDate) {
-      const timeDifference = rentalDate - toDayDate;
+      const timeDifference = toDayDate - rentalDate;
       const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
       setNumberDays(daysDifference);
     } else if (rentalDate > toDayDate) {

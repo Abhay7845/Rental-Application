@@ -35,7 +35,7 @@ const Home = () => {
     }).then((result) => {
       if (result.isConfirmed === true) {
         navigate("/products/details");
-      } else if (result.isConfirmed === false) {
+      } else {
         setSelecttedProduct({});
       }
     });

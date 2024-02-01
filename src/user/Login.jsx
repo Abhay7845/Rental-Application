@@ -60,6 +60,7 @@ const Login = () => {
 
   useEffect(() => {
     localStorage.clear();
+    window.history.forward();
   }, []);
 
   return (

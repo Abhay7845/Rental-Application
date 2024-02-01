@@ -44,7 +44,6 @@ const FactoryQARequired = () => {
   const timeDifference = new Date() - getReturnDate();
   const DespId = returnTableData.map((data) => data.despId);
 
-
   const refactoreDataTable = returnTableData.map((data) => {
     return {
       id: data.id,
@@ -75,7 +74,7 @@ const FactoryQARequired = () => {
       tempBookingRefNo: data.tempBookingRefNo,
       damageCharges: data.damageCharges,
     };
-  });
+  })
 
   // TOTAL PAID BOOKING AMONT
   useEffect(() => {
@@ -87,9 +86,7 @@ const FactoryQARequired = () => {
           setTotalPaidAmount(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, refId]);
 
   useEffect(() => {
@@ -99,7 +96,8 @@ const FactoryQARequired = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          const uniqueProducts = response.data.value.filter((obj, index, self) => index === self.findIndex((item) => (item.itemCode && item.lotNo === obj.lotNo && obj.itemCode)));
+          const productDataGrtThnZero = response.data.value.filter(item => parseFloat(item.damageCharges) > 0)
+          const uniqueProducts = productDataGrtThnZero.filter((obj, index, self) => index === self.findIndex((item) => (item.itemCode && item.lotNo == obj.lotNo && obj.itemCode)));
           setReturnTableData(uniqueProducts);
         }
         setLoading(false);
@@ -108,28 +106,21 @@ const FactoryQARequired = () => {
   }, [storeCode, refId, tempBookingRefNo]);
 
   // TOTAL COST OF  CALCULATION
-  const TProductValue = refactoreDataTable.map((item) =>
-    Math.round(item.productValue)
-  );
+  const TProductValue = refactoreDataTable.map((item) => Math.round(item.productValue));
   const SumOfTProductValue = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
     return total;
   };
 
-  const TRentalRateRate = refactoreDataTable.map((item) =>
-    parseInt(item.rentalAmount)
-  );
+  const TRentalRateRate = refactoreDataTable.map((item) => parseInt(item.rentalAmount));
   const SumOfTRentalRate = () => {
     let total = 0;
     for (let data of TRentalRateRate) total = total + data;
     return total;
   };
 
-  const TPenaltyRate = refactoreDataTable.map((item) =>
-    parseInt(item.peneltyCharge)
-  );
-
+  const TPenaltyRate = refactoreDataTable.map((item) => parseInt(item.peneltyCharge));
   const SumOfTPeneltyCharge = () => {
     let total = 0;
     for (let data of TPenaltyRate) total = total + data;
@@ -156,10 +147,9 @@ const FactoryQARequired = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
+
   // UPLOAD KARIGAR QA REPORT ID
   const FactoryAQFile = () => {
     if (factoryQAFile.length === 0) {
@@ -187,32 +177,33 @@ const FactoryQARequired = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
   // CALCULATION OF DAMAGE CHAREGES WT AT RETURN
-  const GetActualWtOfDamage = (e) => {
+  const GetActualWtOfDamage = (e, damageCharges) => {
     const { name, value } = e.target;
     setInputDmgValues({
       ...inputDmgValues,
-      [name]: value,
+      [name]: value ? value : damageCharges,
     });
   };
+
   const PdtItemWtDmg = [];
   for (const key in inputDmgValues) {
     if (inputDmgValues.hasOwnProperty(key)) {
       PdtItemWtDmg.push(inputDmgValues[key]);
     }
   }
+
   // TOTAL ACTUAL WT OF RETURN
   const SumOfDmgCharge = () => {
     let total = 0;
     for (let data of PdtItemWtDmg) total = total + parseInt(data);
     return total;
   };
+
   const GetRemarks = (e) => {
     const { name, value } = e.target;
     setRemarks({
@@ -222,10 +213,7 @@ const FactoryQARequired = () => {
   };
 
   const TnxStatusUpdate = (bookingId) => {
-    axios
-      .get(
-        `${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_RentalReturn`
-      )
+    axios.get(`${HOST_URL}/update/txn/status/${bookingId}/Payment_PendingFor_RentalReturn`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -240,10 +228,9 @@ const FactoryQARequired = () => {
           localStorage.removeItem("selecttedReturnProduct");
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
+
   const UpdateSummaryData = (bookingId) => {
     const SummaryInputs = {
       bookingId: parseInt(bookingId),
@@ -259,9 +246,7 @@ const FactoryQARequired = () => {
         }
         setLoading(false);
       })
-      .then((error) => {
-        setLoading(false);
-      });
+      .then((error) => setLoading(false));
   };
 
   const RaisePaymentRequest = () => {
@@ -287,9 +272,7 @@ const FactoryQARequired = () => {
             UpdateSummaryData(totalPaidAmount.bookingId);
           }
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   return (
@@ -367,8 +350,9 @@ const FactoryQARequired = () => {
                               className="text-center w-100"
                               placeholder="Damage Charge"
                               name={i}
-                              value={inputDmgValues[i]}
-                              onChange={GetActualWtOfDamage}
+                              value={(item.deliveredWt === item.actualWtReturn) ? 0 : inputDmgValues[i] ? inputDmgValues[i] : parseFloat(item.damageCharges)}
+                              onChange={(e) => GetActualWtOfDamage(e, parseFloat(item.damageCharges))}
+                              disabled={item.deliveredWt === item.actualWtReturn ? true : false}
                             />
                           </Td>
                           <Td>

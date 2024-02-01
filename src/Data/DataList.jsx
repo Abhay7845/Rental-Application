@@ -144,7 +144,7 @@ export const factoryQAPage = [
   "Actual Wt Delivery",
   "Actual Wt Return",
   "Product Value",
-  "Rental Vvalue",
+  "Rental Value",
   "Penalty Charges",
   "Damge Charges",
   "Remarks",

@@ -306,7 +306,7 @@ const FactoryQARequired = () => {
             <h6>{refId}</h6>
           </div>
           <div className="col-md-2">
-            <label className="form-label">Renatl Start Date</label>
+            <label className="form-label">Rental Start Date</label>
             <h6>{moment(GetReturnProduct.rentalDate).format("DD-MM-YYYY")}</h6>
           </div>
           <div className="col-md-3">
@@ -387,7 +387,7 @@ const FactoryQARequired = () => {
                       );
                     })}
                     <Tr className="text-end">
-                      <Th colSpan="6" >
+                      <Th colSpan="6">
                         TOTAL
                       </Th>
                       <Th>

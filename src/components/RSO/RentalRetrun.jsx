@@ -725,12 +725,7 @@ const RentalReturn = () => {
                               className="w-100"
                               placeholder="Damage Charge"
                               name={i}
-                              value={
-                                inputPhyDmg[i] === "NO" ||
-                                  inputPhyDmg[i] === "FactoryQA"
-                                  ? (inputDmgValues[i] = 0)
-                                  : inputDmgValues[i]
-                              }
+                              value={inputPhyDmg[i] === "NO" ? (inputDmgValues[i] = 0) : inputDmgValues[i]}
                               onChange={GetActualWtOfDamage}
                               disabled={inputPhyDmg[i] === "NO" ? true : false}
                             />

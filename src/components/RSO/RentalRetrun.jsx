@@ -187,18 +187,14 @@ const RentalReturn = () => {
     return total;
   };
 
-  const TRentalRateRate = refactoreDataTable.map((item) =>
-    parseInt(item.rentalAmount)
-  );
+  const TRentalRateRate = refactoreDataTable.map((item) => parseInt(item.rentalAmount));
   const SumOfTRentalRate = () => {
     let total = 0;
     for (let data of TRentalRateRate) total = total + data;
     return total;
   };
 
-  const TPenaltyRate = refactoreDataTable.map((item) =>
-    parseInt(item.peneltyCharge)
-  );
+  const TPenaltyRate = refactoreDataTable.map((item) => parseInt(item.peneltyCharge));
   const SumOfTPeneltyCharge = () => {
     let total = 0;
     for (let data of TPenaltyRate) total = total + data;
@@ -513,10 +509,7 @@ const RentalReturn = () => {
           rateId: data.rateId,
           productValue: parseFloat(data.productValue),
           rentValue: parseFloat(data.rentalAmount),
-          penaltyValue:
-            penaltyDays <= 0
-              ? 0
-              : ((parseInt(data.productValue) * 2) / 100) * penaltyDays,
+          penaltyValue: penaltyDays <= 0 ? 0 : ((parseInt(data.productValue) * 2) / 100) * penaltyDays,
           tempBookingRefNo: data.tempBookingRefNo,
           damageCharges: parseFloat(inputDmgValues[i]),
           createdDate: null,

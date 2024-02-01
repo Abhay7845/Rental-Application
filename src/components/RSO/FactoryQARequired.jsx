@@ -44,6 +44,7 @@ const FactoryQARequired = () => {
   const timeDifference = new Date() - getReturnDate();
   const DespId = returnTableData.map((data) => data.despId);
 
+
   const refactoreDataTable = returnTableData.map((data) => {
     return {
       id: data.id,
@@ -93,20 +94,17 @@ const FactoryQARequired = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${refId}/${tempBookingRefNo}`
-      )
+    axios.get(
+      `${HOST_URL}/fetch/table/common/data/${storeCode}/${refId}/${tempBookingRefNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          setReturnTableData(response.data.value);
+          const uniqueProducts = response.data.value.filter((obj, index, self) => index === self.findIndex((item) => (item.itemCode && item.lotNo === obj.lotNo && obj.itemCode)));
+          setReturnTableData(uniqueProducts);
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, refId, tempBookingRefNo]);
 
   // TOTAL COST OF  CALCULATION

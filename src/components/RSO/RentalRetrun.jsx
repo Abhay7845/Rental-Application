@@ -54,7 +54,6 @@ const RentalReturn = () => {
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const navigate = useNavigate();
 
-
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
     nextDate.setDate(nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1));
@@ -313,7 +312,6 @@ const RentalReturn = () => {
       });
     }
   };
-
   const PdtItemWtRtn = [];
   for (const key in inputRtnValues) {
     if (inputRtnValues.hasOwnProperty(key)) {
@@ -327,7 +325,6 @@ const RentalReturn = () => {
       pdtId: parseInt(refactoreDataTable[i].pdtId),
     };
   });
-
 
   // TOTAL ACTUAL WT OF RETURN
   const SumOfActualItemWt = () => {
@@ -446,7 +443,6 @@ const RentalReturn = () => {
       discountOnRentalCharges: parseFloat(discountAmtOnRental),
       updatedDate: null,
     };
-    console.log("RetnaReturnInputs==>", RetnaReturnInputs);
     axios
       .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
       .then((res) => res)
@@ -484,7 +480,6 @@ const RentalReturn = () => {
           updatedDate: null,
         };
       });
-      console.log("InsertTableInputs==>", InsertTableInputs);
       axios
         .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
         .then((res) => res)

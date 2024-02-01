@@ -21,11 +21,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const currentDate = moment(new Date()).format("YYYY-MM-DD");
-  const paramType = !phoneRefrence
-    ? ""
-    : phoneRefrence[0].match(phonePan)
-      ? "BookingRefNo"
-      : "Mobile_No";
+  const paramType = !phoneRefrence ? "" : phoneRefrence[0].match(phonePan) ? "BookingRefNo" : "Mobile_No";
 
   const CheckBookingDetails = () => {
     Swal.fire({
@@ -37,10 +33,9 @@ const Home = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Book Now",
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed === true) {
         navigate("/products/details");
-      }
-      if (result.isConfirmed === false) {
+      } else if (result.isConfirmed === false) {
         setSelecttedProduct({});
       }
     });

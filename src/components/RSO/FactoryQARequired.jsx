@@ -260,7 +260,7 @@ const FactoryQARequired = () => {
           despId: parseInt(DespId[0]),
           pdtId: parseInt(data.pdtId),
           updatedDate: moment().format("YYYY-MM-DD"),
-          damageCharges: parseFloat(data.damageCharges),
+          damageCharges: inputDmgValues[i] === undefined ? 0 : parseFloat(inputDmgValues[i]),
           remarks: remarks[i] === undefined ? "" : remarks[i],
         };
       });

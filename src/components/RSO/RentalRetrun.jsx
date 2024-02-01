@@ -57,11 +57,10 @@ const RentalReturn = () => {
 
   const getReturnDate = () => {
     const nextDate = new Date(GetReturnProduct.rentalDate);
-    nextDate.setDate(
-      nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1)
-    );
+    nextDate.setDate(nextDate.getDate() + parseInt(GetReturnProduct.packageSelected - 1));
     return nextDate;
   };
+
   useEffect(() => {
     if (GetReturnProduct.mobileNo) {
       axios.get(`${HOST_URL}/rental/customer/details/mobileNo/${GetReturnProduct.mobileNo}`)
@@ -71,9 +70,7 @@ const RentalReturn = () => {
             setExistedUserData(response.data.value);
           }
         })
-        .then((error) => {
-          setLoading(false);
-        });
+        .then((error) => setLoading(false));
     }
   }, [GetReturnProduct.mobileNo]);
 
@@ -86,9 +83,7 @@ const RentalReturn = () => {
           setStoreDetails(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode]);
 
   const timeDifference = new Date() - getReturnDate();
@@ -120,10 +115,7 @@ const RentalReturn = () => {
       productValue: data.productValue,
       rentStartDate: data.rentStartDate,
       rentalAmount: data.rentalAmount,
-      peneltyCharge:
-        penaltyDays <= 0
-          ? 0
-          : (parseInt(data.productValue) * penaltyDays) / 100,
+      peneltyCharge: penaltyDays <= 0 ? 0 : (parseInt(data.productValue) * penaltyDays) / 100,
       tempBookingRefNo: data.tempBookingRefNo,
     };
   });
@@ -138,9 +130,7 @@ const RentalReturn = () => {
           setTotalPaidAmount(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, refId]);
 
   useEffect(() => {
@@ -156,9 +146,7 @@ const RentalReturn = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, refId, tempBookingRefNo]);
 
 
@@ -222,9 +210,7 @@ const RentalReturn = () => {
           toast.success("Uploaded Successfuly", { theme: "colored", autoClose: 1000 })
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
@@ -252,10 +238,7 @@ const RentalReturn = () => {
             }
           }
           setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
+        }).catch((error) => setLoading(false));
     }
   };
 
@@ -278,10 +261,7 @@ const RentalReturn = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
+      }).catch((error) => setLoading(false))
   };
 
   // UPLOAD KARIGAR QA REPORT ID
@@ -310,10 +290,7 @@ const RentalReturn = () => {
             }
           }
           setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
+        }).catch((error) => setLoading(false));
     }
   };
 
@@ -393,12 +370,8 @@ const RentalReturn = () => {
     axios
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
-      .then((response) => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .then((response) => setLoading(false))
+      .catch((error) => setLoading(false));
   };
 
   const GetPhysicalDmg = (e) => {
@@ -443,9 +416,7 @@ const RentalReturn = () => {
           localStorage.removeItem("selecttedReturnProduct");
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const DespId = returnTableData.map((data) => data.despId);
   const rentChargeAftrDis = totalPaidAmount.totalRentalValue - discountAmtOnRental;
@@ -483,10 +454,7 @@ const RentalReturn = () => {
         if (response.data.code === "1000") {
           TnxStatusUpdate(totalPaidAmount.bookingId);
         }
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
+      }).catch((error) => setLoading(false));
   };
 
   const InsertReturnTableData = (inputRtnValues) => {
@@ -525,8 +493,7 @@ const RentalReturn = () => {
             RaiseClouseRequest(DespId[0]);
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 

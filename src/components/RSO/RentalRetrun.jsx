@@ -479,7 +479,7 @@ const RentalReturn = () => {
       discountOnRentalCharges: parseFloat(discountAmtOnRental),
       updatedDate: null,
     };
-    console.log("RetnaReturnInputs==>", RetnaReturnInputs)
+    console.log("RetnaReturnInputs==>", RetnaReturnInputs);
     axios
       .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
       .then((res) => res)

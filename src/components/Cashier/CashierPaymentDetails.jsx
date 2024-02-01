@@ -403,7 +403,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-            UpdateBookingCalendar(updatedInputs);
+            UpdateBookingCalendar(updatedInputs, paymentRequestFor);
           }
           if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
             InsertOutStanding(outStatus);
@@ -571,11 +571,7 @@ const CashierPaymentDetails = () => {
       .then((response) => {
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
-          toast.success(
-            `OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(
-              6
-            )}`, { theme: "colored", autoClose: 1000 }
-          );
+          toast.success(`OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(6)}`, { theme: "colored", autoClose: 1000 });
           setSecPhoneCount(60);
         }
         setLoading(false);
@@ -779,7 +775,7 @@ const CashierPaymentDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          UpdateBookingCalendar(updatedInputs);
+          UpdateBookingCalendar(updatedInputs, paymentRequestFor);
         }
       })
       .then((error) => {
@@ -788,6 +784,7 @@ const CashierPaymentDetails = () => {
   };
 
   const CallPaymentAPI = (paymentRequestFor) => {
+
     axios
       .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
       .then((res) => res)

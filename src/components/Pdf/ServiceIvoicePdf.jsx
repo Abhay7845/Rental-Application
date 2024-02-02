@@ -20,7 +20,6 @@ const ServiceIvoicePdf = (props) => {
     invoiceNo,
     discount
   } = props;
-
   const bookingDate = regUserData.map((data) => data.bookingDate);
   const PaymentDetails = [...previousTnxData, ...savePaymetRow];
   const RefacotorData = addedPdts.map((data) => {
@@ -52,9 +51,10 @@ const ServiceIvoicePdf = (props) => {
       tempBookingRefNo: data.tempBookingRefNo,
       lateFee: data.penaltyCharges === "" ? 0 : parseInt(data.penaltyCharges),
       damageCharges: data.damageCharges === "" ? 0 : parseInt(data.damageCharges),
-      discountAmount: discount / addedPdts.length,
+      discountAmount: discount,
     };
   });
+
   const RefacotorTableData = RefacotorData.map((data) => {
     return {
       actualWtReturn: data.actualWtReturn,
@@ -85,39 +85,13 @@ const ServiceIvoicePdf = (props) => {
       lateFee: data.lateFee,
       damageCharges: data.damageCharges,
       discountAmount: data.discountAmount,
-      totalChages: Math.round(
-        data.rentalAmount +
-        data.lateFee +
-        data.damageCharges -
-        data.discountAmount
-      ).toLocaleString("en-IN"),
-      sgst: parseFloat(
-        (
-          (data.rentalAmount +
-            data.lateFee +
-            data.damageCharges -
-            data.discountAmount) *
-          0.09
-        ).toLocaleString("en-IN")
-      ),
-      cgst: parseFloat(
-        (
-          (data.rentalAmount +
-            data.lateFee +
-            data.damageCharges -
-            data.discountAmount) *
-          0.09
-        ).toLocaleString("en-IN")
-      ),
-      totalAmount: (
-        (data.rentalAmount +
-          data.lateFee +
-          data.damageCharges -
-          data.discountAmount) *
-        1.18
-      ).toLocaleString("en-IN"),
+      totalChages: data.rentalAmount + data.lateFee + data.damageCharges,
+      sgst: parseFloat((data.rentalAmount + data.lateFee + data.damageCharges - data.discountAmount) * 0.09),
+      cgst: parseFloat((data.rentalAmount + data.lateFee + data.damageCharges - data.discountAmount) * 0.09),
+      totalAmount: (data.rentalAmount + data.lateFee + data.damageCharges - data.discountAmount) * 1.18
     };
   });
+
   const TBasePrise = RefacotorTableData.map((data) => data.productValue);
   const SumOfBasePrise = () => {
     let total = 0;
@@ -138,45 +112,22 @@ const ServiceIvoicePdf = (props) => {
     for (let num of TLateFee) total = total + num;
     return total;
   };
+
   const TDamageCharges = RefacotorTableData.map((data) => data.damageCharges);
   const SumOfTDamageCharges = () => {
     let total = 0;
     for (let num of TDamageCharges) total = total + num;
     return total;
   };
-  const TDiscountAmount = RefacotorTableData.map((data) => data.discountAmount);
-  const SumOfTDiscountAmount = () => {
-    let total = 0;
-    for (let num of TDiscountAmount) total = total + num;
-    return total;
-  };
 
-  const TTotalChages = RefacotorTableData.map((data) =>
-    parseInt(data.totalChages.replace(/,/g, ""))
-  );
+  const TTotalChages = RefacotorTableData.map((data) => data.totalChages);
   const SumOfTTotalChages = () => {
     let total = 0;
     for (let num of TTotalChages) total = total + num;
     return total;
   };
 
-  const TSgst = RefacotorTableData.map((data) => data.sgst);
-  const SumOfTSgst = () => {
-    let total = 0;
-    for (let num of TSgst) total = total + num;
-    return total;
-  };
-
-  const TCgst = RefacotorTableData.map((data) => data.cgst);
-  const SumOfTCgst = () => {
-    let total = 0;
-    for (let num of TCgst) total = total + num;
-    return total;
-  };
-
-  const TTotalAmount = RefacotorTableData.map((data) =>
-    parseFloat(data.totalAmount.replace(/,/g, ""))
-  );
+  const TTotalAmount = RefacotorTableData.map((data) => parseFloat(data.totalAmount));
   const SumOfTTotalAmount = () => {
     let total = 0;
     for (let num of TTotalAmount) total = total + num;
@@ -191,6 +142,7 @@ const ServiceIvoicePdf = (props) => {
   };
 
   const TotalRefund = SumOfSaveAmount() - SumOfTTotalAmount();
+  const DiscountAfterAmount = SumOfTTotalChages() - discount
 
   return (
     <div>
@@ -266,7 +218,7 @@ const ServiceIvoicePdf = (props) => {
                   </div>
                   <div
                     className="d-flex flex-column"
-                    style={{ marginLeft: "25%" }}
+                    style={{ marginLeft: "28%" }}
                   >
                     <b className="mx-5">PAN:-{storeDetails.gstin}</b>
                     <b className="mx-5">
@@ -298,7 +250,7 @@ const ServiceIvoicePdf = (props) => {
                   </div>
                   <div
                     className="d-flex flex-column"
-                    style={{ marginRight: "21%" }}
+                    style={{ marginRight: "13.8%" }}
                   >
                     <b>Customer Profile No.:-{existedUserData.custId}</b>
                     <b>PAN: {existedUserData.panCardNo}</b>
@@ -331,19 +283,11 @@ const ServiceIvoicePdf = (props) => {
                             <td>{item.description}</td>
                             <td>{item.grossWt}</td>
                             <td>{item.packageDays}</td>
-                            <td className="text-end">
-                              {item.productValue.toLocaleString("en-IN")}
-                            </td>
-                            <td className="text-end">
-                              {item.rentalAmount.toLocaleString("en-IN")}
-                            </td>
+                            <td className="text-end">{item.productValue.toLocaleString("en-IN")}</td>
+                            <td className="text-end">{item.rentalAmount.toLocaleString("en-IN")}</td>
                             <td className="text-end">{item.lateFee}</td>
                             <td className="text-end">{item.damageCharges}</td>
-                            <td className="text-end">{parseFloat(item.discountAmount).toFixed(2)}</td>
                             <td className="text-end">{parseFloat(item.totalChages).toFixed(2)}</td>
-                            <td className="text-end">{parseFloat(item.sgst).toFixed(2)}</td>
-                            <td className="text-end">{parseFloat(item.cgst).toFixed(2)}</td>
-                            <td className="text-end">{parseFloat(item.totalAmount).toFixed(2)}</td>
                           </tr>
                         )
                       })}
@@ -385,69 +329,57 @@ const ServiceIvoicePdf = (props) => {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: 2,
-                          }).format(SumOfTDiscountAmount())}
-                        </th>
-                        <th>
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: "INR",
-                            minimumFractionDigits: false,
                           }).format(SumOfTTotalChages())}
                         </th>
-                        <th>
+                      </tr>
+                      <tr>
+                        <th colSpan="10" className="text-end">Discount</th>
+                        <th className="text-end">
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: 2,
-                          }).format(SumOfTSgst())}
+                          }).format(discount)}
                         </th>
-                        <th>
+                      </tr>
+                      <tr>
+                        <th colSpan="10" className="text-end">Total After Discount</th>
+                        <th className="text-end">
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: 2,
-                          }).format(SumOfTCgst())}
+                          }).format(DiscountAfterAmount)}
                         </th>
-                        <th>
+                      </tr>
+                      <tr>
+                        <th colSpan="10" className="text-end">SGST(9%)</th>
+                        <th className="text-end">
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: 2,
-                          }).format(SumOfTTotalAmount())}
+                          }).format(DiscountAfterAmount * 0.09)}
                         </th>
                       </tr>
                       <tr>
-                        <th colSpan="14" className="text-end">Discount</th>
-                        <th>
+                        <th colSpan="10" className="text-end">CGST(9%)</th>
+                        <th className="text-end">
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
-                            minimumFractionDigits: false,
-                          }).format(SumOfTDiscountAmount())}
+                            minimumFractionDigits: 2,
+                          }).format(DiscountAfterAmount * 0.09)}
                         </th>
                       </tr>
                       <tr>
-                        <th colSpan="14" className="text-end">Total After Discount</th>
-                        <th>
-                          123
-                        </th>
-                      </tr>
-                      <tr>
-                        <th colSpan="14" className="text-end">SGST(9%)</th>
-                        <th>
-                          345
-                        </th>
-                      </tr>
-                      <tr>
-                        <th colSpan="14" className="text-end">CGST(9%)</th>
-                        <th>
-                          238
-                        </th>
-                      </tr>
-                      <tr>
-                        <th colSpan="14" className="text-end">NET VALUE(Including GST)</th>
-                        <th>
-                          098
+                        <th colSpan="10" className="text-end">NET VALUE(Including GST)</th>
+                        <th className="text-end">
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: 2,
+                          }).format(DiscountAfterAmount * 0.18 + DiscountAfterAmount)}
                         </th>
                       </tr>
                     </tbody>

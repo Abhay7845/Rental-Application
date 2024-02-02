@@ -1,10 +1,10 @@
 import React from "react";
 import { GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 
-const TableDataDownload = () => {
+const TableDataDownload = (fileName) => {
   return (
     <GridToolbarContainer>
-      <GridToolbarExport csvOptions={{ fileName: "ItemsPriceMaster" }} />
+      <GridToolbarExport csvOptions={{ fileName: fileName }} />
     </GridToolbarContainer>
   );
 };

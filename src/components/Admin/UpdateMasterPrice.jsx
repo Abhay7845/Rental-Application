@@ -32,7 +32,7 @@ const UpdateMasterPrice = () => {
     });
   };
 
-  const GetItemPriceMaster = () => {
+  const GetItemPriceMaster = (storeCodeValue) => {
     if (storeCodeValue) {
       setLoading(true);
       axios
@@ -42,19 +42,26 @@ const UpdateMasterPrice = () => {
           if (response.data.code === "1000") {
             setRows(response.data.value);
             setCols(response.data.cols);
-          }
-          if (response.data.code === "1001") {
+          } else if (response.data.code === "1001") {
             toast.warn("Data not available for this Store Code", { theme: "colored", position: "bottom-right", autoClose: 2000 });
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     } else {
       toast.error("Please Enter Store Code", { theme: "colored", position: "bottom-right", autoClose: 3000 });
     }
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key.toUpperCase() === 'ENTER') {
+      if (!storeCodeValue) {
+        toast.error("Please Enter Store Code", { theme: "colored", position: "bottom-right", autoClose: 3000 });
+      } else {
+        GetItemPriceMaster(storeCodeValue);
+      }
+    }
+  }
 
   const ChooseExcelFileUplload = (event) => {
     const file = event.target.files[0];
@@ -241,9 +248,10 @@ const UpdateMasterPrice = () => {
                         const value = e.target.value.toUpperCase();
                         setStoreCodeValue(value);
                       }}
+                      onKeyDown={handleKeyPress}
                     />
-                    <button className="CButton mx-1" onClick={GetItemPriceMaster}>
-                      Get_Item
+                    <button className="CButton mx-1" onClick={() => GetItemPriceMaster(storeCodeValue)}>
+                      Next
                     </button>
                   </div>
                 </div>
@@ -254,7 +262,7 @@ const UpdateMasterPrice = () => {
                       rows={rows}
                       autoHeight={true}
                       components={{
-                        Toolbar: TableDataDownload,
+                        Toolbar: () => TableDataDownload("ItemPriceMaster"),
                       }}
                     />
                   </div>

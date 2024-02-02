@@ -24,7 +24,7 @@ const UpdateMasterPrice = () => {
 
   const ShowAlertDeactivate = (count) => {
     Swal.fire({
-      title: "Price Updation Successful",
+      title: "Price Updation Successfully",
       text: `For ${count} Products`,
       icon: "success",
       confirmButtonColor: "#008080",
@@ -111,9 +111,7 @@ const UpdateMasterPrice = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const DeactivateItemsData = () => {
     if (ItemPriceId[0] === undefined) {
@@ -136,9 +134,7 @@ const UpdateMasterPrice = () => {
             setRows([]);
           }
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   const columns = cols.map((element) => {

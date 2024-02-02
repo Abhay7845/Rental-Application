@@ -71,9 +71,7 @@ const SummaryReports = () => {
           }
           setLoading(false);
         })
-        .then((error) => {
-          setLoading(false);
-        });
+        .then((error) => setLoading(false));
     }
   }, [customerPhone]);
   const GetSummaryReports = (payload) => {
@@ -91,9 +89,7 @@ const SummaryReports = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const GetPreviousTnx = (data) => {
     const { bookingId } = data;
@@ -109,9 +105,7 @@ const SummaryReports = () => {
           setPreviousTnxData([]);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const GetTotalSumOfAmount = (data) => {
     const { storeCode, bookingRefNo } = data;
@@ -126,9 +120,7 @@ const SummaryReports = () => {
           GetPreviousTnx(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const GetRowWiseDetails = (data) => {
@@ -148,9 +140,7 @@ const SummaryReports = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     } else if (!bookingRefNo) {
       ShowAlertForRefNo();
     }

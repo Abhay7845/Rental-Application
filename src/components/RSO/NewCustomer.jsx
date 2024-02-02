@@ -81,9 +81,7 @@ const NewCustomer = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadPanFile = () => {
     if (PANNumber.match(panRegex)) {
@@ -110,9 +108,7 @@ const NewCustomer = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     } else if (choosePan.length === 0) {
       toast.error("Please Choose PAN", { theme: "colored", autoClose: 3000 });
     } else {
@@ -139,9 +135,7 @@ const NewCustomer = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadAddressProof = () => {
     if (addressIDNumber.length > 11) {
@@ -204,9 +198,7 @@ const NewCustomer = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const UploadBankCheque = () => {
@@ -233,9 +225,7 @@ const NewCustomer = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     } else if (bankChequeFile.length === 0) {
       toast.error("Please Choose Cancelled Cheque", { theme: "colored", autoClose: 3000 });
     } else {
@@ -257,9 +247,7 @@ const NewCustomer = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     } else {
       toast.error("Please Enter Phone Number", { theme: "colored", autoClose: 3000 });
     }
@@ -326,9 +314,7 @@ const NewCustomer = () => {
           setSecEmailCount(60);
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -404,9 +390,7 @@ const NewCustomer = () => {
           navigate("/booking");
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 

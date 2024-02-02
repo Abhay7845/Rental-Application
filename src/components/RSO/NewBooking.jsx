@@ -83,9 +83,7 @@ const NewBooking = () => {
         }
         setLoading(false);
       })
-      .then((error) => {
-        setLoading(false);
-      });
+      .then((error) => setLoading(false));
   };
   const FetchUDetailsOnlOad = (regNumber) => {
     setLoading(true);
@@ -101,9 +99,7 @@ const NewBooking = () => {
         }
         setLoading(false);
       })
-      .then((error) => {
-        setLoading(false);
-      });
+      .then((error) => setLoading(false));
   };
   const SerachInfoUserDetails = () => {
     if (regNumber) {
@@ -131,9 +127,7 @@ const NewBooking = () => {
       } else if (response.data.code === "1001") {
         setGetCartProductData([])
       }
-    }).catch(error => {
-      setLoading(false)
-    })
+    }).catch(error => setLoading(false))
   }
   useEffect(() => {
     GetAddToCartData(bookingRefId)
@@ -199,9 +193,7 @@ const NewBooking = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadBankCheque = () => {
     if (customerAccountNumber.length < 3) {
@@ -232,9 +224,7 @@ const NewBooking = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -258,9 +248,7 @@ const NewBooking = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const UploadPreTransaction = () => {
@@ -290,9 +278,7 @@ const NewBooking = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   const UpdateCustomerBankDetails = () => {
@@ -338,9 +324,7 @@ const NewBooking = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -389,9 +373,7 @@ const NewBooking = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   const DeleteProductBookingTable = (data) => {
@@ -412,9 +394,7 @@ const NewBooking = () => {
         DeleteProductBookingTable(data)
       }
       setLoading(false);
-    }).catch(error => {
-      setLoading(false);
-    })
+    }).catch(error => setLoading(false))
   }
 
   const DeleteProductBookingPage = (data) => {

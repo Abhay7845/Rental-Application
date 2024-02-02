@@ -28,7 +28,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
         }
         setLoading(false);
       })
-      .catch((error) => { });
+      .catch((error) => setLoading(false));
   };
 
   useEffect(() => {

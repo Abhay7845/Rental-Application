@@ -143,9 +143,7 @@ const RentalIssue = () => {
           toast.success("Uploaded Successfuly", { theme: "colored", autoClose: 1000 })
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadPdtImgItemWise = (item) => {
     // eslint-disable-next-line
@@ -174,9 +172,7 @@ const RentalIssue = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     });
   };
 
@@ -197,9 +193,7 @@ const RentalIssue = () => {
         }
         setLoading(false);
       })
-      .then((error) => {
-        setLoading(false);
-      });
+      .then((error) => setLoading(false));
   };
 
   useEffect(() => {
@@ -226,9 +220,7 @@ const RentalIssue = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
@@ -257,9 +249,7 @@ const RentalIssue = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   const UpdCancelledChequeDetails = (imgName) => {
@@ -282,9 +272,7 @@ const RentalIssue = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadBankCheque = () => {
     if (customerAccountNumber.length < 10) {
@@ -315,9 +303,7 @@ const RentalIssue = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -364,9 +350,7 @@ const RentalIssue = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -392,9 +376,7 @@ const RentalIssue = () => {
           setKarigarQAFile([]);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const UploadKarigarQA = () => {
@@ -423,9 +405,7 @@ const RentalIssue = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -450,9 +430,7 @@ const RentalIssue = () => {
           setKarateMtrFile([]);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadKarateMtr = () => {
     if (karateMtrFile.length === 0) {
@@ -481,9 +459,7 @@ const RentalIssue = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -500,9 +476,7 @@ const RentalIssue = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, refId, tempBookingRefNo]);
 
   // TOTAL PAID BOOKING AMONT
@@ -515,9 +489,7 @@ const RentalIssue = () => {
           setTotalPaidAmount(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, refId]);
 
   useEffect(() => {
@@ -532,9 +504,7 @@ const RentalIssue = () => {
             setOutstandingData(parseInt(response.data.value.outStanding));
           }
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   }, [mobileNo, existedUserData.panCardNo]);
 
@@ -547,9 +517,7 @@ const RentalIssue = () => {
           setThresholdLimit(parseInt(response.data.value.limit));
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, []);
 
   const TnxStatusUpdate = (bookingId) => {
@@ -570,9 +538,7 @@ const RentalIssue = () => {
           navigate("/home");
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const RaiseDepositeRequest = () => {
@@ -636,9 +602,7 @@ const RentalIssue = () => {
             }
             setLoading(false);
           })
-          .catch((error) => {
-            setLoading(false);
-          });
+          .catch((error) => setLoading(false));
       }
     }
   };

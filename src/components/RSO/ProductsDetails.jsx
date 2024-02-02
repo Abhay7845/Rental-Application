@@ -75,9 +75,7 @@ const ProductsDetails = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const CheckAvaiblity = (payload) => {
@@ -107,9 +105,7 @@ const ProductsDetails = () => {
         setLoading(false);
         payload.itemCode = "";
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const GetProductData = productDetails.map((data) => {
@@ -191,9 +187,7 @@ const ProductsDetails = () => {
         setAddedProducts([])
       }
       setLoading(false);
-    }).catch(error => {
-      setLoading(false)
-    })
+    }).catch(error => setLoading(false))
   }
   const InsertTableCalendar = (tempId) => {
     const CanlendarInputs = addtoWishList.map((data) => {
@@ -224,9 +218,7 @@ const ProductsDetails = () => {
           payload.itemCode = "";
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const AddtoWishList = () => {
     setLoading(true)
@@ -299,9 +291,7 @@ const ProductsDetails = () => {
         setPdtSelected([])
       }
       setLoading(false);
-    }).catch(error => {
-      setLoading(false);
-    })
+    }).catch(error => setLoading(false))
   }
 
   // TOTAL COST OF PRODUCT VALUE
@@ -356,9 +346,7 @@ const ProductsDetails = () => {
           navigate("/booking")
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const bookingPyaload = pdtSelected.map(product => {
     return {
@@ -405,9 +393,7 @@ const ProductsDetails = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   return (

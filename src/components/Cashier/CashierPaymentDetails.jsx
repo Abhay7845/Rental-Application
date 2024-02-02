@@ -109,9 +109,7 @@ const CashierPaymentDetails = () => {
           setExistedUserData(response.data.value);
         }
       })
-      .then((error) => {
-        setLoading(false);
-      });
+      .then((error) => setLoading(false));
   };
 
   useEffect(() => {
@@ -123,9 +121,7 @@ const CashierPaymentDetails = () => {
           setStoreDetails(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode]);
 
   const GetRegistreUserData = (storeCode) => {
@@ -139,9 +135,7 @@ const CashierPaymentDetails = () => {
           setRegUserData(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   useEffect(() => {
@@ -156,9 +150,7 @@ const CashierPaymentDetails = () => {
             setTotalPaidAmount(response.data.value);
           }
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   }, [storeCode, bookingRefNo]);
 
@@ -174,9 +166,7 @@ const CashierPaymentDetails = () => {
             setPreviousTnxData(response.data.value);
           }
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   }, [bookingId]);
 
@@ -191,9 +181,7 @@ const CashierPaymentDetails = () => {
           setInvoicePdfNo({ invoiceId: 0 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode]);
 
   useEffect(() => {
@@ -210,9 +198,7 @@ const CashierPaymentDetails = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   }, [storeCode, paymentDetails.tempBookingRef]);
 
@@ -262,9 +248,7 @@ const CashierPaymentDetails = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const handleKeyPress = (event) => {
     if (event.key.toUpperCase() === 'ENTER') {
@@ -384,9 +368,7 @@ const CashierPaymentDetails = () => {
           }
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const InsertInvoiceData = (challanNo) => {
     const InvoiceInputs = {
@@ -411,9 +393,7 @@ const CashierPaymentDetails = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const SavePaymentRow = () => {
@@ -478,9 +458,7 @@ const CashierPaymentDetails = () => {
           TnxStatusUpdate(paymentDetails.bookingId);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
 
@@ -505,9 +483,7 @@ const CashierPaymentDetails = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const UploadPaymentFile = () => {
@@ -530,9 +506,7 @@ const CashierPaymentDetails = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   const DeletePaymentRow = (id) => {
@@ -576,9 +550,7 @@ const CashierPaymentDetails = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const VerifyOTP = () => {
@@ -613,9 +585,7 @@ const CashierPaymentDetails = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadPrintFile = () => {
     if (!printFile) {
@@ -637,9 +607,7 @@ const CashierPaymentDetails = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -663,10 +631,9 @@ const CashierPaymentDetails = () => {
           toast.success("Uploaded Succesfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
+
   const UploadDeliveryChallan = () => {
     if (deliveryChallan.length === 0) {
       toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
@@ -686,9 +653,7 @@ const CashierPaymentDetails = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   const UpdLoadClsDetails = (imgName) => {
@@ -711,9 +676,7 @@ const CashierPaymentDetails = () => {
           toast.success("Uploaded Succesfully", { theme: "colored", autoClose: 1000 });
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const UploadLoanCloseFile = () => {
     if (!loanCloseFile) {
@@ -735,9 +698,7 @@ const CashierPaymentDetails = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -758,9 +719,7 @@ const CashierPaymentDetails = () => {
         ClearAllUIData(paymentRequestFor);
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
   const submitPaymentData = {
     bookingRefNo: !bookingGenNo ? bookingRefID : bookingGenNo,
@@ -778,9 +737,7 @@ const CashierPaymentDetails = () => {
           UpdateBookingCalendar(updatedInputs, paymentRequestFor);
         }
       })
-      .then((error) => {
-        setLoading(false);
-      });
+      .then((error) => setLoading(false));
   };
 
   const CallPaymentAPI = (paymentRequestFor) => {

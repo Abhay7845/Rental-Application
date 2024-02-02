@@ -90,9 +90,7 @@ const Home = () => {
         }
         setLoading(false);
       })
-      .then((error) => {
-        setLoading(false);
-      });
+      .then((error) => setLoading(false));
   };
   const handleKeyPress = (event) => {
     if (event.key.toUpperCase() === 'ENTER') {

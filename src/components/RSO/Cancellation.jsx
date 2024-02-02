@@ -56,9 +56,7 @@ const Cancellation = () => {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const UploadSameCustIDProof = () => {
@@ -88,9 +86,7 @@ const Cancellation = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
 
@@ -107,9 +103,7 @@ const Cancellation = () => {
         }
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, GetReturnProduct.refId, GetReturnProduct.tempBookingRefNo]);
 
   useEffect(() => {
@@ -148,9 +142,7 @@ const Cancellation = () => {
           setTotalPaidAmount(response.data.value);
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   }, [storeCode, GetReturnProduct.refId]);
 
   const TProductValue = returnTableData.map((item) =>
@@ -203,9 +195,7 @@ const Cancellation = () => {
           localStorage.removeItem("selecttedReturnProduct");
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
   };
 
   const RaiseCancelBookingRequest = () => {
@@ -244,9 +234,7 @@ const Cancellation = () => {
           }
           setLoading(false);
         })
-        .catch((error) => {
-          setLoading(false);
-        });
+        .catch((error) => setLoading(false));
     }
   };
   return (

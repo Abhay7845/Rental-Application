@@ -163,7 +163,7 @@ const Home = () => {
             {loading ? (
               <span className="spinner-border spinner-border-sm" />
             ) : (
-              <span className="sr-only">Search</span>
+              <span>Search</span>
             )}
           </button>
         </div>

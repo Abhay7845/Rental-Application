@@ -18,6 +18,7 @@ import CashierPaymentDetails from "./components/Cashier/CashierPaymentDetails";
 import FactoryQARequired from "./components/RSO/FactoryQARequired";
 import DiscountApproval from "./components/Admin/DiscountApproval";
 import TestComponets from "./components/common/TestComponets";
+import RentalFooter from "./components/common/RentalFooter";
 
 const App = () => {
   return (
@@ -88,6 +89,7 @@ const App = () => {
           </Route>
         </Route>
       </Routes>
+      <RentalFooter />
     </BrowserRouter>
   );
 };

@@ -127,7 +127,7 @@ const Login = () => {
                       aria-hidden="true"
                     />
                   ) : (
-                    <span className="sr-only">LOGIN</span>
+                    <span>LOGIN</span>
                   )}
                 </button>
               </div>

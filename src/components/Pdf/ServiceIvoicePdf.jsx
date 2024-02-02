@@ -51,8 +51,7 @@ const ServiceIvoicePdf = (props) => {
       rentalAmount: parseInt(data.rentalAmount),
       tempBookingRefNo: data.tempBookingRefNo,
       lateFee: data.penaltyCharges === "" ? 0 : parseInt(data.penaltyCharges),
-      damageCharges:
-        data.damageCharges === "" ? 0 : parseInt(data.damageCharges),
+      damageCharges: data.damageCharges === "" ? 0 : parseInt(data.damageCharges),
       discountAmount: discount / addedPdts.length,
     };
   });
@@ -151,13 +150,6 @@ const ServiceIvoicePdf = (props) => {
     for (let num of TDiscountAmount) total = total + num;
     return total;
   };
-  const TRevisedAmount = RefacotorTableData.map((data) => data.revisedamout);
-  const SumOfTRevisedAmount = () => {
-    let total = 0;
-    for (let num of TRevisedAmount) total = total + num;
-    return total;
-  };
-
 
   const TTotalChages = RefacotorTableData.map((data) =>
     parseInt(data.totalChages.replace(/,/g, ""))
@@ -202,17 +194,16 @@ const ServiceIvoicePdf = (props) => {
 
   return (
     <div>
-      <div>
-        <button
-          onClick={ServiceInvoicePDF}
-          className="CButton"
-        // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
-        // disabled={savePaymetRow.length > 0 ? false : true}
-        >
-          Print
-        </button>
-        <style>
-          {`
+      <button
+        onClick={ServiceInvoicePDF}
+        className="CButton"
+      // className={savePaymetRow.length > 0 ? "CButton" : "CDisabled"}
+      // disabled={savePaymetRow.length > 0 ? false : true}
+      >
+        Print
+      </button>
+      <style>
+        {`
           @media screen{
             .hide-on-screen{
               display:none;
@@ -225,320 +216,197 @@ const ServiceIvoicePdf = (props) => {
               margin-bottom:48mm;
             }
           `}
-        </style>
-        <div
-          className="table-container hide-on-screen"
-          ref={ServiceInvoiceRef}
-          style={{ marginTop: "16%" }}
+      </style>
+      <div
+        className="table-container hide-on-screen"
+        ref={ServiceInvoiceRef}
+        style={{ marginTop: "16%" }}
+      >
+        <h6 className="text-center mb-2">
+          <b>SERVICE INVOICE</b>
+        </h6>
+        <table
+          className="table table-bordered table-styles border-dark"
+          style={{ fontSize: "9px" }}
         >
-          <h6 className="text-center mb-2">
-            <b>SERVICE INVOICE</b>
-          </h6>
-          <table
-            className="table table-bordered table-styles border-dark"
-            style={{ fontSize: "9px" }}
-          >
-            <tbody>
-              <tr>
-                <td rowSpan="2" colSpan="2" style={{ width: "20%" }}>
-                  <div className="text-center mt-4">
-                    <b className="mt-2">
-                      Store Address:- {storeDetails.storeAddress}
+          <tbody>
+            <tr>
+              <td rowSpan="2" colSpan="2" style={{ width: "20%" }}>
+                <div className="text-center mt-4">
+                  <b className="mt-2">
+                    Store Address:- {storeDetails.storeAddress}
+                  </b>
+                </div>
+              </td>
+              <td colSpan="3">
+                <div className="d-flex flex-row">
+                  <div className="d-flex flex-column">
+                    <b>Invoice No: {invoiceNo}</b>
+                    <b>Booking Ref No: {bookingRefID}</b>
+                  </div>
+                  <div className="d-flex flex-column mx-5">
+                    <b className="mx-5">
+                      Invoice Date:-{moment().format("DD-MM-YYYY")}
+                    </b>
+                    <b className="mx-5">
+                      Booking Date:-
+                      {moment(bookingDate[0]).format("DD-MM-YY")}
                     </b>
                   </div>
-                </td>
-                <td colSpan="3">
-                  <div className="d-flex flex-row">
-                    <div className="d-flex flex-column">
-                      <b>Invoice No: {invoiceNo}</b>
-                      <b>Booking Ref No: {bookingRefID}</b>
-                    </div>
-                    <div className="d-flex flex-column mx-5">
-                      <b className="mx-5">
-                        Invoice Date:-{moment().format("DD-MM-YYYY")}
-                      </b>
-                      <b className="mx-5">
-                        Booking Date:-
-                        {moment(bookingDate[0]).format("DD-MM-YY")}
-                      </b>
-                    </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="3">
+                <div className="d-flex flex-row">
+                  <div className="d-flex flex-column">
+                    <b>GST NO:-{storeDetails.gstin}</b>
+                    <b>State:-{storeDetails.state}</b>
+                    <b>Place of Supply:-{storeDetails.city}</b>
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="3">
-                  <div className="d-flex flex-row">
-                    <div className="d-flex flex-column">
-                      <b>GST NO:-{storeDetails.gstin}</b>
-                      <b>State:-{storeDetails.state}</b>
-                      <b>Place of Supply:-{storeDetails.city}</b>
-                    </div>
-                    <div
-                      className="d-flex flex-column"
-                      style={{ marginLeft: "25%" }}
-                    >
-                      <b className="mx-5">PAN:-{storeDetails.gstin}</b>
-                      <b className="mx-5">
-                        State Code: {storeDetails.stateCode}
-                      </b>
-                    </div>
+                  <div
+                    className="d-flex flex-column"
+                    style={{ marginLeft: "25%" }}
+                  >
+                    <b className="mx-5">PAN:-{storeDetails.gstin}</b>
+                    <b className="mx-5">
+                      State Code: {storeDetails.stateCode}
+                    </b>
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5">
-                  <div className="d-flex flex-row justify-content-between">
-                    <div className="d-flex flex-column">
-                      <b>Bill To: </b>
-                      <b>
-                        Customer Name:-
-                        {existedUserData.customerName.toUpperCase()}
-                      </b>
-                      <b>
-                        Address 1:-
-                        {existedUserData.customerAddress1.toUpperCase()}
-                      </b>
-                      <b>
-                        Address 2:-
-                        {existedUserData.customerAddress1.toUpperCase()}
-                      </b>
-                      <b>Pin Code:-{existedUserData.customerCityPincode}</b>
-                      <b>Mobile No: +91 {existedUserData.mobileNo}</b>
-                    </div>
-                    <div
-                      className="d-flex flex-column"
-                      style={{ marginRight: "21%" }}
-                    >
-                      <b>Customer Profile No.:-{existedUserData.custId}</b>
-                      <b>PAN: {existedUserData.panCardNo}</b>
-                    </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5">
+                <div className="d-flex flex-row justify-content-between">
+                  <div className="d-flex flex-column">
+                    <b>Bill To: </b>
+                    <b>
+                      Customer Name:-
+                      {existedUserData.customerName.toUpperCase()}
+                    </b>
+                    <b>
+                      Address 1:-
+                      {existedUserData.customerAddress1.toUpperCase()}
+                    </b>
+                    <b>
+                      Address 2:-
+                      {existedUserData.customerAddress1.toUpperCase()}
+                    </b>
+                    <b>Pin Code:-{existedUserData.customerCityPincode}</b>
+                    <b>Mobile No: +91 {existedUserData.mobileNo}</b>
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5">
-                  <b>ITEM DETAILS</b>
-                  <div className="table">
-                    <table className="table table-bordered inner-table border-dark text-center">
-                      <thead>
-                        <tr style={{ fontSize: "7px", fontWeight: "bold" }}>
-                          {ServiveInvoicePdfHeaders.map((heading, i) => {
-                            return <th key={i}>{heading}</th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {RefacotorTableData.map((item, i) => {
-                          return (
-                            <tr
-                              key={i}
-                              style={{ fontSize: "6.5px", fontWeight: "bold" }}
-                            >
-                              <td>{i + 1}</td>
-                              <td>{item.itemCode}</td>
-                              <td>{item.lotNo}</td>
-                              <td>{item.description}</td>
-                              <td>{item.grossWt}</td>
-                              <td>{item.packageDays}</td>
-                              <td className="text-end">
-                                {item.productValue.toLocaleString("en-IN")}
-                              </td>
-                              <td className="text-end">
-                                {item.rentalAmount.toLocaleString("en-IN")}
-                              </td>
-                              <td className="text-end">{item.lateFee}</td>
-                              <td className="text-end">{item.damageCharges}</td>
-                              <td className="text-end">{parseFloat(item.discountAmount).toFixed(2)}</td>
-                              <td className="text-end">{parseFloat(item.totalChages).toFixed(2)}</td>
-                              <td className="text-end">{parseFloat(item.sgst).toFixed(2)}</td>
-                              <td className="text-end">{parseFloat(item.cgst).toFixed(2)}</td>
-                              <td className="text-end">{parseFloat(item.totalAmount).toFixed(2)}</td>
-                            </tr>
-                          )
-                        })}
-                        <tr
-                          className="text-end"
-                          style={{ fontSize: "7px", fontWeight: "bold" }}
-                        >
-                          <th colSpan="6">TOTAL</th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: false,
-                            }).format(SumOfBasePrise())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: false,
-                            }).format(SumOfTRentalAmont())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: false,
-                            }).format(SumOfTLateFee())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: false,
-                            }).format(SumOfTDamageCharges())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: false,
-                            }).format(SumOfTDiscountAmount())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: false,
-                            }).format(SumOfTTotalChages())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: 2,
-                            }).format(SumOfTSgst())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: 2,
-                            }).format(SumOfTCgst())}
-                          </th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: 2,
-                            }).format(SumOfTTotalAmount())}
-                          </th>
-                        </tr>
-                        <tr>
-                          <th colSpan="14" className="text-end">Discount</th>
-                          <th>
-                            {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: "INR",
-                              minimumFractionDigits: false,
-                            }).format(SumOfTDiscountAmount())}
-                          </th>
-                        </tr>
-                        <tr>
-                          <th colSpan="14" className="text-end">Total After Discount</th>
-                          <th>
-                            123
-                          </th>
-                        </tr>
-                        <tr>
-                          <th colSpan="14" className="text-end">SGST(9%)</th>
-                          <th>
-                            345
-                          </th>
-                        </tr>
-                        <tr>
-                          <th colSpan="14" className="text-end">CGST(9%)</th>
-                          <th>
-                            238
-                          </th>
-                        </tr>
-                        <tr>
-                          <th colSpan="14" className="text-end">NET VALUE(Including GST)</th>
-                          <th>
-                            098
-                          </th>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div
+                    className="d-flex flex-column"
+                    style={{ marginRight: "21%" }}
+                  >
+                    <b>Customer Profile No.:-{existedUserData.custId}</b>
+                    <b>PAN: {existedUserData.panCardNo}</b>
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="4" style={{ width: "40%" }}>
-                  <table className="table table-bordered border-dark text-center">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5">
+                <b>ITEM DETAILS</b>
+                <div className="table">
+                  <table className="table table-bordered inner-table border-dark text-center">
                     <thead>
-                      <tr>
-                        <th colSpan="6">Payment Details</th>
-                      </tr>
-                      <tr>
-                        <th>Sr.No</th>
-                        <th>Payment Type</th>
-                        <th>Payment Mode</th>
-                        <th>DOC No.</th>
-                        <th>Date</th>
-                        <th>Amount</th>
+                      <tr style={{ fontSize: "7px", fontWeight: "bold" }}>
+                        {ServiveInvoicePdfHeaders.map((heading, i) => {
+                          return <th key={i}>{heading}</th>;
+                        })}
                       </tr>
                     </thead>
                     <tbody>
-                      {PaymentDetails.map((item, i) => {
+                      {RefacotorTableData.map((item, i) => {
                         return (
-                          <tr key={i}>
-                            <th>{i + 1}</th>
-                            <th>
-                              {item.paymentFor ===
-                                "Payment_PendingFor_RentalReturn"
-                                ? "Additional Charge"
-                                : item.paymentFor ===
-                                  "Payment_PendingFor_NewBooking"
-                                  ? "Booking Amount"
-                                  : item.paymentFor ===
-                                    "Payment_PendingFor_RentalIssuance"
-                                    ? "Damage Protection Charge"
-                                    : ""}
-                            </th>
-                            <th>{item.paymentType}</th>
-                            <th>{item.txnRefNo}</th>
-                            <th>{moment().format("DD-MM-YYYY")}</th>
-                            <th className="text-end">
-                              {parseFloat(item.amount)}
-                            </th>
+                          <tr
+                            key={i}
+                            style={{ fontSize: "6.5px", fontWeight: "bold" }}
+                          >
+                            <td>{i + 1}</td>
+                            <td>{item.itemCode}</td>
+                            <td>{item.lotNo}</td>
+                            <td>{item.description}</td>
+                            <td>{item.grossWt}</td>
+                            <td>{item.packageDays}</td>
+                            <td className="text-end">
+                              {item.productValue.toLocaleString("en-IN")}
+                            </td>
+                            <td className="text-end">
+                              {item.rentalAmount.toLocaleString("en-IN")}
+                            </td>
+                            <td className="text-end">{item.lateFee}</td>
+                            <td className="text-end">{item.damageCharges}</td>
+                            <td className="text-end">{parseFloat(item.discountAmount).toFixed(2)}</td>
+                            <td className="text-end">{parseFloat(item.totalChages).toFixed(2)}</td>
+                            <td className="text-end">{parseFloat(item.sgst).toFixed(2)}</td>
+                            <td className="text-end">{parseFloat(item.cgst).toFixed(2)}</td>
+                            <td className="text-end">{parseFloat(item.totalAmount).toFixed(2)}</td>
                           </tr>
-                        );
+                        )
                       })}
-                      <tr className="text-end">
-                        <th colSpan="5">TOTAL</th>
+                      <tr
+                        className="text-end"
+                        style={{ fontSize: "7px", fontWeight: "bold" }}
+                      >
+                        <th colSpan="6">TOTAL</th>
                         <th>
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: false,
-                          }).format(SumOfSaveAmount())}
+                          }).format(SumOfBasePrise())}
                         </th>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-                <td colSpan="4" style={{ width: "40%" }}>
-                  <table className="table table-bordered border-dark">
-                    <thead>
-                      <tr>
-                        <th colSpan="6">Total Amount Details</th>
-                      </tr>
-                      <tr>
-                        <th>Total Amount Paid</th>
-                        <th>Total charges</th>
-                        <th>Total Refund</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: false,
+                          }).format(SumOfTRentalAmont())}
+                        </th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: false,
+                          }).format(SumOfTLateFee())}
+                        </th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: false,
+                          }).format(SumOfTDamageCharges())}
+                        </th>
                         <th>
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
                             minimumFractionDigits: 2,
-                          }).format(SumOfSaveAmount())}
+                          }).format(SumOfTDiscountAmount())}
+                        </th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: false,
+                          }).format(SumOfTTotalChages())}
+                        </th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: 2,
+                          }).format(SumOfTSgst())}
+                        </th>
+                        <th>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            minimumFractionDigits: 2,
+                          }).format(SumOfTCgst())}
                         </th>
                         <th>
                           {new Intl.NumberFormat("en-IN", {
@@ -547,82 +415,204 @@ const ServiceIvoicePdf = (props) => {
                             minimumFractionDigits: 2,
                           }).format(SumOfTTotalAmount())}
                         </th>
+                      </tr>
+                      <tr>
+                        <th colSpan="14" className="text-end">Discount</th>
                         <th>
                           {new Intl.NumberFormat("en-IN", {
                             style: "currency",
                             currency: "INR",
-                            minimumFractionDigits: 2,
-                          }).format(TotalRefund)}
+                            minimumFractionDigits: false,
+                          }).format(SumOfTDiscountAmount())}
+                        </th>
+                      </tr>
+                      <tr>
+                        <th colSpan="14" className="text-end">Total After Discount</th>
+                        <th>
+                          123
+                        </th>
+                      </tr>
+                      <tr>
+                        <th colSpan="14" className="text-end">SGST(9%)</th>
+                        <th>
+                          345
+                        </th>
+                      </tr>
+                      <tr>
+                        <th colSpan="14" className="text-end">CGST(9%)</th>
+                        <th>
+                          238
+                        </th>
+                      </tr>
+                      <tr>
+                        <th colSpan="14" className="text-end">NET VALUE(Including GST)</th>
+                        <th>
+                          098
                         </th>
                       </tr>
                     </tbody>
                   </table>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5" className="text-center">
-                  <b>
-                    The refund, if any, will be credited to your preffered Bank
-                    Account within 10 days.
-                  </b>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5" className="text-center">
-                  <b>
-                    We hereby certify that our registration certificate under
-                    the Central Goods and Services Tax Act, 2017 is in force on
-                    the date on which the supply of the goods/services specified
-                    in this tax invoice is made by us and that the transaction
-                    of the sale covered by this tax Invoice/ Advance receipt
-                    voucher has been effected by us and it shall be accounted
-                    for in the turnover of supplies/advances while filing of
-                    return and the due tax, if any payable on the supply has
-                    been paid or shall be paid.
-                  </b>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5">
-                  <div className="d-flex justify-content-between">
-                    <div>
-                      <b>For Titan Company Limited</b>
-                      <h6 className="mt-4">(Authorized Signatory)</h6>
-                    </div>
-                    <div>
-                      <b>
-                        Customer Name :-
-                        {existedUserData.customerName.toUpperCase()}
-                      </b>
-                      <h6 className="mt-4">
-                        Customer Signature : ..............................
-                      </h6>
-                    </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="4" style={{ width: "40%" }}>
+                <table className="table table-bordered border-dark text-center">
+                  <thead>
+                    <tr>
+                      <th colSpan="6">Payment Details</th>
+                    </tr>
+                    <tr>
+                      <th>Sr.No</th>
+                      <th>Payment Type</th>
+                      <th>Payment Mode</th>
+                      <th>DOC No.</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {PaymentDetails.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <th>{i + 1}</th>
+                          <th>
+                            {item.paymentFor ===
+                              "Payment_PendingFor_RentalReturn"
+                              ? "Additional Charge"
+                              : item.paymentFor ===
+                                "Payment_PendingFor_NewBooking"
+                                ? "Booking Amount"
+                                : item.paymentFor ===
+                                  "Payment_PendingFor_RentalIssuance"
+                                  ? "Damage Protection Charge"
+                                  : ""}
+                          </th>
+                          <th>{item.paymentType}</th>
+                          <th>{item.txnRefNo}</th>
+                          <th>{moment().format("DD-MM-YYYY")}</th>
+                          <th className="text-end">
+                            {parseFloat(item.amount)}
+                          </th>
+                        </tr>
+                      );
+                    })}
+                    <tr className="text-end">
+                      <th colSpan="5">TOTAL</th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: false,
+                        }).format(SumOfSaveAmount())}
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td colSpan="4" style={{ width: "40%" }}>
+                <table className="table table-bordered border-dark">
+                  <thead>
+                    <tr>
+                      <th colSpan="6">Total Amount Details</th>
+                    </tr>
+                    <tr>
+                      <th>Total Amount Paid</th>
+                      <th>Total charges</th>
+                      <th>Total Refund</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: 2,
+                        }).format(SumOfSaveAmount())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: 2,
+                        }).format(SumOfTTotalAmount())}
+                      </th>
+                      <th>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                          minimumFractionDigits: 2,
+                        }).format(TotalRefund)}
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5" className="text-center">
+                <b>
+                  The refund, if any, will be credited to your preffered Bank
+                  Account within 10 days.
+                </b>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5" className="text-center">
+                <b>
+                  We hereby certify that our registration certificate under
+                  the Central Goods and Services Tax Act, 2017 is in force on
+                  the date on which the supply of the goods/services specified
+                  in this tax invoice is made by us and that the transaction
+                  of the sale covered by this tax Invoice/ Advance receipt
+                  voucher has been effected by us and it shall be accounted
+                  for in the turnover of supplies/advances while filing of
+                  return and the due tax, if any payable on the supply has
+                  been paid or shall be paid.
+                </b>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5">
+                <div className="d-flex justify-content-between">
+                  <div>
+                    <b>For Titan Company Limited</b>
+                    <h6 className="mt-4">(Authorized Signatory)</h6>
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5" className="text-center">
-                  <b>
-                    "Titan Company Limited Regd & Corporate Office: CIN : .
-                    Website: www.titancompany.in Contact Number: 1800-266-0123
-                    Thank you for shopping at Titan Company. You can also write
-                    to us at customercare@titan.co.in " E & OE
-                  </b>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="5" className="text-center">
-                  <b>
-                    For terms and conditions including late fee and product
-                    handling or damage charges, please refer: T&C section in
-                    booking confirmation document.
-                  </b>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  <div>
+                    <b>
+                      Customer Name :-
+                      {existedUserData.customerName.toUpperCase()}
+                    </b>
+                    <h6 className="mt-4">
+                      Customer Signature : ..............................
+                    </h6>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5" className="text-center">
+                <b>
+                  "Titan Company Limited Regd & Corporate Office: CIN : .
+                  Website: www.titancompany.in Contact Number: 1800-266-0123
+                  Thank you for shopping at Titan Company. You can also write
+                  to us at customercare@titan.co.in " E & OE
+                </b>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5" className="text-center">
+                <b>
+                  For terms and conditions including late fee and product
+                  handling or damage charges, please refer: T&C section in
+                  booking confirmation document.
+                </b>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

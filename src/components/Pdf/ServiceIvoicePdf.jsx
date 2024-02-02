@@ -348,13 +348,13 @@ const ServiceIvoicePdf = (props) => {
                               </td>
                               <td className="text-end">{item.lateFee}</td>
                               <td className="text-end">{item.damageCharges}</td>
-                              <td className="text-end">{item.discountAmount}</td>
-                              <td className="text-end">{item.totalChages}</td>
-                              <td className="text-end">{item.sgst}</td>
-                              <td className="text-end">{item.cgst}</td>
-                              <td className="text-end">{item.totalAmount}</td>
+                              <td className="text-end">{parseFloat(item.discountAmount).toFixed(2)}</td>
+                              <td className="text-end">{parseFloat(item.totalChages).toFixed(2)}</td>
+                              <td className="text-end">{parseFloat(item.sgst).toFixed(2)}</td>
+                              <td className="text-end">{parseFloat(item.cgst).toFixed(2)}</td>
+                              <td className="text-end">{parseFloat(item.totalAmount).toFixed(2)}</td>
                             </tr>
-                          );
+                          )
                         })}
                         <tr
                           className="text-end"
@@ -423,6 +423,40 @@ const ServiceIvoicePdf = (props) => {
                               currency: "INR",
                               minimumFractionDigits: 2,
                             }).format(SumOfTTotalAmount())}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th colSpan="14" className="text-end">Discount</th>
+                          <th>
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                              minimumFractionDigits: false,
+                            }).format(SumOfTDiscountAmount())}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th colSpan="14" className="text-end">Total After Discount</th>
+                          <th>
+                            123
+                          </th>
+                        </tr>
+                        <tr>
+                          <th colSpan="14" className="text-end">SGST(9%)</th>
+                          <th>
+                            345
+                          </th>
+                        </tr>
+                        <tr>
+                          <th colSpan="14" className="text-end">CGST(9%)</th>
+                          <th>
+                            238
+                          </th>
+                        </tr>
+                        <tr>
+                          <th colSpan="14" className="text-end">NET VALUE(Including GST)</th>
+                          <th>
+                            098
                           </th>
                         </tr>
                       </tbody>

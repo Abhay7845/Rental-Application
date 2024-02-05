@@ -461,8 +461,6 @@ const CashierPaymentDetails = () => {
       .catch((error) => setLoading(false));
   };
 
-
-
   const PaymentFileImage = (UploadFileName) => {
     const paymentUploadFile = {
       bookingRefId: !bookingGenNo ? bookingRefID : bookingGenNo,

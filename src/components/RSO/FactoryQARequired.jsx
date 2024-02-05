@@ -196,11 +196,12 @@ const FactoryQARequired = () => {
       PdtItemWtDmg.push(inputDmgValues[key]);
     }
   }
+  const DamageCharge = refactoreDataTable.map(item => parseFloat(item.damageCharges));
 
-  // TOTAL ACTUAL WT OF RETURN
+  // SUM OF DAMAG CHARGE
   const SumOfDmgCharge = () => {
     let total = 0;
-    for (let data of PdtItemWtDmg) total = total + parseInt(data);
+    for (let data of PdtItemWtDmg.length > 0 ? PdtItemWtDmg : DamageCharge) total = total + parseFloat(data);
     return total;
   };
 

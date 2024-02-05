@@ -40,7 +40,6 @@ const FactoryQARequired = () => {
     );
     return nextDate;
   };
-
   const timeDifference = new Date() - getReturnDate();
   const DespId = returnTableData.map((data) => data.despId);
 

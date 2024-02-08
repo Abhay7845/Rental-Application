@@ -555,7 +555,7 @@ const CashierPaymentDetails = () => {
       .catch((error) => setLoading(false));
   };
 
-  const VerifyOTP = () => {
+  const VerifyOTP = (inputOtp) => {
     if (parseInt(Otp) === parseInt(inputOtp)) {
       toast.success("OTP verified successfully", { theme: "colored", autoClose: 1000 });
       setVerifiedOtp(true);
@@ -563,6 +563,12 @@ const CashierPaymentDetails = () => {
       toast.error("Invalid OTP", { theme: "colored", autoClose: 3000 });
     }
   };
+
+  const KeyPressVerfyOtp = (event) => {
+    if (event.key.toUpperCase() === 'ENTER') {
+      VerifyOTP(inputOtp);
+    }
+  }
 
   const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
@@ -1313,8 +1319,9 @@ const CashierPaymentDetails = () => {
                       className="form-control"
                       placeholder="Enter OTP"
                       onChange={(e) => setInputOtp(e.target.value)}
+                      onKeyDown={KeyPressVerfyOtp}
                     />
-                    <button className="CButton mx-2" onClick={VerifyOTP}>
+                    <button className="CButton mx-2" onClick={() => VerifyOTP(inputOtp)}>
                       Verify
                     </button>
                   </div>

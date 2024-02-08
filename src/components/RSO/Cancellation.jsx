@@ -445,7 +445,7 @@ const Cancellation = () => {
               type="text"
               className="form-control"
               placeholder="Cancellation Charge"
-              value={cancelCharge * 1.18}
+              value={parseFloat(parseFloat(cancelCharge * 1.18).toFixed(2))}
               disabled
             />
           </div>

@@ -566,10 +566,7 @@ const CashierPaymentDetails = () => {
 
   const UpdateBookingFile = (printFileName) => {
     const updateBookingInput = {
-      bookingRefId:
-        paymentRequestFor === "Payment_PendingFor_NewBooking"
-          ? bookingRefID
-          : bookingRefNo,
+      bookingRefId: paymentRequestFor === "Payment_PendingFor_NewBooking" ? bookingRefID : bookingRefNo,
       contentFor: `${paymentRequestFor}`,
       createdDate: currentDate,
       documentType: documentType,
@@ -600,9 +597,7 @@ const CashierPaymentDetails = () => {
       setTnCFileName(printFileName);
       formData.append("ImgName", printFileName);
       formData.append("files", printFile);
-      axios
-        .post(UploadImg, formData)
-        .then((res) => res)
+      axios.post(UploadImg, formData).then((res) => res)
         .then((response) => {
           if (response.data) {
             UpdateBookingFile(printFileName);
@@ -658,6 +653,7 @@ const CashierPaymentDetails = () => {
         .catch((error) => setLoading(false));
     }
   };
+
   const UpdLoadClsDetails = (imgName) => {
     const LoanCloserInputs = {
       bookingRefId: bookingRefNo,
@@ -680,6 +676,7 @@ const CashierPaymentDetails = () => {
       })
       .catch((error) => setLoading(false));
   };
+
   const UploadLoanCloseFile = () => {
     if (!loanCloseFile) {
       toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });

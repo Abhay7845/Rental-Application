@@ -775,7 +775,7 @@ const RentalReturn = () => {
             <input
               type="text"
               className="form-control"
-              value={discountAmtOnRental ? rentChargeAftrDis * 1.18 : 0}
+              value={discountAmtOnRental ? parseFloat(parseFloat(rentChargeAftrDis * 1.18).toFixed(2)) : 0}
               disabled
             />
           </div>

@@ -354,6 +354,7 @@ const CashierPaymentDetails = () => {
   });
 
   const UpdateBookingCalendar = (updatedInputs, paymentRequestFor) => {
+    setLoading(true);
     axios
       .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
@@ -367,9 +368,10 @@ const CashierPaymentDetails = () => {
             InsertOutStanding(outStatus);
           }
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
+    setLoading(false);
   };
+
   const InsertInvoiceData = (challanNo) => {
     const InvoiceInputs = {
       bookingId: bookingId,
@@ -441,6 +443,7 @@ const CashierPaymentDetails = () => {
   };
 
   const InsertOutStanding = (outStatus) => {
+    setLoading(true);
     const OutstandingInputs = {
       bookingId: bookingId,
       createdDate: null,
@@ -459,6 +462,7 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => setLoading(false));
+    setLoading(false);
   };
 
   const PaymentFileImage = (UploadFileName) => {
@@ -701,6 +705,7 @@ const CashierPaymentDetails = () => {
   };
 
   const TnxStatusUpdate = (bookingId) => {
+    setLoading(true);
     axios
       .get(`${HOST_URL}/update/txn/status/${bookingId}/${bookedStatus}`)
       .then((res) => res)
@@ -715,10 +720,11 @@ const CashierPaymentDetails = () => {
           });
         }
         ClearAllUIData(paymentRequestFor);
-        setLoading(false);
       })
       .catch((error) => setLoading(false));
+    setLoading(false);
   };
+
   const submitPaymentData = {
     bookingRefNo: !bookingGenNo ? bookingRefID : bookingGenNo,
     cashierName: cashierName,
@@ -727,6 +733,7 @@ const CashierPaymentDetails = () => {
     tncFileName: tnCFileName,
   };
   const CompletePayment = (submitPaymentData) => {
+    setLoading(true);
     axios
       .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
       .then((res) => res)
@@ -739,6 +746,7 @@ const CashierPaymentDetails = () => {
   };
 
   const CallPaymentAPI = (paymentRequestFor) => {
+    setLoading(true);
     axios
       .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
       .then((res) => res)
@@ -753,11 +761,12 @@ const CashierPaymentDetails = () => {
           }
         }
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch((error) => setLoading(false));
+    setLoading(false);
   };
+
   const SubmitPayment = (paymentRequestFor) => {
+    setLoading(true);
     if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
       UpdateBookingCalendar(updatedInputs, paymentRequestFor);
     } else if (
@@ -801,7 +810,7 @@ const CashierPaymentDetails = () => {
     }, 1000);
     return () => {
       clearInterval(intervelPhone);
-    };
+    }
   }, [secPhoneCount]);
 
   return (

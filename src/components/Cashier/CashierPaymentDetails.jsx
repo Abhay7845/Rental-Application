@@ -769,6 +769,7 @@ const CashierPaymentDetails = () => {
   };
 
   const SubmitPaymentDetails = () => {
+    setLoading(true);
     if (!cashierName) {
       toast.error("Please Enter Cashier Name", { theme: "colored", autoClose: 3000 });
     } else if (!tnCFileName) {

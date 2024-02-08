@@ -44,7 +44,6 @@ const CashierPaymentDetails = () => {
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const booking_Id = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [bookingRefID, setBookingRefID] = useState(booking_Id);
-
   const {
     paymentRequestFor,
     rentValue,
@@ -63,14 +62,13 @@ const CashierPaymentDetails = () => {
     totalDepositAmount,
     discountOnRentalCharges,
   } = totalPaidAmount;
-  const TotalCharges =
-    (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
-
+  const TotalCharges = (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
 
   const GenChallanNo = `${bookingRefNo}-D`;
   const GenInvoiceNo = `${storeCode}-${invoicePdfNo.invoiceId + 1}`;
   const rentalStrDate = addedPdts.map((date) => date.rentStartDate);
   const packageDays = addedPdts.map((date) => date.packageDays);
+
   const getReturnDate = () => {
     const nextDate = new Date(rentalStrDate[0]);
     nextDate.setDate(nextDate.getDate() + parseInt(packageDays[0] - 1));
@@ -125,41 +123,30 @@ const CashierPaymentDetails = () => {
   }, [storeCode]);
 
   const GetRegistreUserData = (storeCode) => {
-    axios
-      .get(
-        `${HOST_URL}/get/booking/details/${storeCode}/Mobile_No/${searchValue}`
-      )
+    axios.get(`${HOST_URL}/get/booking/details/${storeCode}/Mobile_No/${searchValue}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
           setRegUserData(response.data.value);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   useEffect(() => {
     if (bookingRefNo) {
-      axios
-        .get(
-          `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`
-        )
+      axios.get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
             setTotalPaidAmount(response.data.value);
           }
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   }, [storeCode, bookingRefNo]);
 
   useEffect(() => {
     if (bookingId) {
-      axios
-        .get(
-          `${HOST_URL}/get/prev/txn/details/forReturn/pdf/${bookingId}/Payment_PendingFor_NewBooking`
-        )
+      axios.get(`${HOST_URL}/get/prev/txn/details/forReturn/pdf/${bookingId}/Payment_PendingFor_NewBooking`)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -171,8 +158,7 @@ const CashierPaymentDetails = () => {
   }, [bookingId]);
 
   useEffect(() => {
-    axios
-      .get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
+    axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -187,10 +173,7 @@ const CashierPaymentDetails = () => {
   useEffect(() => {
     if (paymentDetails.tempBookingRef) {
       setLoading(true);
-      axios
-        .get(
-          `${HOST_URL}/fetch/table/common/data/${storeCode}/""/${paymentDetails.tempBookingRef}`
-        )
+      axios.get(`${HOST_URL}/fetch/table/common/data/${storeCode}/""/${paymentDetails.tempBookingRef}`)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -220,10 +203,7 @@ const CashierPaymentDetails = () => {
   };
   const GetPyamentDetials = (searchValue) => {
     setLoading(true);
-    axios
-      .get(
-        `${HOST_URL}/get/payment/request/details/for/cashier/${storeCode}/${searchValue}`
-      )
+    axios.get(`${HOST_URL}/get/payment/request/details/for/cashier/${storeCode}/${searchValue}`)
       .then((res) => res)
       .then((response) => {
         const PendingStatusData = response.data.value.filter(
@@ -250,6 +230,7 @@ const CashierPaymentDetails = () => {
       })
       .catch((error) => setLoading(false));
   };
+
   const handleKeyPress = (event) => {
     if (event.key.toUpperCase() === 'ENTER') {
       if (searchValue.length < 10) {
@@ -355,8 +336,7 @@ const CashierPaymentDetails = () => {
 
   const UpdateBookingCalendar = (updatedInputs, paymentRequestFor) => {
     setLoading(true);
-    axios
-      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+    axios.post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -381,8 +361,7 @@ const CashierPaymentDetails = () => {
       createdDate: null,
       storeCode: storeCode,
     };
-    axios
-      .post(`${HOST_URL}/insert/invoice/details`, InvoiceInputs)
+    axios.post(`${HOST_URL}/insert/invoice/details`, InvoiceInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

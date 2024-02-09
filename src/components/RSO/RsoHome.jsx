@@ -152,9 +152,7 @@ const Home = () => {
             maxLength={30}
             onChange={(e) => setPhoneRefrence(e.target.value)}
           />
-          <button
-            className={`${phoneRefrence.length < 10 ? "DisableSearch" : "searchButton"
-              }`}
+          <button className={phoneRefrence.length < 10 ? "DisableSearch" : "searchButton"}
             onClick={() => GetBookingDetails(phoneRefrence)}
             disabled={phoneRefrence.length < 10 ? true : false}
           >
@@ -174,9 +172,7 @@ const Home = () => {
               <Thead className="table-dark border-light">
                 <Tr>
                   {homePageTHeadrs.map((headers, i) => {
-                    return (
-                      <Th key={i}>{headers}</Th>
-                    )
+                    return (<Th key={i}>{headers}</Th>)
                   })}
                 </Tr>
               </Thead>

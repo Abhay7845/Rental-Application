@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { toast } from "react-toastify";
 
-
 const Home = () => {
   const [phoneRefrence, setPhoneRefrence] = useState("");
   const [productData, setProductData] = useState([]);

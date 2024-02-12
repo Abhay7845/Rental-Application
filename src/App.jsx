@@ -60,7 +60,7 @@ const App = () => {
               element={<ProductsDetails />}
             />
             <Route
-              path="/test/conponents"
+              path="/test"
               element={<TestComponets />}
             />
             {/* ADMIN COMPONENTS */}

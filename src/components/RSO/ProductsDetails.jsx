@@ -383,11 +383,11 @@ const ProductsDetails = () => {
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
-            if (response.data.value.Succes) {
-              const bookingTempId = response.data.value.Succes
+            if (response.data.value.Success) {
+              const bookingTempId = response.data.value.Success
               UpdateBookingCalendar(bookingTempId);
               const phoneNomber = bookingTempId.substring(0, 10)
-              localStorage.setItem("BookinTempId", response.data.value.Succes)
+              localStorage.setItem("BookinTempId", response.data.value.Success)
               localStorage.setItem("regNumber", phoneNomber)
             }
           }

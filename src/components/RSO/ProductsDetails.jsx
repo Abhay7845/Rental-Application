@@ -227,7 +227,7 @@ const ProductsDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          InsertTableCalendar(response.data.value.Succes);
+          InsertTableCalendar(response.data.value.Success);
         }
         setLoading(false)
       })

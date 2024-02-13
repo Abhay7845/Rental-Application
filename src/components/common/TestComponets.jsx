@@ -30,9 +30,6 @@ const TestComponets = () => {
     });
 
     // Generate the zip folder
-    const readme = zip.folder("readme");
-    readme.file("readme.txt", "Created with JSZip");
-
     zip.generateAsync({ type: 'blob' }).then(res => res).then(content => {
       console.log("content==>", content);
       let link = document.createElement('a');

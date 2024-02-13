@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import JSZip, { file } from 'jszip';
+import JSZip from 'jszip';
 import braseLet from '../../Asset/Img/Brasslet.png'
 
 
@@ -44,17 +44,7 @@ const TestComponets = () => {
     });
   };
 
-  const downloadImage = (imageUrl) => {
-    // Create a temporary link element
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    console.log("link.href ==>", link.href)
-    link.download = 'image.png';
-    // Simulate a click event to trigger the download
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+
 
   return (
     <div className="mx-2">

@@ -157,10 +157,11 @@ const CashierPaymentDetails = () => {
     }
   }, [bookingId]);
 
-  useEffect(() => {
+  const GetInvoiceDetails = (storeCode) => {
     axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setInvoicePdfNo(response.data.value);
         } else if (response.data.code === "1001") {
@@ -168,6 +169,9 @@ const CashierPaymentDetails = () => {
         }
       })
       .catch((error) => setLoading(false));
+  }
+  useEffect(() => {
+    GetInvoiceDetails(storeCode);
   }, [storeCode]);
 
   useEffect(() => {
@@ -243,6 +247,7 @@ const CashierPaymentDetails = () => {
 
   const OnSelectRow = (seletedData) => {
     setPaymentDetails(seletedData);
+    GetInvoiceDetails(storeCode);
   };
 
   useEffect(() => {
@@ -252,10 +257,9 @@ const CashierPaymentDetails = () => {
       setBookedStatus("Cancellation_After_Booking");
       setUpdateStatus("BookingCancelled");
       setAmontHeading("Amount to be Refunded");
-      setAmontErrMassage(
-        "Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment"
-      );
+      setAmontErrMassage("Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment");
       setBookingGenNo(bookingRefNo);
+      setInvoiceNo(GenInvoiceNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
       setCollectedAmount(parseFloat(depositValue));
@@ -265,9 +269,7 @@ const CashierPaymentDetails = () => {
       setInvoiceNo("");
       setAmontHeading("Amount to be Collected");
       setChallanNo(GenChallanNo);
-      setAmontErrMassage(
-        "Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment"
-      );
+      setAmontErrMassage("Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment");
       setBookingGenNo(bookingRefNo);
     }
     if (paymentRequestFor === "Payment_PendingFor_NewBooking") {
@@ -276,9 +278,7 @@ const CashierPaymentDetails = () => {
       setBookedStatus("Booked");
       setUpdateStatus("Booked");
       setAmontHeading("Amount to be Collected");
-      setAmontErrMassage(
-        "Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment"
-      );
+      setAmontErrMassage("Total Amount Not Equal to Rental Amount & Please ensure to Save the Payment");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
       const bookingDesposit = totalBookingAmount + totalDepositAmount;
@@ -289,9 +289,7 @@ const CashierPaymentDetails = () => {
         );
       } else if (TotalCharges <= bookingDesposit) {
         setAmontHeading("Amount to be Refunded");
-        setCollectedAmount(
-          parseFloat(bookingDesposit - TotalCharges + discountOnRentalCharges * 1.18).toFixed(2)
-        );
+        setCollectedAmount(parseFloat(bookingDesposit - TotalCharges + discountOnRentalCharges * 1.18).toFixed(2));
       }
       setAlertMessage("Item Returned Successfully");
       setUpdateStatus("ProductReturnedSuccess");
@@ -300,9 +298,7 @@ const CashierPaymentDetails = () => {
       setOutStatus("Product_Returned_Successfully");
       setAmontHeading("Amount to be Refunded");
       setChallanNo("");
-      setAmontErrMassage(
-        "Total Amount Not Equal to Rental Return & Please ensure to Save the Payment"
-      );
+      setAmontErrMassage("Total Amount Not Equal to Rental Return & Please ensure to Save the Payment");
       setBookingGenNo(bookingRefNo);
     }
   }, [
@@ -361,6 +357,7 @@ const CashierPaymentDetails = () => {
       createdDate: null,
       storeCode: storeCode,
     };
+    console.log("InvoiceInputs==>", InvoiceInputs)
     axios.post(`${HOST_URL}/insert/invoice/details`, InvoiceInputs)
       .then((res) => res)
       .then((response) => {
@@ -376,6 +373,7 @@ const CashierPaymentDetails = () => {
       })
       .catch((error) => setLoading(false));
   };
+
 
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
@@ -524,6 +522,7 @@ const CashierPaymentDetails = () => {
       .get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
+        console.log(response.data);
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
           toast.success(`OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(6)}`, { theme: "colored", autoClose: 1000 });
@@ -702,6 +701,7 @@ const CashierPaymentDetails = () => {
           });
         }
         ClearAllUIData(paymentRequestFor);
+        GetInvoiceDetails(storeCode);
       })
       .catch((error) => setLoading(false));
     setLoading(false);
@@ -824,7 +824,7 @@ const CashierPaymentDetails = () => {
             <Table className="table table-bordered border-dark text-center">
               <Thead className="table-dark border-light">
                 <Tr>
-                  <Th>SELECT</Th>
+                  <Th>Select</Th>
                   {PaymentHeading1.map((heading, i) => {
                     return <Td key={i}>{heading}</Td>;
                   })}
@@ -1246,7 +1246,7 @@ const CashierPaymentDetails = () => {
                       paymentDetails={paymentDetails}
                       storeDetails={storeDetails}
                       regUserData={regUserData}
-                      genInvoiceNo={GenInvoiceNo}
+                      genInvoiceNo={invoiceNo}
                       totalPaidAmount={totalPaidAmount}
                     />
                   </h6>

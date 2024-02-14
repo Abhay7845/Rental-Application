@@ -339,8 +339,7 @@ const ProductsDetails = () => {
         tempRefNo: tempId,
       };
     });
-    axios
-      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+    axios.post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -350,6 +349,7 @@ const ProductsDetails = () => {
       })
       .catch((error) => setLoading(false));
   };
+
   const bookingPyaload = pdtSelected.map(product => {
     return {
       bookingId: 0,
@@ -380,8 +380,7 @@ const ProductsDetails = () => {
       toast(`You are Crossing Limit, Our Limit Is ${thresholdLimit}`);
     } else {
       setLoading(true);
-      axios
-        .post(`${HOST_URL}/add/to/cart`, bookingPyaload)
+      axios.post(`${HOST_URL}/add/to/cart`, bookingPyaload)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {

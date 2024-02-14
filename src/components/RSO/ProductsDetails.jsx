@@ -227,7 +227,9 @@ const ProductsDetails = () => {
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
-          InsertTableCalendar(response.data.value.Success);
+          if (response.data.value.Success) {
+            InsertTableCalendar(response.data.value.Success);
+          }
         }
         setLoading(false)
       })
@@ -386,9 +388,9 @@ const ProductsDetails = () => {
             if (response.data.value.Success) {
               const bookingTempId = response.data.value.Success
               UpdateBookingCalendar(bookingTempId);
-              const phoneNomber = bookingTempId.substring(0, 10)
-              localStorage.setItem("BookinTempId", response.data.value.Success)
-              localStorage.setItem("regNumber", phoneNomber)
+              const phoneNomber = bookingTempId.substring(0, 10);
+              localStorage.setItem("BookinTempId", bookingTempId);
+              localStorage.setItem("regNumber", phoneNomber);
             }
           }
           setLoading(false);

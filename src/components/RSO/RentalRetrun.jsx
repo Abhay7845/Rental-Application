@@ -134,10 +134,7 @@ const RentalReturn = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${refId}/${tempBookingRefNo}`
-      )
+    axios.get(`${HOST_URL}/fetch/table/common/data/${storeCode}/${refId}/${tempBookingRefNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

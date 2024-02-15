@@ -161,7 +161,6 @@ const CashierPaymentDetails = () => {
     axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setInvoicePdfNo(response.data.value);
         } else if (response.data.code === "1001") {
@@ -210,16 +209,12 @@ const CashierPaymentDetails = () => {
     axios.get(`${HOST_URL}/get/payment/request/details/for/cashier/${storeCode}/${searchValue}`)
       .then((res) => res)
       .then((response) => {
-        const PendingStatusData = response.data.value.filter(
-          (data) =>
-            data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor"
-        );
+        const PendingStatusData = response.data.value.filter((data) => data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor");
         if (response.data.code === "1000") {
           setGetPaymentData(PendingStatusData);
           FetchUserDetails(searchValue);
           GetRegistreUserData(storeCode);
-        }
-        if (response.data.code === "1001") {
+        } else if (response.data.code === "1001") {
           setGetPaymentData({});
           setPaymentDetails({});
           Swal.fire({
@@ -357,7 +352,6 @@ const CashierPaymentDetails = () => {
       createdDate: null,
       storeCode: storeCode,
     };
-    console.log("InvoiceInputs==>", InvoiceInputs)
     axios.post(`${HOST_URL}/insert/invoice/details`, InvoiceInputs)
       .then((res) => res)
       .then((response) => {
@@ -522,7 +516,6 @@ const CashierPaymentDetails = () => {
       .get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
           toast.success(`OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(6)}`, { theme: "colored", autoClose: 1000 });
@@ -699,6 +692,8 @@ const CashierPaymentDetails = () => {
             confirmButtonColor: "#008080",
             confirmButtonText: "OK",
           });
+        } if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+          InsertInvoiceData(challanNo);
         }
         ClearAllUIData(paymentRequestFor);
         GetInvoiceDetails(storeCode);
@@ -714,6 +709,7 @@ const CashierPaymentDetails = () => {
     tempRefNo: paymentDetails.tempBookingRef,
     tncFileName: tnCFileName,
   };
+
   const CompletePayment = (submitPaymentData) => {
     setLoading(true);
     axios

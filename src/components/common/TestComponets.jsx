@@ -31,6 +31,7 @@ const TestComponets = () => {
       link.href = url;
       document.body.appendChild(link);
       link.click();
+      link.remove();
     });
   };
 

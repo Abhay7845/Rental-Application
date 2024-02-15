@@ -161,6 +161,7 @@ const CashierPaymentDetails = () => {
     axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setInvoicePdfNo(response.data.value);
         } else if (response.data.code === "1001") {
@@ -1313,7 +1314,7 @@ const CashierPaymentDetails = () => {
                     <span>CANCEL BOOKING</span>
                   )}
                 {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
-                  <span>COMPLETE PRODUCT DELEIVERY</span>
+                  <span>COMPLETE PRODUCT DELIVERY</span>
                 )}
                 {paymentRequestFor === "Payment_PendingFor_RentalReturn" && (
                   <span>CLOSE BOOKING</span>

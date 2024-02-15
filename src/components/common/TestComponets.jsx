@@ -13,25 +13,18 @@ const TestComponets = () => {
   // Function to download the zip folder
   const downloadZipFolder = async () => {
     const promises = imgObj.map(async (urls) => {
-      console.log("urls==>", urls);
-      const res = await fetch(urls);
-      console.log("res==>", res);
+      const res = await fetch(urls.imgUrl);
       const blob = await res.blob();
-      console.log("blob==>", blob);
       return blob;
     });
     const result = await Promise.all(promises);
-    console.log("result==>", result);
-
     const zip = new JSZip();
     result.forEach((blob, index) => {
-      console.log("blob==>", blob);
       zip.file(`image_${index}.jpg`, blob);
     });
 
     // Generate the zip folder
     zip.generateAsync({ type: 'blob' }).then(res => res).then(content => {
-      console.log("content==>", content);
       let link = document.createElement('a');
       link.download = 'table_images.zip';
       const url = URL.createObjectURL(content);
@@ -40,8 +33,6 @@ const TestComponets = () => {
       link.click();
     });
   };
-
-
 
   return (
     <div className="mx-2">

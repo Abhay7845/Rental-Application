@@ -36,7 +36,7 @@ const CashierPaymentDetails = () => {
   const [updateStatus, setUpdateStatus] = useState("");
   const [bookedStatus, setBookedStatus] = useState("");
   const [invoiceNo, setInvoiceNo] = useState("");
-  const [challanNo, setChallanNo] = useState("");
+  const [challanNo, setChallanNo] = useState("1");
   const [invoicePdfNo, setInvoicePdfNo] = useState({});
   const [outStatus, setOutStatus] = useState("");
   const [amontHeading, setAmontHeading] = useState("");
@@ -156,9 +156,9 @@ const CashierPaymentDetails = () => {
         .catch((error) => setLoading(false));
     }
   }, [bookingId]);
-
-  const GetInvoiceDetails = (storeCode) => {
-    axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}`)
+  console.log("challanNo==>", challanNo);
+  const GetInvoiceDetails = (challanNo) => {
+    axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}/${challanNo}`)
       .then((res) => res)
       .then((response) => {
         console.log("response==>", response.data);
@@ -171,8 +171,8 @@ const CashierPaymentDetails = () => {
       .catch((error) => setLoading(false));
   }
   useEffect(() => {
-    GetInvoiceDetails(storeCode);
-  }, [storeCode]);
+    GetInvoiceDetails(challanNo);
+  }, [challanNo]);
 
   useEffect(() => {
     if (paymentDetails.tempBookingRef) {
@@ -210,6 +210,7 @@ const CashierPaymentDetails = () => {
     axios.get(`${HOST_URL}/get/payment/request/details/for/cashier/${storeCode}/${searchValue}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data)
         const PendingStatusData = response.data.value.filter((data) => data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor");
         if (response.data.code === "1000") {
           setGetPaymentData(PendingStatusData);
@@ -243,7 +244,7 @@ const CashierPaymentDetails = () => {
 
   const OnSelectRow = (seletedData) => {
     setPaymentDetails(seletedData);
-    GetInvoiceDetails(storeCode);
+    GetInvoiceDetails(challanNo);
   };
 
   useEffect(() => {
@@ -256,6 +257,7 @@ const CashierPaymentDetails = () => {
       setAmontErrMassage("Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment");
       setBookingGenNo(bookingRefNo);
       setInvoiceNo(GenInvoiceNo);
+      setChallanNo("1");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
       setCollectedAmount(parseFloat(depositValue));
@@ -697,7 +699,7 @@ const CashierPaymentDetails = () => {
           InsertInvoiceData(challanNo);
         }
         ClearAllUIData(paymentRequestFor);
-        GetInvoiceDetails(storeCode);
+        GetInvoiceDetails(challanNo);
       })
       .catch((error) => setLoading(false));
     setLoading(false);

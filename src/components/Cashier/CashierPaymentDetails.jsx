@@ -1108,7 +1108,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      // accept=".png, .jpeg"
+                      accept=".png, .jpeg"
                       onChange={(e) => setPrintFile(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadPrintFile}>
@@ -1199,7 +1199,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      // accept=".png, .jpeg"
+                      accept=".png, .jpeg"
                       onChange={(e) => setPrintFile(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadPrintFile}>

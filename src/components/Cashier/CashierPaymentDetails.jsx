@@ -43,25 +43,10 @@ const CashierPaymentDetails = () => {
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const booking_Id = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [bookingRefID, setBookingRefID] = useState(booking_Id);
-  console.log("invoiceNo==>", invoiceNo);
-  const {
-    paymentRequestFor,
-    rentValue,
-    refundValue,
-    depositValue,
-    bookingRefNo,
-    totalBookingAmount,
-    totalDepositAmountPaidWithTax,
-    productValue,
-  } = paymentDetails;
 
-  const {
-    totalDamageCharges,
-    totalPenaltyCharges,
-    bookingId,
-    totalDepositAmount,
-    discountOnRentalCharges,
-  } = totalPaidAmount;
+  const { paymentRequestFor, rentValue, refundValue, depositValue, bookingRefNo, totalBookingAmount, totalDepositAmountPaidWithTax, productValue, } = paymentDetails;
+  const { totalDamageCharges, totalPenaltyCharges, bookingId, totalDepositAmount, discountOnRentalCharges } = totalPaidAmount;
+
   const TotalCharges = (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
 
   const GenChallanNo = `${bookingRefNo}-D`;

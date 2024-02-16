@@ -340,8 +340,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
             UpdateBookingCalendar(updatedInputs, paymentRequestFor);
-          }
-          if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
+          } else if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
             InsertOutStanding(outStatus);
           }
         }

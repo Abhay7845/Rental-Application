@@ -37,13 +37,13 @@ const CashierPaymentDetails = () => {
   const [bookedStatus, setBookedStatus] = useState("");
   const [invoiceNo, setInvoiceNo] = useState("");
   const [challanNo, setChallanNo] = useState("1");
-  const [invoicePdfNo, setInvoicePdfNo] = useState({});
   const [outStatus, setOutStatus] = useState("");
   const [amontHeading, setAmontHeading] = useState("");
   const currentDate = moment().format("YYYY-MM-DD");
   const RandomDigit = Math.floor(100000 + Math.random() * 900000);
   const booking_Id = `${storeCode}-R-${currentDate}-${RandomDigit}`;
   const [bookingRefID, setBookingRefID] = useState(booking_Id);
+  console.log("invoiceNo==>", invoiceNo);
   const {
     paymentRequestFor,
     rentValue,
@@ -65,10 +65,8 @@ const CashierPaymentDetails = () => {
   const TotalCharges = (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
 
   const GenChallanNo = `${bookingRefNo}-D`;
-  const GenInvoiceNo = `${storeCode}-${invoicePdfNo.invoiceId + 1}`;
   const rentalStrDate = addedPdts.map((date) => date.rentStartDate);
   const packageDays = addedPdts.map((date) => date.packageDays);
-
   const getReturnDate = () => {
     const nextDate = new Date(rentalStrDate[0]);
     nextDate.setDate(nextDate.getDate() + parseInt(packageDays[0] - 1));
@@ -156,23 +154,24 @@ const CashierPaymentDetails = () => {
         .catch((error) => setLoading(false));
     }
   }, [bookingId]);
-  console.log("challanNo==>", challanNo);
-  const GetInvoiceDetails = (challanNo) => {
+  const GetInvoiceDetails = (challanNo, paymentRequestFor) => {
     axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}/${challanNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
-          setInvoicePdfNo(response.data.value);
-        } else if (response.data.code === "1001") {
-          setInvoicePdfNo({ invoiceId: 0 });
+          const GenInvoiceNo = `${storeCode}-${response.data.value.invoiceId + 1}`;
+          if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
+            setInvoiceNo(GenInvoiceNo);
+          } else if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
+            setInvoiceNo(response.data.value.invoiceNo);
+          }
         }
       })
       .catch((error) => setLoading(false));
   }
   useEffect(() => {
-    GetInvoiceDetails(challanNo);
-  }, [challanNo]);
+    GetInvoiceDetails(challanNo, paymentRequestFor);
+  }, [challanNo, paymentRequestFor]);
 
   useEffect(() => {
     if (paymentDetails.tempBookingRef) {
@@ -210,7 +209,6 @@ const CashierPaymentDetails = () => {
     axios.get(`${HOST_URL}/get/payment/request/details/for/cashier/${storeCode}/${searchValue}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data)
         const PendingStatusData = response.data.value.filter((data) => data.paymentRequestFor.substring(0, 18) === "Payment_PendingFor");
         if (response.data.code === "1000") {
           setGetPaymentData(PendingStatusData);
@@ -244,7 +242,7 @@ const CashierPaymentDetails = () => {
 
   const OnSelectRow = (seletedData) => {
     setPaymentDetails(seletedData);
-    GetInvoiceDetails(challanNo);
+    GetInvoiceDetails(challanNo, paymentRequestFor);
   };
 
   useEffect(() => {
@@ -256,7 +254,6 @@ const CashierPaymentDetails = () => {
       setAmontHeading("Amount to be Refunded");
       setAmontErrMassage("Total Amount Not Equal to Net Cancellation Charges & Please ensure to Save the Payment");
       setBookingGenNo(bookingRefNo);
-      setInvoiceNo(GenInvoiceNo);
       setChallanNo("1");
     }
     if (paymentRequestFor === "Payment_PendingFor_RentalIssuance") {
@@ -264,7 +261,6 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Item Issued. Rental Period Started");
       setBookedStatus("Issued_Rental_Period");
       setOutStatus("Booked_Product_Issued");
-      setInvoiceNo("");
       setAmontHeading("Amount to be Collected");
       setChallanNo(GenChallanNo);
       setAmontErrMassage("Total Amount Not Equal to Damage Protection Charge & Please ensure to Save the Payment");
@@ -282,9 +278,7 @@ const CashierPaymentDetails = () => {
       const bookingDesposit = totalBookingAmount + totalDepositAmount;
       if (TotalCharges > bookingDesposit) {
         setAmontHeading("Amount to be Collected");
-        setCollectedAmount(
-          parseFloat(TotalCharges - bookingDesposit - discountOnRentalCharges * 1.18).toFixed(2)
-        );
+        setCollectedAmount(parseFloat(TotalCharges - bookingDesposit - discountOnRentalCharges * 1.18).toFixed(2));
       } else if (TotalCharges <= bookingDesposit) {
         setAmontHeading("Amount to be Refunded");
         setCollectedAmount(parseFloat(bookingDesposit - TotalCharges + discountOnRentalCharges * 1.18).toFixed(2));
@@ -292,10 +286,9 @@ const CashierPaymentDetails = () => {
       setAlertMessage("Item Returned Successfully");
       setUpdateStatus("ProductReturnedSuccess");
       setBookedStatus("ProductReturnedSuccess");
-      setInvoiceNo(GenInvoiceNo);
       setOutStatus("Product_Returned_Successfully");
       setAmontHeading("Amount to be Refunded");
-      setChallanNo("");
+      setChallanNo(GenChallanNo);
       setAmontErrMassage("Total Amount Not Equal to Rental Return & Please ensure to Save the Payment");
       setBookingGenNo(bookingRefNo);
     }
@@ -308,7 +301,6 @@ const CashierPaymentDetails = () => {
     GenChallanNo,
     totalBookingAmount,
     totalDepositAmountPaidWithTax,
-    GenInvoiceNo,
     TotalCharges,
     totalDepositAmount,
   ]);
@@ -699,7 +691,7 @@ const CashierPaymentDetails = () => {
           InsertInvoiceData(challanNo);
         }
         ClearAllUIData(paymentRequestFor);
-        GetInvoiceDetails(challanNo);
+        GetInvoiceDetails(challanNo, paymentRequestFor);
       })
       .catch((error) => setLoading(false));
     setLoading(false);

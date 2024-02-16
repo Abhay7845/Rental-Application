@@ -96,9 +96,9 @@ const CashierPaymentDetails = () => {
   const [secPhoneCount, setSecPhoneCount] = useState(0);
   const [inputOtp, setInputOtp] = useState("");
   const [verifiedOtp, setVerifiedOtp] = useState(false);
+
   const FetchUserDetails = (phoneNo) => {
-    axios
-      .get(`${HOST_URL}/rental/customer/details/mobileNo/${phoneNo}`)
+    axios.get(`${HOST_URL}/rental/customer/details/mobileNo/${phoneNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -109,8 +109,7 @@ const CashierPaymentDetails = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(`${HOST_URL}/store/details/for/pdf/${storeCode}`)
+    axios.get(`${HOST_URL}/store/details/for/pdf/${storeCode}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -154,6 +153,7 @@ const CashierPaymentDetails = () => {
         .catch((error) => setLoading(false));
     }
   }, [bookingId]);
+
   const GetInvoiceDetails = (challanNo, paymentRequestFor) => {
     axios.get(`${HOST_URL}/get/last/invoice/details/${storeCode}/${challanNo}`)
       .then((res) => res)
@@ -169,6 +169,7 @@ const CashierPaymentDetails = () => {
       })
       .catch((error) => setLoading(false));
   }
+
   useEffect(() => {
     GetInvoiceDetails(challanNo, paymentRequestFor);
   }, [challanNo, paymentRequestFor]);
@@ -204,6 +205,7 @@ const CashierPaymentDetails = () => {
       setBookingRefID(booking_Id)
     }
   };
+
   const GetPyamentDetials = (searchValue) => {
     setLoading(true);
     axios.get(`${HOST_URL}/get/payment/request/details/for/cashier/${storeCode}/${searchValue}`)
@@ -363,7 +365,6 @@ const CashierPaymentDetails = () => {
       .catch((error) => setLoading(false));
   };
 
-
   const SavePaymentRow = () => {
     if (!fileName || !amount) {
       toast.error("Please Fill All Details", { theme: "colored", autoClose: 3000 });
@@ -419,8 +420,7 @@ const CashierPaymentDetails = () => {
       status: outStatus,
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/insert/outstanding/details`, OutstandingInputs)
+    axios.post(`${HOST_URL}/insert/outstanding/details`, OutstandingInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -443,8 +443,7 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${UploadFileName}`,
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/insert/image/details`, paymentUploadFile)
+    axios.post(`${HOST_URL}/insert/image/details`, paymentUploadFile)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

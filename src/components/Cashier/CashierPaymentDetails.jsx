@@ -464,8 +464,7 @@ const CashierPaymentDetails = () => {
       setFileName(UploadFileName);
       formData.append("ImgName", UploadFileName);
       formData.append("files", fileUpload);
-      axios
-        .post(UploadImg, formData)
+      axios.post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -506,8 +505,7 @@ const CashierPaymentDetails = () => {
   // VERIFY OTP
   const GetPhoneOTP = () => {
     setLoading(true);
-    axios
-      .get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
+    axios.get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -547,8 +545,7 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${printFileName}`,
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/insert/image/details`, updateBookingInput)
+    axios.post(`${HOST_URL}/insert/image/details`, updateBookingInput)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -591,8 +588,7 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/insert/image/details`, DlvrChllanIputs)
+    axios.post(`${HOST_URL}/insert/image/details`, DlvrChllanIputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -612,8 +608,7 @@ const CashierPaymentDetails = () => {
       const deliveryChallanFile = `${paymentRequestFor}-challan-${currentDate}-${RandomDigit}.${fileExtention[1]}`;
       formData.append("ImgName", deliveryChallanFile);
       formData.append("files", deliveryChallan);
-      axios
-        .post(UploadImg, formData)
+      axios.post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -637,8 +632,7 @@ const CashierPaymentDetails = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/insert/image/details`, LoanCloserInputs)
+    axios.post(`${HOST_URL}/insert/image/details`, LoanCloserInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -659,8 +653,7 @@ const CashierPaymentDetails = () => {
       setTnCFileName(fileName);
       formData.append("ImgName", fileName);
       formData.append("files", loanCloseFile);
-      axios
-        .post(UploadImg, formData)
+      axios.post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -674,8 +667,7 @@ const CashierPaymentDetails = () => {
 
   const TnxStatusUpdate = (bookingId) => {
     setLoading(true);
-    axios
-      .get(`${HOST_URL}/update/txn/status/${bookingId}/${bookedStatus}`)
+    axios.get(`${HOST_URL}/update/txn/status/${bookingId}/${bookedStatus}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -706,8 +698,7 @@ const CashierPaymentDetails = () => {
 
   const CompletePayment = (submitPaymentData) => {
     setLoading(true);
-    axios
-      .post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
+    axios.post(`${HOST_URL}/update/summary/table/atCashier`, submitPaymentData)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -719,8 +710,7 @@ const CashierPaymentDetails = () => {
 
   const CallPaymentAPI = (paymentRequestFor) => {
     setLoading(true);
-    axios
-      .post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
+    axios.post(`${HOST_URL}/insert/payment/details`, savePaymetRow)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

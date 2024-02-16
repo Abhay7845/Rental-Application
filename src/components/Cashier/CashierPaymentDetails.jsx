@@ -1215,7 +1215,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      // accept=".png, .jpeg"
+                      accept=".png, .jpeg"
                       onChange={(e) => setDeliveryChallan(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadDeliveryChallan}>
@@ -1302,11 +1302,11 @@ const CashierPaymentDetails = () => {
               </div>
             )}
             <div className="col-12 d-flex justify-content-end mb-4">
-              <button className={paymentRequestFor === "Payment_PendingFor_RentalCancellation" ? "CancelButton" : "CButton"} onClick={SubmitPaymentDetails}>
-                {paymentRequestFor ===
-                  "Payment_PendingFor_RentalCancellation" && (
-                    <span>CANCEL BOOKING</span>
-                  )}
+              <button className={paymentRequestFor === "Payment_PendingFor_RentalCancellation" ? "CancelButton" : "CButton"}
+                onClick={SubmitPaymentDetails}>
+                {paymentRequestFor === "Payment_PendingFor_RentalCancellation" && (
+                  <span>CANCEL BOOKING</span>
+                )}
                 {paymentRequestFor === "Payment_PendingFor_RentalIssuance" && (
                   <span>COMPLETE PRODUCT DELIVERY</span>
                 )}

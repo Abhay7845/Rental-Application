@@ -1036,16 +1036,8 @@ const CashierPaymentDetails = () => {
                     )}
                     <button
                       type="submit"
-                      className={
-                        TotalAmount === parseFloat(collectedAmount)
-                          ? "CDisabled"
-                          : "CButton"
-                      }
-                      disabled={
-                        TotalAmount === parseFloat(collectedAmount)
-                          ? true
-                          : false
-                      }
+                      className={TotalAmount === parseFloat(collectedAmount) ? "CDisabled" : "CButton"}
+                      disabled={TotalAmount === parseFloat(collectedAmount) ? true : false}
                       onClick={AddPaymentRows}
                     >
                       Add Payment

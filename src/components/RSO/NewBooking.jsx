@@ -24,7 +24,7 @@ const NewBooking = () => {
   const bookingRefId = localStorage.getItem("BookinTempId");
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
-
+  console.log("bookingRefId==>", bookingRefId)
 
   // CUSTOMER BANK DETAIL FIELDS
   const [customerBankName, setCustomerBankName] = useState("");
@@ -41,7 +41,6 @@ const NewBooking = () => {
   const customerType = getCartProductData.map(item => item.customerType)
   const custType = customerType[0]
   const packageDays = getCartProductData.map(item => item.packageDays)
-
 
   const paramType = !phonePanValue ? "" : phonePanValue[0].match(phonePan) ? "pancard" : "mobileNo";
   const CheckUserRegistered = () => {
@@ -65,6 +64,7 @@ const NewBooking = () => {
     axios.get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data)
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
         } else if (response.data.code === "1001") {
@@ -72,9 +72,9 @@ const NewBooking = () => {
           setExistedUserData({});
         }
         setLoading(false);
-      })
-      .then((error) => setLoading(false));
+      }).then((error) => setLoading(false));
   };
+
   const FetchUDetailsOnlOad = (regNumber) => {
     setLoading(true);
     axios.get(`${HOST_URL}/rental/customer/details/mobileNo/${regNumber}`)
@@ -87,9 +87,9 @@ const NewBooking = () => {
           setExistedUserData({});
         }
         setLoading(false);
-      })
-      .then((error) => setLoading(false));
+      }).then((error) => setLoading(false));
   };
+
   const SerachInfoUserDetails = () => {
     if (regNumber) {
       FetchUDetailsOnlOad(regNumber)
@@ -99,6 +99,7 @@ const NewBooking = () => {
       toast.error("Please Enter Your Phone Number!", { theme: "colored", autoClose: 3000 })
     }
   }
+
   useEffect(() => {
     if (regNumber) {
       FetchUDetailsOnlOad(regNumber);
@@ -111,15 +112,17 @@ const NewBooking = () => {
   const bookingDate = moment(currentDate).format("DD-MM-YYYY");
   const GetAddToCartData = (bookingRefId) => {
     axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
+      console.log("response==>", response.data);
       if (response.data.code === "1000") {
-        setGetCartProductData(response.data.value)
+        setGetCartProductData(response.data.value);
       } else if (response.data.code === "1001") {
-        setGetCartProductData([])
+        setGetCartProductData([]);
       }
-    }).catch(error => setLoading(false))
+    }).catch(error => setLoading(false));
   }
+
   useEffect(() => {
-    GetAddToCartData(bookingRefId)
+    GetAddToCartData(bookingRefId);
   }, [bookingRefId])
 
   // TOTAL COST OF PRODUCT VALUE
@@ -140,7 +143,6 @@ const NewBooking = () => {
   };
 
   // TOTAL RENTAL WITH TAX
-
   const TRentalRateWithTx = getCartProductData.map((item) => item.rentValue * 1.18);
   const SumOfRentalRateWithTx = () => {
     let total = 0;

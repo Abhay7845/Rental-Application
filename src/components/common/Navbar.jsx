@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 import moment from "moment";
+import { BsBook } from "react-icons/bs";
 
 const Navbar = () => {
   let time = new Date().toLocaleTimeString();
@@ -57,6 +58,7 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
+          {UserName.toUpperCase() === "RSO" && <BsBook className="navbarLink mx-4 mt-4" style={{ cursor: "pointer" }} />}
           <span className="navbarLink timeShowStyle">
             {storeCode.toUpperCase()}
             <br />

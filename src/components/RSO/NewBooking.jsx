@@ -133,11 +133,9 @@ const NewBooking = () => {
     GetAddToCartData(bookingRefId)
   }, [bookingRefId])
 
-  const rentalStrDate = getCartProductData.map((item) => item.rentalStartDate);
   // TOTAL COST OF PRODUCT VALUE
-  const TProductValue = getCartProductData.map((item) =>
-    parseInt(item.productValue)
-  );
+  const rentalStrDate = getCartProductData.map((item) => item.rentalStartDate);
+  const TProductValue = getCartProductData.map((item) => parseInt(item.productValue));
   const SumOfTProductValue = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
@@ -154,9 +152,7 @@ const NewBooking = () => {
 
   // TOTAL RENTAL WITH TAX
 
-  const TRentalRateWithTx = getCartProductData.map(
-    (item) => item.rentValue * 1.18
-  );
+  const TRentalRateWithTx = getCartProductData.map((item) => item.rentValue * 1.18);
   const SumOfRentalRateWithTx = () => {
     let total = 0;
     for (let data of TRentalRateWithTx) total = total + data;
@@ -172,7 +168,6 @@ const NewBooking = () => {
   };
 
   const TotalWithGstAmount = SumOfRentalRate() + SumOfRentalRate() * 0.18;
-
   const UpdCancelledChequeDetails = (imgName) => {
     const CancelledFileinp = {
       bookingRefId: "",
@@ -185,8 +180,7 @@ const NewBooking = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/insert/image/details`, CancelledFileinp)
+    axios.post(`${HOST_URL}/insert/image/details`, CancelledFileinp)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -207,8 +201,7 @@ const NewBooking = () => {
       const fileExtention = `${customerAccountNumber}_${RandomD}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", cancelledChequeFile);
-      axios
-        .post(UploadImg, formData)
+      axios.post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -240,8 +233,7 @@ const NewBooking = () => {
       fileURL: `${FetchImg}${imgName}`,
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/insert/image/details`, TnxIputsDetails)
+    axios.post(`${HOST_URL}/insert/image/details`, TnxIputsDetails)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -261,8 +253,7 @@ const NewBooking = () => {
       const fileExtention = `${existedUserData.mobileNo}_${RandomD}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", tnxFile);
-      axios
-        .post(UploadImg, formData)
+      axios.post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -281,6 +272,7 @@ const NewBooking = () => {
         .catch((error) => setLoading(false));
     }
   };
+
   const UpdateCustomerBankDetails = () => {
     if (
       !customerBankName ||
@@ -314,8 +306,7 @@ const NewBooking = () => {
         bankIfsc: bankIfsc,
         bankDetailFileName: cancelChqueFileName,
       };
-      axios
-        .post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
+      axios.post(`${HOST_URL}/rental/add/new/customer`, UpdateCustDetails)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -359,8 +350,7 @@ const NewBooking = () => {
         status: "Payment_PendingFor_NewBooking",
         tempRefNo: bookingRefId,
       };
-      axios
-        .post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
+      axios.post(`${HOST_URL}/rental/new/booking/details`, BookingInputs)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {

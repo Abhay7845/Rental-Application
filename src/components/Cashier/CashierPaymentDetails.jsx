@@ -976,9 +976,7 @@ const CashierPaymentDetails = () => {
                             className="form-control"
                             placeholder="Amount"
                             onChange={(e) => {
-                              const amoutValie = parseFloat(
-                                e.target.value
-                              ).toFixed(2);
+                              const amoutValie = parseFloat(e.target.value).toFixed(2);
                               setAmount(amoutValie);
                             }}
                           />

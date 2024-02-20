@@ -32,10 +32,7 @@ const Login = () => {
               localStorage.setItem("storeCode", payload.userName);
               navigate("/admin/update/master/price");
             } else if (response.data.value.role === "Cashier") {
-              const storeCode = payload.userName.substring(
-                1,
-                payload.userName.length
-              );
+              const storeCode = payload.userName.substring(1, payload.userName.length);
               localStorage.setItem("storeCode", storeCode);
               localStorage.setItem("rsoRole", response.data.value.role);
               navigate("/cashier/payment");

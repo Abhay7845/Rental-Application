@@ -2,11 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import moment from "moment";
-import {
-  AddedToCartHeaders,
-  phonePan,
-  IMAGE_URL,
-} from "../../Data/DataList";
+import { AddedToCartHeaders, phonePan, IMAGE_URL } from "../../Data/DataList";
 import { toast } from 'react-toastify';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import axios from "axios";
@@ -47,12 +43,7 @@ const NewBooking = () => {
   const packageDays = getCartProductData.map(item => item.packageDays)
 
 
-  const paramType = !phonePanValue
-    ? ""
-    : phonePanValue[0].match(phonePan)
-      ? "pancard"
-      : "mobileNo";
-
+  const paramType = !phonePanValue ? "" : phonePanValue[0].match(phonePan) ? "pancard" : "mobileNo";
   const CheckUserRegistered = () => {
     Swal.fire({
       title: "Customer Not Registered",
@@ -71,8 +62,7 @@ const NewBooking = () => {
   };
   const FetchUDetailsBysearch = (phonePanValue) => {
     setLoading(true);
-    axios
-      .get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
+    axios.get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -87,8 +77,7 @@ const NewBooking = () => {
   };
   const FetchUDetailsOnlOad = (regNumber) => {
     setLoading(true);
-    axios
-      .get(`${HOST_URL}/rental/customer/details/mobileNo/${regNumber}`)
+    axios.get(`${HOST_URL}/rental/customer/details/mobileNo/${regNumber}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -216,8 +205,7 @@ const NewBooking = () => {
             }
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 
@@ -268,8 +256,7 @@ const NewBooking = () => {
             }
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 

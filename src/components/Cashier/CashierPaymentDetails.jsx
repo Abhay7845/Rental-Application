@@ -667,8 +667,7 @@ const CashierPaymentDetails = () => {
         }
         ClearAllUIData(paymentRequestFor);
         GetInvoiceDetails(challanNo, paymentRequestFor);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
     setLoading(false);
   };
 

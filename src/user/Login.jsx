@@ -43,15 +43,10 @@ const Login = () => {
           toast.error("Please Enter Valid Username and Password", { theme: "colored", autoClose: 3000 });
         }
         setLoading(false);
-      })
-      .catch((error) => {
+      }).catch((error) => {
         toast.error("Please Enter Valid Username and Password", { theme: "colored", autoClose: 3000 });
         setLoading(false);
       });
-  };
-
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown);
   };
 
   useEffect(() => {
@@ -99,14 +94,14 @@ const Login = () => {
                       <FaRegEye
                         size={20}
                         cursor="pointer"
-                        onClick={togglePassword}
+                        onClick={() => setPasswordShown(!passwordShown)}
                         style={{ marginTop: 15 }}
                       />
                     ) : (
                       <FaRegEyeSlash
                         size={20}
                         cursor="pointer"
-                        onClick={togglePassword}
+                        onClick={() => setPasswordShown(!passwordShown)}
                         style={{ marginTop: 15 }}
                       />
                     )}

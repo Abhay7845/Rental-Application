@@ -334,6 +334,8 @@ const NewBooking = () => {
       toast.error("Please Enter RSO Name", { theme: "colored", autoClose: 3000 });
     } else if (custType !== "NewRental_OnlyCustomer" && transactionFile === "") {
       toast.error("Please Upload Previous Transaction File", { theme: "colored", autoClose: 3000 });
+    } else if (!existedUserData.addressProofIdNo || !existedUserData.customerName) {
+      CheckUserRegistered(phonePanValue);
     } else {
       setLoading(true);
       const BookingInputs = {
@@ -372,8 +374,7 @@ const NewBooking = () => {
             navigate("/home");
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
   const DeleteProductBookingTable = (data) => {

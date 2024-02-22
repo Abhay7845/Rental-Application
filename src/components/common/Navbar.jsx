@@ -98,7 +98,7 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          {UserName.toUpperCase() === "RSO" && path === "/booking" ? "" : < BsBook className="navbarLink mx-4 mt-4" data-bs-toggle="modal" data-bs-target="#bookingPwdModal" style={{ cursor: "pointer" }} />}
+          {UserName.toUpperCase() === "RSO" && (path === "/booking" ? "" : < BsBook className="navbarLink mx-4 mt-4" data-bs-toggle="modal" data-bs-target="#bookingPwdModal" style={{ cursor: "pointer" }} />)}
           <span className="navbarLink timeShowStyle">
             {storeCode.toUpperCase()}
             <br />

@@ -39,8 +39,7 @@ const Navbar = () => {
           <ul className="navbar-nav me-auto d-flex flex-row">
             <li className="nav-item navbarLink">
               <Link
-                className={`nav-link navbarLink  ${path === "/home" && "active"
-                  }`}
+                className={`nav-link navbarLink  ${path === "/home" && "active"}`}
                 to="/home"
               >
                 Search Booking
@@ -48,8 +47,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item mx-2">
               <Link
-                className={`nav-link navbarLink  ${path === "/products/details" && "active"
-                  }`}
+                className={`nav-link navbarLink  ${path === "/products/details" && "active"}`}
                 to="/products/details"
               >
                 Search Products
@@ -58,7 +56,7 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          {UserName.toUpperCase() === "RSO" && <BsBook className="navbarLink mx-4 mt-4" style={{ cursor: "pointer" }} />}
+          {UserName.toUpperCase() === "RSO" && <BsBook className="navbarLink mx-4 mt-4" data-bs-toggle="modal" data-bs-target="#bookingPwdModal" style={{ cursor: "pointer" }} />}
           <span className="navbarLink timeShowStyle">
             {storeCode.toUpperCase()}
             <br />
@@ -66,6 +64,19 @@ const Navbar = () => {
           </span>
           <span className="navbarLink mt-2">{UserName.toUpperCase()}</span>
           <BiLogIn className="lououtBtn mt-1 mx-2" onClick={Logout} />
+        </div>
+      </div>
+      <div className="modal fade" id="bookingPwdModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-body">
+              ...
+            </div>
+            <div className="d-flex justify-content-end p-3">
+              <button type="button" className="CancelButton mx-2" data-bs-dismiss="modal">Close</button>
+              <button type="button" className="CButton">Next</button>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

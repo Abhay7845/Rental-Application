@@ -7,6 +7,9 @@ import brandName from "../../Asset/Img/Tanishq_Logo.png";
 import moment from "moment";
 import { BsBook } from "react-icons/bs";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { HOST_URL } from "../../API/HostURL";
 
 
 const Navbar = () => {
@@ -17,6 +20,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const [passwordShown, setPasswordShown] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [password, setPassword] = useState("");
 
 
   const Logout = () => {
@@ -32,6 +38,36 @@ const Navbar = () => {
     setCTime(time);
   };
   setInterval(ShowTime, 1000);
+
+
+  const ConfirmYourPassword = () => {
+    const PasswordPaylod = {
+      userName: storeCode,
+      password: password,
+    }
+    if (PasswordPaylod.password) {
+      setLoading(true);
+      axios.post(`${HOST_URL}/rental/login/portal`, PasswordPaylod)
+        .then((res) => res)
+        .then((response) => {
+          if (response.data.code === "1000") {
+            if (response.data.value.validityStatus) {
+              if (response.data.value.role === "RSO") {
+                navigate("/booking");
+              }
+            }
+          } else if (response.data.code === "1001") {
+            toast.error("Please Enter Valid Password", { theme: "colored", autoClose: 3000 });
+          }
+          setLoading(false);
+        }).catch((error) => {
+          toast.error("Please Enter Valid Password", { theme: "colored", autoClose: 3000 });
+          setLoading(false);
+        });
+    } else {
+      toast.error("Please Enter Valid Password", { theme: "colored", autoClose: 3000 });
+    }
+  };
 
   return (
     <nav className="navbar" style={{ backgroundColor: "#008080" }}>
@@ -81,6 +117,7 @@ const Navbar = () => {
                   placeholder="Password"
                   className="GInput"
                   name="password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <span className="border-bottom">
                   {passwordShown ? (
@@ -103,7 +140,19 @@ const Navbar = () => {
             </div>
             <div className="d-flex justify-content-end p-3">
               <button type="button" className="CancelButton mx-2" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="CButton">Next</button>
+              <button type="button" className="CButton" onClick={ConfirmYourPassword}
+                data-bs-toggle="modal" data-bs-target="#bookingPwdModal"
+              >
+                {loading ? (
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <span>NEXT</span>
+                )}
+              </button>
             </div>
           </div>
         </div>

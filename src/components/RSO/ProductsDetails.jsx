@@ -391,8 +391,7 @@ const ProductsDetails = () => {
             }
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
   return (

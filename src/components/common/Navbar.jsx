@@ -24,7 +24,6 @@ const Navbar = () => {
   const [modal, setModal] = useState(false);
   const [password, setPassword] = useState("");
 
-
   const Logout = () => {
     localStorage.clear();
     navigate("/UAT_RentalJewApp");

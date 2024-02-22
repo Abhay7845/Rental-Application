@@ -413,7 +413,7 @@ const NewBooking = () => {
             <input
               type="type"
               className="form-control"
-              placeholder="Search By TempId MobNo-yyyy-mm-dd"
+              placeholder="Search By TempId (MobNo-yyyy-mm-dd)"
               value={regNumber}
               onChange={(e) => {
                 const phoneNo = e.target.value.substring(0, 10);

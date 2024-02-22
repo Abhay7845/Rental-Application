@@ -74,8 +74,7 @@ const ProductsDetails = () => {
           toast.warn("Data Not Found", { theme: "colored", autoClose: 2000 });
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const CheckAvaiblity = (payload) => {
@@ -346,8 +345,7 @@ const ProductsDetails = () => {
           GetAddToCartData(storeCode)
           navigate("/booking")
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const bookingPyaload = pdtSelected.map(product => {

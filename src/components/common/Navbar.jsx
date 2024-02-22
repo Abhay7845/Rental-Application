@@ -6,6 +6,8 @@ import { BiLogIn } from "react-icons/bi";
 import brandName from "../../Asset/Img/Tanishq_Logo.png";
 import moment from "moment";
 import { BsBook } from "react-icons/bs";
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+
 
 const Navbar = () => {
   let time = new Date().toLocaleTimeString();
@@ -14,6 +16,8 @@ const Navbar = () => {
   const [CTime, setCTime] = useState(time);
   const navigate = useNavigate();
   const path = useLocation().pathname;
+  const [passwordShown, setPasswordShown] = useState(false);
+
 
   const Logout = () => {
     localStorage.clear();
@@ -56,7 +60,7 @@ const Navbar = () => {
           </ul>
         )}
         <div className="d-flex">
-          {UserName.toUpperCase() === "RSO" && <BsBook className="navbarLink mx-4 mt-4" data-bs-toggle="modal" data-bs-target="#bookingPwdModal" style={{ cursor: "pointer" }} />}
+          {UserName.toUpperCase() === "RSO" && path === "/booking" ? "" : < BsBook className="navbarLink mx-4 mt-4" data-bs-toggle="modal" data-bs-target="#bookingPwdModal" style={{ cursor: "pointer" }} />}
           <span className="navbarLink timeShowStyle">
             {storeCode.toUpperCase()}
             <br />
@@ -70,7 +74,32 @@ const Navbar = () => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-body">
-              ...
+              <b>Password <span className="text-danger"> *</span></b>
+              <div className="d-flex">
+                <input
+                  type={passwordShown ? "text" : "password"}
+                  placeholder="Password"
+                  className="GInput"
+                  name="password"
+                />
+                <span className="border-bottom">
+                  {passwordShown ? (
+                    <FaRegEye
+                      size={20}
+                      cursor="pointer"
+                      onClick={() => setPasswordShown(!passwordShown)}
+                      style={{ marginTop: 15 }}
+                    />
+                  ) : (
+                    <FaRegEyeSlash
+                      size={20}
+                      cursor="pointer"
+                      onClick={() => setPasswordShown(!passwordShown)}
+                      style={{ marginTop: 15 }}
+                    />
+                  )}
+                </span>
+              </div>
             </div>
             <div className="d-flex justify-content-end p-3">
               <button type="button" className="CancelButton mx-2" data-bs-dismiss="modal">Close</button>

@@ -16,7 +16,6 @@ const Login = () => {
 
   const navigate = useNavigate();
   const onLogin = (payload) => {
-    console.log("payload==>", payload)
     setLoading(true);
     axios.post(`${HOST_URL}/rental/login/portal`, payload)
       .then((res) => res)

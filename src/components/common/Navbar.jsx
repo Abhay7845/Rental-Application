@@ -54,6 +54,8 @@ const Navbar = () => {
             if (response.data.value.validityStatus) {
               if (response.data.value.role === "RSO") {
                 navigate("/booking");
+                localStorage.removeItem("regNumber");
+                localStorage.removeItem("BookinTempId");
               }
             }
           } else if (response.data.code === "1001") {

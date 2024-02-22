@@ -21,10 +21,10 @@ const NewBooking = () => {
   const navigate = useNavigate();
   const storeCode = localStorage.getItem("storeCode");
   const regNumber = localStorage.getItem("regNumber");
-  const bookingRefId = localStorage.getItem("BookinTempId");
+  const tempId = localStorage.getItem("BookinTempId");
+  const [bookingRefId, setBookingRefId] = useState(tempId);
   const [tnxFile, setTnxFile] = useState([]);
   const RandomD = Math.floor(100000 + Math.random() * 900000);
-  console.log("bookingRefId==>", bookingRefId)
 
   // CUSTOMER BANK DETAIL FIELDS
   const [customerBankName, setCustomerBankName] = useState("");
@@ -39,7 +39,7 @@ const NewBooking = () => {
   const [getCartProductData, setGetCartProductData] = useState([])
 
   const customerType = getCartProductData.map(item => item.customerType)
-  const custType = customerType[0]
+  const custType = customerType[0];
   const packageDays = getCartProductData.map(item => item.packageDays)
 
   const paramType = !phonePanValue ? "" : phonePanValue[0].match(phonePan) ? "pancard" : "mobileNo";
@@ -64,9 +64,9 @@ const NewBooking = () => {
     axios.get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data)
         if (response.data.code === "1000") {
           setExistedUserData(response.data.value);
+          GetAddToCartData(bookingRefId);
         } else if (response.data.code === "1001") {
           CheckUserRegistered(phonePanValue);
           setExistedUserData({});
@@ -112,7 +112,6 @@ const NewBooking = () => {
   const bookingDate = moment(currentDate).format("DD-MM-YYYY");
   const GetAddToCartData = (bookingRefId) => {
     axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
-      console.log("response==>", response.data);
       if (response.data.code === "1000") {
         setGetCartProductData(response.data.value);
       } else if (response.data.code === "1001") {
@@ -124,6 +123,16 @@ const NewBooking = () => {
   useEffect(() => {
     GetAddToCartData(bookingRefId);
   }, [bookingRefId])
+
+  const handleKeyPress = (event) => {
+    if (event.key.toUpperCase() === 'ENTER') {
+      if (bookingRefId.length < 15) {
+        toast.error("Please Enter Valid Temp Id", { theme: "colored", autoClose: 3000 });
+      } else {
+        GetAddToCartData(bookingRefId);
+      }
+    }
+  }
 
   // TOTAL COST OF PRODUCT VALUE
   const rentalStrDate = getCartProductData.map((item) => item.rentalStartDate);
@@ -404,11 +413,15 @@ const NewBooking = () => {
             <input
               type="type"
               className="form-control"
-              placeholder="Search Customer By Phone or PAN"
-              maxLength={10}
-              value={phonePanValue ? phonePanValue : regNumber}
-              onChange={(e) => setPhonePanValue(e.target.value)}
+              placeholder="Search By TempId MobNo-yyyy-mm-dd"
+              value={regNumber}
+              onChange={(e) => {
+                const phoneNo = e.target.value.substring(0, 10);
+                setPhonePanValue(phoneNo);
+                setBookingRefId(e.target.value);
+              }}
               disabled={regNumber ? true : false}
+              onKeyDown={handleKeyPress}
             />
             <button
               type="button"

@@ -37,7 +37,6 @@ const NewBooking = () => {
   const [transactioUI, setTransactioUI] = useState("");
   const [cancelledChequeFile, setCancelledChequeFile] = useState("");
   const [getCartProductData, setGetCartProductData] = useState([])
-
   const customerType = getCartProductData.map(item => item.customerType)
   const custType = customerType[0];
   const packageDays = getCartProductData.map(item => item.packageDays)
@@ -59,6 +58,35 @@ const NewBooking = () => {
       }
     });
   };
+
+
+
+  const currentDate = new Date();
+  const bookingDate = moment(currentDate).format("DD-MM-YYYY");
+  const GetAddToCartData = (bookingRefId) => {
+    axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
+      if (response.data.code === "1000") {
+        setGetCartProductData(response.data.value);
+      } else if (response.data.code === "1001") {
+        setGetCartProductData([]);
+      }
+    }).catch(error => setLoading(false));
+  }
+
+  useEffect(() => {
+    GetAddToCartData(bookingRefId);
+  }, [bookingRefId])
+
+  const handleKeyPress = (event) => {
+    if (event.key.toUpperCase() === 'ENTER') {
+      if (bookingRefId.length < 15) {
+        toast.error("Please Enter Valid Temp Id", { theme: "colored", autoClose: 3000 });
+      } else {
+        GetAddToCartData(bookingRefId);
+      }
+    }
+  }
+
   const FetchUDetailsBysearch = (phonePanValue) => {
     setLoading(true);
     axios.get(`${HOST_URL}/rental/customer/details/${paramType}/${phonePanValue}`)
@@ -108,31 +136,9 @@ const NewBooking = () => {
     }
   }, []);
 
-  const currentDate = new Date();
-  const bookingDate = moment(currentDate).format("DD-MM-YYYY");
-  const GetAddToCartData = (bookingRefId) => {
-    axios.get(`${HOST_URL}/store/booked/item/details/${bookingRefId}`).then(res => res).then(response => {
-      if (response.data.code === "1000") {
-        setGetCartProductData(response.data.value);
-      } else if (response.data.code === "1001") {
-        setGetCartProductData([]);
-      }
-    }).catch(error => setLoading(false));
-  }
 
-  useEffect(() => {
-    GetAddToCartData(bookingRefId);
-  }, [bookingRefId])
 
-  const handleKeyPress = (event) => {
-    if (event.key.toUpperCase() === 'ENTER') {
-      if (bookingRefId.length < 15) {
-        toast.error("Please Enter Valid Temp Id", { theme: "colored", autoClose: 3000 });
-      } else {
-        GetAddToCartData(bookingRefId);
-      }
-    }
-  }
+
 
   // TOTAL COST OF PRODUCT VALUE
   const rentalStrDate = getCartProductData.map((item) => item.rentalStartDate);
@@ -325,6 +331,8 @@ const NewBooking = () => {
       toast.error("Please Upload Previous Transaction File", { theme: "colored", autoClose: 3000 });
     } else if (!existedUserData.addressProofIdNo || !existedUserData.customerName) {
       CheckUserRegistered(phonePanValue);
+    } else if (getCartProductData.length == 0 && !custType) {
+      toast.error("Items Details are Not Available", { theme: "colored", autoClose: 3000 });
     } else {
       setLoading(true);
       const BookingInputs = {
@@ -369,7 +377,7 @@ const NewBooking = () => {
     const { pdtId, tempBookingRef } = data;
     axios.get(`${HOST_URL}/delete/item/from/booking/table/${pdtId}/${tempBookingRef}`).then(res => res).then(response => {
       if (response.data.code === "1000") {
-        GetAddToCartData(bookingRefId)
+        GetAddToCartData(bookingRefId);
         toast.success("Product Deleted Successfully", { theme: "colored", autoClose: 1000 })
       }
     }).catch(error => setLoading(false))

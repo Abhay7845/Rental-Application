@@ -204,6 +204,7 @@ const RentalReturn = () => {
         }
       }).catch((error) => setLoading(false));
   };
+
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
       toast.error("Please Choose File", { theme: "colored", autoClose: 3000 });
@@ -305,6 +306,7 @@ const RentalReturn = () => {
       });
     }
   };
+
   const PdtItemWtRtn = [];
   for (const key in inputRtnValues) {
     if (inputRtnValues.hasOwnProperty(key)) {
@@ -346,6 +348,7 @@ const RentalReturn = () => {
     for (let data of PdtItemWtDmg) total = total + parseInt(data);
     return total;
   };
+
   const UpdateBookingCalendar = (bookingID) => {
     setLoading(true);
     const updatedInputs = returnTableData.map((data, i) => {
@@ -370,6 +373,7 @@ const RentalReturn = () => {
       [name]: value,
     });
   };
+
   const FactoryQA = Object.values(inputPhyDmg);
   useEffect(() => {
     if (FactoryQA.includes("FactoryQA")) {
@@ -387,10 +391,8 @@ const RentalReturn = () => {
   }, [inputPhyDmg, GetReturnProduct.bookingID]);
 
   const FactoryQAStaus = checkedQA ? "FactoryQA_Required" : "Payment_PendingFor_RentalReturn";
-
   const TnxStatusUpdate = (bookingId) => {
-    axios
-      .get(`${HOST_URL}/update/txn/status/${bookingId}/${FactoryQAStaus}`)
+    axios.get(`${HOST_URL}/update/txn/status/${bookingId}/${FactoryQAStaus}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -406,9 +408,9 @@ const RentalReturn = () => {
         }
       }).catch((error) => setLoading(false));
   };
+
   const DespId = returnTableData.map((data) => data.despId);
   const rentChargeAftrDis = totalPaidAmount.totalRentalValue - discountAmtOnRental;
-
   const RaiseClouseRequest = (despId) => {
     const RetnaReturnInputs = {
       actualWtReturn: PdtItemWitewt,
@@ -434,8 +436,7 @@ const RentalReturn = () => {
       discountOnRentalCharges: parseFloat(discountAmtOnRental),
       updatedDate: null,
     };
-    axios
-      .post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
+    axios.post(`${HOST_URL}/rental/return/items`, RetnaReturnInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -471,8 +472,7 @@ const RentalReturn = () => {
           updatedDate: null,
         };
       });
-      axios
-        .post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
+      axios.post(`${HOST_URL}/insert/into/return/table`, InsertTableInputs)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {

@@ -124,7 +124,7 @@ const NewBooking = () => {
     } else if (phonePanValue) {
       FetchUDetailsBysearch(phonePanValue)
     } else {
-      toast.error("Please Enter Your Phone Number!", { theme: "colored", autoClose: 3000 })
+      toast.error("Please Enter TempId", { theme: "colored", autoClose: 3000 })
     }
   }
 

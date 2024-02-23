@@ -103,8 +103,7 @@ const ProductsDetails = () => {
         }
         setLoading(false);
         payload.itemCode = "";
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const GetProductData = productDetails.map((data) => {
@@ -216,8 +215,7 @@ const ProductsDetails = () => {
           setProductDetails([])
           payload.itemCode = "";
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const AddtoWishList = () => {
     setLoading(true)
@@ -231,8 +229,7 @@ const ProductsDetails = () => {
           }
         }
         setLoading(false)
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   useEffect(() => {
@@ -250,8 +247,7 @@ const ProductsDetails = () => {
           setThresholdLimit(parseInt(response.data.value.limit));
         }
         setLoading(false)
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   useEffect(() => {

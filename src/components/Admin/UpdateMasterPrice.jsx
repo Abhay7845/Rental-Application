@@ -46,8 +46,7 @@ const UpdateMasterPrice = () => {
             toast.warn("Data not available for this Store Code", { theme: "colored", position: "bottom-right", autoClose: 2000 });
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     } else {
       toast.error("Please Enter Store Code", { theme: "colored", position: "bottom-right", autoClose: 3000 });
     }
@@ -110,8 +109,7 @@ const UpdateMasterPrice = () => {
           setShowErrMsg(response.data.value);
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const DeactivateItemsData = () => {
     if (ItemPriceId[0] === undefined) {
@@ -133,8 +131,7 @@ const UpdateMasterPrice = () => {
             setStoreCodeValue("");
             setRows([]);
           }
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
   const columns = cols.map((element) => {

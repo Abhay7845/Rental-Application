@@ -192,8 +192,7 @@ const NewBooking = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const UploadBankCheque = () => {
     if (customerAccountNumber.length < 3) {
@@ -244,8 +243,7 @@ const NewBooking = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const UploadPreTransaction = () => {
@@ -318,8 +316,7 @@ const NewBooking = () => {
             FetchUDetailsBysearch(phonePanValue);
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 

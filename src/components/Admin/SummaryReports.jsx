@@ -88,8 +88,7 @@ const SummaryReports = () => {
           toast.warn("Sorry! Data Not Available For Selected Date & Store Code", { theme: "colored", autoClose: 2000 });
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const GetPreviousTnx = (data) => {
     const { bookingId } = data;
@@ -104,8 +103,7 @@ const SummaryReports = () => {
         } else if (response.data.code === "1001") {
           setPreviousTnxData([]);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const GetTotalSumOfAmount = (data) => {
     const { storeCode, bookingRefNo } = data;
@@ -119,8 +117,7 @@ const SummaryReports = () => {
           setTotalPaidAmount(response.data.value);
           GetPreviousTnx(response.data.value);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const GetRowWiseDetails = (data) => {
@@ -139,8 +136,7 @@ const SummaryReports = () => {
             GetTotalSumOfAmount(data);
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     } else if (!bookingRefNo) {
       ShowAlertForRefNo();
     }

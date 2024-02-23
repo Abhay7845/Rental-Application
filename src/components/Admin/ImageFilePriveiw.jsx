@@ -27,8 +27,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
           setUploadedImgData(response.data.value);
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   useEffect(() => {

@@ -81,8 +81,7 @@ const RentalReturn = () => {
         if (response.data.code === "1000") {
           setStoreDetails(response.data.value);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode]);
 
   const timeDifference = new Date() - getReturnDate();
@@ -128,8 +127,7 @@ const RentalReturn = () => {
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode, refId]);
 
   useEffect(() => {
@@ -141,8 +139,7 @@ const RentalReturn = () => {
           setReturnTableData(response.data.value);
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode, refId, tempBookingRefNo]);
 
 
@@ -205,8 +202,7 @@ const RentalReturn = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfuly", { theme: "colored", autoClose: 1000 })
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const UploadSameCustIDProof = () => {
     if (sameCustFile.length === 0) {
@@ -361,8 +357,7 @@ const RentalReturn = () => {
         tempRefNo: data.tempBookingRefNo,
       };
     });
-    axios
-      .post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
+    axios.post(`${HOST_URL}/update/item/booking/calendar`, updatedInputs)
       .then((res) => res)
       .then((response) => setLoading(false))
       .catch((error) => setLoading(false));
@@ -409,8 +404,7 @@ const RentalReturn = () => {
           navigate("/home");
           localStorage.removeItem("selecttedReturnProduct");
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const DespId = returnTableData.map((data) => data.despId);
   const rentChargeAftrDis = totalPaidAmount.totalRentalValue - discountAmtOnRental;

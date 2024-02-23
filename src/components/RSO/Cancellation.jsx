@@ -55,8 +55,7 @@ const Cancellation = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 })
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const UploadSameCustIDProof = () => {
@@ -85,8 +84,7 @@ const Cancellation = () => {
             }
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 
@@ -102,8 +100,7 @@ const Cancellation = () => {
           setReturnTableData(response.data.value);
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode, GetReturnProduct.refId, GetReturnProduct.tempBookingRefNo]);
 
   useEffect(() => {
@@ -141,8 +138,7 @@ const Cancellation = () => {
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode, GetReturnProduct.refId]);
 
   const TProductValue = returnTableData.map((item) =>
@@ -194,8 +190,7 @@ const Cancellation = () => {
           navigate("/home");
           localStorage.removeItem("selecttedReturnProduct");
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const RaiseCancelBookingRequest = () => {
@@ -233,8 +228,7 @@ const Cancellation = () => {
             setCancellationReason("");
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
   return (

@@ -84,8 +84,7 @@ const FactoryQARequired = () => {
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode, refId]);
 
   useEffect(() => {
@@ -100,8 +99,7 @@ const FactoryQARequired = () => {
           setReturnTableData(uniqueProducts);
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode, refId, tempBookingRefNo]);
 
   // TOTAL COST OF  CALCULATION
@@ -145,8 +143,7 @@ const FactoryQARequired = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   // UPLOAD KARIGAR QA REPORT ID
@@ -175,8 +172,7 @@ const FactoryQARequired = () => {
             }
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 
@@ -227,8 +223,7 @@ const FactoryQARequired = () => {
           navigate("/home");
           localStorage.removeItem("selecttedReturnProduct");
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const UpdateSummaryData = (bookingId) => {
@@ -271,8 +266,7 @@ const FactoryQARequired = () => {
           if (response.data.code === "1000") {
             UpdateSummaryData(totalPaidAmount.bookingId);
           }
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
   return (

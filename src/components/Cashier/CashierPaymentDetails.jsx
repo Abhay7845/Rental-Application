@@ -100,8 +100,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           setStoreDetails(response.data.value);
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }, [storeCode]);
 
   const GetRegistreUserData = (storeCode) => {
@@ -134,8 +133,7 @@ const CashierPaymentDetails = () => {
           if (response.data.code === "1000") {
             setPreviousTnxData(response.data.value);
           }
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   }, [bookingId]);
 
@@ -151,8 +149,7 @@ const CashierPaymentDetails = () => {
             setInvoiceNo(response.data.value.invoiceNo);
           }
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   }
 
   useEffect(() => {
@@ -169,8 +166,7 @@ const CashierPaymentDetails = () => {
             setAddedPdts(response.data.value);
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   }, [storeCode, paymentDetails.tempBookingRef]);
 
@@ -213,8 +209,7 @@ const CashierPaymentDetails = () => {
           });
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const handleKeyPress = (event) => {
@@ -345,8 +340,7 @@ const CashierPaymentDetails = () => {
           }
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const SavePaymentRow = () => {
@@ -433,8 +427,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const UploadPaymentFile = () => {
@@ -455,8 +448,7 @@ const CashierPaymentDetails = () => {
             PaymentFileImage(UploadFileName);
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
   const DeletePaymentRow = (id) => {
@@ -498,8 +490,7 @@ const CashierPaymentDetails = () => {
           setSecPhoneCount(60);
         }
         setLoading(false);
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const VerifyOTP = (inputOtp) => {
@@ -535,8 +526,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Successfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
   const UploadPrintFile = () => {
     if (!printFile) {
@@ -555,8 +545,7 @@ const CashierPaymentDetails = () => {
             UpdateBookingFile(printFileName);
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 
@@ -578,8 +567,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Succesfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const UploadDeliveryChallan = () => {
@@ -599,8 +587,7 @@ const CashierPaymentDetails = () => {
             UploadDlvrChalanimgDetails(deliveryChallanFile);
           }
           setLoading(false);
-        })
-        .catch((error) => setLoading(false));
+        }).catch((error) => setLoading(false));
     }
   };
 
@@ -622,8 +609,7 @@ const CashierPaymentDetails = () => {
         if (response.data.code === "1000") {
           toast.success("Uploaded Succesfully", { theme: "colored", autoClose: 1000 });
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
   };
 
   const UploadLoanCloseFile = () => {
@@ -705,8 +691,7 @@ const CashierPaymentDetails = () => {
             InsertInvoiceData(challanNo);
           }
         }
-      })
-      .catch((error) => setLoading(false));
+      }).catch((error) => setLoading(false));
     setLoading(false);
   };
 

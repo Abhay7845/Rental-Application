@@ -58,7 +58,7 @@ const Navbar = () => {
               }
             }
           } else if (response.data.code === "1001") {
-            toast.error("Please Enter Valid Password", { theme: "colored", autoClose: 3000 });
+            toast.error("Incorrect Password", { theme: "colored", autoClose: 3000 });
           }
           setLoading(false);
         }).catch((error) => {
@@ -108,7 +108,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="modal fade" id="bookingPwdModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-body">
               <b>Password <span className="text-danger"> *</span></b>

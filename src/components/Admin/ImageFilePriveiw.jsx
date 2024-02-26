@@ -55,9 +55,9 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
         <table className="table table-bordered border-dark text-center">
           <thead className="table-dark border-light">
             <tr>
-              <td>Image</td>
-              <td>Document Type</td>
-              <td>Content For</td>
+              <td>IMAGE</td>
+              <td>DOCUMENT TYPE</td>
+              <td>CONTENT FOR</td>
             </tr>
           </thead>
           <tbody>
@@ -79,7 +79,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
                     {item.documentType.toUpperCase()}
                   </td>
                   <td style={{ fontSize: "10px", fontWeight: "bold" }}>
-                    {item.contentFor.toUpperCase()}
+                    {item.contentFor.replace(/[A-Z]/g, " $&").replace(/_/g, "").toUpperCase()}
                   </td>
                 </tr>
               );

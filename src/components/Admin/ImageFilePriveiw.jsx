@@ -6,6 +6,9 @@ import { BsXLg } from "react-icons/bs";
 import Loader from "../common/Loader";
 import { FilePopStyle } from "../../Schema/LoginSchema";
 import { Modal } from "@mui/material";
+import { BsCloudDownloadFill } from "react-icons/bs";
+import braseLet from '../../Asset/Img/Brasslet.png'
+
 
 const ImageFilePriveiw = ({ orderData, Close }) => {
   const PrintImageRef = useRef(null);
@@ -34,13 +37,17 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
     FetchImageDocList(tempBookingRefNo);
   }, [tempBookingRefNo]);
 
-  // const handleDownload = (fileName, fileUrl) => {
-  //   const link = document.createElement("a");
-  //   link.href = fileUrl;
-  //   link.download = fileName;
-  //   link.click();
-  //   document.body.removeChild(link);
-  // };
+  const DownloadImageFile = async (imgUrl, documentType) => {
+    const response = await fetch(imgUrl);
+    const blob = await response.blob();
+    let link = document.createElement('a');
+    link.download = `${documentType}.jpg`;
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
 
   return (
     <div>
@@ -65,13 +72,14 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
               return (
                 <tr key={i}>
                   <td>
+                    <BsCloudDownloadFill className="mx-2" style={{ marginTop: "15%", cursor: "pointer" }} onClick={() => DownloadImageFile(item.fileUrl, item.documentType)} />
                     <img
                       src={item.fileUrl}
                       onClick={() => {
                         setZoopImg(true);
                         setZoopImgUrl(item.fileUrl)
                       }}
-                      style={{ width: 140, height: 65, cursor: "pointer" }}
+                      style={{ width: 140, height: 70, cursor: "pointer" }}
                       alt="Not Found"
                     />
                   </td>

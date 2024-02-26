@@ -34,7 +34,15 @@ const TestComponets = () => {
       link.remove();
     });
   };
-
+  const Download = (imgUrl) => {
+    console.log("imgUrl==>", imgUrl);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = imgUrl;
+    downloadLink.download = 'image.jpg';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
   return (
     <div className="mx-2">
       <br />
@@ -52,7 +60,7 @@ const TestComponets = () => {
             return (
               <Tr key={i}>
                 <Td>Tablescon</Td>
-                <Td><img src={item.imgUrl} alt="Image_1" height="100" width="100" /></Td>
+                <Td><img src={item.imgUrl} alt="Image_1" height="100" width="100" onClick={() => Download(item.imgUrl)} /></Td>
               </Tr>)
           })}
         </Tbody>

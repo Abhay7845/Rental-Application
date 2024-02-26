@@ -23,15 +23,15 @@ const UpdateProductData = () => {
             reqBookingDate: payload.reqBookingDate,
             packageDays: payload.packageDays
         }
-        console.log("UpdatesStorePayload==>", UpdatesStorePayload);
         setLoading(true);
-        axios.post(`${HOST_URL}/check/availability/across/stores`, UpdatesStorePayload).then(res => res).then(response => {
-            console.log("response.data.value==>", response.data);
-            if (response.data.code === "1000") {
-                setUpdatedStoresData(response.data.value);
-            }
-            setLoading(false);
-        }).catch(error => setLoading(false))
+        axios.post(`${HOST_URL}/check/availability/across/stores`, UpdatesStorePayload)
+            .then(res => res).then(response => {
+                console.log("response.data.value==>", response.data);
+                if (response.data.code === "1000") {
+                    setUpdatedStoresData(response.data.value);
+                }
+                setLoading(false);
+            }).catch(error => setLoading(false))
     }
 
     return (

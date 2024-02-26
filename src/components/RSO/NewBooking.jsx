@@ -136,10 +136,6 @@ const NewBooking = () => {
     }
   }, []);
 
-
-
-
-
   // TOTAL COST OF PRODUCT VALUE
   const rentalStrDate = getCartProductData.map((item) => item.rentalStartDate);
   const TProductValue = getCartProductData.map((item) => parseInt(item.productValue));

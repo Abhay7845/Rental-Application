@@ -14,7 +14,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 
 const UpdateProductData = () => {
     const [loading, setLoading] = useState(false);
-    const [updatedStoresData, setUpdatedStoresData] = useState({});
+    const [updatedStoresData, setUpdatedStoresData] = useState([]);
 
     const GetUpdateStoreCode = (payload) => {
         const UpdatesStorePayload = {
@@ -44,7 +44,7 @@ const UpdateProductData = () => {
             <AdminSideBar />
             <div className="main">
                 <div className="row mx-0 mt-3">
-                    <h5 className="text-center">UPDATE PRODUCT DATA</h5>
+                    <h5 className="text-center mb-3">UPDATE PRODUCT DATA</h5>
                     <Formik
                         initialValues={updateProductInitial}
                         validationSchema={updateProductSchema}
@@ -53,17 +53,17 @@ const UpdateProductData = () => {
                         <Form>
                             <div className="row g-2">
                                 <div className="col-md-4">
-                                    <label className="form-label">From Date</label>
+                                    <label className="form-label">Item Code</label>
                                     <Field type="text" className="form-control" name="itemCode" placeholder="Item Code" />
                                     <ShowError name="itemCode" />
                                 </div>
                                 <div className="col-md-4">
-                                    <label className="form-label">To Date</label>
+                                    <label className="form-label">Request Booking Date</label>
                                     <Field type="date" className="form-control" name="reqBookingDate" />
                                     <ShowError name="reqBookingDate" />
                                 </div>
                                 <div className="col-md-4">
-                                    <label className="form-label">Store Code</label>
+                                    <label className="form-label">Package Days</label>
                                     <Field
                                         as="select"
                                         className="form-control"
@@ -90,28 +90,35 @@ const UpdateProductData = () => {
                         </Form>
                     </Formik>
                 </div>
-                <div className="table-responsive mx-2">
-                    {updatedStoresData.itemCode &&
-                        <Table className="table table-bordered table-hover border-dark text-center">
-                            <Thead className="table-dark border-light">
-                                <Tr>
-                                    {UpdateStoreHeaders.map((headers, i) => {
-                                        return (<Th key={i}>{headers}</Th>)
+                {updatedStoresData.length > 0 &&
+                    <div className="col-12 mx-2">
+                        <div className="table-responsive">
+                            <Table className="table table-bordered table-hover border-dark text-center">
+                                <Thead className="table-dark border-light">
+                                    <Tr>
+                                        {UpdateStoreHeaders.map((headers, i) => {
+                                            return (<Th key={i}>{headers}</Th>)
+                                        })}
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {updatedStoresData.map((item, i) => {
+                                        return (
+                                            <Tr key={i}>
+                                                <Td>1</Td>
+                                                <Td>{item.itemCode}</Td>
+                                                <Td>{item.cfa}</Td>
+                                                <Td>{item.lotNo}</Td>
+                                                <Td>{item.storeCode}</Td>
+                                                <Td className={item.productStatus === "Product_Available" ? "text-success" : "text-danger"}>{item.productStatus.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                                            </Tr>
+                                        )
                                     })}
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                <Tr>
-                                    <Td> {updatedStoresData.itemCode}</Td>
-                                    <Td>{updatedStoresData.cfa}</Td>
-                                    <Td>{updatedStoresData.lotNo}</Td>
-                                    <Td>{updatedStoresData.storeCode}</Td>
-                                    <Td className={updatedStoresData.productStatus === "Product_Available" ? "text-success" : "text-danger"}>{updatedStoresData.productStatus.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
-                                </Tr>
-                            </Tbody>
-                        </Table>
-                    }
-                </div>
+                                </Tbody>
+                            </Table>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     )

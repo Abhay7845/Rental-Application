@@ -18,6 +18,7 @@ import CashierPaymentDetails from "./components/Cashier/CashierPaymentDetails";
 import FactoryQARequired from "./components/RSO/FactoryQARequired";
 import DiscountApproval from "./components/Admin/DiscountApproval";
 import TestComponets from "./components/common/TestComponets";
+import UpdateProductData from "./components/Admin/UpdateProductData";
 
 const App = () => {
   return (
@@ -79,6 +80,10 @@ const App = () => {
             <Route
               path="/admin/booking/verification"
               element={<BookingVerification />}
+            />
+            <Route
+              path="/admin/update/product/data"
+              element={<UpdateProductData />}
             />
             {/* CASHIER COMPONENTS */}
             <Route

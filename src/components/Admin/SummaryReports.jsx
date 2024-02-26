@@ -5,11 +5,7 @@ import AdminToggelSideBar from "../common/AdminToggelSideBar";
 import { Field, Form, Formik } from "formik";
 import { toast } from 'react-toastify';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import {
-  ReportsInitialValue,
-  ReportsSchema,
-  FilePopStyle,
-} from "../../Schema/LoginSchema";
+import { ReportsInitialValue, ReportsSchema, FilePopStyle } from "../../Schema/LoginSchema";
 import ShowError from "../../Schema/ShowError";
 import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";

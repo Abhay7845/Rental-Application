@@ -55,3 +55,15 @@ export const FilePopStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
 };
+
+export const updateProductInitial = {
+  itemCode: "",
+  reqBookingDate: "",
+  packageDays: "",
+};
+
+export const updateProductSchema = yup.object({
+  itemCode: yup.string().required("Item Code is required").min(14, "Invalid Item Code"),
+  reqBookingDate: yup.string().required("Request Booking Date is required"),
+  packageDays: yup.string().required("Package Days is required"),
+});

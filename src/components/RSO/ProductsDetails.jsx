@@ -432,7 +432,7 @@ const ProductsDetails = () => {
                 className="form-control"
                 disabled={payload.packageDays ? true : false}
               >
-                <option>Select Days</option>
+                <option value="">Select Days</option>
                 {packageDayOption.map((days, i) => {
                   return (
                     <option key={i} value={days.value}>

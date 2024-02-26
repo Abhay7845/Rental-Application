@@ -217,7 +217,7 @@ export const CustomerBankDlsHeaders = [
 
 
 export const UpdateStoreHeaders = [
-  "Product ID",
+  "Pdt ID",
   "Item Code",
   "CFA",
   "LOT No.",

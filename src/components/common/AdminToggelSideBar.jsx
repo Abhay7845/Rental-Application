@@ -50,6 +50,10 @@ const AdminToggelSideBar = () => {
               REPORTS
             </Link>
             <hr style={{ color: "#ffff" }} />
+            <Link to="/admin/update/product/data" className="NavigationStyle">
+              UPDATE PRODUCT DATA
+            </Link>
+            <hr style={{ color: "#ffff" }} />
           </ul>
         </div>
       </div>

@@ -8,9 +8,9 @@ import { updateProductInitial, updateProductSchema } from "../../Schema/LoginSch
 import ShowError from "../../Schema/ShowError";
 import { UpdateStoreHeaders, packageDayOption } from "../../Data/DataList";
 import axios from "axios";
+import * as Icon from "react-bootstrap-icons";
 import { HOST_URL } from "../../API/HostURL";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-
 
 const UpdateProductData = () => {
     const [loading, setLoading] = useState(false);
@@ -32,6 +32,10 @@ const UpdateProductData = () => {
                 }
                 setLoading(false);
             }).catch(error => setLoading(false))
+    }
+
+    const UpdateRowsStatus = (data) => {
+        console.log("data==>", data);
     }
 
     return (
@@ -105,12 +109,13 @@ const UpdateProductData = () => {
                                     {updatedStoresData.map((item, i) => {
                                         return (
                                             <Tr key={i}>
-                                                <Td>1</Td>
+                                                <Td>{item.pdtId}</Td>
                                                 <Td>{item.itemCode}</Td>
                                                 <Td>{item.cfa}</Td>
                                                 <Td>{item.lotNo}</Td>
                                                 <Td>{item.storeCode}</Td>
                                                 <Td className={item.productStatus === "Product_Available" ? "text-success" : "text-danger"}>{item.productStatus.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                                                <Td className="text-center"><Icon.PencilSquare cursor="pointer" onClick={() => UpdateRowsStatus(item)} /></Td>
                                             </Tr>
                                         )
                                     })}
@@ -120,7 +125,7 @@ const UpdateProductData = () => {
                     </div>
                 }
             </div>
-        </div>
+        </div >
     )
 }
 

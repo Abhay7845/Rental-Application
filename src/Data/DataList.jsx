@@ -213,3 +213,13 @@ export const CustomerBankDlsHeaders = [
   "IFSC Code",
   "Bank File",
 ];
+
+
+
+export const UpdateStoreHeaders = [
+  "Item Code",
+  "CFA",
+  "LOT No.",
+  "Store Code",
+  "Product Status"
+];

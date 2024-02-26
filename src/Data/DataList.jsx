@@ -2,12 +2,10 @@ export const packageDayOption = [
   { value: "4", label: "4 Days" },
   { value: "8", label: "8 Days" },
 ];
-export const IMAGE_URL =
-  "https://jewbridge.titanjew.in/CatalogImages/api/ImageFetch/?Type=ProductImages&ImageName=";
+export const IMAGE_URL = "https://jewbridge.titanjew.in/CatalogImages/api/ImageFetch/?Type=ProductImages&ImageName=";
 
 export const EmailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/g;
-export const adharRegex =
-  /^([0-9]{4}[0-9]{4}[0-9]{4}$)|([0-9]{4}\s[0-9]{4}\s[0-9]{4}$)|([0-9]{4}-[0-9]{4}-[0-9]{4}$)/g;
+export const adharRegex = /^([0-9]{4}[0-9]{4}[0-9]{4}$)|([0-9]{4}\s[0-9]{4}\s[0-9]{4}$)|([0-9]{4}-[0-9]{4}-[0-9]{4}$)/g;
 export const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/g;
 export const driverRegex = /^[A-Z](?:\d[- ]*){14}$/g;
 export const phonePan = /^[A-Z]{1,10}$/;
@@ -38,12 +36,6 @@ export const CancellationReason = [
   },
 ];
 
-// export const ImageHeaders = {
-//   "Content-Type": "multipart/form-data",
-//   UserToken: "xFeToMkUuejH0aq1IzZYmw==",
-//   ApiKey: "636A4E75-2B3D-4B83-8DD6-F36046290E0F",
-// };
-
 export const constomerType = [
   {
     value: "",
@@ -62,6 +54,7 @@ export const constomerType = [
     label: "New Customer",
   },
 ];
+
 export const homePageTHeadrs = [
   "Select",
   "Customer Name",
@@ -123,6 +116,7 @@ export const rentalIssuePage = [
   "Damage Protection",
   "Actual Wt At Dlvr",
 ];
+
 export const renatlReturnPage = [
   "Image",
   "Item Code",
@@ -136,6 +130,7 @@ export const renatlReturnPage = [
   "Physical Damage",
   "Damage Charges",
 ];
+
 export const factoryQAPage = [
   "Image",
   "Item Code",
@@ -170,6 +165,7 @@ export const AdminSummarHeaders = [
   "Status",
   "View Booking",
 ];
+
 export const ProductDlsHeaders = [
   "Item Code",
   "Lot No.",
@@ -179,6 +175,7 @@ export const ProductDlsHeaders = [
   "Rental Value With(18%)Tax",
   "Deposit Value",
 ];
+
 export const OrderSummaryDlsHeaders = [
   "Item Code",
   "Actual Wt at Delivery",
@@ -197,6 +194,7 @@ export const PaymentDlsHeaders = [
   "Payment Doc File",
   "Credit Date",
 ];
+
 export const CustomerDlsHeaders = [
   "Customer Name",
   "Phone No.",
@@ -207,14 +205,13 @@ export const CustomerDlsHeaders = [
   "Address Proof ID No.",
   "Address Proof File",
 ];
+
 export const CustomerBankDlsHeaders = [
   "Bank Name",
   "Account Number",
   "IFSC Code",
   "Bank File",
 ];
-
-
 
 export const UpdateStoreHeaders = [
   "Pdt ID",

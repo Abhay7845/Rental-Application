@@ -55,7 +55,7 @@ const UpdateProductData = () => {
                         onSubmit={(payload) => GetUpdateStoreCode(payload)}
                     >
                         <Form>
-                            <div className="row g-2">
+                            <div className="row g-2 mx-0">
                                 <div className="col-md-4">
                                     <label className="form-label">Item Code</label>
                                     <Field type="text" className="form-control" name="itemCode" placeholder="Item Code" />
@@ -95,33 +95,31 @@ const UpdateProductData = () => {
                     </Formik>
                 </div>
                 {updatedStoresData.length > 0 &&
-                    <div className="col-12 mx-2">
-                        <div className="table-responsive">
-                            <Table className="table table-bordered table-hover border-dark text-center">
-                                <Thead className="table-dark border-light">
-                                    <Tr>
-                                        {UpdateStoreHeaders.map((headers, i) => {
-                                            return (<Th key={i}>{headers}</Th>)
-                                        })}
-                                    </Tr>
-                                </Thead>
-                                <Tbody>
-                                    {updatedStoresData.map((item, i) => {
-                                        return (
-                                            <Tr key={i}>
-                                                <Td>{item.pdtId}</Td>
-                                                <Td>{item.itemCode}</Td>
-                                                <Td>{item.cfa}</Td>
-                                                <Td>{item.lotNo}</Td>
-                                                <Td>{item.storeCode}</Td>
-                                                <Td className={item.productStatus === "Product_Available" ? "text-success" : "text-danger"}>{item.productStatus.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
-                                                <Td className="text-center"><Icon.PencilSquare cursor="pointer" onClick={() => UpdateRowsStatus(item)} /></Td>
-                                            </Tr>
-                                        )
+                    <div className="table-responsive mx-2">
+                        <Table className="table table-bordered table-hover border-dark text-center">
+                            <Thead className="table-dark border-light">
+                                <Tr>
+                                    {UpdateStoreHeaders.map((headers, i) => {
+                                        return (<Th key={i}>{headers}</Th>)
                                     })}
-                                </Tbody>
-                            </Table>
-                        </div>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {updatedStoresData.map((item, i) => {
+                                    return (
+                                        <Tr key={i}>
+                                            <Td>{item.pdtId}</Td>
+                                            <Td>{item.itemCode}</Td>
+                                            <Td>{item.cfa}</Td>
+                                            <Td>{item.lotNo}</Td>
+                                            <Td>{item.storeCode}</Td>
+                                            <Td className={item.productStatus === "Product_Available" ? "text-success" : "text-danger"}>{item.productStatus.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
+                                            <Td className="text-center"><Icon.PencilSquare cursor="pointer" onClick={() => UpdateRowsStatus(item)} /></Td>
+                                        </Tr>
+                                    )
+                                })}
+                            </Tbody>
+                        </Table>
                     </div>
                 }
             </div>

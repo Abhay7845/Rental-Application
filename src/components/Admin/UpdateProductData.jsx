@@ -11,6 +11,7 @@ import axios from "axios";
 import * as Icon from "react-bootstrap-icons";
 import { HOST_URL } from "../../API/HostURL";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import { toast } from "react-toastify";
 
 const UpdateProductData = () => {
     const [loading, setLoading] = useState(false);
@@ -29,6 +30,8 @@ const UpdateProductData = () => {
                 console.log("response.data.value==>", response.data);
                 if (response.data.code === "1000") {
                     setUpdatedStoresData(response.data.value);
+                } else if (response.data.code === "1001") {
+                    toast.warn("No Records Found", { theme: "colored", autoClose: 3000 });
                 }
                 setLoading(false);
             }).catch(error => setLoading(false))

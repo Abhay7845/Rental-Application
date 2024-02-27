@@ -106,33 +106,21 @@ const Home = () => {
   };
 
   const CancelProducts = () => {
-    localStorage.setItem(
-      "selecttedReturnProduct",
-      JSON.stringify(selecttedProduct)
-    );
+    localStorage.setItem("selecttedReturnProduct", JSON.stringify(selecttedProduct));
     navigate("/cancellation");
   };
 
   const RentalIssueProducts = () => {
-    localStorage.setItem(
-      "selecttedReturnProduct",
-      JSON.stringify(selecttedProduct)
-    );
+    localStorage.setItem("selecttedReturnProduct", JSON.stringify(selecttedProduct));
     navigate("/rental/issue");
   };
 
   const RentalRetunProducts = () => {
-    localStorage.setItem(
-      "selecttedReturnProduct",
-      JSON.stringify(selecttedProduct)
-    );
+    localStorage.setItem("selecttedReturnProduct", JSON.stringify(selecttedProduct));
     navigate("/rental/return");
   };
   const FactoryQARequired = () => {
-    localStorage.setItem(
-      "selecttedReturnProduct",
-      JSON.stringify(selecttedProduct)
-    );
+    localStorage.setItem("selecttedReturnProduct", JSON.stringify(selecttedProduct));
     navigate("/factory/qa/required");
   };
 

@@ -11,12 +11,11 @@ import axios from "axios";
 import { HOST_URL } from "../../API/HostURL";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { toast } from "react-toastify";
-import { BsAmd } from "react-icons/bs";
 
 const UpdateProductData = () => {
     const [loading, setLoading] = useState(false);
     const [updatedStoresData, setUpdatedStoresData] = useState([]);
-    const [latusStore, setLatusStore] = useState("");
+    const [latusStore, setLatusStore] = useState({});
 
     const GetUpdateStoreCode = (payload) => {
         const UpdatesStorePayload = {
@@ -34,17 +33,27 @@ const UpdateProductData = () => {
                     toast.warn("No Records Found", { theme: "colored", autoClose: 3000 });
                 }
                 setLoading(false);
-            }).catch(error => setLoading(false))
+            }).catch(error => setLoading(false));
+    }
+    const GetLatusStore = (value, i) => {
+        setLatusStore({
+            ...latusStore,
+            [i]: value,
+        });
     }
 
-    const UpdateRowsStatus = (data) => {
-        if (latusStore.length > 0) {
-            console.log("data==>", data);
-        } else {
-            toast.error("Please Enter Store Code", { theme: "colored", autoClose: 3000 });
+    const UpdateRowsStatus = (data, i) => {
+        const updateStorePayload = {
+            cfa: data.cfa,
+            itemCode: data.itemCode,
+            lotNo: data.lotNo,
+            pdtId: data.pdtId,
+            productStatus: data.productStatus,
+            storeCode: latusStore[i]
         }
+        console.log("updateStorePayload==>", updateStorePayload);
     }
-    console.log("latusStore==>", latusStore);
+
     return (
         <div>
             {loading === true && <Loader />}
@@ -122,16 +131,17 @@ const UpdateProductData = () => {
                                             <Td>{item.lotNo}</Td>
                                             <Td>{item.storeCode}</Td>
                                             <Td>
-                                                <input type="text" className="w-100" placeholder="Enter latus store" onChange={e => setLatusStore(e.target.value)}
-                                                    disabled={latusStore.length > 0 && i ? true : false}
+                                                <input type="text" className="w-100" placeholder="Enter latus store"
+                                                    value={latusStore[i]}
+                                                    onChange={e => GetLatusStore(e.target.value, i)}
                                                 />
                                             </Td>
                                             <Td className={item.productStatus === "Product_Available" ? "text-success" : "text-danger"}>{item.productStatus.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
                                             <Td className="text-center">
                                                 <button
-                                                    className={latusStore.length > 0 && i ? "CDisabled" : "CButton"}
-                                                    onClick={() => UpdateRowsStatus(item)}
-                                                    disabled={latusStore.length > 0 && i ? true : false}
+                                                    className={latusStore[i] ? "CButton" : "CDisabled"}
+                                                    onClick={() => UpdateRowsStatus(item, i)}
+                                                    disabled={latusStore[i] ? false : true}
                                                 >Update</button>
                                             </Td>
                                         </Tr>

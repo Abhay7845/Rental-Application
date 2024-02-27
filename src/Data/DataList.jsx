@@ -218,7 +218,8 @@ export const UpdateStoreHeaders = [
   "Item Code",
   "CFA",
   "LOT No.",
-  "Store Code",
+  "Current Store",
+  "Product Movement To-Store",
   "Product Status",
   "Action"
 ];

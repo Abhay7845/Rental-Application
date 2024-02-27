@@ -16,6 +16,7 @@ import { BsAmd } from "react-icons/bs";
 const UpdateProductData = () => {
     const [loading, setLoading] = useState(false);
     const [updatedStoresData, setUpdatedStoresData] = useState([]);
+    const [latusStore, setLatusStore] = useState("");
 
     const GetUpdateStoreCode = (payload) => {
         const UpdatesStorePayload = {
@@ -37,9 +38,13 @@ const UpdateProductData = () => {
     }
 
     const UpdateRowsStatus = (data) => {
-        console.log("data==>", data);
+        if (latusStore.length > 0) {
+            console.log("data==>", data);
+        } else {
+            toast.error("Please Enter Store Code", { theme: "colored", autoClose: 3000 });
+        }
     }
-
+    console.log("latusStore==>", latusStore);
     return (
         <div>
             {loading === true && <Loader />}
@@ -96,6 +101,7 @@ const UpdateProductData = () => {
                         </Form>
                     </Formik>
                 </div>
+
                 {updatedStoresData.length > 0 &&
                     <div className="table-responsive mx-2">
                         <Table className="table table-bordered table-hover border-dark text-center">
@@ -115,8 +121,19 @@ const UpdateProductData = () => {
                                             <Td>{item.cfa}</Td>
                                             <Td>{item.lotNo}</Td>
                                             <Td>{item.storeCode}</Td>
+                                            <Td>
+                                                <input type="text" className="w-100" placeholder="Enter latus store" onChange={e => setLatusStore(e.target.value)}
+                                                    disabled={latusStore.length > 0 && i ? true : false}
+                                                />
+                                            </Td>
                                             <Td className={item.productStatus === "Product_Available" ? "text-success" : "text-danger"}>{item.productStatus.replace(/[A-Z]/g, " $&").replace(/_/g, "")}</Td>
-                                            <Td className="text-center"><BsAmd cursor="pointer" onClick={() => UpdateRowsStatus(item)} /></Td>
+                                            <Td className="text-center">
+                                                <button
+                                                    className={latusStore.length > 0 && i ? "CDisabled" : "CButton"}
+                                                    onClick={() => UpdateRowsStatus(item)}
+                                                    disabled={latusStore.length > 0 && i ? true : false}
+                                                >Update</button>
+                                            </Td>
                                         </Tr>
                                     )
                                 })}

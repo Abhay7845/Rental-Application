@@ -91,8 +91,7 @@ const ProductsDetails = () => {
       stdWt: "",
       storeCode: storeCode,
     };
-    axios
-      .post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
+    axios.post(`${HOST_URL}/check/item/availability`, CheckAvaiblity)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -204,23 +203,22 @@ const ProductsDetails = () => {
         updatedDate: null,
       };
     });
-    axios
-      .post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
+    axios.post(`${HOST_URL}/insert/into/item/calendar`, CanlendarInputs)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
           GetAddToCartData(storeCode)
           toast.success("Product Added To Cart", { theme: "colored", autoClose: 1000 })
           setAddtoWishList([]);
-          setProductDetails([])
+          setProductDetails([]);
           payload.itemCode = "";
         }
       }).catch((error) => setLoading(false));
   };
+
   const AddtoWishList = () => {
     setLoading(true)
-    axios
-      .post(`${HOST_URL}/pre/booking/add/to/cart`, addtoWishList)
+    axios.post(`${HOST_URL}/pre/booking/add/to/cart`, addtoWishList)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -239,8 +237,7 @@ const ProductsDetails = () => {
   const custType = pdtSelected.map(date => date.customerType);
   const CheckThresholdMilimt = (custType) => {
     setLoading(true)
-    axios
-      .get(`${HOST_URL}/get/threshold/value/${custType}`)
+    axios.get(`${HOST_URL}/get/threshold/value/${custType}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {

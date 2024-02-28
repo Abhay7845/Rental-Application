@@ -497,12 +497,7 @@ const ProductsDetails = () => {
                 return (
                   <Tr
                     key={i}
-                    style={{
-                      pointerEvents: `${AvlProduct[i] === "Product_Not_Available"
-                        ? "none"
-                        : ""
-                        }`,
-                    }}
+                    style={{ pointerEvents: `${AvlProduct[i] === "Product_Not_Available" ? "none" : ""}` }}
                   >
                     {payload.phone &&
                       <Td className="text-center">

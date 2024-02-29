@@ -35,7 +35,6 @@ const TestComponets = () => {
     });
   };
   const Download = (imgUrl) => {
-    console.log("imgUrl==>", imgUrl);
     const downloadLink = document.createElement('a');
     downloadLink.href = imgUrl;
     downloadLink.download = 'image.jpg';

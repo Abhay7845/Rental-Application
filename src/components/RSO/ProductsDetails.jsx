@@ -504,11 +504,7 @@ const ProductsDetails = () => {
                         <input
                           className="form-check-input border-dark"
                           type="checkbox"
-                          disabled={
-                            AvlProduct[i] === "Product_Not_Available"
-                              ? true
-                              : false
-                          }
+                          disabled={AvlProduct[i] === "Product_Not_Available" ? true : false}
                           onClick={(e) => SelectedProducts(e, data)}
                         />
                       </Td>}

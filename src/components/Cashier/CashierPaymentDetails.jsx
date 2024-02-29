@@ -146,7 +146,8 @@ const CashierPaymentDetails = () => {
           if (paymentRequestFor === "Payment_PendingFor_RentalCancellation") {
             setInvoiceNo(GenInvoiceNo);
           } else if (paymentRequestFor === "Payment_PendingFor_RentalReturn") {
-            setInvoiceNo(response.data.value.invoiceNo);
+            const GenInvoiceNo = `${storeCode}-${response.data.value.invoiceId}`;
+            setInvoiceNo(GenInvoiceNo);
           }
         }
       }).catch((error) => setLoading(false));
@@ -484,6 +485,7 @@ const CashierPaymentDetails = () => {
     axios.get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
+        console.log("Your Otp", response.data.otp);
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
           toast.success(`OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(6)}`, { theme: "colored", autoClose: 1000 });

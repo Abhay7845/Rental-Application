@@ -235,6 +235,7 @@ const NewCustomer = () => {
         .get(`${HOST_URL}/get/mobile/otp/${phoneNumber}`)
         .then((res) => res)
         .then((response) => {
+          console.log("Your Otp", response.data.otp);
           if (response.data.code === "1000") {
             setPhoneOtp(response.data.otp);
             setSecPhoneCount(60);

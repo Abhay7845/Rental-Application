@@ -1057,7 +1057,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      accept=".png, .jpeg"
+                      accept=".png, .jpeg, .pdf"
                       onChange={(e) => setPrintFile(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadPrintFile}>
@@ -1093,7 +1093,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      accept=".png, .jpeg"
+                      accept=".png, .jpeg, .pdf"
                       onChange={(e) => setPrintFile(e.target.files[0])}
                     />
                     <button
@@ -1110,7 +1110,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      accept=".png, .jpeg"
+                      accept=".png, .jpeg, .pdf"
                       onChange={(e) => setLoanCloseFile(e.target.files[0])}
                     />
                     <button
@@ -1150,7 +1150,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      accept=".png, .jpeg"
+                      accept=".png, .jpeg, .pdf"
                       onChange={(e) => setPrintFile(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadPrintFile}>
@@ -1166,7 +1166,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      accept=".png, .jpeg"
+                      accept=".png, .jpeg, .pdf"
                       onChange={(e) => setDeliveryChallan(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadDeliveryChallan}>
@@ -1201,7 +1201,7 @@ const CashierPaymentDetails = () => {
                     <input
                       type="file"
                       className="form-control"
-                      accept=".png, .jpeg"
+                      accept=".png, .jpeg, .pdf"
                       onChange={(e) => setPrintFile(e.target.files[0])}
                     />
                     <button className="CButton mx-1" onClick={UploadPrintFile}>

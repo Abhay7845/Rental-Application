@@ -58,8 +58,7 @@ const SummaryReports = () => {
   useEffect(() => {
     if (customerPhone) {
       setLoading(true);
-      axios
-        .get(`${HOST_URL}/rental/customer/details/mobileNo/${customerPhone}`)
+      axios.get(`${HOST_URL}/rental/customer/details/mobileNo/${customerPhone}`)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -105,7 +104,6 @@ const SummaryReports = () => {
     axios.get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
           GetPreviousTnx(response.data.value);
@@ -131,6 +129,8 @@ const SummaryReports = () => {
       ShowAlertForRefNo();
     }
   };
+
+  const RevisedAmout = totalPaidAmount.totalRentalValue - totalPaidAmount.discountOnRentalCharges;
 
   return (
     <div>
@@ -366,9 +366,7 @@ const SummaryReports = () => {
                                   <Td>{item.deliveredWt}</Td>
                                   <Td>{item.actualWtReturn}</Td>
                                   <Td className="text-end">
-                                    {parseFloat(
-                                      item.rentalAmount * 1.18
-                                    ).toFixed(2)}
+                                    {parseFloat(item.rentalAmount * 1.18).toFixed(2)}
                                   </Td>
                                   <Td>{parseInt(item.depositAmount)}</Td>
                                   <Td className="text-end">
@@ -417,36 +415,75 @@ const SummaryReports = () => {
                         </Table>
                         <table className="table table-bordered border-dark text-center">
                           <thead className="table-dark border-light">
-                            <tr style={{ fontSize: "15px" }}>
-                              <td>Cancellation Charge</td>
-                              <td>Discount Amount</td>
-                              <td>Refund Amount</td>
-                            </tr>
+                            {orderData.status === "ProductReturnedSuccess" || orderData.status === "In_Factory_QA" ?
+                              <tr style={{ fontSize: "15px" }}>
+                                <td>Actual Rental Value</td>
+                                <td>Discount On Rental Charge</td>
+                                <td>Revised Rental Charge</td>
+                                <td>Revised Rental Charge With (18%) Tax</td>
+                              </tr> : ""}
+                            {orderData.status === "BookingCancelled" &&
+                              <tr style={{ fontSize: "15px" }}>
+                                <td>Cancellation Charge</td>
+                                <td>Discount On Cancellation Charge</td>
+                                <td>Refund Amount</td>
+                              </tr>}
                           </thead>
                           <tbody>
-                            <tr>
+                            {orderData.status === "ProductReturnedSuccess" || orderData.status === "In_Factory_QA" ? <tr>
                               <th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
+                                  minimumFractionDigits: 2,
+                                }).format(totalPaidAmount.totalRentalValue)}
+                              </th>
+                              <th>
+                                {new Intl.NumberFormat("en-IN", {
+                                  style: "currency",
+                                  currency: "INR",
+                                  minimumFractionDigits: 2,
+                                }).format(totalPaidAmount.discountOnRentalCharges)}
+                              </th>
+                              {orderData.status === "BookingCancelled" ? "" : <th>
+                                {new Intl.NumberFormat("en-IN", {
+                                  style: "currency",
+                                  currency: "INR",
+                                  minimumFractionDigits: 2,
+                                }).format(RevisedAmout)}
+                              </th>}
+                              <th>
+                                {new Intl.NumberFormat("en-IN", {
+                                  style: "currency",
+                                  currency: "INR",
+                                  minimumFractionDigits: 2,
+                                }).format(RevisedAmout + RevisedAmout * 0.18)}
+                              </th>
+                            </tr> : ""}
+                            {orderData.status === "BookingCancelled" && <tr>
+                              <th>
+                                {new Intl.NumberFormat("en-IN", {
+
+                                  style: "currency",
+                                  currency: "INR",
                                   minimumFractionDigits: false,
-                                }).format(totalPaidAmount.cancellationCharges)}
+                                }).format(totalPaidAmount.cancellationCharges)} A
                               </th>
                               <th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
-                                }).format(totalPaidAmount.totalDiscountAmount)}
+                                }).format(totalPaidAmount.discountOnRentalCharges)} B
                               </th>
                               <th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
-                                }).format(totalPaidAmount.netRefundAmount)}
+                                }).format(totalPaidAmount.netRefundAmount)} C
                               </th>
-                            </tr>
+                            </tr>}
                           </tbody>
                         </table>
                       </div>

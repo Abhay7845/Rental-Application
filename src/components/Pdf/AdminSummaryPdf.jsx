@@ -26,6 +26,9 @@ const AdminSummaryPdf = (props) => {
   const cutPhone = commonTableData.map((name) => name.mobileNo);
   const customerName = cutName[0];
   const customerPhone = cutPhone[0];
+
+  const RevisedAmout = totalPaidAmount.totalRentalValue - totalPaidAmount.discountOnRentalCharges;
+
   return (
     <div>
       <button
@@ -45,7 +48,7 @@ const AdminSummaryPdf = (props) => {
             @page {
               size: A4;
               margin:15mm;
-              margin-top:50mm;
+              margin-top:45mm;
               margin-bottom:40mm; 
             }
           `}
@@ -174,36 +177,75 @@ const AdminSummaryPdf = (props) => {
         </table>
         <table className="table table-bordered border-dark text-center">
           <thead className="table-dark border-light">
-            <tr>
-              <td>Cancellation Charge</td>
-              <td>Discount Amount</td>
-              <td>Refund Amount</td>
-            </tr>
+            {orderData.status === "ProductReturnedSuccess" || orderData.status === "In_Factory_QA" ?
+              <tr style={{ fontSize: "15px" }}>
+                <td>Actual Rental Value</td>
+                <td>Discount On Rental Charge</td>
+                <td>Revised Rental Charge</td>
+                <td>Revised Rental Charge With (18%) Tax</td>
+              </tr> : ""}
+            {orderData.status === "BookingCancelled" &&
+              <tr style={{ fontSize: "15px" }}>
+                <td>Cancellation Charge</td>
+                <td>Discount On Cancellation Charge</td>
+                <td>Refund Amount</td>
+              </tr>}
           </thead>
           <tbody>
-            <tr>
+            {orderData.status === "ProductReturnedSuccess" || orderData.status === "In_Factory_QA" ? <tr>
               <th>
                 {new Intl.NumberFormat("en-IN", {
                   style: "currency",
                   currency: "INR",
+                  minimumFractionDigits: 2,
+                }).format(totalPaidAmount.totalRentalValue)}
+              </th>
+              <th>
+                {new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                  minimumFractionDigits: 2,
+                }).format(totalPaidAmount.discountOnRentalCharges)}
+              </th>
+              {orderData.status === "BookingCancelled" ? "" : <th>
+                {new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                  minimumFractionDigits: 2,
+                }).format(RevisedAmout)}
+              </th>}
+              <th>
+                {new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                  minimumFractionDigits: 2,
+                }).format(RevisedAmout + RevisedAmout * 0.18)}
+              </th>
+            </tr> : ""}
+            {orderData.status === "BookingCancelled" && <tr>
+              <th>
+                {new Intl.NumberFormat("en-IN", {
+
+                  style: "currency",
+                  currency: "INR",
                   minimumFractionDigits: false,
-                }).format(totalPaidAmount.cancellationCharges)}
+                }).format(totalPaidAmount.cancellationCharges)} A
               </th>
               <th>
                 {new Intl.NumberFormat("en-IN", {
                   style: "currency",
                   currency: "INR",
                   minimumFractionDigits: false,
-                }).format(totalPaidAmount.totalDiscountAmount)}
+                }).format(totalPaidAmount.discountOnRentalCharges)} B
               </th>
               <th>
                 {new Intl.NumberFormat("en-IN", {
                   style: "currency",
                   currency: "INR",
                   minimumFractionDigits: false,
-                }).format(0)}
+                }).format(totalPaidAmount.netRefundAmount)} C
               </th>
-            </tr>
+            </tr>}
           </tbody>
         </table>
         <h6 className="mt-4">PAYMENT DETAILS</h6>

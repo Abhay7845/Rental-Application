@@ -7,7 +7,7 @@ import Loader from "../common/Loader";
 import { FilePopStyle } from "../../Schema/LoginSchema";
 import { Modal } from "@mui/material";
 import { BsCloudDownloadFill } from "react-icons/bs";
-import braseLet from '../../Asset/Img/Brasslet.png'
+import pdf from '../../Asset/Img/pdfIcon.png'
 
 
 const ImageFilePriveiw = ({ orderData, Close }) => {
@@ -49,6 +49,14 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
     link.remove();
   }
 
+  const DownloadPdfFile = (imgUrl, documentType) => {
+    const link = document.createElement('a');
+    link.href = imgUrl;
+    link.download = `${documentType}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <div>
       {loading === true && <Loader />}
@@ -69,19 +77,28 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
           </thead>
           <tbody>
             {uploadedImgData.map((item, i) => {
+              const extention = item.fileUrl.split('.').pop();
               return (
                 <tr key={i}>
                   <td>
-                    <BsCloudDownloadFill className="mx-2" style={{ marginTop: "15%", cursor: "pointer" }} onClick={() => DownloadImageFile(item.fileUrl, item.documentType)} />
-                    <img
-                      src={item.fileUrl}
-                      onClick={() => {
-                        setZoopImg(true);
-                        setZoopImgUrl(item.fileUrl)
-                      }}
-                      style={{ width: 140, height: 70, cursor: "pointer" }}
-                      alt="Not Found"
-                    />
+                    {extention === "pdf" ?
+                      <img
+                        src={pdf}
+                        onClick={() => DownloadPdfFile(item.fileUrl, item.documentType)}
+                        style={{ width: 130, height: 60, cursor: "pointer" }}
+                        alt="Not Found"
+                      /> : <div>
+                        <BsCloudDownloadFill className="mx-2" style={{ marginTop: "15%", cursor: "pointer" }} onClick={() => DownloadImageFile(item.fileUrl, item.documentType)} />
+                        <img
+                          src={item.fileUrl}
+                          onClick={() => {
+                            setZoopImg(true);
+                            setZoopImgUrl(item.fileUrl)
+                          }}
+                          style={{ width: 140, height: 70, cursor: "pointer" }}
+                          alt="Not Found"
+                        />
+                      </div>}
                   </td>
                   <td style={{ fontSize: "10px", fontWeight: "bold" }}>
                     {item.documentType.toUpperCase()}

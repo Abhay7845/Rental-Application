@@ -56,6 +56,7 @@ const TestComponets = () => {
         </Thead>
         <Tbody>
           {imgObj.map((item, i) => {
+            const extention = item.imgUrl.split('.').pop();
             return (
               <Tr key={i}>
                 <Td>Tablescon</Td>

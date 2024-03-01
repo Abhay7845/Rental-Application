@@ -185,3 +185,14 @@
   float: right;
   cursor: pointer;
 }
+
+.dowaloadBtn {
+  opacity: 0;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+tr:hover .dowaloadBtn {
+  opacity: 1;
+  margin-right: 5px;
+}

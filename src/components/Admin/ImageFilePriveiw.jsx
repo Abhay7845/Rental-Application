@@ -9,21 +9,18 @@ import { Modal } from "@mui/material";
 import { BsCloudDownloadFill } from "react-icons/bs";
 import pdf from '../../Asset/Img/pdfIcon.png'
 
-
 const ImageFilePriveiw = ({ orderData, Close }) => {
   const PrintImageRef = useRef(null);
-  const PrintImagePdf = useReactToPrint({
-    content: () => PrintImageRef.current,
-  });
+  const PrintImagePdf = useReactToPrint({ content: () => PrintImageRef.current });
   const [uploadedImgData, setUploadedImgData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [zoopImg, setZoopImg] = useState(false);
   const [zoopImgUrl, setZoopImgUrl] = useState("");
   const { tempBookingRefNo } = orderData;
+
   const FetchImageDocList = (tempBookingRefNo) => {
     setLoading(true);
-    axios
-      .get(`${HOST_URL}/Admin/get/document/list/${tempBookingRefNo}`)
+    axios.get(`${HOST_URL}/Admin/get/document/list/${tempBookingRefNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -57,6 +54,7 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
     link.click();
     document.body.removeChild(link);
   };
+
   return (
     <div>
       {loading === true && <Loader />}
@@ -81,19 +79,24 @@ const ImageFilePriveiw = ({ orderData, Close }) => {
               return (
                 <tr key={i}>
                   <td>
-                    {extention === "pdf" ?
-                      <img
-                        src={pdf}
-                        onClick={() => DownloadPdfFile(item.fileUrl, item.documentType)}
-                        style={{ width: 130, height: 60, cursor: "pointer" }}
-                        alt="Not Found"
-                      /> : <div>
-                        <BsCloudDownloadFill className="mx-2" style={{ marginTop: "15%", cursor: "pointer" }} onClick={() => DownloadImageFile(item.fileUrl, item.documentType)} />
+                    {extention.toLowerCase() === "pdf" ?
+                      <div>
+                        <BsCloudDownloadFill className="dowaloadBtn"
+                          onClick={() => DownloadPdfFile(item.fileUrl, item.documentType)}
+                        />
+                        <img
+                          src={pdf}
+                          style={{ width: 140, height: 65, cursor: "pointer" }}
+                          alt="Not Found"
+                        />
+                      </div>
+                      : <div>
+                        <BsCloudDownloadFill className="dowaloadBtn" onClick={() => DownloadImageFile(item.fileUrl, item.documentType)} />
                         <img
                           src={item.fileUrl}
                           onClick={() => {
                             setZoopImg(true);
-                            setZoopImgUrl(item.fileUrl)
+                            setZoopImgUrl(item.fileUrl);
                           }}
                           style={{ width: 140, height: 70, cursor: "pointer" }}
                           alt="Not Found"

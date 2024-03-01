@@ -56,11 +56,12 @@ const TestComponets = () => {
         </Thead>
         <Tbody>
           {imgObj.map((item, i) => {
-            const extention = item.imgUrl.split('.').pop();
             return (
               <Tr key={i}>
                 <Td>Tablescon</Td>
-                <Td><img src={item.imgUrl} alt="Image_1" height="100" width="100" onClick={() => Download(item.imgUrl)} /></Td>
+                <Td><img src={item.imgUrl} alt="Image_1" height="100" width="100" onClick={() => Download(item.imgUrl)} />
+                  <b className="dowaloadBtn">Delete</b>
+                </Td>
               </Tr>)
           })}
         </Tbody>

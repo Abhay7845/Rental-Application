@@ -467,21 +467,21 @@ const SummaryReports = () => {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
-                                }).format(totalPaidAmount.cancellationCharges)} A
+                                }).format(totalPaidAmount.cancellationCharges)}
                               </th>
                               <th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
-                                }).format(totalPaidAmount.discountOnRentalCharges)} B
+                                }).format(totalPaidAmount.discountOnRentalCharges)}
                               </th>
                               <th>
                                 {new Intl.NumberFormat("en-IN", {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
-                                }).format(totalPaidAmount.netRefundAmount)} C
+                                }).format(totalPaidAmount.netRefundAmount)}
                               </th>
                             </tr>}
                           </tbody>

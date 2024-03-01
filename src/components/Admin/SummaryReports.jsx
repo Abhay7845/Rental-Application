@@ -70,6 +70,7 @@ const SummaryReports = () => {
         .then((error) => setLoading(false));
     }
   }, [customerPhone]);
+
   const GetSummaryReports = (payload) => {
     setLoading(true);
     const { fromDate, toDate, storeCode } = payload;
@@ -86,12 +87,10 @@ const SummaryReports = () => {
         setLoading(false);
       }).catch((error) => setLoading(false));
   };
+
   const GetPreviousTnx = (data) => {
     const { bookingId } = data;
-    axios
-      .get(
-        `${HOST_URL}/get/prev/txn/details/forReturn/pdf/${bookingId}/Payment_PendingFor_NewBooking`
-      )
+    axios.get(`${HOST_URL}/get/prev/txn/details/forReturn/pdf/${bookingId}/Payment_PendingFor_NewBooking`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -103,12 +102,10 @@ const SummaryReports = () => {
   };
   const GetTotalSumOfAmount = (data) => {
     const { storeCode, bookingRefNo } = data;
-    axios
-      .get(
-        `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`
-      )
+    axios.get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${bookingRefNo}`)
       .then((res) => res)
       .then((response) => {
+        console.log("response==>", response.data);
         if (response.data.code === "1000") {
           setTotalPaidAmount(response.data.value);
           GetPreviousTnx(response.data.value);
@@ -121,10 +118,7 @@ const SummaryReports = () => {
     const { storeCode, bookingRefNo, tempBookingRefNo } = data;
     if (bookingRefNo) {
       setLoading(true);
-      axios
-        .get(
-          `${HOST_URL}/fetch/table/common/data/${storeCode}/${bookingRefNo}/${tempBookingRefNo}`
-        )
+      axios.get(`${HOST_URL}/fetch/table/common/data/${storeCode}/${bookingRefNo}/${tempBookingRefNo}`)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -450,7 +444,7 @@ const SummaryReports = () => {
                                   style: "currency",
                                   currency: "INR",
                                   minimumFractionDigits: false,
-                                }).format(0)}
+                                }).format(totalPaidAmount.netRefundAmount)}
                               </th>
                             </tr>
                           </tbody>

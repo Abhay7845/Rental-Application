@@ -29,6 +29,10 @@ const AdminSideBar = () => {
             UPDATE PRODUCT DATA
           </Link>
           <hr style={{ color: "#ffff" }} />
+          <Link to="/admin/view/otp" className="NavigationStyle">
+            VIEW OTP
+          </Link>
+          <hr style={{ color: "#ffff" }} />
         </ul>
       </div>
     </div>

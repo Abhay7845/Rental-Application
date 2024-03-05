@@ -19,6 +19,7 @@ import FactoryQARequired from "./components/RSO/FactoryQARequired";
 import DiscountApproval from "./components/Admin/DiscountApproval";
 import TestComponets from "./components/common/TestComponets";
 import UpdateProductData from "./components/Admin/UpdateProductData";
+import ViewOtp from "./components/Admin/ViewOtp";
 
 const App = () => {
   return (
@@ -84,6 +85,10 @@ const App = () => {
             <Route
               path="/admin/update/product/data"
               element={<UpdateProductData />}
+            />
+            <Route
+              path="/admin/view/otp"
+              element={<ViewOtp />}
             />
             {/* CASHIER COMPONENTS */}
             <Route

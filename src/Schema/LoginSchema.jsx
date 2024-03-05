@@ -67,3 +67,12 @@ export const updateProductSchema = yup.object({
   reqBookingDate: yup.string().required("Request Booking Date is required"),
   packageDays: yup.string().required("Package Days is required"),
 });
+
+// OTP VIEW 
+export const otpInitialValue = {
+  customePhone: "",
+};
+
+export const otpValidationSchema = yup.object({
+  customePhone: yup.string().required("Phone Number is required"),
+})

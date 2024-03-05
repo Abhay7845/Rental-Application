@@ -485,7 +485,6 @@ const CashierPaymentDetails = () => {
     axios.get(`${HOST_URL}/get/mobile/otp/${paymentDetails.mobileNo}`)
       .then((res) => res)
       .then((response) => {
-        console.log("Your Otp", response.data.otp);
         if (response.data.code === "1000") {
           setOtp(response.data.otp);
           toast.success(`OTP has been sent your Register Phone No. XXXX${paymentDetails.mobileNo.substring(6)}`, { theme: "colored", autoClose: 1000 });

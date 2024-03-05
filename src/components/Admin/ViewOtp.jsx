@@ -44,7 +44,7 @@ const ViewOtp = () => {
                     >
                         <Form>
                             <div className="row g-2 mx-0">
-                                <div className="col-md-4">
+                                <div className="col-md-12">
                                     <label className="form-label">Customer Phone</label>
                                     <Field type="text" className="form-control" name="customePhone" placeholder="Customer Phone" />
                                     <ShowError name="customePhone" />

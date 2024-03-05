@@ -74,5 +74,7 @@ export const otpInitialValue = {
 };
 
 export const otpValidationSchema = yup.object({
-  customePhone: yup.string().required("Phone Number is required"),
+  customePhone: yup.string()
+    .required("Phone is Required")
+    .matches(/^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/, "Not Valid Number"),
 })

@@ -9,6 +9,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import { Field, Form, Formik } from "formik";
 import ShowError from "../../Schema/ShowError";
 import { HOST_URL } from "../../API/HostURL";
+import { toast } from "react-toastify";
 
 const ViewOtp = () => {
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,8 @@ const ViewOtp = () => {
             .then((response) => {
                 if (response.data.code === "1000") {
                     setOtpDetails(response.data.value);
+                } else if (response.data.code === "1001") {
+                    toast.warn("Sorry! Please Enter Currect Phone Number", { theme: "colored", autoClose: 2000 });
                 }
                 setLoading(false);
             }).catch((error) => setLoading(false));

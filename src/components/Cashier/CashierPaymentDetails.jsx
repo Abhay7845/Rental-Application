@@ -46,7 +46,6 @@ const CashierPaymentDetails = () => {
 
   const { paymentRequestFor, rentValue, refundValue, depositValue, bookingRefNo, totalBookingAmount, totalDepositAmountPaidWithTax, productValue, } = paymentDetails;
   const { totalDamageCharges, totalPenaltyCharges, bookingId, totalDepositAmount, discountOnRentalCharges } = totalPaidAmount;
-
   const TotalCharges = (totalDamageCharges + totalPenaltyCharges + parseFloat(rentValue)) * 1.18;
 
   const GenChallanNo = `${bookingRefNo}-D`;

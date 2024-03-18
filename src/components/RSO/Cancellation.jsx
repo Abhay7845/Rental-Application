@@ -68,8 +68,7 @@ const Cancellation = () => {
       const fileExtention = `${sameCustIDNo}-${currentDate}.${fileEx[1]}`;
       formData.append("ImgName", fileExtention);
       formData.append("files", sameCustFile);
-      axios
-        .post(UploadImg, formData)
+      axios.post(UploadImg, formData)
         .then((res) => res)
         .then((response) => {
           if (response.data) {
@@ -90,10 +89,7 @@ const Cancellation = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(
-        `${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}/${GetReturnProduct.tempBookingRefNo}`
-      )
+    axios.get(`${HOST_URL}/fetch/table/common/data/${storeCode}/${GetReturnProduct.refId}/${GetReturnProduct.tempBookingRefNo}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -129,10 +125,7 @@ const Cancellation = () => {
 
   // TOTAL PAID BOOKING AMONT
   useEffect(() => {
-    axios
-      .get(
-        `${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${GetReturnProduct.refId}`
-      )
+    axios.get(`${HOST_URL}/fetch/sumOf/amounts/common/${storeCode}/${GetReturnProduct.refId}`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -144,15 +137,14 @@ const Cancellation = () => {
   const TProductValue = returnTableData.map((item) =>
     parseInt(item.productValue)
   );
+
   const SumOfTProductValue = () => {
     let total = 0;
     for (let data of TProductValue) total = total + data;
     return total;
   };
 
-  const TRentalRate = returnTableData.map((item) =>
-    parseInt(item.rentalAmount)
-  );
+  const TRentalRate = returnTableData.map((item) => parseInt(item.rentalAmount));
   const SumOfRentalRate = () => {
     let total = 0;
     for (let data of TRentalRate) total = total + data;
@@ -169,14 +161,13 @@ const Cancellation = () => {
   } else if (numberDays > 14) {
     cancelCharge = 0; // 100% charge
   }
-  const afterDiscount = cancelCharge * 1.18 - discountAmount;
-  const netRefund = totalBookingAmount - afterDiscount;
+
+  const cncChrgeAfterDiswi18 = cancelCharge - discountAmount;
+  const netCancellationCharge = cncChrgeAfterDiswi18 * 1.18;
+  const netRefund = totalBookingAmount - netCancellationCharge;
 
   const UpdateCancelStatus = (bookingID) => {
-    axios
-      .get(
-        `${HOST_URL}/update/txn/status/${bookingID}/Payment_PendingFor_RentalCancellation`
-      )
+    axios.get(`${HOST_URL}/update/txn/status/${bookingID}/Payment_PendingFor_RentalCancellation`)
       .then((res) => res)
       .then((response) => {
         if (response.data.code === "1000") {
@@ -213,13 +204,12 @@ const Cancellation = () => {
         rentalCharges: parseFloat(SumOfRentalRate()),
         bookingAmountPaid: parseFloat(totalBookingAmount),
         depositAmountPaid: parseFloat(totalDepositAmount),
-        netRefundAmount: parseFloat(parseFloat(netRefund).toFixed(2)),
+        netRefundAmount: parseFloat(netRefund).toFixed(2),
         rsoName: rsoName,
         createdDate: null,
         updatedDate: null,
       };
-      axios
-        .post(`${HOST_URL}/cancel/booking`, CancellationInputs)
+      axios.post(`${HOST_URL}/cancel/booking`, CancellationInputs)
         .then((res) => res)
         .then((response) => {
           if (response.data.code === "1000") {
@@ -421,7 +411,7 @@ const Cancellation = () => {
           <div className="col-12">
             <h6 className="bookingHeading mb-0">Cancellation Charges</h6>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Total Cancellation Charges</label>
             <input
               type="text"
@@ -431,19 +421,7 @@ const Cancellation = () => {
               disabled
             />
           </div>
-          <div className="col-md-4">
-            <label className="form-label">
-              Cancellation Charges With(18%)Tax
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Cancellation Charge"
-              value={parseFloat(parseFloat(cancelCharge * 1.18).toFixed(2))}
-              disabled
-            />
-          </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="form-label">Discount Amount</label>
             <input
               type="text"
@@ -455,6 +433,30 @@ const Cancellation = () => {
                 setDiscountAmount(discount);
               }}
               disabled={cancelCharge <= 0 ? true : false}
+            />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">
+              Cancellation Charges After Discount
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Cancellation Charge"
+              value={cncChrgeAfterDiswi18}
+              disabled
+            />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">
+              Cancellation Charges With(18%)Tax
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Cancellation Charge"
+              value={parseFloat(parseFloat(cncChrgeAfterDiswi18 * 1.18).toFixed(2))}
+              disabled
             />
           </div>
           <div className="col-12">
@@ -482,7 +484,7 @@ const Cancellation = () => {
                         style: "currency",
                         currency: "INR",
                         minimumFractionDigits: 2,
-                      }).format(afterDiscount)}
+                      }).format(parseFloat(netCancellationCharge).toFixed(2))}
                     </th>
                     <th>
                       {new Intl.NumberFormat("en-IN", {
